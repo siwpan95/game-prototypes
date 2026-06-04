@@ -1,0 +1,74 @@
+{
+    "window": {
+        "title": "Endless Highway",
+        "width": 800,
+        "height": 600
+    },
+    "game": {
+        "fps": 60
+    },
+    "road": {
+        "width": 400,
+        "surface_color": [30, 30, 30],
+        "edge_line_width": 5,
+        "edge_line_color": [255, 255, 0],
+        "center_dash_length": 50,
+        "center_gap_length": 30,
+        "center_line_width": 10,
+        "center_line_color": [255, 255, 255],
+        "scroll_speed": 5,
+        "distance_factor": 0.01
+    },
+    "player": {
+        "width": 50,
+        "height": 80,
+        "y_screen_offset": 100,
+        "color": [0, 255, 0],
+        "windshield_color": [100, 200, 255],
+        "wheel_size": 8,
+        "wheel_color": [0, 0, 0],
+        "speed": 5
+    },
+    "drift": {
+        "chance": 0.012,
+        "min_push": 0.5,
+        "max_push": 0.6,
+        "scale_per_km": 0.012
+    },
+    "decorations": {
+        "spawn_interval": 80,
+        "scroll_speed": 5,
+        "types": {
+            "cactus": {
+                "color": [50, 120, 50],
+                "min_size": 20,
+                "max_size": 40,
+                "spawn_weight": 40
+            },
+            "rock": {
+                "color": [160, 120, 70],
+                "min_size": 15,
+                "max_size": 35,
+                "spawn_weight": 30
+            },
+            "dead_bush": {
+                "color": [180, 160, 90],
+                "min_size": 10,
+                "max_size": 22,
+                "spawn_weight": 20
+            },
+            "guardrail": {
+                "color": [120, 70, 30],
+                "spawn_weight": 10
+            }
+        }
+    },
+    "fonts": {
+        "large": "Arial",
+        "normal": "Arial",
+        "small": "Arial",
+        "large_size": 48,
+        "normal_size": 36,
+        "small_size": 24
+    }
+}
