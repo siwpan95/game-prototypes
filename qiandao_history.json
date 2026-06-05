@@ -1,0 +1,200 @@
+[
+  {
+    "time": "2026-06-06 01:22:24",
+    "n": 1,
+    "n_end": 5,
+    "streak_c": 1,
+    "prob": "3.14%",
+    "result": "连续5次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 5
+  },
+  {
+    "time": "2026-06-06 01:22:24",
+    "n": 6,
+    "n_end": 6,
+    "streak_c": 1,
+    "prob": "3.17%",
+    "result": "获得奖励",
+    "reward": "抽奖券",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:22:38",
+    "n": 7,
+    "n_end": 68,
+    "streak_c": 1,
+    "prob": "3.74%",
+    "result": "连续62次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 62
+  },
+  {
+    "time": "2026-06-06 01:22:38",
+    "n": 69,
+    "n_end": 69,
+    "streak_c": 1,
+    "prob": "3.74%",
+    "result": "获得奖励",
+    "reward": "抽奖券",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:22:51",
+    "n": 70,
+    "n_end": 104,
+    "streak_c": 1,
+    "prob": "3.78%",
+    "result": "连续35次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 35
+  },
+  {
+    "time": "2026-06-06 01:22:51",
+    "n": 105,
+    "n_end": 105,
+    "streak_c": 1,
+    "prob": "3.78%",
+    "result": "获得奖励",
+    "reward": "道具：宝石",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:22:54",
+    "n": 106,
+    "n_end": 116,
+    "streak_c": 1,
+    "prob": "3.78%",
+    "result": "连续11次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 11
+  },
+  {
+    "time": "2026-06-06 01:22:54",
+    "n": 117,
+    "n_end": 117,
+    "streak_c": 1,
+    "prob": "3.78%",
+    "result": "获得奖励",
+    "reward": "经验+50",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:23:00",
+    "n": 118,
+    "n_end": 149,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "连续32次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 32
+  },
+  {
+    "time": "2026-06-06 01:23:00",
+    "n": 150,
+    "n_end": 150,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "获得奖励",
+    "reward": "经验+50",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:23:03",
+    "n": 151,
+    "n_end": 162,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "连续12次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 12
+  },
+  {
+    "time": "2026-06-06 01:23:04",
+    "n": 163,
+    "n_end": 163,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "获得奖励",
+    "reward": "道具：宝石",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:23:08",
+    "n": 164,
+    "n_end": 180,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "连续17次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 17
+  },
+  {
+    "time": "2026-06-06 01:23:08",
+    "n": 181,
+    "n_end": 181,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "获得奖励",
+    "reward": "公会贡献",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:23:08",
+    "n": 182,
+    "n_end": 182,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "获得奖励",
+    "reward": "荣誉徽章",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:23:18",
+    "n": 183,
+    "n_end": 230,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "连续48次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 48
+  },
+  {
+    "time": "2026-06-06 01:23:18",
+    "n": 231,
+    "n_end": 231,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "获得奖励",
+    "reward": "道具：药水",
+    "reinforced": true,
+    "no_streak": 0
+  },
+  {
+    "time": "2026-06-06 01:23:22",
+    "n": 232,
+    "n_end": 247,
+    "streak_c": 1,
+    "prob": "3.79%",
+    "result": "连续16次无奖励",
+    "reward": "",
+    "reinforced": false,
+    "no_streak": 16
+  }
+]
