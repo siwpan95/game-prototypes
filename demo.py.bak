@@ -1,0 +1,277 @@
+import tkinter as tk
+from tkinter import font
+import random
+
+# ======================
+# 字体
+# ======================
+def cn_font(size=12):
+    for f in ("Microsoft YaHei", "SimHei", "PingFang SC"):
+        if f in font.families():
+            return (f, size)
+    return ("Arial", size)
+
+
+# ======================
+# Domain
+# ======================
+class Player:
+    def __init__(self):
+        self.hp = 100
+        self.max_hp = 100
+        self.level = 1
+        self.exp = 0                  # 当前经验（用于升级）
+        self.exp_pool = 0             # 经验池（溢出经验，仅用于休息）
+        self.crit_chance = 0.12       # 12% 暴击率
+        self.dodge_chance = 0.08      # 8% 闪避率
+        self.rest_cost = 5            # 休息消耗经验池
+
+    def calc_attack_power(self):
+        """攻击力 = level² + 2×level + 10  (x>0 的二次函数)"""
+        lv = self.level
+        return lv * lv + 2 * lv + 10
+
+    def level_threshold(self):
+        """当前等级升级所需经验"""
+        return self.level * 30
+
+
+class Monster:
+    def __init__(self, name, hp, exp_reward=15, respawn_time=5):
+        self.name = name
+        self.hp = hp
+        self.max_hp = hp
+        self.exp_reward = exp_reward        # 击杀获得的经验
+        self.alive = True
+        self.respawn_time = respawn_time    # 复活所需秒数
+        self.respawn_timer = 0              # 当前复活倒计时
+
+    def respawn(self):
+        """怪物复活，恢复满血"""
+        self.hp = self.max_hp
+        self.alive = True
+        self.respawn_timer = 0
+
+
+# ======================
+# Command
+# ======================
+class AttackCommand:
+    def execute(self, player, monster, ui):
+        if not monster.alive:
+            ui.log(f"{monster.name} 已经死了")
+            return
+
+        atk = player.calc_attack_power()
+        dmg = random.randint(max(1, atk - 3), atk + 3)
+        # 暴击判定
+        is_crit = random.random() < player.crit_chance
+        if is_crit:
+            dmg = dmg * 2
+            ui.log(f"⚡暴击! 你对 {monster.name} 造成 {dmg} 伤害 (ATK:{atk})")
+        else:
+            ui.log(f"⚔ 你对 {monster.name} 造成 {dmg} 伤害 (ATK:{atk})")
+
+        monster.hp -= dmg
+
+        if monster.hp <= 0:
+            monster.hp = 0
+            monster.alive = False
+            monster.respawn_timer = monster.respawn_time
+            reward = monster.exp_reward
+            player.exp += reward
+            ui.log(f"🎉 {monster.name} 死亡，获得 {reward} 经验，{monster.respawn_time}秒后复活")
+            self._check_level_up(player, ui)
+        else:
+            self._monster_counter(player, monster, ui)
+
+    def _monster_counter(self, player, monster, ui):
+        # 闪避判定
+        if random.random() < player.dodge_chance:
+            ui.log(f"🌀 你闪避了 {monster.name} 的攻击！")
+            return
+        dmg = random.randint(6, 12)
+        player.hp -= dmg
+        ui.log(f"💀 {monster.name} 攻击你，造成 {dmg} 伤害")
+
+        if player.hp <= 0:
+            ui.log("☠ 你已死亡，游戏结束")
+
+    def _check_level_up(self, player, ui):
+        """升级时溢出经验流入经验池"""
+        while player.exp >= player.level_threshold():
+            overflow = player.exp - player.level_threshold()
+            player.level += 1
+            player.exp = 0
+            player.exp_pool += overflow
+            player.max_hp += 20
+            player.hp = player.max_hp
+            ui.log(f"🌟 恭喜升到 Lv.{player.level}")
+            if overflow > 0:
+                ui.log(f"💧 {overflow} 溢出经验流入经验池（池内 {player.exp_pool}）")
+
+
+# ======================
+# Game
+# ======================
+def create_monsters():
+    """创建梯度怪物：HP、经验、复活时间逐级递增"""
+    return [
+        Monster("骷髅精灵",   50,   exp_reward=10,  respawn_time=4),
+        Monster("僵尸战士",   90,   exp_reward=20,  respawn_time=5),
+        Monster("暗影刺客",  150,  exp_reward=35,  respawn_time=6),
+        Monster("火焰恶魔",  240,  exp_reward=55,  respawn_time=8),
+        Monster("冰霜巨龙",  380,  exp_reward=80,  respawn_time=10),
+        Monster("深渊领主",  600,  exp_reward=120, respawn_time=14),
+    ]
+
+
+class Game:
+    def __init__(self):
+        self.player = Player()
+        self.monsters = create_monsters()
+        self.attack_cmd = AttackCommand()
+        self.ui = None   # 稍后注入
+        self.root = None  # 稍后注入，用于 after 计时
+
+    def bind_ui(self, ui, root):
+        self.ui = ui
+        self.root = root
+        self.render()
+
+    def attack_monster(self, idx):
+        """攻击指定索引的怪物"""
+        if self.ui is None:
+            return
+        monster = self.monsters[idx]
+        was_alive = monster.alive
+        self.attack_cmd.execute(self.player, monster, self.ui)
+        if self.player.hp <= 0:
+            # 玩家死亡，重新开始
+            self.ui.log("🔄 重新开始...")
+            self.player = Player()
+            self.monsters = create_monsters()
+            self.render()
+            return
+        if was_alive and not monster.alive:
+            # 怪物刚被杀，启动该怪物的复活倒计时
+            self._start_respawn(idx)
+        self.render()
+
+    def _start_respawn(self, idx):
+        """启动指定怪物复活倒计时，每秒 tick 一次"""
+        self.root.after(1000, lambda: self._respawn_tick(idx))
+
+    def _respawn_tick(self, idx):
+        """指定怪物复活倒计时每秒回调"""
+        monster = self.monsters[idx]
+        monster.respawn_timer -= 1
+        if monster.respawn_timer <= 0:
+            monster.respawn()
+            self.ui.log(f"🔄 {monster.name} 重新出现了！")
+            self.render()
+        else:
+            self.render()
+            self.root.after(1000, lambda: self._respawn_tick(idx))
+
+    def rest(self):
+        """休息恢复HP，消耗经验池"""
+        if self.ui is None:
+            return
+        if self.player.hp >= self.player.max_hp:
+            self.ui.log("💤 HP已满，无需休息")
+            return
+        if self.player.exp_pool < self.player.rest_cost:
+            self.ui.log(f"💤 经验池不足，休息需要 {self.player.rest_cost}（池内 {self.player.exp_pool}）")
+            return
+        self.player.exp_pool -= self.player.rest_cost
+        heal = random.randint(18, 35)
+        self.player.hp = min(self.player.max_hp, self.player.hp + heal)
+        self.ui.log(f"💤 休息恢复 {heal} HP，消耗经验池 {self.player.rest_cost}（池内剩余 {self.player.exp_pool}）")
+        self.render()
+
+    def render(self):
+        if self.ui:
+            self.ui.update_status(self.player, self.monsters)
+
+
+# ======================
+# UI
+# ======================
+class GameUI:
+    def __init__(self, root, game):
+        self.game = game
+        self.monster_btns = []  # 怪物按钮列表
+        f = cn_font(12)
+
+        self.status = tk.Label(root, font=f, justify="left")
+        self.status.pack(anchor="w", padx=10, pady=5)
+
+        # 顶部操作区（休息按钮）
+        top_frame = tk.Frame(root)
+        top_frame.pack(pady=3)
+        self.rest_btn = tk.Button(
+            top_frame,
+            text=f"💤 休息恢复  (-{game.player.rest_cost} 池经验)",
+            font=("Microsoft YaHei", 10),
+            command=game.rest
+        )
+        self.rest_btn.pack(side="left", padx=5)
+
+        # 怪物按钮容器（Frame 用于排版）
+        btn_frame = tk.Frame(root)
+        btn_frame.pack(pady=5)
+
+        # 为每个怪物创建一个攻击按钮
+        for i in range(len(game.monsters)):
+            btn = tk.Button(
+                btn_frame,
+                font=("Microsoft YaHei", 11, "bold"),
+                command=lambda idx=i: game.attack_monster(idx)
+            )
+            btn.pack(pady=2, fill="x", padx=10)
+            self.monster_btns.append(btn)
+
+        self.log_box = tk.Text(root, height=10, state="disabled", font=f)
+        self.log_box.pack(fill="both", expand=True, padx=10)
+
+        game.bind_ui(self, root)
+
+    def update_status(self, player, monsters):
+        self.status.config(
+            text=(f"👤 Lv.{player.level}  ATK:{player.calc_attack_power()}  "
+                  f"HP:{player.hp}/{player.max_hp}  "
+                  f"EXP:{player.exp}/{player.level_threshold()}  "
+                  f"经验池:{player.exp_pool}  "
+                  f"暴击率:{int(player.crit_chance*100)}%  闪避率:{int(player.dodge_chance*100)}%")
+        )
+        for btn, m in zip(self.monster_btns, monsters):
+            if m.alive:
+                btn.config(
+                    text=f"{m.name}  HP {m.hp}/{m.max_hp}  |  EXP +{m.exp_reward}",
+                    fg="red"
+                )
+            else:
+                btn.config(
+                    text=f"{m.name}  复活中… {m.respawn_timer}s",
+                    fg="gray"
+                )
+
+    def log(self, text):
+        self.log_box.config(state="normal")
+        self.log_box.insert("end", text + "\n")
+        self.log_box.see("end")
+        self.log_box.config(state="disabled")
+
+
+# ======================
+# Main
+# ======================
+root = tk.Tk()
+root.title("文字传奇 · 点怪就打")
+root.geometry("620x480")
+
+game = Game()
+ui = GameUI(root, game)
+
+root.mainloop()
