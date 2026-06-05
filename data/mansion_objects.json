@@ -1,0 +1,29 @@
+{
+  "rooms": {
+    "attic":      { "label": "阁楼",   "row_start": 1,  "row_end": 3,   "col_start": 0,  "col_end": 39 },
+    "bedroom":    { "label": "卧室",   "row_start": 4,  "row_end": 11,  "col_start": 1,  "col_end": 17 },
+    "study":      { "label": "书房",   "row_start": 4,  "row_end": 11,  "col_start": 20, "col_end": 38 },
+    "hallway":    { "label": "走廊",   "row_start": 12, "row_end": 21,  "col_start": 1,  "col_end": 38 },
+    "basement":   { "label": "地下室", "row_start": 22, "row_end": 30,  "col_start": 1,  "col_end": 38 },
+    "deep":       { "label": "深渊",   "row_start": 31, "row_end": 31,  "col_start": 0,  "col_end": 39 }
+  },
+  "interactives": [
+    { "id": "bell_01",          "col": 15, "row": 2,  "char": "铃", "hitbox_w": 1, "hitbox_h": 1, "room": "attic" },
+    { "id": "doll_01",          "col": 5,  "row": 6,  "char": "玩", "hitbox_w": 1, "hitbox_h": 1, "room": "bedroom" },
+    { "id": "candle_01",        "col": 10, "row": 6,  "char": "烛", "hitbox_w": 1, "hitbox_h": 1, "room": "bedroom" },
+    { "id": "skull_01",         "col": 8,  "row": 8,  "char": "颅", "hitbox_w": 1, "hitbox_h": 1, "room": "bedroom" },
+    { "id": "old_diary_01",     "col": 21, "row": 6,  "char": "日", "hitbox_w": 1, "hitbox_h": 1, "room": "study" },
+    { "id": "hourglass_01",     "col": 26, "row": 6,  "char": "沙", "hitbox_w": 1, "hitbox_h": 1, "room": "study" },
+    { "id": "music_box_01",     "col": 28, "row": 9,  "char": "音", "hitbox_w": 1, "hitbox_h": 1, "room": "study" },
+    { "id": "torn_photo_01",    "col": 15, "row": 9,  "char": "相", "hitbox_w": 1, "hitbox_h": 1, "room": "bedroom" },
+    { "id": "broken_mirror_01", "col": 8,  "row": 13, "char": "镜", "hitbox_w": 1, "hitbox_h": 1, "room": "hallway" },
+    { "id": "blood_letter_01",  "col": 19, "row": 15, "char": "血", "hitbox_w": 1, "hitbox_h": 1, "room": "hallway" },
+    { "id": "withered_hand_01", "col": 4,  "row": 23, "char": "枯手", "hitbox_w": 2, "hitbox_h": 1, "room": "basement" },
+    { "id": "music_box_02",     "col": 22, "row": 23, "char": "音盒", "hitbox_w": 2, "hitbox_h": 1, "room": "basement" }
+  ],
+  "memory_questions": [
+    { "id": "q_who_am_i",   "col": 10, "row": 25, "char": "◈", "text": "我是谁？",      "answer_card": "lavender_01" },
+    { "id": "q_who_killed",  "col": 10, "row": 26, "char": "◈", "text": "谁杀了我？",    "answer_card": "dead_vole_01" },
+    { "id": "q_what_killed", "col": 10, "row": 27, "char": "◈", "text": "什么杀了我？",  "answer_card": "owl_statue_01" }
+  ]
+}

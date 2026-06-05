@@ -1,0 +1,114 @@
+{
+  "mod_id": "base",
+  "name": "卡瑞玛拉：枯肢之下",
+  "version": "1.0.0",
+  "description": "基础游戏 — 卡瑞玛拉在低语的宅邸中探索记忆",
+  "maps": [
+    {
+      "map_id": "mansion",
+      "name": "低语宅邸",
+      "map_file": "data/mansion_map.txt",
+      "player_start": {"col": 19, "row": 13},
+      "objects_file": "data/mansion_objects.json",
+      "cards": {
+        "carimara_01":      null,
+        "old_woman_01":     [35, 11],
+        "strange_symbol_01": [30, 25],
+        "doll_01":          [6, 5],
+        "dead_vole_01":     [4, 13],
+        "grave_01":         [35, 2],
+        "hut_01":           [2, 15],
+        "garden_tools_01":  [2, 16],
+        "owl_01":           [29, 6],
+        "key_01":           [34, 17],
+        "lizard_01":        [30, 15],
+        "owl_statue_01":    [34, 7],
+        "full_moon_01":     [20, 1],
+        "treasure_chest_01": [10, 24],
+        "lavender_01":      [12, 8],
+        "suspicious_hole_01": [20, 15],
+        "vole_01":          [3, 15],
+        "wooden_statue_01": [28, 8]
+      },
+      "portals": [
+        {
+          "col": 38, "row": 13,
+          "char": "→",
+          "target_mod": "dlc_forest",
+          "target_map": "forest_entrance",
+          "target_col": 1, "target_row": 15
+        },
+        {
+          "col": 1, "row": 13,
+          "char": "←",
+          "target_mod": "dlc_crypt",
+          "target_map": "crypt_halls",
+          "target_col": 19, "target_row": 15
+        },
+        {
+          "col": 19, "row": 31,
+          "char": "▼",
+          "target_mod": "dlc_river",
+          "target_map": "styx_shore",
+          "target_col": 19, "target_row": 1
+        }
+      ],
+      "mechanisms": [
+        {
+          "id": "attic_unlock",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "key_01",
+          "desc": "你举起铜钥匙。阁楼的墙壁发出一阵低沉的回声，一道隐藏的门缓缓显现。",
+          "actions": [
+            {"type": "replace_at", "col": 18, "row": 3, "old": "门", "new": "░"}
+          ]
+        },
+        {
+          "id": "basement_unlock",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "suspicious_hole_01",
+          "desc": "墙壁上的洞突然开始扩大——碎石无声地剥落，露出通往地下的阶梯。",
+          "actions": [
+            {"type": "replace_at", "col": 19, "row": 20, "old": "墙", "new": "░"},
+            {"type": "replace_at", "col": 20, "row": 20, "old": "墙", "new": "░"},
+            {"type": "replace_area", "col_start": 17, "col_end": 22, "row_start": 21, "row_end": 29, "target": ["暗"], "replacement": "░"}
+          ]
+        },
+        {
+          "id": "hallway_clear",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "dead_vole_01",
+          "desc": "死去的田鼠从你手中化作一缕轻烟。走廊里的阴影开始退却，仿佛某种古老的诅咒正在解除。",
+          "actions": [
+            {"type": "replace_area", "col_start": 0, "col_end": 39, "row_start": 18, "row_end": 19, "target": ["暗"], "replacement": "░"}
+          ]
+        },
+        {
+          "id": "basement_light",
+          "trigger_type": "MEMORY_TRIGGERED",
+          "trigger_id": "candle_01",
+          "desc": "祭烛的火焰虽然熄了，但余温仍在你掌心跳动。地下室深处的黑暗正在萎缩。",
+          "actions": [
+            {"type": "replace_area", "col_start": 5, "col_end": 36, "row_start": 22, "row_end": 29, "target": ["暗"], "replacement": "░"}
+          ]
+        },
+        {
+          "id": "basement_full_light",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "owl_01",
+          "desc": "猫头鹰张开翅膀，它的羽毛里涌出星尘般的光点，照亮了地下室最阴暗的角落。",
+          "actions": [
+            {"type": "replace_area", "col_start": 0, "col_end": 39, "row_start": 21, "row_end": 29, "target": ["暗"], "replacement": "░"}
+          ]
+        },
+        {
+          "id": "statue_hint",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "wooden_statue_01",
+          "desc": "无眼的猫头鹰雕像在你手中微微发烫。它似乎在指向某个方向……它的口中，你摸到了一片薰衣草花瓣。它和那只死田鼠有关……或许找到田鼠，能驱散走廊的暗影。",
+          "actions": []
+        }
+      ]
+    }
+  ]
+}
