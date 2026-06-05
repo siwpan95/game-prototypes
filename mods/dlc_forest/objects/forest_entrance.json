@@ -1,0 +1,11 @@
+{
+  "interactives": [
+    {"id": "forest_spirit_01",    "col": 8,  "row": 3,  "char": "灵", "hitbox_w": 1, "hitbox_h": 1},
+    {"id": "stone_tablet_01",     "col": 17, "row": 5,  "char": "碑", "hitbox_w": 1, "hitbox_h": 1},
+    {"id": "withered_oak_01",     "col": 18, "row": 15, "char": "枯", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "forest_pond_01",      "col": 28, "row": 11, "char": "池", "hitbox_w": 1, "hitbox_h": 1},
+    {"id": "mushroom_circle_01",  "col": 10, "row": 18, "char": "菇", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "scarred_ground_01",   "col": 19, "row": 30, "char": "伤", "hitbox_w": 2, "hitbox_h": 1}
+  ],
+  "memory_questions": []
+}
