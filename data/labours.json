@@ -1,0 +1,32 @@
+{
+  "physical": [
+    "chapter_01",
+    "chapter_04",
+    "chapter_07"
+  ],
+  "mental": [
+    "chapter_02",
+    "chapter_05",
+    "chapter_06"
+  ],
+  "divine": [
+    "chapter_09",
+    "chapter_11",
+    "chapter_12"
+  ],
+  "hidden": [
+    "chapter_03",
+    "chapter_08",
+    "chapter_10"
+  ],
+  "beowulf": [
+    "chapter_beowulf_01",
+    "chapter_beowulf_02",
+    "chapter_beowulf_03"
+  ],
+  "kratos": [
+    "chapter_kratos_01",
+    "chapter_kratos_02",
+    "chapter_kratos_03"
+  ]
+}

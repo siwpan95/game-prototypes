@@ -1,0 +1,20 @@
+{
+  "heracles": {
+    "name": "赫拉克勒斯",
+    "desc": "半神，为赎罪而战。",
+    "base_stats": {"荣耀":5,"力量":10,"智慧":4,"神恩":8,"疯狂":0,"生命":5},
+    "start_relic": "lion_cape"
+  },
+  "beowulf": {
+    "name": "贝奥武夫",
+    "desc": "北欧之王，荣耀即吾命。",
+    "base_stats": {"荣耀":10,"力量":9,"智慧":3,"神恩":2,"疯狂":0,"生命":6},
+    "start_relic": "fate_armor"
+  },
+  "kratos": {
+    "name": "奎托斯",
+    "desc": "斯巴达幽灵，弑神者。",
+    "base_stats": {"荣耀":2,"力量":12,"智慧":5,"神恩":0,"疯狂":5,"生命":8},
+    "start_relic": "blade_of_chaos"
+  }
+}

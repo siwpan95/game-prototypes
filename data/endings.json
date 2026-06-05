@@ -1,0 +1,96 @@
+[
+  {
+    "id": "ending_immortal",
+    "name": "升格半神",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "荣耀", "op": ">=", "value": 15},
+        {"type": "stat", "name": "神恩", "op": ">=", "value": 10},
+        {"type": "counter", "name": "labors_completed", "op": "==", "value": 3}
+      ]
+    },
+    "text": "三度试炼圆满，你的名字被刻入星空。你成为不朽，但也永远失去了凡人的自由。"
+  },
+  {
+    "id": "ending_glory_death",
+    "name": "荣耀之死",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "荣耀", "op": ">=", "value": 12},
+        {"type": "stat", "name": "生命", "op": "<=", "value": 2}
+      ]
+    },
+    "text": "你力竭而亡，但吟游诗人将传唱你的名字，直到诸神黄昏。"
+  },
+  {
+    "id": "ending_destroyer",
+    "name": "弑神者",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "神恩", "op": "<=", "value": -3},
+        {"type": "stat", "name": "疯狂", "op": ">=", "value": 8}
+      ]
+    },
+    "text": "你挣脱所有枷锁，奥林匹斯在战栗中崩塌。世界将记住你，以恐惧之名。"
+  },
+  {
+    "id": "ending_beastmaster",
+    "name": "野兽之王",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "path_sequence", "value": ["physical", "physical", "physical"]}
+      ]
+    },
+    "text": "三场纯粹的肉体试炼，你成了荒野的化身。鲜血与咆哮是你唯一的语言。"
+  },
+  {
+    "id": "ending_sage",
+    "name": "智者",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "path_sequence", "value": ["mental", "mental", "mental"]}
+      ]
+    },
+    "text": "你用智慧征服所有考验，但世人畏惧你的城府。你注定孤独。"
+  },
+  {
+    "id": "ending_ascended",
+    "name": "升神",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "path_sequence", "value": ["divine", "divine", "divine"]}
+      ]
+    },
+    "text": "你直面神明，并取而代之。奥林匹斯的王座已易主。"
+  },
+  {
+    "id": "ending_beowulf_legend",
+    "name": "不朽传奇",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "荣耀", "op": ">=", "value": 20},
+        {"type": "counter", "name": "labors_completed", "op": "==", "value": 3}
+      ]
+    },
+    "text": "贝奥武夫的事迹被刻进北境的岩石，永世流传。英雄不死，英雄只是化成了传说。"
+  },
+  {
+    "id": "ending_kratos_rebirth",
+    "name": "战神重生",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "力量", "op": ">=", "value": 18},
+        {"type": "stat", "name": "疯狂", "op": ">=", "value": 12}
+      ]
+    },
+    "text": "奎托斯的愤怒超越了人类的极限，他不再是任何神明的工具。斯巴达的幽灵，已成为行走的灾难。"
+  }
+]

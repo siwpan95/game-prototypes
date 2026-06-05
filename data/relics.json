@@ -1,0 +1,85 @@
+{
+  "lion_cape": {
+    "name": "涅墨亚狮皮",
+    "rarity": "chapter_unique",
+    "tags": ["防御"],
+    "on_acquire": {"力量": 2},
+    "hooks": {
+      "ON_STAT_CHECK": {"stat": "力量", "bonus": 2},
+      "ON_DEATH": {"action": "REVIVE_WITH_STAT", "stat": "疯狂", "value": 5}
+    }
+  },
+  "fate_armor": {
+    "name": "命运甲胄",
+    "rarity": "rare",
+    "tags": ["防御"],
+    "on_acquire": {"荣耀": 1},
+    "hooks": {
+      "ON_TAKE_DAMAGE": {"reduce_percent": 0.3}
+    }
+  },
+  "blade_of_chaos": {
+    "name": "混沌之刃",
+    "rarity": "epic",
+    "tags": ["进攻", "诅咒"],
+    "on_acquire": {"力量": 3, "神恩": "set_0"},
+    "hooks": {
+      "ON_STAT_CHECK": {"stat": "力量", "bonus": 4},
+      "ON_TURN_END": {"stat": "疯狂", "change": 1}
+    }
+  },
+  "bloodlust_harness": {
+    "name": "嗜血缰绳",
+    "rarity": "legendary",
+    "tags": ["进攻", "诅咒"],
+    "desc": "以人肉喂养的马匹之缰绳，吸收了无尽的杀戮欲望。",
+    "on_acquire": {"力量": 3, "疯狂": 2},
+    "hooks": {
+      "ON_STAT_CHECK": {"stat": "力量", "bonus": 3},
+      "ON_TURN_END": {"stat": "疯狂", "change": 1}
+    }
+  },
+  "shadow_amulet": {
+    "name": "暗影护符",
+    "rarity": "rare",
+    "tags": ["诅咒"],
+    "desc": "来自神秘商人的馈赠，代价是你的人性。",
+    "on_acquire": {"智慧": 2},
+    "hooks": {
+      "ON_TAKE_DAMAGE": {"reduce_percent": 0.2},
+      "ON_TURN_END": {"stat": "疯狂", "change": 1}
+    }
+  },
+  "golden_apple": {
+    "name": "金苹果",
+    "rarity": "divine",
+    "tags": ["神圣"],
+    "desc": "赫斯珀里得斯的金苹果，永恒与青春的象征。",
+    "on_acquire": {"生命": 5, "神恩": 3},
+    "hooks": {
+      "ON_DEATH": {"action": "REVIVE_WITH_STAT", "stat": "疯狂", "value": 0}
+    }
+  },
+  "athena_shield": {
+    "name": "雅典娜之盾",
+    "rarity": "epic",
+    "tags": ["防御", "智慧"],
+    "desc": "智慧女神赐予的盾牌，能看破一切幻象。",
+    "on_acquire": {"智慧": 2, "神恩": 1},
+    "hooks": {
+      "ON_TAKE_DAMAGE": {"reduce_percent": 0.25},
+      "ON_STAT_CHECK": {"stat": "智慧", "bonus": 2}
+    }
+  },
+  "madness_crown": {
+    "name": "疯狂之冠",
+    "rarity": "cursed",
+    "tags": ["诅咒"],
+    "desc": "戴上它，你将看到凡人看不到的真相——代价是永恒的疯狂。",
+    "on_acquire": {"疯狂": 3, "智慧": 3},
+    "hooks": {
+      "ON_STAT_CHECK": {"stat": "智慧", "bonus": 4},
+      "ON_TURN_END": {"stat": "疯狂", "change": 2}
+    }
+  }
+}
