@@ -1,0 +1,51 @@
+{
+  "mod_id": "dlc_crypt",
+  "name": "地下墓穴",
+  "version": "1.0.0",
+  "description": "宅邸之下的古老墓穴——石棺中躺着从未被记住的人，他们的遗忘比死亡更冷。",
+  "maps": [
+    {
+      "map_id": "crypt_halls",
+      "name": "墓穴回廊",
+      "map_file": "maps/crypt_halls.txt",
+      "player_start": {"col": 19, "row": 15},
+      "objects_file": "objects/crypt_halls.json",
+      "cards": {
+        "bone_key_01": [18, 6],
+        "sarcophagus_01": [15, 20],
+        "ghost_candle_01": [30, 25],
+        "nameplate_01": [5, 28]
+      },
+      "portals": [
+        {
+          "col": 1, "row": 15,
+          "char": "→",
+          "target_mod": null,
+          "target_map": "mansion",
+          "target_col": 2, "target_row": 13
+        }
+      ],
+      "mechanisms": [
+        {
+          "id": "crypt_light",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "bone_key_01",
+          "desc": "骨钥插入石棺的锁孔。墓穴深处的烛台一盏接一盏地亮了起来，驱散了千百年的黑暗。",
+          "actions": [
+            {"type": "replace_area", "col_start": 5, "col_end": 35, "row_start": 22, "row_end": 30, "target": ["暗"], "replacement": "░"}
+          ]
+        },
+        {
+          "id": "wall_collapse",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "sarcophagus_01",
+          "desc": "石棺缓缓打开——不是向外，而是向内，露出一条通往更深处的螺旋阶梯。",
+          "actions": [
+            {"type": "replace_at", "col": 19, "row": 21, "old": "墙", "new": "░"},
+            {"type": "replace_at", "col": 20, "row": 21, "old": "墙", "new": "░"}
+          ]
+        }
+      ]
+    }
+  ]
+}

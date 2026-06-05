@@ -1,0 +1,15 @@
+{
+  "interactives": [
+    {"id": "bone_key_01",       "col": 2,  "row": 2,  "char": "骨", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "empty_coffin_01",   "col": 13, "row": 6,  "char": "空", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "skeleton_pile_01",  "col": 8,  "row": 8,  "char": "骨", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "nameplate_01",      "col": 18, "row": 8,  "char": "命", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "ghost_candle_01",   "col": 18, "row": 11, "char": "暗", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "sarcophagus_01",    "col": 15, "row": 18, "char": "石", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "ghost_candle_02",   "col": 15, "row": 25, "char": "暗", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "nameless_grave_01", "col": 12, "row": 30, "char": "无", "hitbox_w": 2, "hitbox_h": 1}
+  ],
+  "memory_questions": [
+    {"id": "q_whose_grave", "col": 12, "row": 29, "char": "◈", "text": "这座空墓是为谁准备的？", "answer_card": "nameplate_01"}
+  ]
+}
