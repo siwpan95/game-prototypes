@@ -1,0 +1,377 @@
+{
+  "name": "寂卡",
+  "race": "半半身人",
+  "klass": "幻术法师",
+  "title": "女士",
+  "level": 27,
+  "xp": 9992,
+  "strength": 56,
+  "constitution": 62,
+  "dexterity": 74,
+  "intelligence": 68,
+  "wisdom": 46,
+  "charisma": 53,
+  "hp": 393,
+  "max_hp": 464,
+  "mp": 7,
+  "max_mp": 315,
+  "chapter": "第一章 — 序章",
+  "gold": 51552,
+  "current_act": "第三章 — 深渊",
+  "equipment": {
+    "武器": {
+      "name": "无形的长柄斧 之 效忠",
+      "atk": 20,
+      "def": 0
+    },
+    "胸甲": {
+      "name": "定制的仿皮 之 伤痛",
+      "atk": 0,
+      "def": 11
+    },
+    "腿甲": {
+      "name": "精良的钻石甲 之 恐惧",
+      "atk": 0,
+      "def": 29
+    },
+    "盾牌": {
+      "name": "神圣的馅饼盘 之 征兆",
+      "atk": 0,
+      "def": 6
+    },
+    "头盔": {
+      "name": "镶钉的鳞甲 之 拘禁",
+      "atk": 0,
+      "def": 13
+    },
+    "肩甲": {
+      "name": "加固的法兰绒 之 效率",
+      "atk": 0,
+      "def": 5
+    },
+    "内甲": {
+      "name": "神圣的板甲 之 舒适",
+      "atk": 0,
+      "def": 18
+    },
+    "手套": {
+      "name": "虫蛀的板条甲 之 效率",
+      "atk": 0,
+      "def": 14
+    },
+    "裤甲": {
+      "name": "加固的麂皮 之 实用",
+      "atk": 0,
+      "def": 5
+    },
+    "足甲": {
+      "name": "亚麻的流苏 之 坚韧",
+      "atk": 0,
+      "def": 4
+    }
+  },
+  "inventory": {
+    "梦幻水晶": 1,
+    "炎魔鞭": 1,
+    "水晶鳞": 1,
+    "折射棱镜": 1,
+    "风暴之眼": 1,
+    "雷锤": 1,
+    "青铜齿轮": 1,
+    "恶魔契约": 1
+  },
+  "specials": [],
+  "quests": [
+    {
+      "name": "收集鼠尾巴",
+      "target_type": "收集",
+      "target": "鼠尾巴",
+      "required": 5,
+      "reward_type": "金币",
+      "reward_value": "100",
+      "current": 2,
+      "completed": false
+    },
+    {
+      "name": "击败狗头人",
+      "target_type": "击杀",
+      "target": "狗头人",
+      "required": 3,
+      "reward_type": "装备",
+      "reward_value": "随机装备",
+      "current": 3,
+      "completed": true
+    },
+    {
+      "name": "收集黏液",
+      "target_type": "收集",
+      "target": "黏液",
+      "required": 6,
+      "reward_type": "法术",
+      "reward_value": "随机法术",
+      "current": 6,
+      "completed": true
+    },
+    {
+      "name": "收集尖牙",
+      "target_type": "收集",
+      "target": "尖牙",
+      "required": 10,
+      "reward_type": "属性",
+      "reward_value": "体质+1",
+      "current": 3,
+      "completed": false
+    },
+    {
+      "name": "收集骨片",
+      "target_type": "收集",
+      "target": "骨片",
+      "required": 8,
+      "reward_type": "属性",
+      "reward_value": "力量+2",
+      "current": 8,
+      "completed": true
+    },
+    {
+      "name": "击败兽人",
+      "target_type": "击杀",
+      "target": "兽人",
+      "required": 2,
+      "reward_type": "特殊宝物",
+      "reward_value": "特殊宝物",
+      "current": 2,
+      "completed": true
+    },
+    {
+      "name": "击败食尸鬼",
+      "target_type": "击杀",
+      "target": "食尸鬼",
+      "required": 3,
+      "reward_type": "装备",
+      "reward_value": "随机装备",
+      "current": 3,
+      "completed": true
+    },
+    {
+      "name": "击败巨魔",
+      "target_type": "击杀",
+      "target": "巨魔",
+      "required": 1,
+      "reward_type": "金币",
+      "reward_value": "250",
+      "current": 1,
+      "completed": true
+    },
+    {
+      "name": "收集鼠尾巴",
+      "target_type": "收集",
+      "target": "鼠尾巴",
+      "required": 5,
+      "reward_type": "金币",
+      "reward_value": "100",
+      "current": 2,
+      "completed": false
+    },
+    {
+      "name": "收集鼠尾巴",
+      "target_type": "收集",
+      "target": "鼠尾巴",
+      "required": 5,
+      "reward_type": "金币",
+      "reward_value": "100",
+      "current": 2,
+      "completed": false
+    },
+    {
+      "name": "收集骨片",
+      "target_type": "收集",
+      "target": "骨片",
+      "required": 8,
+      "reward_type": "属性",
+      "reward_value": "力量+2",
+      "current": 2,
+      "completed": false
+    }
+  ],
+  "spells": [
+    {
+      "name": "贪欲术",
+      "spell_type": "增益",
+      "power": 49,
+      "mp_cost": 14,
+      "description": "暂时提升攻击力 49%"
+    },
+    {
+      "name": "困惑术",
+      "spell_type": "伤害",
+      "power": 79,
+      "mp_cost": 27,
+      "description": "造成 55 点伤害"
+    },
+    {
+      "name": "鞋带缠绕",
+      "spell_type": "伤害",
+      "power": 44,
+      "mp_cost": 20,
+      "description": "造成 44 点伤害"
+    },
+    {
+      "name": "急躁术",
+      "spell_type": "伤害",
+      "power": 25,
+      "mp_cost": 10,
+      "description": "造成 25 点伤害"
+    },
+    {
+      "name": "扁桃体切除术",
+      "spell_type": "增益",
+      "power": 27,
+      "mp_cost": 19,
+      "description": "暂时提升攻击力 27%"
+    },
+    {
+      "name": "体液幽默",
+      "spell_type": "伤害",
+      "power": 27,
+      "mp_cost": 24,
+      "description": "造成 23 点伤害"
+    },
+    {
+      "name": "兔子拳",
+      "spell_type": "伤害",
+      "power": 90,
+      "mp_cost": 25,
+      "description": "造成 53 点伤害"
+    },
+    {
+      "name": "反胃云",
+      "spell_type": "减益",
+      "power": 20,
+      "mp_cost": 19,
+      "description": "降低敌人防御 20%"
+    },
+    {
+      "name": "大姐大",
+      "spell_type": "减益",
+      "power": 38,
+      "mp_cost": 17,
+      "description": "降低敌人防御 38%"
+    },
+    {
+      "name": "诅咒名字",
+      "spell_type": "伤害",
+      "power": 58,
+      "mp_cost": 14,
+      "description": "造成 58 点伤害"
+    },
+    {
+      "name": "史莱姆指",
+      "spell_type": "治疗",
+      "power": 156,
+      "mp_cost": 26,
+      "description": "恢复 76 点生命"
+    },
+    {
+      "name": "内斯特妙计",
+      "spell_type": "伤害",
+      "power": 52,
+      "mp_cost": 21,
+      "description": "造成 52 点伤害"
+    },
+    {
+      "name": "无尽困惑",
+      "spell_type": "减益",
+      "power": 33,
+      "mp_cost": 13,
+      "description": "降低敌人防御 33%"
+    },
+    {
+      "name": "磁力球",
+      "spell_type": "伤害",
+      "power": 38,
+      "mp_cost": 11,
+      "description": "造成 38 点伤害"
+    },
+    {
+      "name": "悲伤术",
+      "spell_type": "伤害",
+      "power": 50,
+      "mp_cost": 25,
+      "description": "造成 50 点伤害"
+    },
+    {
+      "name": "熊之铠甲",
+      "spell_type": "伤害",
+      "power": 35,
+      "mp_cost": 12,
+      "description": "造成 35 点伤害"
+    },
+    {
+      "name": "疫苗接种",
+      "spell_type": "治疗",
+      "power": 33,
+      "mp_cost": 11,
+      "description": "恢复 28 点生命"
+    },
+    {
+      "name": "召唤悍妇",
+      "spell_type": "伤害",
+      "power": 53,
+      "mp_cost": 8,
+      "description": "造成 53 点伤害"
+    }
+  ],
+  "combat_log": [
+    "💥 残废的 水晶龙 反击造成 1 点伤害 (生命:263/464 防御:87)",
+    "🔮 施放 熊之铠甲，造成 53 点伤害 (法力:120/315)",
+    "⚔️ 对 残废的 水晶龙 造成 72 点伤害 [攻击:56+20]",
+    "💀 击败 残废的 水晶龙，获得 366 经验值",
+    "📦 获得 水晶鳞",
+    "📦 获得 折射棱镜",
+    "🔮 施放 内斯特妙计，造成 80 点伤害 (法力:99/315)",
+    "⚔️ 对 风暴巨人 霸主 造成 57 点伤害 [攻击:56+20]",
+    "💥 风暴巨人 霸主 反击造成 1 点伤害 (生命:262/464 防御:87)",
+    "🔮 施放 兔子拳，造成 98 点伤害 (法力:74/315)",
+    "⚔️ 对 风暴巨人 霸主 造成 77 点伤害 [攻击:56+20]",
+    "🌀 闪避 风暴巨人 霸主 的攻击！",
+    "⚔️ 对 风暴巨人 霸主 造成 80 点伤害 [攻击:56+20]",
+    "💀 击败 风暴巨人 霸主，获得 386 经验值",
+    "📦 获得 风暴之眼",
+    "📦 获得 雷锤",
+    "🔮 施放 召唤悍妇，造成 74 点伤害 (法力:66/315)",
+    "⚔️ 对 战斗 构装泰坦 造成 75 点伤害 [攻击:56+20]",
+    "💥 战斗 构装泰坦 反击造成 7 点伤害 (生命:255/464 防御:87)",
+    "⚔️ 对 战斗 构装泰坦 造成 80 点伤害 [攻击:56+20]",
+    "💥 战斗 构装泰坦 反击造成 1 点伤害 (生命:254/464 防御:87)",
+    "⬆️ 施放 扁桃体切除术，攻击+44 (法力:47/315)",
+    "⚔️ 对 战斗 构装泰坦 造成 64 点伤害 [攻击:56+20]",
+    "🌀 闪避 战斗 构装泰坦 的攻击！",
+    "💚 施放 史莱姆指，恢复 156 点生命 (法力:21/315)",
+    "⚔️ 对 战斗 构装泰坦 造成 74 点伤害 [攻击:56+20]",
+    "💀 击败 战斗 构装泰坦，获得 413 经验值",
+    "📦 获得 青铜齿轮",
+    "⚔️ 对 营养不良的 水晶龙 造成 79 点伤害 [攻击:56+20]",
+    "💥 营养不良的 水晶龙 反击造成 9 点伤害 (生命:401/464 防御:87)",
+    "🔮 施放 诅咒名字，造成 68 点伤害 (法力:7/315)",
+    "⚔️ 对 营养不良的 水晶龙 造成 59 点伤害 [攻击:56+20]",
+    "🌀 闪避 营养不良的 水晶龙 的攻击！",
+    "⚔️ 对 营养不良的 水晶龙 造成 83 点伤害 [攻击:56+20]",
+    "💥 营养不良的 水晶龙 反击造成 4 点伤害 (生命:397/464 防御:87)",
+    "⚔️ 对 营养不良的 水晶龙 造成 75 点伤害 [攻击:56+20]",
+    "💀 击败 营养不良的 水晶龙，获得 380 经验值",
+    "⚔️ 对 上位的 深渊炼魔 造成 68 点伤害 [攻击:56+20]",
+    "🌀 闪避 上位的 深渊炼魔 的攻击！",
+    "⚔️ 对 上位的 深渊炼魔 造成 79 点伤害 [攻击:56+20]",
+    "💥 上位的 深渊炼魔 反击造成 1 点伤害 (生命:396/464 防御:87)",
+    "⚔️ 对 上位的 深渊炼魔 造成 67 点伤害 [攻击:56+20]",
+    "💥 上位的 深渊炼魔 反击造成 1 点伤害 (生命:395/464 防御:87)",
+    "⚔️ 对 上位的 深渊炼魔 造成 67 点伤害 [攻击:56+20]",
+    "💥 上位的 深渊炼魔 反击造成 1 点伤害 (生命:394/464 防御:87)",
+    "⚔️ 对 上位的 深渊炼魔 造成 63 点伤害 [攻击:56+20]",
+    "💀 击败 上位的 深渊炼魔，获得 370 经验值",
+    "📦 获得 恶魔契约",
+    "⚔️ 对 营养不良的 仙灵龙 造成 75 点伤害 [攻击:56+20]",
+    "💥 营养不良的 仙灵龙 反击造成 1 点伤害 (生命:393/464 防御:87)"
+  ],
+  "version": 3
+}
