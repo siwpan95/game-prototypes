@@ -1,0 +1,239 @@
+第三部分：编辑器与内容规范（The Toolbox）
+
+设计哲学：“让编剧忘记代码，让代码读懂编剧。”  
+
+这一部分的目标是将复杂的游戏机制封装成简单的填表工作。只要遵守这些规范，任何人都可以产出直接运行且逻辑严密的游戏内容。
+
+1. 遗物内容制作规范（Relic Spec v1.0）
+
+文件位置：data/relics.json  
+适用对象：负责数值与效果的开发人员/策划。
+
+1.1 基础结构模板
+
+{
+  "relic_id": {
+    "name": "遗物显示名称",
+    "description": "简短描述其外观和传说。",
+    "rarity": "common | rare | epic | chapter_unique",
+    "tags": ["防御", "进攻", "诅咒", "神性"],
+    "on_acquire": { "stat_bonuses": {} },
+    "hooks": {},
+    "flavor_text": "一句有趣的背景台词。"
+  }
+}
+
+
+1.2 字段详细说明
+
+字段 类型 必填 说明
+
+relic_id String ✅ 内部唯一标识，全小写，下划线分隔（如 hide_of_the_lion）。
+
+rarity Enum ✅ 决定掉落权重和UI边框颜色。
+
+on_acquire Object ❌ 获得时立即生效的属性修正。
+
+hooks Object ❌ 钩子函数，见下表。
+
+1.3 钩子（Hooks）速查表
+
+警告：钩子本质是代码注入，编剧只需知道有哪些钩子可用，具体内容由程序员实现。
+
+钩子键 触发时机 常用参数示例
+
+ON_STAT_CHECK 掷骰前/后 { "stat": "力量", "bonus": 2 }
+
+ON_TAKE_DAMAGE 受到伤害时 { "reduce_percent": 0.5, "trigger_limit": 1 }
+
+ON_DEATH 生命归零时 { "action": "REVIVE_WITH_STAT", "stat": "疯狂", "value": 5 }
+
+ON_EVENT_START 事件开始时 { "add_option": "向神明祈祷" }
+
+ON_TURN_END 每回合结束时 { "stat": "疯狂", "change": 1 }
+
+1.4 配置示例（涅墨亚狮皮）
+
+"hide_of_the_lion": {
+  "name": "涅墨亚狮皮",
+  "rarity": "chapter_unique",
+  "tags": ["防御", "野兽"],
+  "on_acquire": { "stat_bonuses": { "力量": 2 } },
+  "hooks": {
+    "ON_STAT_CHECK": { "stat": "力量", "bonus": 2 },
+    "ON_DEATH": { "action": "REVIVE_WITH_STAT", "stat": "疯狂", "value": 5 }
+  }
+}
+
+
+2. 事件 JSON 填写规范（Event Spec v1.0）
+
+文件位置：data/chapters/*.json  
+适用对象：编剧、关卡设计师。
+
+2.1 事件节点模板
+
+{
+  "event_id": {
+    "type": "story | decision | combat | ending_node",
+    "title": "事件标题（UI显示）",
+    "text": "事件描述文本。支持\n换行。",
+    "image": "optional_image_key.png",
+    "conditions": { "logic": "AND", "rules": [] },
+    "options": [],
+    "next_event": "next_event_id_if_no_options"
+  }
+}
+
+
+2.2 条件（Conditions）语法
+
+规则：编剧只需填写条件，引擎自动计算是否满足。
+
+条件类型 语法示例 说明
+
+属性判定 { "type": "stat", "name": "荣耀", "op": ">=", "value": 10 } 属性大于等于10
+
+世界状态 { "type": "flag", "name": "killed_innocent", "value": true } 是否屠城
+
+遗物持有 { "type": "relic", "id": "blade_of_chaos", "exists": true } 是否持有某遗物
+
+路径追踪 { "type": "path", "chapter": 1, "branch": "strength" } 第一章是否走力量线
+
+2.3 选项（Options）结构
+
+{
+  "text": "选项显示的文字",
+  "effects": { "荣耀": 2, "生命": -1 },
+  "required_stat": { "力量": 7 },
+  "branch_id": "strength_win",
+  "fail_text": "失败后显示的文本。",
+  "fail_effects": { "生命": -2, "疯狂": 1 },
+  "set_world_state": { "killed_innocent": true }
+}
+
+
+3. 章节编剧工作手册（Chapter Bible）
+
+适用对象：负责撰写整章剧情的资深编剧。
+
+3.1 章节立项单（Checklist）
+
+在开始写代码前，请先填写这张表：
+
+•   章节编号：第 X 试炼
+
+•   核心隐喻：这一章想表达什么？（例：权力的腐蚀性）
+
+•   主要反派：是野兽、环境还是人心？
+
+•   A/B 路径设计：
+
+    ◦   A路径（力量/荣耀）：表象是正义的，代价是什么？
+
+    ◦   B路径（智慧/神恩）：表象是懦弱的，收益是什么？
+
+•   章节机制：这一章有什么特殊规则？（如：流血、诅咒、限时）
+
+3.2 叙事节奏公式
+
+一个标准的章节应包含 3-5 个事件节点：
+1.  抵达（Arrival）：渲染气氛，介绍环境。
+2.  冲突（Conflict）：核心选择发生点（Decision Node）。
+3.  后果（Consequence）：展示选择带来的即时反馈（Story Node）。
+4.  转折（Twist）：意外发生，局势恶化（Combat/Puzzle）。
+5.  结局（Resolution）：进入下一章或触发结局。
+
+4. 十二试炼随机事件编剧圣经（Random Event Bible）
+
+适用对象：负责填充乱入事件库的编剧。
+
+4.1 三大铁律
+
+1.  没有免费午餐：任何增益都必须伴随隐性代价（扣神恩、加疯狂、埋下世界状态Flag）。
+2.  神不可信：神明给你的帮助，通常是为了看你笑话。
+3.  模糊选项：不要让玩家一眼看出哪个是“好”的。把“拯救平民”和“浪费时间”写得模棱两可。
+
+4.2 事件类型模板
+
+A. 神祇干预（Divine Intervention）
+
+•   设定：奥林匹斯山的影子。
+
+•   套路：
+
+    ◦   给予一个强力遗物（Hook），但要求你完成一个不可能的任务（Flag）。
+
+    ◦   例：雅典娜给你神盾，但要求你接下来的试炼不许流血。
+
+B. 凡人遭遇（Mortal Encounter）
+
+•   设定：路边的乞丐、战败的国王、哭泣的母亲。
+
+•   套路：
+
+    ◦   帮助他们：消耗资源，获得少量神恩/荣耀。
+
+    ◦   无视/掠夺他们：获得资源，增加疯狂/罪恶Flag。
+
+    ◦   例：一个濒死的士兵求水喝。给他水（生命-1）；抢他装备（荣耀-2）。
+
+C. 自我怀疑（Inner Voice）
+
+•   设定：疯狂值高时的幻觉。
+
+•   套路：
+
+    ◦   选项本身变得荒谬，或者所有选项都是负面的。
+
+    ◦   例：【疯狂≥10】选项变为：“把剑吞下去”、“割掉耳朵”、“拥抱黑暗”。
+
+4.3 文本润色技巧
+
+•   动词要狠：使用“撕碎”、“啃噬”、“冻结”、“灼烧”，避免“减少”、“改变”。
+
+•   感官描写：多写气味（铁锈味、腐臭味）、触觉（黏腻、冰冷）、听觉（尖叫、低语）。
+
+•   留白：不要解释一切。让玩家猜。
+
+5. 工具流与工作流建议（Tooling）
+
+为了让这套规范落地，建议使用以下工作流：
+
+1.  Excel/Google Sheets 转 JSON：
+    ◦   编剧在表格里填 ID、文本、数值。
+
+    ◦   使用简单的 Python 脚本（或在线转换器）导出为 .json。
+
+    ◦   理由：编剧不怕表格，怕代码格式错误。
+
+2.  JSON Schema 校验：
+    ◦   在项目中加入 schema.json。
+
+    ◦   每次启动游戏前校验 JSON 格式。
+
+    ◦   报错信息：Error: Chapter 3, Event 'stag_choice' missing field 'options'.
+
+    ◦   理由：把运行时崩溃提前扼杀在编辑阶段。
+
+3.  版本控制（Git）规范：
+    ◦   main 分支：稳定可玩版本。
+
+    ◦   content/dev_name 分支：编剧各自的分支。
+
+    ◦   *理由：防止多人同时改 JSON 导致冲突。
+
+✅ 第三部分总结
+
+至此，我们完成了：
+1.  机制层：定义了“怎么算赢/输”。
+2.  剧情层：定义了“讲什么故事”。
+3.  工具层：定义了“怎么生产内容”。
+
+下一步行动建议：
+目前所有设计文档已完成。你可以选择：
+1.  开始实装：让我生成 chapter_01_lion.json 的完整代码，直接复制进项目即可运行。
+2.  细化数值：针对某一章节（如第5章牛棚）进行深度数值平衡测试。
+3.  UI/UX 设计：设计控制台或图形界面的展示样式。
+
+请告诉我你的下一步指令。
