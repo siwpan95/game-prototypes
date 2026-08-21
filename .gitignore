@@ -21,3 +21,7 @@ bin-release/
 saves/
 
 # 开发截图留档（shots/ 保留在库中用于展示）
+
+# Python
+__pycache__/
+*.pyc
