@@ -1,0 +1,13 @@
+engine: alloy
+engine_version: 1.0.0
+synced_at: '2026-08-23 21:03:01'
+customized_files:
+- path: fonts\Arial.ttf
+  kind: added
+  hash: 80ba139eae9f6344f167e76b7a0474c8
+- path: fonts\SimHei.ttf
+  kind: added
+  hash: 4093871a7f48e43b9ce7c38da0c34809
+take_base: [*]
+upgrades_applied: [core\world_log.py, test\test_world_log.py, __init__.py, cli.py, core\__init__.py, core\plugins.py, systems\save_load.py, test\run_all.py]
+config:
