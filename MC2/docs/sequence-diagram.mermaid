@@ -1,0 +1,128 @@
+%% ===== 4.1 M3 单帧 _update =====
+sequenceDiagram
+    autonumber
+    participant Loop as GameLoop
+    participant Input as GUIInputManager
+    participant Player
+    participant Surv as SurvivalSystem
+    participant Day as DayNight
+    participant Sim as WorldSim
+    participant Jobs as JobSystem
+    participant Cam as Camera
+    participant World as BlockWorld
+    participant Bus as EventBus
+
+    Loop->>Input: update()
+    Loop->>Player: update(dt, world, input)  %% 物理仅 z=0，签名不变
+    Player->>World: get/set(z=0)
+    Loop->>Surv: update(dt)
+    Loop->>Day: update(dt)
+    alt player.hp<=0 且 alive
+        Loop->>Surv: respawn(world)  %% z=0 出生点
+    end
+    Note over Loop: 合成 overlay 态（同 M2）则处理并 return
+    Loop->>Input: layer_up/down_pressed()  %% Z 切换
+    Input-->>Loop: 键
+    Loop->>Cam: set_z(new_z, world.depth)
+    Cam-->>Loop: current_z
+    Loop->>Bus: emit(Z_LEVEL_CHANGED, z)
+    Loop->>Input: temp/water_overlay_toggle()
+    Loop->>Sim: tick(SIM_DT)  %% 节流≤20Hz：累加器达 SIM_DT 才调用
+    Sim->>World: 温度扩散/水/岩浆流动（仅脏 chunk）
+    Loop->>Jobs: tick(dt)  %% 推进作业
+    Jobs->>World: 完成时 set(x,y,z, AIR/block)
+    Jobs->>Bus: emit(JOB_DONE, ...)
+    Loop->>Cam: follow(player); clamp_to(world.bounds())
+    Loop->>Cam: screen_to_world_cell(mx,my) → (tx,ty)
+    tz = Cam.current_z
+    alt 作业指派模式(G/B) + 左键
+        Loop->>Jobs: assign_dig/assign_build(tx,ty,tz)
+        Jobs->>Bus: emit(JOB_CREATED, ...)
+    else 右键(取消键)
+        Loop->>Jobs: cancel_under(tx,ty,tz)
+    else 普通模式
+        Loop->>Player: try_break(world, tx, ty, tz)
+        Loop->>Player: try_place(world, tx, ty, tz)
+    end
+
+%% ===== 4.2 作业指派与完成 =====
+sequenceDiagram
+    autonumber
+    participant Loop as GameLoop
+    participant Input as GUIInputManager
+    participant Jobs as JobSystem
+    participant World as BlockWorld
+    participant Sim as WorldSim
+    participant Bus as EventBus
+
+    Note over Loop: 玩家进入 G(dig)/B(build) 模式（toggle）
+    Loop->>Input: dig_mode_pressed()/build_mode_pressed()
+    Loop->>Input: mouse_pressed(LEFT)
+    alt dig 模式
+        Loop->>Jobs: assign_dig(tx,ty,tz)
+        Jobs->>Jobs: 新建 Job(id,type='dig',x,y,z,target=AIR)
+        Jobs->>Bus: emit(JOB_CREATED, id,x,y,z)
+    else build 模式
+        Loop->>Jobs: assign_build(tx,ty,tz, held_id)
+        Jobs->>Jobs: 新建 Job(id,type='build',target=held_id)
+        Jobs->>Bus: emit(JOB_CREATED, ...)
+    end
+    Note over Loop: 每帧 _update 调用 Jobs.tick(dt)
+    loop 逐 tick 推进
+        Loop->>Jobs: tick(dt)
+        Jobs->>Jobs: progress += dt；若 progress>=duration
+        Jobs->>World: set(x,y,z, AIR 或 block_id)
+        Jobs->>Sim: mark_dirty_around(x,y,z)  %% 触发重算
+        Jobs->>Bus: emit(JOB_DONE, id,...)
+    end
+    Note over Loop: 玩家右键(取消键) 可 Jobs.cancel(job_id) → emit(JOB_CANCELLED)
+
+%% ===== 4.3 Z 层级切换 =====
+sequenceDiagram
+    autonumber
+    participant Loop as GameLoop
+    participant Input as GUIInputManager
+    participant Cam as Camera
+    participant World as BlockWorld
+    participant Renderer as TileWorldRenderer
+    participant Bus as EventBus
+
+    Loop->>Input: layer_up_pressed()  %% Z 键
+    Input-->>Loop: True
+    Loop->>Cam: set_z(Cam.current_z + 1, World.depth)
+    Cam->>Cam: current_z = clamp(z, 0, depth-1)
+    Cam-->>Loop: current_z
+    Loop->>Bus: emit(Z_LEVEL_CHANGED, z=current_z)
+    Note over Loop: 下一帧 _render 使用 current_z
+    Loop->>Renderer: render(world, viewport, overlays, z=Cam.current_z)
+    Renderer->>World: get(x,y, Cam.current_z)  %% 仅渲染该层
+    Renderer->>Renderer: 叠加 snapshot_overlays(current_z) tint
+
+%% ===== 4.4 覆盖层渲染叠加 =====
+sequenceDiagram
+    autonumber
+    participant Loop as GameLoop
+    participant Input as GUIInputManager
+    participant Sim as WorldSim
+    participant Overlay as LayerOverlay
+    participant Renderer as TileWorldRenderer
+    participant Screen as pygame.Surface
+
+    Loop->>Input: temp_overlay_toggle()/water_overlay_toggle()
+    Loop->>Loop: 置 _show_temp / _show_water 标志
+    Note over Loop: _render 中
+    Loop->>Sim: snapshot_overlays(Cam.current_z)
+    Sim-->>Overlay: LayerOverlay(temp[][], water[][], lava[][])
+    Loop->>Renderer: render(world, vp, overlays=Overlay, z=Cam.current_z)
+    loop 可见非空气格
+        Renderer->>Screen: blit 方块瓦片
+        alt _show_temp 且 Overlay.temp[x][y] > 阈值
+            Renderer->>Screen: 叠蓝→红渐变 tint(alpha∝temp)
+        end
+        alt _show_water 且 Overlay.lava[x][y]
+            Renderer->>Screen: 叠橙红 tint（岩浆）
+        end
+        alt _show_water 且 Overlay.water[x][y]
+            Renderer->>Screen: 叠半透明蓝 tint（水强化）
+        end
+    end

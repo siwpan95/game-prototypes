@@ -1,0 +1,25 @@
+engine: alloy
+engine_version: 1.0.0
+synced_at: '2026-08-23 21:13:06'
+customized_files:
+- path: allin_engine.egg-info\PKG-INFO
+  kind: added
+  hash: ecc6cf6b994b9d6ea626f507fd30dc02
+- path: allin_engine.egg-info\SOURCES.txt
+  kind: added
+  hash: 6b1f70d43e42efb99ff7c545ac7b0a9d
+- path: allin_engine.egg-info\dependency_links.txt
+  kind: added
+  hash: 68b329da9893e34099c7d8ad5cb9c940
+- path: allin_engine.egg-info\entry_points.txt
+  kind: added
+  hash: c7c05ab4bded3e8ecfee719467e4492c
+- path: allin_engine.egg-info\requires.txt
+  kind: added
+  hash: 8b84ceebb5fc1f365f406249bbc4118a
+- path: allin_engine.egg-info\top_level.txt
+  kind: added
+  hash: 68b329da9893e34099c7d8ad5cb9c940
+take_base: [*]
+upgrades_applied: [__main__.py, cli.py, core\config_loader.py, core\context.py, core\deps.py, core\plugins.py, core\profiles.py, core\world_log.py, core\world_serial.py, example_local_font.py, fonts\BaoCanMouHuiTingShouXieTi2.0-2.ttf, fx\particle_np.py, requirements.txt, systems\MOD_SCHEMA.md, test\test_context.py, test\test_data_library.py, test\test_font.py, test\test_pathfinding.py, test\test_serializable.py, test\test_world_log.py, world\pathfinding.py, ai\narrative.py, audio\synth.py, core\data_library.py, core\event_bus.py, core\serializable.py, render\formula_engine.py, render\gui_base.py, systems\__init__.py, systems\combat\__init__.py, systems\save_load.py, test\runner.py, utils\font.py, utils\json_loader.py, README.md, __init__.py, ai\__init__.py, core\__init__.py, core\ecs.py, core\paths.py, fx\__init__.py, pyproject.toml, systems\mod_loader.py, test\run_all.py, test\test_ai.py, utils\__init__.py, world\__init__.py]
+config:

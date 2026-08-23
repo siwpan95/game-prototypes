@@ -1,0 +1,173 @@
+classDiagram
+    %% ===== 地基 / M1/M2 引用（不修改） =====
+    class AABB2D {
+        +min_x: int
+        +min_y: int
+        +max_x: int
+        +max_y: int
+    }
+    class BlockWorld {
+        +width: int
+        +height: int
+        +depth: int
+        +get(x,y,z) int
+        +set(x,y,z,id) None
+        +in_bounds(x,y,z) bool
+        +bounds() AABB2D
+    }
+    class BlockRegistry {
+        +get(id) BlockDef
+        +register(b) None
+        +from_json(path) BlockRegistry
+    }
+    class GameLoop {
+        +_update(dt) None
+        +_render() None
+    }
+    class HUD {
+        +draw(player, world, fps, seed, overlays_on, daynight, current_z, show_temp, show_water, jobs) None
+    }
+    class EventBus {
+        +subscribe(etype, handler) None
+        +emit(etype, **data) None
+    }
+
+    %% ===== M1/M2 类（M3 扩展标注） =====
+    class Camera {
+        +current_z: int
+        +set_z(z: int, world_depth: int) None
+        +clamp_z(world: BlockWorld) None
+        +screen_to_world_cell(mx, my) tuple~int,int~
+    }
+    class TileWorldRenderer {
+        +render(world, viewport, overlays, z) None
+        +collect_tiles(world, viewport, z) list
+        +draw_player(player, viewport) None
+        +draw_highlight(tx, ty, viewport) None
+    }
+    class Player {
+        +try_break(world, tx, ty, tz) bool
+        +try_place(world, tx, ty, tz) bool
+        +update(dt, world, input)
+    }
+    class GUIInputManager {
+        +layer_up_pressed() bool
+        +layer_down_pressed() bool
+        +temp_overlay_toggle() bool
+        +water_overlay_toggle() bool
+        +dig_mode_pressed() bool
+        +build_mode_pressed() bool
+        +cancel_job_pressed() bool
+    }
+    class EventTypes {
+        +Z_LEVEL_CHANGED: str
+        +SIM_TICK: str
+        +JOB_CREATED: str
+        +JOB_DONE: str
+        +JOB_CANCELLED: str
+    }
+
+    %% ===== M3 新增：配置 / 数据 =====
+    class SimConfig {
+        +chunk_size: int = 16
+        +sim_hz: float = 20.0
+        +diffusion: float = 0.25
+        +ambient_temp: float = 0.0
+        +lava_temp: float = 1.0
+        +water_id: int = 4
+        +lava_id: int = 8
+        +lava_move_interval: int = 4
+        +max_temp_alpha: int = 90
+    }
+    class JobConfig {
+        +dig_duration: float = 1.0
+        +build_duration: float = 1.0
+        +next_id: int = 1
+    }
+    class CellState {
+        +temp: float
+        +water: bool
+        +lava: bool
+        +solid: bool
+        +is_fluid() bool
+    }
+
+    %% ===== M3 新增：模拟 / 作业 =====
+    class WorldSim {
+        +__init__(world, registry, cfg)
+        +tick(dt) None
+        +dirty_chunks: set
+        +get_temperature(x,y,z) float
+        +get_water(x,y,z) bool
+        +get_lava(x,y,z) bool
+        +snapshot_overlays(z) LayerOverlay
+        +mark_dirty_around(x,y,z) None
+    }
+    class LayerOverlay {
+        +width: int
+        +height: int
+        +temp: list~list~float~~
+        +water: list~list~bool~~
+        +lava: list~list~bool~~
+        +cell(x,y) CellState
+    }
+    class OverlayBuilder {
+        +build_layer_overlay(world, sim, z, cfg) LayerOverlay
+    }
+    class Job {
+        +id: int
+        +type: str
+        +x: int
+        +y: int
+        +z: int
+        +target_block_id: int
+        +progress: float
+        +duration: float
+        +status: str
+    }
+    class JobSystem {
+        +__init__(world, registry, bus, cfg)
+        +assign_dig(x,y,z) int
+        +assign_build(x,y,z, block_id) int
+        +cancel(job_id) bool
+        +tick(dt) None
+        +jobs() list~Job~
+        +on_job_done: callable
+    }
+    class MultiLayerGenerator {
+        +__init__(registry, seed, noise)
+        +generate(width, height, depth) BlockWorld
+    }
+
+    %% ===== 关系 =====
+    Camera *-- AABB2D : viewport
+    TileWorldRenderer ..> BlockWorld : read tiles (z)
+    TileWorldRenderer ..> LayerOverlay : tint
+    Player ..> BlockWorld : break/place (tz)
+    GameLoop ..> WorldSim : tick(throttled)
+    GameLoop ..> JobSystem : tick / assign
+    GameLoop ..> Camera : set_z / follow
+    GameLoop ..> TileWorldRenderer : render(z, overlays)
+    GameLoop ..> HUD : draw(z, overlays, jobs)
+    GameLoop ..> GUIInputManager : z/overlay/job keys
+    GameLoop ..> EventBus : emit M3 events
+    HUD ..> JobSystem : jobs() 列表
+    HUD ..> Camera : current_z
+
+    WorldSim *-- SimConfig : cfg
+    WorldSim ..> BlockWorld : get/set(fluid)
+    WorldSim ..> CellState : 更新规则
+    WorldSim ..> LayerOverlay : snapshot
+    OverlayBuilder ..> WorldSim : 读 temp/water/lava
+    OverlayBuilder ..> LayerOverlay : 产出
+    LayerOverlay ..> CellState : cell()
+
+    JobSystem *-- JobConfig : cfg
+    JobSystem ..> BlockWorld : set(完成时)
+    JobSystem ..> EventBus : emit JOB_*
+    JobSystem *-- Job : 队列元素
+    Job o-- JobConfig : duration 参照
+
+    MultiLayerGenerator ..> BlockWorld : 生成 depth>1
+    MultiLayerGenerator ..> BlockRegistry : 读方块
+    MultiLayerGenerator ..> "TerrainGenerator(地基)" : 仅调用生成 z=0

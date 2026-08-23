@@ -1,0 +1,5 @@
+[
+  {"id": "stone_brick", "name": "石砖", "inputs": {"1": 4}, "output": {"6": 1}},
+  {"id": "glass", "name": "玻璃", "inputs": {"5": 4}, "output": {"7": 1}},
+  {"id": "sand_to_dirt_demo", "name": "沙→土(演示)", "inputs": {"5": 1}, "output": {"2": 1}}
+]

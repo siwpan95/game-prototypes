@@ -1,0 +1,4 @@
+[
+  {"id": 6, "name": "stone_brick", "glyph": "#", "color": "gray", "solid": true, "transparent": false, "props": {}},
+  {"id": 7, "name": "glass", "glyph": "=", "color": "cyan", "solid": true, "transparent": true, "props": {}}
+]
