@@ -1,0 +1,7 @@
+engine: alloy
+engine_version: 1.0.0
+synced_at: '2026-08-23 21:13:51'
+customized_files: []
+take_base: [*]
+upgrades_applied: [__main__.py, cli.py, core\config_loader.py, core\context.py, core\plugins.py, core\profiles.py, core\world_log.py, requirements.txt, test\test_context.py, test\test_world_log.py, core\event_bus.py, __init__.py, core\__init__.py, core\serializable.py, systems\save_load.py, test\run_all.py, test\test_font.py, utils\font.py]
+config:
