@@ -41,5 +41,5 @@ excel表格挂机
 
 ## 仓库索引标注（2026-08-25 · siwpan 统一治理）
 
-> Excel 表格挂机；本地对应 G:\games\progress_quest。
+> 本地已删（2026-08-25 挂机族去重；保留版=Idle/stay/pq_multiverse/bee/Life Reset，本仓库为唯一留存，勿删）。
 > 本标注为发布面统一追加，不改变原有内容。
