@@ -313,3 +313,11 @@ jotunnslayer_py/
 游戏**玩法**不受版权保护，本项目复刻核心循环合法。
 **未提取、未使用**原作任何素材（模型/贴图/音频/关卡数据），全部用程序化生成。
 原 `Jotunnslayer: Hordes of Hel` 由 Games Farm 制作发行，本项目为非营利性技术研究。
+
+
+---
+
+## 仓库索引标注（2026-08-25 · siwpan 统一治理）
+
+> JOTUNNSLAYER 复刻原型；本地对应 G:\games\jotunnslayer_py；develop/feature/hotfix/release 为空占位分支。
+> 本标注为发布面统一追加，不改变原有内容。
