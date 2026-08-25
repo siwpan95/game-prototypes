@@ -34,3 +34,11 @@ Software architecture description
 4.  The most valuable open source project [GVP](https://gitee.com/gvp)
 5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
 6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+
+---
+
+## 仓库索引标注（2026-08-25 · siwpan 统一治理）
+
+> 签到模拟器 2.0：签到+表情包混合项目；本地对应 G:\games\smile（master 分支为独立版）。
+> 本标注为发布面统一追加，不改变原有内容。
