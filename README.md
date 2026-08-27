@@ -1,45 +1,21 @@
-# 枯肢之下
+# Carimara
 
-#### 介绍
-枯肢之下复刻
+一款基于 pygame-ce 的卡牌游戏，含程序化音频合成工具。
 
-#### 软件架构
-软件架构说明
+## 语言 / 类型
+- Python / pygame 图形界面卡牌游戏
 
+## 目录要点
+- `main.py` —— 入口
+- `components/`、`core/`、`systems/` —— 游戏逻辑与 ECS 组件
+- `assets/`、`data/`、`mods/`、`tools/`、`tests/` —— 资源、数据、模组与测试
+- `faatt.py` —— 程序化音频（WAV）合成工具
 
-#### 安装教程
+## 运行方式与依赖
+- 运行：`F:\Python314\python.exe main.py`
+- 依赖（`requirements.txt`）：pygame-ce>=2.5.0；numpy、scipy（音频）；pytest（测试）
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-
-
----
-
-## 仓库索引标注（2026-08-25 · siwpan 统一治理）
-
-> 枯肢之下复刻（Carimara）；本地对应 G:\games\carimara_py。
-> 本标注为发布面统一追加，不改变原有内容。
+## 测试状态
+- 核心 40 个 .py py_compile 通过
+- `tests/_backup/test_card_system.py` 第 34 行缺右括号存在语法错误（备份文件，不影响运行）
+- GUI 窗口游戏，未运行（仅编译）
