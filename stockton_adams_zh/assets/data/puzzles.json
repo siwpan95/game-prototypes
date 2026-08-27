@@ -1,0 +1,434 @@
+{
+  "puzzles": {
+    "choice_talk_sancho": {
+      "puzzle_id": "choice_talk_sancho",
+      "name": "桑丘",
+      "description": "和你的园丁聊聊",
+      "node_type": "talk",
+      "act": 1,
+      "options": [
+        {
+          "text": "向他敞开心扉（内心+10，羁绊+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": 10,
+            "sancho_delta": 5
+          }
+        },
+        {
+          "text": "用幽默岔开话题（内心-5，羁绊+10）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": -5,
+            "sancho_delta": 10
+          }
+        }
+      ]
+    },
+    "choice_choice_leonard": {
+      "puzzle_id": "choice_choice_leonard",
+      "name": "愧疚",
+      "description": "面对你的过去",
+      "node_type": "choice",
+      "act": 1,
+      "options": [
+        {
+          "text": "写下真相（内心+15，笔记本+20）",
+          "set_flag": "confessed_leonard",
+          "stat_changes": {
+            "peace_delta": 15,
+            "notebook_delta": 20
+          }
+        },
+        {
+          "text": "还没法面对（内心-10，洞察+1）",
+          "set_flag": "avoided_confession",
+          "stat_changes": {
+            "peace_delta": -10,
+            "insight_delta": 1
+          }
+        }
+      ]
+    },
+    "choice_boss_windmill": {
+      "puzzle_id": "choice_boss_windmill",
+      "name": "面对",
+      "description": "第一幕首领：艰难抉择（膝盖-12）",
+      "node_type": "boss",
+      "act": 1,
+      "options": [
+        {
+          "text": "还是爬上去（膝盖-12，笔记本+30，洞察+3）",
+          "set_flag": "faced_windmill",
+          "stat_changes": {
+            "knee_delta": -12,
+            "notebook_delta": 30,
+            "insight_delta": 3,
+            "windmill_delta": 1
+          }
+        },
+        {
+          "text": "暂时离开（内心-5，笔记本+10）",
+          "set_flag": "avoided_windmill",
+          "stat_changes": {
+            "peace_delta": -5,
+            "notebook_delta": 10
+          }
+        }
+      ]
+    },
+    "choice_a2_writing_desk": {
+      "puzzle_id": "choice_a2_writing_desk",
+      "name": "写作",
+      "description": "诚实书写",
+      "node_type": "writing",
+      "act": 2,
+      "options": [
+        {
+          "text": "毫不退缩地写（洞察-3，笔记本+15）",
+          "set_flag": "wrote_honestly",
+          "stat_changes": {
+            "notebook_delta": 15,
+            "insight_delta": -3
+          }
+        },
+        {
+          "text": "只写表面（笔记本+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "notebook_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a2_talk_sancho": {
+      "puzzle_id": "choice_a2_talk_sancho",
+      "name": "桑丘",
+      "description": "更深入的对话",
+      "node_type": "talk",
+      "act": 2,
+      "options": [
+        {
+          "text": "接受他的智慧（内心+10，羁绊+10，洞察+1）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": 10,
+            "insight_delta": 1,
+            "sancho_delta": 10
+          }
+        },
+        {
+          "text": "换个话题（内心+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a2_mirror_gardener": {
+      "puzzle_id": "choice_a2_mirror_gardener",
+      "name": "镜中",
+      "description": "桑丘的往事——墨西哥的橡树",
+      "node_type": "talk",
+      "act": 2,
+      "options": [
+        {
+          "text": "承认你一直在对抗自己（内心+15，羁绊+10，洞察+3）",
+          "set_flag": "admitted_self_opposition",
+          "stat_changes": {
+            "peace_delta": 15,
+            "insight_delta": 3,
+            "sancho_delta": 10
+          }
+        },
+        {
+          "text": "保持沉默（洞察+1，羁绊+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "insight_delta": 1,
+            "sancho_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a2_letter": {
+      "puzzle_id": "choice_a2_letter",
+      "name": "信件",
+      "description": "写一封信",
+      "node_type": "choice",
+      "act": 2,
+      "options": [
+        {
+          "text": "寄出去（内心+10，笔记本+15，信件已寄）",
+          "set_flag": "wrote_to_leonard",
+          "stat_changes": {
+            "peace_delta": 10,
+            "notebook_delta": 15
+          }
+        },
+        {
+          "text": "秘密保存（笔记本+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "notebook_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a2_letter_leonard": {
+      "puzzle_id": "choice_a2_letter_leonard",
+      "name": "回信",
+      "description": "来自圣安东尼奥的信",
+      "node_type": "choice",
+      "act": 2,
+      "options": [
+        {
+          "text": "拆开读（内心+10，洞察+3）",
+          "set_flag": "read_leonard_reply",
+          "stat_changes": {
+            "peace_delta": 10,
+            "insight_delta": 3
+          }
+        },
+        {
+          "text": "放回抽屉（内心-5，笔记本+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": -5,
+            "notebook_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a2_talk_elena": {
+      "puzzle_id": "choice_a2_talk_elena",
+      "name": "埃琳娜",
+      "description": "和你的妻子谈心",
+      "node_type": "talk",
+      "act": 2,
+      "options": [
+        {
+          "text": "向她坦白内心的重量（内心+15，埃琳娜羁绊+10）",
+          "set_flag": "opened_to_elena",
+          "stat_changes": {
+            "peace_delta": 15,
+            "elena_delta": 10
+          }
+        },
+        {
+          "text": "关注当下的温暖（内心+10，膝盖+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": 10,
+            "knee_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a2_boss": {
+      "puzzle_id": "choice_a2_boss",
+      "name": "接纳",
+      "description": "第二幕首领",
+      "node_type": "boss",
+      "act": 2,
+      "options": [
+        {
+          "text": "完全拥抱你的过去（膝盖-15，笔记本+35，洞察+5）",
+          "set_flag": "accepted_past",
+          "stat_changes": {
+            "knee_delta": -15,
+            "notebook_delta": 35,
+            "insight_delta": 5,
+            "windmill_delta": 1
+          }
+        },
+        {
+          "text": "私下接受（内心-5，笔记本+15）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": -5,
+            "notebook_delta": 15
+          }
+        }
+      ]
+    },
+    "choice_a3_elena_silence": {
+      "puzzle_id": "choice_a3_elena_silence",
+      "name": "沉默",
+      "description": "埃琳娜的二十年——沉默之下",
+      "node_type": "talk",
+      "act": 3,
+      "options": [
+        {
+          "text": "为她写一页（内心+20，埃琳娜羁绊+15，笔记本+10）",
+          "set_flag": "wrote_for_elena",
+          "stat_changes": {
+            "peace_delta": 20,
+            "notebook_delta": 10,
+            "elena_delta": 15
+          }
+        },
+        {
+          "text": "握住她的手（内心+10，埃琳娜羁绊+10）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": 10,
+            "elena_delta": 10
+          }
+        }
+      ]
+    },
+    "choice_a3_teach_sancho": {
+      "puzzle_id": "choice_a3_teach_sancho",
+      "name": "传授",
+      "description": "传承你的所学",
+      "node_type": "choice",
+      "act": 3,
+      "options": [
+        {
+          "text": "教他打篮球（内心+10，羁绊+10，笔记本+10）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": 10,
+            "notebook_delta": 10,
+            "sancho_delta": 10
+          }
+        },
+        {
+          "text": "通过笔记本教他（内心+5，笔记本+15，洞察+2）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": 5,
+            "notebook_delta": 15,
+            "insight_delta": 2
+          }
+        }
+      ]
+    },
+    "choice_a3_auburn": {
+      "puzzle_id": "choice_a3_auburn",
+      "name": "奥本山",
+      "description": "重返底特律",
+      "node_type": "choice",
+      "act": 3,
+      "options": [
+        {
+          "text": "走进去面对（内心-10，洞察+3）",
+          "set_flag": "faced_auburn",
+          "stat_changes": {
+            "peace_delta": -10,
+            "insight_delta": 3
+          }
+        },
+        {
+          "text": "开车离开（内心-5，笔记本+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": -5,
+            "notebook_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a3_sancho_knee": {
+      "puzzle_id": "choice_a3_sancho_knee",
+      "name": "照护",
+      "description": "你的膝盖——以及桑丘的担忧",
+      "node_type": "choice",
+      "act": 3,
+      "options": [
+        {
+          "text": "让桑丘帮你（羁绊+15，内心+10，笔记本+5）",
+          "set_flag": "cared_for_sancho",
+          "stat_changes": {
+            "peace_delta": 10,
+            "notebook_delta": 5,
+            "sancho_delta": 15
+          }
+        },
+        {
+          "text": "独自硬撑（内心-10，笔记本+5）",
+          "set_flag": "",
+          "stat_changes": {
+            "peace_delta": -10,
+            "notebook_delta": 5
+          }
+        }
+      ]
+    },
+    "choice_a3_write_final": {
+      "puzzle_id": "choice_a3_write_final",
+      "name": "写作",
+      "description": "最后一章",
+      "node_type": "writing",
+      "act": 3,
+      "options": [
+        {
+          "text": "保持开放结局（洞察-5，笔记本+25，额外洞察+3）",
+          "set_flag": "",
+          "stat_changes": {
+            "notebook_delta": 25,
+            "insight_delta": -5
+          }
+        },
+        {
+          "text": "写一个充满希望的结局（笔记本+10）",
+          "set_flag": "",
+          "stat_changes": {
+            "notebook_delta": 10
+          }
+        }
+      ]
+    },
+    "choice_a3_empty_chair": {
+      "puzzle_id": "choice_a3_empty_chair",
+      "name": "那把椅子",
+      "description": "重聚",
+      "node_type": "choice",
+      "act": 3,
+      "options": [
+        {
+          "text": "向空椅子致敬（内心+20，笔记本+30）",
+          "set_flag": "honored_empty_chair",
+          "stat_changes": {
+            "peace_delta": 20,
+            "notebook_delta": 30
+          }
+        },
+        {
+          "text": "关注来了的人（笔记本+10）",
+          "set_flag": "",
+          "stat_changes": {
+            "notebook_delta": 10
+          }
+        }
+      ]
+    },
+    "choice_a3_boss_court": {
+      "puzzle_id": "choice_a3_boss_court",
+      "name": "最终首领",
+      "description": "第三幕首领：球场",
+      "node_type": "boss",
+      "act": 3,
+      "options": [
+        {
+          "text": "全力上场（膝盖-20，笔记本+40，洞察+5）",
+          "set_flag": "completed_notebook",
+          "stat_changes": {
+            "knee_delta": -20,
+            "notebook_delta": 40,
+            "insight_delta": 5
+          }
+        },
+        {
+          "text": "在场边观看（笔记本+15）",
+          "set_flag": "",
+          "stat_changes": {
+            "notebook_delta": 15
+          }
+        }
+      ]
+    }
+  }
+}

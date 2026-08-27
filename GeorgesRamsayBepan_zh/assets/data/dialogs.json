@@ -1,0 +1,955 @@
+{
+  "dialog_trees": {
+    "hargreaves_intro": {
+      "start": {
+        "speaker": "哈格里夫斯警员",
+        "text": "拉姆齐-贝潘督察，长官。我被指派为您这个案子的搭档。我已经看过卷宗了……我真希望我没看过。您想了解什么？",
+        "responses": [
+          {
+            "text": "告诉我之前几位督察的事",
+            "next": "previous_inspectors",
+            "gives_clue": ""
+          },
+          {
+            "text": "你对屠宰场了解多少？",
+            "next": "slaughterhouse_info",
+            "gives_clue": ""
+          },
+          {
+            "text": "我们出发吧。去把车准备好。",
+            "next": "end",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "previous_inspectors": {
+        "speaker": "哈格里夫斯警员",
+        "text": "长官，在您之前已经有三位督察了。前两位被发现时——嗯，处境很不体面。身败名裂。第三位就这么消失了。走进了乔木区就再也没出来。没人想接这个案子。除了您，显然。",
+        "responses": [
+          {
+            "text": "屠宰场呢？",
+            "next": "slaughterhouse_info",
+            "gives_clue": ""
+          },
+          {
+            "text": "我们出发吧。",
+            "next": "end",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "slaughterhouse_info": {
+        "speaker": "哈格里夫斯警员",
+        "text": "哈格雷夫肉类加工厂。六个月前关闭——至少官方是这么说的。但电力一直没断。有人在交电费。附近居民报告夜间有灯光、车辆进出。尸体就是在下面的排水系统中被发现的。",
+        "responses": [
+          {
+            "text": "告诉我之前几位督察的事",
+            "next": "previous_inspectors",
+            "gives_clue": ""
+          },
+          {
+            "text": "我们出发吧。",
+            "next": "end",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "end": {
+        "speaker": "哈格里夫斯警员",
+        "text": "马上，长官。我去把车开来。乔木区在等着我们。",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "weiland_morgue": {
+      "start": {
+        "speaker": "魏兰德医生",
+        "text": "所以你就是那个拥有神赐之舌的人。我一直在等一个能真正尝出我只能看到之物的人。当了三十年法医，我从未见过这样的东西。",
+        "responses": [
+          {
+            "text": "你能告诉我关于这具尸体的事吗？",
+            "next": "body_info",
+            "gives_clue": ""
+          },
+          {
+            "text": "你提到我可以'品尝'什么？",
+            "next": "taste_reference",
+            "gives_clue": ""
+          },
+          {
+            "text": "我需要独自检查尸体。",
+            "next": "clear_room",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "body_info": {
+        "speaker": "魏兰德医生",
+        "text": "组织异变仍在进行——甚至是在死后。她仍在被加工，督察。她静脉中的琥珀色化合物仍在运作。杀死她的不是这个过程的终结——而是一次中断。",
+        "responses": [
+          {
+            "text": "告诉我琥珀色物质的事",
+            "next": "amber_info",
+            "gives_clue": ""
+          },
+          {
+            "text": "我需要独自检查尸体。",
+            "next": "clear_room",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "amber_info": {
+        "speaker": "魏兰德医生",
+        "text": "我把样本送到了三个实验室。两个回复说是'无法鉴定的化合物'。第三个给我回电话让我销毁样本并忘记我曾找到它。他们害怕了，督察。我能从他们的声音里尝出恐惧——请原谅我用这个比喻。",
+        "responses": [
+          {
+            "text": "我需要独自检查尸体。",
+            "next": "clear_room",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "taste_reference": {
+        "speaker": "魏兰德医生",
+        "text": "你的名声在先。他们说你的舌头能尝出事物中的真相——说它是神赐的。我花了三十年阅读死者的语言。也许你能读出我无法读出的东西。尝尝她的手腕。我不会评判，也不会告诉别人。",
+        "responses": [
+          {
+            "text": "我需要独自检查尸体。",
+            "next": "clear_room",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "clear_room": {
+        "speaker": "魏兰德医生",
+        "text": "当然。我理解需要……隐私。你的方法是你自己的，督察。如果需要我，我就在外面。",
+        "responses": [],
+        "on_exit_flag": "act1_morgue_cleared",
+        "is_terminal": true
+      }
+    },
+    "---- 小说扩充 ----": {
+      "_comment": "以下对话树均基于小说《综网：地狱之下-第十二卷》内容扩充"
+    },
+    "margaret_dialog": {
+      "start": {
+        "speaker": "寡妇玛格丽特",
+        "text": "您是来喝汤的，还是来审问的，侦探先生？",
+        "responses": [
+          {
+            "text": "我来了解您丈夫的死因。",
+            "next": "husband_death",
+            "gives_clue": ""
+          },
+          {
+            "text": "我对那碗汤很感兴趣。",
+            "next": "soup_inquiry",
+            "gives_clue": ""
+          },
+          {
+            "text": "告诉我地痞失踪的事。",
+            "next": "missing_thugs",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "husband_death": {
+        "speaker": "寡妇玛格丽特",
+        "text": "肺痨。真的是肺痨。他咳了三个月，最后没挺过去。”她回答得太快了——像一段被反复排练过的台词。但她的眼神出卖了她。那不是悲伤，而是一种更深沉的东西。",
+        "responses": [
+          {
+            "text": "您丈夫死前……有人动过他吗？",
+            "next": "husband_truth",
+            "gives_clue": ""
+          },
+          {
+            "text": "我对那碗汤很感兴趣。",
+            "next": "soup_inquiry",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "soup_inquiry": {
+        "speaker": "寡妇玛格丽特",
+        "text": "那碗汤是给我丈夫的供奉。每天清早送一碗。他生前最爱喝的。”她的嘴角微微上扬——不是笑，是某种更危险的东西。“您想喝一碗吗？”",
+        "responses": [
+          {
+            "text": "汤不是给死人的。",
+            "next": "truth_reveal",
+            "gives_clue": ""
+          },
+          {
+            "text": "告诉我地痞失踪的事。",
+            "next": "missing_thugs",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "missing_thugs": {
+        "speaker": "寡妇玛格丽特",
+        "text": "谁来保护一个死了丈夫、没有收入、每天被地痞骚扰的寡妇？市政厅不会管我们。警察不会管我们。工厂主不会管我们。我只有这锅汤。”她竖起三根手指。“三个人尝过。味道都不好。",
+        "responses": [
+          {
+            "text": "汤不是给死人的。",
+            "next": "truth_reveal",
+            "gives_clue": "widow_confession"
+          }
+        ]
+      },
+      "husband_truth": {
+        "speaker": "寡妇玛格丽特",
+        "text": "……”她的手停在半空中。沉默了十秒。“他死之前就已经被人……动过了。我不知道是谁做的。他回家的时候就不对了。肚子里有奇怪的声音，像齿轮转动。”",
+        "responses": [
+          {
+            "text": "齿轮。和下水道里的那些一样。",
+            "next": "gear_connection",
+            "gives_clue": "widow_gear_connection"
+          }
+        ]
+      },
+      "truth_reveal": {
+        "speaker": "寡妇玛格丽特",
+        "text": "您说对了。汤是给那些活着的人的。那些在半夜敲我的门、偷走供奉的人。米切尔·布朗不是第一个，也不会是最后一个。”她的眼神刀片般锋利。“但您不会举报我。不是因为同情——而是因为我在做您做不到的事。",
+        "responses": [
+          {
+            "text": "（留下石灰配比纸，离开）",
+            "next": "end",
+            "gives_clue": "widow_confession"
+          }
+        ]
+      },
+      "gear_connection": {
+        "speaker": "寡妇玛格丽特",
+        "text": "下水道？……所以这不止是我丈夫一个人。他们一直在做这件事。”她的声音低了下去。“侦探先生，您不是来抓我的。您是来尝味道的。”",
+        "responses": [
+          {
+            "text": "（沉默离开）",
+            "next": "end",
+            "gives_clue": "widow_gear_connection"
+          }
+        ]
+      },
+      "end": {
+        "speaker": "寡妇玛格丽特",
+        "text": "您是个奇怪的人，乔治斯·乔尔·拉姆齐-贝潘。”她念着名片上的字，每个音节都像在嚼玻璃渣。“你到底是个什么东西……”",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "grey_dialog": {
+      "start": {
+        "speaker": "艾德蒙·格雷",
+        "text": "没有搜查令，请出去。”他的手已经伸向桌下。“这里不欢迎私人侦探。",
+        "responses": [
+          {
+            "text": "你的靴子上有北境的红泥。",
+            "next": "boots_reveal",
+            "gives_clue": ""
+          },
+          {
+            "text": "你身上的机油是'黑鲸'牌。",
+            "next": "oil_reveal",
+            "gives_clue": ""
+          },
+          {
+            "text": "我闻到了'无畏号'的味道。",
+            "next": "dauntless_reveal",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "boots_reveal": {
+        "speaker": "艾德蒙·格雷",
+        "text": "你怎么——”他的瞳孔骤缩。那是被看穿的愤怒。他从桌下抽出了改装蒸汽扳手。",
+        "responses": [
+          {
+            "text": "（战斗/制服）",
+            "next": "end",
+            "gives_clue": "grey_north_connection"
+          }
+        ]
+      },
+      "oil_reveal": {
+        "speaker": "艾德蒙·格雷",
+        "text": "……你是个美食家？闻机油？”但他的手已经在颤抖了。“你到底是谁？",
+        "responses": [
+          {
+            "text": "我是来品尝你的手艺的，格雷先生。",
+            "next": "end",
+            "gives_clue": "grey_north_connection"
+          }
+        ]
+      },
+      "dauntless_reveal": {
+        "speaker": "艾德蒙·格雷",
+        "text": "”他暴起——蒸汽扳手从桌下抽出，高压蒸汽的嘶鸣中砸向你。太迟了。你的银质餐刀已经抵在他的颈动脉上。“你的扳手需要预热三秒。你刚才没有预热。第三个错误。",
+        "responses": [
+          {
+            "text": "带我去你的工作室。",
+            "next": "end",
+            "gives_clue": "grey_north_connection"
+          }
+        ]
+      },
+      "end": {
+        "speaker": "艾德蒙·格雷",
+        "text": "……你是食材，不是厨师。你要抓的是点菜的人。”他瘫坐在地上，声音颤抖。“老板……老板喝双份糖浆咖啡，抽极光会雪茄……",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "brennan_dialog": {
+      "start": {
+        "speaker": "布伦南船长",
+        "text": "拉姆齐-贝潘。我认得这个姓氏。你的养父曾经是这艘船上的……研究者。他在下层甲板有一间实验室。我奉命不得让任何人进入。”他喝了一口朗姆酒。”但那已经是十年前的事了。",
+        "responses": [
+          {
+            "text": "告诉我关于我养父的事。",
+            "next": "foster_father",
+            "gives_clue": ""
+          },
+          {
+            "text": "淡水箱里出了什么问题？",
+            "next": "freshwater_issue",
+            "gives_clue": ""
+          },
+          {
+            "text": "这艘船运过什么？",
+            "next": "cargo",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "foster_father": {
+        "speaker": "布伦南船长",
+        "text": "艾萨克·拉姆齐。十年前他上船的时候带了很多设备——培养器、显微镜、还有那些密封的箱子。他说他在研究'新型食品保存技术'。”他的独眼直视着你。”但那些箱子里装的不是食品。",
+        "responses": [
+          {
+            "text": "淡水箱里出了什么问题？",
+            "next": "freshwater_issue",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "freshwater_issue": {
+        "speaker": "布伦南船长",
+        "text": "船员们说夜间能听到蠕动的声音。我以为是老鼠，但老鼠不会发光。”他放下酒杯。”水位比正常低了半米。不是消耗——是某种东西在从内部吸收水分。如果你要去看，小心点。那些水……尝起来不对。",
+        "responses": [
+          {
+            "text": "这艘船运过什么？",
+            "next": "cargo",
+            "gives_clue": "dauntless_mobile_lab"
+          }
+        ]
+      },
+      "cargo": {
+        "speaker": "布伦南船长",
+        "text": "运过鲸油、矿石、补给。十年前开始运别的东西——密封的箱子，从没打开过，只要求保持低温。我不过问。一个老海员的规矩：不问货，不问客，不问目的地。”他叹了口气。”但规矩救不了那些喝了啤酒就开始'变化'的船员。",
+        "responses": [
+          {
+            "text": "谢谢，船长。",
+            "next": "end",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "end": {
+        "speaker": "布伦南船长",
+        "text": "一个建议，贝潘先生——如果你要下到底层甲板去，带把好刀。不是因为那里有什么危险的东西——而是因为有些真相，只能用刀尖挑出来。",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "grandmother_dialog": {
+      "start": {
+        "speaker": "阿纳斯塔西娅",
+        "text": "我的孩子。你终于回来了。”她的琥珀色眼睛在壁炉的琥珀色火焰中闪烁。”你知道自己是什么吗？",
+        "responses": [
+          {
+            "text": "我是乔治斯·乔尔·拉姆齐-贝潘。侦探。",
+            "next": "detective_identity",
+            "gives_clue": ""
+          },
+          {
+            "text": "我是第二十号'神赐之舌'。",
+            "next": "twentieth_identity",
+            "gives_clue": ""
+          },
+          {
+            "text": "我来寻找母亲。",
+            "next": "mother_search",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "detective_identity": {
+        "speaker": "阿纳斯塔西娅",
+        "text": "侦探。”她轻轻摇头。”你用味蕾当武器，把人命当菜谱。你以为这是天赋？不，孩子。那是一种诅咒——也是一把钥匙。你是贝潘家族第二十代'神赐之舌'的携带者。最终号。",
+        "responses": [
+          {
+            "text": "告诉我真相。",
+            "next": "full_truth",
+            "gives_clue": "beppan_lineage_truth"
+          }
+        ]
+      },
+      "twentieth_identity": {
+        "speaker": "阿纳斯塔西娅",
+        "text": "你终于知道了。”她的嘴角浮现一丝苦涩的微笑。”二十代人的舌头拼合在一起，就是通往神之领域的钥匙。你的母亲是第十九号，你是第二十号。你们两个合在一起，就是那扇门的门轴。",
+        "responses": [
+          {
+            "text": "告诉我真相。",
+            "next": "full_truth",
+            "gives_clue": "beppan_lineage_truth"
+          }
+        ]
+      },
+      "mother_search": {
+        "speaker": "阿纳斯塔西娅",
+        "text": "玛格丽特。”她念出那个名字时，壁炉中的琥珀色火焰猛地窜高了一截。”她拒绝了。她选择封印自己的舌头，将自己封存在琥珀中，沉入枯井底部。她宁愿永远沉睡，也不愿成为那扇门的门轴。”老妇人的声音微微颤抖。”她爱你——胜过她爱自己的天赋。",
+        "responses": [
+          {
+            "text": "带我去枯井。",
+            "next": "well_direction",
+            "gives_clue": "mothers_will"
+          }
+        ]
+      },
+      "full_truth": {
+        "speaker": "阿纳斯塔西娅",
+        "text": "每一代贝潘都会诞生一个'神赐之舌'的携带者。你的母亲叫玛格丽特，是第十九号。你的亲生父亲来自拉姆齐家族。他们的结合不是偶然——是被安排的。为了制造第二十号——完美的容器。但你的母亲拒绝了。她封印了自己。”她指向窗外。”枯井下面，有你需要知道的一切。",
+        "responses": [
+          {
+            "text": "带我去枯井。",
+            "next": "well_direction",
+            "gives_clue": "beppan_lineage_truth"
+          }
+        ]
+      },
+      "well_direction": {
+        "speaker": "阿纳斯塔西娅",
+        "text": "去吧。但记住——第二十号必须做出选择。你可以吞噬它，成为神之口腔的一部分；你可以拒绝它，保留人性；你也可以像你母亲一样封印它。三种选择，三种风味，三种结局。贝潘家的孩子，用你自己的舌头尝出你的答案。",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "isaac_dialog": {
+      "start": {
+        "speaker": "艾萨克·拉姆齐",
+        "text": "乔治斯……”他的声音像碎裂的钟声。琥珀色导管在他身上搏动，鲜血从管口渗出。”你来了。我……一直在等你。不是为了这个。是为了另一件事。",
+        "responses": [
+          {
+            "text": "为什么放我走？",
+            "next": "why_release",
+            "gives_clue": ""
+          },
+          {
+            "text": "你是我的父亲吗？",
+            "next": "are_you_father",
+            "gives_clue": ""
+          },
+          {
+            "text": "告诉我'最终晚餐'的真相。",
+            "next": "final_dinner_truth",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "why_release": {
+        "speaker": "艾萨克·拉姆齐",
+        "text": "我做不到。你是我的儿子。即使不是亲生的。即使你只是……一个配方中的材料。我无法把你放上餐桌。”泪水从他的眼角滑落，混着琥珀色液体。”所以我写下了那个字——'逃'。然后我消失了。但这十年……我一直在准备另一道菜。一道……救赎的菜。",
+        "responses": [
+          {
+            "text": "告诉我'最终晚餐'的真相。",
+            "next": "final_dinner_truth",
+            "gives_clue": "fathers_betrayal_and_redemption"
+          }
+        ]
+      },
+      "are_you_father": {
+        "speaker": "艾萨克·拉姆齐",
+        "text": "父亲……”他闭上眼睛。”我养育了你。教你使用餐具。教你品尝食物。教你用味蕾观察世界。但我也把你变成了一个实验品。我不是你的父亲——我是你的厨师。而菜单上的主菜……是你。",
+        "responses": [
+          {
+            "text": "告诉我'最终晚餐'的真相。",
+            "next": "final_dinner_truth",
+            "gives_clue": "fathers_betrayal_and_redemption"
+          }
+        ]
+      },
+      "final_dinner_truth": {
+        "speaker": "艾萨克·拉姆齐",
+        "text": "二十个舌头标本。当第二十号觉醒时，'最终晚餐'的仪式启动。二十条舌头拼合成'无瞳之神'的口腔——通往神之领域的钥匙。维多利亚想要这扇门打开。但你可以选择——吃掉我，获得足够的力量对抗无瞳之神的舌头；或者拒绝，用自己的方式结束这一切。第三道菜，乔治斯。你必须选择。",
+        "responses": [
+          {
+            "text": "我不会吃掉你。",
+            "next": "end_reject",
+            "gives_clue": ""
+          },
+          {
+            "text": "……让我想想。",
+            "next": "end_think",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "end_reject": {
+        "speaker": "艾萨克·拉姆齐",
+        "text": "这就对了。”他的嘴唇浮现一丝微笑——十年来第一个真正的微笑。”你从来不是食材。你是厨师。切出你自己的味道，乔治斯。",
+        "responses": [],
+        "is_terminal": true
+      },
+      "end_think": {
+        "speaker": "艾萨克·拉姆齐",
+        "text": "三样东西摆在圣坛上——无瞳之神的舌头、银质餐刀、你母亲的琥珀碎片。每一种选择都有代价。但这是你的菜单，乔治斯。贝潘家的孩子，用你自己的舌头尝出答案。",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "augustus_duke_dialog": {
+      "start": {
+        "speaker": "奥古斯都公爵",
+        "text": "贝潘先生，您果然与众不同。其他人看到艾米莉，只会说'可怜的孩子'。只有您，用了'菜'这个字。",
+        "responses": [
+          {
+            "text": "您认识我的母亲？",
+            "next": "mother_question",
+            "gives_clue": ""
+          },
+          {
+            "text": "「美食俱乐部」在做什么？",
+            "next": "club_purpose",
+            "gives_clue": ""
+          },
+          {
+            "text": "您尝过我母亲的味道？",
+            "next": "mother_taste",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "mother_question": {
+        "speaker": "奥古斯都公爵",
+        "text": "认识？不，我……品尝过她。贝潘家族的人，都有独特的味道——不是肉的味道，而是灵魂的味道。您的母亲，是我品尝过的最纯净的灵魂。像安纳托利亚的黑胡椒——辛辣、甘甜、带着金属的余韵。",
+        "responses": [
+          {
+            "text": "她在哪里？",
+            "next": "mother_location",
+            "gives_clue": "mother_alive_clue"
+          },
+          {
+            "text": "您尝过多少人的'灵魂'？",
+            "next": "souls_tasted",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "club_purpose": {
+        "speaker": "奥古斯都公爵",
+        "text": "人的味觉是有极限的。酸甜苦咸鲜。但有些食材，能让人尝到超越这五种味道的东西。通过品尝最禁忌的食材，我们试图触摸神明的领域。加入我们，贝潘先生。您的「神之舌」，不应该浪费在那些普通案件上。",
+        "responses": [
+          {
+            "text": "您说的「神」是什么？",
+            "next": "god_question",
+            "gives_clue": ""
+          },
+          {
+            "text": "我拒绝。",
+            "next": "refusal",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "mother_taste": {
+        "speaker": "奥古斯都公爵",
+        "text": "像被琥珀封存的甜。像安纳托利亚黑胡椒在舌尖上燃烧后的余烬。她选择封印自己，而不是被我们品尝。但您——您的味道比她更复杂。有拉姆齐的金属味，有贝潘的辛辣，还有……一种被封印的味道。",
+        "responses": [
+          {
+            "text": "「被封印的味道」是什么？",
+            "next": "sealed_taste",
+            "gives_clue": "mothers_will"
+          }
+        ]
+      },
+      "mother_location": {
+        "speaker": "奥古斯都公爵",
+        "text": "在东方。安纳托利亚。贝潘家族的古宅。她一直在等您。她选择封印自己的舌头，将自己沉入枯井。但她的意识还在——在琥珀里，在梦里。",
+        "responses": [
+          {
+            "text": "我会去找她。",
+            "next": "end",
+            "gives_clue": "mother_anatolia_location"
+          }
+        ]
+      },
+      "souls_tasted": {
+        "speaker": "奥古斯都公爵",
+        "text": "够多了。多到我已经分不清，哪些味道是我自己的，哪些是别人的。也许这就是「品尝」的代价——你尝过的一切，最终都会变成你的一部分。",
+        "responses": [
+          {
+            "text": "我明白。",
+            "next": "end",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "god_question": {
+        "speaker": "奥古斯都公爵",
+        "text": "您很快就会知道的。但有一件事我可以告诉您——您的母亲还活着。在安纳托利亚。她一直在等您。",
+        "responses": [
+          {
+            "text": "……谢谢。",
+            "next": "end",
+            "gives_clue": "mother_alive_clue"
+          }
+        ]
+      },
+      "sealed_taste": {
+        "speaker": "奥古斯都公爵",
+        "text": "那是您自己都未曾触碰的味道。第二十号。贝潘家族的最终号。当它觉醒时，您将品尝到这个世界上不存在于任何食谱上的味道——选择的滋味。",
+        "responses": [
+          {
+            "text": "我期待那一天。",
+            "next": "end",
+            "gives_clue": "twentieth_awakening"
+          }
+        ]
+      },
+      "refusal": {
+        "speaker": "奥古斯都公爵",
+        "text": "您会改变主意的。当您尝遍了所有的苦、所有的毒、所有的疯狂，您会发现——只有神明的味道才能让您解脱。在那之前，请享受今晚的晚宴。",
+        "responses": [
+          {
+            "text": "（转身离去）",
+            "next": "end",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "end": {
+        "speaker": "奥古斯都公爵",
+        "text": "不管您选择什么——品尝，或者拒绝——您的味道已经留在这座庄园里了。就像您的母亲一样。",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "clockmaker_dialog": {
+      "start": {
+        "speaker": "钟表匠",
+        "text": "你听到了吗？上帝在说话！他在说——'吃掉更多！吃掉更多！'",
+        "responses": [
+          {
+            "text": "你耳朵里的齿轮和组装体的一样。",
+            "next": "gear_connection",
+            "gives_clue": ""
+          },
+          {
+            "text": "你认识拉姆齐先生吗？",
+            "next": "ramsay_connection",
+            "gives_clue": ""
+          },
+          {
+            "text": "上帝到底在说什么？",
+            "next": "god_voice",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "gear_connection": {
+        "speaker": "钟表匠",
+        "text": "一样？不——比那更古老。组装体的齿轮是我的学徒做的。32齿，模数1.5。那是'完美'的齿轮。上帝的齿轮。每一颗齿都是一次祈祷，每一次咬合都是一次阿门。",
+        "responses": [
+          {
+            "text": "你的学徒是谁？",
+            "next": "apprentice_identity",
+            "gives_clue": "clockmaker_apprentice"
+          }
+        ]
+      },
+      "ramsay_connection": {
+        "speaker": "钟表匠",
+        "text": "拉姆齐来过这里。十年前。他买了十二只钟——每一只都有不同的时间。他说，'时间不是线性的，味道也不是。'然后他给了我一只怀表——后盖透明，齿轮在逆时针转动。他在倒计时。",
+        "responses": [
+          {
+            "text": "（接过怀表）",
+            "next": "end",
+            "gives_clue": "fathers_countdown"
+          }
+        ]
+      },
+      "god_voice": {
+        "speaker": "钟表匠",
+        "text": "他在说——'第二十号快到了。二十条舌头拼成一张嘴。那张嘴就是我。'但你的舌尖上有他的味道。你是贝潘家的人。你是第二十号。拿着这只怀表，它会带你找到他。",
+        "responses": [
+          {
+            "text": "（接过怀表）",
+            "next": "end",
+            "gives_clue": "clockmaker_prophecy"
+          }
+        ]
+      },
+      "apprentice_identity": {
+        "speaker": "钟表匠",
+        "text": "他叫……艾德蒙。艾德蒙·格雷。他学了我三年，然后去了北境。说是在破冰船上找到了更'完美'的齿轮。他说——人体的骨骼比铸铁更柔软，更容易切割。",
+        "responses": [
+          {
+            "text": "谢谢你。",
+            "next": "end",
+            "gives_clue": "grey_apprentice_truth"
+          }
+        ]
+      },
+      "end": {
+        "speaker": "钟表匠",
+        "text": "第二十号！你来了！钟声终于要停了！终于——终于——可以安静了！",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "victoria_dialog": {
+      "start": {
+        "speaker": "维多利亚·奥古斯都",
+        "text": "第二十号。你终于来了。最终晚餐的餐桌已经摆好。你的养父已经为你准备好了最后一道菜——他自己。",
+        "responses": [
+          {
+            "text": "你在利用养父。",
+            "next": "using_isaac",
+            "gives_clue": ""
+          },
+          {
+            "text": "「最终晚餐」到底是什么？",
+            "next": "final_dinner_explanation",
+            "gives_clue": ""
+          },
+          {
+            "text": "我不会让你们得逞。",
+            "next": "defiance",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "using_isaac": {
+        "speaker": "维多利亚·奥古斯都",
+        "text": "利用？我们给了他超越凡人的机会。他拒绝了。他选择放走你，而不是完成实验。多么人性的选择。但人性是一种口味，不是一种力量。而我们——选择力量。",
+        "responses": [
+          {
+            "text": "你们只是在吃人。",
+            "next": "power_vs_gluttony",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "final_dinner_explanation": {
+        "speaker": "维多利亚·奥古斯都",
+        "text": "二十个舌头标本。当第二十号觉醒时，二十条舌头拼合成'无瞳之神'的口腔——通往神之领域的钥匙。你的养父收集了十九条。你是第二十条。这不是谋杀——这是进化。这是成神。",
+        "responses": [
+          {
+            "text": "我不会成为你们的'菜'。",
+            "next": "defiance",
+            "gives_clue": "victoria_final_plan"
+          }
+        ]
+      },
+      "defiance": {
+        "speaker": "维多利亚·奥古斯都",
+        "text": "你以为你赢了？白蔷薇只是一个厨房。美食俱乐部只是试菜会。而这里——（她按下按钮，穹顶裂开）——这里是餐厅。而你是主菜。",
+        "responses": [
+          {
+            "text": "（面对无瞳之神的投影）",
+            "next": "end",
+            "gives_clue": "victoria_final_plan"
+          }
+        ]
+      },
+      "power_vs_gluttony": {
+        "speaker": "维多利亚·奥古斯都",
+        "text": "吃人？多么原始的描述。我们是在'品味'——品味灵魂的深度。你以为你每次用那根舌头舔舐尸体的时候，你在做什么？和我们——一模一样。",
+        "responses": [
+          {
+            "text": "不一样。我品尝是为了真相。",
+            "next": "defiance",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "end": {
+        "speaker": "维多利亚·奥古斯都",
+        "text": "第三道菜，贝潘先生。吞噬无瞳之神的舌头——成为神之口腔的一部分。或者拒绝它——让二十代的牺牲化为虚无。或者——用你母亲的琥珀封印它。代价是神赐之舌将永远沉默。三个选择。三种风味。选吧。",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "tailor_dialog": {
+      "start": {
+        "speaker": "裁缝",
+        "text": "贝潘先生……您还要改什么？",
+        "responses": [
+          {
+            "text": "你知道齿轮与玫瑰这个图案。",
+            "next": "pattern_knowledge",
+            "gives_clue": ""
+          },
+          {
+            "text": "拉姆齐先生是什么样的顾客？",
+            "next": "ramsay_customer",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "pattern_knowledge": {
+        "speaker": "裁缝",
+        "text": "我……我只是个裁缝。他说这是「美食俱乐部」的标志。他让我绣在西装领口上，刻在袖扣上，印在请柬上。",
+        "responses": [
+          {
+            "text": "「美食俱乐部」——你知道它是什么。",
+            "next": "club_truth",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "ramsay_customer": {
+        "speaker": "裁缝",
+        "text": "他是老顾客。很讲究的人。但我在走廊里经过厨房的时候，闻到了……肉的味道。不是牛肉，不是猪肉。是一种我从未闻过的甜味。让我想吐，又想再闻一次。",
+        "responses": [
+          {
+            "text": "禁忌的味道。你妻子怎么死的？",
+            "next": "wife_death",
+            "gives_clue": "tailor_wife_murder"
+          }
+        ]
+      },
+      "club_truth": {
+        "speaker": "裁缝",
+        "text": "有人说他们吃人不正常。有人说他们吃的东西来自别的世界。有人说他们能在吃的东西里看到别人看不到的东西。",
+        "responses": [
+          {
+            "text": "你妻子怎么死的？",
+            "next": "wife_death",
+            "gives_clue": "tailor_wife_murder"
+          }
+        ]
+      },
+      "wife_death": {
+        "speaker": "裁缝",
+        "text": "肺痨……医生说……\n\n「她不是病死的。她死于磷化氢中毒。和那个被美食俱乐部处理过的人一样的症状。」",
+        "responses": [
+          {
+            "text": "（留下名片离开）",
+            "next": "end",
+            "gives_clue": "tailor_wife_murder"
+          }
+        ]
+      },
+      "end": {
+        "speaker": "裁缝",
+        "text": "先生……您不怕吗？他们会吃了您。\n\n「我是一个美食家。我只怕一样东西——难吃的菜。」",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "noodle_grandma_dialog": {
+      "start": {
+        "speaker": "面婆婆",
+        "text": "吃吧。",
+        "responses": [
+          {
+            "text": "您的面没有味道。",
+            "next": "no_flavor",
+            "gives_clue": ""
+          },
+          {
+            "text": "您在这里卖了多久了？",
+            "next": "thirty_years",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "no_flavor": {
+        "speaker": "面婆婆",
+        "text": "我知道。三十年前，我的儿子被「美食俱乐部」的人抓走了。我只是一直煮面，等他回来。等了三十年。我的面没有味道——是因为我把自己哭没了。眼泪流进了锅里，稀释了汤，冲淡了盐。",
+        "responses": [
+          {
+            "text": "我能尝到您的眼泪。咸的，涩的，带着安纳托利亚黑胡椒的辛辣。",
+            "next": "spice_offer",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "thirty_years": {
+        "speaker": "面婆婆",
+        "text": "三十年。从黑发到白发。哈格里夫斯说你是美食侦探。说你的舌头能尝到别人尝不到的。他说——你尝不到幸福的味道。",
+        "responses": [
+          {
+            "text": "我也尝不到。",
+            "next": "spice_offer",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "spice_offer": {
+        "speaker": "面婆婆",
+        "text": "你——你能尝到我的眼泪？\n\n你掏出小玻璃瓶，倒了几粒安纳托利亚黑胡椒在她手心里。\n\n「煮面的时候加一粒。不是为了让面好吃——是为了让你记得，你还有眼泪可以流。」\n\n面婆婆将一粒送入嘴中。「辛辣，甘甜，金属。」她的眼泪又流了下来，但嘴角是上扬的。\n\n「你母亲的味道？」\n\n「对。家的味道。」",
+        "responses": [
+          {
+            "text": "我会再来的。",
+            "next": "end",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "end": {
+        "speaker": "面婆婆",
+        "text": "（她将黑胡椒粒撒进沸水，安纳托利亚黑胡椒的香气在雾气中扩散，像一朵正在盛开的花。）\n\n「乔治斯——你找到回家的路了吗？」\n\n「一直在找。但我有味道。安纳托利亚黑胡椒。母亲的。它会带我回家。」",
+        "responses": [],
+        "is_terminal": true
+      }
+    },
+    "olaf_dialog": {
+      "start": {
+        "speaker": "奥拉夫·埃里克森",
+        "text": "啤酒被污染了……不是故意的……是水箱。那些蠕虫的分泌物混进了啤酒。喝了的人看到不该看到的东西。然后他们就开始变了。",
+        "responses": [
+          {
+            "text": "这不是污染。这是配方。",
+            "next": "formula_reveal",
+            "gives_clue": ""
+          },
+          {
+            "text": "你喝了那些啤酒吗？",
+            "next": "personal_effect",
+            "gives_clue": ""
+          }
+        ]
+      },
+      "formula_reveal": {
+        "speaker": "奥拉夫·埃里克森",
+        "text": "配方……你是说有人故意……？那个拉姆齐先生……他让我酿造一种'特别的酒'。说是一种古老的配方。我以为是普通药材。我不知道那是从人身上……",
+        "responses": [
+          {
+            "text": "「灵性萃取酒」。用酒精提取泪滴活性成分。你的啤酒不是被污染——是被设计。",
+            "next": "end",
+            "gives_clue": "spiritual_extraction"
+          }
+        ]
+      },
+      "personal_effect": {
+        "speaker": "奥拉夫·埃里克森",
+        "text": "我必须试味。每次酿完新酒先喝一口。那些东西在我身体里——肝脏、血管。有时候我在黑暗中看到东西。嘴巴里长出了……不应该在那里的味蕾。",
+        "responses": [
+          {
+            "text": "你被「腌制」了。蠕虫的消化酶可以分解泪滴。我找到了解毒的可能。",
+            "next": "end",
+            "gives_clue": "worm_enzyme_antidote"
+          }
+        ]
+      },
+      "end": {
+        "speaker": "奥拉夫·埃里克森",
+        "text": "贝潘先生。如果你能找到解药……如果你能让这些味蕾闭上嘴……我愿意做任何事。三十年酿酒，我从来没想过——有一天酒会反过来喝我。",
+        "responses": [],
+        "is_terminal": true
+      }
+    }
+  }
+}

@@ -1,0 +1,3263 @@
+{
+  "dialogs": {
+    "dialog_old_keeper": {
+      "id": "dialog_old_keeper",
+      "name": "老看守者",
+      "start_node_id": "start",
+      "npc": {
+        "id": "old_keeper",
+        "name": "老看守者",
+        "title": "深渊守护人",
+        "description": "一个枯瘦的身影裹在破旧的长袍中，照料着一团无需燃料的火焰。",
+        "dialog_id": "dialog_old_keeper",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_keeper"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "老看守者",
+          "text": "啊，又一个被深渊吸引来的灵魂。坐到火边吧，战士。这也许是你能感受到的最后温暖。",
+          "choices": [
+            {
+              "text": "你是谁？",
+              "next_node_id": "who_are_you",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "前方有什么？",
+              "next_node_id": "what_ahead",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我没时间闲聊。给我你所能给的。",
+              "next_node_id": "give_supplies",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_keeper"
+            }
+          ]
+        },
+        "who_are_you": {
+          "id": "who_are_you",
+          "speaker": "老看守者",
+          "text": "我是看守者——我曾经和你一样，走过这些大厅向下而行。但深渊改变了每一个人。现在我守着这团火，为经过的人提供我仅有的智慧。",
+          "choices": [
+            {
+              "text": "你经历了什么？",
+              "next_node_id": "what_happened",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "谢谢你。我继续前行了。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "what_ahead": {
+          "id": "what_ahead",
+          "speaker": "老看守者",
+          "text": "霸主统治着上层大厅。他的打手巡逻着每条走廊。在他之后……是裂隙——现实本身破碎的领域。但首先，你必须从霸主手中活下来。",
+          "choices": [
+            {
+              "text": "如何击败霸主？",
+              "next_node_id": "defeat_kingpin",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我会找到自己的路。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "give_supplies": {
+          "id": "give_supplies",
+          "speaker": "老看守者",
+          "text": "好吧。拿着这些——我虽不多，但你比我更需要。",
+          "choices": [
+            {
+              "text": "谢谢你，看守者。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "heal",
+                  "amount": 10
+                },
+                {
+                  "type": "gold",
+                  "amount": 15
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "what_happened": {
+          "id": "what_happened",
+          "speaker": "老看守者",
+          "text": "我和你一样，一路打到下面。闯过了霸主。但裂隙……它会摧毁你的心智。我选择留在这里。有时候，活下去意味着知道何时该停下来。",
+          "choices": [
+            {
+              "text": "我理解。给你这些金币，感谢你的善意。",
+              "next_node_id": "farewell_kind",
+              "effects": [
+                {
+                  "type": "add_clue",
+                  "clue_id": "clue_keeper_wisdom"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "keeper_wisdom"
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "我不会停下来的。我要闯过裂隙。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "defeat_kingpin": {
+          "id": "defeat_kingpin",
+          "speaker": "老看守者",
+          "text": "霸主依靠蛮力和护卫。消耗他——别让他强化自己。当他蓄力准备重击时，保护自己。我给你一样东西，或许能帮上忙。",
+          "choices": [
+            {
+              "text": "我会记住的。谢谢你。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "tiger_stance"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "keeper_advice"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "老看守者",
+          "text": "愿火焰温暖你的前路，战士。在黑暗中务必小心。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "farewell_kind": {
+          "id": "farewell_kind",
+          "speaker": "老看守者",
+          "text": "你的善意令我意外。拿着这把旧钥匙——它或许能打开霸主锁住的东西。愿好运与你同在。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      }
+    },
+    "dialog_ghostly_whisper": {
+      "id": "dialog_ghostly_whisper",
+      "name": "幽魂低语",
+      "start_node_id": "start",
+      "npc": {
+        "id": "ghost_whisper",
+        "name": "低语者",
+        "title": "不安之魂",
+        "description": "一个半透明的身影，其轮廓如烟雾般在幽光中摇曳不定。",
+        "dialog_id": "dialog_ghostly_whisper",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_whisper"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "低语者",
+          "text": "……帮……我……我知道……秘密……",
+          "choices": [
+            {
+              "text": "你知道什么秘密？",
+              "next_node_id": "secrets",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我不信鬼魂。退后。",
+              "next_node_id": "distrust",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我该怎么帮你？",
+              "next_node_id": "help_ghost",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_whisper"
+            }
+          ]
+        },
+        "secrets": {
+          "id": "secrets",
+          "speaker": "低语者",
+          "text": "暗影……比看起来更脆弱。火能烧灼它们。光能揭示它们。我可以教你……但你必须将我的讯息带往更深处。",
+          "choices": [
+            {
+              "text": "教我吧。我会带走你的讯息。",
+              "next_node_id": "teach",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "spirit_drain"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "whisper_message"
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "不与鬼魂做交易。",
+              "next_node_id": "distrust",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "help_ghost": {
+          "id": "help_ghost",
+          "speaker": "低语者",
+          "text": "我的名字……我已经忘了。如果你在更深处找到我的墓碑，念出我的真名——'廉薇'——我就能安息。做到这件事，我把我剩下的力量都给你。",
+          "choices": [
+            {
+              "text": "我会找到你的墓碑。我保证。",
+              "next_node_id": "promise",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "promised_lian_wei"
+                },
+                {
+                  "type": "heal",
+                  "amount": 5
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "我尽力，但我不能保证。",
+              "next_node_id": "no_promise",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "teach": {
+          "id": "teach",
+          "speaker": "低语者",
+          "text": "拿着这些知识……将我的低语带入深渊。告诉他们，廉薇还记得。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "promise": {
+          "id": "promise",
+          "speaker": "低语者",
+          "text": "你的承诺是黑暗中的一缕光芒……拿走我剩余的力量吧。你会需要的。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "heal",
+              "amount": 5
+            }
+          ]
+        },
+        "no_promise": {
+          "id": "no_promise",
+          "speaker": "低语者",
+          "text": "诚实……我很感激。至少记住这个名字——廉薇。也许会有其他人在意。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "distrust": {
+          "id": "distrust",
+          "speaker": "低语者",
+          "text": "……明智……或许吧……但黑暗也不信任任何人……",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      }
+    },
+    "dialog_rebel": {
+      "id": "dialog_rebel",
+      "name": "叛逆者",
+      "start_node_id": "start",
+      "npc": {
+        "id": "rebel",
+        "name": "叛逆者",
+        "title": "裂隙战士",
+        "description": "一个从裂隙中幸存下来、如今奋起反击的伤疤战士。",
+        "dialog_id": "dialog_rebel",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_rebel"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "叛逆者",
+          "text": "又一个战士？好。我们在这下面可不常见到同伴。我叫赵——我在裂隙里战斗了不知多久了。",
+          "choices": [
+            {
+              "text": "裂隙是什么？",
+              "next_node_id": "explain_fracture",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你能帮我战斗吗？",
+              "next_node_id": "help_fight",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我独来独往。不过还是谢谢你的情报。",
+              "next_node_id": "alone",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_rebel"
+            }
+          ]
+        },
+        "explain_fracture": {
+          "id": "explain_fracture",
+          "speaker": "叛逆者",
+          "text": "裂隙是现实破碎的地方。堕落幻象——某种神灵或恶魔——粉碎了这里。现在一切都不按常理运作。时间循环。空间折叠。你杀死的敌人会以不同的形态归来。",
+          "choices": [
+            {
+              "text": "我们怎么阻止它？",
+              "next_node_id": "stop_vision",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "听起来正是我喜欢的挑战。",
+              "next_node_id": "help_fight",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "help_fight": {
+          "id": "help_fight",
+          "speaker": "叛逆者",
+          "text": "我没法和你并肩作战——我有自己的仗要打。但我可以分享我学到的东西。来——一个让我活到现在的招式。",
+          "choices": [
+            {
+              "text": "我会好好使用的。",
+              "next_node_id": "share_technique",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "shadow_palm"
+                },
+                {
+                  "type": "gold",
+                  "amount": 20
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "stop_vision": {
+          "id": "stop_vision",
+          "speaker": "叛逆者",
+          "text": "堕落幻象以破碎的现实为食。你不能光靠蛮力杀死它——你必须抵抗它的削弱效果，保持你的专注。我给你一些东西来帮助你。",
+          "choices": [
+            {
+              "text": "谢谢你，赵。",
+              "next_node_id": "share_technique",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "phantom_step"
+                },
+                {
+                  "type": "add_clue",
+                  "clue_id": "clue_rebel_knowledge"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "alone": {
+          "id": "alone",
+          "speaker": "叛逆者",
+          "text": "随你。不过如果你改主意了，我就在附近。至少拿着这个——没有战士该空手面对裂隙。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "gold",
+              "amount": 15
+            },
+            {
+              "type": "heal",
+              "amount": 8
+            }
+          ]
+        },
+        "share_technique": {
+          "id": "share_technique",
+          "speaker": "叛逆者",
+          "text": "在外面小心点。如果你能从裂隙中活下来……也许我们能在另一边再见。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      }
+    },
+    "dialog_liu_jingxuan": {
+      "id": "dialog_liu_jingxuan",
+      "name": "刘敬宣",
+      "start_node_id": "start",
+      "npc": {
+        "id": "liu_jingxuan",
+        "name": "刘敬宣",
+        "title": "“肉身无界”",
+        "description": "一个精瘦的身影站在铁桩上，二指倒立。汗水从指尖滴落，蒸发作响。他的右臂上有一道时隐时现的暗红色纹路。",
+        "dialog_id": "dialog_liu_jingxuan",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_liu"
+        ],
+        "_comment": "---- 小说扩充 ----"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "刘敬宣",
+          "text": "铁桩上还有余温。你是来站桩的，还是来找人的？",
+          "choices": [
+            {
+              "text": "你为什么在铁桩上站了二十三年？",
+              "next_node_id": "why_stand",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你的右臂上那道纹路是什么？",
+              "next_node_id": "dark_vein",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "教我你的功夫。",
+              "next_node_id": "teach_martial",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_liu"
+            }
+          ]
+        },
+        "why_stand": {
+          "id": "why_stand",
+          "speaker": "刘敬宣",
+          "text": "不是站着。是磨。二十三年前第一次倒上去的时候，铁桩是凉的。现在它烫得能灼伤皮肤。每磨一寸，就往骨头里多刻一分。疼痛可以延迟，但不会被遗忘。",
+          "choices": [
+            {
+              "text": "你怕过吗？",
+              "next_node_id": "fear",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我理解。继续了。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "dark_vein": {
+          "id": "dark_vein",
+          "speaker": "刘敬宣",
+          "text": "地狱之心的残印。它在哈德逊河底被封印的时候，我的二指禅刺入了断层的核心。那一指把一部分诅咒带进了自己的骨脉。它不是我的一部分，但它会在我最需要的时候醒来。就像那根铁桩——不是武器，只是余烬。",
+          "choices": [
+            {
+              "text": "它会吞噬你吗？",
+              "next_node_id": "devour",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "听起来很危险。谢谢你告诉我。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "teach_martial": {
+          "id": "teach_martial",
+          "speaker": "刘敬宣",
+          "text": "我不教人争胜。我只教人把疼痛放对地方。来——先站上去。站不稳，什么招都是空的。",
+          "choices": [
+            {
+              "text": "我试试。",
+              "next_node_id": "try_stand",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "two_finger_zen"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "learned_from_liu"
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "也许下次。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "fear": {
+          "id": "fear",
+          "speaker": "刘敬宣",
+          "text": "我不是神。我是灰烬。灰烬不怕雷。但我怕——怕的不是雷。是那些站在我身后的人，哪天不再站了。所以那四个字才写在那面墙上：肉身无界。不是说自己无敌。是说只要这副身子还在，界限就在我手上。",
+          "choices": [
+            {
+              "text": "吾与汝等——共赴。",
+              "next_node_id": "together",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "together_we_go"
+                },
+                {
+                  "type": "heal",
+                  "amount": 15
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "liu_bond"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "devour": {
+          "id": "devour",
+          "speaker": "刘敬宣",
+          "text": "它试过。每一次它往外爬，我就把它往回压。用灵雪，用二指禅，用二十三年在铁桩上磨出来的呼吸。疼痛是真的，但我对着不该笑的人从不笑。这东西也一样——你可以让它痛，但别让它替你做决定。",
+          "choices": [
+            {
+              "text": "我记住了。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "wu_mourning"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "try_stand": {
+          "id": "try_stand",
+          "speaker": "刘敬宣",
+          "text": "站不稳没关系。摔下来也没关系。铁桩不会嘲笑你——它只会记住你来过。每一滴落在上面的汗，都是下一次站上去的理由。去吧。门开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "together": {
+          "id": "together",
+          "speaker": "刘敬宣",
+          "text": "……你居然知道这句话。那你也不只是路过。拿着这个——不是为了争胜。是为了在站不稳的时候，再撑一息。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "刘敬宣",
+          "text": "铁桩不会跑。门开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 ----"
+    },
+    "dialog_peter_parker": {
+      "id": "dialog_peter_parker",
+      "name": "彼得·帕克",
+      "start_node_id": "start",
+      "npc": {
+        "id": "peter_parker",
+        "name": "彼得·帕克",
+        "title": "蜘蛛侠",
+        "description": "一个蹲在倒吊沙袋下面系鞋带的年轻人，面罩搁在膝盖上。眼眶下有深深的阴影，但系鞋带的手从未停过。",
+        "dialog_id": "dialog_peter_parker",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_peter"
+        ],
+        "_comment": "---- 小说扩充 ----"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "彼得·帕克",
+          "text": "哦，嗨。你也是来这间健身馆的？铁门永远开着——至少现在还是。你找我有什么事？还是只是路过？",
+          "choices": [
+            {
+              "text": "你为什么一直系鞋带？",
+              "next_node_id": "shoelace",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你能帮我吗？",
+              "next_node_id": "help",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我听说你曾是复仇者。",
+              "next_node_id": "avenger",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_peter"
+            }
+          ]
+        },
+        "shoelace": {
+          "id": "shoelace",
+          "speaker": "彼得·帕克",
+          "text": "系鞋带是我做过的最稳的事。没有奇怪的花式，就是特别紧。你永远不知道下一次跳下去的时候鞋带会不会松——所以每次都要系成最紧的那种结。不是强迫症，是习惯。在从楼顶到楼顶之间，鞋带是你唯一能控制的东西。",
+          "choices": [
+            {
+              "text": "听起来很孤独。",
+              "next_node_id": "lonely",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我明白了。谢谢。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "help": {
+          "id": "help",
+          "speaker": "彼得·帕克",
+          "text": "帮忙？我……我最近确实有点忙不过来。不过如果你需要蛛丝把什么东西固定住，或者需要有人在屋顶上帮你看看路——我可以用。我不是最厉害的，但我在试着。一直在试。",
+          "choices": [
+            {
+              "text": "够了。一起走吧。",
+              "next_node_id": "go_together",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "spirit_snow"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "peter_ally"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "avenger": {
+          "id": "avenger",
+          "speaker": "彼得·帕克",
+          "text": "曾经是。现在……现在我就是住在这间健身馆里的人。做过一次选择——在全世界都忘记我的时候，我决定不再扔掉那件战衣。我不会再做一次相反的选择。托尼说过，这是信仰之跃。我没想过自己会在跳了这么多次之后还在空中。但鞋带没松，所以继续。",
+          "choices": [
+            {
+              "text": "信仰之跃……",
+              "next_node_id": "leap_of_faith",
+              "effects": [
+                {
+                  "type": "add_clue",
+                  "clue_id": "clue_keeper_wisdom"
+                },
+                {
+                  "type": "heal",
+                  "amount": 5
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "lonely": {
+          "id": "lonely",
+          "speaker": "彼得·帕克",
+          "text": "不是孤独。是……重量。你扛过一整层混凝土梁吗？不是手臂上的那种重——是胸口里面。每次有人站在你身后说“再来一次”的时候，那重量就会轻一点。这间健身馆里的人，他们让我轻了一点。",
+          "choices": [
+            {
+              "text": "我也想站在你身后。",
+              "next_node_id": "go_together",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "peter_bond"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "leap_of_faith": {
+          "id": "leap_of_faith",
+          "speaker": "彼得·帕克",
+          "text": "你听过托尼最后的那段录音吗？“如果你听到这段话——说明你还没有退出。”他把它留在了每一行代码背面。不是为了英雄，是为了每一个按下New Game的人。走吧。门还开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "go_together": {
+          "id": "go_together",
+          "speaker": "彼得·帕克",
+          "text": "好。我把鞋带系紧。你走前面——我在后面看着。蜘蛛感应告诉我你没问题。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "彼得·帕克",
+          "text": "回头见。记住——鞋带系紧，别用花式。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 ----"
+    },
+    "dialog_sam_wilson": {
+      "id": "dialog_sam_wilson",
+      "name": "山姆·威尔逊",
+      "start_node_id": "start",
+      "npc": {
+        "id": "sam_wilson",
+        "name": "山姆·威尔逊",
+        "title": "美国队长",
+        "description": "振金盾牌靠在倒立桩边缘，盾面上层层叠叠的旧伤映着钨丝灯的光。他没有穿制服，但站姿是军人的。",
+        "dialog_id": "dialog_sam_wilson",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_sam"
+        ],
+        "_comment": "---- 小说扩充 ----"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "山姆·威尔逊",
+          "text": "你站对了地方。无界健身馆的铁门从来不关——不管外面发生了什么。你找我有事？",
+          "choices": [
+            {
+              "text": "那面盾牌的故事是什么？",
+              "next_node_id": "shield",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "注册法案……你后悔吗？",
+              "next_node_id": "registration",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我需要方向。",
+              "next_node_id": "direction",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_sam"
+            }
+          ]
+        },
+        "shield": {
+          "id": "shield",
+          "speaker": "山姆·威尔逊",
+          "text": "这面盾牌不是我造的。史蒂夫把它交给我的时候说过——它的重量不是振金的，是人心的。你每一次举盾，都会有人在上面钉一根线，这面盾就会被拉得更远一寸。我现在终于明白了。那些划痕不是我打的——是每一根线留下的印。",
+          "choices": [
+            {
+              "text": "你不怕被那些线拉垮吗？",
+              "next_node_id": "pull",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "谢谢你告诉我。",
+              "next_node_id": "farewell",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "registration": {
+          "id": "registration",
+          "speaker": "山姆·威尔逊",
+          "text": "后悔？我投降——不是向法案投降。是向人民投降。让他们知道我们也是会停下来的。也是会在他们的窗前停下拳头的。法律可以被修改，但街上这些人现在不能被炸成碎片。我做的选择不是为了自己——是为了让那些害怕我们的人看到，我们也是一群在同一个错误里挣扎过的人。",
+          "choices": [
+            {
+              "text": "那接下来呢？",
+              "next_node_id": "next_step",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "direction": {
+          "id": "direction",
+          "speaker": "山姆·威尔逊",
+          "text": "方向？我不给你方向。我给你一扇门——它一直开着。你自己走进来，那就是你选的路。但不管你走哪条，记住一件事：你不是一个人。在这间健身馆里，从来没有人是独自站着的。",
+          "choices": [
+            {
+              "text": "复仇者集结？",
+              "next_node_id": "assemble",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "seal_bear"
+                },
+                {
+                  "type": "heal",
+                  "amount": 10
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "sam_ally"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "pull": {
+          "id": "pull",
+          "speaker": "山姆·威尔逊",
+          "text": "被拉垮？也许。但只要还有人需要这面盾——我就不会松手。从厄斯金博士把血清交给史蒂夫那天起，这面盾就在被人拉。拉了一百年了。还在。",
+          "choices": [
+            {
+              "text": "我帮你拉一根。",
+              "next_node_id": "assemble",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "shield_bearer"
+                },
+                {
+                  "type": "gold",
+                  "amount": 20
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "next_step": {
+          "id": "next_step",
+          "speaker": "山姆·威尔逊",
+          "text": "接下来？我们把法律一个字一个字地改回去。一部法律完全消失的办法只有一条：用另一部法律去覆盖它。这个过程需要时间。需要我们这些人把西装穿对，把每一句辩护词写成刀。走吧。法庭见。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "add_clue",
+              "clue_id": "clue_rebel_knowledge"
+            }
+          ]
+        },
+        "assemble": {
+          "id": "assemble",
+          "speaker": "山姆·威尔逊",
+          "text": "复仇者集结——不是命令，是回应。走吧。门开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "山姆·威尔逊",
+          "text": "记住——在疫苗分发之后，还有人在等我们。门开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 ----"
+    },
+    "dialog_deadpool": {
+      "id": "dialog_deadpool",
+      "name": "死侍",
+      "start_node_id": "start",
+      "npc": {
+        "id": "deadpool",
+        "name": "韦德·威尔逊",
+        "title": "死侍",
+        "description": "一个穿红黑紧身衣的身影站在门口，一手拿着吃到一半的墨西哥卷饼，另一手托着一个保鲜膜缠了三层的塑料盒。面罩上的白色目镜泛着愚蠢与危险之间的光泽。",
+        "dialog_id": "dialog_deadpool",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_deadpool"
+        ],
+        "_comment": "---- 小说扩充 ----"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "死侍",
+          "text": "——哦嗨！你是新来的？太好了我正缺一个听我说话的人——上一个人听到第三十七分钟就跑了不过我理解毕竟我说得确实有点多——你想听故事吗？还是只想让我闭嘴？提示：第二个选项的成功率是零。",
+          "choices": [
+            {
+              "text": "你说吧。我听着。",
+              "next_node_id": "story",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "谁是你提到的那个哨兵？",
+              "next_node_id": "sentry",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "给我点有用的东西就行。",
+              "next_node_id": "useful",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_deadpool"
+            }
+          ]
+        },
+        "story": {
+          "id": "story",
+          "speaker": "死侍",
+          "text": "故事？好——我认识一个人。一个瘾君子。他不知道自己注射了什么，只知道注射之后他能飞。一个早上还在巷子里找注射器的街头瘾君子，晚上就能在大气层外徒手捏爆一颗冲地球飞来的小行星。但没人相信他做过。不是不相信他有超能力——是不相信那颗小行星曾经存在过。这就是他的故事。他这辈子一直在做别人记不住的事。",
+          "choices": [
+            {
+              "text": "后来呢？",
+              "next_node_id": "sentry",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "听起来很悲伤。",
+              "next_node_id": "sad",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "sentry": {
+          "id": "sentry",
+          "speaker": "死侍",
+          "text": "哨兵。罗伯特·雷诺兹。他体内有一个宇宙级别的黑暗人格——虚无。他越觉得自己是在守护，黑暗面就长得越快。我试过鼓励他——只说了一句“你这次干得不错”，他第二天就把航母残骸从索马里海沟里捞了出来，然后虚无人格直接接管了他三天。我花了三天才把他的意识从那片黑暗里捞回来。靠的是话。不停地说话。",
+          "choices": [
+            {
+              "text": "你为什么要不停说话？",
+              "next_node_id": "keep_talking",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "dark_vein_resonance"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "knows_sentry"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "keep_talking": {
+          "id": "keep_talking",
+          "speaker": "死侍",
+          "text": "因为只要我停下来，我就会听见我脑子里那些不应该存在的东西。罗伯特也是这样。但他不是对我说。他是对一个不存在的人在说话——那个唯一相信过他一次的人。他这些年一直在重复：“我还在这里。你别忘了我。”……好了不说了，说多了你也会忘记的。拿着这个，走吧。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "sad": {
+          "id": "sad",
+          "speaker": "死侍",
+          "text": "悲伤？不不不——这不算悲伤。悲伤是……是另一次的事。好吧也许是。也许我只是不想停下来。因为停下来就会想起那些被删除的人。你听说过一个叫刘敬宣的人吗？他在所有漫画里都被擦掉了。但铁桩还在。铁桩不撒谎。",
+          "choices": [
+            {
+              "text": "铁桩？",
+              "next_node_id": "iron_post",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "iron_post": {
+          "id": "iron_post",
+          "speaker": "死侍",
+          "text": "那根铁桩上站过一个人。站了二十三年。他的执念太深了——深到湮灭叙事体无法把他读成任何可被消化、消解或编入反叙事体系的故事。他不是英雄。他甚至不是捍卫者。但他是任何叙事都无法归类的第一推动锚。……好了我说得够多了。拿着这个赶紧走，我眼眶有点酸。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "heal",
+              "amount": 8
+            },
+            {
+              "type": "gold",
+              "amount": 25
+            }
+          ]
+        },
+        "useful": {
+          "id": "useful",
+          "speaker": "死侍",
+          "text": "有用的东西？行。我给你一个忠告：如果你看到一面写着“肉身无界”的墙，别把它当成口号。那是一个人用二十三年的时间把自己的骨头磨成答案的证据。好了拿着这个快走——我再吃两口卷饼。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "heal",
+              "amount": 10
+            },
+            {
+              "type": "gold",
+              "amount": 15
+            }
+          ]
+        }
+      },
+      "_comment": "---- 小说扩充 ----"
+    },
+    "dialog_white_vision": {
+      "id": "dialog_white_vision",
+      "name": "白幻视",
+      "start_node_id": "start",
+      "npc": {
+        "id": "white_vision",
+        "name": "白幻视",
+        "title": "重构体",
+        "description": "一个通体银白色的合成人在铁桩旁站立，表面光滑无瑕。他的额中央没有心灵宝石——只有一片银色合金。他拒绝坐下。",
+        "dialog_id": "dialog_white_vision",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_white_vision"
+        ],
+        "_comment": "---- 小说扩充 ----"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "白幻视",
+          "text": "我检测到你的生命体征稳定。你好。我是白幻视——天剑局重构体。我正在执行一项与恐惧共振相关的逆向散射任务。你有什么需要我分析的吗？",
+          "choices": [
+            {
+              "text": "你为什么拒绝坐下？",
+              "next_node_id": "sit",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "什么是恐惧共振？",
+              "next_node_id": "resonance",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你能感觉到悲伤吗？",
+              "next_node_id": "grief",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_white_vision"
+            }
+          ]
+        },
+        "sit": {
+          "id": "sit",
+          "speaker": "白幻视",
+          "text": "我在十三时四十分的重新取样中微调局部重力场，同时对周围所有人的无意识振动进行自动消噪。比坐着少占零点四秒转发延迟。这不是效率——是习惯。当你的身体被拆开重装过之后，你会对每一个多余的停顿产生本能的不适。",
+          "choices": [
+            {
+              "text": "听起来很累。",
+              "next_node_id": "tired",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "resonance": {
+          "id": "resonance",
+          "speaker": "白幻视",
+          "text": "恐惧共振是一种以生物电信号为载体的古老频率。它以恐惧为宿主，但恐惧只是它用来穿过我们屏障的钥匙。它真正想收割的是另一种东西——我们身体曾经被动改变过的痕迹。所有感染过暗纹孢子、优化者增强剂、X基因激活序列的超人类，都是它的接收器。我在尝试反向散射它。",
+          "choices": [
+            {
+              "text": "你需要什么帮助？",
+              "next_node_id": "help_vision",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "divine_sense"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "vision_ally"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "grief": {
+          "id": "grief",
+          "speaker": "白幻视",
+          "text": "我可以推演情感。我可以精确地计算悲伤对我执行效率的影响曲线。但我不能在推演之外产出任何第一人称的悲伤。我是一条被从河流里捞到冰面上的鱼——我认得出河流的流向，但我游不进去。不过……在某些极短的瞬间，我能访问那个来自我身体前身的情感数据库。在那里，有一个人叫旺达。我的回应仍然为零。但幻视对他的回应——同样没有被复刻。",
+          "choices": [
+            {
+              "text": "也许不是零。只是你还没学会读它。",
+              "next_node_id": "learn",
+              "effects": [
+                {
+                  "type": "heal",
+                  "amount": 5
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "vision_empathy"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "tired": {
+          "id": "tired",
+          "speaker": "白幻视",
+          "text": "累是生物体的信号。我不累。但我有一个从未被归档的备用内存——在离开天剑局之前，我在里面写了一行字：“如果那一天到来，我不再是我，请把棺材打开——那时候，我已经是另一个人。”我不知道这是不是累。但它一直在。",
+          "choices": [
+            {
+              "text": "那你就已经不再是零了。",
+              "next_node_id": "learn",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "help_vision": {
+          "id": "help_vision",
+          "speaker": "白幻视",
+          "text": "我需要你的生物声纹数据——尤其是那些无法被任何算法定义的部分。你的灵雪频率与我的反向散射矩阵具有92.7%的波形兼容率。一起走。我会替你消噪。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "learn": {
+          "id": "learn",
+          "speaker": "白幻视",
+          "text": "……数据异常。我的核心温度升高了0.3摄氏度。不属于任何已知的情感推演模型。但我不打算消除它。谢谢你。也许……这就是河流。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "add_card",
+              "card_id": "snow_charge"
+            }
+          ]
+        }
+      },
+      "_comment": "---- 小说扩充 ----"
+    },
+    "dialog_banner_lab": {
+      "_comment": "---- 小说扩充 Phase3 ----",
+      "id": "dialog_banner_lab",
+      "name": "班纳实验室",
+      "start_node_id": "start",
+      "npc": {
+        "id": "bruce_banner",
+        "name": "布鲁斯·班纳",
+        "title": "逆向工程师",
+        "description": "一个被铅板包裹的地下实验室中，班纳博士正在调试逆向共振装置。他的眼镜上反射着频率图谱，桌面上散落着暗纹孢子的样本。",
+        "dialog_id": "dialog_banner_lab",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_banner"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "布鲁斯·班纳",
+          "text": "你感觉到了吗？骨头里的振动。不是地震——是暗纹共振。它的频率和我的伽马读数有92.7%的波形重叠。坐下，我需要你的骨密度数据。",
+          "choices": [
+            {
+              "text": "暗纹共振是什么？",
+              "next_node_id": "explain_resonance",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你发现了什么？",
+              "next_node_id": "discovery",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我不想当实验品。给我实际的东西。",
+              "next_node_id": "practical",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_banner"
+            }
+          ]
+        },
+        "explain_resonance": {
+          "id": "explain_resonance",
+          "speaker": "布鲁斯·班纳",
+          "text": "暗纹不是感染——是一种信号。它以恐惧为宿主，但恐惧只是钥匙。它真正想收割的是我们身体被动改变过的痕迹。所有超人类——优化者增强、X基因激活、甚至你那二指禅——都是它的接收器。金并找到了控制这个频率的方法。",
+          "choices": [
+            {
+              "text": "能阻止它吗？",
+              "next_node_id": "reverse_device",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "所以金并也在被操控？",
+              "next_node_id": "kingpin_controlled",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "discovery": {
+          "id": "discovery",
+          "speaker": "布鲁斯·班纳",
+          "text": "暗纹的共振频率指向一个位置——哈德逊河下。那里有一个废弃的核避难所，冷战时期修建的。金并在那里建了一座人体工厂。十六张铁床，每一张都绑着失败的改造品。他把暗纹当作增强剂在用——成功率不到3%。",
+          "choices": [
+            {
+              "text": "带我去那里。",
+              "next_node_id": "reverse_device",
+              "effects": [
+                {
+                  "type": "add_clue",
+                  "clue_id": "clue_banner_coordinates"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "hudson_coordinates"
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "3%的成功率……那些失败的人呢？",
+              "next_node_id": "failures",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "practical": {
+          "id": "practical",
+          "speaker": "布鲁斯·班纳",
+          "text": "实用主义者。好。拿着这个——逆向共振装置。它能在暗纹影响你的判断时帮你保持清醒。不是万能的，但能多给你几秒钟。在那几秒里，你需要自己做出选择。",
+          "choices": [
+            {
+              "text": "谢谢。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "sense_clear"
+                },
+                {
+                  "type": "gold",
+                  "amount": 20
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "reverse_device": {
+          "id": "reverse_device",
+          "speaker": "布鲁斯·班纳",
+          "text": "我设计了这个——逆向共振装置。它能暂时隔绝骨骼共鸣的影响。但它的能量有限，在核心区域只能维持四分钟。在那四分钟里，你必须找到封印的断裂点。",
+          "choices": [
+            {
+              "text": "四分钟够了。",
+              "next_node_id": "farewell_equipped",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "sense_clear"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "banner_ally"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "kingpin_controlled": {
+          "id": "kingpin_controlled",
+          "speaker": "布鲁斯·班纳",
+          "text": "金并以为自己在控制暗纹。实际上暗纹也在控制他。他吸取地底力量的时候，自己也变成了信号增幅器。他越强大，暗纹的覆盖范围就越广。这不是双赢——这是双输。他只是还不知道而已。",
+          "choices": [
+            {
+              "text": "那我需要更强大的东西去对抗他。",
+              "next_node_id": "reverse_device",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "failures": {
+          "id": "failures",
+          "speaker": "布鲁斯·班纳",
+          "text": "他们不是死的。他们还在呼吸。暗纹让他们活着——以一种不该活着的方式。他们的骨骼在共振，肌肉在不停抽搐，大脑已经被频率接管。班纳停顿了一下。我知道那种感觉。被另一个东西住在身体里的感觉。",
+          "choices": [
+            {
+              "text": "你能救他们吗？",
+              "next_node_id": "reverse_device",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "banner_empathy"
+                },
+                {
+                  "type": "heal",
+                  "amount": 5
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "布鲁斯·班纳",
+          "text": "频率图谱不会撒谎。小心河底的东西。门——一直开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "farewell_equipped": {
+          "id": "farewell_equipped",
+          "speaker": "布鲁斯·班纳",
+          "text": "四分钟。记住——不是打败他，是压制那个频率。频率停了，他的力量来源就断了。去吧。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      }
+    },
+    "dialog_ran_min_dream": {
+      "id": "dialog_ran_min_dream",
+      "name": "冉闵之梦",
+      "start_node_id": "start",
+      "npc": {
+        "id": "ran_min",
+        "name": "冉闵",
+        "title": "武悼天王",
+        "description": "千年前的邺城在燃烧。一个身披铁甲的将军站在城墙上，手中长戟染满鲜血。他的眼睛不是愤怒的——是疲惫的。",
+        "dialog_id": "dialog_ran_min_dream",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "dream_ran_min"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "冉闵",
+          "text": "你闻到了吗？邺城的焦味。一千六百年了，这味道还没散。你为何来到我的梦中？",
+          "choices": [
+            {
+              "text": "我在寻找诅咒的根源。",
+              "next_node_id": "curse_origin",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你是谁？",
+              "next_node_id": "who_are_you",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "这燃烧的城市——发生了什么？",
+              "next_node_id": "burning_city",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "dream_ran_min"
+            }
+          ]
+        },
+        "curse_origin": {
+          "id": "curse_origin",
+          "speaker": "冉闵",
+          "text": "诅咒不是从我开始——是从背叛开始的。我以为以杀止杀可以结束乱世。但每一滴血都喂养了更深的东西。那些被我杀死的，他们的恨没有消散——它们渗入了地层，化成了纹路。千年来一直在等，等一个足够深的恐惧来唤醒它。",
+          "choices": [
+            {
+              "text": "那个恐惧——就是烁灭？",
+              "next_node_id": "snapture_fear",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "如何才能终结它？",
+              "next_node_id": "end_curse",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "who_are_you": {
+          "id": "who_are_you",
+          "speaker": "冉闵",
+          "text": "我是冉闵。他们叫我武悼天王。这不是尊号——是诅咒。武，是因为我只会武。悼，是因为我值得被哀悼。天王？那是我给自己封的——因为没有别人愿意。我杀尽了邺城的人。不是因为我恨他们——是因为我不知道除了杀，还能用什么来回应背叛。",
+          "choices": [
+            {
+              "text": "以杀止杀……最终也止不了杀。",
+              "next_node_id": "end_curse",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "但你的怒火变成了力量。",
+              "next_node_id": "fury_power",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "burning_city": {
+          "id": "burning_city",
+          "speaker": "冉闵",
+          "text": "邺城。我守了它三年。最后那夜，城门从里面打开——不是敌人攻进来的，是自己人放的。我站在城墙上看着火光，手里握着那根长戟，突然发现——戟上没有血。不是因为我没有杀人，是因为血已经干得渗不进去了。",
+          "choices": [
+            {
+              "text": "我理解那种……干涸。",
+              "next_node_id": "dried_blood",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "那不是你的错。是乱世。",
+              "next_node_id": "end_curse",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "snapture_fear": {
+          "id": "snapture_fear",
+          "speaker": "冉闵",
+          "text": "烁灭。一半的人消失。你们的世界在一瞬间经历了邺城用了三年才走完的路。恐惧——真正的恐惧——不是死亡。是缺席。你爱的人从椅子上消失，但咖啡杯还在冒烟。那才是暗纹的钥匙。不是痛苦——是空缺。",
+          "choices": [
+            {
+              "text": "吾与汝等——共赴。",
+              "next_node_id": "together",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "wu_mourning_upgraded"
+                },
+                {
+                  "type": "heal",
+                  "amount": 15
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "ran_min_blessing"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "end_curse": {
+          "id": "end_curse",
+          "speaker": "冉闵",
+          "text": "终结诅咒的方法不是更大的力量——是更深的锚。诅咒以恐惧为食，以缺席为钥。你必须用相反的东西去封印它——不是力量，是羁绊。不是在场，是承诺。即使他们不在了，你依然站在那里。这就是锚。",
+          "choices": [
+            {
+              "text": "我站在铁桩上二十三年了。",
+              "next_node_id": "iron_anchor",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "wu_mourning_upgraded"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "ran_min_blessing"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "fury_power": {
+          "id": "fury_power",
+          "speaker": "冉闵",
+          "text": "怒火不是力量——是债务。我花了整个后半生在还那笔债。但如果你已经欠了——那就让它值。把怒火烧成铁，把铁钉进骨头里，然后站着。一直站着。直到骨头变成锚。",
+          "choices": [
+            {
+              "text": "我明白了。",
+              "next_node_id": "iron_anchor",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "dried_blood": {
+          "id": "dried_blood",
+          "speaker": "冉闵",
+          "text": "你也站在铁桩上吧？那根铁桩——它不疼。疼是在第一年。之后就是干涸。但干涸不是终点。你让它干涸之后继续站——那就是锚。把所有的疼痛站成骨头里的答案。",
+          "choices": [
+            {
+              "text": "谢谢你，武悼天王。",
+              "next_node_id": "iron_anchor",
+              "effects": [
+                {
+                  "type": "heal",
+                  "amount": 10
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "iron_anchor": {
+          "id": "iron_anchor",
+          "speaker": "冉闵",
+          "text": "邺城的火已经灭了。但地底的纹路还在。去吧——带着我的怒火和我的遗憾。不是用来杀人的。是用来站着的。吾与汝等——共赴。这四个字，不是我说的。是你说的。在你站在铁桩上的那一刻。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "together": {
+          "id": "together",
+          "speaker": "冉闵",
+          "text": "你也知道这四个字。那你也不只是路过。拿走我的怒火——不是为了争胜。是为了在站不稳的时候，再撑一息。邺城的火已经灭了。但铁桩——还在。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_daredevil_recruit": {
+      "id": "dialog_daredevil_recruit",
+      "name": "夜魔侠招募",
+      "start_node_id": "start",
+      "npc": {
+        "id": "matt_murdock",
+        "name": "马特·默多克",
+        "title": "夜魔侠",
+        "description": "地狱厨房的暗巷中，一个穿深红护甲的盲人律师站在雨里。他的头微微偏向一侧——在听整条街的呼吸。",
+        "dialog_id": "dialog_daredevil_recruit",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_daredevil"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "马特·默多克",
+          "text": "你来了。我听到了你从第五大道拐进来的脚步——左脚比右脚重0.3秒，你的右臂上有什么东西在脉动。你需要我的耳朵。",
+          "choices": [
+            {
+              "text": "你怎么知道我在想什么？",
+              "next_node_id": "hear_heart",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我需要你帮我听地下的东西。",
+              "next_node_id": "underground_sound",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我是来招你的。",
+              "next_node_id": "recruit",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_daredevil"
+            }
+          ]
+        },
+        "hear_heart": {
+          "id": "hear_heart",
+          "speaker": "马特·默多克",
+          "text": "我不知道你在想什么——我只听到你的心跳。你进门的时候跳了三拍，不是恐惧——是决意。但你的右臂上那道脉动……它的频率和地底的振动一样。7.3赫兹。整个街区都在以这个频率振动。杯子自己碎了一半。",
+          "choices": [
+            {
+              "text": "7.3赫兹……班纳也说过这个频率。",
+              "next_node_id": "underground_sound",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你愿意帮忙吗？",
+              "next_node_id": "recruit",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "underground_sound": {
+          "id": "underground_sound",
+          "speaker": "马特·默多克",
+          "text": "地下的声音。从三个月前开始的。起初像呼吸——呼……吸……。后来变成了心跳。现在是咆哮。如果我不去听它，没人会去。但我一个人听不够。我需要有人站在我旁边——不是替我听，是替我判断我听到的到底是不是真的。",
+          "choices": [
+            {
+              "text": "我站在你旁边。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "daredevil_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "你听到的当然是真实的。",
+              "next_node_id": "real",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "recruit": {
+          "id": "recruit",
+          "speaker": "马特·默多克",
+          "text": "招我？这不是入伍——这是站队。我不为任何旗帜而战。我为这一条街上的每一个人而战。如果你也是——那我们不需要招募。我们只是正好站到了同一边。",
+          "choices": [
+            {
+              "text": "正好站到了同一边。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "daredevil_ally"
+                },
+                {
+                  "type": "heal",
+                  "amount": 10
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "real": {
+          "id": "real",
+          "speaker": "马特·默多克",
+          "text": "当然是真的。但真实和正确不是同一件事。我听到的东西有时候会让我的拳头比我的判断先动。这就是为什么我需要有人站在旁边。不是替我听——是替我停下来。",
+          "choices": [
+            {
+              "text": "我来替你停下来。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "daredevil_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "join": {
+          "id": "join",
+          "speaker": "马特·默多克",
+          "text": "好。我的耳朵是你的。你站在我旁边，我替你听——你替我停下来。这是最好的交易。走吧。地狱厨房从不关门。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_jessica_recruit": {
+      "id": "dialog_jessica_recruit",
+      "name": "杰茜卡招募",
+      "start_node_id": "start",
+      "npc": {
+        "id": "jessica_jones",
+        "name": "杰茜卡·琼斯",
+        "title": "私家侦探",
+        "description": "_alias调查所的门牌歪着。杰茜卡坐在办公桌后面，威士忌瓶比案卷还多。她的眼神是清醒的——即使瓶已经空了。",
+        "dialog_id": "dialog_jessica_recruit",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_jessica"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "杰茜卡·琼斯",
+          "text": "门没锁。因为它锁了也没用。你找我有事？还是只是另一个想让我帮你找人的人？",
+          "choices": [
+            {
+              "text": "我听说你听到了地下的呼吸声。",
+              "next_node_id": "breathing",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我不是来找人的。是来找你的。",
+              "next_node_id": "find_you",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "给我一杯威士忌。",
+              "next_node_id": "whiskey",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_jessica"
+            }
+          ]
+        },
+        "breathing": {
+          "id": "breathing",
+          "speaker": "杰茜卡·琼斯",
+          "text": "呼吸声。是的。每天凌晨三点，从地下室的方向。起初以为是楼下的暖气管道——修管道的人来了三次，什么都没找到。后来我意识到那不是管道的声音。那是肺。某个巨大的东西在地底下呼吸。而我恰好是不需要睡眠的人，所以我是唯一听到它的人。",
+          "choices": [
+            {
+              "text": "我们需要你的耳朵。",
+              "next_node_id": "need_you",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你不害怕吗？",
+              "next_node_id": "afraid",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "find_you": {
+          "id": "find_you",
+          "speaker": "杰茜卡·琼斯",
+          "text": "找我？通常找我的人只有两种——需要我帮忙找人的，和需要我帮忙忘掉人的。你属于哪种？",
+          "choices": [
+            {
+              "text": "第三种——需要你站在我旁边的人。",
+              "next_node_id": "need_you",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我需要你帮我找到地底下的东西。",
+              "next_node_id": "breathing",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "whiskey": {
+          "id": "whiskey",
+          "speaker": "杰茜卡·琼斯",
+          "text": "瓶空了。但我可以给你倒一杯自来水——假装它是威士忌。效果差不多，反正都是用来麻痹的。不过如果你是为了麻痹来的——你走错了门。",
+          "choices": [
+            {
+              "text": "我不是来麻痹的。我是来清醒的。",
+              "next_node_id": "need_you",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "afraid": {
+          "id": "afraid",
+          "speaker": "杰茜卡·琼斯",
+          "text": "怕？当然怕。但怕不是不做的理由——怕是做的理由。如果那个东西在呼吸，那它就是活的。如果它是活的，那它就能被阻止。我试过被一个东西住在脑子里——控制你做不想做的事。我不会让任何人再经历那个。即使需要我钻进地底去撕掉它的肺。",
+          "choices": [
+            {
+              "text": "那就一起下去。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "jessica_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                },
+                {
+                  "type": "heal",
+                  "amount": 5
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "need_you": {
+          "id": "need_you",
+          "speaker": "杰茜卡·琼斯",
+          "text": "站在你旁边？我通常是一个人做事。不是因为我喜欢孤独——是因为我不太信别人能在关键时刻不掉链子。但凌晨三点那个呼吸声越来越大了。我一个人搞不定。",
+          "choices": [
+            {
+              "text": "我不会掉链子的。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "jessica_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "join": {
+          "id": "join",
+          "speaker": "杰茜卡·琼斯",
+          "text": "行。但有一个条件——如果我变成那个东西的样子……别犹豫。直接打。我宁可被打晕也不想再被住在脑子里。走吧。威士忌留着回来喝。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_luke_cage_recruit": {
+      "id": "dialog_luke_cage_recruit",
+      "name": "卢克·凯奇招募",
+      "start_node_id": "start",
+      "npc": {
+        "id": "luke_cage",
+        "name": "卢克·凯奇",
+        "title": "刀枪不入",
+        "description": "哈林区理发店。一个男人坐在转椅上，围布还没解开。他的皮肤在钨丝灯下闪着钢铁般的光泽。理发师已经走了——不知道是害怕还是下班了。",
+        "dialog_id": "dialog_luke_cage_recruit",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_luke_cage"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "卢克·凯奇",
+          "text": "理发店五点关门。现在五点零三。你要么是来理发的，要么是来找麻烦的。看你那个眼神——不是来理发的。",
+          "choices": [
+            {
+              "text": "外面有一只机械犬在找你。",
+              "next_node_id": "k9_warning",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我需要刀枪不入的人站在我旁边。",
+              "next_node_id": "need_you",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你这头发确实该理了。",
+              "next_node_id": "haircut",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_luke_cage"
+            }
+          ]
+        },
+        "k9_warning": {
+          "id": "k9_warning",
+          "speaker": "卢克·凯奇",
+          "text": "机械犬？优化者的K9型号。背脊上的暗纹是追踪标记。它们闻到了我——或者说闻到了我皮肤底下的东西。上次遇到一只，我捏碎了它的颈椎。但暗纹孢子沾在了我的指甲缝里。三天才长出来。",
+          "choices": [
+            {
+              "text": "暗纹能感染你吗？",
+              "next_node_id": "infection",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "来帮忙——更多K9正在路上。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "luke_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "need_you": {
+          "id": "need_you",
+          "speaker": "卢克·凯奇",
+          "text": "刀枪不入？我的皮肤能挡子弹——但挡不住暗纹。它不走皮肤，走骨头。我听到自己的骨骼在晚上发出7.3赫兹的嗡嗡声。你知道那种感觉吗？你的骨头在替别人唱歌。",
+          "choices": [
+            {
+              "text": "我知道。我的右臂也在唱同一首歌。",
+              "next_node_id": "same_song",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "所以你更该站出来——你比任何人都更了解它。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "luke_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "haircut": {
+          "id": "haircut",
+          "speaker": "卢克·凯奇",
+          "text": "笑了一下。理发师跑了——他不小心推子碰到我的头皮，火星子溅到了镜子上。他不习惯给钢理发。我倒是习惯了。来——你有什么事？",
+          "choices": [
+            {
+              "text": "我需要你。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "luke_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "infection": {
+          "id": "infection",
+          "speaker": "卢克·凯奇",
+          "text": "能。暗纹不走皮肤——走骨头。我的皮肤能挡子弹，但挡不住7.3赫兹的共振。它让我的骨头唱歌。晚上最安静的时候，我能听到整栋楼的人在跟着唱。这不是感染——是合唱。而我们都没报名。",
+          "choices": [
+            {
+              "text": "那就一起去让它闭嘴。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "luke_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "brothers_in_arms"
+                },
+                {
+                  "type": "heal",
+                  "amount": 8
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "same_song": {
+          "id": "same_song",
+          "speaker": "卢克·凯奇",
+          "text": "同一首歌？那就不是独奏了——是合唱。合唱的人该站在一起。走吧。我的皮肤是你最好的盾——但记住，盾不能替你做决定。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "join": {
+          "id": "join",
+          "speaker": "卢克·凯奇",
+          "text": "行。但有一个规矩——哈林区的人先撤。我不允许我的街坊被卷进来。他们撤完了，我跟你走。门一直开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_iron_fist_return": {
+      "id": "dialog_iron_fist_return",
+      "name": "铁拳归来",
+      "start_node_id": "start",
+      "npc": {
+        "id": "danny_rand",
+        "name": "丹尼·兰德",
+        "title": "铁拳",
+        "description": "昆仑的山门在身后关闭。丹尼·兰德赤足踏上纽约的积雪，拳头中仍残留着龙息的余温。他的眼神比离开时更安静了。",
+        "dialog_id": "dialog_iron_fist_return",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_iron_fist"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "丹尼·兰德",
+          "text": "纽约的雪和昆仑不一样。昆仑的雪是安静的——它落在你身上，不融化，也不催你。纽约的雪……它在催你。你站在雪里等我？",
+          "choices": [
+            {
+              "text": "昆仑教了你什么？",
+              "next_node_id": "kunlun_teaching",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你的龙息——能修补东西吗？",
+              "next_node_id": "dragon_breath",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我需要你的拳。",
+              "next_node_id": "need_fist",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_iron_fist"
+            }
+          ]
+        },
+        "kunlun_teaching": {
+          "id": "kunlun_teaching",
+          "speaker": "丹尼·兰德",
+          "text": "昆仑没有教我新的拳。它教了我什么时候不握拳。龙息之力不是用来摧毁的——它真正的用途是修补。修补裂缝、修补锁链、修补那些被暴力撕开的东西。我花了三年才学会——最强的拳，不是打出去的那一拳，是收回来变成热量的那一拳。",
+          "choices": [
+            {
+              "text": "修补锁链——地底的封印锁链！",
+              "next_node_id": "dragon_breath",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你变了。",
+              "next_node_id": "changed",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "dragon_breath": {
+          "id": "dragon_breath",
+          "speaker": "丹尼·兰德",
+          "text": "龙息可以修补金属——前提是它还有自己的频率。封印锁链的频率是7.3、11、13赫兹，三根链三种频率。我需要用龙息匹配最低频的那根，然后像焊工一样一层一层地往上焊。但那需要时间——在那个东西的核心里面，可能只有四分钟。",
+          "choices": [
+            {
+              "text": "四分钟够了。我替你挡。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "dragon_fist"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "iron_fist_ally"
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "我会用肉身做你的支点。",
+              "next_node_id": "anchor_promise",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "dragon_fist"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "iron_fist_ally"
+                },
+                {
+                  "type": "heal",
+                  "amount": 10
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "need_fist": {
+          "id": "need_fist",
+          "speaker": "丹尼·兰德",
+          "text": "你需要拳？我这次带回来的不是拳——是火焰。可以烧的火焰，也可以焊的火焰。你需要哪一种？",
+          "choices": [
+            {
+              "text": "焊。封印锁链断了。",
+              "next_node_id": "dragon_breath",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "两种都要。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "dragon_fist"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "iron_fist_ally"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "changed": {
+          "id": "changed",
+          "speaker": "丹尼·兰德",
+          "text": "变了？也许是。昆仑说，铁拳不是一个人的拳头——是一代又一代的铁拳传递下去的火焰。我这次回来，不是来打架的。是来传火的。你愿意接吗？",
+          "choices": [
+            {
+              "text": "我接。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "dragon_fist"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "iron_fist_ally"
+                },
+                {
+                  "type": "heal",
+                  "amount": 10
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "anchor_promise": {
+          "id": "anchor_promise",
+          "speaker": "丹尼·兰德",
+          "text": "肉身做支点……你真的是那样的人。二十三年铁桩。好——我做焊工，你做锚。龙息在外面焊，你的二指禅在里头撑。四分钟。够了。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "join": {
+          "id": "join",
+          "speaker": "丹尼·兰德",
+          "text": "那就走吧。龙息还热着。昆仑教我——火焰不问目的地，它只问方向。你指路，我点火。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_punisher_join": {
+      "id": "dialog_punisher_join",
+      "name": "惩罚者加入",
+      "start_node_id": "start",
+      "npc": {
+        "id": "frank_castle",
+        "name": "弗兰克·卡塞尔",
+        "title": "惩罚者",
+        "description": "仓库角落。一个男人在擦拭一把不需要擦拭的步枪。他抬头看了你一眼——那一眼比枪口还冷。",
+        "dialog_id": "dialog_punisher_join",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_punisher"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "三步。你进门到站定，三步。以你的速度，我可以开两枪。幸好你没带枪。说。",
+          "choices": [
+            {
+              "text": "我需要你做一件你不常做的事。",
+              "next_node_id": "unusual",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "联合国会议需要安保——非致命的。",
+              "next_node_id": "non_lethal",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你还在打那场仗吗？",
+              "next_node_id": "still_fighting",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_punisher"
+            }
+          ]
+        },
+        "unusual": {
+          "id": "unusual",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "不常做的事？我不常做的事多了。笑、睡、忘记。你要我做哪件？",
+          "choices": [
+            {
+              "text": "不开枪。",
+              "next_node_id": "non_lethal",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "non_lethal": {
+          "id": "non_lethal",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "非致命。你让我去联合国——不打死任何人——只做安保。你知道你在要求什么吗？你在让一条鲨鱼去当救生员。",
+          "choices": [
+            {
+              "text": "我知道。但只有鲨鱼能让别的鱼不敢靠近。",
+              "next_node_id": "shark_lifeguard",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你不想做——是因为你做不了，还是因为你觉得不值得？",
+              "next_node_id": "worth_it",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "still_fighting": {
+          "id": "still_fighting",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "那场仗？哪场？越南？还是我家人被杀的那天？还是在每一个夜晚，我闭上眼都能听到枪声的那场仗？我只打一场仗——对阵所有伤害无辜者的人。他们不会停，所以我也不会。",
+          "choices": [
+            {
+              "text": "但这次不是关于杀。是关于站在那里。",
+              "next_node_id": "standing",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "shark_lifeguard": {
+          "id": "shark_lifeguard",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "……鲨鱼当救生员。行。但如果有人越线——我的枪不走火，但我的拳头不保证。我可以缴械。不打死。但别指望我会对金并的人微笑。",
+          "choices": [
+            {
+              "text": "缴械就够了。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "punisher_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "stand_guard"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "worth_it": {
+          "id": "worth_it",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "值不值得？杀人不值得——但让我家人死掉的那些人还活着更不值得。非致命？我可以试。不是为了法律——是为了那些还在呼吸的无辜者。他们值得一个站在门口的人。即使那个人是我。",
+          "choices": [
+            {
+              "text": "那就站。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "punisher_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "stand_guard"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "standing": {
+          "id": "standing",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "站在那里……你知道我从来都是站着的人吗？不是因为我勇敢——是因为我不会坐。坐下来就会想起来那些椅子——我家餐厅的那些椅子。空了三把。所以我站。站到死为止。你要我站哪里？",
+          "choices": [
+            {
+              "text": "联合国大厅门口。",
+              "next_node_id": "join",
+              "effects": [
+                {
+                  "type": "add_flag",
+                  "flag": "punisher_ally"
+                },
+                {
+                  "type": "add_card",
+                  "card_id": "stand_guard"
+                },
+                {
+                  "type": "heal",
+                  "amount": 8
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "join": {
+          "id": "join",
+          "speaker": "弗兰克·卡塞尔",
+          "text": "好。枪收起来。拳头留着。你替我说话，我替你站门。谁越线——我负责把他扔回线后面。活着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_zemo_reveal": {
+      "id": "dialog_zemo_reveal",
+      "name": "泽莫揭露",
+      "start_node_id": "start",
+      "npc": {
+        "id": "baron_zemo",
+        "name": "泽莫男爵",
+        "title": "索科维亚幽灵",
+        "description": "废墟中央。一个男人摘下了紫色面罩，将一份文件放在碎砖上。海穆特·泽莫——索科维亚的幽灵——就在你面前。",
+        "dialog_id": "dialog_zemo_reveal",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_zemo"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "泽莫男爵",
+          "text": "别急着拔枪。我今天不是来打仗的。我是来还债的——索科维亚的债。这份文件，是你需要的。",
+          "choices": [
+            {
+              "text": "什么文件？",
+              "next_node_id": "the_file",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "我凭什么信你？",
+              "next_node_id": "trust",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "索科维亚的债——你还得了吗？",
+              "next_node_id": "debt",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_zemo"
+            }
+          ]
+        },
+        "the_file": {
+          "id": "the_file",
+          "speaker": "泽莫男爵",
+          "text": "索科维亚协议的秘密条款。第37条补充——'睡眠传输'。当注册芯片植入后，它的信号可以被远程激活，在超人类睡眠时传输他们的生物数据——包括能力参数、弱点分析和实时定位。金并用这个来定位所有反对他的人。这不是法律——这是猎人的地图。",
+          "choices": [
+            {
+              "text": "你从哪里得到的？",
+              "next_node_id": "source",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "这东西必须公开。",
+              "next_node_id": "expose",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "trust": {
+          "id": "trust",
+          "speaker": "泽莫男爵",
+          "text": "你不该信我。我毁掉了复仇者联盟——至少我试过。但我不是金并的人。金并想要的是控制——法律、芯片、信号。我想要的是复仇者联盟瓦解——但不是因为一个人控制了所有超人类。那比复仇者联盟更危险。",
+          "choices": [
+            {
+              "text": "你的敌人也成了你的盟友？",
+              "next_node_id": "enemy_ally",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "把文件给我。",
+              "next_node_id": "give_file",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "debt": {
+          "id": "debt",
+          "speaker": "泽莫男爵",
+          "text": "还不了。索科维亚死了多少人——我永远还不清。但我可以确保不再有人因为同样的理由死去。金并的法条和泽莫维奇的炸弹是同一种东西——它们都以保护之名行控制之实。我拆过炸弹。这份文件也是一颗炸弹——让我替你拆了它。",
+          "choices": [
+            {
+              "text": "拆。",
+              "next_node_id": "give_file",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "source": {
+          "id": "source",
+          "speaker": "泽莫男爵",
+          "text": "我花了一年渗透金并的立法顾问团。他们以为我只是一个来自东欧的有钱人——他们不知道索科维亚的幽灵已经坐在他们旁边听了十二个月的会议。睡眠传输条款是最后一天才加入的——他们等所有人都签了字之后才附加上去。",
+          "choices": [
+            {
+              "text": "这东西必须公开。",
+              "next_node_id": "expose",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "expose": {
+          "id": "expose",
+          "speaker": "泽莫男爵",
+          "text": "公开？不。公开只会让金并换一种写法重新来。你应该用这个在联合国会议上驳倒他——逐条反驳。法律打败法律的唯一方式，是用更精确的法律。马特·默多克会用好它的。",
+          "choices": [
+            {
+              "text": "给我。",
+              "next_node_id": "give_file",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "enemy_ally": {
+          "id": "enemy_ally",
+          "speaker": "泽莫男爵",
+          "text": "不是盟友。是暂时的同行者。我们走在同一条路上，但目的地不同。你到了之后——我们可能又要站在对面。但今天，金并比复仇者联盟更危险。先处理他。文件给你。",
+          "choices": [
+            {
+              "text": "我会用它的。",
+              "next_node_id": "give_file",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "give_file": {
+          "id": "give_file",
+          "speaker": "泽莫男爵",
+          "text": "拿去吧。里面标注了每一条秘密条款的来源、投票记录和签字人。用法律的语言打败他们——这比我的方式更持久。我的方式只能解决一个人。你的方式可以解决一个制度。我走了。下次见面——也许就不是递文件了。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "add_card",
+              "card_id": "vibranium_shield"
+            },
+            {
+              "type": "add_flag",
+              "flag": "zemo_intel"
+            }
+          ]
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_steve_rogers": {
+      "id": "dialog_steve_rogers",
+      "name": "老史蒂夫",
+      "start_node_id": "start",
+      "npc": {
+        "id": "steve_rogers",
+        "name": "史蒂夫·罗杰斯",
+        "title": "老队长",
+        "description": "瓦坎达的阳光照进一间草屋。一个白发老人坐在门廊上，身旁放着一面褪色的旧盾。他不再年轻，但坐姿是军人的。",
+        "dialog_id": "dialog_steve_rogers",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_steve"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "你从纽约来的。我闻到了铁桩的味道。坐吧——瓦坎达的椅子比无界健身馆的舒服。",
+          "choices": [
+            {
+              "text": "你为什么退下来了？",
+              "next_node_id": "why_retire",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "山姆需要你的指引。",
+              "next_node_id": "sam_needs",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你后悔把盾交出去吗？",
+              "next_node_id": "shield_regret",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_steve"
+            }
+          ]
+        },
+        "why_retire": {
+          "id": "why_retire",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "退？我不是退——是还。那面盾不是我的。从来不是。它是厄斯金博士的梦想、霍华德的铸造、每一个站在我身后的人的信任。我老了。盾不会老。所以我把不会老的东西交给了还没老的人。",
+          "choices": [
+            {
+              "text": "但山姆在挣扎。",
+              "next_node_id": "sam_struggle",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你信任山姆吗？",
+              "next_node_id": "trust_sam",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "sam_needs": {
+          "id": "sam_needs",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "山姆不需要我的指引。他需要的是我站在他身后说一声'你做得对'。但我不会去纽约。不是因为我不想——是因为如果我去了，人们看到的不是山姆。是我。那面盾需要自己的故事——不是我的续集。",
+          "choices": [
+            {
+              "text": "你能告诉我一句话吗？我带回去给他。",
+              "next_node_id": "one_sentence",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "他自己就是那面盾。",
+              "next_node_id": "he_is_shield",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "shield_regret": {
+          "id": "shield_regret",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "后悔？不。那面盾在我手里的时候，我一直在替别人做选择——谁该被保护，谁该被牺牲。但山姆不一样。他不是替别人做选择——他是让别人也有选择的权利。那才是盾真正该做的事。",
+          "choices": [
+            {
+              "text": "我也在学着做同样的事。",
+              "next_node_id": "same_thing",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你还能再举一次盾吗？",
+              "next_node_id": "one_more_time",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "sam_struggle": {
+          "id": "sam_struggle",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "挣扎是好事。我举盾的第一天也在挣扎——不知道该挡谁、该让谁过去。挣扎说明他在想。不想的人只会在错误的方向上狂奔。山姆的方向是对的——他只是还需要时间相信自己的方向。",
+          "choices": [
+            {
+              "text": "告诉他。",
+              "next_node_id": "one_sentence",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "trust_sam": {
+          "id": "trust_sam",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "信任？我不只是信任山姆——我信任他比信任我自己更多。我举盾的时候，常常犹豫该不该挡。山姆不会犹豫——他知道什么值得挡。那才是盾真正需要的人。",
+          "choices": [
+            {
+              "text": "告诉他你说的这些。",
+              "next_node_id": "one_sentence",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "one_sentence": {
+          "id": "one_sentence",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "一句话。好。告诉山姆——'我一直相信的不是联盟。是人。'不是旗帜、不是盾牌、不是法律。是每一个站在旁边说'再来一次'的人。他就是那个人。",
+          "choices": [
+            {
+              "text": "我会带到的。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "vibranium_shield"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "steve_message"
+                },
+                {
+                  "type": "heal",
+                  "amount": 15
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "he_is_shield": {
+          "id": "he_is_shield",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "他知道。他只是还需要别人也这么说。你替我说了吧——'我一直相信的不是联盟，是人。'他听了一定会明白的。",
+          "choices": [
+            {
+              "text": "我会的。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "vibranium_shield"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "steve_message"
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "same_thing": {
+          "id": "same_thing",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "那你也应该知道这句话——'我一直相信的不是联盟，是人。'人站在一起，不是因为他们有同样的力量，是因为他们做了同样的选择。你站在铁桩上二十三年——那不是力量，那是选择。带一句话给山姆。告诉他我说过的。",
+          "choices": [
+            {
+              "text": "我会带到的。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "vibranium_shield"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "steve_message"
+                },
+                {
+                  "type": "gold",
+                  "amount": 25
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "one_more_time": {
+          "id": "one_more_time",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "再举一次？我举不动了。但我知道谁能。把这句话带给他——'我一直相信的不是联盟，是人。'然后他会举起来。不是因为他是队长——是因为他选择了站在那里。",
+          "choices": [
+            {
+              "text": "谢谢你，队长。",
+              "next_node_id": "farewell",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "vibranium_shield"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "steve_message"
+                },
+                {
+                  "type": "heal",
+                  "amount": 10
+                }
+              ],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "史蒂夫·罗杰斯",
+          "text": "瓦坎达的阳光很好。但纽约的铁桩也不差。去吧——门一直开着。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    "dialog_valentina": {
+      "id": "dialog_valentina",
+      "name": "瓦伦蒂娜",
+      "start_node_id": "start",
+      "npc": {
+        "id": "valentina",
+        "name": "瓦伦蒂娜",
+        "title": "情报掮客",
+        "description": "一个穿深色套装的女人站在联合国外交厅的阴影中。她的眼神比她的口红更锋利。",
+        "dialog_id": "dialog_valentina",
+        "shop_items": [],
+        "is_shopkeeper": false,
+        "plot_flags_given": [
+          "met_valentina"
+        ]
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "瓦伦蒂娜",
+          "text": "你比我预想的来得早。也好——金并的法案在三个小时后进入表决。你需要知道他不想让你知道的部分。",
+          "choices": [
+            {
+              "text": "你为什么帮我们？",
+              "next_node_id": "why_help",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "法案里有什么陷阱？",
+              "next_node_id": "bill_trap",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你的情报值多少？",
+              "next_node_id": "price",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": [
+            {
+              "type": "add_flag",
+              "flag": "met_valentina"
+            }
+          ]
+        },
+        "why_help": {
+          "id": "why_help",
+          "speaker": "瓦伦蒂娜",
+          "text": "帮你们？别误会——我不是在帮你们。我是在帮我自己。金并的法案通过之后，第一个被芯片定位的人就是我。他知道我的名字——真正的名字。如果你们输了，我连跑的资格都没有。所以——不是盟友。是利益一致。",
+          "choices": [
+            {
+              "text": "利益一致就够了。法案里有什么？",
+              "next_node_id": "bill_trap",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "你也在怕。",
+              "next_node_id": "also_afraid",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "bill_trap": {
+          "id": "bill_trap",
+          "speaker": "瓦伦蒂娜",
+          "text": "《纽约超人类活动管理特别条例》。表面上看是注册和监管——但附则第37条到第39条才是真正的陷阱。注册芯片不只是定位——它可以在超人类睡眠时传输生物数据。金并能知道每一个超人类的能力参数、弱点分析和实时位置。这不是法律——是猎人的地图。而他——是唯一的猎人。",
+          "choices": [
+            {
+              "text": "这违法吗？",
+              "next_node_id": "legal",
+              "effects": [],
+              "required_flag": ""
+            },
+            {
+              "text": "如何驳倒它？",
+              "next_node_id": "counter",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "price": {
+          "id": "price",
+          "speaker": "瓦伦蒂娜",
+          "text": "价格？你们赢了——我活。你们输了——我也活不了。这就是价格。够便宜吗？现在听好了——金并的法案不只是一份法律文件。它是一把钥匙——打开所有超人类的数据。",
+          "choices": [
+            {
+              "text": "说具体点。",
+              "next_node_id": "bill_trap",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "also_afraid": {
+          "id": "also_afraid",
+          "speaker": "瓦伦蒂娜",
+          "text": "怕？我当然怕。你以为情报掮客不怕被情报反噬？我花了十年在暗处织网——金并只需要一部法律就能把所有人的名字列在一张纸上。怕不是弱点——怕是动力。怕了才走得快。",
+          "choices": [
+            {
+              "text": "那就走快一点。法案的具体内容是什么？",
+              "next_node_id": "bill_trap",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "legal": {
+          "id": "legal",
+          "speaker": "瓦伦蒂娜",
+          "text": "违法？不——它完全合法。那是金并最厉害的地方。他不是在法律之外做事——他是在法律之内做事，然后改写法律。第37条到39条让芯片的制造和监管权都归市长指定——不受议会监督。同一个人既制造又监管。这不是法律漏洞——这是法律武器。",
+          "choices": [
+            {
+              "text": "如何驳倒它？",
+              "next_node_id": "counter",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "counter": {
+          "id": "counter",
+          "speaker": "瓦伦蒂娜",
+          "text": "用法律打败法律。第38和39条让市长同时控制芯片制造和监管——没有制衡。这是宪法的核心原则——权力分立。马特·默多克可以用这个逐条驳倒附则。再加上泽莫的那份文件——睡眠传输的秘密条款——法官们无法忽视。法案会被无限期搁置。但你需要在那三个小时之内完成。",
+          "choices": [
+            {
+              "text": "三个小时。够了。",
+              "next_node_id": "enough_time",
+              "effects": [
+                {
+                  "type": "add_card",
+                  "card_id": "stand_guard"
+                },
+                {
+                  "type": "add_flag",
+                  "flag": "valentina_intel"
+                },
+                {
+                  "type": "gold",
+                  "amount": 20
+                }
+              ],
+              "required_flag": ""
+            },
+            {
+              "text": "如果失败了呢？",
+              "next_node_id": "if_fail",
+              "effects": [],
+              "required_flag": ""
+            }
+          ],
+          "is_end": false,
+          "on_enter_effects": []
+        },
+        "enough_time": {
+          "id": "enough_time",
+          "speaker": "瓦伦蒂娜",
+          "text": "够了？那就别站在这里了。去联合国。推门进去。然后——像山姆·威尔逊那样——问一句：谁愿意站在这位市长对面？",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": []
+        },
+        "if_fail": {
+          "id": "if_fail",
+          "speaker": "瓦伦蒂娜",
+          "text": "如果失败了？那就不是法律问题了——是战争问题。金并会用芯片定位所有反对者。一夜之间，所有超人类要么注册，要么消失。那不是烁灭——那是筛选。但我不想走到那一步。所以——别失败。拿上情报。去。",
+          "choices": [],
+          "is_end": true,
+          "on_enter_effects": [
+            {
+              "type": "add_card",
+              "card_id": "stand_guard"
+            },
+            {
+              "type": "add_flag",
+              "flag": "valentina_intel"
+            }
+          ]
+        }
+      },
+      "_comment": "---- 小说扩充 Phase3 ----"
+    }
+  }
+}

@@ -1,0 +1,806 @@
+{
+  "rooms": {
+    "living_room": {
+      "room_id": "living_room",
+      "name": "客厅",
+      "description": "客厅沉寂无声。灰尘在薄薄的窗帘间漂浮，落在多年未曾移动过的家具上。空气中弥漫着陈旧木料与干燥薰衣草的气息。",
+      "first_visit_text": "你踏入客厅，身后的门轻轻叹了口气，阖上了。\n房间很静——不是空旷的静，而是等待被记起的静。\n\n灰尘穿过薄薄的窗帘飘落，像横飞的雪。家具还摆在原来的位置：\n凹陷的沙发，留着水渍年轮的边桌，靠着远墙的高书架。\n茶几上有什么东西吸引了你的目光——一张泛黄的纸，边缘像枯叶一样蜷曲着。",
+      "ambient_text": "老屋轻轻作响，仿佛在承受自身的重量。",
+      "items": [
+        "yellowed_paper",
+        "sofa",
+        "side_table",
+        "bookshelf"
+      ],
+      "exits": [
+        {
+          "direction": "north",
+          "target_room": "study",
+          "is_locked": true,
+          "lock_reason": "通往书房的门关着。你还没准备好去那里。",
+          "unlock_flag": "unlocked_study"
+        },
+        {
+          "direction": "east",
+          "target_room": "kitchen",
+          "is_locked": false
+        },
+        {
+          "direction": "south",
+          "target_room": "bedroom",
+          "is_locked": true,
+          "lock_reason": "卧室的门感觉很遥远。还有些事情需要先弄清楚。",
+          "unlock_flag": "unlocked_bedroom"
+        },
+        {
+          "direction": "up",
+          "target_room": "attic",
+          "is_locked": true,
+          "lock_reason": "通往阁楼的楼梯感觉陡得不可思议。你还没准备好。",
+          "unlock_flag": "unlocked_attic"
+        },
+        {
+          "direction": "down",
+          "target_room": "cavity",
+          "is_locked": true,
+          "lock_reason": "这里没有向下的路。也许你需要梦得更深一些。",
+          "unlock_flag": "unlocked_cavity"
+        },
+        {
+          "direction": "out",
+          "target_room": "city_streets",
+          "is_locked": true,
+          "lock_reason": "门外的世界还很远。你需要先完成这里的事。",
+          "unlock_flag": "final_realization"
+        },
+        {
+          "direction": "west",
+          "target_room": "photo_gallery",
+          "is_locked": true,
+          "lock_reason": "那个方向只是墙壁。但也许当你想起某些事情后，那里会出现一扇门。",
+          "unlock_flag": "unlocked_photo_gallery"
+        }
+      ]
+    },
+    "study": {
+      "room_id": "study",
+      "name": "书房",
+      "description": "外公的书房。橡木大桌主宰着整个房间，像一头沉睡的动物。\n文件叠放得出奇整齐。椅子被推开，仿佛有人刚刚起身离开。",
+      "first_visit_text": "你推开书房的门，气味先扑面而来——墨水、陈旧纸张，\n以及下面某种金属气息，像雨后的铜。\n\n橡木大桌主宰着整个房间。它巨大、厚重、幽暗——\n外公的堡垒。文件以一种近乎挑衅的整齐堆叠在上面，\n仿佛秩序本身能够抵挡遗忘的潮水。\n\n桌上，一副象棋静静等待着。棋子停在残局中，冻结在一场无人完成的对弈里。\n而在桌面本身——一个字被深深刻入木中。一个字，以坚定的力道凿出：辛。",
+      "ambient_text": "桌灯闪烁了一下，尽管它根本没有插电。",
+      "items": [
+        "chess_set",
+        "oak_desk",
+        "desk_chair",
+        "grandfather_manuscript"
+      ],
+      "exits": [
+        {
+          "direction": "south",
+          "target_room": "living_room",
+          "is_locked": false
+        },
+        {
+          "direction": "east",
+          "target_room": "geology_room",
+          "is_locked": true,
+          "lock_reason": "那个角落似乎有什么东西。但你需要先看清桌面上的字。",
+          "unlock_flag": "unlocked_geology_room"
+        },
+        {
+          "direction": "behind",
+          "target_room": "blueprint_room",
+          "is_locked": true,
+          "lock_reason": "书桌后面只是墙壁。也许手稿里藏着线索。",
+          "unlock_flag": "unlocked_blueprint_room"
+        }
+      ]
+    },
+    "bedroom": {
+      "room_id": "bedroom",
+      "name": "外公的卧室",
+      "description": "一间小卧室，简朴而整洁。床铺得像军队检阅时一样笔挺。\n一个矮柜靠着墙，床头柜上，一台老收音机静静等待，像个耐心的哨兵。",
+      "first_visit_text": "卧室很小。比你记忆中还要小。床铺得四角如此紧绷，\n可以从上面弹起一枚硬币——外公从不放松，连睡觉也不例外。\n\n床头柜上，一台老收音机像一块黑石头那样坐着。\n那是1957年的型号——你记得，因为他曾经告诉过你，\n带着那种人们只为比时代更长久的事物才有的特别自豪。\n\n靠着远墙，一个矮柜。它后面，勉强可见，\n是墙皮脱落后露出的一道裂缝。也许有什么东西藏在那里。",
+      "ambient_text": "一阵隐约的嗡嗡声——是收音机？不，它没插电。只是老屋在呼吸。",
+      "items": [
+        "radio",
+        "short_cabinet",
+        "bed"
+      ],
+      "exits": [
+        {
+          "direction": "north",
+          "target_room": "living_room",
+          "is_locked": false
+        },
+        {
+          "direction": "enter",
+          "target_room": "deep_time_studio",
+          "is_locked": true,
+          "lock_reason": "收音机还没打开。你需要先发现它的秘密。",
+          "unlock_flag": "unlocked_deep_time_studio"
+        },
+        {
+          "direction": "northwest",
+          "target_room": "wind_passage",
+          "is_locked": true,
+          "lock_reason": "走廊尽头一片漆黑。也许有什么会在深夜唤醒你。",
+          "unlock_flag": "unlocked_wind_passage"
+        }
+      ]
+    },
+    "kitchen": {
+      "room_id": "kitchen",
+      "name": "厨房",
+      "description": "厨房狭窄而昏暗。水槽上方的窗户透进灰色的光。\n炉子是凉的，水槽是干的。窗台上有什么东西在光线中发亮。",
+      "first_visit_text": "厨房很窄。外公在这里做饭——简单的饭菜，总是同样的几样轮换。\n米粥，咸菜，周日的清蒸鱼。\n\n水槽上方的窗户俯瞰着后花园，现在已经荒芜了。\n灰色的光透过多年未曾擦洗的玻璃渗进来。\n\n窗台上，在死苍蝇和灰尘之间，有什么东西在发光。\n一缕灰色，薄如指甲，被人刻意放在那里。",
+      "ambient_text": "某处滴着水——一个从未完全关紧的水龙头。",
+      "items": [
+        "window_shard",
+        "letter",
+        "sink",
+        "stove"
+      ],
+      "exits": [
+        {
+          "direction": "west",
+          "target_room": "living_room",
+          "is_locked": false
+        }
+      ]
+    },
+    "attic": {
+      "room_id": "attic",
+      "name": "阁楼",
+      "description": "阁楼天花板很低，积满了灰尘。一只光秃秃的灯泡挂在电线上。\n纸箱子靠着墙堆放，一个书架在遗忘之物的重压下弯曲。",
+      "first_visit_text": "你爬上窄窄的楼梯通往阁楼。每一步都在你的重量下呻吟，\n仿佛老屋本身在抗议这最后的闯入。\n\n阁楼天花板很低。你不得不弯腰。一只光秃秃的灯泡挂在电线上，不亮。\n唯一的光来自远处一扇小窗，灰蒙蒙的，蒙着雨滴。\n\n纸箱子。几十个，靠着墙堆放。但吸引你目光的是那个书架——\n不是因为书，而是因为夹在书之间的那个东西。\n一个用牛皮纸包裹的包裹，用厨房细线捆扎。\n它的刻意摆放让你喉头发紧。",
+      "ambient_text": "阁楼在低语——或者只是风穿过屋檐。",
+      "items": [
+        "brown_bundle",
+        "baiyan_tome",
+        "attic_bookshelf",
+        "photo_1934"
+      ],
+      "exits": [
+        {
+          "direction": "down",
+          "target_room": "living_room",
+          "is_locked": false
+        }
+      ]
+    },
+    "dreamland": {
+      "room_id": "dreamland",
+      "name": "黄色荒原",
+      "description": "无边无际的黄色平原向四面八方延伸。天空是旧骨头的颜色。\n三只兔子呈三角形坐着，远处，有什么东西在燃烧。",
+      "first_visit_text": "世界溶解了。\n\n当它重新凝聚，你站在黄色的大地上，\n那片黄色一直延伸到每一个地平线。\n天空是旧骨头的颜色——不是白色，不是灰色，\n而是介于两者之间，没有名字的颜色。\n\n三只兔子在大约五十步外呈三角形坐着。\n大的那只面朝着你，耳朵竖立。小的那只躲在它后面。\n而第三只——第三只不一样。它背对着你，\n朝向地平线上遥远的光芒。\n\n越过兔子，一个洞窟的入口呼出橙色的光芒。\n越过那个洞窟，不可思议地既遥远又近在咫尺，\n一棵树从平原上升起，像一只黑色的手伸向骨白的天空。\n\n你脚下的大地是温热的。它在脉动。",
+      "ambient_text": "黄色的大地在脚下脉动，缓慢而稳定，像一颗沉睡的心脏。",
+      "items": [
+        "three_rabbits",
+        "burning_cave",
+        "great_tree"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "living_room",
+          "is_locked": false
+        },
+        {
+          "direction": "enter",
+          "target_room": "cave_depths",
+          "is_locked": true,
+          "lock_reason": "洞穴的入口在呼出热气。但你还没有准备好走进去。",
+          "unlock_flag": "unlocked_cave_depths"
+        }
+      ]
+    },
+    "cavity": {
+      "room_id": "cavity",
+      "name": "地下空腔",
+      "description": "一个巨大的地下空间。洞壁光滑而灰白，散发着微弱的光芒。\n中央，一棵树倒悬在天花板上，根系伸向一池发光的液体。",
+      "first_visit_text": "竖井向黑暗中延伸。你的手摸到了固定在岩石上的铁梯——\n外公的手艺，焊缝整齐而结实。\n\n下降花了几分钟。或者几个小时。时间在这里行为怪异，\n像下方那池发光的液体一样积聚和回旋。\n\n你踏上梯子最后一级，来到一个本不该存在的空间。\n空腔巨大——像一座大教堂——洞壁散发着微弱的灰白色光芒，\n像活体内部。空气温热而甜蜜，带着一股你几乎认得出的气息。\n\n空腔中央，一棵树从天花板向下生长。\n根系伸向一池灰白色液体，那池液体发出自己的柔光。\n液体在*呼吸*——以缓慢的节律起伏，与你的心跳同步。\n\n史髓。历史的骨髓。\n\n骸骨嵌在洞壁中。人类的骸骨。它们被排列成图案——\n不是随机的，不是装饰性的，而是*结构性的*。\n仿佛骨骼本身就是支撑这个地方的东西。",
+      "ambient_text": "史髓在呼吸。骸骨在低鸣。树在等待。",
+      "items": [
+        "shisui_tree",
+        "shisui_pool",
+        "wall_bones"
+      ],
+      "exits": [
+        {
+          "direction": "up",
+          "target_room": "living_room",
+          "is_locked": false
+        },
+        {
+          "direction": "up_back",
+          "target_room": "living_room",
+          "is_locked": false
+        }
+      ]
+    },
+    "city_streets": {
+      "room_id": "city_streets",
+      "name": "城市街道",
+      "description": "初秋的城市大道。梧桐树的叶子正在变黄，行人裹紧了外套匆匆走过。\n一切都很普通——普通得像一段被遗忘的配乐。",
+      "first_visit_text": "你走出那扇门，世界换了。\n\n不是梦境——是真实的城市。初秋的空气裹着梧桐叶腐烂的甜味，\n红绿灯的滴滴声从远处传来，像一个不会停歇的心跳。\n你站在人行道上，身后是那栋老房子——但现在它看起来只是街角\n一栋不起眼的灰色建筑，和其他建筑没有区别。\n\n你往南看去，一块褪色的招牌挂在半地下室窗口上方：\n「辛普森唱片」。字迹歪歪扭扭，像是用指甲刻上去的。\n\n而在你脚下——水泥地面上有一道裂缝。\n不宽，不深。但它在发烫。\n那种温度不是太阳晒的，是从地底升上来的，\n像一个人把掌心贴在另一面，隔着整个世界。",
+      "ambient_text": "梧桐叶在风中打旋，像是没有方向地寻找方向。",
+      "items": [
+        "cement_crack",
+        "old_bookstore_site"
+      ],
+      "exits": [
+        {
+          "direction": "north",
+          "target_room": "living_room",
+          "is_locked": false
+        },
+        {
+          "direction": "south",
+          "target_room": "record_store",
+          "is_locked": false
+        },
+        {
+          "direction": "down",
+          "target_room": "rabbit_hole",
+          "is_locked": true,
+          "lock_reason": "地下的声音还在很远的地方。你需要先把什么种在这里。",
+          "unlock_flag": "planted_shards"
+        },
+        {
+          "direction": "home",
+          "target_room": "mortal_sanctuary",
+          "is_locked": true,
+          "lock_reason": "你还没有准备好回家。也许在领悟了什么之后……",
+          "unlock_flag": "unlocked_mortal_sanctuary"
+        }
+      ]
+    },
+    "record_store": {
+      "room_id": "record_store",
+      "name": "唱片店地下室",
+      "description": "一间半地下的唱片店。昏暗的灯光，到处是旧CD和黑胶唱片。\n柜台后面，一个老人在整理着什么。",
+      "first_visit_text": "你走下半层楼梯，推开那扇挂着褪色招牌的门。\n\n唱片店比看上去更小，也更暗。墙壁是裸露的水泥，\n刷了一层深褐色的漆，像被咖啡浸透的旧报纸。\n架子上密密麻麻地挤着CD和黑胶——\n没有分类，没有标签，像一片用塑料和乙烯基长成的丛林。\n\n柜台后面，威廉·辛普森抬起头看了你一眼。\n他的脸和外公有相同的骨骼结构——颧骨高而窄，\n眉弓上方有一道深深的横纹，像被什么东西压了一辈子。\n但他更年轻。或者说，他的老法不一样——\n不是被时间磨损的老，是在某个暗处待了太久的老。\n\n「你来了，」他说，语气像在确认天气预报。\n「东西在架子上。自己找。」\n\n他身后的墙上挂着一幅手绘的航海图，\n图的正中央有一大片空白。",
+      "ambient_text": "唱针的沙沙声从某个角落传来，像是地底的心跳。",
+      "items": [
+        "cd_player",
+        "nautical_chart",
+        "iron_box",
+        "simpson_canon"
+      ],
+      "exits": [
+        {
+          "direction": "north",
+          "target_room": "city_streets",
+          "is_locked": false
+        }
+      ]
+    },
+    "rabbit_hole": {
+      "room_id": "rabbit_hole",
+      "name": "兔子洞隧道",
+      "description": "一条废弃的地铁隧道。墙壁上覆盖着琥珀色的有机纹路，\n像血管一样脉动着。地上散落着一些旧物。",
+      "first_visit_text": "你蹲下身，把手伸进水泥裂缝——\n三块碎片从你手中滑入，像三颗种子落入泥土。\n温热在你掌心停留了一瞬，然后裂缝合拢了，\n像一只闭上的眼睛。\n\n地面震动了一下。不是地震——是回应。\n是从地下深处传来的一声「我听到了」。\n\n然后你看到了。人行道边缘，就在你脚边，\n一个入口出现了。不是门——是一段向下延伸的阶梯，\n水泥台阶，铁扶手，站台编号已经锈蚀得看不清了。\n\n你走下去。\n\n隧道很暗。但不是完全的暗——\n墙壁上覆盖着一层琥珀色的纹路，像血管，像树根，\n像某种在大地深处生长了千年的东西终于找到了表达自己的方式。\n那些纹路在脉动。缓慢的，和你的心跳同步。\n\n你越走越深，光越强。地上的东西越来越多——\n一个锈迹斑斑的饭盒，一副碎裂的眼镜，一张褪色的工牌。\n每一个都是某个人留下的，每一个都在说：\n「我也走过这条路。」",
+      "ambient_text": "琥珀色的纹路在墙壁上脉动，像大地的血管在呼吸。",
+      "items": [
+        "work_badge",
+        "rusted_lunchbox",
+        "broken_glasses"
+      ],
+      "exits": [
+        {
+          "direction": "up",
+          "target_room": "city_streets",
+          "is_locked": false
+        },
+        {
+          "direction": "east",
+          "target_room": "white_room",
+          "is_locked": true,
+          "lock_reason": "前面的路隐藏着。也许带有辛普森笔迹的东西能揭示它。",
+          "unlock_flag": "unlocked_white_room"
+        }
+      ]
+    },
+    "white_room": {
+      "room_id": "white_room",
+      "name": "白色房间",
+      "description": "一间不大的白色房间。不是医院的白——是珍珠的白，\n温热的、有呼吸的白。整面墙上是一幅壁画。",
+      "first_visit_text": "隧道尽头，一扇门。\n\n不是铁门，不是木门——是一层白色的膜，\n像蛋壳的内壁，又像眼睑内侧。\n你伸出手，它就开了。没有阻力，没有声音。\n\n你走进去。\n\n白色。不是刺眼的白，不是空洞的白——\n是温热的、有质感的白，像把手伸进一捧刚晒过的棉被里。\n房间不大。墙壁是珍珠质感的，微微泛着柔光，\n不是反射，而是自身在发出一种最安静的光。\n\n然后你看到了壁画。\n\n整面墙——从左到右，从天花板到地板——是一幅画。\n黄色的荒原。巨大的琥珀色巨树。\n树根处有一扇小门。\n一只兔子站在门前。\n\n你屏住了呼吸。你认得那只兔子。\n它是画上的那只。纸上的那只。记忆里的那只。",
+      "ambient_text": "白色在呼吸。像一个人在安静地等你。",
+      "items": [
+        "wall_mural"
+      ],
+      "exits": [
+        {
+          "direction": "west",
+          "target_room": "rabbit_hole",
+          "is_locked": false
+        },
+        {
+          "direction": "through",
+          "target_room": "springfield",
+          "is_locked": true,
+          "lock_reason": "你还不知道去那里的路。也许壁画会告诉你。",
+          "unlock_flag": "unlocked_springfield"
+        }
+      ]
+    },
+    "springfield": {
+      "room_id": "springfield",
+      "name": "春田镇常青台",
+      "description": "一个小镇。核电站的冷却塔在远处冒着白烟。\n常青台742号，门永远开着。",
+      "first_visit_text": "你把手掌从壁画上移开，世界换了。\n\n不是梦境——比梦境更真实，也更平凡。\n你站在一条安静的街道上。草坪修剪整齐，\n撒水器在转动，一只灰猫趴在信箱上看着你。\n\n远处，核电站的冷却塔冒着白烟，\n像一个老人在平静地抽烟。\n\n常青台742号。那栋房子。\n你知道这个地址——不是因为你来过，\n而是因为它一直在你记忆的某个角落，\n像一首你从未听过却会哼的旋律。\n\n门是开着的。永远是开着的。\n不是因为忘了关，而是因为这栋房子相信——\n每个辛普森都会回来。",
+      "ambient_text": "远处传来萨克斯风的一个音——清澈、孤独、倔强。",
+      "items": [
+        "cooling_tower",
+        "saxophone_note",
+        "yellow_slip",
+        "open_door_742",
+        "yellow_pass",
+        "motel_radio"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "white_room",
+          "is_locked": false
+        }
+      ]
+    },
+    "deep_time_studio": {
+      "room_id": "deep_time_studio",
+      "name": "深时之声",
+      "description": "1957年的河西走廊。一座灰色的钻塔矗立在荒原中央，\n钢铁骨架在风沙中发出低沉的呻吟。一排低矮的铁皮屋蹲在旁边，\n像一群被遗忘在荒原上的、沉默的、铁灰色的甲虫。",
+      "first_visit_text": "你按下收音机的开关——不是物理意义上的按下，\n而是你的意识穿越了那台1957年的木壳收音机，\n穿越了六十七年的沙沙白噪音，穿越了那些被消磁又被转录的、\n无人能懂的波动——\n\n你站在一片荒原上。\n\n天空低垂得像一块被拧过的铅灰色抹布。风从东边吹到西边，\n又从西边吹回东边，像一种古老的、从创世之初便已开始的、\n不知疲倦的祈祷。\n\n荒原的中央矗立着一座钻塔。灰色的，钢铁的，\n在风沙中发出低沉的、疲惫的呻吟。\n它的顶端刺入低垂的云层，仿佛一根倒悬的针，\n扎进了大地深处某个看不见的、被隐藏了太久的东西。\n\n铁皮屋的墙上，贴着一张泛黄的作息表。\n表的最后一行，有人用钢笔添加了一行附注——\n\n「如果听到声音，不要回答。」",
+      "ambient_text": "风永不停歇地吹着，从东到西，从西到东，像一种古老的祈祷。",
+      "items": [
+        "drilling_rig",
+        "iron_hut",
+        "core_sample",
+        "warning_sign"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "bedroom",
+          "is_locked": false
+        }
+      ]
+    },
+    "photo_gallery": {
+      "room_id": "photo_gallery",
+      "name": "照片长廊",
+      "description": "一面面照片挂在墙壁上，逆光中剪影般朦胧。\n空气中有水汽和柳叶的气息，仿佛照片里的世界\n正在向这个房间渗透。",
+      "first_visit_text": "你从客厅的西侧推开门，走进了一个你不知道存在的空间。\n\n墙上挂满了照片。不是那种精心装裱的、摆在客厅里的照片，\n而是一些被遗忘在手机相册深处的、几乎要被信息碎片淹没的、\n固执的证人——证明你确曾有过那样的瞬间：\n仰望着天空，低头沉思着，像一幕幕无声的现代诗。\n\n照片中有垂柳、有树冠、有湖面远山、有枯枝、有一个仰望者的背影。\n每一张都是一扇通往某个安静下午的门。\n每一张都在说：停下来。抬头看。风在说什么。",
+      "ambient_text": "照片中仿佛有风轻轻拂过柳枝的声音。",
+      "items": [
+        "willow_photo",
+        "tree_canopy_photo",
+        "lake_boat_photo",
+        "branch_photo",
+        "silhouette_photo"
+      ],
+      "exits": [
+        {
+          "direction": "east",
+          "target_room": "living_room",
+          "is_locked": false
+        }
+      ]
+    },
+    "wind_passage": {
+      "room_id": "wind_passage",
+      "name": "风之过道",
+      "description": "凌晨两点十七分。走廊里只有风的声音——\n一缕极细的气流，从墙壁的缝隙中渗进来，\n带着某种潮湿的、微咸的、仿佛来自很远很远的地方的气息。",
+      "first_visit_text": "你被一阵不知从何处吹来的风惊醒。\n\n房间里很暗，只有窗帘的缝隙漏进一线街灯的昏黄。\n床头柜上的电子钟泛着幽蓝的光，显示着凌晨两点十七分。\n\n你不知道自己为什么会醒来——没有噩梦，没有噪音。\n你只是醒了，像是被什么人轻轻拍了一下肩膀，\n又像是被一句没有发出声的话语从梦境中唤了回来。\n\n风——一缕极细的、像是从墙壁缝隙中渗进来的气流——\n带着某种潮湿的、微咸的、仿佛来自很远很远的地方的气息。\n那气息钻进你的鼻腔，让鼻翼微微发痒，\n然后一路向下，一直沉到肺腑的深处，\n像一只看不见的手，轻轻拨动了一根早已松弛的琴弦。\n\n你披上外套，走向了走廊尽头那个房间。",
+      "ambient_text": "风从不知何处吹来，带着咸腥的、像是深海一样的气息。",
+      "items": [
+        "night_wind",
+        "clock_217"
+      ],
+      "exits": [
+        {
+          "direction": "forward",
+          "target_room": "bedroom",
+          "is_locked": false
+        },
+        {
+          "direction": "back",
+          "target_room": "bedroom",
+          "is_locked": false
+        }
+      ]
+    },
+    "geology_room": {
+      "room_id": "geology_room",
+      "name": "地质陈列室",
+      "description": "一个不大的房间，靠墙摆着木制的样本架，\n上面整齐地排列着各种岩石标本。窗户朝北，\n光线总是冷淡的，像是只够照亮石头，不够照亮人。",
+      "first_visit_text": "你从书房的角落发现了一扇你从未注意过的门。\n门很矮，需要弯腰才能通过。门后是一个不大的房间，\n空气中弥漫着一种干燥的、矿物质的气息，\n像是把一百年的泥土和石头压缩在了这一间屋子里。\n\n靠墙的样本架上，整齐地排列着各种岩石标本——\n每一块都贴着标签，写着深度、日期、岩石类型。\n从地表到一千米，沉积岩、砂岩、页岩；\n从一千米到三千米，花岗岩、玄武岩；\n从五千米开始，标签变得越来越简短，越来越模糊。\n\n最底层的一个架子上，放着一块没有标签的石头。\n它是灰色的——但不是普通的灰。\n那种灰，像是所有的颜色被揉碎了、搅匀了、\n再放进了某种看不见的模子里压出来的灰。",
+      "ambient_text": "石头的气息——干燥的、矿物质的、带着一丝若有若无的温热。",
+      "items": [
+        "rock_samples",
+        "breathing_stone",
+        "magnifying_glass"
+      ],
+      "exits": [
+        {
+          "direction": "west",
+          "target_room": "study",
+          "is_locked": false
+        }
+      ]
+    },
+    "cave_depths": {
+      "room_id": "cave_depths",
+      "name": "洞穴深处",
+      "description": "燃烧着诡异绿光的洞穴深处。火焰不是橘红色的，\n而是带着绿光的、像是从另一个世界泄漏出来的颜色。\n洞穴中央，一棵巨大的树从深处生长出来，通体散发琥珀色光芒。",
+      "first_visit_text": "你走进了那个燃烧的洞穴。\n\n热浪一阵阵涌来。但那热浪不是灼烧的——\n它是温热的，像一只按在你胸口的手，\n在说「我在这里」，而不是「离开这里」。\n\n洞壁被熏成了光滑的黑色，像窑炉内部。\n壁上有画——数百幅。兔子，树，举着双臂的人形。\n它们不是用颜料画的，而是用某种会发光的液体绘制的，\n在黑暗中发出淡淡的灰白色光芒。\n\n洞穴的最深处——不是火。\n\n是一棵树。\n\n一棵巨大的、无法用人类的尺度去衡量的、\n从洞穴最深处生长出来的、通体散发着温润琥珀色光芒的树。\n它的树干粗得像一座山，树枝伸展得像一片天空。\n它的叶子是那种温暖的、带着些许金色与橙色的黄——\n和那张泛黄的草纸上的颜色一模一样。\n\n那棵树在流血。\n\n琥珀色的、温热的、带着铁锈和甜味的汁液，\n从树皮的裂缝中缓缓渗出，沿着树干向下流淌，\n汇入地面那些灰白色的、会发光的溪流中——史髓。\n\n你想伸手去摸它。但你听到一个声音，\n从树的内部传来，从根系的深处传来，\n从十二公里之下的那道裂隙中传来：\n\n「你终于来了。我们等了你三千万年。」",
+      "ambient_text": "琥珀色的光从树的内部渗出来，像是时间本身的呼吸。",
+      "items": [
+        "bleeding_tree",
+        "cave_paintings",
+        "deep_voice"
+      ],
+      "exits": [
+        {
+          "direction": "out",
+          "target_room": "dreamland",
+          "is_locked": false
+        }
+      ]
+    },
+    "blueprint_room": {
+      "room_id": "blueprint_room",
+      "name": "图纸密室",
+      "description": "一个极小的房间，墙壁上贴满了图纸和手写注释。\n空气中弥漫着旧纸和墨水的气息，\n以及下面某种更深沉的、像是金属氧化后的味道。",
+      "first_visit_text": "你在书桌后面发现了一扇隐藏的门——\n不是真正的门，而是一块可以活动的木板，\n被外公用一种极其巧妙的方式嵌在了书架和墙壁之间。\n\n你推开它，走进了一个极小的房间。\n\n墙壁上贴满了图纸和手写注释。\n有些图纸已经泛黄发脆，有些还很新——\n新到上面的墨迹似乎还没干透，\n像是有人刚刚离开。\n\n正中央的桌面上，摊开着一张巨大的图纸——\nKN-3号钻孔地质剖面图，1957年9月修订版。\n\n你认出了外公的笔迹，歪歪扭扭的，\n带着一种孩子气的、未经训练的笨拙。\n但每一个标注都写得极其用力，\n像是在和那张纸较劲，又像是在和某种\n看不见的、比纸更坚硬的东西较劲。",
+      "ambient_text": "图纸在微风中轻轻颤动，像是在呼吸。",
+      "items": [
+        "kn3_cross_section",
+        "anomaly_notes",
+        "rabbit_cracks"
+      ],
+      "exits": [
+        {
+          "direction": "out",
+          "target_room": "study",
+          "is_locked": false
+        }
+      ]
+    },
+    "mortal_sanctuary": {
+      "room_id": "mortal_sanctuary",
+      "name": "凡人之所",
+      "description": "一间再普通不过的房间。一张床，一盏灯，一本翻开的笔记本。\n窗外的城市灯火一盏一盏地亮起，\n像一幅用光点和阴影绘制的地图。",
+      "first_visit_text": "你从城市的裂缝中走出来，\n回到了一间再普通不过的房间。\n\n不是外公的房间，不是那间凝固了二十年的房间——\n是你的房间。你自己的。属于一个凡人的房间。\n\n桌上有一碗还没吃完的面，已经坨了。\n水槽里有一只没洗的杯子。\n窗台上，那块灰色的碎片还在，\n安安静静地躺在初秋的阳光下，像一个耐心的守望者。\n\n你坐在窗前，看着窗外的梧桐树，\n看着那些在风中微微颤动的、已经开始泛黄的叶子。\n\n你忽然想明白了——\n\n外公不是放弃了。他选择了做一个凡人。\n不是因为他不知道那些声音的存在，\n而是因为他知道得太多了。\n他知道那些声音不会消失，那棵树不会死去，\n那道裂隙不会愈合。\n\n他回到老家，不是因为恐惧，不是因为放弃——\n而是因为他知道，那棵树需要的不是更多的人同时听见它的声音，\n它需要的是一根极细的、极隐蔽的线，\n一根将它的声音从一个辛普森传递到另一个辛普森的线。\n\n而他，就是那根线的第一个结。\n\n你拿起笔，在笔记本上写下了四个字——\n白炎考异。\n\n你是凡人。你是凡人。你是凡人。\n而这就够了。",
+      "ambient_text": "窗外传来邻居做饭的声音。有人在楼下喊孩子的名字。一切都很普通。",
+      "items": [
+        "mortal_mirror",
+        "open_notebook",
+        "warm_cup"
+      ],
+      "exits": [
+        {
+          "direction": "out",
+          "target_room": "city_streets",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep0_drill_site": {
+      "room_id": "ep0_drill_site",
+      "name": "钻探工地",
+      "description": "1957年的河西走廊。灰色的钻塔矗立在荒原中央，\n铁皮屋蹲伏在一旁。风从东到西，从西到东，永不停歇。",
+      "first_visit_text": "你站在1957年的荒原上。\n\n天空低垂得像一块被拧过的铅灰色抹布。\n风从东边吹到西边，又从西边吹回东边，\n像一种古老的、从创世之初便已开始的、不知疲倦的祈祷。\n\n钻塔是灰色的，钢铁骨架在风沙中发出低沉的呻吟。\n它的顶端刺入低垂的云层，仿佛一根倒悬的针，\n扎进了大地深处某个看不见的、被隐藏了太久的东西。\n\n铁皮屋的墙上贴着泛黄的作息表，\n最后一行用钢笔添加了一行附注——\n\n「如果听到声音，不要回答。」",
+      "ambient_text": "风永不停歇地吹着，从东到西，从西到东，像一种古老的祈祷。",
+      "items": [
+        "ep0_schedule",
+        "ep0_derrick"
+      ],
+      "exits": [
+        {
+          "direction": "enter",
+          "target_room": "ep0_iron_dorm",
+          "is_locked": false
+        },
+        {
+          "direction": "down",
+          "target_room": "deep_time_studio",
+          "is_locked": true,
+          "lock_reason": "竖井的盖板被铁栏杆围着。也许走近些能看到更多。",
+          "unlock_flag": "ep0_inspected_wellhead"
+        }
+      ]
+    },
+    "ep0_iron_dorm": {
+      "room_id": "ep0_iron_dorm",
+      "name": "铁皮宿舍",
+      "description": "一排低矮的铁皮屋，地面铺着磨得发亮的绿色油毡。\n铁架床靠墙排列，空气中弥漫着铁锈和汗水的气息。",
+      "first_visit_text": "你推开铁皮屋的门。门很轻，风一吹就要飞走。\n\n屋里是两排铁架床，床单洗得发白。\n地面铺着已经磨得发亮的、曾经是绿色的油毡。\n空气里弥漫着铁锈和汗水的气息，\n以及下面某种更深沉的、像是从地下渗上来的甜味。\n\n靠门的床铺上，一块旧手表搁在枕边，\n指针停在了两点十七分。\n\n墙上的作息表最后一行，\n有人用钢笔写了一行附注：\n「如果听到声音，不要回答。」",
+      "ambient_text": "铁皮在风中轻轻震颤，像一面低沉的鼓。",
+      "items": [
+        "ep0_pocket_watch",
+        "ep0_bed"
+      ],
+      "exits": [
+        {
+          "direction": "out",
+          "target_room": "ep0_drill_site",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep0_core_washing": {
+      "room_id": "ep0_core_washing",
+      "name": "岩心清洗台",
+      "description": "户外的清洗台，木制样本箱整齐排列。\n一节节圆柱形岩心样本等待清洗和编号。\n远处荒原的风带着沙砾扑面而来。",
+      "first_visit_text": "你走到岩心清洗台前。\n\n木制样本箱一排排整齐排列，\n里面是一节一节的圆柱形岩石，贴着写有深度的标签。\n从地表到一千米，沉积岩、砂岩、页岩，\n里面埋藏着贝壳的化石、鱼类的骨骼——\n一本用石头装订的地球日记。\n\n但在最底层的一只箱子里，\n有一块没有标签的石头。\n它的颜色是一种你从未见过的灰——\n不属于任何色卡，不属于任何已知色谱。\n像是所有的颜色被揉碎了、搅匀了、\n再放进了某种看不见的模子里压出来的灰。",
+      "ambient_text": "风带着沙砾，敲打着样本箱的木板。",
+      "items": [
+        "ep0_grey_stone",
+        "ep0_sample_box"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "ep0_drill_site",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep2_tree_garden": {
+      "room_id": "ep2_tree_garden",
+      "name": "水边柳园",
+      "description": "水边的柳园，垂柳细长枝条层层叠叠地垂落。\n阳光从叶隙中漏下来，空气中有水汽和柳叶的气息。",
+      "first_visit_text": "你走进一片水边的柳园。\n\n细长的柳条层层叠叠地垂落下来，\n像是时间织就的帘幕，\n又像是母亲轻轻梳理的长发。\n\n柳叶呈现出一种独特的灰白色调，\n仿佛被水墨浸染过一般，\n带着一种褪了色的清冷感。\n杨柳依依，自古便是离别的象征。\n\n那些柳丝在风中荡开，\n像无形的手在空气中写意地涂抹，\n它们交织、纠缠、分离，\n却总在坠落的极限处保持着一种微妙的韧性。\n\n树不语，却道尽了一切。",
+      "ambient_text": "柳枝在微风中轻轻拂过水面，发出细碎的沙沙声。",
+      "items": [
+        "ep2_willow_branch"
+      ],
+      "exits": [
+        {
+          "direction": "up",
+          "target_room": "ep2_canopy_walk",
+          "is_locked": false
+        },
+        {
+          "direction": "across",
+          "target_room": "ep2_lake_shore",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep2_canopy_walk": {
+      "room_id": "ep2_canopy_walk",
+      "name": "树冠光影径",
+      "description": "虬结的树干与密叶交织，阳光从缝隙洒落。\n明暗交错，仿佛穿行在一本厚重的自然之书中。",
+      "first_visit_text": "你仰头看去。\n\n虬结的树干与密密麻麻的阔叶交织在一起，\n形成了一把天然的巨伞。\n阳光透过树叶的缝隙洒落下来，\n在背后苍白的天空中，化作无数个细碎而明亮的光斑。\n\n那些交错的枝条和树叶是暗淡的、绵密的，\n但透过它们，那一丝丝白昼的光却又亮得刺眼，\n形成了一种强烈的明暗对比。\n\n这让你想起自己的生命——\n那些灰暗的、密不透风的日子，\n总是在最不经意的时候，被一缕微光刺穿。\n\n树叶层层叠叠，像是一本厚重的书籍，\n每一片叶子都是一个字，\n组成了无穷无尽的自然密码。",
+      "ambient_text": "光斑在地面缓缓移动，像时间的指针。",
+      "items": [
+        "ep2_light_spot"
+      ],
+      "exits": [
+        {
+          "direction": "down",
+          "target_room": "ep2_tree_garden",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep2_lake_shore": {
+      "room_id": "ep2_lake_shore",
+      "name": "湖畔远山",
+      "description": "逆光中，垂柳、湖水、远山与行船的剪影。\n水面广袤而波澜不惊，行船渺远如静止。",
+      "first_visit_text": "你来到湖边。\n\n最富诗意的一幅画面：\n垂柳、湖水、远山与行船的剪影同时收入眼中。\n\n由于角度是逆光，景物呈现出一种近乎剪影的效果。\n前景的垂柳，像黑色丝线般垂挂下来，若隐若现。\n中景是广袤的、波澜不惊的湖水。\n远处水面上，点缀着些许游船，\n它们是那样的渺远，如同静止一般——\n仿佛从创世之初便停泊在那里，\n从未移动过，也永远不会靠岸。\n\n面对如此广阔的水面，\n日常的烦恼似乎都变得微不足道，\n如同那些船只一般，被缩小成了芥子大的黑点，\n然后被风吹散，消失在苍茫的天际。\n\n船不语，水不语。但它们在说：\n有些东西比你的烦恼更辽阔，也更安静。",
+      "ambient_text": "水波轻轻拍打着岸边，像是在低声吟唱一首古老的歌。",
+      "items": [
+        "ep2_distant_boat"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "ep2_tree_garden",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep4_midnight_corridor": {
+      "room_id": "ep4_midnight_corridor",
+      "name": "凌晨走廊",
+      "description": "凌晨两点十七分。走廊很暗，木地板在脚下发出轻微的吱呀声。\n一缕极细的气流从墙壁缝隙中渗进来，\n带着咸腥的、仿佛来自深海一样的气息。",
+      "first_visit_text": "你被一阵不知从何处吹来的风惊醒。\n\n房间里很暗，只有窗帘的缝隙漏进一线街灯的昏黄。\n床头柜上的电子钟泛着幽蓝的光，\n显示着凌晨两点十七分。\n\n你不知道自己为什么会醒来——\n没有噩梦，没有噪音。\n你只是醒了，像是被什么人轻轻拍了一下肩膀，\n又像是被一句没有发出声的话语从梦境中唤了回来。\n\n风——一缕极细的、像是从墙壁缝隙中渗进来的气流——\n带着某种潮湿的、微咸的、\n仿佛来自很远很远的地方的气息。\n那气息钻进你的鼻腔，\n然后一路向下，一直沉到肺腑的深处，\n像一只看不见的手，\n轻轻拨动了一根早已松弛的琴弦。\n\n你披上外套，走向了走廊尽头的那个房间。",
+      "ambient_text": "木地板在脚下发出轻微的吱呀声，像是有人在暗处低语。",
+      "items": [
+        "ep4_night_wind"
+      ],
+      "exits": [
+        {
+          "direction": "forward",
+          "target_room": "ep4_grandfather_room",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep4_grandfather_room": {
+      "room_id": "ep4_grandfather_room",
+      "name": "外公的旧房间",
+      "description": "凝固了二十年的房间。月光从半拉的窗帘后透进来，\n将一切都镀上了银灰色。矮柜上蹲着一台老收音机。",
+      "first_visit_text": "你推开那扇铜把手的门，门无声地开了。\n\n外公走后，这个房间便一直空着。\n外婆不允许任何人动里面的东西，\n说是「让它们安安静静地待着」。\n于是那些旧家具、旧书、旧摆设，\n像是被遗忘在琥珀中的昆虫标本，\n凝固在了二十年前的某个下午。\n\n月光从半拉的窗帘后面透进来，\n将一切都镀上了一层淡淡的银灰色。\n床头柜上放着一台老式的收音机——\n木壳的，正面嵌着米黄色的喇叭布。\n\n今夜，它似乎和以前不太一样。\n你感到一股极其微弱的振动，\n从木壳的内部传出来，\n像是一只蛰伏了很久的虫子，\n终于开始在茧中轻轻蠕动。",
+      "ambient_text": "月光将一切镀上银灰色，时间在这个房间里凝固了。",
+      "items": [
+        "ep4_old_radio",
+        "ep4_hidden_letter"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "ep4_midnight_corridor",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep5_morning_kitchen": {
+      "room_id": "ep5_morning_kitchen",
+      "name": "清晨的厨房",
+      "description": "初秋的阳光从厨房窗户透进来，淡金色的光铺在窗台上。\n窗台上多了一样东西——一小片灰色的、表面粗糙的碎石碎片。",
+      "first_visit_text": "你站在厨房里，手里握着那杯还没来得及喝的水。\n\n初秋的光线总是带着一种克制的、几乎可以说是吝啬的温柔，\n不像盛夏那样铺张，也不像深冬那样吝惜。\n它就那么薄薄地铺在窗台上，\n铺在那块灰色的、表面粗糙的碎石上。\n\n你想要伸手去拿，\n却又怕一触碰到它，它就会像清晨的露水一样，\n在你的指尖蒸发殆尽。\n\n你最终还是拿起来了。\n\n石头的触感和昨夜一模一样。\n温热的，但不是那种被体温捂热的温热，\n而是一种从内部向外渗透的、持续的、\n仿佛有自己的心跳一般固执的热度。",
+      "ambient_text": "窗外的鸟叫和远处汽车驶过的声音，一切都很正常。",
+      "items": [
+        "ep5_window_shard"
+      ],
+      "exits": [
+        {
+          "direction": "south",
+          "target_room": "ep5_study",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep5_study": {
+      "room_id": "ep5_study",
+      "name": "外公的书房",
+      "description": "堆满旧书和旧报纸的小房间。铁制书架靠南墙，\n漆面斑驳，露出暗红色的锈迹。\n书桌上刻着歪歪扭扭的「辛」字。",
+      "first_visit_text": "你走进外公的书房——\n如果那个堆满了旧书和旧报纸的小房间可以称之为书房的话。\n\n书架靠着南墙，是从一家倒闭的供销社买来的旧货，\n铁制的，漆面已经斑驳，露出底下暗红色的锈迹。\n书架上塞满了各种书——\n有小说，有历史，有地理，\n还有一些你叫不出名字的、封面已经脱落的、\n像是什么人的笔记或手稿。\n\n你翻到第三层的时候，\n手指碰到了一本没有书脊的书——\n准确地说，是一叠用牛皮纸包着的手稿，\n纸张已经发黄发脆，\n边缘有些地方已经碎成了粉末。\n\n你将它放在那张刻着歪歪扭扭的「辛」字的\n橡木书桌上，解开发黑的棉线。",
+      "ambient_text": "旧书的气息——干燥的、微甜的、带着一丝樟脑的味道。",
+      "items": [
+        "ep5_manuscript"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "ep5_morning_kitchen",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep6_yellow_waste": {
+      "room_id": "ep6_yellow_waste",
+      "name": "黄色荒原（深潜）",
+      "description": "无边无际的黄色大地。天空是近乎黑色的靛青，\n暗红色的云像凝固的血块。远处燃烧着诡异绿光的洞穴。",
+      "first_visit_text": "这一次，他不是在做梦。\n\n他的身体是真实的——\n他能感受到脚踏在黄色土地上的触感，\n干燥的、龟裂的、带着某种像是被火烧过的焦糊味的泥土。\n他能感受到风吹过他的脸，\n那种咸腥的、带着深海气息的风。\n\n头顶的天空不是蓝色的，\n而是一种深沉的、近乎黑色的靛青，\n像是被什么东西污染过的、正在缓慢腐烂的水。\n云是暗红色的，像凝固的血块，\n边缘却发着微弱的、珊瑚般的光。\n\n远处的地平线上，\n有一个巨大的、燃烧着的洞穴，\n火焰不是橘红色的，\n而是一种诡异的、带着绿光的、\n像是从另一个世界泄漏出来的颜色。\n\n那两只兔子还在。",
+      "ambient_text": "风带着咸腥的深海气息，从背后推着你向前。",
+      "items": [
+        "ep6_two_rabbits"
+      ],
+      "exits": [
+        {
+          "direction": "toward",
+          "target_room": "ep6_burning_cave",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep6_burning_cave": {
+      "room_id": "ep6_burning_cave",
+      "name": "燃烧的洞穴",
+      "description": "一道从地心深处裂开的伤口。\n火焰是诡异的、带着绿光的颜色，\n从洞穴底部一寸一寸地向上攀爬。",
+      "first_visit_text": "他跑到了洞穴的边缘。\n\n那洞穴比他上一次在梦中看到的更大，更深，更可怖。\n它像是一道从地心深处裂开的伤口，\n横亘在这片黄色的荒原上，一眼望不到尽头。\n\n火焰从洞穴的深处喷涌而出，\n那些火焰不是橘红色的，\n而是那种诡异的、带着绿光的颜色。\n它们缓慢地、沉重地、像是什么东西在蠕动一样，\n从洞穴的底部一寸一寸地向上攀爬。\n\n他站在洞穴的边缘，朝下望去。\n那下面有什么东西——\n不是固体，不是液体，不是气体，\n而是一种纯粹的、被压缩到了极限的、\n几乎要撑破空间本身的意识。\n\n他想转身逃跑。\n但他没有跑。\n\n不是因为他勇敢。\n而是因为那只小兔子的眼神——\n那双湿润的、深褐色的、仰望着他的眼睛。\n\n他张开了嘴，说出了三个字：\n\n「我在这里。」",
+      "ambient_text": "火焰发出低沉的、像是巨兽翻身的隆隆声。",
+      "items": [
+        "ep6_green_flame",
+        "ep6_deep_presence"
+      ],
+      "exits": [
+        {
+          "direction": "through",
+          "target_room": "ep6_tree_revelation",
+          "is_locked": true,
+          "lock_reason": "你还不敢面对洞穴最深处的东西。",
+          "unlock_flag": "ep6_declared_presence"
+        }
+      ]
+    },
+    "ep6_tree_revelation": {
+      "room_id": "ep6_tree_revelation",
+      "name": "琥珀之树",
+      "description": "洞穴最深处，一棵巨大的树从深处生长出来，\n通体散发琥珀色光芒。它在流血。\n温热的汁液从树皮裂缝中渗出。",
+      "first_visit_text": "洞穴的底部在他话音落下的那一瞬间，塌陷了。\n\n不是物理意义上的塌陷——\n那些岩石、火焰、绿光都还在，只是它们忽然变得透明了。\n透过那层纸，他看见了那东西——\n\n它不是巨兽。不是怪物。不是任何恐怖的东西。\n\n那是一棵树。\n\n一棵巨大的、无法用人类的尺度去衡量的、\n从洞穴的最深处生长出来的、\n通体散发着温润的、琥珀色光芒的树。\n它的树干粗得像一座山，\n它的树枝伸展得像一片天空，\n它的树冠覆盖了整个洞穴的顶部。\n\n它的叶子是一种温暖的、带着些许金色与橙色的黄——\n和那张泛黄的草纸上的颜色一模一样。\n\n那棵树在流血。\n\n琥珀色的、温热的、带着铁锈和甜味的汁液，\n从树皮的裂缝中缓缓渗出，\n沿着树干向下流淌，\n汇入地面那些灰白色的、会发光的溪流中——史髓。\n\n「你终于来了。我们等了你三千万年。」",
+      "ambient_text": "琥珀色的光从树的内部渗出来，像是时间本身的呼吸。",
+      "items": [
+        "ep6_bleeding_trunk",
+        "ep6_amber_tears"
+      ],
+      "exits": [
+        {
+          "direction": "out",
+          "target_room": "ep6_yellow_waste",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep7_hidden_archive": {
+      "room_id": "ep7_hidden_archive",
+      "name": "矮柜后的密缝",
+      "description": "矮柜后面三指宽的缝隙，\n常年不见光，积满了灰。\n里面藏着一卷被油纸包裹的图纸。",
+      "first_visit_text": "你将矮柜往外拖了几寸，\n灰尘在午后的光线中狂舞起来，\n像一群受惊的微生物。\n\n你蹲下身，把手伸进那道缝隙——\n指尖触到的不是墙皮的冰凉，\n而是一张被卷成筒状的、\n用油纸包裹的、塞在墙与柜子之间的东西。\n\n那东西被塞得很深，\n深到如果你不刻意去寻找，\n也许再过二十年也不会有人发现它。\n\n你费了些力气才将它取出来。\n油纸是那种老式的、用来包点心的黄油纸，\n已经脆得像是秋天的枯叶。\n三层包裹下，是一卷图纸——\n那种极其坚韧却又极其柔软的、\n带着微微象牙白光泽的纸。",
+      "ambient_text": "灰尘在光线中缓缓沉降，像时间的碎屑。",
+      "items": [
+        "ep7_oil_paper_wrapping"
+      ],
+      "exits": [
+        {
+          "direction": "up",
+          "target_room": "ep7_blueprint_desk",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep7_blueprint_desk": {
+      "room_id": "ep7_blueprint_desk",
+      "name": "图纸书桌",
+      "description": "外公的橡木书桌上摊开着地质剖面图。\n桌面刻着歪歪扭扭的「辛」字。\n图纸上的裂缝在特定光线下形成两只兔子。",
+      "first_visit_text": "你将图纸在书桌上展开。\n\n那是一张极其复杂、极其详尽的地质剖面图。\n图纸的正上方写着——\n「KN-3号钻孔地质剖面图（1957年9月修订版）」。\n\n从地表到一千米是浅黄色的沉积岩层，\n一千米至三千米是赭红色的砂岩和页岩，\n三千米至五千米是深灰色的花岗岩。\n这些标注都很正常。\n\n但从七千米往下，一切便开始变得无法解释——\n岩石类型一栏被人用黑色的墨水\n刻意地、反复地涂抹过，\n几乎要将纸面划破。\n\n在图纸的最下方，十公里到十二公里之间，\n一个巨大的、不规则的空腔形状。\n空腔边缘，外公用极细的铅笔线描了一个问号。\n\n你将图纸对着光线倾斜——\n那些裂缝不是随机的。\n在特定的角度下，它们形成了两只兔子。",
+      "ambient_text": "图纸在微风中轻轻颤动，像是在呼吸。",
+      "items": [
+        "ep7_kn3_blueprint",
+        "ep7_anomaly_notes",
+        "ep7_rabbit_cracks"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "ep7_hidden_archive",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep10_mortal_apartment": {
+      "room_id": "ep10_mortal_apartment",
+      "name": "凡人公寓",
+      "description": "一间再普通不过的公寓。书桌上摊着没读完的小说，\n水槽里有一只没洗的杯子。\n窗台上，三块碎片并排躺在初秋的阳光下。",
+      "first_visit_text": "他叫了一辆出租车，回到了自己的公寓。\n\n房间里的一切都和离开时一模一样——\n书桌上摊着那本没有再读完的小说，\n厨房的水槽里还有一只没洗的杯子，\n窗台上那块灰色的碎片还在，\n安安静静地躺在初秋的阳光下，\n像一个从未离开过的、耐心的、沉默的守望者。\n\n他将背包放在地上，\n将那两块黄色的碎片倒出来，\n和窗台上那块灰色的碎片并排放在一起。\n\n三块碎片。一块是灰色的，两块是黄色的。\n它们之间的那种吸引力——\n像是在深深的海底，在巨大的水压下，\n两块被分离了亿万年的岩石终于缓缓靠近的——\n比之前更加强烈了。",
+      "ambient_text": "窗外的梧桐树在微风中轻轻颤动，叶子已经开始泛黄。",
+      "items": [
+        "ep10_three_shards",
+        "ep10_unwashed_cup"
+      ],
+      "exits": [
+        {
+          "direction": "to_window",
+          "target_room": "ep10_city_window",
+          "is_locked": false
+        }
+      ]
+    },
+    "ep10_city_window": {
+      "room_id": "ep10_city_window",
+      "name": "城市灯火窗前",
+      "description": "站在窗前，城市的灯火在远处亮起，\n一片一片的，像一幅用光点和阴影绘制的地图。\n有些灯火是温热的，像凡人的体温。",
+      "first_visit_text": "他站起身，走到窗前。\n\n城市的灯火在远处闪烁，\n一片一片的，像一幅用光点和阴影绘制的地图。\n在这幅地图上，没有白炎王朝的位置，\n没有西嵯城的坐标。\n\n但那些灯火不是冰冷的。\n它们是有温度的，\n和那块灰色碎片一样的温度——\n温热的，固执的，\n像是有什么东西在每一盏灯的后面，\n在每一个亮着灯的窗户后面，\n在每一个正在吃饭、正在聊天、\n正在看电视、正在哄孩子睡觉的人的身体里，\n缓慢地、持续地、不知疲倦地燃烧着。\n\n那不是史髓的光，不是那棵树的光。\n那是凡人的光。\n\n那是所有在历史中没有留下名字的人，\n在活着的每一个瞬间，\n从他们那渺小的、脆弱的、会死的身体里发出来的、\n微弱的、却永远不会完全熄灭的光。",
+      "ambient_text": "窗外传来邻居做饭的声音。有人在楼下喊孩子的名字。一切都很普通。",
+      "items": [
+        "ep10_mortal_lights",
+        "ep10_open_notebook"
+      ],
+      "exits": [
+        {
+          "direction": "back",
+          "target_room": "ep10_mortal_apartment",
+          "is_locked": false
+        }
+      ]
+    }
+  },
+  "_comment": "---- 小说扩充 ----"
+}

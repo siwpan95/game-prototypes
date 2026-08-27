@@ -1,0 +1,137 @@
+[
+  {
+    "id": "act1_fragment_1",
+    "act": 1,
+    "index": 1,
+    "cipher_text": "WKLV LV WKH EHJLQQLQJ",
+    "hint": "凯撒密码，偏移量为3。想想古罗马。",
+    "decoded_text": "THIS IS THE BEGINNING",
+    "description": "一块在沙漠中发现的饱经风蚀的石板。"
+  },
+  {
+    "id": "act1_fragment_2",
+    "act": 1,
+    "index": 2,
+    "cipher_text": "GUR JRZHU VF ZRFG JBAQR",
+    "hint": "ROT13。字母表循环往复。",
+    "decoded_text": "THE JOWER IS MOST WONDER",
+    "description": "刻在酒吧后面的酒馆墙上。"
+  },
+  {
+    "id": "act1_fragment_3",
+    "act": 1,
+    "index": 3,
+    "cipher_text": ".... .- -. -.. --- ..-. - .... .--. .- ... -",
+    "hint": "摩尔斯电码。点和线讲述着故事。",
+    "decoded_text": "HAND OF THE PAST",
+    "description": "一个死骑手外套中发现的电报。"
+  },
+  {
+    "id": "act1_fragment_4",
+    "act": 1,
+    "index": 4,
+    "cipher_text": "20-8-5 23-1-12-11-5-18",
+    "hint": "A=1, B=2... 数字转字母。",
+    "decoded_text": "THE WALKER",
+    "description": "刻在沙漠小径的里程碑上。"
+  },
+  {
+    "id": "act2_fragment_1",
+    "act": 2,
+    "index": 5,
+    "cipher_text": "Gsviv rh zm vmnvibtvmxb",
+    "hint": "阿特巴什密码。A=Z, B=Y... 反转字母表。",
+    "decoded_text": "There is an enemy coming",
+    "description": "写在废弃哨站的墙上。"
+  },
+  {
+    "id": "act2_fragment_2",
+    "act": 2,
+    "index": 6,
+    "cipher_text": "RIJVS UIVGC NI EPH VSAH",
+    "hint": "维吉尼亚密码，密钥为KNIGHT。",
+    "decoded_text": "KNIGHT FALLS AT DAWN",
+    "description": "藏在沙漠中一本被掏空的圣经里。"
+  },
+  {
+    "id": "act2_fragment_3",
+    "act": 2,
+    "index": 7,
+    "cipher_text": "WKLW LV QRW RYHU",
+    "hint": "凯撒密码，偏移量为3。信息还在继续。",
+    "decoded_text": "THIS IS NOT OVER",
+    "description": "绿洲处发现的漂流瓶中的信息。"
+  },
+  {
+    "id": "act2_fragment_4",
+    "act": 2,
+    "index": 8,
+    "cipher_text": "12-5-1-18-14 20-15 16-18-15-20-5-3-20",
+    "hint": "A=1, B=2。数字拼出真相。",
+    "decoded_text": "LEARN TO PROTECT",
+    "description": "刻在一把断剑的剑刃上。"
+  },
+  {
+    "id": "act3_fragment_1",
+    "act": 3,
+    "index": 9,
+    "cipher_text": "YLFF DP PMLD DP NCPLBC",
+    "hint": "凯撒密码，偏移量为7。倒数第二块碎片。",
+    "decoded_text": "ROOT IS GIVE IS LIGHT",
+    "description": "在一个铁拳会特工的加密发报机上发现。"
+  },
+  {
+    "id": "act3_fragment_2",
+    "act": 3,
+    "index": 10,
+    "cipher_text": "--- .-.. -..  ...- .- .. -.",
+    "hint": "摩尔斯电码。古老的方式依然延续。",
+    "decoded_text": "OLD VAIN",
+    "description": "在地下截获的加密信息。"
+  },
+  {
+    "id": "act3_fragment_3",
+    "act": 3,
+    "index": 11,
+    "cipher_text": "HRNK LI QBO XZK",
+    "hint": "凯撒密码，偏移量为9。即将完成。",
+    "decoded_text": "KING OF THE MAN",
+    "description": "陨落骑士的亡灵低语出这段密码。"
+  },
+  {
+    "id": "act3_fragment_4",
+    "act": 3,
+    "index": 12,
+    "cipher_text": "19-8-5 12-9-22-5-19 15-14",
+    "hint": "A=1, B=2。最后的碎片。",
+    "decoded_text": "SHE LIVES ON",
+    "description": "城墙上的终极密码。真相揭晓。"
+  },
+  {
+    "id": "act1_fragment_5",
+    "act": 1,
+    "index": 5,
+    "cipher_text": "....- .---- ...-- - ..-- --- ..---",
+    "hint": "摩尔斯电码。数字指向一个地址。",
+    "decoded_text": "413 T O 2",
+    "description": "残月渡暗室铁匣子里的电报底稿。地址：圣丹尼斯靛蓝街四号仓库。"
+  },
+  {
+    "id": "act2_fragment_5",
+    "act": 2,
+    "index": 9,
+    "cipher_text": "GSRH RH ZM NVVM",
+    "hint": "阿特巴什密码。反转一切。",
+    "decoded_text": "THIS IS AN MEEL",
+    "description": "格蕾丝·马洛莉用血写在草纸上的遗言。这座桥下埋着活人的噩梦。"
+  },
+  {
+    "id": "act3_fragment_5",
+    "act": 3,
+    "index": 13,
+    "cipher_text": "19-3-18-5-4 8-1-21-14-20",
+    "hint": "A=1, B=2。圣枪男爵的墓志铭。",
+    "decoded_text": "SCRED HAUNT",
+    "description": "S.H.——Sacred Haunting。神佑的冤魂。第十二个骑士从未死去。"
+  }
+]

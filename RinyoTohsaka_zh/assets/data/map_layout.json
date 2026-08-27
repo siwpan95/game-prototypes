@@ -1,0 +1,111 @@
+{
+  "days": [
+    {
+      "day": 1,
+      "nodes": [
+        {"id": "d1_start", "node_type": "Event", "data_ref": "dialog_day1_intro", "connections": ["d1_02", "d1_03"], "position": [50, 300]},
+        {"id": "d1_02", "node_type": "Combat", "data_ref": "yokai_kasa", "connections": ["d1_04", "d1_05"], "position": [200, 180]},
+        {"id": "d1_03", "node_type": "Puzzle", "data_ref": "puzzle_incantation_01", "connections": ["d1_04", "d1_05"], "position": [200, 420]},
+        {"id": "d1_04", "node_type": "Event", "data_ref": "dialog_day1_intro", "connections": ["d1_06"], "position": [380, 200]},
+        {"id": "d1_05", "node_type": "Combat", "data_ref": "yokai_inugami_1", "connections": ["d1_06"], "position": [380, 400]},
+        {"id": "d1_06", "node_type": "Rest", "data_ref": "", "connections": [], "position": [560, 300]}
+      ]
+    },
+    {
+      "day": 2,
+      "nodes": [
+        {"id": "d2_start", "node_type": "Event", "data_ref": "dialog_day2_mountain", "connections": ["d2_02", "d2_03"], "position": [50, 300]},
+        {"id": "d2_02", "node_type": "Combat", "data_ref": "yokai_inugami_2", "connections": ["d2_04", "d2_05"], "position": [200, 180]},
+        {"id": "d2_03", "node_type": "Event", "data_ref": "dialog_day2_mountain", "connections": ["d2_04", "d2_05"], "position": [200, 420]},
+        {"id": "d2_04", "node_type": "Shop", "data_ref": "shop_day2", "connections": ["d2_06"], "position": [400, 200]},
+        {"id": "d2_05", "node_type": "Combat", "data_ref": "yokai_shikigami", "connections": ["d2_06"], "position": [400, 400]},
+        {"id": "d2_06", "node_type": "Rest", "data_ref": "", "connections": [], "position": [580, 300]}
+      ]
+    },
+    {
+      "day": 3,
+      "nodes": [
+        {"id": "d3_start", "node_type": "Event", "data_ref": "dialog_day3_hase", "connections": ["d3_02", "d3_03"], "position": [50, 300]},
+        {"id": "d3_02", "node_type": "Puzzle", "data_ref": "puzzle_spirit_sight_01", "connections": ["d3_04"], "position": [200, 180]},
+        {"id": "d3_03", "node_type": "Combat", "data_ref": "yokai_water_ghost", "connections": ["d3_04"], "position": [200, 420]},
+        {"id": "d3_04", "node_type": "Boss", "data_ref": "boss_tatara", "connections": ["d3_05"], "position": [400, 300]},
+        {"id": "d3_05", "node_type": "Event", "data_ref": "dialog_day3_hase", "connections": [], "position": [560, 300]}
+      ]
+    },
+    {
+      "day": 4,
+      "nodes": [
+        {"id": "d4_start", "node_type": "Event", "data_ref": "dialog_day4_valley", "connections": ["d4_02", "d4_03"], "position": [50, 300]},
+        {"id": "d4_02", "node_type": "Combat", "data_ref": "yokai_nurikabe", "connections": ["d4_04", "d4_05"], "position": [200, 180]},
+        {"id": "d4_03", "node_type": "Event", "data_ref": "dialog_day4_valley", "connections": ["d4_04", "d4_05"], "position": [200, 420]},
+        {"id": "d4_04", "node_type": "Rest", "data_ref": "", "connections": ["d4_06"], "position": [400, 200]},
+        {"id": "d4_05", "node_type": "Combat", "data_ref": "yokai_kodama_shadow", "connections": ["d4_06"], "position": [400, 400]},
+        {"id": "d4_06", "node_type": "Event", "data_ref": "dialog_day4_valley", "connections": [], "position": [580, 300]}
+      ]
+    },
+    {
+      "day": 5,
+      "nodes": [
+        {"id": "d5_start", "node_type": "Event", "data_ref": "dialog_day5_ise", "connections": ["d5_02", "d5_03"], "position": [50, 300]},
+        {"id": "d5_02", "node_type": "Shop", "data_ref": "shop_day5", "connections": ["d5_04"], "position": [200, 180]},
+        {"id": "d5_03", "node_type": "Combat", "data_ref": "yokai_tengu", "connections": ["d5_04"], "position": [200, 420]},
+        {"id": "d5_04", "node_type": "Boss", "data_ref": "boss_fake_rinyo", "connections": ["d5_05"], "position": [400, 300]},
+        {"id": "d5_05", "node_type": "Event", "data_ref": "dialog_day5_ise", "connections": [], "position": [560, 300]}
+      ]
+    },
+    {
+      "day": 6,
+      "nodes": [
+        {"id": "d6_start", "node_type": "Event", "data_ref": "dialog_day6_itsukushima", "connections": ["d6_02", "d6_03"], "position": [50, 300]},
+        {"id": "d6_02", "node_type": "Puzzle", "data_ref": "puzzle_incantation_02", "connections": ["d6_04"], "position": [200, 180]},
+        {"id": "d6_03", "node_type": "Combat", "data_ref": "yokai_baku", "connections": ["d6_04"], "position": [200, 420]},
+        {"id": "d6_04", "node_type": "Rest", "data_ref": "", "connections": ["d6_05"], "position": [400, 300]},
+        {"id": "d6_05", "node_type": "Event", "data_ref": "dialog_day6_itsukushima", "connections": [], "position": [560, 300]}
+      ]
+    },
+    {
+      "day": 7,
+      "nodes": [
+        {"id": "d7_start", "node_type": "Event", "data_ref": "dialog_day7_tokoyo", "connections": ["d7_02"], "position": [50, 300]},
+        {"id": "d7_02", "node_type": "Puzzle", "data_ref": "puzzle_emperor_questions", "connections": ["d7_03"], "position": [220, 300]},
+        {"id": "d7_03", "node_type": "Boss", "data_ref": "boss_tamamo_shadow", "connections": [], "position": [420, 300]}
+      ]
+    },
+    {
+      "day": 0,
+      "nodes": [
+        {"id": "d0_start", "node_type": "Event", "data_ref": "dialog_spirit_stone_vision", "connections": ["d0_02", "d0_03"], "position": [50, 300]},
+        {"id": "d0_02", "node_type": "Puzzle", "data_ref": "puzzle_spirit_stone_seal", "connections": ["d0_04"], "position": [200, 180]},
+        {"id": "d0_03", "node_type": "Combat", "data_ref": "enemy_katatagane_solo", "connections": ["d0_04"], "position": [200, 420]},
+        {"id": "d0_04", "node_type": "Event", "data_ref": "dialog_spirit_stone_vision", "connections": [], "position": [400, 300]}
+      ]
+    },
+    {
+      "day": "1.5",
+      "nodes": [
+        {"id": "d15_start", "node_type": "Event", "data_ref": "dialog_hattori_expanded", "connections": ["d15_02"], "position": [50, 300]},
+        {"id": "d15_02", "node_type": "Event", "data_ref": "dialog_hattori_expanded", "connections": ["d15_03"], "position": [200, 300]},
+        {"id": "d15_03", "node_type": "Puzzle", "data_ref": "puzzle_heart_lock_questions", "connections": [], "position": [400, 300]}
+      ]
+    },
+    {
+      "day": "2.5",
+      "nodes": [
+        {"id": "d25_start", "node_type": "Event", "data_ref": "dialog_mountain_inugami", "connections": ["d25_02", "d25_03"], "position": [50, 300]},
+        {"id": "d25_02", "node_type": "Combat", "data_ref": "enemy_inugami_pack", "connections": ["d25_04"], "position": [200, 180]},
+        {"id": "d25_03", "node_type": "Combat", "data_ref": "enemy_shadow_caster", "connections": ["d25_04"], "position": [200, 420]},
+        {"id": "d25_04", "node_type": "Event", "data_ref": "dialog_axiu_confrontation", "connections": ["d25_05"], "position": [400, 300]},
+        {"id": "d25_05", "node_type": "Puzzle", "data_ref": "puzzle_derailed_signpost", "connections": [], "position": [580, 300]}
+      ]
+    },
+    {
+      "day": "3.5",
+      "nodes": [
+        {"id": "d35_start", "node_type": "Event", "data_ref": "dialog_true_vs_fake", "connections": ["d35_02", "d35_03"], "position": [50, 300]},
+        {"id": "d35_02", "node_type": "Puzzle", "data_ref": "puzzle_mirror_discern", "connections": ["d35_04"], "position": [200, 180]},
+        {"id": "d35_03", "node_type": "Combat", "data_ref": "enemy_fake_rinyo", "connections": ["d35_04"], "position": [200, 420]},
+        {"id": "d35_04", "node_type": "Event", "data_ref": "dialog_true_vs_fake", "connections": [], "position": [420, 300]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2354 @@
+{
+  "rooms": {
+    "intro": {
+      "name": "案情简报",
+      "description": "",
+      "first_visit_text": "## 案件 #897 — 屠宰场\n\n档案带着湿漉漉的声响落在你的桌上。\n\n贝克朗。乔木区。一具尸体在废弃加工厂下面的排水管道中被发现。当地警局一直……不太配合。之前三位督察拒绝了此案。两人被发现身处不光彩的处境。一人直接失踪了。\n\n你的神赐之舌蠢蠢欲动——它能尝出腐败的味道，即使隔着纸和墨。\n\n哈格里夫斯警员站在门边，拧着手中的帽子。'长官……他们说工厂已经关闭六个月了。但发现她的时候，排水管还在流温水。'\n\n你打开卷宗。照片是……极具教育意义的。\n\n'去把车准备好，哈格里夫斯。我们要去屠宰场。'\n\n[点击'前往现场'开始你的调查]",
+      "revisit_text": "案件卷宗摊开在你的桌上。照片回望着你。\n\n你应该前往屠宰场。",
+      "atmosphere": "贝克朗中央警局 — 上午 6:47",
+      "act": 1,
+      "node_type": "scene",
+      "node_index": 0,
+      "exits": [
+        {
+          "exit_id": "to_slaughterhouse",
+          "target_room_id": "slaughterhouse_exterior",
+          "description": "前往屠宰场",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "read_file",
+          "label": "阅读案件卷宗",
+          "description": "死者：女性，约28-32岁。在主排水管道中被发现。死因：待定。法医报告已被……涂黑。唯一清楚的批注：'琥珀色残留物——来源不明。'\n\n最初根据匿名举报确认了三名嫌疑人，但三人都有可验证的不在场证明。太可验证了。仿佛有人提前为他们准备好了。",
+          "action_type": "examine",
+          "sets_flag": "intro_file_read",
+          "gives_clue": "amber_residue_note",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "proceed_scene",
+          "label": "前往现场",
+          "description": "你站起身拿起外套。哈格里夫斯手忙脚乱地跟上。外面的城市灰蒙蒙的、湿漉漉的——贝克朗的早晨，永远是贝克朗的早晨。",
+          "action_type": "move",
+          "sets_flag": "intro_complete",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "hargreaves"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": "intro_complete"
+    },
+    "slaughterhouse_exterior": {
+      "name": "屠宰场外围",
+      "description": "",
+      "first_visit_text": "## 屠宰场 — 外围\n\n废弃的哈格雷夫肉类加工厂如一颗腐朽的牙齿矗立在灰色天空下。铁锈沿着波纹墙淌下，形成或许是艺术图案的痕迹——如果它们不是那么明显地出自疏于照料的话。\n\n铁丝网围栏环绕着整个厂区，但有人剪出了一个足以让一辆推车通过的洞。泥地上的轮胎印暗示着最近的活动——对于一座'已关闭'的设施来说，太近了。\n\n哈格里夫斯把车停了下来。'排水系统在后头汇入河流。他们就是在那儿发现她的——卡在主栅栏上。'\n\n他指向建筑东侧的一座低矮结构。一扇生锈的门半开着，露出里面的黑暗。\n\n'停尸房从那边进去。当地法医……还在里面。不肯走。说他在等一个能'理解'的人。'\n\n你的神赐之舌微微抽动。这里的空气尝起来有铜、铁锈，还有别的东西——一种不应该出现在肉类加工厂的甜腻化学品味道。",
+      "revisit_text": "屠宰场外围。灰色的天空、铁锈、气味。围栏上的洞、轮胎印、通往停尸房的暗门。\n\n哈格里夫斯在车旁等候。",
+      "atmosphere": "乔木区 — 废弃工业区",
+      "act": 1,
+      "node_type": "scene",
+      "node_index": 1,
+      "exits": [
+        {
+          "exit_id": "to_drainage",
+          "target_room_id": "drainage_area",
+          "description": "检查排水栅栏",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_morgue",
+          "target_room_id": "morgue",
+          "description": "进入停尸房",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "examine_tire_tracks",
+          "label": "检查轮胎印",
+          "description": "轮胎印很新——不超过两天。泥中的印痕还没完全干透。两套：一辆重型车辆和一辆较轻的，也许是轿车。\n\n重型车辙通向侧面的装卸台。轿车轨迹在围栏的洞口附近停下。\n\n有人一直在定期造访。而且他们不想被人看到使用正门。",
+          "action_type": "examine",
+          "sets_flag": "tire_tracks_examined",
+          "gives_clue": "recent_visitors",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_fence",
+          "label": "检查被剪的围栏",
+          "description": "围栏上的切口很干净——专业手艺。断线钳，不是钢锯。有人想要一个精确的入口。\n\n切口边缘经过了防锈处理，这意味着这个洞是为长期使用而做的。这不是一次性的闯入——而是一个永久通道。",
+          "action_type": "examine",
+          "sets_flag": "fence_examined",
+          "gives_clue": "planned_access",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "hargreaves"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "act1_started",
+      "on_complete_flag": ""
+    },
+    "drainage_area": {
+      "name": "排水区",
+      "description": "",
+      "first_visit_text": "## 排水栅栏\n\n恶臭在你看到之前就击中了你——一种浓稠、令人窒息的腐臭和化学品混合物。你的神赐之舌先是退缩，然后稳住了。这不是腐肉的气味。\n\n主排水栅栏是一面巨大的铁格架，半没在应该是出水渠道的水中。尽管工厂'已关闭'，水仍在缓缓流过。\n\n污渍标记了尸体被发现的位置——暗红色的池子，干涸后形成同心圆环。但还有别的东西。在最靠近栅栏的水池中，一种粘稠的琥珀色液体聚集在那里，拒绝与水混合。\n\n哈格里夫斯在你身后干呕。'那味道——天哪，那是什么？'\n\n你蹲在琥珀色水池旁。你的神赐之舌几乎因渴望品尝而颤动。\n\n这不是普通肉类加工厂的残留物。",
+      "revisit_text": "排水栅栏。琥珀色水池仍在水中闪烁。污渍标记了发现尸体的位置。\n\n如果你敢，你可以品尝琥珀色残留物。",
+      "atmosphere": "排水出口 — 刺鼻化学气味",
+      "act": 1,
+      "node_type": "scene",
+      "node_index": 2,
+      "exits": [
+        {
+          "exit_id": "back_exterior",
+          "target_room_id": "slaughterhouse_exterior",
+          "description": "返回外围",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "examine_blood_stains",
+          "label": "检查血迹",
+          "description": "血迹图案讲述了自己的故事。尸体被水流冲到栅栏上，但血——血来自上游。有人被冲下了排水系统。\n\n但排水系统从加工车间流经停尸房。除非有人故意打开阀门，否则那个方向没有其他水源。\n\n这不是抛尸。这是一次出了差错的*处理*尸体。",
+          "action_type": "examine",
+          "sets_flag": "act1_grate_examined",
+          "gives_clue": "body_disposal_failed",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "taste_amber_residue",
+          "label": "[品尝] 琥珀色残留物",
+          "description": "你将一根手指浸入琥珀色液体中，送到唇边。\n\n你的神赐之舌被点燃了。",
+          "action_type": "taste",
+          "target_id": "amber_residue",
+          "sets_flag": "act1_amber_tasted",
+          "sanity_cost": 5,
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_grate",
+          "label": "检查栅栏机构",
+          "description": "栅栏机构老旧但功能正常。最近有人给铰链上了油——螺栓上有新鲜润滑油。这个栅栏是被设计来打开的。\n\n附近有一条粗链，以与围栏相同的专业精度被剪断。有人一直在系统地创造这个设施的通道。",
+          "action_type": "examine",
+          "gives_clue": "systematic_access",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [
+        "amber_residue"
+      ],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "morgue": {
+      "name": "停尸房",
+      "description": "",
+      "first_visit_text": "## 停尸房\n\n停尸房比应有的温度更冷——一种刻意的冷，由一直有人在交电费的机器维持着。\n\n三张验尸台。一张有人。\n\n法医魏兰德医生双臂交叉站在角落。你进来时他没有抬头。'他们告诉我会有一个能真正尝出真相的人来。我已经等了三天了。'\n\n中央台上，尸体躺在一块染污的布下。女性，如卷宗所述。布覆盖了一切，除了她的左手腕，那只手无力地垂在台沿。\n\n手腕上的皮肤变色了——不是腐烂，而是别的什么。在荧光灯下几乎会发光的东西。\n\n'尝尝它，'魏兰德医生轻声说。'你就是为了这个来的，不是吗？'\n\n哈格里夫斯面露惊骇。'长官，您不会真的——'\n\n你的神赐之舌已经做出了反应。味道就在空气中——不需要接触。但接触会揭示更多。",
+      "revisit_text": "停尸房。魏兰德医生在他的角落等候。尸体躺在中央台上，变色的手腕仍然暴露在外。\n\n冷柜的嗡嗡声充斥着寂静。",
+      "atmosphere": "停尸房 — 消毒、冰冷、不自然的明亮",
+      "act": 1,
+      "node_type": "scene",
+      "node_index": 3,
+      "exits": [
+        {
+          "exit_id": "back_exterior_m",
+          "target_room_id": "slaughterhouse_exterior",
+          "description": "返回外围",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_inner_plant",
+          "target_room_id": "inner_plant",
+          "description": "进入内部加工车间",
+          "is_locked": true,
+          "lock_flag": "act1_body_examined",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "order_out",
+          "label": "命令所有人出去",
+          "description": "你转向哈格里夫斯和魏兰德医生。'出去。'\n\n哈格里夫斯张嘴想抗议，但你眼中的某种东西阻止了他。他抓住魏兰德医生的手臂，几乎是拖着他走向门口。\n\n'长官，我——'哈格里夫斯开口。\n\n'出去。'\n\n门关上了。你与尸体独处。\n\n绝对的寂静，只有冷柜的嗡嗡声。你的神赐之舌在你体内舒展开来，品尝着空气，阅读着附着在一切之上的看不见的化学谱和记忆。\n\n现在你可以工作了。",
+          "action_type": "special",
+          "sets_flag": "act1_morgue_cleared",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_body",
+          "label": "检查尸体",
+          "description": "你掀开布。\n\n这个女人曾经很美。深色头发、苍白皮肤、精致五官——如今凝固在绝对恐惧的表情中。但吸引你注意的不是恐惧。\n\n她的皮肤不对劲。不是腐烂——而是变异。在她的躯干和手臂上，皮肤呈现半透明质感，仿佛皮下的东西被……炼化了。琥珀色血管在表面下描绘着图案，不遵循你认知的任何解剖逻辑。\n\n死因不是任何传统意义上的谋杀。她被*加工*了。像一块为某种目的而准备的肉。\n\n排水栅栏处的琥珀色残留物。同一种物质，浓缩在她的血管中。",
+          "action_type": "examine",
+          "sets_flag": "act1_body_examined",
+          "gives_clue": "victim_processed",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "taste_wrist",
+          "label": "[品尝] 死者腕部皮肤",
+          "description": "你俯下身，将舌头触碰在死者腕部变色的皮肤上。\n\n世界消融在味道中。",
+          "action_type": "taste",
+          "target_id": "victim_wrist_skin",
+          "sets_flag": "act1_wrist_tasted",
+          "sanity_cost": 10,
+          "is_one_time": true,
+          "requires_flag": "act1_morgue_cleared",
+          "is_visible": true
+        }
+      ],
+      "items": [
+        "victim_wrist_skin"
+      ],
+      "characters": [
+        "weiland",
+        "hargreaves"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "act1_morgue_entered",
+      "on_complete_flag": ""
+    },
+    "inner_plant": {
+      "name": "内部加工车间",
+      "description": "",
+      "first_visit_text": "## 内部加工车间\n\n主加工车间如同一座陷入疯狂的大教堂般展现在你面前。传送带在电路中段凝固悬挂。肉钩从天花板轨道上垂下，在没有一丝风的情况下轻轻摇摆。\n\n但这幅画面有什么不对劲。\n\n设备被改装过。曾经标准的肉类加工线被改造成了……别的东西。玻璃培养缸通过铜管相连。电极连接在空荡荡的束缚装置上。一台大到足以处理人体的离心机。\n\n或者，随着你越来越清晰地意识到，是处理人体*通过*它。\n\n远处的墙上设置了三个工作站。每个标有不同的符号——扳手、手术刀和硬币。\n\n机械师。医生。金主。\n\n三名杀手，协同作案。",
+      "revisit_text": "改装后的加工车间。培养缸、电极、离心机。三个工作站：扳手、手术刀、硬币。\n\n三名杀手的证据就在你身边。",
+      "atmosphere": "加工车间 — 工业恐怖",
+      "act": 1,
+      "node_type": "encounter",
+      "node_index": 4,
+      "exits": [
+        {
+          "exit_id": "back_morgue",
+          "target_room_id": "morgue",
+          "description": "返回停尸房",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_act1_boss",
+          "target_room_id": "act1_deduction",
+          "description": "进行推理",
+          "is_locked": true,
+          "lock_flag": "act1_killer3_identified",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "examine_mechanic_station",
+          "label": "检查机械师工作站（扳手）",
+          "description": "机械师的工作站以军事化的精确度排列整齐。工具挂在钉板上，每件都用记号笔描出轮廓。但这些工具不是标准的肉类加工设备——它们是用于玻璃和铜加工的精密仪器。\n\n一本工作日志摊开着。条目是编码的，但你的神赐之舌能尝出墨水中的恐惧：\n\n'第7批失败。压力过高。调整第8批阀门。'\n'白蔷薇又送来三名实验体。付款已确认。'\n'金主要求更快的结果。告诉医生不要再那么小心了。'\n\n机械师维持着设备运转。死亡机器，由稳健的双手维护。",
+          "action_type": "examine",
+          "sets_flag": "act1_killer1_identified",
+          "gives_clue": "killer_mechanic",
+          "gives_item": "mechanic_logbook",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_doctor_station",
+          "label": "检查医生工作站（手术刀）",
+          "description": "医生的工作站是手术精度的噩梦。医疗图表覆盖了整面墙——不是单个病人的，而是数十人的。每张图表追踪同一过程：将琥珀色化合物引入活体实验体、逐渐的组织异变、最终的……提取。\n\n一张图表被红圈标出。案件#897。你的死者。\n\n蝇头小字的批注：\n'实验体对化合物表现出异常抗性。需延长加工时间。味觉谱系……非凡。建议保留样本。'\n\n医生不仅仅是在杀人——医生在*研究*。并培养出了对结果的品味。",
+          "action_type": "examine",
+          "sets_flag": "act1_killer2_identified",
+          "gives_clue": "killer_doctor",
+          "gives_item": "doctors_charts",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_backer_station",
+          "label": "检查金主工作站（硬币）",
+          "description": "金主的工作站是最小的，但也是最具揭示性的。\n\n一个保险箱。开着。里面：账本、账号、日期。资金线索。\n\n白蔷薇炼金工坊已经资助这个行动数月。琥珀色化合物——它是一种炼金产品。他们以人体作为异变的介质，将活人加工成别的东西。\n\n金主的笔记冷若冰霜：\n'第12批投资回报率：340%。化合物纯度超出预期。向东区扩展业务。'\n'关于第三位督察：让问题消失。与贝克朗证人同样的方法。'\n\n三名杀手。建造机器的机械师。改进流程的医生。从白蔷薇工坊资助这一切的金主。\n\n线索向上延伸。",
+          "action_type": "examine",
+          "sets_flag": "act1_killer3_identified",
+          "gives_clue": "killer_backer",
+          "gives_item": "backer_ledger",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "act1_deduction": {
+      "name": "第一幕推理",
+      "description": "",
+      "first_visit_text": "## 第一幕 — 推理完成\n\n你站在加工车间的中央，证据如盛宴般陈列在你面前。\n\n机械师的工作日志。医生的图表。金主的账本。每一件证据，都经过你神赐之舌的品尝和消化，如今形成了一幅完整的图景。\n\n三名杀手。一个行动。白蔷薇炼金工坊是这一切的核心。\n\n你的电话响了。一个声音——陌生的、文雅的、危险的：\n\n'拉姆齐-贝潘督察。我看你找到了我们的小设施。真令人失望。我们对第13批寄予了厚望。'\n\n'你是谁？'\n\n'一个关心的市民。也许我们应该当面谈谈？白蔷薇总是欢迎……有品鉴力的客人。'\n\n电话挂断了。\n\n哈格里夫斯出现在你手边。'长官，我追踪了电话。来自东边的旧飞艇塔——白蔷薇工坊。'\n\n你知道你必须做什么。案件继续延伸。\n\n── 第一幕完成 ──\n\n[点击'进入第二幕'继续]",
+      "revisit_text": "第一幕已完成。白蔷薇在等待。",
+      "atmosphere": "调查继续",
+      "act": 1,
+      "node_type": "boss",
+      "node_index": 5,
+      "exits": [
+        {
+          "exit_id": "to_act2",
+          "target_room_id": "airship_tower",
+          "description": "进入第二幕",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "proceed_act2",
+          "label": "进入第二幕",
+          "description": "白蔷薇炼金工坊在等待。你收起证据和决心。\n\n哈格里夫斯开车。城市从车窗外滑过，灰蒙蒙的、漠不关心的。前方的某处，飞艇塔如一根针刺入云端。\n\n你的神赐之舌因期待而嗡鸣。真相的味道已经近了。",
+          "action_type": "move",
+          "sets_flag": "act1_complete",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [
+        "act1_final_deduction"
+      ],
+      "on_enter_flag": "",
+      "on_complete_flag": "act1_complete"
+    },
+    "airship_tower": {
+      "name": "飞艇系留塔",
+      "description": "",
+      "first_visit_text": "## 飞艇系留塔\n\n塔楼从工业区中拔地而起，如一根指向天际的机械手指。在塔顶，一艘系留飞艇的黑色剪影在风中摇晃。\n\n入口被守卫着——不是人，而是别的什么。三个人影站在塔底，在半明半暗中纹丝不动。乍一看，他们可能像是流浪者。但当你靠近时，你的神赐之舌发出了警告。\n\n他们不对劲。他们的气味不对。他们的味道不对。\n\n这些不再是人了。\n\n哈格里夫斯踉跄后退。'这——这些东西是什么？'\n\n'变异体，'你轻声说。'白蔷薇的失败品。他们曾经是人。'\n\n三个人影同时转向你。他们的动作痉挛着，像木偶——被别的东西操控着。\n\n你必须通过他们才能到达塔楼。你必须使用你的证据——你的线索——作为武器。\n\n[使用你收集的线索对抗每个变异体]",
+      "revisit_text": "飞艇塔高耸在上方。变异体守卫着入口。\n\n你必须杀出一条路。",
+      "atmosphere": "飞艇塔底 — 狂风与违和",
+      "act": 2,
+      "node_type": "encounter",
+      "node_index": 0,
+      "exits": [
+        {
+          "exit_id": "to_workshop",
+          "target_room_id": "white_rose_workshop",
+          "description": "进入白蔷薇工坊",
+          "is_locked": true,
+          "lock_flag": "act2_mutant3_defeated",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "confront_mutant1",
+          "label": "对抗一号变异体",
+          "description": "第一个变异体向你蹒跚而来。它的皮肤与你死者身上的有着同样的半透明质感——琥珀色血管在皮下可见。它是实验品。一个失败品。\n\n但失败品仍然可以致命。\n\n你举起机械师的工作日志。'第7批。你是第7批，对吗？压力太高——他们毁了你。'\n\n变异体僵住了。它死寂的眼睛中闪过什么——认知？痛苦？它退到了一旁。",
+          "action_type": "special",
+          "requires_item": "mechanic_logbook",
+          "sets_flag": "act2_mutant1_defeated",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "confront_mutant2",
+          "label": "对抗二号变异体",
+          "description": "第二个变异体更糟——它的肢体被机械关节强化，血肉与工业的怪诞融合。机械师的手艺。\n\n你举起医生的图表。'你在这些记录里。12号实验体。他们提取了你的痛觉耐受，替换成了……这个。'\n\n变异体的机械肢体痉挛起来。它发出一声曾经可能是尖叫的声音。然后它倒下了，它的改造同时全部失效。\n\n又一条路被清开了。",
+          "action_type": "special",
+          "requires_item": "doctors_charts",
+          "sets_flag": "act2_mutant2_defeated",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "confront_mutant3",
+          "label": "对抗三号变异体",
+          "description": "第三个变异体最像人——也最恐怖。它保留了面孔、表情。它用近乎理解的目光看着你。\n\n'你尝起来像他们，'它低语道。'像那些制造我们的人。'\n\n你举起金主的账本。'我知道谁资助了这一切。我知道谁对你做了这些。我要让他们为此付出代价。'\n\n变异体的眼中浮现出类似希望的神色。它退到一旁，将某物按进你手中——一把通往塔楼的钥匙。\n\n'终结它，'它说。'终结这一切。'\n\n通往塔楼的门敞开了。",
+          "action_type": "special",
+          "requires_item": "backer_ledger",
+          "sets_flag": "act2_mutant3_defeated",
+          "gives_item": "tower_key",
+          "gives_clue": "mutant_testimony",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "mutant1",
+        "mutant2",
+        "mutant3"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "act2_started",
+      "on_complete_flag": ""
+    },
+    "white_rose_workshop": {
+      "name": "白蔷薇工坊",
+      "description": "",
+      "first_visit_text": "## 白蔷薇炼金工坊\n\n工坊是一座异变的大教堂。琥珀色液体的培养缸排列在墙边，每一缸都通过铜管网络连接，铜管以缓慢、有节奏的压力脉动着——像喂养心脏的血管。\n\n而在这一切的中心，在一个巨大的玻璃培养缸中，有什么东西在*动*。\n\n那是一个复合体——多具身体悬浮在琥珀色化合物中的融合体。不同大小的肢体从团块中伸出。面孔从内侧压在玻璃上，嘴巴在无声尖叫。\n\n这就是他们在建造的东西。一个嵌合体，由受害者的加工残骸缝合而成。\n\n一个声音在工坊中回荡——与电话中的声音相同：\n\n'啊，督察。你来了。我承认，我低估了你的……味觉。'\n\n一个身影从房间远端的暗处走出。穿着沾满琥珀色污渍的白实验服，手中握着连接培养缸的遥控器。\n\n'见识我的杰作。聚合体。当我激活最终异变时，这些身体将融合为更伟大的存在。某种*神圣*的东西。'\n\n那人举起遥控器。'但首先——一次品鉴。'\n\n他们按下一个按钮。培养缸发光。聚合体涌动了。\n\n── 首领遭遇战 ──",
+      "revisit_text": "白蔷薇工坊。聚合体在其培养缸中等待。幕后主使严阵以待。\n\n了结这一切。",
+      "atmosphere": "白蔷薇工坊 — 炼金恐怖",
+      "act": 2,
+      "node_type": "boss",
+      "node_index": 1,
+      "exits": [
+        {
+          "exit_id": "to_resolution",
+          "target_room_id": "resolution",
+          "description": "进入结局",
+          "is_locked": true,
+          "lock_flag": "act2_boss_defeated",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "expose_process",
+          "label": "揭露异变过程",
+          "description": "你举起机械师的工作日志和医生的图表。\n\n'你的异变过程有缺陷。第7批的压力差导致铜管级联失效。化合物在42度以上会降解——而你的培养缸运行在45度。'\n\n你指向聚合体。'那个东西已经快死了。琥珀色化合物正在它体内分解。你能看到第三条附肢上的变色。'\n\n幕后主使的面容扭曲了。'你怎么可能——'\n\n'我尝过了。每一批。每一次失败。你整个运作都建立在腐烂的基础上。'\n\n聚合体呻吟着。培养缸上出现了裂缝。",
+          "action_type": "special",
+          "requires_item": "mechanic_logbook",
+          "sets_flag": "act2_boss_exposed",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "taste_convergence",
+          "label": "[品尝] 聚合体",
+          "description": "你走向培养缸。你的神赐之舌伸展出去，品尝着嵌合体周围的空气。\n\n反馈回来的东西几乎击碎了你的心智。",
+          "action_type": "taste",
+          "target_id": "convergence_sample",
+          "sanity_cost": 15,
+          "sets_flag": "act2_boss_encountered",
+          "gives_clue": "convergence_weakness",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "final_confrontation",
+          "label": "最终对决",
+          "description": "你迈步向前，每一条线索和推理如一手完美出牌般排列在你身后。\n\n机械师的工作日志。医生的图表。金主的账本。变异体的证词。聚合体的弱点。\n\n每一件都是钉入这个行动棺材的钉子。\n\n'你的过程有缺陷。你的化合物在降解。你的实验体已经倒戈。而我已尝遍了这个地方的每一个秘密。'\n\n你伸向培养缸上的紧急释放装置。\n\n'不！'幕后主使扑了过来——\n\n太迟了。\n\n培养缸碎裂。琥珀色液体漫过地面。聚合体消散了，它的组成身体终于——*终于*——得到了安息。\n\n幕后主使跪倒在地，被他们'杰作'的废墟所包围。\n\n案件#897结案。\n\n── 首领已被击败 ──",
+          "action_type": "special",
+          "requires_flag": "act2_boss_exposed",
+          "sets_flag": "act2_boss_defeated",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [
+        "convergence_sample"
+      ],
+      "characters": [
+        "mastermind"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "act2_workshop_entered",
+      "on_complete_flag": "act2_complete"
+    },
+    "resolution": {
+      "name": "案件暂结",
+      "description": "",
+      "first_visit_text": "## 案件 #897 — 暂结\n\n白蔷薇炼金工坊在你身后燃烧。琥珀色火焰点亮了傍晚的天空——一种不自然的火，由炼金残留物助燃，将持续数日。\n\n哈格里夫斯在车旁等候，脸色苍白。'长官……里面的那些东西。你做的那些——'他咽了口唾沫。'您是怎么知道的？'\n\n你看着自己的双手。它们很稳。它们一直很稳。\n\n'舌头知道心灵无法接受的东西，哈格里夫斯。每一种味道，每一种风味——它们一直在告诉我们真相。我们只需要倾听。'\n\n幕后主使已被收押。三名杀手——机械师、医生、金主——将面临正义。塔楼的变异体已获得了可能的最大帮助。\n\n但在你心中，品尝留下的余味还未散去。\n\n你的日记本翻开着。案件#897只是开胃菜。你的神赐之舌尝到了更深层的味道——那个喝双份糖浆咖啡、抽极光会雪茄的人。那个在旧照片中站在养父身旁的人。\n\n齿轮与玫瑰。奥古斯都。贝潘。\n\n你合上日记本，看向窗外燃烧的工坊。\n\n真正的盛宴，才刚刚开始。\n\n── 第二幕完成 ──\n\n[点击'继续调查'进入第三幕]",
+      "revisit_text": "案件 #897 — 暂结。白蔷薇在燃烧，但真相的味道更加深邃。\n\n调查必须继续。",
+      "atmosphere": "序幕终结，更深处的谜团浮现",
+      "act": 2,
+      "node_type": "scene",
+      "node_index": 2,
+      "exits": [
+        {
+          "exit_id": "to_act3",
+          "target_room_id": "slum_entrance",
+          "description": "继续调查 — 前往棚户区",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_tailor_shop",
+          "target_room_id": "tailor_shop",
+          "description": "去裁缝铺取燕尾服",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "proceed_act3",
+          "label": "继续调查",
+          "description": "你收起证据，但在心中翻涌的并非满足感。那个双份糖浆咖啡的味道、极光会雪茄的烟灰、齿轮与玫瑰的徽章——这些碎片拼成了一幅更大的图景。\n\n'哈格里夫斯，'你说，'去棚户区。'\n\n'长……长官？案件不是结了吗？'\n\n'897结了。但开胃菜才刚刚上桌。'",
+          "action_type": "move",
+          "sets_flag": "act2_complete",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "hargreaves"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "act2_resolution_entered",
+      "on_complete_flag": "act2_complete"
+    },
+    "---- 小说扩充 ----": {
+      "_comment": "以下房间均基于小说《综网：地狱之下-第十二卷》内容扩充，以最小侵入方式新增"
+    },
+    "slum_entrance": {
+      "name": "棚户区入口",
+      "description": "",
+      "first_visit_text": "## 棚户区 — 入口\n\n棚户区没有名字。这片位于乔伍德区与东区交界处的泥泞地带，在地图上被标注为“待规划区域”，在市政厅的档案里被归类为“临时安置点”，在贝克兰德上流社会的谈资中则被简单地称为“那个臭水沟”。\n\n清晨的雾气在这里变得更加浓稠，混杂着露天排水渠的氨臭味、劣质煤球的硫磺味，以及某种难以名状的、发甜的腐烂气息。\n\n一个鼻梁上带着伤疤的男孩挡在你面前。'先生，您是来找人的吧？这儿只有两种外来人——警察和讨债的。'\n\n'我两种都不是，'你说。'我是来喝汤的。'\n\n男孩眨了眨眼。'玛格丽特寡妇的汤？她最近……不太对劲。每天清早给死去的丈夫送汤，傍晚碗就空了。有人说她丈夫的鬼魂回来喝的。'\n\n你的神赐之舌微微抽动。在这片贫穷与绝望交织的气味中，有另一种味道——微甜的、属于腐败的腐胺气息，被石灰勉强压住。\n\n[前往寡妇的小屋]",
+      "revisit_text": "棚户区入口。雾气、恶臭、男孩好奇的眼神。远处，那间低矮木屋门口的陶碗仍在冒着热气。",
+      "atmosphere": "乔伍德棚户区 — 晨雾与腐臭",
+      "act": 3,
+      "node_type": "scene",
+      "node_index": 0,
+      "exits": [
+        {
+          "exit_id": "to_widow_cottage",
+          "target_room_id": "widow_cottage",
+          "description": "前往寡妇玛格丽特的小屋",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "back_resolution",
+          "target_room_id": "resolution",
+          "description": "返回白蔷薇工坊废墟",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "examine_slum_env",
+          "label": "观察棚户区环境",
+          "description": "低矮的木屋、废弃蒸汽管道、破碎的齿轮散落在泥泞中。这里是被贝克兰德遗忘的角落——没有人会关心这里死了多少人，正如没有人会关心几个混混的失踪。你的神赐之舌在空气中捕捉到了石灰的碱味，从某个方向传来——那是掩盖腐败的手法。",
+          "action_type": "examine",
+          "sets_flag": "act3_slum_examined",
+          "gives_clue": "slum_lime_smell",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "act3_started",
+      "on_complete_flag": ""
+    },
+    "widow_cottage": {
+      "name": "寡妇玛格丽特的小屋",
+      "description": "",
+      "first_visit_text": "## 寡妇玛格丽特的小屋\n\n木屋门口摆着一张破旧的餐桌，桌上放着一只陶碗。碗里的汤还在冒热气。那是给“死去的丈夫”的供奉。\n\n你敲了三声门。节奏均匀，力度一致。像节拍器。\n\n门开了一条缝，露出半张女人的脸。大约四十岁出头，眼窝深陷，颧骨高耸。但她的眼神很平静——平静得不像一个刚死了丈夫的寡妇。\n\n“我不记得请过侦探。”\n\n“我听说您丈夫去世了，”你说，“我能否喝碗汤？”\n\n她愣住了。这个转折太突兀，突兀到让她的表情出现了第一道裂痕。然后她笑了——那笑容很轻，像刀片划过皮肤。\n\n“进来吧。门口那碗凉了，不好喝。我给您盛碗新的。”\n\n屋后的那片新翻的泥土。桌上的药瓶。枕头的压痕。一切都指向同一个答案——但你需要品尝才能确信。",
+      "revisit_text": "寡妇玛格丽特的小屋。壁炉的火跳动着，桌上摆着药瓶和空碗。屋后那片新翻的泥土在夜风中散发着被石灰压住的甜腥味。",
+      "atmosphere": "寡妇小屋 — 火光与隐藏的真相",
+      "act": 3,
+      "node_type": "scene",
+      "node_index": 1,
+      "exits": [
+        {
+          "exit_id": "back_slum",
+          "target_room_id": "slum_entrance",
+          "description": "返回棚户区",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_mechanic_union",
+          "target_room_id": "mechanic_union",
+          "description": "前往机械师兄弟会",
+          "is_locked": true,
+          "lock_flag": "act3_widow_truth",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_widow_soup",
+          "label": "[品尝] 寡妇的汤",
+          "description": "你端起碗，凑到唇边，喝了一口。\n\n你的神赐之舌被点燃了——土豆淀粉和洋葱硫化物的基底之下，一股尖锐的苦味从舌根炸开。红磷鼠药。在鼠药的苦味之下，还有更微妙的味道——廉价香水的醛香，以及深层的泥土腥味、石灰碱味，和属于尸体腐烂时释放的腐胺和尸胺。\n\n那碗汤里有人命的味道。不是一碗供奉——是一碗陷阱。",
+          "action_type": "taste",
+          "target_id": "widow_soup",
+          "sets_flag": "act3_soup_tasted",
+          "sanity_cost": 8,
+          "gives_clue": "widow_poison_trap",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_yard",
+          "label": "检查屋后空地",
+          "description": "屋后那片被木板围起来的狭小空地，泥土是新翻过的。面积不大，约两米见方。土质松软，表面撒了一层石灰——用来掩盖气味、加速腐烂。但石灰的碱性气味盖不住你舌尖上已经泛起的、微甜的腐败气息。\n\n不需要挖。味道已经说明了一切。",
+          "action_type": "examine",
+          "sets_flag": "act3_yard_examined",
+          "gives_clue": "slum_burial_ground",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "confront_widow",
+          "label": "揭穿寡妇",
+          "description": "你放下碗，用手帕擦了擦嘴角。\n\n“土豆煮得太烂了，破坏了汤体的结构。另外，盐放早了，汤体浑浊。还有——鼠药的量控制得很好。不会让人当场死亡，但连续喝上三天，肝脏就会开始衰竭。症状和肺痨晚期一模一样。”\n\n女人没有否认。她只是静静地看着你，眼神里那种刀片般的锋利又浮现出来。\n\n“汤不是给你丈夫的，”你说。\n\n“对。汤是给那些活着的人的。那些在半夜敲我的门、偷走供奉的人。”\n\n她竖起三根手指。\n\n你留下一张纸——生石灰和熟石灰的正确配比——然后转身离去。不是同情，只是因为她的烹饪手法太粗糙了。",
+          "action_type": "special",
+          "sets_flag": "act3_widow_truth",
+          "gives_clue": "widow_confession",
+          "is_one_time": true,
+          "requires_flag": "act3_soup_tasted",
+          "is_visible": true
+        }
+      ],
+      "items": [
+        "widow_soup"
+      ],
+      "characters": [
+        "margaret_widow"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "mechanic_union": {
+      "name": "机械师兄弟会",
+      "description": "",
+      "first_visit_text": "## 机械师兄弟会\n\n红砖建筑，门楣上悬挂着黄铜齿轮招牌：“联合机械师兄弟会，成立于1856年。团结就是力量。”\n\n大厅里弥漫着廉价烟草和机油的气味。几张长桌散落在空间里，几个穿工装的男人正在抽烟、打牌。但你的目光锁定了大厅深处的那个人——秃顶，金丝眼镜，正在翻阅文件。\n\n他的手指有老茧。不是普通工人的茧——位于拇指和食指内侧，形状规整。液压钳的握持茧。他的靴子上有泥渍，不是乔伍德区的煤灰泥，颜色偏红——那是北境港口特有的铁锈红泥。\n\n他在两周内去过北境。\n\n“私人侦探？”他抬起头，声音沙哑，“这里不欢迎你。没有搜查令，请出去。”\n\n你不需要搜查令。你只需要他的靴子和那股“黑鲸”牌机油的气味。",
+      "revisit_text": "机械师兄弟会大厅。秃顶秘书在深处翻阅文件，手边有退路。其他工人投来敌意的目光。",
+      "atmosphere": "兄弟会大厅 — 机油、烟草与敌意",
+      "act": 3,
+      "node_type": "encounter",
+      "node_index": 2,
+      "exits": [
+        {
+          "exit_id": "back_slum",
+          "target_room_id": "slum_entrance",
+          "description": "返回棚户区",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_pump_station",
+          "target_room_id": "abandoned_pump_station",
+          "description": "跟随秘书前往废弃泵站",
+          "is_locked": true,
+          "lock_flag": "act3_grey_confronted",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "confront_grey",
+          "label": "揭穿秘书艾德蒙·格雷",
+          "description": "你走近一步，鼻翼微微翕动。\n\n“你的靴子。北境的红泥里混有破碎的鲸骨粉，只有'无畏号'停靠的港口才有。你身上的机油是'黑鲸'牌——北境破冰船专用配方，添加了低温抗凝剂。你是个怀旧的人，格雷先生。”\n\n秘书的脸色变了——不是恐惧，是被看穿的愤怒。他从桌下抽出一把改装蒸汽扳手砸向你——\n\n你侧身让过，银质餐刀抵在他的颈动脉上。\n\n“你的蒸汽扳手需要预热三秒才能达到最大压力。你刚才没有预热。这是你今年犯的第三个错误。”\n\n“带我去你的工作室。”",
+          "action_type": "special",
+          "sets_flag": "act3_grey_confronted",
+          "gives_clue": "grey_north_connection",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "edmond_grey"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "abandoned_pump_station": {
+      "name": "废弃泵站",
+      "description": "",
+      "first_visit_text": "## 废弃泵站\n\n城市边缘，一座废弃的泵站。锈蚀的管道像巨蟒缠绕着建筑外墙，有些地方已经断裂，渗出暗红色的锈水。窗户被封死，只有屋顶的天窗还透进一丝光。\n\n秘书推开铁门。门后是一个宽敞的空间，曾经是泵站的主机室。巨大的蒸汽管道从天花板垂下，末端被切断。房间中央有一张金属手术台——台面上绑着一个昏迷的男人。\n\n那个男人的腹部被打开了。不是被切开，而是被撕裂。一半是原有的器官，一半是齿轮和发条。心脏还在跳动，每一次跳动齿轮都会转动一个齿。\n\n“老板要的，”秘书瘫坐在地上，声音颤抖，“月底之前要交二十个'容器'。来不及了，只能用活人。'泪滴'无法渗透死人的组织……”\n\n你的神赐之舌已经捕捉到了空气中“无瞳之神的泪滴”的气味——冷冻的恐惧，奇异的温暖。两条蛇缠绕着你的味蕾。",
+      "revisit_text": "废弃泵站。手术台上绑着半人半机械的受害者，工具车上整齐排列着手术刀、齿轮和润滑油瓶。",
+      "atmosphere": "废弃泵站 — 血肉与齿轮的手术室",
+      "act": 3,
+      "node_type": "scene",
+      "node_index": 3,
+      "exits": [
+        {
+          "exit_id": "back_mechanic_union",
+          "target_room_id": "mechanic_union",
+          "description": "返回机械师兄弟会",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_cold_storage",
+          "target_room_id": "underground_cold_storage",
+          "description": "追踪下水道至地下冷库",
+          "is_locked": true,
+          "lock_flag": "act3_pump_station_clue",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_operation_residue",
+          "label": "[品尝] 手术台上的油污",
+          "description": "你伸出手指，在昏迷男人伤口边缘刮下一层油污——血液、组织液和润滑油的混合物。送入唇间。\n\n前调：铜锈与铁屑。齿轮是劣质铸铁，从废弃蒸汽管道上拆下的。中调：'黑鲸'牌机油混入了极微量的'无瞳之神的泪滴'——舌尖发麻，然后是奇异的温暖。后调：O型阴性血。万能供血者。他们在挑选特定血型的人作为'容器'。\n\n更深层的味道：恐惧。不是这个男人的——是之前被绑在这张手术台上的其他人的恐惧，渗入了金属台面的每一个毛孔。",
+          "action_type": "taste",
+          "target_id": "spiritual_extraction_liquor",
+          "sets_flag": "act3_pump_tasted",
+          "sanity_cost": 10,
+          "gives_clue": "container_production",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_gears",
+          "label": "检查手术齿轮",
+          "description": "齿轮的齿面上刻着编号——“897”。32齿，模数1.5，直径48毫米。与'组装体'体内的齿轮一模一样。齿轮从'无畏号'上拆下，运到贝克兰德，交给白蔷薇工坊，再由机械师安装到死者体内。这是一条完整的供应链。\n\n最顶端是一个人——喝双份糖浆咖啡、抽极光会雪茄的人。",
+          "action_type": "examine",
+          "sets_flag": "act3_pump_station_clue",
+          "gives_clue": "gear_supply_chain",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "edmond_grey"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "underground_cold_storage": {
+      "name": "地下冷库",
+      "description": "",
+      "first_visit_text": "## 地下冷库\n\n下水道的尽头，一扇覆着新鲜冰霜的铁门半掩着。门后的温度远低于管道内。废弃的肉类冷库。\n\n空间很大，约两百平方米，天花板上挂着生锈的铁钩，像一排等待行刑的绞索。角落里堆放着木箱，地面有拖拽痕迹。\n\n有人在这里烧东西。\n\n冷库深处站着一个人——身穿白色围裙，头戴厨师高帽，围裙上沾满暗红色污渍。他蹲在地上，面前放着一个铁桶，桶里火光跳动。他手里拿着一本账簿，正在一页一页撕下，扔进火桶。\n\n“别烧，”你说。\n\n厨师抬起头，瞳孔中浮现的不是恐惧，而是绝望。\n\n“'美食俱乐部'，”你平静地说，“你在为他们工作。”\n\n厨师的眼睛猛地睁大——那不是被揭穿的恐惧，而是一种病态的满足。但更让你警觉的是，他的声音突然变了，变得空洞，不像他自己的——\n\n“我只看到，'西区，奥古斯都庄园，后厨'。”\n\n然后他的虹膜开始被黑色吞噬。舌下的毒囊在膨胀——",
+      "revisit_text": "地下冷库。地上残留着厨师液化后留下的黑色脓水痕迹。火桶已灭，残存的半页账簿碎片指向奥古斯都庄园。",
+      "atmosphere": "地下冷库 — 冰霜、鲜血与毒雾",
+      "act": 3,
+      "node_type": "encounter",
+      "node_index": 4,
+      "exits": [
+        {
+          "exit_id": "to_act3_deduction",
+          "target_room_id": "act3_deduction",
+          "description": "整理线索",
+          "is_locked": true,
+          "lock_flag": "act3_chef_encountered",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "confront_chef",
+          "label": "对抗厨师",
+          "description": "厨师暴起，剔骨刀在空中划出一道银色弧线。你后退半步，侧身让过，银质餐刀精准地压在他肘关节内侧的神经束上。\n\n剔骨刀落地。你将他按在木箱上。\n\n“账本，还剩几页没烧？”\n\n“三……三页……我只看到……西区，奥古斯都庄园，后厨——”\n\n他的声音变了。虹膜正在被黑色吞噬。舌下毒囊膨胀——\n\n你转身就跑，屏住呼吸，但毒雾透过皮肤渗透。墙壁在呼吸。地面在起伏。你咬破舌尖，血液的铁锈味切开了幻象。\n\n厨师已经液化成了一滩黑色的脓水，只剩几颗没被融化的牙齿。",
+          "action_type": "special",
+          "sets_flag": "act3_chef_encountered",
+          "gives_clue": "augustus_estate_clue",
+          "sanity_cost": 8,
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "salvage_ledger",
+          "label": "抢救残存账簿",
+          "description": "你伸手进火桶，不顾高温，夹出最后那小块纸片。边缘焦黑，但还能辨认出几个字：“西区，奥古斯都庄园，后厨。”\n\n还有一行更小的字：“莫雷蒂子爵——第二批次——15箱。”",
+          "action_type": "examine",
+          "sets_flag": "act3_ledger_salvaged",
+          "gives_clue": "moretti_connection",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "chef"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "act3_deduction": {
+      "name": "第三幕推理",
+      "description": "",
+      "first_visit_text": "## 第三幕 — 推理完成\n\n你站在证物墙前，红线交织成一张网。所有线索指向同一个方向——\n\n白蔷薇工坊只是表层。管道填充案、寡妇丈夫的死、机械师秘书的供应链、美食俱乐部的贵族晚宴——这些是三张拼图，属于同一幅画面。\n\n而那幅画面的中心，是西区贵族街的奥古斯都庄园。\n\n“双份糖浆咖啡，极光会雪茄，齿轮与玫瑰的徽章——”你在日记本上写道，“那个人在旧照片中站在养父身旁。他是谁？”\n\n哈格里夫斯站在门口，脸色苍白。'长官，我查了奥古斯都庄园的资料。那是一座有二百年历史的贵族宅邸，现任主人是奥古斯都公爵。但最关键的是——'\n\n他咽了口唾沫。\n\n“您养父的姓氏——拉姆齐——和贝潘。贝潘家族的祖宅在安纳托利亚。'\n\n你的舌尖上泛起一阵奇异的甜味——不是糖的甜，而是更古老、更危险的味道。\n\n── 第三幕完成 ──\n\n[点击'进入第四幕'继续]",
+      "revisit_text": "第三幕已完成。奥古斯都庄园在等待。",
+      "atmosphere": "真相渐近",
+      "act": 3,
+      "node_type": "boss",
+      "node_index": 5,
+      "exits": [
+        {
+          "exit_id": "to_act4",
+          "target_room_id": "augustus_exterior",
+          "description": "进入第四幕 — 奥古斯都庄园",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_evidence_wall",
+          "target_room_id": "evidence_wall",
+          "description": "返回公寓整理证物",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "proceed_act4",
+          "label": "进入第四幕",
+          "description": "你穿上燕尾服，戴上白手套，在口袋中放入银质餐具一套。不是赴宴——是品尝。\n\n奥古斯都庄园在西区贵族街等你。养父的照片中那个拿雪茄的人，他的味道已经在你的舌尖上萦绕了太久。",
+          "action_type": "move",
+          "sets_flag": "act3_complete",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [
+        "act3_supply_chain_deduction"
+      ],
+      "on_enter_flag": "",
+      "on_complete_flag": "act3_complete"
+    },
+    "augustus_exterior": {
+      "name": "奥古斯都庄园外围",
+      "description": "",
+      "first_visit_text": "## 奥古斯都庄园 — 外围\n\n庄园的铁门在月光下泛着冷光，门柱上的石狮子注视着每一个接近的人。修剪整齐的灌木丛后是精心维护的花园，空气中飘着玫瑰的香气——但你的神赐之舌捕捉到了玫瑰底下的东西：化学品的苦涩，和极淡极淡的琥珀色化合物的甜腥。\n\n大门紧闭，但有仆人通道。侧门半掩着——有人在等你，或者不在乎你是否进来。\n\n远处，庄园的主楼灯火通明。透过窗户可以看到人影移动，银器碰撞的声音隐约传来——宴会在进行中。\n\n[进入庄园]",
+      "revisit_text": "奥古斯都庄园外围。铁门、石狮子、玫瑰丛。宴会的声音从主楼传来。",
+      "atmosphere": "奥古斯都庄园 — 月光与玫瑰掩盖的腥甜",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 0,
+      "exits": [
+        {
+          "exit_id": "to_main_hall",
+          "target_room_id": "augustus_main_hall",
+          "description": "进入庄园大厅",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "examine_garden",
+          "label": "检查花园",
+          "description": "玫瑰丛下方，土壤的颜色异常——偏红，混有铁锈色的颗粒。不是天然土壤的颜色。你蹲下，用手指蘸取一点送到鼻尖。不是铁锈——是干涸的血迹，被石灰中和后混入了泥土。\n\n这座花园的营养来源，不是普通的肥料。",
+          "action_type": "examine",
+          "sets_flag": "act4_garden_examined",
+          "gives_clue": "garden_blood_soil",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "act4_started",
+      "on_complete_flag": ""
+    },
+    "augustus_main_hall": {
+      "name": "奥古斯都庄园大厅",
+      "description": "",
+      "first_visit_text": "## 奥古斯都庄园 — 大厅\n\n水晶吊灯投下令人眩晕的光芒。宾客们穿着丝绸和天鹅绒，手持银杯，笑声像碎裂的冰。空气中弥漫着昂贵香水、蜡烛蜡油和食物的香气——烤肉、红酒、甜点。\n\n但在这一切之下，你的神赐之舌捕捉到了另一种味道——来自后厨方向。不是食物的味道，而是处理食物之后残留的、被精心掩盖的腥甜。那是'容器'加工过程中特有的气味。\n\n一个穿着华贵礼服的男人向你走来。他的下巴微抬，眼神中带着世代贵族特有的优越感。\n\n“莫雷蒂子爵，”他伸出手，“听说今晚有一位……非凡的客人。您一定就是那位传说中的美食侦探。”\n\n他的手指上有淡淡的化学品灼伤痕迹。他的呼吸中带着极光会雪茄的余韵。\n\n[与莫雷蒂子爵交谈]",
+      "revisit_text": "奥古斯都庄园大厅。宾客觥筹交错，莫雷蒂子爵在不远处举杯微笑。",
+      "atmosphere": "庄园大厅 — 水晶灯光掩盖的暗流",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 1,
+      "exits": [
+        {
+          "exit_id": "to_moretti_study",
+          "target_room_id": "moretti_study",
+          "description": "随莫雷蒂进入书房",
+          "is_locked": true,
+          "lock_flag": "act4_moretti_met",
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_greenhouse",
+          "target_room_id": "underground_greenhouse",
+          "description": "潜入地下温室",
+          "is_locked": true,
+          "lock_flag": "act4_greenhouse_access",
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_amber_night",
+          "target_room_id": "amber_night_ballroom",
+          "description": "参加琥珀之夜舞会",
+          "is_locked": true,
+          "lock_flag": "act4_moretti_met",
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_klein_manor",
+          "target_room_id": "klein_manor",
+          "description": "调查琥珀病受害者",
+          "is_locked": true,
+          "lock_flag": "act4_emily_tasted",
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_augustus_kitchen",
+          "target_room_id": "augustus_kitchen",
+          "description": "潜入地下厨房",
+          "is_locked": true,
+          "lock_flag": "act4_stew_tasted",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "meet_moretti",
+          "label": "与莫雷蒂子爵交谈",
+          "description": "莫雷蒂子爵的笑容没有到达他的眼睛。\n\n“拉姆齐-贝潘先生，您的姓氏很有意思。拉姆齐——工业巨头。贝潘——安纳托利亚的古老家族。两个如此不同的血统，怎么会汇合在一个人身上？”\n\n他没有等你的回答。\n\n“也许我们该换个地方聊。书房更安静。”\n\n他的呼吸中带着极光会雪茄的余韵。你闻到了——双份糖浆咖啡的甜味。",
+          "action_type": "special",
+          "sets_flag": "act4_moretti_met",
+          "gives_clue": "moretti_sugar_coffee",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "moretti"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "moretti_study": {
+      "name": "莫雷蒂子爵书房",
+      "description": "",
+      "first_visit_text": "## 莫雷蒂子爵书房\n\n书房的墙壁被深红色天鹅绒覆盖，壁炉上方挂着一幅油画——一座被冰雪覆盖的北方港口，码头上停泊着一艘巨大的破冰船。\n\n无畏号。\n\n莫雷蒂子爵坐在书桌后，手指交叉，笑容依旧。\n\n“我知道你在查什么，贝潘先生。白蔷薇、管道填充案、美食俱乐部——你以为它们是三条线索，其实它们只是同一道菜的不同工序。”\n\n他站起身，走向壁炉。\n\n“备料。加工。上菜。你尝到了备料阶段的味道——那些'容器'。你尝到了加工阶段的味道——白蔷薇的炼金术。但你还没尝过主菜的味道。”\n\n他按下壁炉旁的一个机关。书架缓缓移开，露出一条向下的阶梯。\n\n“地下温室。去看看我们正在'培养'的东西。”",
+      "revisit_text": "莫雷蒂书房。壁炉上的无畏号油画、书架后的暗道。空气中弥漫着雪茄和糖浆咖啡的甜味。",
+      "atmosphere": "书房 — 暗道开启",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 2,
+      "exits": [
+        {
+          "exit_id": "back_main_hall",
+          "target_room_id": "augustus_main_hall",
+          "description": "返回大厅",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_greenhouse",
+          "target_room_id": "underground_greenhouse",
+          "description": "进入地下温室",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "examine_painting",
+          "label": "检查无畏号油画",
+          "description": "油画笔触精细，船名清晰可见——'无畏号'。码头上站着几个人，其中一个人穿着华贵的毛皮大衣，手里拿着雪茄。他的侧脸和那张旧照片中站在养父旁边的人一模一样。\n\n画框的右下角有一行小字：'致我亲爱的莫雷蒂——E.R.'",
+          "action_type": "examine",
+          "sets_flag": "act4_painting_examined",
+          "gives_clue": "moretti_dauntless_connection",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "moretti"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": "act4_greenhouse_access"
+    },
+    "underground_greenhouse": {
+      "name": "地下温室",
+      "description": "",
+      "first_visit_text": "## 地下温室\n\n阶梯向下延伸了三层楼深。空气越来越潮湿，越来越温暖，带着热带植物特有的浓郁气息——但混杂着不属于任何植物的甜腥味。\n\n温室比你想象的更大。巨大的玻璃穹顶下，各种奇异植物在人造阳光中生长。但它们不是普通的植物——叶片上布满琥珀色叶脉，果实呈半透明状，内部隐约可见骨骼和血管的轮廓。\n\n它们在生长。以人体为土壤。\n\n温室深处，一个巨大的琥珀色培养器矗立着。透过器壁，你能看到一个女性轮廓——不，不是女人，是某种曾经是女人的东西，悬浮在琥珀色液体中。她的腹部隆起，仿佛怀抱着什么。\n\n你的神赐之舌疯狂地抽动着。\n\n那个味道——你尝过。在养父厨房的糖罐中。在十年前那个下雪的夜晚。在母亲最后的拥抱中。\n\n那是——母亲的味道。",
+      "revisit_text": "地下温室。琥珀色植物、人体果实、培养器中悬浮的女性轮廓。空气中弥漫着让神赐之舌疯狂的味道。",
+      "atmosphere": "地下温室 — 异变的热带与禁忌的甜味",
+      "act": 4,
+      "node_type": "encounter",
+      "node_index": 3,
+      "exits": [
+        {
+          "exit_id": "back_moretti_study",
+          "target_room_id": "moretti_study",
+          "description": "返回书房",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_act4_boss",
+          "target_room_id": "act4_greenhouse_boss",
+          "description": "面对温室守卫",
+          "is_locked": true,
+          "lock_flag": "act4_mother_found",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_greenhouse_air",
+          "label": "[品尝] 温室空气",
+          "description": "你深深吸入温室的空气，让神赐之舌充分舒展。\n\n味道如洪流般涌入——琥珀色化合物的甜腥、异变植物叶绿素的金属苦涩、人肉腐烂后的腐胺鲜味。但在所有这些之下，有一丝极淡极淡的、属于母亲的味道。那是你记忆深处的甜——奶香、温暖、和某种更古老的、跨越维度的神性。\n\n你的瞳孔深处，黑色的环状阴影再次出现——比以往更明显，更持久。\n\n母亲在这里。不只是肉体——她的某种本质被封存在了这个培养器中。",
+          "action_type": "taste",
+          "sanity_cost": 12,
+          "sets_flag": "act4_mother_found",
+          "gives_clue": "mother_in_amber",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_amber_vessel",
+          "label": "检查琥珀色培养器",
+          "description": "培养器上的铭牌写着编号——'897-M'。M。Mother。你看到了她腹部的隆起——不是妊娠，是某种被封入体内的东西，像一颗种子，在琥珀色液体中缓慢生长。\n\n那是'神性种子'。他们在你的母亲体内种植了神明的碎片。",
+          "action_type": "examine",
+          "sets_flag": "act4_vessel_examined",
+          "gives_clue": "divine_seed_in_mother",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "act4_greenhouse_boss": {
+      "name": "地下温室 — 首领战",
+      "description": "",
+      "first_visit_text": "## 地下温室 — 遭遇战\n\n莫雷蒂子爵站在温室另一端，身后是两具正在异变的实验体。他的表情从优雅变为疯狂。\n\n“你以为你能带走她？”他的声音扭曲了，“她是'无瞳之神'选中的容器！她体内承载着神性种子——这是进化！这是升华！”\n\n他从腰间抽出一根注射器，针管中充满琥珀色液体——浓缩的'无瞳之神的泪滴'。他将它刺入自己的颈侧。\n\n他的身体开始异变——皮肤半透明化，琥珀色血管浮现，骨骼在皮肤下重组。但他没有失去意识。他的眼中反而燃起了一种不自然的、狂喜的光。\n\n“你也尝尝——'”\n\n两个实验体同时向你扑来。莫雷蒂在它们身后，笑声像碎裂的钟声。",
+      "revisit_text": "地下温室首领战。异变后的莫雷蒂和两具实验体守在母亲培养器前。",
+      "atmosphere": "地下温室 — 血战",
+      "act": 4,
+      "node_type": "boss",
+      "node_index": 4,
+      "exits": [
+        {
+          "exit_id": "to_dauntless",
+          "target_room_id": "dauntless_deck",
+          "description": "前往无畏号",
+          "is_locked": true,
+          "lock_flag": "act4_boss_defeated",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "defeat_mutants",
+          "label": "击败实验体",
+          "description": "你用机械师工作日志中记录的'过热'缺陷——大声指出异变体的散热弱点。琥珀色化合物在高温下失活。你将温室的温度调节阀调到最大，热气涌入，实验体的异变组织开始崩解。\n\n莫雷蒂独自面对你，异变给他带来了力量，却也带来了不稳定的痛楚。",
+          "action_type": "special",
+          "sets_flag": "act4_mutants_defeated",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "defeat_moretti",
+          "label": "击败莫雷蒂子爵",
+          "description": "莫雷蒂的异变体冲锋而来——但你不需要用暴力。你只需要一句话。\n\n“你的咖啡里糖浆放太多了，”你说，语气如品评一道失败的菜肴，“掩盖不了血腥味。就像你的异变掩盖不了恐惧。你怕死，莫雷蒂。你怕那个你正在变成的东西。”\n\n莫雷蒂的异变体僵住了。他异化的脸上浮现出一丝人类的表情——恐惧。对自己的恐惧。\n\n你按下了培养器的紧急释放。琥珀色液体涌出，他的异变组织在失去泪滴供给后开始退化。他倒在地上，重新变回了人——一个颤抖的、苍白的、不再可怕的人。\n\n“一切……在无畏号上，”他低声说，“你父亲……还在那里……”",
+          "action_type": "special",
+          "requires_flag": "act4_mutants_defeated",
+          "sets_flag": "act4_boss_defeated",
+          "gives_clue": "father_on_dauntless",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "moretti"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": "act4_greenhouse_complete"
+    },
+    "dauntless_deck": {
+      "name": "无畏号甲板",
+      "description": "",
+      "first_visit_text": "## 无畏号 — 甲板\n\n迷雾之海的码头上，'无畏号'破冰船如一座钢铁岛屿矗立在浓雾中。船身覆盖着冰霜，蒸汽管道在船舷两侧嘶嘶作响，喷出白色的蒸汽。北境的寒风从海上吹来，带着盐粒和鲸脂的腥味。\n\n你踏上舷梯。船员们投来警惕的目光——他们不欢迎外人，尤其是一个穿着黑色风衣、眼神冰冷的侦探。\n\n“布伦南船长在桥楼，”一个水手咕哝着，“他说过会有客人。但没说是什么样子的客人。”\n\n你的神赐之舌在寒风中微微抽动。这艘船的味道和贝克兰德完全不同——鲸脂、防冻液、北境特有的铁锈红泥。但在这之下，还有另一种味道——来自船舱深处的、被冰层封存的甜腥。",
+      "revisit_text": "无畏号甲板。寒风、冰霜、蒸汽。船舱深处传来不属于任何船只的气味。",
+      "atmosphere": "无畏号甲板 — 北境寒风与钢铁",
+      "act": 5,
+      "node_type": "scene",
+      "node_index": 0,
+      "exits": [
+        {
+          "exit_id": "to_bridge",
+          "target_room_id": "dauntless_cabin",
+          "description": "进入船舱",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "examine_deck",
+          "label": "检查甲板",
+          "description": "甲板上的冰层中有异常的裂纹——不是自然形成的，而是从内部胀裂的。某些东西曾经试图从甲板下方破出。裂缝边缘残留着琥珀色的结晶——'无瞳之神的泪滴'冻结后的形态。\n\n这艘船不只是一艘破冰船。它是一个移动的实验室。",
+          "action_type": "examine",
+          "sets_flag": "act5_deck_examined",
+          "gives_clue": "dauntless_mobile_lab",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "act5_started",
+      "on_complete_flag": ""
+    },
+    "dauntless_cabin": {
+      "name": "无畏号船舱",
+      "description": "",
+      "first_visit_text": "## 无畏号 — 船舱\n\n布伦南船长坐在桥楼的指挥椅上，手里握着一杯没有加糖的朗姆酒。他大约五十岁，脸被北境的风吹得像树皮一样粗糙，左眼戴着一只黑色眼罩。\n\n“拉姆齐-贝潘，”他没有起身，“我认得这个姓氏。你的养父艾萨克·拉姆齐，曾经是这艘船上的乘客。不——不是乘客。是研究者。他在下层甲板有一间实验室。我奉命不得让任何人进入。”\n\n他喝了一口朗姆酒。\n\n“但那已经是十年前的事了。现在这艘船上没有人能阻止你。”\n\n他的独眼直视着你。\n\n“淡水箱里最近出了问题。船员们说夜间能听到蠕动的声音。我以为是老鼠，但老鼠不会发光。”",
+      "revisit_text": "无畏号船舱。布伦南船长、朗姆酒、独眼。通往下层甲板的楼梯口传来微弱的蠕动脉搏声。",
+      "atmosphere": "无畏号船舱 — 朗姆酒与隐秘的恐惧",
+      "act": 5,
+      "node_type": "scene",
+      "node_index": 1,
+      "exits": [
+        {
+          "exit_id": "back_deck",
+          "target_room_id": "dauntless_deck",
+          "description": "返回甲板",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_freshwater_tank",
+          "target_room_id": "freshwater_tank",
+          "description": "前往淡水箱",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_brewery",
+          "target_room_id": "brewery",
+          "description": "前往酿酒室",
+          "is_locked": true,
+          "lock_flag": "act5_tank_explored",
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_lab",
+          "target_room_id": "foster_father_lab",
+          "description": "前往养父实验室",
+          "is_locked": true,
+          "lock_flag": "act5_brewery_explored",
+          "is_visible": true
+        }
+      ],
+      "actions": [],
+      "items": [],
+      "characters": [
+        "captain_brennan"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "freshwater_tank": {
+      "name": "淡水箱",
+      "description": "",
+      "first_visit_text": "## 淡水箱\n\n水箱的金属壁在煤油灯的光芒中泛着冷光。水位比正常低了半米——不是消耗，而是某种东西在从内部吸收水分。\n\n你将手浸入水中。冰冷刺骨。但你的指尖触到了某种温热的、蠕动的东西——它在你触碰的瞬间缩回了深水区。\n\n然后你看到了光。水箱深处，一团微弱的琥珀色光芒在水中脉动，像一颗正在呼吸的心脏。\n\n灵界蠕虫。它们从灵界渗透进了淡水箱，以'无瞳之神的泪滴'残留为食，在船的水系统中繁衍。布伦南船员们听到的蠕动声，不是老鼠——是这些来自另一个维度的寄生体。\n\n“它们尝起来，”你低声说，“像恐惧结晶后的甜味。'”",
+      "revisit_text": "淡水箱。水面下闪烁着琥珀色脉动的光芒，灵界蠕虫在深处蠕动。",
+      "atmosphere": "淡水箱 — 灵界蠕虫的巢穴",
+      "act": 5,
+      "node_type": "scene",
+      "node_index": 2,
+      "exits": [
+        {
+          "exit_id": "back_cabin",
+          "target_room_id": "dauntless_cabin",
+          "description": "返回船舱",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_worm_water",
+          "label": "[品尝] 蠕虫污染的水",
+          "description": "你掬起一捧水，送入唇间。\n\n灵界蠕虫的残留——前调是灵界物质的冷冽，像舔了一块来自另一个维度的冰；中调是泪滴降解后的甜腥，类似蜂蜜和铁锈的混合物；后调是蠕虫自身的分泌物——某种酶，能分解琥珀色化合物。\n\n你的瞳孔深处的黑色环状阴影变得更明显了。但你获得了一条关键信息：这些蠕虫的消化酶可以分解'泪滴'。",
+          "action_type": "taste",
+          "sanity_cost": 10,
+          "sets_flag": "act5_tank_explored",
+          "gives_clue": "worm_enzyme_antidote",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "brewery": {
+      "name": "酿酒室",
+      "description": "",
+      "first_visit_text": "## 酿酒室\n\n船的底层甲板，一间被改装成酿酒作坊的船舱。铜质蒸馏器、橡木桶、玻璃瓶排列得整整齐齐。但空气中的味道不对——不是正常的酒精发酵气味，而是一种更复杂的、带着琥珀色甜腥的混合物。\n\n酿酒师奥拉夫·埃里克森坐在角落，双手颤抖，面前放着半杯未完成的啤酒。他的眼球微黄——肝功能受损的征兆。\n\n“啤酒被污染了，”他不需要你提问，”不是故意的……是水箱。淡水箱的水流进了酿酒系统。那些蠕虫……它们的分泌物混进了啤酒。喝了的人……他们会看到不该看到的东西。然后他们就开始变了。”\n\n你拿起一杯啤酒，凑近鼻尖。你的神赐之舌在你尝到之前就已经知道了答案——灵性萃取酒。琥珀色化合物以酒精为载体，比泪滴更温和、更隐蔽、更难被察觉。\n\n这不是污染。这是配方。",
+      "revisit_text": "酿酒室。铜质蒸馏器、橡木桶、被污染的灵性萃取酒。酿酒师奥拉夫蜷缩在角落。",
+      "atmosphere": "酿酒室 — 被污染的酒精与颤抖的酿酒师",
+      "act": 5,
+      "node_type": "scene",
+      "node_index": 3,
+      "exits": [
+        {
+          "exit_id": "back_cabin",
+          "target_room_id": "dauntless_cabin",
+          "description": "返回船舱",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_contaminated_beer",
+          "label": "[品尝] 灵性萃取酒",
+          "description": "你抿了一口啤酒。\n\n前调：麦芽和啤酒花的正常苦涩。中调：琥珀色化合物的甜腥从酒精载体中释放——这是精心调配的比例，每升啤酒中含泪滴提取物约0.3毫升，足以在三天内引发轻微异变而不被察觉。后调：灵界蠕虫的消化酶残留——这意味着这些酒实际上是被蠕虫'加工'过的。\n\n这不是酿酒。这是'灵性萃取'——用酒精提取泪滴中的活性成分，然后通过饮用水系统分发给不知情的船员。\n\n养父的实验室。你必须要去看看。",
+          "action_type": "taste",
+          "target_id": "spiritual_extraction_liquor",
+          "sanity_cost": 8,
+          "sets_flag": "act5_brewery_explored",
+          "gives_clue": "spiritual_extraction",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "olaf"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "foster_father_lab": {
+      "name": "养父实验室",
+      "description": "",
+      "first_visit_text": "## 养父实验室\n\n下层甲板最深处，一道生锈的铁门。门上的锁已经被腐蚀得无法关闭——十年无人维护的痕迹。\n\n你推开门。\n\n实验室比你想象的更大。这里有差分机、显微镜、玻璃培养器，以及——\n\n一整面墙的标本罐。\n\n二十个。整齐排列。每个罐中悬浮着一条舌头。人的舌头。但不是普通的舌头——每一条都呈现出不同程度的异变：有的布满琥珀色叶脉，有的表面覆盖着黑色纹路，有的已经完全变成了半透明的琥珀色结晶。\n\n第二十个罐子是空的。标签上写着：'G.R-B'。\n\n你的名字缩写。\n\n桌上摊开一本日记——养父的日记。墨水已经褪色，但你仍能辨认出那些字迹。第一页写着：\n\n'实验记录：贝潘家族'神赐之舌'的活性样本。第20号：乔治斯·乔尔。状态：未觉醒。备注：他在不知情的情况下携带了完整的神性种子——来自他母亲玛格丽特·贝潘的遗传。必须在他觉醒前完成'最终晚餐'的准备工作。'",
+      "revisit_text": "养父实验室。二十个舌头标本、空缺的第二十个罐子、父亲的日记。你的名字刻在最后那个空罐的标签上。",
+      "atmosphere": "养父实验室 — 二十条舌头的秘密",
+      "act": 5,
+      "node_type": "scene",
+      "node_index": 4,
+      "exits": [
+        {
+          "exit_id": "back_cabin",
+          "target_room_id": "dauntless_cabin",
+          "description": "返回船舱",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_engine_room",
+          "target_room_id": "engine_room",
+          "description": "前往轮机舱",
+          "is_locked": true,
+          "lock_flag": "act5_diary_read",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "read_fathers_diary",
+          "label": "阅读养父日记",
+          "description": "你翻开日记。字迹从工整到潦草，从理性到疯狂——\n\n'第347天：贝潘家族的血脉中流淌着'无瞳之神'的碎片。每一代贝潘都会诞生一个'神赐之舌'的携带者。玛格丽特是第19号。她的儿子——乔治斯——将是第20号，也是最终号。'\n\n'第512天：二十个舌头标本已收集完毕。当第20号觉醒时，'最终晚餐'的仪式即可启动。二十条舌头将拼合成'无瞳之神'的口腔——那是通往神之领域的钥匙。'\n\n'第600天：我做不到。他是我的儿子。即使不是亲生的。即使他只是……一个配方中的材料。我无法把他放上餐桌。'\n\n最后一页只有一个字：\n\n'逃。'\n\n艾萨克·拉姆齐。你的养父。他选择了放你走，而不是完成他的实验。",
+          "action_type": "examine",
+          "gives_item": "fathers_diary",
+          "sets_flag": "act5_diary_read",
+          "gives_clue": "fathers_betrayal_and_redemption",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "examine_tongue_specimens",
+          "label": "检查舌头标本",
+          "description": "二十个标本罐。前十九条舌头都呈现出不同程度的异变——从轻度琥珀色浸染到完全结晶化。每一条都是贝潘家族的'神赐之舌'携带者。你的祖先。\n\n第二十个罐子是空的。标签上写着你的名字缩写。\n\n你的舌尖泛起一阵冰冷的刺痛——不是品尝，而是共鸣。这些舌头在和你对话。它们的味道跨越时间，涌入你的感官：十九代人的恐惧、痛苦、以及——在最后的瞬间——觉醒的狂喜。\n\n你属于这里。又或者，你正在逃离这里。",
+          "action_type": "examine",
+          "sanity_cost": 8,
+          "sets_flag": "act5_tongues_examined",
+          "gives_clue": "twenty_tongues_lineage",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [
+        "fathers_diary"
+      ],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "engine_room": {
+      "name": "轮机舱",
+      "description": "",
+      "first_visit_text": "## 轮机舱\n\n无畏号的心脏——巨大的蒸汽引擎在轰鸣，活塞像巨兽的心脏般有节奏地撞击。温度极高，空气像被煮沸了一样粘稠。\n\n但在引擎的轰鸣之下，另一种声音传来——从海底。一种低沉的、不属于人类听觉范围的震颤，通过船体金属直接传入你的骨骼。\n\n深海巨虫。\n\n它被'无瞳之神的泪滴'从灵界吸引而来，正缠绕在船体外部，试图渗透轮机舱。它的触手从舱壁缝隙中渗入，半透明的躯体中可以看到消化腔——里面有人类的遗骸和未完成的'容器'。\n\n布伦南船长带着几个水手赶来，手持蒸汽动力的鱼叉枪。\n\n“贝潘先生！这东西不是人能对付的——但也许不是人能品尝的！”\n\n你的神赐之舌在口腔中膨胀——它渴望品尝这只来自深海的异形生物。",
+      "revisit_text": "轮机舱。蒸汽引擎轰鸣，深海巨虫的触手从舱壁渗入。布伦南船长和他的水手们严阵以待。",
+      "atmosphere": "轮机舱 — 蒸汽与深海恐惧",
+      "act": 5,
+      "node_type": "boss",
+      "node_index": 5,
+      "exits": [
+        {
+          "exit_id": "to_act5_transition",
+          "target_room_id": "act5_dauntless_complete",
+          "description": "离开无畏号",
+          "is_locked": true,
+          "lock_flag": "act5_boss_defeated",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_deep_sea_worm",
+          "label": "[品尝] 深海巨虫触手",
+          "description": "你抓住一条渗入舱壁的触手，将舌尖贴上去。\n\n世界碎裂了。\n\n深海巨虫的味道不属于任何人类已知的风味谱系——它是灵界物质与物理世界交汇处的产物。前调：深海压力的金属苦涩，像吞咽了一整座海底火山。中调：灵界蠕虫的酶系——和淡水箱中的同类相同，但浓度高出一千倍。后调：'无瞳之神'的直接投影——你的视野中出现了那个存在的一角，没有眼睛，没有面孔，只有一个无限深远的、吞噬一切的口腔。\n\n你咬破舌尖，血液的铁锈味将你拉回现实。巨虫因被品尝而短暂痉挛——它感受到了你的'神赐之舌'。\n\n“现在！”你喊道。布伦南的鱼叉齐射，刺入巨虫暴露的神经节点。",
+          "action_type": "taste",
+          "sanity_cost": 20,
+          "sets_flag": "act5_worm_tasted",
+          "gives_clue": "worm_weakness",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "defeat_worm",
+          "label": "击败深海巨虫",
+          "description": "巨虫痉挛着退缩，触手从舱壁缝隙中拔出。布伦南的鱼叉在它的神经节点上造成了致命伤害——但真正致命的是你的品尝。'神赐之舌'的接触让灵界物质产生了排异反应。巨虫的身体开始自我分解，从被你品尝的部位开始，像酸液浇在冰块上。\n\n它沉回了深海。轮机舱恢复了秩序。蒸汽引擎重新稳定地轰鸣。\n\n布伦南擦了擦额头的汗。\n\n“安纳托利亚，”你说，声音像在宣读一份菜单，“下一站。'”",
+          "action_type": "special",
+          "requires_flag": "act5_worm_tasted",
+          "sets_flag": "act5_boss_defeated",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "captain_brennan",
+        "deep_sea_worm"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "act5_dauntless_complete": {
+      "name": "无畏号航程终结",
+      "description": "",
+      "first_visit_text": "## 第五幕 — 无畏号航程终结\n\n无畏号在北境的冰海中破浪前行，将贝克兰德的浓雾抛在身后。你站在船尾，看着那座灰色的城市在视野中消退。\n\n养父的日记在你怀中。二十条舌头的标本在实验室里静静悬浮。你母亲的味道——被封存在琥珀色培养器中的甜腥——仍在你的味蕾上萦绕。\n\n“贝克兰德，”你低声说，“只是一个厨房。真正的餐厅在安纳托利亚。'”\n\n布伦南船长走到你身旁。\n\n“贝潘先生，我在北境跑了三十年船。但从没见过你这样的乘客——品尝怪物，用味蕾当武器。”\n\n“每一个人都有自己的工具，船长。有人用刀，有人用枪，有人用钱。我只是……胃口好一点。”\n\n安纳托利亚在等待。贝潘古宅。枯井。母亲最后的封印。\n\n以及——那个在养父日记最后一页写着的词：\n\n“最终晚餐。”\n\n── 第五幕完成 ──\n\n[点击'进入第六幕'继续]",
+      "revisit_text": "无畏号航程终结。安纳托利亚在等待。",
+      "atmosphere": "北境冰海 — 过渡",
+      "act": 5,
+      "node_type": "scene",
+      "node_index": 6,
+      "exits": [
+        {
+          "exit_id": "to_act6",
+          "target_room_id": "anatolia_village",
+          "description": "进入第六幕 — 安纳托利亚",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "proceed_act6",
+          "label": "进入第六幕",
+          "description": "无畏号靠岸。安纳托利亚的海风带着黑胡椒和干燥泥土的气息。你踏上这片古老的土地——贝潘家族的根。\n\n你的舌尖已经尝到了来自地底的召唤。",
+          "action_type": "move",
+          "sets_flag": "act5_complete",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": "act5_complete"
+    },
+    "anatolia_village": {
+      "name": "安纳托利亚村庄",
+      "description": "",
+      "first_visit_text": "## 安纳托利亚村庄\n\n地中海的阳光猛烈而干燥，将大地烤成了赭红色。村庄散落在山丘之间，石砌的房屋低矮而坚固，屋顶覆盖着红色的陶瓦。空气中飘着黑胡椒、橄榄油和烤羊肉的香气——和贝克兰德的煤烟与硫磺完全不同的世界。\n\n但你的神赐之舌捕捉到了更深层的气味。从山丘深处的方向，一种古老的、被时间封存的甜腥味——和母亲培养器中的味道同源，但更浓郁、更原始。\n\n一个老人坐在村口的橄榄树下，手中编织着什么。他抬起头，看到了你。他的瞳孔收缩了一下。\n\n“贝潘家的人，”他用安纳托利亚方言说，声音干涩如枯叶，“又回来了。”\n\n他指向山丘深处那座被藤蔓覆盖的石质宅邸。\n\n“你的祖母在等你。”",
+      "revisit_text": "安纳托利亚村庄。橄榄树、赭红色大地、远处被藤蔓覆盖的贝潘古宅。",
+      "atmosphere": "安纳托利亚 — 阳光、黑胡椒与古老的召唤",
+      "act": 6,
+      "node_type": "scene",
+      "node_index": 0,
+      "exits": [
+        {
+          "exit_id": "to_beppan_estate",
+          "target_room_id": "beppan_estate",
+          "description": "前往贝潘古宅",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_spice_market",
+          "target_room_id": "spice_market",
+          "description": "前往香料市场",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_anatolian_air",
+          "label": "[品尝] 安纳托利亚空气",
+          "description": "你深深吸入安纳托利亚的空气，让神赐之舌充分舒展。黑胡椒的辛辣、橄榄油的脂香、干燥泥土的矿物味——这是贝潘家族味觉基因的源头。在这片土地上，每一寸土壤都浸透了'神赐之舌'携带者的味道，可以追溯到二十代人之前。\n\n你的舌尖泛起共鸣——不是品尝，是回归。",
+          "action_type": "taste",
+          "sanity_cost": 3,
+          "sets_flag": "act6_air_tasted",
+          "gives_clue": "beppan_homeland",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "act6_started",
+      "on_complete_flag": ""
+    },
+    "beppan_estate": {
+      "name": "贝潘古宅",
+      "description": "",
+      "first_visit_text": "## 贝潘古宅\n\n古宅从藤蔓中浮现，像一头沉睡的巨兽。石砌的墙壁有两百年历史，窗户被铁栅封死，大门上雕刻着一只没有瞳孔的眼睛——贝潘家族的徽记。\n\n门没有锁。推开时铰链发出的声响在山谷中回荡，像一声叹息。\n\n大厅昏暗，空气中弥漫着陈旧和干燥香料的混合气味。壁炉上方挂着一排肖像画——二十张面孔，从两百年前的贝潘家族先祖到近代。每一幅画像的眼睛都是用琥珀色颜料绘制的，在暗处微微发光。\n\n最后一幅画的位置是空的。画框上的铭牌写着：'第二十号——乔治斯·乔尔·拉姆齐-贝潘'。\n\n一个声音从大厅深处传来——苍老、沙哑、但带着一种奇异的温暖：\n\n“我的孩子。你终于回来了。”\n\n祖母阿纳斯塔西娅从阴影中走出。她的眼睛是琥珀色的——和壁炉上的每一幅画像一样。",
+      "revisit_text": "贝潘古宅。二十幅琥珀色眼睛的肖像、空缺的第二十号画框、祖母阿纳斯塔西娅的温暖与凝视。",
+      "atmosphere": "贝潘古宅 — 血脉的回声",
+      "act": 6,
+      "node_type": "scene",
+      "node_index": 1,
+      "exits": [
+        {
+          "exit_id": "to_grandmother_parlor",
+          "target_room_id": "grandmother_parlor",
+          "description": "随祖母进入会客厅",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_dried_well",
+          "target_room_id": "dried_well",
+          "description": "前往枯井",
+          "is_locked": true,
+          "lock_flag": "act6_grandmother_spoken",
+          "is_visible": true
+        }
+      ],
+      "actions": [],
+      "items": [],
+      "characters": [
+        "grandmother_anastasia"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "grandmother_parlor": {
+      "name": "祖母会客厅",
+      "description": "",
+      "first_visit_text": "## 祖母会客厅\n\n阿纳斯塔西娅·贝潘坐在壁炉旁的扶手椅上，膝上铺着一条编织着贝潘家族纹章的毛毯。壁炉里烧的不是木柴，而是某种散发琥珀色光芒的物质——'无瞳之神的泪滴'凝固后的形态，被当作燃料使用。\n\n“你母亲叫玛格丽特，”祖母开口，声音像在翻阅一本古旧的书，“她是第十九号'神赐之舌'的携带者。你的父亲——亲生父亲——来自拉姆齐家族。他们的结合不是偶然，是被安排的。为了制造第二十号——完美的容器。'”\n\n她看着你。\n\n“你不知道自己是什么，对吗？你以为你的舌头是一种天赋。不，孩子。那是一种诅咒——也是一把钥匙。'”\n\n她指向窗外。\n\n“枯井下面，有你需要知道的一切。你母亲的封印。你出生的真相。以及——第二十号必须做出的选择。”",
+      "revisit_text": "祖母会客厅。琥珀色壁炉、贝潘家族的真相、通往枯井的道路。",
+      "atmosphere": "祖母会客厅 — 真相与选择",
+      "act": 6,
+      "node_type": "scene",
+      "node_index": 2,
+      "exits": [
+        {
+          "exit_id": "back_estate",
+          "target_room_id": "beppan_estate",
+          "description": "返回古宅大厅",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "talk_grandmother",
+          "label": "与祖母深谈",
+          "description": "阿纳斯塔西娅讲述了贝潘家族的历史——每一代'神赐之舌'携带者都是'无瞳之神'口腔的一个碎片。二十代人的舌头拼合在一起，就是通往神之领域的钥匙。\n\n“你的母亲拒绝了。她选择封印自己的舌头，将自己封存在琥珀中，沉入枯井底部。她宁愿永远沉睡，也不愿成为那扇门的门轴。'”\n\n祖母的琥珀色眼睛在火光中闪烁。\n\n“但你可以做出不同的选择。'”",
+          "action_type": "special",
+          "sets_flag": "act6_grandmother_spoken",
+          "gives_clue": "beppan_lineage_truth",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "grandmother_anastasia"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "dried_well": {
+      "name": "枯井",
+      "description": "",
+      "first_visit_text": "## 枯井\n\n古宅后院，一口被石板覆盖的枯井。石板上刻着贝潘家族的徽记——没有瞳孔的眼睛。井壁长满了苔藓，但井底没有水——只有一层琥珀色的半透明物质，像凝固的蜂蜜。\n\n你闻到了那个味道。母亲的味道。\n\n绳梯还挂在井壁上——有人在这里下过井。你开始攀爬。\n\n井壁上的苔藓在你触碰时散发出微弱的琥珀色光芒——它们在回应你的'神赐之舌'。每一级绳梯的下降，都让你离母亲更近。空气中的甜腥味越来越浓，像一张无形的网，将你包裹。\n\n井底。琥珀色封印在你面前脉动。透过半透明的封印，你看到了她——母亲玛格丽特·贝潘，悬浮在琥珀中，面容安详，仿佛只是睡着了。她的嘴巴微张，舌头露出一角——那条'神赐之舌'，第十九号，被封印在琥珀中。\n\n[品尝母亲的琥珀封印]",
+      "revisit_text": "枯井底部。母亲的琥珀封印脉动着，散发着让神赐之舌疯狂的甜味。",
+      "atmosphere": "枯井 — 母亲的封印与血脉的共鸣",
+      "act": 6,
+      "node_type": "scene",
+      "node_index": 3,
+      "exits": [
+        {
+          "exit_id": "to_basement",
+          "target_room_id": "basement_shrine",
+          "description": "进入地下舌之圣所",
+          "is_locked": true,
+          "lock_flag": "act6_mother_amber_tasted",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_mother_amber",
+          "label": "[品尝] 母亲的琥珀封印",
+          "description": "你俯下身，将舌尖贴在琥珀色封印上。\n\n时间停止了。\n\n母亲的味道涌入你的每一根神经——不是作为食物的味道，而是作为血亲的共鸣。你看到了她的记忆：年轻的她站在这个井边，腹部隆起，怀着你。她做出了选择——用琥珀色封印封住自己的'神赐之舌'，让它在沉睡中缓慢分解，阻止'最终晚餐'的完成。\n\n但你同时也尝到了另一个味道——养父的味道。艾萨克·拉姆齐。他曾经来到这个井边，哭泣，然后转身离去。\n\n“逃。”\n\n那个字不是日记中的墨水——是母亲通过琥珀封印传给你的最后一声低语。\n\n琥珀封印碎裂了。母亲的身体化为琥珀色的光点，涌入你的口腔——不是吞噬，而是融合。第十九号的'神赐之舌'与你的第二十号合为一体。\n\n你的视野中短暂地出现了'无瞳之神'的全貌——一个由无数舌头拼合而成的巨大口腔，吞噬着整个世界。\n\n然后，一切归于黑暗。",
+          "action_type": "taste",
+          "target_id": "mothers_amber",
+          "sanity_cost": 25,
+          "sets_flag": "act6_mother_amber_tasted",
+          "gives_clue": "mothers_will",
+          "gives_item": "beppan_recipe",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [
+        "mothers_amber"
+      ],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "basement_shrine": {
+      "name": "舌之圣所",
+      "description": "",
+      "first_visit_text": "## 舌之圣所 — 地下四层\n\n枯井之下，贝潘古宅的地下室层层深入。每一层都讲述着家族的历史——储藏室中的古老餐具，旧厨房中残留的香料气味，祭祀室中供奉的无瞳之神的画像。但最深处——第四层——是一座圣所。\n\n圆形的石质大厅，穹顶上雕刻着二十只眼睛——前十九只被琥珀色宝石填充，第二十只空洞无物，等待着你。\n\n大厅中央，一张巨大的石质餐桌。桌上摆放着十九副餐具，每副餐具旁都有一个空位。第二十个位置是空的——但餐具已经摆好。银质餐刀、银质餐叉、银质餐勺。每一件都雕刻着贝潘家族的徽记。\n\n在餐桌的正中央，放置着一本羊皮卷——'贝潘食谱'。它记载着'最终晚餐'的配方：\n\n第一道菜：回忆——十九代'神赐之舌'的味道重现。\n第二道菜：真相——品尝者自身的血脉秘密。\n第三道菜：选择——吞噬无瞳之神的舌头，或拒绝它。\n\n第三道菜的选择将决定一切。\n\n壁龛中有一把银质餐刀——祖父的餐刀。它的刀刃上刻着一行字：'贝潘家的孩子，用这把刀切出你自己的味道。'",
+      "revisit_text": "舌之圣所。石质餐桌、十九副餐具、贝潘食谱、银质餐刀。最终晚餐的准备已经就绪。",
+      "atmosphere": "舌之圣所 — 最终晚餐的前厅",
+      "act": 6,
+      "node_type": "scene",
+      "node_index": 4,
+      "exits": [
+        {
+          "exit_id": "to_cathedral",
+          "target_room_id": "cathedral_nave",
+          "description": "前往贝克兰德大教堂",
+          "is_locked": true,
+          "lock_flag": "act6_recipe_obtained",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "read_beppan_recipe",
+          "label": "阅读贝潘食谱",
+          "description": "你翻开羊皮卷。食谱的笔迹跨越了数百年，每一代贝潘都添加了自己的注解。最后一页——第二十代的注解区——是空白的，等待你来书写。\n\n三道菜的配方清晰：\n\n第一道：回忆——以'神赐之舌'品尝十九位先祖的残留风味。重现家族历史。\n\n第二道：真相——品尝自己的血液，揭示血脉中的神性种子。你到底是谁？\n\n第三道：选择——无瞳之神的舌头将被呈上。你可以吞噬它，成为神之口腔的一部分；也可以拒绝它，让第二十号永远空缺。\n\n三个选择，三个结局。",
+          "action_type": "examine",
+          "sets_flag": "act6_recipe_obtained",
+          "gives_clue": "final_dinner_recipe",
+          "gives_item": "silver_dinner_knife",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [
+        "beppan_recipe",
+        "silver_dinner_knife"
+      ],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "cathedral_nave": {
+      "name": "贝克兰德大教堂中殿",
+      "description": "",
+      "first_visit_text": "## 贝克兰德大教堂 — 中殿\n\n你回到了贝克兰德——不是从海路，而是从安纳托利亚地底穿越灵界通道。大教堂的穹顶在你上方耸入黑暗，彩绘玻璃将月光染成了琥珀色。空气中弥漫着焚香和石蜡的气味，以及——来自圣坛深处的、让你神赐之舌疯狂的味道。\n\n'美食俱乐部'的成员们已经就位。他们坐在中殿两侧的长椅上，穿着华贵的礼服，手中端着银杯，杯中的液体在烛光下呈琥珀色——'灵性萃取酒'。他们不像是来祈祷的，更像是来赴宴的。\n\n维多利亚·奥古斯都站在圣坛前。她的白色长裙在烛光中如同一道瀑布，金色的头发盘成高髻，颈间挂着一枚齿轮与玫瑰的胸针。她的眼中没有疯狂——只有一种冰冷的、算计的优雅。\n\n“第二十号，”她的声音在教堂中回荡，“你终于来了。最终晚餐的餐桌已经摆好。你的养父已经为你准备好了最后一道菜——他自己。”\n\n她指向圣坛后方。艾萨克·拉姆齐——你的养父——被绑在石柱上，身上插满了琥珀色导管，正在被'加工'。",
+      "revisit_text": "大教堂中殿。维多利亚·奥古斯都守在圣坛前。美食俱乐部的成员端着灵性萃取酒静候。养父被绑在石柱上。",
+      "atmosphere": "大教堂 — 最终晚餐的餐桌",
+      "act": 6,
+      "node_type": "encounter",
+      "node_index": 5,
+      "exits": [
+        {
+          "exit_id": "to_final_duel",
+          "target_room_id": "cathedral_final_duel",
+          "description": "走向圣坛 — 最终对决",
+          "is_locked": true,
+          "lock_flag": "act6_victoria_confronted",
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_dome",
+          "target_room_id": "cathedral_dome",
+          "description": "仰望穹顶·见证未来",
+          "is_locked": true,
+          "lock_flag": "act6_victoria_confronted",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "confront_victoria",
+          "label": "对抗维多利亚·奥古斯都",
+          "description": "你向前迈步。维多利亚举起了手中的遥控装置——和你在白蔷薇工坊见到的那种类似，但更大、更精密。\n\n“你以为你赢了？你以为烧掉一个工坊就能终结这一切？”她冷笑，“白蔷薇只是一个厨房。美食俱乐部只是试菜会。而这里——”\n\n她按下按钮。大教堂的穹顶开始移动，彩绘玻璃缓缓旋转，露出了后面的星空——不，不是星空，是'无瞳之神'的眼睛。无数的、没有瞳孔的眼睛，从灵界的裂缝中注视着这座教堂。\n\n“这里是餐厅。而你是主菜。”\n\n养父在石柱上挣扎。他的嘴唇在动——他在说什么。你读出了他的唇语：\n\n“吃掉我。然后……活下去。”",
+          "action_type": "special",
+          "sets_flag": "act6_victoria_confronted",
+          "gives_clue": "victoria_final_plan",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "victoria_augustus",
+        "foster_father_isaac"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "cathedral_final_duel": {
+      "name": "大教堂最终对决",
+      "description": "",
+      "first_visit_text": "## 大教堂 — 最终对决\n\n维多利亚召唤出了'无瞳之神'的投影——一个由无数舌头拼合而成的巨大口腔，从教堂穹顶的灵界裂缝中降下。它的每一次呼吸都带着琥珀色雾气，每一声低语都让你的神赐之舌疯狂共鸣。\n\n养父挣脱了一根束缚。他用最后的力气将身体从琥珀色导管上撕下——鲜血和琥珀色液体同时涌出。\n\n“乔治斯！”他的声音在教堂中回荡，“第三道菜！你必须选择！”\n\n你站在圣坛前，面前是三样东西——\n\n无瞳之神的舌头。银质餐刀。母亲的琥珀碎片。\n\n贝潘食谱上的第三道菜：选择。\n\n吞噬无瞳之神的舌头，成为神之口腔的一部分——获得永恒的力量，但失去自我。\n\n拒绝无瞳之神的舌头，用银质餐刀切断联系——保留人性，但二十代的牺牲将化为虚无。\n\n或者——第三种选择——用母亲的琥珀碎片封印无瞳之神的舌头。既不吞噬，也不拒绝，而是将它永远封存。代价是你自己的'神赐之舌'将永远沉默。\n\n三个选择。三种风味。三种结局。\n\n[做出你的选择]",
+      "revisit_text": "大教堂最终对决。无瞳之神的投影从穹顶降下，养父在血泊中挣扎。三样东西摆在圣坛上：无瞳之神的舌头、银质餐刀、母亲的琥珀碎片。",
+      "atmosphere": "大教堂 — 最终选择",
+      "act": 6,
+      "node_type": "boss",
+      "node_index": 6,
+      "exits": [
+        {
+          "exit_id": "to_three_paths",
+          "target_room_id": "three_paths",
+          "description": "走出教堂·面对三条路",
+          "is_locked": true,
+          "lock_flag": "act6_choice_made",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "choice_devour",
+          "label": "吞噬无瞳之神的舌头",
+          "description": "你将无瞳之神的舌头送入唇间。你的神赐之舌与它融合——十九代先祖的味道在你体内炸开，与神性种子共振，将你推向超越人类的领域。你不再只是品尝者——你成为了被品尝者。世界的每一个分子都是你的风味。但你已经分不清，是你在品尝世界，还是'无瞳之神'在通过你的口腔品尝一切。\n\n你的瞳孔深处，黑色的环状阴影终于填满了整个虹膜。你没有瞳孔了。\n\n你成为了第二十号——最终号。",
+          "action_type": "special",
+          "sets_flag": "act6_choice_devour",
+          "sanity_cost": 30,
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "choice_reject",
+          "label": "用银质餐刀拒绝",
+          "description": "你举起银质餐刀，刀刃上祖父的铭文在烛光中闪烁：'贝潘家的孩子，用这把刀切出你自己的味道。'\n\n你将餐刀刺入圣坛——不是刺向无瞳之神的舌头，而是刺向连接它与这个世界的灵界通道。银质刀刃切断了琥珀色雾气的流动，无瞳之神的投影开始溃散。\n\n维多利亚尖叫着扑来，但你已经转身面对她——用味蕾，用逻辑，用你收集的每一条线索。\n\n“你的'最终晚餐'缺少一味调料，”你说，“那就是——自由意志。”\n\n无瞳之神的投影消散。美食俱乐部的成员四散奔逃。维多利亚跪倒在圣坛前，她精心策划的仪式化为灰烬。\n\n你的神赐之舌依然嗡鸣——但它属于你自己。",
+          "action_type": "special",
+          "sets_flag": "act6_choice_reject",
+          "sanity_cost": 15,
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "choice_seal",
+          "label": "用母亲的琥珀封印",
+          "description": "你拿起母亲的琥珀碎片，将它按在无瞳之神的舌头上。第十九号的封印与第二十号的神性种子共鸣——琥珀色光芒从碎片中涌出，将无瞳之神的舌头包裹、凝固、封存。\n\n代价随之而来。你的神赐之舌在封印的过程中逐渐沉默——那些曾经如洪流般涌入的味道，一条一条地消失，像烛火被逐一吹灭。甜、酸、苦、辣、咸——五种基本味觉还在，但'神赐之舌'的超凡品尝能力正在消退。\n\n当封印完成时，你只是普通人了。\n\n养父在石柱旁微笑。他伸出手——那是一只被琥珀色导管灼伤的、颤抖的手——抚摸你的脸。\n\n“这就对了，”他低声说，“这才是……我儿子……的味道。”\n\n然后他闭上了眼睛。",
+          "action_type": "special",
+          "sets_flag": "act6_choice_seal",
+          "sanity_cost": 20,
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "victoria_augustus",
+        "foster_father_isaac"
+      ],
+      "puzzles": [
+        "final_dinner_choice"
+      ],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "final_ending": {
+      "name": "终章",
+      "description": "",
+      "first_visit_text": "## 终章 — 三种风味\n\n### 结局一：吞噬\n\n你坐在无垠的黑暗中——或者说，黑暗坐在你之中。你不再需要眼睛，因为整个世界都是你的味蕾。每一颗原子的振动、每一道光的折射、每一个灵魂的叹息，都是你舌尖上的一道风味。\n\n你成为了神之口腔。你品尝着永恒。\n\n但在这无尽的盛宴中，偶尔——极偶尔——你会尝到一种不属于任何物质的味道。那是一种最简单的、最基础的、只属于人类味觉的味道。\n\n盐。水。温度。\n\n你尝不出那是谁留下的。你已经没有记忆了。\n\n── 结局一：永恒的品鉴 ──\n\n### 结局二：拒绝\n\n白蔷薇的灰烬、奥古斯都庄园的废墟、无畏号的锈迹、贝潘古宅的尘封——这些味道都在你的舌尖上，但它们不再疯狂。它们只是味道——丰富的、复杂的、属于这个世界的味道。\n\n养父被抬上了担架。他还活着——失血过多，琥珀色导管的灼伤深入骨髓，但他还活着。他用最后的力气握住你的手。\n\n“对不起。我把你做成了菜谱上的一道菜。但你……切出了自己的味道。”\n\n哈格里夫斯在教堂门口等你。他看到了从教堂中涌出的琥珀色雾气，看到了四散的美食俱乐部成员，但他什么都没问。\n\n“长官，”他只是说，“车准备好了。”\n\n你走出教堂。贝克兰德的天空依然灰蒙蒙的，但你的舌尖上残留着一种新的味道——不是案件的味道，不是死亡的味道，而是清晨的第一杯盐水的味道。\n\n纯粹。简单。属于你自己。\n\n── 结局二：自己的风味 ──\n\n### 结局三：封印\n\n你站在贝潘古宅的枯井旁。安纳托利亚的阳光温暖而干燥。\n\n你的味觉已经恢复——甜、酸、苦、辣、咸。五种基本味觉，和其他任何正常人一样。但你再也尝不出'神赐之舌'曾经揭示的那些秘密——琥珀色化合物的来源、血液中的恐惧、灵界蠕虫的酶系……这些都已成为过去。\n\n祖母阿纳斯塔西娅坐在你身旁，编织着什么。\n\n“你母亲也会这么选，”她说，“封印而不是吞噬。活着而不是成神。这是贝潘家最古老的传统——不是品尝一切，而是选择品尝什么。”\n\n你端起一杯盐水，喝了一口。\n\n盐。水。温度。\n\n这是你第一次以普通人的味觉品尝这杯盐水。它比你记忆中的更寡淡——但也更真实。\n\n“火候不够，”你低声说。\n\n但你笑了。\n\n── 结局三：凡人的味道 ──\n\n── 终 ──\n\n案件 #897：屠宰场及其后续\n状态：已侦破\n督察：乔治斯·乔尔·拉姆齐-贝潘\n剩余理智值：{sanity}\n结局达成：{ending}\n\n感谢游玩。",
+      "revisit_text": "三种风味，三种结局。品味你的选择。\n\n── 终 ──",
+      "atmosphere": "终章",
+      "act": 7,
+      "node_type": "scene",
+      "node_index": 0,
+      "exits": [],
+      "actions": [
+        {
+          "action_id": "new_game",
+          "label": "新游戏",
+          "description": "新的案件在等待。即使神赐之舌沉默了，真相的味道永不消散。",
+          "action_type": "special",
+          "sets_flag": "",
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "game_ending",
+      "on_complete_flag": "game_complete"
+    },
+    "evidence_wall": {
+      "name": "证物墙·拉姆齐的规矩",
+      "description": "",
+      "first_visit_text": "## 证物墙 — 拉姆齐的规矩\n\n壁炉里的火在燃烧，但乔治斯依然觉得冷。那不是身体上的寒冷，而是一种从骨髓里渗出来的寒意。\n\n他站在证物墙前。墙上贴满了照片、纸条、红线。照片上是那些被塞进下水道的流浪汉的脸。纸条上写着时间、地点、法医的初步结论。红线像血管一样从一张照片延伸到另一张。\n\n他将一根新的红线连接到「寡妇丈夫」与「白蔷薇工坊」之间。然后另一根——从养父的照片延伸到那个拿雪茄的陌生人。\n\n还有一根线悬着。一头连接着养父，另一头空着。\n\n胃部突然痉挛。他冲向洗手池，呕吐。酸液中夹杂着黑色的丝状物。镜子中的自己——瞳孔深处有一个极淡的、黑色的环状阴影。\n\n「还不够，」他低声说，「还需要更多味道。」",
+      "revisit_text": "证物墙。红线交织成网，从寡妇丈夫延伸到白蔷薇工坊，从白蔷薇工坊延伸到养父。那根悬着的线还在晃动。",
+      "atmosphere": "希尔斯顿区公寓 — 火光与黑线",
+      "act": 3,
+      "node_type": "scene",
+      "node_index": 10,
+      "exits": [
+        {
+          "exit_id": "to_clockmaker",
+          "target_room_id": "clockmaker_shop",
+          "description": "前往钟表匠店铺",
+          "is_locked": true,
+          "lock_flag": "act3_evidence_reviewed",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "review_evidence",
+          "label": "整理证物墙",
+          "description": "你后退一步，看着整面墙。红线从寡妇丈夫连接到白蔷薇工坊，从白蔷薇工坊连接到北境机械师，从机械师延伸到养父的照片，从养父延伸到那个拿雪茄的陌生人。还有一根线——从养父延伸到你自己。\n\n你拿起旧照片——养父与三个贵族的合影。那个拿雪茄的人，雪茄标签上有一个标记：圆圈里有一个点。那不是「极光会」的标志——那是贝潘家族的徽章。一颗黑胡椒，被一个圆圈环绕。\n\n「世界需要调味。」贝潘家族的座右铭。\n\n你闭上眼。味道涌了上来——安纳托利亚黑胡椒，辛辣、甘甜、金属。那是你小时候吃过的味道，在一碗黑色的粥里。母亲喂给你的。",
+          "action_type": "examine",
+          "sets_flag": "act3_evidence_reviewed",
+          "gives_clue": "beppan_family_connection",
+          "is_one_time": true,
+          "is_visible": true
+        },
+        {
+          "action_id": "write_recipe",
+          "label": "写菜谱·机油炖毒妇",
+          "description": "你坐在书桌前，翻开日记本。不是记录案件——是写菜谱。将混乱的食材分解成有序的步骤，这是你整理思绪的方式。\n\n菜名：机油炖毒妇\n食材：寡妇的汤（磷化锌）、组装体的油（黑鲸牌机油）\n步骤：提取→混合→加热→冷凝→调和\n效果：对机械生物伤害+20%，攻击附带中毒\n备注：此菜谱的灵感来自两个女人的绝望——一个失去了丈夫，一个失去了生命。",
+          "action_type": "special",
+          "sets_flag": "act3_recipe_written",
+          "gives_item": "poison_recipe",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "clockmaker_shop": {
+      "name": "钟表匠店铺",
+      "description": "",
+      "first_visit_text": "## 钟表匠店铺\n\n店门紧闭，橱窗里摆着各式各样的钟表——座钟、挂钟、怀表、航海钟，每一只都指向不同的时间。有些指针静止不动，有些在缓慢转动，有些则以令人眩晕的速度飞旋。\n\n钟声响起。你的太阳穴猛地一跳。\n\n推开门。店铺内部昏暗，空气中弥漫着黄铜、机油和旧木头的气味。墙壁上挂满了钟——数百只，密密麻麻，每一只都在走动，发出此起彼伏的嘀嗒声，像一群正在窃窃私语的幽灵。\n\n柜台后面坐着一个老人——钟表匠。他的耳朵被切开了，伤口边缘嵌着微小的齿轮。他在用一把螺丝刀往自己的耳朵里塞更多的齿轮。\n\n「你听到了吗？」他说，声音像碎裂的钟声，「上帝在说话。」\n\n「他在说什么？」\n\n「他在说——'吃掉更多！吃掉更多！'」",
+      "revisit_text": "钟表匠店铺。数百只钟在嘀嗒作响，齿轮在老人的耳朵里转动。",
+      "atmosphere": "钟表匠店铺 — 嘀嗒、齿轮与疯狂",
+      "act": 3,
+      "node_type": "scene",
+      "node_index": 11,
+      "exits": [
+        {
+          "exit_id": "back_slum_from_clock",
+          "target_room_id": "slum_entrance",
+          "description": "返回棚户区",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "talk_clockmaker",
+          "label": "与钟表匠交谈",
+          "description": "「齿轮与玫瑰，」钟表匠说，眼睛里有狂热的光，「那是他的标志。他给了我们齿轮——机械、秩序、永恒。他给了我们玫瑰——生命、血肉、变化。当齿轮与玫瑰结合，就是神降临时。」\n\n他凑近你，嘴里喷出机油的气味。\n\n「你的舌尖上有他的味道。你是贝潘家的人。你——是第二十号。」\n\n他突然抓住你的手腕，将一只怀表塞进你的手心。怀表的后盖是透明的，能看到里面的齿轮——32齿，模数1.5，和组装体体内的一模一样。\n\n「拿着。它会带你找到他。」",
+          "action_type": "special",
+          "sets_flag": "act3_clockmaker_spoken",
+          "gives_clue": "clockmaker_prophecy",
+          "gives_item": "clockmaker_watch",
+          "sanity_cost": 5,
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "clockmaker"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "abandoned_club": {
+      "name": "废弃极乐鸟俱乐部",
+      "description": "",
+      "first_visit_text": "## 废弃极乐鸟俱乐部\n\n建筑夹在两座联排别墅之间，门面狭窄。门口的铜质招牌只剩锈蚀的螺丝孔。招牌上曾经写着「极乐鸟俱乐部」——二十年前的私人社交俱乐部。五年前关闭，原因不明。\n\n大厅中央有圆形磨损区域——曾经放着圆桌。十二把椅子的间距相等，形成一个完美的圆环。\n\n这是「美食俱乐部」的聚会场所。\n\n地下室入口有一把密码锁，锁盘上有十二个数字。你想起钟表匠店铺里那些钟——一和十二相对，二和十一相对，每一对的和都是十三。\n\n你旋转锁盘。按下「七」。咔嗒。铁门开了。",
+      "revisit_text": "废弃极乐鸟俱乐部。圆形磨损痕迹、地下室的密码锁门。",
+      "atmosphere": "废弃俱乐部 — 尘封的仪式",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 10,
+      "exits": [
+        {
+          "exit_id": "to_club_basement",
+          "target_room_id": "club_basement",
+          "description": "进入地下室",
+          "is_locked": true,
+          "lock_flag": "act4_club_puzzle_solved",
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_augustus_from_club",
+          "target_room_id": "augustus_exterior",
+          "description": "前往奥古斯都庄园",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "solve_lock",
+          "label": "解开密码锁",
+          "description": "你盯着锁盘。十二个数字，对应十二使徒、十二小时。钟表匠的启示——每一对数字之和为十三。\n\n你旋转锁盘：一在上，十二在下，二在右上，十一在左下……最后按下「七」。\n\n咔嗒。铁门开了。从地下室涌上来的气味——甜腥的，属于无数道菜的残留味道。石桌上沉积了五十年的血迹，在你舌尖上炸开：从正常食材到人类，从品尝到腌制，从烹饪到祭祀。",
+          "action_type": "special",
+          "sets_flag": "act4_club_puzzle_solved",
+          "gives_clue": "club_history",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [
+        "club_password_puzzle"
+      ],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "club_basement": {
+      "name": "俱乐部地下室·祭坛",
+      "description": "",
+      "first_visit_text": "## 俱乐部地下室\n\n石阶向下延伸。地下室约两百平方米，中央是长方形石桌。桌面有导流槽，从边缘向中心汇聚。凹槽被暗红色残留物浸透。\n\n血。这不是餐桌。这是祭坛。\n\n你舔了石桌。味道在舌尖上分层——\n\n最底层：五十年前，正常食材。\n第二层：三十年前，人类出现，偶然的「品尝」。\n第三层：二十年前，人类超过动物，实验哪种人更好吃。\n第四层：十年前，活人体内注入药物。这是……农业。\n最顶层：五年前，十二道菜，每道用不同的人烹制。中央银质餐盘盖着盖子，没有打开。\n\n墙壁上壁画——一群人围坐长桌，脸是空白的。一端坐着戴王冠的人，脸上只有一张嘴在微笑。那张嘴和养父的一模一样。\n\n壁画右下角符号：圆圈里一颗黑胡椒。贝潘家族的徽章。",
+      "revisit_text": "俱乐部地下室。石质祭坛、干涸血迹、五十年壁画。贝潘家族的徽章刻在壁画右下角。",
+      "atmosphere": "俱乐部地下室 — 祭祀的回声",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 11,
+      "exits": [
+        {
+          "exit_id": "back_club",
+          "target_room_id": "abandoned_club",
+          "description": "返回大厅",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_altar",
+          "label": "[品尝] 祭坛残留",
+          "description": "你舔了石桌。味道如地层般展开——五十年的人类食谱史在舌尖上流淌。正常食材变成禁忌，品尝变成腌制，烹饪变成祭祀。最深处的银质餐盘——你尝不到里面的东西，被某种力量封锁了。\n\n但壁画的含义清晰了：那张嘴不是养父的。或者说——养父在重复某个更古老的模式。五十年前就有人预见到了他的存在。贝潘家族的徽章刻在壁画右下角。你的家族和这个仪式有着比你想的更深的联系。",
+          "action_type": "taste",
+          "sanity_cost": 8,
+          "sets_flag": "act4_altar_tasted",
+          "gives_clue": "altar_history",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "augustus_kitchen": {
+      "name": "莫雷蒂庄园地下厨房",
+      "description": "",
+      "first_visit_text": "## 莫雷蒂庄园·地下厨房\n\n石阶螺旋向下三层楼深。铁门上的蒸汽锁嘶嘶作响。门后是巨大的地下空间——两百平方米，天花板五米高，蒸汽管道在墙壁上加热。\n\n不锈钢台面排列着手术刀、骨锯、剔骨刀、蒸汽锯、液压剪。上方铁钩挂着人类躯干——没有头，没有四肢，被掏空内脏。\n\n不锈钢桶里浸泡着人体部位——手臂、大腿、手、脚。液体是琥珀色的——「无瞳之神的泪滴」和盐水的混合溶液。这些部位正在被「腌制」。\n\n角落里关着几个活人——铁链锁在墙上。其中一个男人的舌头被割掉了。\n\n莫雷蒂站在台面前，张开双臂：\n\n「欢迎来到我的厨房，贝潘先生。」",
+      "revisit_text": "莫雷蒂地下厨房。铁钩上的躯干、琥珀色腌制液、铁链锁着的活人。",
+      "atmosphere": "地下厨房 — 食材加工场",
+      "act": 4,
+      "node_type": "encounter",
+      "node_index": 12,
+      "exits": [
+        {
+          "exit_id": "back_main_hall_from_kitchen",
+          "target_room_id": "augustus_main_hall",
+          "description": "返回大厅",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_stew_meat",
+          "label": "[品尝] 银质餐盘中的炖肉",
+          "description": "你切下一块炖肉送入口中。\n\n【神之舌·终极解析】理智值-10。\n\n前调：红酒和香料。中调：人类脂肪的甘甜——带着纤维的韧性。后调：「无瞳之神的泪滴」——液态的恐惧，冰冷、尖锐。\n\n最深层：O型阴性血，女性，约二十五岁，生前长期食素。她死前没有挣扎——或者没有机会挣扎。\n\n你放下刀叉。\n\n「火候过了，」你说，「炖煮时间太长，纤维被破坏。迷迭香太多，盖过鲜味。应该提前五分钟出锅。」\n\n整个宴会厅的空气凝固了。",
+          "action_type": "taste",
+          "sanity_cost": 10,
+          "sets_flag": "act4_stew_tasted",
+          "gives_clue": "human_meat_identity",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "moretti"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "amber_night_ballroom": {
+      "name": "琥珀之夜舞会",
+      "description": "",
+      "first_visit_text": "## 琥珀之夜·化装舞会\n\n水晶吊灯由三百个煤气灯头组成，光芒折射投下五颜六色的光斑。约一百位宾客，全部戴着白色半脸面具——面具眼孔边缘有黑色的符文，那是「无瞳之神」名字的古文字写法。\n\n大厅深处有玻璃棺——透明的，钢架固定。棺中躺着少女艾米莉·奥古斯都，皮肤呈现半透明琥珀色。她的嘴唇微张，嘴角挂着一丝微笑。但她没有呼吸——或者说太微弱了。\n\n奥古斯都公爵走到你面前。他的面具额头刻着奥古斯都家徽。\n\n「她很美，不是吗？」\n\n「美得像一道……精心烹制的菜。」\n\n公爵笑了。\n\n「您让我想起了您的母亲。我……品尝过她。」",
+      "revisit_text": "琥珀之夜舞会。百人面具舞会、琥珀少女的玻璃棺、奥古斯都公爵。",
+      "atmosphere": "琥珀之夜 — 面具、琥珀与禁忌的甜味",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 13,
+      "exits": [
+        {
+          "exit_id": "to_augustus_from_ball",
+          "target_room_id": "augustus_exterior",
+          "description": "离开舞会",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_emily_hand",
+          "label": "[品尝] 艾米莉的手",
+          "description": "你请求哀悼，弯腰捧起艾米莉的手。冰冷如玉石，皮肤表面有植物蜡质层。你将舌尖贴在她手背上。\n\n【神之舌·解析】理智值-3。\n\n第一层：植物纤维素——她的皮肤正在变成树皮。第二层：树脂酸——她自己在琥珀化。第三层：「夜啼鸟」唾液酶。第四层：致幻剂「极乐香」。\n\n第五层：艾米莉的梦境。一朵巨大的花，花瓣像人的嘴唇，花蕊像一张嘴。「吃……梦……」然后——永恒的琥珀，绝对的孤独。\n\n「她很美。请节哀。」\n\n公爵：「您好像并不悲伤。」\n\n「悲伤改变不了什么，但美食可以。」",
+          "action_type": "taste",
+          "sanity_cost": 5,
+          "sets_flag": "act4_emily_tasted",
+          "gives_clue": "amber_disease_truth",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "augustus_duke",
+        "emily_augustus"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "klein_manor": {
+      "name": "克莱恩庄园",
+      "description": "",
+      "first_visit_text": "## 克莱恩庄园\n\n克莱恩家族靠钢铁发家，庄园朴素得多。客厅中央放着玻璃棺——和奥古斯都庄园的一模一样。\n\n安娜·克莱恩。十五岁，琥珀化程度比艾米莉更深——连头发都变硬了，像金色的玻璃丝。\n\n她的眼睛是睁开的。琥珀色眼球，没有瞳孔。眼球表面有极细的同心圆纹路——声波的刻痕。她在用眼球记录声音。\n\n你刮下眼球表面的琥珀粉末，送入唇间。\n\n【神之舌·解析】你尝到了——「无瞳之神」的真名，一个被尖叫出来的频率。安娜在变成琥珀的前一刻尖叫了。\n\n更深层：她的视网膜上烙印着贝潘家族的徽章——圆圈里一颗黑胡椒。她在昏迷前看到的最后一个画面。",
+      "revisit_text": "克莱恩庄园。安娜的玻璃棺、琥珀色眼球、声波刻痕、贝潘家族徽章的视网膜烙印。",
+      "atmosphere": "克莱恩庄园 — 琥珀中的尖叫",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 14,
+      "exits": [
+        {
+          "exit_id": "to_club_from_klein",
+          "target_room_id": "abandoned_club",
+          "description": "追踪气味至废弃俱乐部",
+          "is_locked": true,
+          "lock_flag": "act4_klein_investigated",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "taste_anna_eye",
+          "label": "[品尝] 安娜眼球的琥珀粉末",
+          "description": "你刮下琥珀粉末送入唇间。你尝到了声音——同心圆纹路在舌尖上变成振动，振动变成声音。那是「无瞳之神」的真名——一个频率。\n\n更深层：安娜视网膜上的烙印——贝潘家族的徽章。她在昏迷前看到的最后一个画面不是天花板，而是一个符号。\n\n你的家族和这场阴谋的联系比你想的更深。空气中你捕捉到了「夜啼鸟」唾液酶的微弱气味——浓度在东北方向递增。奥古斯都庄园的地下。",
+          "action_type": "taste",
+          "sanity_cost": 4,
+          "sets_flag": "act4_klein_investigated",
+          "gives_clue": "beppan_symbol_in_amber",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "tailor_shop": {
+      "name": "裁缝铺",
+      "description": "",
+      "first_visit_text": "## 裁缝铺\n\n西区贵族街支巷里，铺面不大。橱窗里摆着几件成品礼服，每处细节无可挑剔。空气中有羊毛、樟脑和蒸汽熨斗的气味。\n\n驼背的老板戴着厚如瓶底的镜片。「贝潘先生，您来了。燕尾服已经做好了。」\n\n银质袖扣上刻着齿轮与玫瑰——32齿，模数1.5，和组装体体内的齿轮完全一致。玫瑰花瓣层叠，花蕊是六芒星。和奥古斯都请柬上的蜡封一模一样。\n\n「你知道这个图案，」你说，不是提问。\n\n裁缝的手微微一抖。「拉姆齐先生是我的老顾客……他说这是「美食俱乐部」的标志。」",
+      "revisit_text": "裁缝铺。燕尾服试穿、齿轮与玫瑰的袖扣、裁缝的秘密。",
+      "atmosphere": "裁缝铺 — 羊毛、樟脑与秘密",
+      "act": 4,
+      "node_type": "scene",
+      "node_index": 15,
+      "exits": [
+        {
+          "exit_id": "to_amber_night",
+          "target_room_id": "amber_night_ballroom",
+          "description": "穿燕尾服前往琥珀之夜",
+          "is_locked": true,
+          "lock_flag": "act4_tailor_spoken",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "question_tailor",
+          "label": "追问裁缝",
+          "description": "「你妻子，她是怎么死的？」\n\n裁缝脸色惨白。「肺痨……」\n\n「她不是病死的。她死于磷化氢中毒。肺痨不会让骨骼软化，不会让皮肤变得半透明，不会让血液变成黑色。」\n\n你从口袋里掏出名片。「如果你想起什么，联系我。」\n\n「先生……您不怕吗？」\n\n「怕什么？」\n\n「他们会……吃了您。」\n\n「我是一个美食家。我只怕一样东西——难吃的菜。」",
+          "action_type": "special",
+          "sets_flag": "act4_tailor_spoken",
+          "gives_clue": "tailor_wife_murder",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "tailor"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "spice_market": {
+      "name": "安纳托利亚香料市场",
+      "description": "",
+      "first_visit_text": "## 安纳托利亚香料市场\n\n地中海阳光猛烈干燥，大地被烤成赭红色。市场散落在村庄外围山坡上，石砌摊位排列成蛇形，堆满色彩斑斓的香料——赭红的辣椒粉、金黄的姜黄、深绿的薄荷干、黑色的胡椒粒。\n\n最深处一个摊位，摊主是蒙面老妇人，只露出一双琥珀色的眼睛。\n\n「贝潘家的人，」她没有抬头，「你终于来买你母亲留下的那味香料了。」\n\n她从摊位下面取出密封的陶罐，罐口蜡封上印着贝潘家族的徽章。\n\n「这是第十九号的遗物。她走之前说——等第二十号来的时候，打开它。」",
+      "revisit_text": "安纳托利亚香料市场。黑胡椒的辛辣、蒙面老妇、母亲留下的密封陶罐。",
+      "atmosphere": "香料市场 — 辛辣、甘甜与遗物",
+      "act": 6,
+      "node_type": "scene",
+      "node_index": 5,
+      "exits": [
+        {
+          "exit_id": "to_beppan_estate_from_market",
+          "target_room_id": "beppan_estate",
+          "description": "前往贝潘古宅",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "open_spice_jar",
+          "label": "打开母亲的陶罐",
+          "description": "你刮开蜡封，揭开罐盖。气味涌出——安纳托利亚黑胡椒的辛辣，比市场任何一家都更纯粹、更尖锐。罐底铺着黑色胡椒粒，中间嵌着一块琥珀色碎片——母亲「神赐之舌」的结晶。\n\n你取出一粒送入唇间。味道在体内炸开——辛辣、甘甜、金属。但这次你尝到了更深层的东西：母亲的选择。她选择封印自己的舌头，选择沉入枯井，选择让你活在人间。\n\n「世界需要调味。」但你终于明白了——不是所有的调味都需要品尝，有些需要拒绝。",
+          "action_type": "taste",
+          "sanity_cost": 8,
+          "sets_flag": "act6_mother_spice_tasted",
+          "gives_clue": "mothers_choice",
+          "gives_item": "mother_spice_jar",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "spice_merchant"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "club_pursuit": {
+      "name": "美食俱乐部的追猎",
+      "description": "",
+      "first_visit_text": "## 美食俱乐部的追猎\n\n消息走漏了。维多利亚知道你从无畏号带走了养父的日记。\n\n贝克兰德的街巷变成了猎场。美食俱乐部的残余成员——十二个——在雾中搜寻你的踪迹。他们披着黑色斗篷，手持银质餐具改装的武器：叉戟、剔骨刀、蒸汽锯。\n\n你在乔伍德区的废弃蒸汽管道网络中穿行。身后的追猎者越来越近——他们闻得到你。不是嗅觉，是某种通过「泪滴」建立的灵界感知。\n\n前方分叉口——左边码头，右边大教堂。你只有几秒钟。\n\n舌尖上残留的味道在保护你——养父日记的墨水、舌头标本的琥珀色、蠕虫消化酶的甜腥。这些味道像一层隐形的盔甲。",
+      "revisit_text": "蒸汽管道迷宫。美食俱乐部追猎者在雾中搜寻。",
+      "atmosphere": "追猎 — 蒸汽、雾气与银质利刃",
+      "act": 6,
+      "node_type": "encounter",
+      "node_index": 7,
+      "exits": [
+        {
+          "exit_id": "to_cathedral_nave",
+          "target_room_id": "cathedral_nave",
+          "description": "逃往大教堂",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "use_poison_recipe",
+          "label": "使用「机油炖毒妇」毒剂",
+          "description": "你取出玻璃小瓶——「机油炖毒妇」成品。磷化锌与黑鲸牌机油混合物，掺入微量泪滴。\n\n你将毒剂涂抹在银质餐刀上，转身面对追猎者。叉戟刺来——你侧身让过，餐刀精准划过他手腕肌腱。毒剂通过伤口渗入，磷化氢开始分解肌肉组织。\n\n追猎者倒下。其他人停住了——他们在评估你的「味道」。\n\n你趁机跑向大教堂。",
+          "action_type": "special",
+          "requires_item": "poison_recipe",
+          "sets_flag": "act6_pursuit_survived",
+          "gives_clue": "club_hunt_interrupted",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "cathedral_dome": {
+      "name": "贝克兰德穹顶",
+      "description": "",
+      "first_visit_text": "## 贝克兰德穹顶\n\n穹顶壁画在动——三幅画面交替闪烁，向你展示三种不同的未来。\n\n左侧·理性之路：冷色调的蓝与灰。你穿着风衣站在停尸房，面对尸体，嘴是闭着的，舌尖缩在口腔里。你在拒绝品尝。你变成了普通人。\n\n右侧·疯狂之路：暖色调的红与橙。你跪在石桌前一饮而尽。舌尖在燃烧，「神性种子」开花了——每一朵花都是一张嘴。你站在肉山顶端，那张没有眼睛只有嘴的脸。你在吃世界。\n\n中央·平衡之路：灰与红交织，像黎明前的天空。你坐在木桌前，面前摆着一碗清汤面。你在等。等液体冷却。然后端起碗，喝了一口——不是一饮而尽，是品尝。\n\n三幅壁画融合成一幅——一碗清汤面。银质碗，边缘刻着贝潘家族的徽章。",
+      "revisit_text": "穹顶。三幅壁画——理性、疯狂、平衡。三种未来的味道在空气中交织。",
+      "atmosphere": "穹顶 — 三种未来的回响",
+      "act": 7,
+      "node_type": "scene",
+      "node_index": 1,
+      "exits": [
+        {
+          "exit_id": "to_pupilless_descent",
+          "target_room_id": "pupilless_descent",
+          "description": "面对无瞳之神的降临",
+          "is_locked": true,
+          "lock_flag": "act7_dome_witnessed",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "witness_three_futures",
+          "label": "见证三种未来",
+          "description": "你闭上眼。舌尖上安纳托利亚黑胡椒的味道开始燃烧——不是被动的品尝，而是主动的召唤。你在召唤封存在味蕾深处的、关于你整个人生的记忆。\n\n从婴儿床上的第一次品尝，到停尸房里的第一具尸体，到棚户区的第一碗毒汤，到奥古斯都庄园的第一道主菜，到地下温室的第一朵花，到无畏号上的第一条蠕虫，到贝潘古宅的第一口黑粥，到大教堂的最后一餐。\n\n所有味道都在舌尖上。你尝到了——选择。\n\n理性之路：失去神之舌，变成普通人。\n疯狂之路：成为无瞳之神的容器，永远饥饿。\n平衡之路：保留神之舌但不再被它控制。\n\n你睁开眼。穹顶上的三幅壁画在融合。",
+          "action_type": "special",
+          "sets_flag": "act7_dome_witnessed",
+          "gives_clue": "three_futures_revealed",
+          "sanity_cost": 10,
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "pupilless_descent": {
+      "name": "无瞳之神降临",
+      "description": "",
+      "first_visit_text": "## 无瞳之神降临\n\n穹顶彩绘玻璃旋转着裂开。灵界裂缝从天而降，琥珀色雾气涌出。一只巨大的、没有瞳孔的眼睛从裂缝中俯视——整个城市都在它的注视下颤抖。\n\n维多利亚举起遥控装置：「你以为你赢了？白蔷薇只是一个厨房。美食俱乐部只是试菜会。而这里——」\n\n她按下按钮。穹顶完全打开，露出了灵界的全貌——无数只没有瞳孔的眼睛。\n\n「这里是餐厅。而你是主菜。」\n\n养父在石柱上挣扎。他的唇语：\n\n「吃掉我。然后……活下去。」\n\n无瞳之神的触手从穹顶伸下——半透明的琥珀色，表面布满味蕾。它在品尝这个世界。而你——站在圣坛前，面前是三样东西。\n\n无瞳之神的舌头。银质餐刀。母亲的琥珀碎片。",
+      "revisit_text": "无瞳之神降临。灵界裂缝、无数无瞳之眼、布满味蕾的触手。三样东西等你选择。",
+      "atmosphere": "无瞳降临 — 琥珀色末日",
+      "act": 7,
+      "node_type": "boss",
+      "node_index": 2,
+      "exits": [
+        {
+          "exit_id": "to_three_endings",
+          "target_room_id": "three_paths",
+          "description": "做出选择",
+          "is_locked": true,
+          "lock_flag": "act7_pupilless_confronted",
+          "is_visible": true
+        }
+      ],
+      "actions": [
+        {
+          "action_id": "confront_pupilless",
+          "label": "面对无瞳之神",
+          "description": "你向前迈步。触手在空中舞动，每一条都在品尝空气——品尝你的味道。你的神赐之舌在口腔中膨胀，与触手上的味蕾共鸣。\n\n维多利亚冷笑：「第二十号，你的选择将决定一切。」\n\n你看了看三样东西——无瞳之神的舌头在触手上颤动，银质餐刀在烛光中闪烁，母亲的琥珀碎片散发着温暖的琥珀色光芒。\n\n你做出了选择。",
+          "action_type": "special",
+          "sets_flag": "act7_pupilless_confronted",
+          "gives_clue": "final_choice_ready",
+          "is_one_time": true,
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "victoria_augustus",
+        "foster_father_isaac"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "three_paths": {
+      "name": "三条路",
+      "description": "",
+      "first_visit_text": "## 三条路\n\n大教堂外·清晨。太阳升起，金色的光芒洒在贝克兰德上空。一切都在——继续。\n\n面前有三条路。\n\n左边——通往乔伍德区。那里有新的案件。你需要去品尝，去破案，去——活着。\n\n右边——通往码头。那里有船去安纳托利亚。你需要把母亲的「神之舌」放回井底，需要——回家。\n\n中间——通往希尔斯顿区。那里有你的公寓，有你的证物墙。你需要——吃一碗清汤面。\n\n三条路。三种选择。三种结局。\n\n你的手在口袋里，摸着那颗无瞳之神的牙齿。牙齿是温的。它在告诉你：「你不需要选。我会帮你选。」\n\n你咬住牙齿。疼痛——尖锐的，灼热的。但你没有松口。\n\n你在等。等道路选择你。",
+      "revisit_text": "三条路。左边——案件。右边——回家。中间——清汤面。等道路选择行者。",
+      "atmosphere": "三条路 — 等待选择",
+      "act": 7,
+      "node_type": "scene",
+      "node_index": 3,
+      "exits": [
+        {
+          "exit_id": "to_ending_rational",
+          "target_room_id": "ending_rational",
+          "description": "理性之路 — 拒绝神之舌",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_ending_madness",
+          "target_room_id": "ending_madness",
+          "description": "疯狂之路 — 吞噬神性",
+          "is_locked": false,
+          "is_visible": true
+        },
+        {
+          "exit_id": "to_ending_balance",
+          "target_room_id": "ending_balance",
+          "description": "平衡之路 — 品尝而不被吞噬",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "",
+      "on_complete_flag": ""
+    },
+    "ending_rational": {
+      "name": "结局演绎·理性之路",
+      "description": "",
+      "first_visit_text": "## 结局演绎 — 理性之路\n\n你举起银质餐刀，刺入灵界通道。银质刀刃切断了琥珀色雾气的流动，无瞳之神的投影开始溃散。\n\n「你的「最终晚餐」缺少一味调料，」你说，「那就是——自由意志。」\n\n维多利亚跪倒在圣坛前。你的神赐之舌在沉默。舌尖上的神性种子枯萎了，封印还在，但你失去了超凡品尝的能力。\n\n你还能尝到味道——只是普通的，人类的。盐的咸，糖的甜，柠檬的酸。你变成了普通人。\n\n三年后。你穿着风衣坐在路边摊，面前摆着一碗清汤面。你吃得很慢，每一口都在等——等舌尖上的味蕾苏醒。但它们沉默着。\n\n你吃了七碗。不是因为饿——是因为你需要记得，平淡也是味道。\n\n「火候正好。」\n\n── 结局一：凡人的味道 ──",
+      "revisit_text": "结局一·理性之路。凡人的味道。七碗清汤面。",
+      "atmosphere": "结局演绎 — 理性之路",
+      "act": 7,
+      "node_type": "scene",
+      "node_index": 4,
+      "exits": [
+        {
+          "exit_id": "to_noodle_stand_rational",
+          "target_room_id": "noodle_stand",
+          "description": "前往路边摊",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "ending_rational",
+      "on_complete_flag": ""
+    },
+    "ending_madness": {
+      "name": "结局演绎·疯狂之路",
+      "description": "",
+      "first_visit_text": "## 结局演绎 — 疯狂之路\n\n你将无瞳之神的舌头送入唇间。你的神赐之舌与它融合——十九代先祖的味道在你体内炸开，与神性种子共振。\n\n你不再只是品尝者——你成为了被品尝者。你的瞳孔深处，黑色环状阴影填满了整个虹膜。你成为了第二十号——最终号。\n\n贝克兰德被肉山覆盖。肉山最顶端是你——一张巨大的、没有眼睛、只有嘴的脸。嘴在咀嚼，在吞咽，在品尝。\n\n但你的意识缩成了一个小小的点——在肉山最深处。那里是一个路边摊。木桌，矮凳，一碗清汤面。\n\n你挑起一根面条，送入口中。味道——不是清汤面的味道。而是你自己的味道。你在吃自己的灵魂。\n\n「火候正好。」\n\n肉山停止了脉动。不是死亡——是等待。\n\n── 结局二：永恒的品鉴 ──",
+      "revisit_text": "结局二·疯狂之路。永恒的品鉴。肉山深处的路边摊。",
+      "atmosphere": "结局演绎 — 疯狂之路",
+      "act": 7,
+      "node_type": "scene",
+      "node_index": 5,
+      "exits": [
+        {
+          "exit_id": "to_noodle_stand_madness",
+          "target_room_id": "noodle_stand",
+          "description": "前往路边摊",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "ending_madness",
+      "on_complete_flag": ""
+    },
+    "ending_balance": {
+      "name": "结局演绎·平衡之路",
+      "description": "",
+      "first_visit_text": "## 结局演绎 — 平衡之路\n\n你拿起母亲的琥珀碎片，将它按在无瞳之神的舌头上。第十九号的封印与第二十号的神性种子共鸣——琥珀色光芒涌出，将无瞳之神的舌头包裹、凝固。\n\n但这次不同。你不是完全封印——你是控制。\n\n你保留了神赐之舌，但不再被它控制。你品尝禁忌，但只吃必须吃的。你成为了「食神」，但不是为了成为神——是为了让神闭嘴。\n\n维多利亚的仪式崩溃了。你走到养父身边。琥珀色导管从他身上拔出，伤口还在流血。他用最后的力气握住你的手。\n\n「这就对了，」他低声说，「这才是……我儿子……的味道。」\n\n你走出教堂。舌尖上残留着新的味道——不是案件的味道，不是死亡的味道，而是清晨第一杯盐水的味道。\n\n纯粹。简单。属于你自己。\n\n── 结局三：自己的风味 ──",
+      "revisit_text": "结局三·平衡之路。自己的风味。让神闭嘴，让味蕾属于自己。",
+      "atmosphere": "结局演绎 — 平衡之路",
+      "act": 7,
+      "node_type": "scene",
+      "node_index": 6,
+      "exits": [
+        {
+          "exit_id": "to_noodle_stand_balance",
+          "target_room_id": "noodle_stand",
+          "description": "前往路边摊",
+          "is_locked": false,
+          "is_visible": true
+        }
+      ],
+      "actions": [],
+      "items": [],
+      "characters": [],
+      "puzzles": [],
+      "on_enter_flag": "ending_balance",
+      "on_complete_flag": ""
+    },
+    "noodle_stand": {
+      "name": "路边摊·火候正好",
+      "description": "",
+      "first_visit_text": "## 路边摊 — 火候正好\n\n贝克兰德的黄昏。深秋的雾气从港口涌来。煤气灯还没点亮，蒸汽管道在低鸣。\n\n你坐在路边摊的矮凳上。面前摆着一碗清汤面——汤是清澈的，能看到碗底青花瓷纹——一只歪歪扭扭的鱼。面条白色，细而韧。罗勒叶绿色，像两片小小的漂流船。\n\n面婆婆站在锅边，手里拿着木勺。她在泵站门廊下卖了三十年清汤面。\n\n你拿起竹筷，挑起一根面条，送入口中。\n\n没有味道。\n\n但你吃了。一口。两口。三口。你吃得很慢。\n\n放下筷子，端起碗，将汤也喝光了。碗底那条歪歪扭扭的鱼露了出来。\n\n「火候正好。」\n\n你从口袋里掏出小玻璃瓶——安纳托利亚黑胡椒。你倒了几粒在面婆婆手心里。\n\n「煮面的时候加一粒。不是为了让面好吃——是为了让你记得，你还有眼泪可以流。」\n\n面婆婆将一粒送入嘴中。「辛辣，甘甜，金属。」她的眼泪又流了下来，但嘴角是上扬的。\n\n你站起身，戴上帽子。\n\n「面婆婆。我会再来的。」\n\n「好。」\n\n你转身走进雾中。\n\n「乔治斯——你找到回家的路了吗？」\n\n「一直在找。」\n\n「找到了吗？」\n\n「还没有。但我有味道。安纳托利亚黑胡椒。母亲的。它会带我回家。」\n\n── 火候正好 ──\n\n乔治斯·乔尔·拉姆齐-贝潘，美食侦探。\n他还在某个角落，品尝着这个世界。\n所有的苦，所有的毒，所有的疯狂。\n他都在尝。\n因为只有尝过了所有的味道，才能找到那一道——\n真正的、最后的、能够让他自由的主菜。\n那道菜的名字，叫做「活着」。\n而活着的味道，一定是——平淡，温暖，像一碗清汤面。\n\n── 终 ──\n\n案件 #897：屠宰场及其后续\n状态：已侦破\n督察：乔治斯·乔尔·拉姆齐-贝潘\n\n感谢游玩。",
+      "revisit_text": "路边摊·火候正好。清汤面、安纳托利亚黑胡椒、回家的味道。",
+      "atmosphere": "火候正好",
+      "act": 7,
+      "node_type": "scene",
+      "node_index": 7,
+      "exits": [],
+      "actions": [
+        {
+          "action_id": "new_game_plus",
+          "label": "新游戏",
+          "description": "新的案件在等待。即使神赐之舌沉默了，真相的味道永不消散。",
+          "action_type": "special",
+          "sets_flag": "",
+          "is_visible": true
+        },
+        {
+          "action_id": "epilogue_balance",
+          "label": "彩蛋（仅平衡结局）",
+          "description": "黑屏。三秒。然后——敲门声。\n\n咚。咚。咚。三声，节奏均匀。\n\n一个男人的声音，沙哑，疲惫：\n\n「贝潘先生？您在吗？我——我需要您的帮助。」\n\n沉默。\n\n然后——你的声音，平静，像在念一份菜谱：\n\n「什么菜？」\n\n男人沉默了一秒。\n\n「……我女儿的命。」\n\n你睁开眼睛。嘴角微微上扬。\n\n「进来吧。我正好饿了。」\n\n── 火候正好 ──",
+          "action_type": "special",
+          "requires_flag": "ending_balance",
+          "sets_flag": "",
+          "is_visible": true
+        }
+      ],
+      "items": [],
+      "characters": [
+        "noodle_grandma"
+      ],
+      "puzzles": [],
+      "on_enter_flag": "game_ending",
+      "on_complete_flag": "game_complete"
+    }
+  }
+}

@@ -1,0 +1,610 @@
+[
+  {
+    "id": "desert_bandit",
+    "name": "沙漠强盗",
+    "hp_range": [28, 42],
+    "description": "一个劫掠沙漠旅人的衣衫褴褛的亡命徒。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 1,
+    "loot_gold": [8, 15],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 6, "description": "斩击"},
+        {"type": "ATTACK", "value": 10, "description": "突刺"},
+        {"type": "DEFEND", "value": 5, "description": "闪避"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "fist_scout",
+    "name": "铁拳会侦察兵",
+    "hp_range": [32, 48],
+    "description": "一名巡逻中的铁拳会低阶特工。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 1,
+    "loot_gold": [10, 18],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 8, "description": "铜指节"},
+        {"type": "DEBUFF", "value": 1, "description": "恐吓", "buff_name": "weak"},
+        {"type": "ATTACK", "value": 5, "description": "快拳"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "saloon_brawler",
+    "name": "酒馆醉汉",
+    "hp_range": [40, 56],
+    "description": "一个找架打的醉鬼。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 1,
+    "loot_gold": [12, 20],
+    "ai_pattern": {
+      "type": "random",
+      "intents": [
+        {"type": "ATTACK", "value": 7, "description": "乱挥"},
+        {"type": "ATTACK", "value": 12, "description": "酒瓶猛砸"},
+        {"type": "DEBUFF", "value": 1, "description": "醉骂", "buff_name": "weak"},
+        {"type": "DEFEND", "value": 6, "description": "踉跄后退"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "coyote_pack",
+    "name": "郊狼群",
+    "hp_range": [22, 32],
+    "description": "一群饥饿的沙漠郊狼。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 1,
+    "loot_gold": [6, 12],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 5, "description": "撕咬"},
+        {"type": "ATTACK", "value": 5, "description": "撕咬"},
+        {"type": "ATTACK_DEBUFF", "value": 4, "description": "狂犬咬", "buff_name": "vulnerable"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "desert_scorpion",
+    "name": "沙漠巨蝎",
+    "hp_range": [60, 75],
+    "description": "一只巨大的装甲蝎子。",
+    "is_boss": false,
+    "is_elite": true,
+    "act": 1,
+    "loot_gold": [25, 40],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 10, "description": "钳碎"},
+        {"type": "ATTACK_DEBUFF", "value": 6, "description": "毒针", "buff_name": "vulnerable"},
+        {"type": "BUFF", "value": 3, "description": "硬化甲壳", "buff_name": "plated_armor"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 2}],
+    "debuffs": []
+  },
+  {
+    "id": "sand_raider",
+    "name": "沙漠劫掠者",
+    "hp_range": [38, 55],
+    "description": "一个挥舞弯刀的沙漠劫掠者。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 2,
+    "loot_gold": [14, 22],
+    "ai_pattern": {
+      "type": "threshold",
+      "intents": [
+        {"type": "ATTACK", "value": 8, "description": "斩击"},
+        {"type": "DEFEND", "value": 8, "description": "格挡"}
+      ],
+      "threshold_intents": [
+        {"hp_pct": 0.5, "type": "ATTACK", "value": 14, "description": "绝命一击"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "rust_golem",
+    "name": "锈蚀魔像",
+    "hp_range": [50, 68],
+    "description": "一台古老的机械构造体，仍在执行命令。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 2,
+    "loot_gold": [16, 25],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "DEFEND", "value": 10, "description": "护盾模式"},
+        {"type": "ATTACK", "value": 12, "description": "粉碎打击"},
+        {"type": "BUFF", "value": 2, "description": "自我修复", "buff_name": "plated_armor"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 3}],
+    "debuffs": []
+  },
+  {
+    "id": "fist_soldier",
+    "name": "铁拳会士兵",
+    "hp_range": [45, 60],
+    "description": "一名训练有素的铁拳会步兵。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 2,
+    "loot_gold": [15, 24],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 10, "description": "铁拳"},
+        {"type": "ATTACK_DEBUFF", "value": 7, "description": "压制", "buff_name": "weak"},
+        {"type": "DEFEND", "value": 8, "description": "战术护盾"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "venomous_rattler",
+    "name": "剧毒响尾蛇",
+    "hp_range": [35, 50],
+    "description": "一条拥有致命毒液的响尾蛇。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 2,
+    "loot_gold": [12, 20],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK_DEBUFF", "value": 5, "description": "毒牙", "buff_name": "vulnerable"},
+        {"type": "ATTACK", "value": 8, "description": "盘绕击"},
+        {"type": "ATTACK_DEBUFF", "value": 6, "description": "毒咬", "buff_name": "weak"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "sand_wraith",
+    "name": "沙之幽灵",
+    "hp_range": [72, 90],
+    "description": "一个被沙漠沙尘旋绕的幽灵身影。",
+    "is_boss": false,
+    "is_elite": true,
+    "act": 2,
+    "loot_gold": [30, 50],
+    "ai_pattern": {
+      "type": "random",
+      "intents": [
+        {"type": "ATTACK", "value": 14, "description": "沙暴"},
+        {"type": "DEBUFF", "value": 2, "description": "枯萎", "buff_name": "weak"},
+        {"type": "DEBUFF", "value": 2, "description": "侵蚀", "buff_name": "vulnerable"},
+        {"type": "BUFF", "value": 3, "description": "汲取", "buff_name": "strength"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "iron_horse",
+    "name": "铁马",
+    "hp_range": [80, 100],
+    "description": "一匹被黑魔法激活的机械战马。",
+    "is_boss": false,
+    "is_elite": true,
+    "act": 2,
+    "loot_gold": [35, 55],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 12, "description": "钢踢"},
+        {"type": "ATTACK", "value": 8, "description": "践踏"},
+        {"type": "BUFF", "value": 4, "description": "蓄力", "buff_name": "strength"},
+        {"type": "ATTACK", "value": 18, "description": "铁骑冲锋"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 4}],
+    "debuffs": []
+  },
+  {
+    "id": "fist_elite",
+    "name": "铁拳会精锐",
+    "hp_range": [55, 72],
+    "description": "一名身披重甲的铁拳会精锐执法者。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 3,
+    "loot_gold": [20, 30],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 14, "description": "力量之拳"},
+        {"type": "DEFEND", "value": 12, "description": "盾墙"},
+        {"type": "ATTACK_DEBUFF", "value": 10, "description": "降服", "buff_name": "weak"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 2}],
+    "debuffs": []
+  },
+  {
+    "id": "clockwork_drone",
+    "name": "发条无人机",
+    "hp_range": [40, 55],
+    "description": "一台嗡嗡作响的发条间谍无人机。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 3,
+    "loot_gold": [18, 28],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 7, "description": "尖针"},
+        {"type": "ATTACK", "value": 7, "description": "尖针"},
+        {"type": "BUFF", "value": 2, "description": "超频", "buff_name": "strength"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "corrupted_knight",
+    "name": "堕落骑士",
+    "hp_range": [65, 82],
+    "description": "一个被黑暗力量吞噬的陨落骑士。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 3,
+    "loot_gold": [22, 35],
+    "ai_pattern": {
+      "type": "threshold",
+      "intents": [
+        {"type": "ATTACK", "value": 10, "description": "腐化之刃"},
+        {"type": "DEFEND", "value": 10, "description": "暗黑护盾"}
+      ],
+      "threshold_intents": [
+        {"hp_pct": 0.5, "type": "ATTACK", "value": 18, "description": "暗影打击"}
+      ]
+    },
+    "buffs": [{"name": "strength", "stacks": 1}],
+    "debuffs": []
+  },
+  {
+    "id": "shadow_gunslinger",
+    "name": "暗影枪手",
+    "hp_range": [48, 65],
+    "description": "一个来自逝去时代的幽灵枪手。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 3,
+    "loot_gold": [20, 32],
+    "ai_pattern": {
+      "type": "random",
+      "intents": [
+        {"type": "ATTACK", "value": 12, "description": "幻影射击"},
+        {"type": "ATTACK_DEBUFF", "value": 8, "description": "诅咒弹", "buff_name": "vulnerable"},
+        {"type": "DEFEND", "value": 8, "description": "消隐"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "fist_enforcer",
+    "name": "铁拳会执法者",
+    "hp_range": [90, 110],
+    "description": "铁拳会的铁拳，不屈不挠，残暴无情。",
+    "is_boss": false,
+    "is_elite": true,
+    "act": 3,
+    "loot_gold": [40, 60],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 16, "description": "碾压"},
+        {"type": "ATTACK_DEBUFF", "value": 10, "description": "震慑", "buff_name": "weak"},
+        {"type": "BUFF", "value": 3, "description": "钢铁意志", "buff_name": "strength"},
+        {"type": "ATTACK", "value": 20, "description": "全面毁灭"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 5}],
+    "debuffs": []
+  },
+  {
+    "id": "clockwork_assassin",
+    "name": "发条刺客",
+    "hp_range": [85, 105],
+    "description": "一台由发条驱动的精密杀戮机器。",
+    "is_boss": false,
+    "is_elite": true,
+    "act": 3,
+    "loot_gold": [40, 55],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 8, "description": "利刃"},
+        {"type": "ATTACK", "value": 8, "description": "利刃"},
+        {"type": "BUFF", "value": 4, "description": "校准", "buff_name": "strength"},
+        {"type": "ATTACK", "value": 24, "description": "处决"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "the_collector",
+    "name": "收集者",
+    "hp_range": [120, 140],
+    "description": "一个囤积禁忌知识和窃取神器的神秘人物。",
+    "is_boss": true,
+    "is_elite": false,
+    "act": 1,
+    "loot_gold": [50, 80],
+    "ai_pattern": {
+      "type": "multi_phase",
+      "phases": [
+        {
+          "name": "收集阶段",
+          "hp_threshold": 0.6,
+          "intents": [
+            {"type": "ATTACK", "value": 10, "description": "汲取"},
+            {"type": "DEBUFF", "value": 2, "description": "灵魂枯萎", "buff_name": "weak"},
+            {"type": "DEFEND", "value": 12, "description": "灵魂护盾"}
+          ]
+        },
+        {
+          "name": "绝命阶段",
+          "hp_threshold": 0.0,
+          "intents": [
+            {"type": "ATTACK", "value": 16, "description": "灵魂撕裂"},
+            {"type": "ATTACK_DEBUFF", "value": 12, "description": "暗黑收割", "buff_name": "vulnerable"},
+            {"type": "BUFF", "value": 3, "description": "黑暗契约", "buff_name": "strength"}
+          ]
+        }
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "fist_captain",
+    "name": "铁拳会上尉",
+    "hp_range": [160, 190],
+    "description": "铁拳会沙漠师的无情指挥官。",
+    "is_boss": true,
+    "is_elite": false,
+    "act": 2,
+    "loot_gold": [75, 120],
+    "ai_pattern": {
+      "type": "multi_phase",
+      "phases": [
+        {
+          "name": "指挥阶段",
+          "hp_threshold": 0.5,
+          "intents": [
+            {"type": "ATTACK", "value": 14, "description": "统帅打击"},
+            {"type": "BUFF", "value": 2, "description": "集结部队", "buff_name": "strength"},
+            {"type": "ATTACK_DEBUFF", "value": 8, "description": "压制", "buff_name": "weak"}
+          ]
+        },
+        {
+          "name": "狂暴阶段",
+          "hp_threshold": 0.0,
+          "intents": [
+            {"type": "ATTACK", "value": 20, "description": "铁拳狂袭"},
+            {"type": "ATTACK", "value": 20, "description": "怒火释放"},
+            {"type": "BUFF", "value": 4, "description": "狂暴", "buff_name": "strength"},
+            {"type": "ATTACK_DEBUFF", "value": 16, "description": "毁灭重击", "buff_name": "vulnerable"}
+          ]
+        }
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 3}],
+    "debuffs": []
+  },
+  {
+    "id": "iron_fist_leader",
+    "name": "铁拳会首领",
+    "hp_range": [220, 260],
+    "description": "铁拳会幕后黑手，毁灭盘尼西林骑士团的元凶。",
+    "is_boss": true,
+    "is_elite": false,
+    "act": 3,
+    "loot_gold": [100, 150],
+    "ai_pattern": {
+      "type": "multi_phase",
+      "phases": [
+        {
+          "name": "暴君阶段",
+          "hp_threshold": 0.65,
+          "intents": [
+            {"type": "ATTACK", "value": 16, "description": "铁拳"},
+            {"type": "DEBUFF", "value": 3, "description": "支配", "buff_name": "weak"},
+            {"type": "DEFEND", "value": 15, "description": "铁壁"},
+            {"type": "ATTACK", "value": 12, "description": "冲击波"}
+          ]
+        },
+        {
+          "name": "独裁阶段",
+          "hp_threshold": 0.3,
+          "intents": [
+            {"type": "ATTACK", "value": 22, "description": "暴政碾压"},
+            {"type": "BUFF", "value": 5, "description": "绝对权力", "buff_name": "strength"},
+            {"type": "ATTACK_DEBUFF", "value": 18, "description": "征服", "buff_name": "vulnerable"}
+          ]
+        },
+        {
+          "name": "背水阶段",
+          "hp_threshold": 0.0,
+          "intents": [
+            {"type": "ATTACK", "value": 30, "description": "最终审判"},
+            {"type": "ATTACK", "value": 24, "description": "铁之怒火"},
+            {"type": "BUFF", "value": 6, "description": "背水一战", "buff_name": "strength"},
+            {"type": "ATTACK_DEBUFF", "value": 20, "description": "歼灭", "buff_name": "vulnerable"}
+          ]
+        }
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 5}, {"name": "strength", "stacks": 2}],
+    "debuffs": []
+  },
+  {
+    "id": "night_walker",
+    "name": "夜行者",
+    "hp_range": [48, 65],
+    "description": "铁拳会的首席杀手。他的双手白得不像活人，指尖泛着幽蓝色的光。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 1,
+    "loot_gold": [18, 28],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK_DEBUFF", "value": 9, "description": "掐喉", "buff_name": "weak"},
+        {"type": "ATTACK", "value": 12, "description": "幽蓝掌劲"},
+        {"type": "DEBUFF", "value": 2, "description": "无形压迫", "buff_name": "vulnerable"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "fist_deacon",
+    "name": "铁拳会执事",
+    "hp_range": [42, 58],
+    "description": "铁拳会在各城镇的联络人。西装革履，手中握着镀银装饰手枪。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 1,
+    "loot_gold": [15, 25],
+    "ai_pattern": {
+      "type": "random",
+      "intents": [
+        {"type": "ATTACK", "value": 6, "description": "慌张射击"},
+        {"type": "DEBUFF", "value": 1, "description": "呼救", "buff_name": "vulnerable"},
+        {"type": "DEFEND", "value": 8, "description": "龟缩"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "one_slash_immortal",
+    "name": "一刀仙",
+    "hp_range": [85, 105],
+    "description": "双旗镇的守门人。二十年来只拔一刀，刀脊上刻着\u201c血\u00b7沙\u00b7旗\u00b7斩\u201d四字。",
+    "is_boss": false,
+    "is_elite": true,
+    "act": 1,
+    "loot_gold": [40, 60],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 16, "description": "血沙旗斩"},
+        {"type": "BUFF", "value": 3, "description": "蓄刀意", "buff_name": "strength"},
+        {"type": "ATTACK_DEBUFF", "value": 10, "description": "刀气压迫", "buff_name": "vulnerable"},
+        {"type": "ATTACK", "value": 22, "description": "二十年来一刀"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 3}],
+    "debuffs": []
+  },
+  {
+    "id": "rapid_fire_gunner",
+    "name": "速射枪手",
+    "hp_range": [45, 60],
+    "description": "装备亨利连发步枪的铁拳会枪手。每分钟能打出二十五发弹药。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 2,
+    "loot_gold": [18, 28],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 6, "description": "速射"},
+        {"type": "ATTACK", "value": 6, "description": "速射"},
+        {"type": "ATTACK_DEBUFF", "value": 4, "description": "压制射击", "buff_name": "vulnerable"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "green_sash_twin",
+    "name": "绿洲双煞",
+    "hp_range": [35, 48],
+    "description": "一对蒙面刀客，拔刀极慢却势若沉渊。刀锋所过带起沙尘。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 2,
+    "loot_gold": [14, 22],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 8, "description": "慢刀"},
+        {"type": "ATTACK_DEBUFF", "value": 6, "description": "沙尘斩", "buff_name": "weak"},
+        {"type": "DEFEND", "value": 6, "description": "刀圈防御"}
+      ]
+    },
+    "buffs": [],
+    "debuffs": []
+  },
+  {
+    "id": "fist_naval_gunner",
+    "name": "铁拳会炮艇兵",
+    "hp_range": [55, 72],
+    "description": "铁拳会河上舰队的武装水手。配装后膛速射炮和军用级亨利步枪。",
+    "is_boss": false,
+    "is_elite": false,
+    "act": 3,
+    "loot_gold": [22, 35],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK", "value": 12, "description": "速射步枪"},
+        {"type": "ATTACK", "value": 8, "description": "炮击"},
+        {"type": "BUFF", "value": 2, "description": "弹药补给", "buff_name": "strength"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 2}],
+    "debuffs": []
+  },
+  {
+    "id": "night_walker_prime",
+    "name": "收藏家·继任者",
+    "hp_range": [95, 120],
+    "description": "夜行者的继任者，铁拳会内卫级别杀手。袖口压条三圈，代号\u201c目击证人\u201d。",
+    "is_boss": false,
+    "is_elite": true,
+    "act": 3,
+    "loot_gold": [45, 65],
+    "ai_pattern": {
+      "type": "cyclic",
+      "intents": [
+        {"type": "ATTACK_DEBUFF", "value": 12, "description": "幽蓝穿心", "buff_name": "vulnerable"},
+        {"type": "ATTACK", "value": 18, "description": "内卫处决"},
+        {"type": "DEBUFF", "value": 2, "description": "灭口恐吓", "buff_name": "weak"},
+        {"type": "BUFF", "value": 3, "description": "铁拳意志", "buff_name": "strength"}
+      ]
+    },
+    "buffs": [{"name": "plated_armor", "stacks": 4}],
+    "debuffs": []
+  }
+]

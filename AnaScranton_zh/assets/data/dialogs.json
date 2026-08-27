@@ -1,0 +1,734 @@
+[
+  {
+    "dialog_tree_id": "dlg_fisher_encounter",
+    "nodes": {
+      "start": {
+        "text": "保罗·费舍坐在休息室里，面前是一杯凉透的咖啡。看到你，他眼睛睁大了——是恐惧，还是认出了熟人？\n\n”安娜？我以为你几个月前就离职了。你不该在这里。我们都不该在这里。“",
+        "choices": [
+          {"text": "你看到了什么，保罗？跟我说说夜班的事。", "next": "reveal", "requires_item": null, "requires_flag": null},
+          {"text": "我需要你的帮助。你还能进工头办公室吗？", "next": "help", "requires_item": null, "requires_flag": null},
+          {"text": "你看起来糟透了。你还好吗？", "next": "sympathy", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "reveal": {
+        "text": "他紧张地四下张望，压低声音。\n\n”夜班不像看上去那样。工人进得去，但不一定出得来——至少不全然。有些根本出不来。工头管那叫'调动'。但我见过那些货车——它们哪都不去。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"fisher_revealed": true}, "codex_unlocked": ["night_shifts"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "货车去哪了？", "next": "vans"},
+          {"text": "谢谢你，保罗。保重。", "next": null}
+        ]
+      },
+      "help": {
+        "text": "”工头把他那门锁得严实。但……后面有扇窗，搭扣坏了的。如果你要进去，小心点。他把每个人的档案都存在那。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 3, "corruption_delta": 0, "items_gained": ["ev_factory_log"], "items_lost": [], "flags_set": {"foreman_office_known": true}, "codex_unlocked": [], "evidence_points_delta": 2},
+        "choices": [
+          {"text": "我会小心的。谢了，保罗。", "next": null}
+        ]
+      },
+      "sympathy": {
+        "text": "”我好几个星期没睡好觉了。每次一闭眼，我就听见……地板下面的声音。像一台机器在嗡鸣。像很多声音在同唱一个音符。“\n\n他打了个寒颤。\n\n”如果你留下来，当心你的后背。工头不喜欢有人问问题。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 3, "corruption_delta": 2, "items_gained": [], "items_lost": [], "flags_set": {}, "codex_unlocked": [], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "我会查清发生了什么。我保证。", "next": null}
+        ]
+      },
+      "vans": {
+        "text": "”往北。一直往北。过了州际公路，进山里。有人告诉我那里面有个设施——老旧的疯人院什么的。Murkoff 拥有它。“\n\n他把一张皱巴巴的纸条推过桌面。\n\n”拿着。我在工头垃圾桶里找到的。我不知道什么意思，但感觉很重要。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 0, "items_gained": ["ev_fisher_note"], "items_lost": [], "flags_set": {"mount_massive_known": true}, "codex_unlocked": ["destination"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "Massive 山……谢了，保罗。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_janitor_encounter",
+    "nodes": {
+      "start": {
+        "text": "老管理员靠在拖把上，用那双看透一切的眼晴望着你。几十年的隐形工作让他练就了洞察他人忽视之事的本事。\n\n”又一个来问问题的。好。在一个这种地方，提问是你保命的方式。“",
+        "choices": [
+          {"text": "你能告诉我这个地方的事吗？", "next": "info", "requires_item": null, "requires_flag": null},
+          {"text": "你知道怎么进限制区域吗？", "next": "access", "requires_item": null, "requires_flag": null},
+          {"text": "只是路过。别挡我的路。", "next": "cold", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "info": {
+        "text": "”这工厂有两副面孔。一副是给稽查员看的，另一副在下面。地下层。那是真正的工作发生的地方。Murkoff 把人送下去，而回来的东西……不总是完整的。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"sub_basement_known": true}, "codex_unlocked": ["dual_factory"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "我怎么去地下层？", "next": "access"},
+          {"text": "谢谢你。比我预想的还多。", "next": null}
+        ]
+      },
+      "access": {
+        "text": "”东翼的工业电梯。密码每周换，但我总是写在储物间门内侧。老习惯了。“\n\n他眨了眨眼。\n\n”只是别告诉任何人你从哪听来的。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 3, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"elevator_access": true}, "codex_unlocked": [], "evidence_points_delta": 2},
+        "choices": [
+          {"text": "你的秘密在我这很安全。", "next": null}
+        ]
+      },
+      "cold": {
+        "text": "他耸耸肩，继续拖地。\n\n”冷漠可保不了你在下面暖和。不过随你。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": -3, "corruption_delta": 2, "items_gained": [], "items_lost": [], "flags_set": {}, "codex_unlocked": [], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "等等——对不起。我们能重新来过吗？", "next": "info"},
+          {"text": "走吧。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_worker_encounter",
+    "nodes": {
+      "start": {
+        "text": "一个穿着工厂制服的年轻女人紧攥着一张皱巴巴的纸。她的手在发抖。\n\n”你……你是安娜，对吧？他们说你在问失踪的事。我找到了什么东西。我不知道该信谁。“",
+        "choices": [
+          {"text": "你可以信我。你找到了什么？", "next": "trust", "requires_item": null, "requires_flag": null},
+          {"text": "先给我看那张纸。然后我再决定。", "next": "cautious", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "trust": {
+        "text": "她展开那张纸——是一份调动令。姓名、日期，和一个目的地代码：“MM-SL-D”[Massive 山，地下 D 区]。\n\n”我本来要上报的，但上一个上报了什么东西的人……也被调动了。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 8, "corruption_delta": 0, "items_gained": ["ev_resignation_letter"], "items_lost": [], "flags_set": {"transfer_order_seen": true}, "codex_unlocked": ["destination_code"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "你做了正确的事。今晚就离开这家工厂。", "next": null}
+        ]
+      },
+      "cautious": {
+        "text": "她犹豫了，然后给你看了纸的一角。你瞥见了 Murkoff 的徽标和一个目的地代码。\n\n”我得先知道你不是他们的人。对不起。我不能就这样交出去。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": -2, "corruption_delta": 2, "items_gained": [], "items_lost": [], "flags_set": {}, "codex_unlocked": [], "evidence_points_delta": 1},
+        "choices": [
+          {"text": "我理解。我会证明自己。你先保重。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_foreman_boss",
+    "nodes": {
+      "start": {
+        "text": "工厂工头从阴影中踱出，挡住了你的去路。他的微笑锋利而老练。\n\n”哟，哟。回头的工人回来了。安娜·斯克兰顿。我就知道你会回来——你问了太多问题，没法就这样走掉。“\n\n他掰了掰指关节。\n\n”但问题在我这的工厂里是有代价的。“",
+        "choices": [
+          {"text": "工人在哪，工头？那些你“调动”了的人？", "next": "confront", "requires_item": null, "requires_flag": null},
+          {"text": "我有证据。Murkoff 的参与。那些货运。完了。", "next": "evidence", "requires_item": "ev_factory_log", "requires_flag": null},
+          {"text": "我不是来打架的。我只是想要真相。", "next": "truth", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "confront": {
+        "text": "他的微笑没有动摇。\n\n”调动？他们去了更好的机会。Murkoff 对志愿者非常慷慨。而那些不是志愿者的……唉。引擎需要燃料，安娜。你应该理解——这比任何个人都大。“\n\n他走近一步。\n\n”现在。你会不会是个麻烦？“",
+        "consequence": {"hp_delta": -10, "humanity_delta": -5, "corruption_delta": 10, "items_gained": [], "items_lost": [], "flags_set": {"foreman_hostile": true}, "codex_unlocked": ["engine_reference"], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "我会成为我需要成为的任何人。真相会浮出来的。", "next": "defiant"},
+          {"text": "什么引擎？跟我多说点。", "next": "engine"}
+        ]
+      },
+      "evidence": {
+        "text": "第一次，他的微笑裂开了。\n\n”你从哪弄到——不。不重要。你以为几张纸就能阻止运行了多年的东西？“\n\n他退后一步。\n\n”你什么也没赢到。工厂只是那扇门。真正的操作远在你触及范围之外。“\n\n他抛给你一张门卡。\n\n”那就去啊。看看 Massive 山等着你的是什么。我谅你也不敢。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 10, "corruption_delta": 0, "items_gained": [], "items_lost": ["ev_factory_log"], "flags_set": {"foreman_defeated": true}, "codex_unlocked": ["mount_massive_access"], "evidence_points_delta": 10},
+        "choices": [
+          {"text": "我接受这个挑战。", "next": null}
+        ]
+      },
+      "truth": {
+        "text": "”真相？“他笑了——一声空洞的笑。\n\n”真相就是，像你这样的人是必要的。总得有人从愿意的和不情愿的之间分拣出来。总得有人注意到谁在问问题，谁在低头做人。“\n\n他看起来几乎有些悲伤。\n\n”你一直属于前一类，安娜。这就是为什么他们注意到了你。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 5, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {"foreman_truth": true}, "codex_unlocked": ["selection_process"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "那就让我给他们看看，当有人问了太多问题时会怎样。", "next": "defiant"},
+          {"text": "我需要亲眼看看 Massive 山。", "next": null}
+        ]
+      },
+      "defiant": {
+        "text": "他表情里有什么东西变了。不是恐惧——也许是尊敬，或者算计。\n\n”你要么是特别勇敢，要么是特别愚蠢。历史会决定是哪一个。“\n\n他让开了路。\n\n”往北的路很长。别说我没警告过你。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 10, "corruption_delta": 0, "items_gained": ["mm_rusted_badge"], "items_lost": [], "flags_set": {"foreman_defeated": true}, "codex_unlocked": ["act1_complete"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "历史已经决定了。我只是见证人。", "next": null}
+        ]
+      },
+      "engine": {
+        "text": "”形态发生引擎。一台把人变成……别的东西的机器。一个集体意识。一个蜂群。科学家们管它叫 Walrider。“\n\n他的声音压低了。\n\n”我只供应原材料。工厂，工人们……我们只是那扇前门。真正的恐怖在 Massive 山等着。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 3, "corruption_delta": 8, "items_gained": [], "items_lost": [], "flags_set": {"walrider_known": true}, "codex_unlocked": ["walrider"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "那我需要去那里。结束这一切。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_orderly_encounter",
+    "nodes": {
+      "start": {
+        "text": "你从阴影中冒出来时，护工差点跳出他的皮。\n\n”耶稣！你不该在这边翼。你是谁？“\n\n他的手已经伸向对讲机了。",
+        "choices": [
+          {"text": "放下对讲机。我在调查 Murkoff。你可以帮我，或者让开。", "next": "intimidate", "requires_item": null, "requires_flag": null},
+          {"text": "我是病人。我迷路了。你能帮我找到回去的路吗？", "next": "deceive", "requires_item": null, "requires_flag": null},
+          {"text": "你看起来像是没料到会卷入这事的人。想做正确的事吗？", "next": "appeal", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "intimidate": {
+        "text": "他僵住了。\n\n”好，好。别伤害我。你想知道什么我都说。但你需要明白——我在这地方见过的东西……“\n\n他艰难地咽了口口水。\n\n”D 区地下层的患者已经不是患者了。他们是别的东西。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": -3, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"orderly_intimidated": true}, "codex_unlocked": ["sub_level_d"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "多跟我说说 D 区地下层。", "next": "details"},
+          {"text": "够了。走吧。", "next": null}
+        ]
+      },
+      "deceive": {
+        "text": "他眯起眼。\n\n”你看起来不像我见过的任何患者。骗得很不错。“\n\n但他没有拉警报，而是叹了口气。\n\n”听着，我不管你为什么在这。只是……午夜后别靠近东翼。那是他们转运受试者的时间。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 2, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"east_wing_warning": true}, "codex_unlocked": [], "evidence_points_delta": 2},
+        "choices": [
+          {"text": "谢了，提醒我。", "next": null}
+        ]
+      },
+      "appeal": {
+        "text": "他的手从对讲机上放下了。眼里有疲惫。\n\n”正确的事……我签的工作是护理工作。结果我却在对那些求我别这么做的人施用镇静剂。他们尖叫着说什么蜂群——说被吸收了什么的。“\n\n他用绝望的清醒目光看着你。\n\n”如果你能阻止这里发生的事……我会尽我所能帮忙。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 8, "corruption_delta": 0, "items_gained": ["ev_patient_file"], "items_lost": [], "flags_set": {"orderly_ally": true}, "codex_unlocked": ["orderly_testimony"], "evidence_points_delta": 4},
+        "choices": [
+          {"text": "我会阻止的。我保证。现在趁你还能走，赶快离开。", "next": null}
+        ]
+      },
+      "details": {
+        "text": "”形态发生引擎。是某种意识机器。当足够多的受试者连接在一起，它们就形成一个……蜂群意识。他们管它叫 Walrider。“\n\n他打了个寒颤。\n\n”我晚上听过它。在歌唱。他们所有人，同一个音符。像一座诅咒者的合唱团。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 3, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {"walrider_details": true}, "codex_unlocked": ["hive_mind"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "一个蜂群意识……引擎在哪？", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_patient_encounter",
+    "nodes": {
+      "start": {
+        "text": "一个瘦削的身影蜷在角落里，穿着病号服。他们的眼睛睁着，但没有焦点，在有节奏地低语。\n\n”……蜂群，蜂群，多变成一，一变成多……“",
+        "choices": [
+          {"text": "你能听到我吗？你叫什么名字？", "next": "reach", "requires_item": null, "requires_flag": null},
+          {"text": "别管他们。他们已经走得太远了。", "next": "ignore", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "reach": {
+        "text": "他们的眼睛突然聚焦——短暂地，痛苦地清醒。\n\n”受试者 4471。他们现在这么叫我。但我的名字是……我的名字曾是……“\n\n泪水从他们脸上滚落。\n\n”它还在里面。在蜂群里面。我能感觉到它在思考。他知道你在这。他知道一切。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 8, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"patient_reached": true}, "codex_unlocked": ["subject_4471"], "evidence_points_delta": 4},
+        "choices": [
+          {"text": "我会阻止这一切的。坚持住。", "next": null}
+        ]
+      },
+      "ignore": {
+        "text": "你转过身。在你身后，低语声又响起来了——但现在听起来像你的名字。",
+        "consequence": {"hp_delta": 3, "humanity_delta": -5, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {}, "codex_unlocked": [], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "继续走。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_trager_encounter",
+    "nodes": {
+      "start": {
+        "text": "理查德·特拉格从手术套房中踱出，手术剪刀闪着荧光灯的光。他的微笑像手术一样——精准、克制，且彻头彻尾没有温度。\n\n”哟，哟。一位访客。我这儿可不常来完好无损的。“\n\n他转动着剪刀。\n\n”你在找什么东西，对吧？每个来下面的人都在找什么东西。问题是：你愿意失去什么？“",
+        "choices": [
+          {"text": "我在找关于 Murkoff 实验的真相。", "next": "truth_seeker", "requires_item": null, "requires_flag": null},
+          {"text": "我在找出路。给我指个门。", "next": "exit_ask", "requires_item": null, "requires_flag": null},
+          {"text": "你就是特拉格。我读过患者档案。我知道你做了什么。", "next": "accusation", "requires_item": "ev_patient_file", "requires_flag": null}
+        ]
+      },
+      "truth_seeker": {
+        "text": "”真相？“他笑了——像金属刮骨头的声音。\n\n”真相就是 Walrider 把我们变成的东西。真相就是这座疯人院是一个坩埚，我们都在被熔铸成某种新东西。“\n\n他凑近了。\n\n”但你想知道 specifics。行。引擎以人类意识为燃料运行。每个连接到它上面的患者都变成一个节点。当足够多的节点同频歌唱……Walrider 就醒过来了。“",
+        "consequence": {"hp_delta": -8, "humanity_delta": 3, "corruption_delta": 8, "items_gained": [], "items_lost": [], "flags_set": {"trager_talked": true}, "codex_unlocked": ["walrider_truth"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "谁造的引擎？", "next": "engine_origin"},
+          {"text": "到此为止，特拉格。", "next": "fight"}
+        ]
+      },
+      "exit_ask": {
+        "text": "他的微笑扩大了。\n\n”出去？噢，没有出去这回事。不是从这个地方。出口是给那些还相信上面那个世界的人留的。“\n\n他比划了一下周围。\n\n”但我喜欢你的精神。这样吧——活过即将到来的东西，我亲自给你指门。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": -3, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {}, "codex_unlocked": [], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "我会让你兑现这句话的。即将到来的是什么？", "next": "warning"},
+          {"text": "我不需要你的帮助。让开。", "next": "fight"}
+        ]
+      },
+      "accusation": {
+        "text": "一瞬间，他眼后有什么东西闪过。人性？愧疚？然后消失了。\n\n”你做了功课。是，我以前是外科医生。是，我参与了。但你根本想象不到站在手术刀另一头是什么感觉——变成实验体是什么感觉。“\n\n他握紧了剪刀。\n\n”现在我做我必须做的事来活命。如果那让我变成了怪物……至少我这个怪物明白替代品是什么。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 5, "items_gained": ["ev_trager_scalpel"], "items_lost": [], "flags_set": {"trager_history": true}, "codex_unlocked": ["trager_past"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "我理解求生。但实验必须停止。", "next": "compromise"},
+          {"text": "理解怪物这回事没有。只有阻止他们。", "next": "fight"}
+        ]
+      },
+      "engine_origin": {
+        "text": "”Wernicke 医生。一个怀着老旧梦想的老年人。他想证明人类意识可以在没有身体的情况下存活。形态发生引擎是他的毕生心血。“\n\n特拉格的声音压低了。\n\n”他成功了。但回来的东西……不再是人了。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"wernicke_known": true}, "codex_unlocked": ["wernicke"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "那我需要找到 Wernicke。", "next": null}
+        ]
+      },
+      "compromise": {
+        "text": "他端详了你很长一段时间。\n\n”你跟其他人不同。还相信你能修好这一切。“\n\n他从大褂里掏出一张钥匙卡，让开了路。\n\n”D 区地下层。那是引擎核心所在。拿着这个。去阻止我没能阻止的事。“\n\n他转过身去。\n\n”还有安娜？当你见到 Walrider 的时候……别听它的。“",
+        "consequence": {"hp_delta": 10, "humanity_delta": 10, "corruption_delta": 0, "items_gained": ["mm_lab_coat"], "items_lost": [], "flags_set": {"trager_defeated": true, "sub_level_access": true}, "codex_unlocked": ["act2_complete"], "evidence_points_delta": 10},
+        "choices": [
+          {"text": "我不会听的。谢了，理查德。", "next": null}
+        ]
+      },
+      "fight": {
+        "text": "剪刀寒光一闪。但你准备好了。\n\n狭窄走廊里的一场殊死搏斗。特拉格很快，但你活过更糟的。当一切结束时，他靠着墙滑坐下来，喘着粗气。\n\n”那就去啊。当你的英雄去吧。看看那会带你到哪。“",
+        "consequence": {"hp_delta": -15, "humanity_delta": -5, "corruption_delta": 10, "items_gained": ["ev_trager_scalpel"], "items_lost": [], "flags_set": {"trager_defeated": true}, "codex_unlocked": ["act2_complete"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "英雄是活下来的人。", "next": null}
+        ]
+      },
+      "warning": {
+        "text": "”Walrider 正在苏醒。当它完全醒来，它会吸收这设施里的每一个有意识的大脑。唯一的问题是：你会成为被吸收的……还是执行吸收的。“\n\n他咧嘴笑了。\n\n”慎重选择。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 0, "corruption_delta": 8, "items_gained": [], "items_lost": [], "flags_set": {"walrider_warning": true}, "codex_unlocked": ["absorption"], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "我两个都不选。我选择真相。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_snakehead_encounter",
+    "nodes": {
+      "start": {
+        "text": "蛇头中尉站在装卸区里，手里拿着电话。他看见你，没有退缩。\n\n”安娜·斯克兰顿。我们一直在等你。不是以威胁的方式——更像是看着风暴逼近。“\n\n他把电话揣进兜里。\n\n”你想要这次行动？行。但首先，你得听我说。“",
+        "choices": [
+          {"text": "我在听。说快点。", "next": "monologue", "requires_item": null, "requires_flag": null},
+          {"text": "我不和贩子谈判。", "next": "hostile", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "monologue": {
+        "text": "”Murkoff 需要受试者。我们提供他们。工厂供应候选人，我们的网络转运他们，Massive 山处理他们。这是一条和任何其他供应链没区别的供应链。“\n\n他的声音完全平板。\n\n”区别？这些受试者变成了更伟大事物的一部分。Walrider。一个由心智组成的神。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": -5, "corruption_delta": 10, "items_gained": [], "items_lost": [], "flags_set": {"snakehead_monologue": true}, "codex_unlocked": ["supply_chain_full"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "一个由受害者组成的神。那不是伟大——那是恐怖。", "next": "rebuttal"},
+          {"text": "这条链在哪结束？谁在顶端？", "next": "top"}
+        ]
+      },
+      "hostile": {
+        "text": "”这话听起来像从来不需要在求生与道德之间做选择的人说的。“\n\n他拔出一把刀——但很慢，几乎是勉强的。\n\n”最后的机会。走开，或者领教我们怎么处理麻烦。“",
+        "consequence": {"hp_delta": -10, "humanity_delta": -3, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {"snakehead_hostile": true}, "codex_unlocked": [], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "我不走开。", "next": "fight"}
+        ]
+      },
+      "rebuttal": {
+        "text": "他表情里有什么东西变了。只是一瞬间。\n\n”恐怖。是。我知道。我见过从 D 区地下层出来的东西。那些没能完全整合的。“\n\n他把一个文件夹滑过桌面。\n\n”给。一切。姓名、路线、付款。拿去给任何会听的人。我受够了当这件事的一部分。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 10, "corruption_delta": 0, "items_gained": ["ev_snakehead_ledger"], "items_lost": [], "flags_set": {"snakehead_surrendered": true}, "codex_unlocked": ["snakehead_defection"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "选择不同还不算太晚。", "next": null}
+        ]
+      },
+      "top": {
+        "text": "”在顶端？和往常一样的地方。钱。Murkoff 的董事会。DARPA。坐在办公室里从来没见过形态发生引擎，但签出让它运行下去的支票的人。“\n\n他苦笑。\n\n”我们都只是齿轮，安娜。问题是你想当一个转动的齿轮，还是当一个打碎机器的齿轮。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"murkoff_board_known": true}, "codex_unlocked": ["money_trail"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "我选择打碎它。", "next": null}
+        ]
+      },
+      "fight": {
+        "text": "打斗短暂而残酷。中尉身手了得，但愧疚感已经把他掏空了。\n\n当一切结束时，他们躺在地板上，盯着天花板。\n\n”账本……在办公桌抽屉里。拿去。让它有意义。“",
+        "consequence": {"hp_delta": -12, "humanity_delta": -5, "corruption_delta": 8, "items_gained": ["ev_snakehead_ledger"], "items_lost": [], "flags_set": {"snakehead_defeated": true}, "codex_unlocked": [], "evidence_points_delta": 6},
+        "choices": [
+          {"text": "我会让它有意义的。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_informant_encounter",
+    "nodes": {
+      "start": {
+        "text": "一个瘦削、紧张的身形从小巷里冒出来。他们的衣服昂贵但凌乱——一个前内部人员，已经走投无路了。\n\n”你就是调查 Murkoff 的那个人？我有情报。但我需要回报——保护。如果他们知道我泄了密，会杀了我。“",
+        "choices": [
+          {"text": "先告诉我你知道什么。然后我们再谈保护。", "next": "bargain", "requires_item": null, "requires_flag": null},
+          {"text": "我不能承诺保护，但我能保证真相会浮出来。", "next": "honest", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "bargain": {
+        "text": "”公平。贩运网络用货运清单做掩护。运输代码 MM-SL-D 意思是 Massive 山，地下 D 区。每周四，一辆卡车离开东码头。“\n\n他们紧张地四下张望。\n\n”还有更多。一份通过网络转运的每个人的名单。它存在一个数字保险库里——但我有访问密钥。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"shipping_codes": true}, "codex_unlocked": ["shipping_network"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "把访问密钥给我。我会曝光一切。", "next": "key"},
+          {"text": "我给你我的承诺——我会尽我所能保你安全。", "next": "safe"}
+        ]
+      },
+      "honest": {
+        "text": "他们闭上眼睛。当他们再睁开时，眼里有某种类似释然的东西。\n\n”诚实。在这一行里很罕见。“\n\n他们递给你一个 USB 闪存盘。\n\n”所有东西都在那上面。姓名、日期、银行账户、货运清单。足够扳倒整个网络——如果你能把它们交到正确的人手里。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 10, "corruption_delta": 0, "items_gained": ["ev_phone_recording"], "items_lost": [], "flags_set": {"informant_honest": true}, "codex_unlocked": ["full_network"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "我会确保它交到正确的人手里。今晚就离开这座城市。", "next": null}
+        ]
+      },
+      "key": {
+        "text": "他们犹豫了，然后点头。\n\n”密钥在这个盘上。密码是我女儿的生日——0315。她是我做这一切的原因。“\n\n他们的声音破裂了。\n\n”别让它白费了。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 8, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"vault_access": true}, "codex_unlocked": ["digital_vault"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "不会白费的。我保证。", "next": null}
+        ]
+      },
+      "safe": {
+        "text": "”你的承诺比 Murkoff 的合同更值钱。这一点确定无疑。“\n\n他们挤出一个虚弱的微笑。\n\n”往北走。答案全在 Massive 山。还有安娜……当心你的后背。女武神能感觉到你来了。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 5, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"informant_ally": true}, "codex_unlocked": ["valkyrie_warning"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "女武神？那是什么？", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_valkyrie_boss",
+    "nodes": {
+      "start": {
+        "text": "你踏入引擎室。形态发生引擎以异类的共鸣嗡鸣着，空气本身似乎在呼吸。\n\n一个声音——许多声音，齐声说话——充满了你的头颅。\n\n”安娜·斯克兰顿。我们一直在等待。我们是女武神。我们是那许多个变成了一个的。而你……你几乎已经准备好加入我们了。“",
+        "choices": [
+          {"text": "我永远不会加入你们。我是来阻止这一切的。", "next": "resist", "requires_item": null, "requires_flag": null},
+          {"text": "你们是什么？Murkoff 做了什么？", "next": "understand", "requires_item": null, "requires_flag": null},
+          {"text": "我能感觉到你……在我脑海里。给我看真相。", "next": "embrace", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "resist": {
+        "text": "那些声音笑了——一千个重叠的回音。\n\n”抵抗造就了吾等。每个受试者都抵抗了。每个大脑都搏斗了。而每个大脑……最终都……调和了。“\n\n引擎的嗡鸣加剧了。\n\n”但你不同。你的怀疑很响亮。你的信念……有趣。给我们看你的信念，安娜。选择。“",
+        "consequence": {"hp_delta": -10, "humanity_delta": 5, "corruption_delta": 10, "items_gained": [], "items_lost": [], "flags_set": {"valkyrie_resisted": true}, "codex_unlocked": ["valkyrie_nature"], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "我选择真相。每一个名字，每一桩罪行——记录在案。世界必须知道。", "next": "record"},
+          {"text": "我选择审判。你和 Murkoff 会为你们所做的一切付出代价。", "next": "judge"}
+        ]
+      },
+      "understand": {
+        "text": "”我们是 47 个大脑的余留。Wernicke 医生建造了这台引擎，为了在死亡之外保存意识。他成功了——但这些大脑没有保持分离。它们融合了。它们歌唱。“\n\n声音柔和下来，几乎哀伤。\n\n”我们记得曾经是个体。我们记得名字。但那些名字现在是……回音。遥远歌声在一个巨大合唱团里。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 8, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {"valkyrie_understood": true}, "codex_unlocked": ["47_minds"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "那些回音值得正义，而不是吸收。让我记录他们的故事。", "next": "record"},
+          {"text": "这台机器是个可憎物。它必须被摧毁。", "next": "judge"}
+        ]
+      },
+      "embrace": {
+        "text": "那些声音涌动着，带着某种类似欢愉的东西。\n\n”是。你感觉到了。连接。许多大脑成为一的温暖。不再有孤独。不再有怀疑。“\n\n温暖是真实的。它很诱人。但在它下面，你听到一个声音——也许是个孩子——在低语：“跑。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": -10, "corruption_delta": 20, "items_gained": [], "items_lost": [], "flags_set": {"valkyrie_embrace": true}, "codex_unlocked": ["embrace"], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "不。我听到了那个孩子。我选择记住，而不是融合。", "next": "record"},
+          {"text": "温暖……太强烈了。我没法反抗它。", "next": "submit"}
+        ]
+      },
+      "record": {
+        "text": "你掏出你的录音机。每一个名字。每一个日期。每一桩罪行。\n\n女武神嚎叫着——一声愤怒的 sound，也许还有别的东西。失落，也许。\n\n”你选择了缓慢的路径。痛苦的路径。见证与法庭与多年奋战的路径。“\n\n引擎颤抖着。\n\n”但……我们记得从前也有一个人做了同样的选择。在引擎之前。在 Murkoff 之前。一个拒绝移开视线的人。“\n\n声音平息成低语。\n\n”她的名字是……安娜。“",
+        "consequence": {"hp_delta": 10, "humanity_delta": 20, "corruption_delta": -10, "items_gained": ["ev_judgment_record", "mm_valkyrie_shard"], "items_lost": [], "flags_set": {"valkyrie_defeated": true, "chose_record": true, "truth_recorded": true}, "codex_unlocked": ["truth_revealed", "act3_complete"], "evidence_points_delta": 15},
+        "choices": [
+          [
+          ]
+        ]
+      },
+      "judge": {
+        "text": "你的手伸向引擎核心。女武神尖叫。\n\n”没有理解力的审判是残忍。你会摧毁我们——47 个大脑，47 条生命——连警告我们名字的机会都不给？“\n\n你的手悬在关闭开关上方。\n\n”……也许你是对的。也许有些事物不应该存在。但记住，安娜：审判是一个腐蚀性力量。每次你扮演行刑者，你就失去了一片自己。“",
+        "consequence": {"hp_delta": -15, "humanity_delta": -10, "corruption_delta": 15, "items_gained": ["mm_valkyrie_shard"], "items_lost": [], "flags_set": {"valkyrie_defeated": true, "chose_judge": true, "engine_destroyed": true}, "codex_unlocked": ["judgment_delivered", "act3_complete"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "有些事物必须被摧毁，即使要付出代价。", "next": null}
+        ]
+      },
+      "submit": {
+        "text": "温暖吞没了你。一瞬间，它是极乐——孤独的终结，怀疑的终结，自我的终结。\n\n然后孩子的声音穿透了一切：“你忘了。你忘了你是谁。“\n\n于是你意识到：每个人最终都会这样。蜂群消耗。个体溶解。这不是超越。这是抹除。\n\n你的手找到了录音机。最后一个意志的行为。",
+        "consequence": {"hp_delta": -20, "humanity_delta": -20, "corruption_delta": 30, "items_gained": [], "items_lost": [], "flags_set": {"valkyrie_defeated": true, "submitted_briefly": true}, "codex_unlocked": ["near_absorption"], "evidence_points_delta": 0},
+        "choices": [
+          {"text": "记录……一切。趁还来得及。", "next": "record"}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_maggie_chen_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n麦琪·陈坐在基金会阁楼的角落里，方格围巾搭在椅背上。她抬头看你，眼神锐利而温暖。\n\n”安娜。我刚做完基金会的视觉系统。你猜我用了什么颜色？不是蓝——那太安全了。锈红色和深灰色。因为真相从来不是干净的。“",
+        "choices": [
+          {"text": "基金会的logo怎么样了？", "next": "logo", "requires_item": null, "requires_flag": null},
+          {"text": "你为什么愿意加入这个？", "next": "reason", "requires_item": null, "requires_flag": null},
+          {"text": "这条方格围巾……能送我吗？", "next": "scarf", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "logo": {
+        "text": "她翻开设计板的最后一页——一只握笔的手与一只持盾的手交握，线条简洁有力。下方铭文：'记录·守护·锚定'。\n\n”你的左手记录真相，你的右手守护受害者。中间那个'锚'字——是埃莉诺的建议。锚比盾更根本。盾挡住攻击，但锚阻止你被深渊吞噬。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 8, "corruption_delta": 0, "items_gained": ["mm_foundation_logo"], "items_lost": [], "flags_set": {"foundation_logo_seen": true}, "codex_unlocked": ["foundation_design"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "完美。它会被刻在每一份文件上。", "next": null}
+        ]
+      },
+      "reason": {
+        "text": "她沉默了一会儿，把方格围巾的流苏绕在指尖上。\n\n”因为我2018年做过五大湖区的视觉设计项目。那些照片——被污染的水，生病的孩子——我拍了三万张。但没有一个媒体愿意用。“\n\n她的声音变得坚硬。\n\n”所以当我听说有个人不仅拍了照，还把人送进了监狱……我必须见她。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 10, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"maggie_reason_known": true}, "codex_unlocked": ["great_lakes_project"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "沉默是最暴力的同谋。", "next": null}
+        ]
+      },
+      "scarf": {
+        "text": "她解下围巾，小心翼翼地折好递给你。\n\n”这条围巾是我母亲的。她织了它，在我去芝加哥的第一个冬天。送你。但你得答应我一件事——在最冷的夜晚才戴它。物理的冷，和心里的冷。“",
+        "consequence": {"hp_delta": 10, "humanity_delta": 15, "corruption_delta": -5, "items_gained": ["mm_plaid_scarf"], "items_lost": [], "flags_set": {"scarf_received": true}, "codex_unlocked": ["maggie_scarf"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "我答应你。谢谢你，麦琪。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_lawrence_fisher_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n劳伦斯·费希尔靠在窗边，手里拿着一支圆珠笔。他看着芝加哥的天际线。\n\n”安娜。你还记得我在《图书世界》教你的第一课吗？“",
+        "choices": [
+          {"text": "'在场感'。新闻的力量不在于描述，而在于让读者觉得自己也在现场。", "next": "presence", "requires_item": null, "requires_flag": null},
+          {"text": "在场感不只是写作技巧，它是道德立场。", "next": "moral", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "presence": {
+        "text": "他微微一笑。\n\n”在场感。现在，我要把它变成基金会的基石。不是'旁观者'，而是'在场者'。在场就意味着责任。“\n\n”基金会的架构需要三层：记录层——你的领域；守护层——麦琪的设计加上埃莉诺的法律；锚定层——新东西。我们需要锚定真相。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 8, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"fisher_architecture_known": true}, "codex_unlocked": ["foundation_architecture"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "三层架构。记录、守护、锚定。", "next": null}
+        ]
+      },
+      "moral": {
+        "text": "他的眼神亮了。\n\n”你比我走得远了。我在报社内教你在场感，而你把它带到了工厂、精神病院、蛇头的冷库。“\n\n他放下笔。\n\n”这也是我离开《图书世界》的原因。报纸里的在场感是有限的。但基金会……可以是无限的。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 12, "corruption_delta": -3, "items_gained": ["mm_leather_notebook"], "items_lost": [], "flags_set": {"fisher_joined": true}, "codex_unlocked": ["fisher_evolution"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "无限的在场感。这就是我们的武器。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_eleanor_watson_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n埃莉诺·沃森站在会议室的白板前，上面写满了法律条文。她的西装没有一丝褶皱。\n\n”斯克兰顿女士。你准备好让'记录'成为法律行动的弹药了吗？一旦基金会启动，每一个名字都会成为呈堂证供。“",
+        "choices": [
+          {"text": "那正是我想要的。记录就是为了正义。", "next": "justice", "requires_item": null, "requires_flag": null},
+          {"text": "法律真的能追上穆克夫吗？", "next": "doubt", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "justice": {
+        "text": "她的嘴角微微上扬。\n\n”好。证据链、证人链、资金链——三条线绑在一起，穆克夫连庭外和解的机会都没有。“\n\n她在白板上画了三个圈，交汇处写了'锚'。\n\n”法律是最坚硬的锚。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 8, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"eleanor_framework_known": true}, "codex_unlocked": ["legal_framework"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "法律之锚。定了。", "next": null}
+        ]
+      },
+      "doubt": {
+        "text": "她眼神冰冷但坚定。\n\n”种子资金870万，索尔三天搞定的。穆克夫有钱，但钱不能阻止传票。“\n\n她从公文包里抽出一叠文件。\n\n”我用了十年帮企业逃避法律。现在，我打算用同样的知识——反过来。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 3, "items_gained": ["ev_protocol_c"], "items_lost": [], "flags_set": {"eleanor_doubt_resolved": true}, "codex_unlocked": ["legal_reversal"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "用他们的武器对付他们。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_saul_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n一个看不清面容的身影坐在阴影里，面前是加密笔记本电脑。\n\n”斯克兰顿女士。索尔不是我的真名。870万种子资金已经到账。你想知道它从哪来的吗？“",
+        "choices": [
+          {"text": "不需要知道。干净的钱就好。", "next": "clean", "requires_item": null, "requires_flag": null},
+          {"text": "我需要知道。合法性取决于每一分钱的来源。", "next": "origin", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "clean": {
+        "text": "他点了点头。\n\n”干净的钱。每一分来自匿名捐赠者——七个不同的司法管辖区。穆克夫如果查，只会找到毫无破绽的资金链。“\n\n”预算按季度分配。记录层40%，守护层35%，锚定层25%。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"saul_budget_known": true}, "codex_unlocked": ["foundation_budget"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "40/35/25。记录优先。", "next": null}
+        ]
+      },
+      "origin": {
+        "text": "他沉默了很久。\n\n”七个捐赠者。都是穆克夫的受害者或家属。有人失去了孩子，有人失去了记忆。他们不要赔偿——他们要的是真相。“\n\n”870万是他们的集体投资。回报只有一个：让世界知道发生了什么。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 15, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"saul_origin_known": true}, "codex_unlocked": ["donor_origins"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "真相。最昂贵的投资，最值得的。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_grace_ashcroft_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n格蕾丝·阿什克罗夫特站在鹪木旅馆的走廊尽头，手里握着格洛克19。她的FBI徽章闪了一下。\n\n”你是A.S.。我母亲在日记里提到过'那个记录一切的人'。我不知道那是你，直到今天。“",
+        "choices": [
+          {"text": "你母亲……艾丽莎。她在浣熊市活下来了？", "next": "mother", "requires_item": null, "requires_flag": null},
+          {"text": "FBI知道黑斑死亡事件吗？", "next": "fbi", "requires_item": null, "requires_flag": null},
+          {"text": "让我看看你母亲的日记。", "next": "diary", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "mother": {
+        "text": "她的嘴唇颤了一下。\n\n”她活下来了。但黑斑不杀死你，它改变你。她最后几年的照片里，影子总是不对。“\n\n她掏出旧日记本。\n\n”她让我追踪'收割者'项目。T病毒变体。穆克夫不只是做蜂群实验——他们拿到了安布雷拉的残余样本。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 10, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"grace_mother_known": true}, "codex_unlocked": ["black_spot"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "穆克夫和安布雷拉的杂交。比我想的更深。", "next": null}
+        ]
+      },
+      "fbi": {
+        "text": "她苦笑。\n\n”FBI知道。但他们选择不知道。官方说法是'自然死亡集群'。“\n\n”所以我成了'收割者'。不在任何系统里的代号。只追踪黑斑。只追踪T病毒变体。只追踪穆克夫。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"reaper_known": true}, "codex_unlocked": ["reaper_project"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "收割者……你收割真相。我们可以合作。", "next": null}
+        ]
+      },
+      "diary": {
+        "text": "她递给你日记本。封面：'艾丽莎·阿什克罗夫特——浣熊市之后'。\n\n你翻开第一页：'1998年9月28日。我看到了它。那个穿白大褂的人——他不是人。黑斑在他身上流动，像活着的墨水。他说这是进化。我说这是地狱。'",
+        "consequence": {"hp_delta": -5, "humanity_delta": 12, "corruption_delta": 5, "items_gained": ["ev_alissa_diary"], "items_lost": [], "flags_set": {"alissa_diary_read": true}, "codex_unlocked": ["racoon_city"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "活着的墨水……这和墨迹人的症状有关联。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_ink_man_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n老屠宰场。一个人影从阴影里走出来——面部被流动的墨迹覆盖，像一张不断重写的面具。\n\n”斯克兰顿。你是记录者。我是裁决者。我们终于见面了。“",
+        "choices": [
+          {"text": "你是谁？墨迹下面是什么？", "next": "identity", "requires_item": null, "requires_flag": null},
+          {"text": "暴力不是正义的替代品。", "next": "philosophy", "requires_item": null, "requires_flag": null},
+          {"text": "托马斯·拉金。'铁锤'。我认得你的体格。", "next": "named", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "identity": {
+        "text": "墨迹涌动。\n\n”身份是锁链。名字是目标。你记录，安娜。你把一切交给法庭。然后呢？穆克夫的律师拖延十年。而我——我在他们拖延的时候动手。“",
+        "consequence": {"hp_delta": -3, "humanity_delta": 5, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {"ink_man_philosophy": true}, "codex_unlocked": ["vigilante_path"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "记录不是软弱。它是唯一不会被权力腐蚀的武器。", "next": null}
+        ]
+      },
+      "philosophy": {
+        "text": "墨迹收缩，露出他下巴的一道旧伤疤。\n\n”暴力是速度。法庭需要十年？我的审判只需要一夜。“\n\n”墨迹不只是面具——它是我的警告。每杀一个人，墨迹就扩散一点。如果有一天它覆盖了全部……“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 8, "corruption_delta": 8, "items_gained": [], "items_lost": [], "flags_set": {"ink_corruption_known": true}, "codex_unlocked": ["ink_spread"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "裁决的终点是自我毁灭。你已经知道答案了。", "next": null}
+        ]
+      },
+      "named": {
+        "text": "墨迹散开，露出他的脸。托马斯·'铁锤'·拉金。前拳击手，前穆克夫实验体，现在的义警。\n\n”你认出我了。费希尔教你的——在场感。你真的在场。“\n\n”铁锤打铁，铁锤也可以锻造钥匙。你是锻造者，安娜。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 10, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"ink_man_identity": true}, "codex_unlocked": ["thomas_larkin"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "锻造一把钥匙，打开穆克夫的最后一扇门。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_edna_preston_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n石溪镇图书馆。空气里有微妙的振动——不是声音，而是现实本身的嗡鸣。书架上的书偶尔自己移动一寸。\n\n埃德娜·普雷斯顿坐在前台后面，头发花白但眼神清澈。\n\n”你感觉到了，对吗？图书馆里的不对劲。两年前开始，书开始自己动。然后是人。然后——现实。“",
+        "choices": [
+          {"text": "'现实不对劲'是什么意思？", "next": "reality", "requires_item": null, "requires_flag": null},
+          {"text": "那篇论文——我能看看吗？", "next": "paper", "requires_item": null, "requires_flag": null},
+          {"text": "埃德娜·普雷斯顿。斯克兰顿家族的人？", "next": "family", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "reality": {
+        "text": "她带你走到书架前。第三层有一本书正在从书脊上'渗出'，像墨水溶入水中。\n\n”镇上的人开始忘记事情。不是普通遗忘——是现实在被擦除。上周镇中心的钟楼消失了三天。然后回来了。但日期变了。“\n\n”只有一篇论文提到这种现象——特拉格，1995年。他管它叫'现实锚'。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 8, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {"reality_disturbance_known": true}, "codex_unlocked": ["reality_disturbance"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "特拉格……他最早是理论物理学家。", "next": null}
+        ]
+      },
+      "paper": {
+        "text": "她递给你论文。封面发黄：'论局部现实的稳定与扰动——理查德·特拉格，1995年'\n\n关键页：'某些个体拥有稳定局部现实的能力。这种能力具有遗传性。当这样的个体处于现实裂缝附近时，裂缝会自行弥合——或者，如果能力足够强，他们会成为锚点。'\n\n页边空白处，红笔：'SS-1988-07。实验编号。他们用我做实验。但我不是实验品——我是锚。'",
+        "consequence": {"hp_delta": -5, "humanity_delta": 12, "corruption_delta": 3, "items_gained": ["ev_reality_anchor_doc"], "items_lost": [], "flags_set": {"reality_anchor_known": true}, "codex_unlocked": ["scranton_heritage"], "evidence_points_delta": 10},
+        "choices": [
+          {"text": "斯克兰顿家族……我既是裂缝，也是补丁。", "next": null}
+        ]
+      },
+      "family": {
+        "text": "她的眼神变了——从紧张变成认出。\n\n”斯克兰顿。你就是安娜。我梦到过你。“\n\n”石溪镇的斯克兰顿家族——我们是'现实锚定者'。代代相传。你是最强的那个。图书馆的现实扰动在你踏入镇子的那天就开始减弱了。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 15, "corruption_delta": -5, "items_gained": [], "items_lost": [], "flags_set": {"scranton_family_known": true}, "codex_unlocked": ["scranton_lineage"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "我既是裂缝，也是补丁。也许这就是我存在的意义。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_falcone_maroni_encounter",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n悖谬之塔的底层。一个年轻人站在那里，左手缠着绷带。他的眼神安静、坚定。\n\n”斯克兰顿女士。我在等你。或者说……锚在等你。“",
+        "choices": [
+          {"text": "你是谁？", "next": "identity", "requires_item": null, "requires_flag": null},
+          {"text": "你的手——绷带下面是什么？", "next": "hand", "requires_item": null, "requires_flag": null},
+          {"text": "锚？安娜从锚点选中了你？", "next": "chosen", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "identity": {
+        "text": "他鞠了一个躬。\n\n”法尔科内·马罗尼。代号Mo.Fouth.Ker。一个月前，我在睡梦中听到47个声音的合唱，然后其中一个压过了所有其他声音。她说：'你是下一个。'",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 3, "items_gained": [], "items_lost": [], "flags_set": {"falcone_identity_known": true}, "codex_unlocked": ["mo_fouth_ker"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "安娜的声音。她从锚点挑选了继承人。", "next": null}
+        ]
+      },
+      "hand": {
+        "text": "他慢慢解开绷带。左手无名指和小指——不是血肉。银灰色的纳米截面，发出微弱蓝光。\n\n”三天前醒来就变成了这样。和安娜·斯克兰顿一样。断指转化为蜂群印记。传承完成。“\n\n他攥了攥拳头，截面发出细微嗡鸣。\n\n”我能感觉到47个回音。还有一个更响的——她的回音。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 10, "corruption_delta": 5, "items_gained": ["ev_falcone_inheritance"], "items_lost": [], "flags_set": {"falcone_inherited": true}, "codex_unlocked": ["swarm_inheritance"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "蜂群传承……安娜用最后的意志选了你。别辜负她。", "next": null}
+        ]
+      },
+      "chosen": {
+        "text": "他点头，声音郑重。\n\n”安娜从锚点选中了我。不是因为我最好——而是因为我在最需要的时候出现在最需要的地方。“\n\n他从口袋里掏出一片干花瓣。\n\n”玛丽莎·埃尔南德斯。我救了她。她的父亲胡安写了信——'矮牵牛花很美'。安娜说，锚传递的不是力量，是名字。每一个被记住的名字，都是现实的一根线。“",
+        "consequence": {"hp_delta": 5, "humanity_delta": 15, "corruption_delta": 0, "items_gained": [], "items_lost": [], "flags_set": {"falcone_totem_known": true}, "codex_unlocked": ["totem_whisper"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "不成为剑，不成为盾，成为锚。这是安娜的信条。现在它是你的了。", "next": null}
+        ]
+      }
+    }
+  },
+  {
+    "dialog_tree_id": "dlg_maroni_falcone_boss",
+    "nodes": {
+      "start": {
+        "text": "---- 小说扩充 ----\n莫农加希拉河谷的月光下。一个身影站在桥上。他的左手也是银灰色的——但不是纳米蜂群，是冰冷的金属。\n\n”安娜拒绝过我。她说我没有'锚'，只有'刃'。“\n\n他转身。左眼是一片流动的银色。\n\n”她说得对。我确实是刃。但刃比锚更有效率。“",
+        "choices": [
+          {"text": "安娜拒绝你是有原因的。", "next": "reject", "requires_item": null, "requires_flag": null},
+          {"text": "效率？你在河谷杀了六个人。那是屠杀。", "next": "kill", "requires_item": null, "requires_flag": null},
+          {"text": "你也是传承者？还是窃取者？", "next": "thief", "requires_item": null, "requires_flag": null}
+        ]
+      },
+      "reject": {
+        "text": "他笑了——空洞的、金属般的笑。\n\n”她说我没有'名字'——只有'目标'。裁决者必须先记住每一个名字，才能决定命运。而我不在乎名字。“\n\n”但我在乎结果。六个人贩子死了。二十三个受害者获释。你说，哪个更有意义？",
+        "consequence": {"hp_delta": -10, "humanity_delta": -5, "corruption_delta": 10, "items_gained": [], "items_lost": [], "flags_set": {"maroni_philosophy": true}, "codex_unlocked": ["mirror_judgment"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "终结苦难和记住名字不是二选一。安娜两个都做了。", "next": "both"},
+          {"text": "你不是裁决者。你是刽子手。", "next": "executioner"}
+        ]
+      },
+      "kill": {
+        "text": "银色眼睛收缩了。\n\n”六个人贩子。247个失踪人口。最小的九岁。他们把孩子们装在集装箱里运过边境。“\n\n他扔出一本日志。\n\n”我是手术刀。精准，清洁，必要。而你们——你们是麻醉剂。让世界沉睡，假装手术不需要刀。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": 3, "corruption_delta": 8, "items_gained": ["ev_maroni_mirror"], "items_lost": [], "flags_set": {"maroni_log_seen": true}, "codex_unlocked": ["maroni_justice"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "手术刀也会切到自己。你已经在流血了。", "next": null}
+        ]
+      },
+      "thief": {
+        "text": "他僵住了。银色眼睛里有什么东西碎裂了。\n\n”窃取……也许吧。法尔科内获得了正式传承。而我只是站在裂缝旁边，让碎屑沾到了我身上。不是传承，是感染。“\n\n”但我宁愿做被感染的刃，也不愿做干净的旁观者。至少刃能切开锁链。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 5, "corruption_delta": 5, "items_gained": [], "items_lost": [], "flags_set": {"maroni_truth_known": true}, "codex_unlocked": ["stolen_power"], "evidence_points_delta": 5},
+        "choices": [
+          {"text": "我们只能记住。而记忆比刀刃更持久。", "next": null}
+        ]
+      },
+      "both": {
+        "text": "他沉默了很久。月光在银色眼睛里反射，像两面破碎的镜子。\n\n”两个都做了。是。而她在做的时候，变成了锚——消失在现实裂缝中的锚。“\n\n”也许那才是真正的代价。不是裁决腐蚀你，是记录吞噬你。安娜·斯克兰顿用自己编织了现实的网，然后……网把她吞了。“\n\n他走向桥头。\n\n”如果记忆比刀刃更持久，那你最好确保你记住的是真相，不是神话。“",
+        "consequence": {"hp_delta": 0, "humanity_delta": 10, "corruption_delta": -5, "items_gained": [], "items_lost": [], "flags_set": {"maroni_departed": true}, "codex_unlocked": ["mirror_truth"], "evidence_points_delta": 8},
+        "choices": [
+          {"text": "真相。永远是真相。", "next": null}
+        ]
+      },
+      "executioner": {
+        "text": "银色眼睛暗了。\n\n”刽子手至少面对自己的行为。而你把审判交给法庭，把杀戮交给国家，把手上的血洗干净——然后自称'正义'。“\n\n他转身离开。\n\n”你的正义是迟到的。我的至少是准时的。“",
+        "consequence": {"hp_delta": -5, "humanity_delta": -8, "corruption_delta": 10, "items_gained": [], "items_lost": [], "flags_set": {"maroni_confronted": true}, "codex_unlocked": ["executioner_argument"], "evidence_points_delta": 3},
+        "choices": [
+          {"text": "迟到的正义还是正义。准时的谋杀永远是谋杀。", "next": null}
+        ]
+      }
+    }
+  }
+]

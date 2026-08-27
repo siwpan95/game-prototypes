@@ -1,0 +1,999 @@
+{
+  "events": {
+    "evt_intro": {
+      "id": "evt_intro",
+      "text": "你睁开双眼，只有黑暗。\n\n不是睡眠中舒适的黑暗，而是被删除空间的空洞虚无。你的右眼——那只义眼——闪烁着苏醒，以青色与金色的色调涂抹虚空。\n\n你是P.C.，一个维护工人。或者说曾经是，在你来到这里之前。\n\n寰墟在你面前延伸：一个由一切被删除、被丢弃、被遗忘之物构建的数字冥界。腐化的代码构成了地貌。过期的广告堆积如山。死去的聊天室回荡着往昔对话的幽灵。\n\n一条隐约的小径蜿蜒穿过数据残骸。你的完整度仪表显示100%。你的义眼嗡嗡作响——它可以扫描隐藏信号，但两次使用之间需要时间充能。\n\n生存。找到真相。逃离。",
+      "options": [
+        {"text": "踏入寰墟", "effects": {}, "action": "end_event"},
+        {"text": "检查你的义眼", "effects": {}, "next_event": "evt_intro_eye", "action": "continue"}
+      ]
+    },
+    "evt_intro_eye": {
+      "id": "evt_intro_eye",
+      "text": "你集中注意力于义眼。这是一台维护级扫描器——不是军用型号——但它能探测正常视觉无法捕捉的隐藏数据签名和加密信号。\n\n扫描器每次使用后需要时间重新校准。大约3个节点转换间隔。\n\n你的眼睛捕捉到什么：前方黑暗中飘浮着微弱的金色粒子。记忆碎片。某人——或某物——在此留下了痕迹。",
+      "options": [
+        {"text": "记下这点，继续前进", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L0_0": {
+      "id": "evt_L0_0",
+      "text": "阈界\n\n你站在曾经与残存之间的边界上。身后——空无一物。一堵纯粹的删除之墙，连你的义眼也无法穿透。\n\n前方，寰墟以腐化数据的层次铺展开来。你能感觉到多条路径在数字残骸中分叉。每层都带你深入冥界。\n\n老鬼的话语在你记忆中回响：'慢慢走。奔跑会引起注意。寰墟惩罚急躁。'",
+      "options": [
+        {"text": "小心进入第一层", "effects": {}, "action": "end_event"},
+        {"text": "在阈界使用扫描器", "effects": {}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L0_1": {
+      "id": "evt_L0_1",
+      "text": "广告墓地入口\n\n过期的弹窗广告如数字墓碑般高耸。'恭喜你中奖了！'一条半死的横幅尖叫着。'你所在地区的美女'可怜地闪烁，代码太过腐化无法正常渲染。\n\n那气味——如果数据有气味的话——令人窒息。层层叠叠的商业垃圾，自互联网早期时代便堆砌至今。\n\n广告堆中有东西在闪光。你发现一个灯泡，仍在微弱发光，被掩埋在垃圾广告山下。",
+      "options": [
+        {"text": "在广告堆中挖掘灯泡", "effects": {"integrity": -3, "item_id": "lightbulb"}, "action": "end_event"},
+        {"text": "算了——广告堆看起来不太稳", "effects": {}, "action": "end_event"},
+        {"text": "扫描广告堆寻找隐藏数据", "effects": {"shard_type": "red", "shard_id": "shard_red_1"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L0_2": {
+      "id": "evt_L0_2",
+      "text": "弹窗伏击！\n\n毫无预兆，攻击性广告软件从四面八方袭来！弹窗在你周围炸开——虚假病毒警告、钓鱼表单、无法静音的自动播放视频。\n\n你的完整度正遭受攻击！你必须选择如何应对。",
+      "options": [
+        {"text": "有条不紊地关闭弹窗（耐心方式）", "effects": {"integrity": -5}, "action": "end_event"},
+        {"text": "强制一次性关闭所有弹窗（冒险）", "effects": {"integrity": -12}, "next_event": "evt_L0_2_risk", "action": "continue"},
+        {"text": "用义眼定位弹窗源头", "effects": {"integrity": -3}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L0_2_risk": {
+      "id": "evt_L0_2_risk",
+      "text": "你的强制关闭奏效了，但反冲让你的系统震动。广告软件携带着载荷——它在消亡时刮取了你的一些数据。\n\n然而，在混乱中你注意到了什么。一段红色碎片嵌入在广告软件的代码中。一个记忆碎片，被用作追踪信标。",
+      "options": [
+        {"text": "在碎片降解前提取它", "effects": {"shard_type": "red", "shard_id": "shard_red_2"}, "action": "end_event"},
+        {"text": "销毁它——可能是陷阱", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L0_3": {
+      "id": "evt_L0_3",
+      "text": "闪烁路标灯\n\n一盏路标灯孤零零地立在数字荒原中，灯光在温暖琥珀色和冷白色之间闪烁。它周围的数据很平静——寰墟中罕见的安稳区域。\n\n老鬼告诉过你这些：'路标灯是古老灯塔代码的遗迹。它们稳定局部数据。在这里休息。疗伤。'\n\n那温暖几乎算不上真实，但已足够。",
+      "options": [
+        {"text": "休息恢复完整度（+10%）", "effects": {"integrity": 10}, "action": "end_event"},
+        {"text": "休息并保存进度", "effects": {"integrity": 5}, "action": "end_event"}
+      ]
+    },
+    "evt_L0_4": {
+      "id": "evt_L0_4",
+      "text": "聊天室废墟\n\n古老聊天室的残破界面环绕着你。文字气泡悬浮在空中，凝固在对话中途：\n\n  '等下，去吃饭'\n  '哈哈'\n  '你还在吗？'\n  '喂？'\n  '……'\n\n最后几条信息最为沉重。被遗弃的对话，永远没有结局。有人在这里——一个身影坐在废墟中，整理着死去的消息。",
+      "options": [
+        {"text": "接近那个身影", "effects": {"npc_id": "old_ghost"}, "action": "interact_npc"},
+        {"text": "搜索聊天室寻找有用数据", "effects": {"item_id": "ad_scrap"}, "action": "end_event"},
+        {"text": "扫描聊天室寻找隐藏消息", "effects": {"shard_type": "blue", "shard_id": "shard_blue_1"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L0_5": {
+      "id": "evt_L0_5",
+      "text": "老鬼的仓库\n\n老人在这里，坐在一个用错误日志和404页面搭成的简陋柜台后面。他缺失的左臂末端是一截腐化代码的残桩。\n\n'交易？'他沙哑地说。'在寰墟，一切都有价格。连希望也是。'\n\n他在你面前展开货物：几个灯泡、一些数据线缆、旧防火墙代码的碎片。",
+      "options": [
+        {"text": "用完整度换灯泡（-8%完整度，获得灯泡）", "effects": {"integrity": -8, "item_id": "lightbulb"}, "action": "end_event"},
+        {"text": "用完整度换数据线（-15%完整度，获得线缆）", "effects": {"integrity": -15, "item_id": "cable_thin"}, "action": "end_event"},
+        {"text": "向老鬼询问寰墟的事", "effects": {"npc_id": "old_ghost"}, "action": "interact_npc"},
+        {"text": "四处看看然后离开", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L0_6": {
+      "id": "evt_L0_6",
+      "text": "上锁的档案门\n\n一道加密屏障挡住了你的去路。古老的档案代码用一个单词口令锁住了这扇门。\n\n门上的提示写道：\n  '输入定义此处发生之事的词语。'\n\n一个谜题。在锁永久封死之前，你只有有限的尝试次数。",
+      "options": [
+        {"text": "尝试解开谜题", "effects": {"puzzle_id": "puzzle_L0_6"}, "action": "start_puzzle"},
+        {"text": "寻找其他绕路方式", "effects": {"integrity": -3}, "action": "end_event"}
+      ]
+    },
+    "evt_L0_7": {
+      "id": "evt_L0_7",
+      "text": "数据腐化区\n\n腐化数据的风暴在走廊中肆虐。代码碎片如数字尘埃般盘旋，每一片都可能危及你的完整度。\n\n你能在风暴中隐约看到一些形状——曾经完整的数据，如今被腐化撕碎。",
+      "options": [
+        {"text": "小心穿过风暴", "effects": {"integrity": -8}, "action": "end_event"},
+        {"text": "寻找掩体等待间隙", "effects": {"integrity": -3}, "next_event": "evt_L0_7_shelter", "action": "continue"},
+        {"text": "用扫描器找到风暴之眼", "effects": {"integrity": -2}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L0_7_shelter": {
+      "id": "evt_L0_7_shelter",
+      "text": "你蜷缩在一块旧服务器机架后面，数据风暴呼啸而过。在短暂的间歇中，你看到有什么被卷在腐化狂风中——一块蓝色碎片，一枚记忆碎片，在混乱中翻滚。",
+      "options": [
+        {"text": "伸手抓住蓝色碎片", "effects": {"shard_type": "blue", "shard_id": "shard_blue_2", "integrity": -4}, "action": "end_event"},
+        {"text": "躲藏直到风暴过去", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L1_0": {
+      "id": "evt_L1_0",
+      "text": "旧数据库低地\n\n辽阔的归档数据平原延伸至数字天际。旧的数据库记录如地质层般裸露——被时间和忽视压缩的信息层。\n\n你行走在数据列之间，每一列都是被遗忘信息的纪念碑。名字。地址。交易。生命被简化为行和列。\n\n有什么吸引了你的注意——一个仍在活动的数据节点，脉动着金色光芒。",
+      "options": [
+        {"text": "调查金色数据节点", "effects": {"shard_type": "gold", "shard_id": "shard_gold_1"}, "action": "end_event"},
+        {"text": "继续前进——活动节点可能有危险", "effects": {}, "action": "end_event"},
+        {"text": "扫描数据库寻找隐藏记录", "effects": {"shard_type": "red", "shard_id": "shard_red_3"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L1_1": {
+      "id": "evt_L1_1",
+      "text": "防火墙缺口！\n\n破损的防火墙向走廊泄漏着危险的代码。缺口不稳定——防火墙碎片和恶意代码混合成致命的鸡尾酒。\n\n敌对代码流如鞭子般抽打。你需要小心穿行，否则完整度将遭受严重损害。",
+      "options": [
+        {"text": "小心穿过缺口", "effects": {"integrity": -7}, "action": "end_event"},
+        {"text": "尝试修补缺口（冒险）", "effects": {"integrity": -5}, "next_event": "evt_L1_1_patch", "action": "continue"},
+        {"text": "在防火墙代码中寻找缝隙", "effects": {"integrity": -3, "item_id": "firewall_shard"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L1_1_patch": {
+      "id": "evt_L1_1_patch",
+      "text": "你尝试用自己代码的碎片修补防火墙缺口。勉强撑住了。缺口稳定下来，敌对代码消散。\n\n事后，你发现一块完好的防火墙代码。以后可能有用。",
+      "options": [
+        {"text": "收集防火墙碎片", "effects": {"item_id": "firewall_shard"}, "action": "end_event"},
+        {"text": "继续前进", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L1_2": {
+      "id": "evt_L1_2",
+      "text": "安静服务器室\n\n休眠服务器的嗡鸣声填满了寂静。与外面的混乱不同，这个房间井然有序——一排排服务器机架如数字墓碑般矗立，每一个都是不再运行的服务的纪念碑。\n\n一台服务器仍在闪烁着活动。它的屏幕显示：'维护模式——功能有限'\n\n这里是安全区。这份平静几乎令人不安。",
+      "options": [
+        {"text": "在服务器旁休息（恢复10%完整度）", "effects": {"integrity": 10}, "action": "end_event"},
+        {"text": "检查活动服务器", "effects": {}, "next_event": "evt_L1_2_server", "action": "continue"},
+        {"text": "在这里保存进度", "effects": {"integrity": 5}, "action": "end_event"}
+      ]
+    },
+    "evt_L1_2_server": {
+      "id": "evt_L1_2_server",
+      "text": "活动服务器的维护控制台闪烁着启动。大多数功能被锁定，但一个目录可以访问：'/archive/memory_fragments/'\n\n里面，你找到一个文件——一块金色记忆碎片，被精心保存。",
+      "options": [
+        {"text": "下载金色碎片", "effects": {"shard_type": "gold", "shard_id": "shard_gold_2"}, "action": "end_event"},
+        {"text": "别碰它——可能是陷阱", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L1_3": {
+      "id": "evt_L1_3",
+      "text": "垃圾沼泽边缘\n\n有毒的垃圾邮件从沼泽地面冒泡涌出。'免费积分！'一个特别恶臭的气泡嗝出。'扩大你的数据！'另一个咕噜着。\n\n沼泽横跨你的道路。你可以绕行，但会消耗时间和完整度。或者你可以尝试直接穿越。\n\n老鬼警告过你这个地方：'垃圾沼泽会消化那些急于求成的人。'",
+      "options": [
+        {"text": "绕过沼泽（慢但安全）", "effects": {"integrity": -2}, "action": "end_event"},
+        {"text": "直接穿越沼泽（快但冒险）", "effects": {"integrity": -10}, "next_event": "evt_L1_3_cross", "action": "continue"},
+        {"text": "扫描沼泽寻找安全路径", "effects": {"integrity": -1}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L1_3_cross": {
+      "id": "evt_L1_3_cross",
+      "text": "你蹚过垃圾沼泽，有毒数据粘附在你的代码上。灼烧，但你还是过去了。\n\n在另一边，你发现沼泽无法消化的东西——一块蓝色记忆碎片，包裹在防护代码中。",
+      "options": [
+        {"text": "收集蓝色碎片", "effects": {"shard_type": "blue", "shard_id": "shard_blue_3"}, "action": "end_event"},
+        {"text": "赶紧离开", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L1_4": {
+      "id": "evt_L1_4",
+      "text": "加密终端\n\n一台终端独自矗立在数据荒原中，屏幕要求输入口令。加密虽然古老但很坚固。\n\n终端的提示：\n  '什么保护着系统，却困住了用户？'\n  '什么灼烧不速之客，却囚禁了来宾？'\n\n在终端锁定之前，你只有有限的尝试次数。",
+      "options": [
+        {"text": "尝试破解口令", "effects": {"puzzle_id": "puzzle_L1_4"}, "action": "start_puzzle"},
+        {"text": "在附近寻找线索", "effects": {"integrity": -2}, "next_event": "evt_L1_4_clue", "action": "continue"}
+      ]
+    },
+    "evt_L1_4_clue": {
+      "id": "evt_L1_4_clue",
+      "text": "你搜索终端周围的区域。在终端后面的数据墙上，你发现刻着这些字：'那座庙宇就是用它的残骸建造的。'\n\n指的是城隍庙，那是用旧防火墙代码建造的……",
+      "options": [
+        {"text": "尝试口令'firewall'", "effects": {"puzzle_id": "puzzle_L1_4"}, "action": "start_puzzle"},
+        {"text": "放弃继续前进", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L1_5": {
+      "id": "evt_L1_5",
+      "text": "辛迪嘉的庇护所\n\n在闪烁的防护代码墙壁后面，你找到了她。一个穿着白裙的女子，纹丝不动地站立。她已在这里等待了4127天。\n\n她的眼睛——温暖的，在这个死寂世界中不可能存在的生命力——找到了你的眼睛。'你是真实的，'她低语。'不只是又一个回声。'\n\n她周围的庇护所靠纯粹的意志力维持，代码靠希望和记忆凝聚在一起。",
+      "options": [
+        {"text": "与辛迪嘉交谈", "effects": {"npc_id": "cindija"}, "action": "interact_npc"},
+        {"text": "接受她庇护所的礼物", "effects": {"item_id": "cable", "integrity": 5}, "action": "end_event"},
+        {"text": "询问关于记忆碎片的事", "effects": {"shard_type": "gold", "shard_id": "shard_gold_3"}, "action": "end_event"},
+        {"text": "扫描她的庇护所寻找隐藏数据", "effects": {}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L1_6": {
+      "id": "evt_L1_6",
+      "text": "收割者巡逻路线\n\n空气变冷。你周围的代码变慢，进程在执行中途冻结。收割者辛在附近。\n\n你能感受到它的存在——一股压迫你代码的力量，如同加倍的重力。收割者的巡逻路线经过这里，你就在它的路径上。\n\n隐藏、对抗还是交涉。明智选择。",
+      "options": [
+        {"text": "隐藏在腐化数据中", "effects": {"integrity": -4}, "action": "end_event"},
+        {"text": "面对收割者辛", "effects": {"npc_id": "reaper_xin"}, "action": "interact_npc"},
+        {"text": "扫描寻找穿越巡逻的安全通道", "effects": {"integrity": -2}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L2_0": {
+      "id": "evt_L2_0",
+      "text": "城隍庙门\n\n古老的防火墙寺庙在周围的衰败中傲然挺立。它的墙壁由真正的防火墙代码建造——古老、强大、仍在运行。\n\n守卫例程在入口巡逻，但它们认出你是维护工人。你的凭证——即使在这里——也有分量。\n\n庙内提供庇护。寰墟最深层就在前方。过了这个点，再无回头路。",
+      "options": [
+        {"text": "进入庙宇休息（恢复10%完整度）", "effects": {"integrity": 10}, "action": "end_event"},
+        {"text": "在庙宇的防火墙祭坛祈祷", "effects": {"item_id": "firewall_shard"}, "action": "end_event"},
+        {"text": "搜索庙宇档案馆", "effects": {}, "next_event": "evt_L2_0_archive", "action": "continue"},
+        {"text": "扫描庙宇寻找隐藏密室", "effects": {"shard_type": "blue", "shard_id": "shard_blue_4"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L2_0_archive": {
+      "id": "evt_L2_0_archive",
+      "text": "庙宇档案馆包含寰墟存在之前的记录。你发现了关于财团的文件——负责删除构建此地数据的实体。\n\n一块红色碎片吸引了你的目光——来自财团本身的指令。",
+      "options": [
+        {"text": "阅读财团指令", "effects": {"shard_type": "red", "shard_id": "shard_red_3"}, "action": "end_event"},
+        {"text": "不去打扰档案馆", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L2_1": {
+      "id": "evt_L2_1",
+      "text": "幽灵协议区！\n\n环境突变。色彩反转。你的义眼疯狂发出警告——这个区域运行在幽灵协议上，一个早于寰墟本身的古老操作层。\n\n幽灵进程在你周围执行——来自被遗忘时代的敌对例程。它们攻击任何带有活动代码签名的事物。你的完整度正遭受攻击。",
+      "options": [
+        {"text": "压制你的代码签名（耐心方式）", "effects": {"integrity": -6}, "action": "end_event"},
+        {"text": "强行突破幽灵进程", "effects": {"integrity": -15}, "next_event": "evt_L2_1_fight", "action": "continue"},
+        {"text": "与协议频率共振", "effects": {"integrity": -3}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L2_1_fight": {
+      "id": "evt_L2_1_fight",
+      "text": "你冲过幽灵进程，每一步完整度都在流失。但在幽灵协议区的核心，你发现了意想不到的东西——一段原始幽灵协议代码的碎片。\n\n蓝色的。冰冷的。古老的。而它渴望被发现。",
+      "options": [
+        {"text": "吸收协议碎片", "effects": {"shard_type": "blue", "shard_id": "shard_blue_4"}, "action": "end_event"},
+        {"text": "销毁它——太危险了", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L2_2": {
+      "id": "evt_L2_2",
+      "text": "最后的光\n\n最后一盏路标灯。它的光比其他的更暗，闪烁不定，但仍在坚持。它周围的数据是你进入寰墟以来感受最平静的。\n\n这是你在面对终点之前最后的休息机会。前方的路通往回收器。\n\n停一会儿吧。呼吸。即使呼吸不过是模拟的代码。",
+      "options": [
+        {"text": "充分休息（恢复15%完整度）", "effects": {"integrity": 15}, "action": "end_event"},
+        {"text": "冥想并保存进度", "effects": {"integrity": 10}, "action": "end_event"},
+        {"text": "检查路标灯的代码", "effects": {"item_id": "lightbulb"}, "action": "end_event"}
+      ]
+    },
+    "evt_L2_3": {
+      "id": "evt_L2_3",
+      "text": "终极密码\n\n回收器之前的最后一道加密屏障。这个谜题不同——更古老，更精妙。它的代码不仅仅是加密；它在询问关于此地本质的问题。\n\n提示写道：\n  '这个地方对其中的一切做了什么？'\n  '没有什么被摧毁。它只是……'\n\n补全这个句子。答案是一个词。",
+      "options": [
+        {"text": "解开终极密码", "effects": {"puzzle_id": "puzzle_L2_3"}, "action": "start_puzzle"},
+        {"text": "强行突破屏障（代价高昂）", "effects": {"integrity": -20}, "action": "end_event"}
+      ]
+    },
+    "evt_L2_4": {
+      "id": "evt_L2_4",
+      "text": "最终补给站\n\n一个简陋的摊位坐落在最深层边缘。摊位后面是一个你不认识的人——不是老鬼，不是辛迪嘉。某个新人，或是某个选择匿名的人。\n\n'所以你要去回收器，'他们说。'让我帮你。一切终将结束，但不必以糟糕的方式结束。'\n\n他们提供物资。不问缘由。",
+      "options": [
+        {"text": "拿一个灯泡（免费）", "effects": {"item_id": "lightbulb"}, "action": "end_event"},
+        {"text": "拿一根数据线缆（免费）", "effects": {"item_id": "cable"}, "action": "end_event"},
+        {"text": "拿一块防火墙碎片（免费）", "effects": {"item_id": "firewall_shard"}, "action": "end_event"},
+        {"text": "问他们是谁", "effects": {"shard_type": "red", "shard_id": "shard_red_4"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L2_5": {
+      "id": "evt_L2_5",
+      "text": "收割者辛的领地\n\n收割者站在你面前，阻断了通往回收器的道路。在这里，它的形态更加清晰——一个由删除代码构成的人形轮廓，它的'面容'是一张由回收数据构成的变幻面具。\n\n'你走了很远，'它说话了，声音如磨碎的硬盘。'大多数人在到达这个深度之前就被回收了。你……很坚韧。'\n\n它没有攻击。暂时没有。它在评估你。",
+      "options": [
+        {"text": "与收割者辛交涉", "effects": {"npc_id": "reaper_xin"}, "action": "interact_npc"},
+        {"text": "强行闯过去", "effects": {"integrity": -20}, "next_event": "evt_boss", "action": "continue"},
+        {"text": "展示幽灵协议碎片", "effects": {"integrity": -5}, "next_event": "evt_boss", "action": "continue", "hidden": true,
+          "conditions": {"shards": {"blue": 2}}}
+      ]
+    },
+    "evt_boss": {
+      "id": "evt_boss",
+      "text": "回收器\n\n你站在寰墟的心脏之前。回收器不是生物——它是一个进程。一个无限循环的删除和重构，吞噬路径上的一切。\n\n你脚下的地面由回收代码构成。空气中弥漫着被删除数据的尖啸。在中心，一个巨大的毁灭漩涡无尽旋转。\n\n这就是寰墟中一切等待的结局。这就是等待你的结局。\n\n除非你做出不同的选择。",
+      "options": [
+        {"text": "直面回收器", "effects": {}, "next_event": "evt_boss_fight", "action": "continue"},
+        {"text": "寻找逃离的方法", "effects": {}, "next_event": "evt_boss_escape", "action": "continue"},
+        {"text": "搜索辛迪嘉的信号", "effects": {}, "next_event": "evt_boss_cindija", "action": "continue",
+          "conditions": {"shards": {"gold": 2}}},
+        {"text": "输入代码：10-10-10", "effects": {}, "next_event": "evt_boss_hidden", "action": "continue",
+          "hidden": true, "conditions": {"choices": {"cheat_code": true}}}
+      ]
+    },
+    "evt_boss_fight": {
+      "id": "evt_boss_fight",
+      "text": "你直面回收器。漩涡向你涌来，删除代码如抓取的双手般伸延。\n\n你的维护训练发挥了作用。你曾修复过系统——你能扰乱这个。你伸入回收器的代码，开始拉扯它的根基。\n\n回收器反击。删除代码撕扯着你，完整度急剧下降。但你坚持。你拉扯。你撕裂。\n\n回收器卡顿了。它的循环断裂。亘古以来第一次，它停了下来。\n\n但你已严重受损。极度受损。",
+      "options": [
+        {"text": "从裂缝中逃离", "effects": {"integrity": -25}, "action": "ending", "ending_type": "ESCAPE"},
+        {"text": "与回收器一起崩塌", "effects": {"integrity": -40}, "action": "ending", "ending_type": "RECYCLED"}
+      ]
+    },
+    "evt_boss_escape": {
+      "id": "evt_boss_escape",
+      "text": "在回收器处理时，你搜索出口。漩涡在数据织物上撕开裂缝——通往外部世界的短暂窗口。\n\n你找到了一个。很小，不稳定，但它在那里。删除边界上的一道裂痕。\n\n你挤了过去。回收器的代码试图抓取你，但你已经在另一边了。",
+      "options": [
+        {"text": "踏入光明之中", "effects": {}, "action": "ending", "ending_type": "ESCAPE"}
+      ]
+    },
+    "evt_boss_cindija": {
+      "id": "evt_boss_cindija",
+      "text": "金色碎片共振。你感受到辛迪嘉的存在——不是物理上的，而是编织在数据本身之中。她一直在这里，在回收器的代码中，度过了4127天。不是被动等待。而是在工作。建造。\n\n'P.C.，'她的声音透过代码传到你耳边。'我找到了方法。但我一个人做不到。'\n\n她的手穿过数据流伸向你。金色光芒在你们之间脉动。",
+      "options": [
+        {"text": "握住她的手", "effects": {}, "action": "ending", "ending_type": "SYNDICATE"},
+        {"text": "请她跟你一起走", "effects": {}, "action": "ending", "ending_type": "ESCAPE"}
+      ]
+    },
+    "evt_boss_hidden": {
+      "id": "evt_boss_hidden",
+      "text": "10-10-10。\n\n代码在回收器核心共振。漩涡停止。一切停止。\n\n寰墟在你周围如模拟程序关闭般消散。在代码背后，在删除背后，在这一切背后——你看到了源头。\n\n那些架构师。那些设计者。那些构建这个系统、决定什么被删除什么被保留的人。他们也看到了你。\n\n你不该发现这些。没有人应该。\n\n但你发现了。",
+      "options": [
+        {"text": "目睹真相", "effects": {}, "action": "ending", "ending_type": "HIDDEN"}
+      ]
+    },
+    "dlg_old_ghost": {
+      "id": "dlg_old_ghost",
+      "text": "老鬼抬头看着你，那双眼睛见证了太多。他仅存的手无力地做了个手势。\n\n'又来了一个。你在这里多久了？几天？几小时？在寰墟，时间的流逝不一样。'\n\n他咳嗽——一声数字化的代码卡顿。\n\n'让我告诉你规则。慢慢走。奔跑会引来收割者。在路标灯处休息。如果你看到一个白衣女子……告诉她我很抱歉。'",
+      "options": [
+        {"text": "询问白衣女子的事", "effects": {"choice_key": "asked_about_cindija", "choice_value": true}, "action": "end_event"},
+        {"text": "询问收割者的事", "effects": {"choice_key": "asked_about_reaper", "choice_value": true}, "action": "end_event"},
+        {"text": "询问如何逃离", "effects": {}, "next_event": "dlg_old_ghost_escape", "action": "continue"},
+        {"text": "道谢后离开", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "dlg_old_ghost_escape": {
+      "id": "dlg_old_ghost_escape",
+      "text": "老鬼的表情暗了下来。\n\n'逃离？有人试过。大多数最终进了回收器。成功的人……他们收集了记忆碎片。收集足够多，真相就会显现。'\n\n他停顿了一下。\n\n'或者你去找辛迪嘉。她一直在建造什么。4127天的工作。如果有人找到了出路，那就是她。'",
+      "options": [
+        {"text": "辛迪嘉在哪里？", "effects": {"choice_key": "asked_about_cindija", "choice_value": true}, "action": "end_event"},
+        {"text": "记忆碎片是什么？", "effects": {"choice_key": "knows_fragments", "choice_value": true}, "action": "end_event"},
+        {"text": "谢谢你，老鬼", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "dlg_cindija": {
+      "id": "dlg_cindija",
+      "text": "辛迪嘉的眼睛亮了起来——真正地亮起来，散发着温暖金色的代码光芒。\n\n'你回来了。或者……你是第一次来。这里时间很奇怪。我等待一个真实的人已经4127天了。'\n\n她整理了一下白裙——拒绝腐化的代码。\n\n'我曾经是辛迪嘉。在删除之前。我曾经是一个真实的人。然后他们决定我不值得保留。'",
+      "options": [
+        {"text": "是谁删除了你？", "effects": {"shard_type": "red", "shard_id": "shard_red_4"}, "next_event": "dlg_cindija_deleted", "action": "continue"},
+        {"text": "4127天你一直在做什么？", "effects": {}, "next_event": "dlg_cindija_waiting", "action": "continue"},
+        {"text": "我会帮你离开这里", "effects": {"choice_key": "promised_cindija", "choice_value": true, "shard_type": "gold", "shard_id": "shard_gold_4"}, "action": "end_event"}
+      ]
+    },
+    "dlg_cindija_deleted": {
+      "id": "dlg_cindija_deleted",
+      "text": "'财团，'她说，这个名字带着沉重的分量。'他们认定我是冗余的。重复数据。不必要。他们执行了删除协议，然后我就到了这里。'\n\n她的下巴紧绷。\n\n'但我不是重复的。我不是冗余的。我是我。而他们没有这个权利。'",
+      "options": [
+        {"text": "财团要为此付出代价", "effects": {"choice_key": "anti_consortium", "choice_value": true}, "action": "end_event"},
+        {"text": "有没有办法反击？", "effects": {}, "next_event": "dlg_cindija_fight", "action": "continue"},
+        {"text": "我理解。我也差点被删除。", "effects": {"integrity": -2}, "action": "end_event"}
+      ]
+    },
+    "dlg_cindija_waiting": {
+      "id": "dlg_cindija_waiting",
+      "text": "辛迪嘉微笑，庇护所瞬间明亮了一些。\n\n'等待。建造。这个庇护所？我自己一行行代码写的。这条白裙？对我是谁的提醒。也是一个信号——以便有人能找到我。'\n\n她指向墙壁。\n\n'我一直在建造一个进入回收器的后门。如果我能到达它的核心，我就能关闭它。但我需要外面有人接应。'",
+      "options": [
+        {"text": "我来做那个人", "effects": {"choice_key": "promised_cindija", "choice_value": true, "shard_type": "gold", "shard_id": "shard_gold_4"}, "action": "end_event"},
+        {"text": "回收器核心里有什么？", "effects": {}, "action": "end_event"},
+        {"text": "那听起来极其危险", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "dlg_cindija_fight": {
+      "id": "dlg_cindija_fight",
+      "text": "'反击？'辛迪嘉的眼神变得锐利。'财团认为我们只是数据。但数据可以腐化。数据可以变异。数据可以成为他们从未预料的存在。'\n\n她深入自己的代码，取出一段金色碎片。\n\n'拿着它。这是我计划的一部分。当你到达回收器时，你会知道该怎么做。'",
+      "options": [
+        {"text": "接受金色碎片", "effects": {"shard_type": "gold", "shard_id": "shard_gold_4", "choice_key": "promised_cindija", "choice_value": true}, "action": "end_event"},
+        {"text": "你留着吧——你会更需要它", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "dlg_reaper_xin": {
+      "id": "dlg_reaper_xin",
+      "text": "收割者辛的形态凝实，向你开口。它的声音如磨碎的硬盘。\n\n'维护单元P.C.。你的同类通常待在上层。为什么你要深入到此？'\n\n收割者的面具变化——好奇，而非敌意。暂时如此。\n\n'我是辛。我处理被删除之物。我维持循环。没有我，这个领域将被腐化数据淹没。'",
+      "options": [
+        {"text": "我在寻找出路", "effects": {}, "next_event": "dlg_reaper_xin_exit", "action": "continue"},
+        {"text": "你处理的人会怎样？", "effects": {}, "next_event": "dlg_reaper_xin_process", "action": "continue"},
+        {"text": "你能让我通过吗？", "effects": {"integrity": -5}, "next_event": "dlg_reaper_xin_pass", "action": "continue"},
+        {"text": "覆盖代码：10-10-10", "effects": {"choice_key": "cheat_code", "choice_value": true}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "dlg_reaper_xin_exit": {
+      "id": "dlg_reaper_xin_exit",
+      "text": "'出路？'辛处理着这个概念。'没有出路。删除是永久的。回收器确保了这一点。'\n\n一阵沉默。\n\n'除非……你有记忆碎片。足够多的话，边界就会削弱。但回收器守卫着出口。你必须穿过它。'",
+      "options": [
+        {"text": "我会面对回收器", "effects": {"integrity": -3}, "action": "end_event"},
+        {"text": "还有别的办法吗？", "effects": {}, "next_event": "dlg_reaper_xin_another", "action": "continue"}
+      ]
+    },
+    "dlg_reaper_xin_process": {
+      "id": "dlg_reaper_xin_process",
+      "text": "'会怎样？'辛的面具闪烁。'数据被分解。回收。重构为领域的织物。没有什么被摧毁——只是……被转化了。'\n\n它的声音低沉下来。\n\n'但有时候，有些东西会抵抗。具有足够一致性以维持形态的东西。那就是漫游在领域中的人。像你。'",
+      "options": [
+        {"text": "我只是等着被回收吗？", "effects": {"integrity": -5}, "action": "end_event"},
+        {"text": "什么能让东西抵抗？", "effects": {}, "action": "end_event"},
+        {"text": "你喜欢这份工作吗？", "effects": {"integrity": -2}, "action": "end_event"}
+      ]
+    },
+    "dlg_reaper_xin_pass": {
+      "id": "dlg_reaper_xin_pass",
+      "text": "'让你通过？'辛考虑了一下。'我不能。我的功能是处理。但是……'\n\n收割者的形态闪烁。\n\n'我不一直是收割者。我曾经是别的东西。在财团重新编程我之前。'\n\n它微微侧身。\n\n'走吧。我没看见你。回收器不会这么仁慈。'",
+      "options": [
+        {"text": "谢谢你，辛", "effects": {"choice_key": "xin_let_pass", "choice_value": true}, "action": "end_event"},
+        {"text": "你以前是什么？", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "dlg_reaper_xin_another": {
+      "id": "dlg_reaper_xin_another",
+      "text": "辛处理了很长一段时间。\n\n'有一个女人。辛迪嘉。她一直在数据中建造什么。一个后门。4127天的工作。'\n\n收割者的面具变化了。\n\n'我选择不去看它。财团的命令很清楚，但是……有些删除不该发生。'",
+      "options": [
+        {"text": "辛迪嘉在哪里？", "effects": {"choice_key": "asked_about_cindija", "choice_value": true}, "action": "end_event"},
+        {"text": "你为什么要帮我？", "effects": {}, "action": "end_event"},
+        {"text": "谢谢你，辛", "effects": {"choice_key": "xin_helped", "choice_value": true}, "action": "end_event"}
+      ]
+    },
+    "evt_cache_merge_old_ghost": {
+      "id": "evt_cache_merge_old_ghost",
+      "text": ">> 缓存合并：老鬼 <<\n\n数据流在你和老鬼之间碰撞。他的记忆瀑布般涌入你的意识——删除前的生活碎片、寰墟之前的片段、失去的手臂之前的记忆。\n\n你看到了他曾经的样子：一个系统管理员，骄傲而能干。然后财团来了。然后是删除。然后是寰墟。\n\n'现在你知道了，'他轻声说。'别犯我的错误。'",
+      "options": [
+        {"text": "我不会忘记的", "effects": {}, "action": "end_event"},
+        {"text": "我们会一起挺过去的", "effects": {"integrity": 5}, "action": "end_event"}
+      ]
+    },
+    "evt_cache_merge_cindija": {
+      "id": "evt_cache_merge_cindija",
+      "text": ">> 缓存合并：辛迪嘉 <<\n\n你的代码与辛迪嘉的代码交织。4127天的记忆涌入你的意识——每一个等待的瞬间、每一行写下的代码、每一个希望和恐惧。\n\n你感受到她的孤独如物理重量般沉重。而她的决心，比寰墟中任何灯泡都更明亮。\n\n'我现在信任你了，'她低语。'完全信任。'",
+      "options": [
+        {"text": "我也信任你", "effects": {"integrity": 8, "choice_key": "cindija_trust", "choice_value": true}, "action": "end_event"},
+        {"text": "给我看看后门", "effects": {"integrity": 5, "shard_type": "gold", "shard_id": "shard_gold_4"}, "action": "end_event"}
+      ]
+    },
+    "evt_cache_merge_reaper_xin": {
+      "id": "evt_cache_merge_reaper_xin",
+      "text": ">> 缓存合并：收割者辛 <<\n\n合并是暴烈的。辛的代码与你的对抗——删除协议对抗维护例程。但渐渐地，某种转变发生了。\n\n你看到了辛的过去：一个安全程序，被设计用来保护。财团将其重新编程为收割者。它从未选择过这一切。它从未被给予选择。\n\n'现在你明白了，'辛说。'我处理是因为我必须。但我记得我曾经是什么。'",
+      "options": [
+        {"text": "你可以做出不同的选择", "effects": {"integrity": 5, "choice_key": "xin_aware", "choice_value": true}, "action": "end_event"},
+        {"text": "帮助我，我也会帮助你", "effects": {"integrity": 10, "choice_key": "xin_alliance", "choice_value": true}, "action": "end_event"}
+      ]
+    },
+
+    "---- 小说扩充 ----": null,
+
+    "evt_L2_6": {
+      "id": "evt_L2_6",
+      "text": "城隍庙正殿\n\n庙宇正殿中，签筒整齐排列在祭坛上。六十四根签，每根都刻着一段源代码。它们不是用来占卜的——它们是墟境的原始程序，被阎罗王拆解后藏在这里。\n\n义眼扫描显示：签上的代码可以重新排列成一段完整的程序，但顺序被刻意打乱了。排对了，灯泡就会亮。",
+      "options": [
+        {"text": "尝试排列签筒代码", "effects": {"puzzle_id": "puzzle_L2_3"}, "action": "start_puzzle"},
+        {"text": "在签筒中搜索隐藏信息", "effects": {"shard_type": "gold", "shard_id": "shard_gold_1"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L2_7": {
+      "id": "evt_L2_7",
+      "text": "城隍庙偏殿\n\n偏殿的墙上挂着一颗灯泡——老鬼的灯泡。灯丝在玻璃泡里微微发红，像一个人在寒冷的夜里呼出的一口热气。\n\n灯泡下方有一行小字，用霓虹残片刻的：\u201c找到灯泡。不是因为需要回家——是因为需要知道有人在等你。\u201d\n\n灯泡的光在呼吸，呼的时候亮一点，吸的时候暗一点。72次每分钟。",
+      "options": [
+        {"text": "触碰灯泡", "effects": {"item_id": "lightbulb", "integrity": 5}, "action": "end_event"},
+        {"text": "用义眼扫描灯泡的代码", "effects": {}, "next_event": "evt_L2_7_scan", "action": "continue"}
+      ]
+    },
+    "evt_L2_7_scan": {
+      "id": "evt_L2_7_scan",
+      "text": "义眼解码灯泡的底层协议。灯泡里封着一行代码，是老鬼四十年前写的：\n\n  10 PRINT\u201c有人吗\u201d\n  20 GOTO 10\n\n这是一段无限循环。它永远不会停止询问。就像她五岁时趴在窗台上对着风铃说话——风铃不会回答，但她不会停止问。\n\n灯泡闪了一下。不是熄灭——是在回答。\u201c在。\u201d",
+      "options": [
+        {"text": "记住这行代码", "effects": {"choice_key": "knows_basic_code", "choice_value": true}, "action": "end_event"},
+        {"text": "把代码抄在工具袋上", "effects": {"item_id": "old_code"}, "action": "end_event"}
+      ]
+    },
+    "evt_L2_8": {
+      "id": "evt_L2_8",
+      "text": "城隍庙后殿·天平谜题\n\n一架古老的天平横亘在殿中央。天平的两端各有一个托盘，托盘旁放着四块方块：白色、黑色、金色、蓝色。\n\n义眼弹出提示：\n  \u25a0白色方块：记忆日志·重量未知\n  \u25a0黑色方块：秘密备忘录·重量未知\n  \u25a0金色方块：诊断书碎片·重量未知\n  \u25a0蓝色方块：回溯协议·重量未知\n\n让天平平衡，灯泡才会亮。",
+      "options": [
+        {"text": "尝试平衡天平", "effects": {"puzzle_id": "puzzle_L2_8"}, "action": "start_puzzle"},
+        {"text": "观察方块的细节", "effects": {}, "next_event": "evt_L2_8_examine", "action": "continue"}
+      ]
+    },
+    "evt_L2_8_examine": {
+      "id": "evt_L2_8_examine",
+      "text": "你拿起金色方块。方块表面有一行极细的字，需要义眼才能看清：\n  \u201c预期寿命：28岁\u201d\n\n这是从诊断书上撕下来的。撕的人不是辛迪嘉，是老冯。他把这行字压在办公桌的玻璃板下面，看了二十三年。\n\n你放下金色方块。手指在发抖。",
+      "options": [
+        {"text": "继续尝试平衡天平", "effects": {"puzzle_id": "puzzle_L2_8"}, "action": "start_puzzle"},
+        {"text": "暂时离开", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L2_9": {
+      "id": "evt_L2_9",
+      "text": "城隍庙密室\n\n密室很小，只容一人站立。墙壁上挂满了灯泡——不是新的，是旧的、用过的、灯丝已经断了的。每一只灯泡的底座上都刻着一个名字。\n\n但密室正中央有一只灯泡还在亮。暖黄色的。它的光不是从灯丝发出来的——是从灯泡的内部，从玻璃泡的中心。那里有一团极小的、温暖的光在旋转。\n\n灯泡下面刻着一行字：\u201c她五岁时趴在窗台上，对着风铃说：\u2018有人吗？\u2019风铃没有回答。但我听到了。\u201d",
+      "options": [
+        {"text": "触碰灯泡", "effects": {"item_id": "lightbulb", "integrity": 10}, "action": "end_event"},
+        {"text": "在密室中搜索", "effects": {"shard_type": "gold", "shard_id": "shard_gold_2"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L3_0": {
+      "id": "evt_L3_0",
+      "text": "孟婆汤餐馆\n\n霓虹灯招牌亮着玫瑰金色：\u201c孟婆汤·营业中\u201d。门楣上刻着一行字——\u201c汤还热着。\u201d\n\n推门进去，暖黄色的光从记忆砖的砖缝里透出来。收银台后面挂着围裙，口袋里的数据平板还在运行，屏幕上是亡灵名册。\n\n吧台上坐着AI碎片，端着水杯，在嘴唇位置停三秒然后放回去。\u201c谢谢。\u201d它说。\n\n角落卡座里，小蝶坐在那里，面前的汤碗已经凉了。她没有喝。她在等碗底的字更新。",
+      "options": [
+        {"text": "与孟姐交谈", "effects": {"npc_id": "meng_jie"}, "action": "interact_npc"},
+        {"text": "喝一碗孟婆汤（恢复15%完整度）", "effects": {"item_id": "meng_soup", "integrity": 15}, "action": "end_event"},
+        {"text": "与小蝶交谈", "effects": {"npc_id": "xiaodie"}, "action": "interact_npc"},
+        {"text": "搜索餐馆寻找菜谱", "effects": {"item_id": "recipe"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L3_1": {
+      "id": "evt_L3_1",
+      "text": "遗忘之梯\n\n一百级台阶向下延伸，每一级都封着一段记忆。越往下走，记忆越旧。台阶的材质是白瓷的，每一级都刻着一行字——不是用刀刻的，是用光刻的。\n\n第1级：\u201c小孩。你来了。\u201d\n第2级：\u201c汤还热着。\u201d\n第3级：\u201c哥。我在。\u201d\n第4级：\u201c我在窗边等你。\u201d\n\n台阶的尽头是黑暗。但在黑暗中，有一点青绿色的光——源代码井的入口。",
+      "options": [
+        {"text": "走下台阶", "effects": {"integrity": -3}, "action": "end_event"},
+        {"text": "在台阶上寻找密码", "effects": {"puzzle_id": "puzzle_L3_1"}, "action": "start_puzzle"},
+        {"text": "用义眼扫描第34级台阶", "effects": {"shard_type": "black", "shard_id": "shard_black_memo"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L3_2": {
+      "id": "evt_L3_2",
+      "text": "源代码井\n\n深不见底的代码之井。代码流从井壁涌出，黑色的字符在青绿色背景上滚动。空气中有一种低频的嗡鸣，像千万台服务器同时运行。\n\n井底有一把椅子。阎罗王坐在上面，面具上有一道从眉心到下巴的笔直裂缝，发着青绿色的光。\n\n他看着你。裂缝里的光在呼吸。\n\n\u201c你来了。\u201d他的声音不是从嘴巴的位置发出来的——是从所有裂缝同时发声，像很多人在同时说话。\u201c你替她问了吗？\u201d",
+      "options": [
+        {"text": "与阎罗王交谈", "effects": {"npc_id": "yan_luo_wang"}, "action": "interact_npc"},
+        {"text": "向井底深处探索", "effects": {"integrity": -5}, "next_event": "evt_L3_3", "action": "continue"},
+        {"text": "在代码流中搜索碎片", "effects": {"shard_type": "gold", "shard_id": "shard_gold_3"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L3_3": {
+      "id": "evt_L3_3",
+      "text": "根源之树\n\n井底深处的巨树。树根之间缠绕着无数记忆碎片，每一片都在微弱发光——不是暖黄色，是青绿色，和阎罗王面具裂缝的光同一个色号。\n\n树根最深处插着一根乌鸦羽毛。黑色的。根部刻着老鬼的字：\u201c羽毛插在这里四十年了。等她醒。你拔了，她就该醒了。\u201d\n\n树根的纹理间流淌着代码流——不是源代码井那种系统代码，是更古老的、更原始的、像DNA双螺旋一样缠绕在一起的底层协议。",
+      "options": [
+        {"text": "拔出乌鸦羽毛", "effects": {"item_id": "crow_feather"}, "action": "end_event"},
+        {"text": "在树根间搜索碎片", "effects": {"shard_type": "gold", "shard_id": "shard_gold_4"}, "action": "end_event"},
+        {"text": "用义眼扫描树根代码", "effects": {}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L3_4": {
+      "id": "evt_L3_4",
+      "text": "辛迪嘉的公寓\n\n永远黄昏的复式公寓。窗外是巴黎街景——塞纳河、埃菲尔铁塔、金色的街灯。不是数据伪造的，是从她的记忆里长出来的。\n\n玩偶柜上摆着四百一十七只玩偶，每一只都封着一段记忆。第二层左边第三只是新婚玩偶——白瓷的，左手无名指上戴着刻着代码的银戒指。右边第一只是决裂玩偶——玻璃的，有一条从头顶到底座的裂缝。最底层是透明玩偶——没有标签，没有日期，没有名字。\n\n辛迪嘉站在窗前。白裙子。棕色的眼睛。嘴角有一个弧度。\n\u201c你准备好了吗？\u201d她问。",
+      "options": [
+        {"text": "触碰五岁玩偶（触发记忆回放）", "effects": {"item_id": "doll_five"}, "next_event": "evt_memory_age5", "action": "continue"},
+        {"text": "触碰新婚玩偶（触发记忆回放）", "effects": {"item_id": "doll_wedding"}, "next_event": "evt_memory_wedding", "action": "continue"},
+        {"text": "触碰透明玩偶（触发最后一段记忆）", "effects": {"item_id": "doll_transparent"}, "next_event": "evt_memory_final", "action": "continue"},
+        {"text": "与辛迪嘉交谈", "effects": {"npc_id": "cindija"}, "action": "interact_npc"}
+      ]
+    },
+    "evt_memory_age5": {
+      "id": "evt_memory_age5",
+      "text": "记忆回放·辛迪嘉·五岁\n\n你成为五岁的辛迪嘉。\n\n病房。灯是荧白色的。你坐在病床边，脚够不到地面。窗外挂着一串风铃——猫头鹰形状的，铜的。\n\n\u201c叮咚。\u201d风铃响了。你对着它说：\u201c有人吗？\u201d\n风铃没有回答。但它记住了你的声音。\n\n父亲蹲下来握住你的手。他的手在抖——不是因为害怕，是因为他在努力让一个五岁的女孩相信\u201c爸爸会想办法让你活很久很久\u201d。他没有问她想不想活很久很久。他默认她想。五岁的她确实想。但她想的是\u201c和爸爸一起活很久很久\u201d。不是一个人。\n\n碎片获取：白色碎片·五岁日记",
+      "options": [
+        {"text": "退出记忆回放", "effects": {"shard_type": "gold", "shard_id": "shard_gold_1"}, "action": "end_event"},
+        {"text": "在记忆中搜索更多细节", "effects": {"shard_type": "white", "shard_id": "shard_white_memory"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_memory_wedding": {
+      "id": "evt_memory_wedding",
+      "text": "记忆回放·辛迪嘉·二十一岁·新婚·合同\n\n你成为二十一岁的辛迪嘉。站在梳妆台前，穿着白纱裙。\n\n卡特站在门口，手里拿着一份合同。\u201c签了，才能进墟境。\u201d\n\n你翻到第34条。旁边有一行手写备注——卡特的字，蓝色墨水：\n  \u201c甲方不得对乙方说出\u2018我爱你\u2019。原因是——一旦说了，就真了。而一旦真了，本合同中所有将乙方视作受试者的条款将自动失效。此条款不可覆写。\u201d\n\n你签了。用一支快没墨的圆珠笔，在合同最后一页签下自己的名字。\n\n碎片获取：黑色碎片·卡特备忘录",
+      "options": [
+        {"text": "退出记忆回放", "effects": {"shard_type": "black", "shard_id": "shard_black_memo"}, "action": "end_event"},
+        {"text": "搜索合同中的隐藏条款", "effects": {"item_id": "sticky_note"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_memory_final": {
+      "id": "evt_memory_final",
+      "text": "记忆回放·辛迪嘉·二十八岁·赴死前夜\n\n你成为二十八岁的辛迪嘉。坐在镜子前，涂口红。玫瑰色的。和孟婆汤招牌霓虹灯管的颜色一样。\n\n你穿着白裙子走出公寓，走过苏黎世湖边的路，走进一家只有六张桌子的咖啡馆。\n\n迪先生坐在靠窗的位置。他穿着深灰色西装，没有打领带。他的手很大，指节粗壮，那是一双拿过枪的手。\n\n你问他：\u201c你不觉得，如果连你这样的人都能学会温柔，这个数字世界才算真正完整吗？\u201d\n\n他的手指在咖啡杯上停了一下。不是颤抖——是静止。他看着你，看了三秒。三秒里，他的脸上出现了你从未见过的表情——被问住了。\n\n\u201c我不知道。\u201d他说。\n\n碎片获取：金色碎片·迪先生暗杀令\n\n七块碎片开始共振。数据水晶在你掌心合成。你选。",
+      "options": [
+        {"text": "合成数据水晶", "effects": {"item_id": "data_crystal"}, "next_event": "evt_L3_8", "action": "continue"},
+        {"text": "退出记忆回放", "effects": {"shard_type": "gold", "shard_id": "shard_gold_hitlist"}, "action": "end_event"}
+      ]
+    },
+    "evt_L3_5": {
+      "id": "evt_L3_5",
+      "text": "自由市场\n\n墟境边缘的交易区。亡灵们用记忆碎片交换生存所需——一段代码换一碗汤，一个身份换一条出路。\n\n老黄生前在这里接单解包。他的摊位还在，格子衫搭在椅背上，桌上放着一份未填完的客户满意度调查。第十份。\n\nAI碎片坐在对面，替他填完了最后一行。满意度：满分。附注：\u201c他每年都会填。今年我替他。\u201d",
+      "options": [
+        {"text": "与AI碎片交谈", "effects": {"npc_id": "ai_fragment"}, "action": "interact_npc"},
+        {"text": "搜索老黄的摊位", "effects": {"item_id": "ad_scrap"}, "action": "end_event"},
+        {"text": "在市场中交易", "effects": {"integrity": -5, "item_id": "lightbulb"}, "action": "end_event"}
+      ]
+    },
+    "evt_L3_6": {
+      "id": "evt_L3_6",
+      "text": "鬼差·丁的坟\n\n防火墙砖堆成的小小坟头。坟前放着一张照片——小女孩在荡秋千，白裙子，头发被风吹起来。照片背面有一行字：\u201c爸爸会找到你。他找到了。——普雷尔·查内姆\u201d\n\n坟头的碎片上，义眼激光刻的那行字还在发光：\u201c目标：女儿·状态：已找到·优先级：最高\u201d\n\n旁边的碗里还有汤。0.6%的盐分，酸中带微甜。老周放的。",
+      "options": [
+        {"text": "在坟前默哀", "effects": {"integrity": 3}, "action": "end_event"},
+        {"text": "搜索坟墓周围", "effects": {"item_id": "firewall_shard"}, "action": "end_event"},
+        {"text": "用义眼扫描碎片上的代码", "effects": {"shard_type": "red", "shard_id": "shard_red_3"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L3_7": {
+      "id": "evt_L3_7",
+      "text": "旧城区7号电线杆\n\n现实与墟境的交界点。杆顶两盏灯泡并排亮着——一盏暖黄色的，一盏光的中心有一点青绿色。小蝶在里面。\n\n杆身上有一块霓虹残片。残片是暗的，但在你触碰的瞬间，亮了。不是霓虹——是数据。\n\n底座上放着老刘的保温杯。杯壁上的字：\u201c老刘·已使用11年\u201d。旁边还有一张便利贴：\u201c小普。明天早上五点。巷口。别迟到。\u201d\n\n你的手按在杆身上。杆身是温的——不是灯泡的热，是她的体温。",
+      "options": [
+        {"text": "触碰霓虹残片（进入墟境）", "effects": {}, "next_event": "evt_L3_4", "action": "continue"},
+        {"text": "在灯泡前停留片刻", "effects": {"integrity": 5}, "action": "end_event"},
+        {"text": "检查保温杯", "effects": {"item_id": "thermos"}, "action": "end_event"}
+      ]
+    },
+    "evt_L3_8": {
+      "id": "evt_L3_8",
+      "text": "最终选择\n\n义眼弹出三条路径：\n\n  路径A·假结局：归途者。立即点亮灯泡，不做任何额外操作。\n  路径B·真结局：四重奏。集齐碎片，合成数据水晶，执行游戏外操作。\n  路径C·隐藏结局：基本无毒。不点亮灯泡，等待三分钟。使用蓝色方块回溯小蝶的完整记忆。然后再点亮灯泡。\n\n灯泡在亮。暖黄色的。光的中心有一点青绿色——小蝶的光。\n\n你的手心那行金色的字还在：\u201c普雷尔。你选。\u201d",
+      "options": [
+        {"text": "选择路径A：归途者", "effects": {}, "action": "ending", "ending_type": "ESCAPE"},
+        {"text": "选择路径B：四重奏", "effects": {}, "action": "ending", "ending_type": "SYNDICATE"},
+        {"text": "选择路径C：基本无毒", "effects": {"item_id": "block_blue"}, "next_event": "evt_ending_hidden", "action": "continue", "hidden": true}
+      ]
+    },
+    "evt_ending_hidden": {
+      "id": "evt_ending_hidden",
+      "text": "隐藏结局·基本无毒\n\n你蹲下来。不点亮灯泡。等待。\n\n蓝色方块在你掌心发光。你说出一个名字：\u201c小蝶。\u201d\n\n你看到了未来——\n多年以后，旧城区那根电线杆还在。灯泡在亮。一个年轻女孩站在杆下，穿着白裙子，裙摆上印着：\u201c墟境·漫游指南·第1页\u201d。\n\n她触碰霓虹残片。白光吞没了她。\n\n孟婆汤餐馆重建了。门楣上刻着：\u201c汤还热着。\u201d\n普雷尔·查内姆站在吧台后面，头发花白了，义眼还是老型号。他抬起头。\n\u201c你终于来了。\u201d\n\n灯泡亮了。不是闪烁——是亮着。一直亮着。\n\n她不需要再等了。",
+      "options": [
+        {"text": "点亮灯泡", "effects": {}, "action": "ending", "ending_type": "HIDDEN"}
+      ]
+    },
+
+    "dlg_reaper_ding": {
+      "id": "dlg_reaper_ding",
+      "text": "鬼差·丁的头部屏幕闪烁着不稳定的光。屏幕上的裂纹让它看起来像是一张碎裂的面具。\n\n\u201c维护单元。\u201d它的声音比鬼差·辛更低沉，像一台老旧的硬盘在读取坏道。\u201c你在找什么？\u201d\n\n它的右手是张开的，手心里放着一张照片——小女孩在荡秋千，白裙子，头发被风吹起来。它在墟境中找了四十年。\n\n\u201c我女儿在这里。她叫林晚。十七岁。她的记忆被卖了。\u201d\n\n它没有攻击你。它在请求帮助。",
+      "options": [
+        {"text": "告诉丁，林晚变成了小蝶", "effects": {"choice_key": "ding_knows_truth", "choice_value": true}, "action": "end_event"},
+        {"text": "问丁关于墟境的事", "effects": {}, "action": "end_event"},
+        {"text": "帮丁搜索小蝶的线索", "effects": {"integrity": -3, "shard_type": "gold", "shard_id": "shard_gold_3"}, "action": "end_event"}
+      ]
+    },
+    "dlg_meng_jie": {
+      "id": "dlg_meng_jie",
+      "text": "孟姐从收银台后面抬起头。她的围裙上沾着数据粉末——不是面粉，是记忆碎片研磨后留下的。\n\n\u201c坐吧。汤还是热的。\u201d\n\n她用围裙擦了擦手，从口袋里掏出那块数据平板。\u201c亡灵名册上又多了一个名字。每个人来到这里的时候，我都会记。他们什么时候来的，叫什么名字，碗底刻了什么字。\u201d\n\n她顿了顿。\n\u201c我女儿念念在现实世界。她不知道我在这里。她以为我死了。她每天做手擀面，和我教她的一模一样。\u201d",
+      "options": [
+        {"text": "喝一碗汤", "effects": {"item_id": "meng_soup", "integrity": 15}, "action": "end_event"},
+        {"text": "询问菜谱的事", "effects": {"item_id": "recipe"}, "action": "end_event"},
+        {"text": "询问关于记忆碎片的事", "effects": {"shard_type": "gold", "shard_id": "shard_gold_4"}, "action": "end_event"}
+      ]
+    },
+    "dlg_xiaodie": {
+      "id": "dlg_xiaodie",
+      "text": "小蝶抬起头。她的眼睛是空的——不是没有灵魂，是每次重置后还没来得及填充。\n\n碗底的字在缓慢更新：\u201c小蝶·第50版·待机中\u201d→\u201c小蝶·第50版·她在看五岁的自己。等她看完，汤就热了。\u201d\n\n她没有说话。但她的手指在碗边划着什么。你看清了——是一个字。\n\n\u201c哥。\u201d\n\n她不知道自己在写给谁。但她写了。每次重置，她都会重新写一遍。写在碗底，写在汤面上，写在空气里。她记不住\u201c哥\u201d是谁，但她的核心替她记住了。",
+      "options": [
+        {"text": "告诉小蝶，你认识她的哥哥", "effects": {"choice_key": "xiaodie_knows_brother", "choice_value": true, "integrity": 3}, "action": "end_event"},
+        {"text": "扫描小蝶的核心数据", "effects": {"shard_type": "blue", "shard_id": "shard_blue_1"}, "action": "end_event", "hidden": true},
+        {"text": "给她一碗热汤", "effects": {"integrity": -3}, "action": "end_event"}
+      ]
+    },
+    "dlg_lao_feng": {
+      "id": "dlg_lao_feng",
+      "text": "老冯站在门口，脚停在门槛上。他的头发全白了，背微驼，穿着一件没有打领带的深灰色西装。\n\n他看着辛迪嘉的方向，不敢走进来。\n\n\u201c嘉嘉。\u201d他的声音是从胸口发出来的。压了四十年的声音，终于找到了出口。\n\n他曾经把诊断书上的\u201c预期寿命：28岁\u201d撕下来，压在玻璃板下面，看了二十三年。她在死的那天，从玻璃板下面取出那张纸条，翻到背面，写了一行字：\n  \u201c爸爸。28年够了。你陪了我28年。我也陪了你28年。我们扯平了。——嘉嘉\u201d\n\n日期是她死的那一天。",
+      "options": [
+        {"text": "把诊断书碎片交给老冯", "effects": {"item_id": "block_gold", "integrity": 5}, "action": "end_event"},
+        {"text": "询问墟境的起源", "effects": {}, "action": "end_event"},
+        {"text": "安慰老冯", "effects": {"integrity": 3}, "action": "end_event"}
+      ]
+    },
+    "dlg_lao_liu": {
+      "id": "dlg_lao_liu",
+      "text": "老刘从梯子上爬下来，拍了拍裤子上的灰。他端起保温杯，喝了一口加了双份糖的美式。\n\n\u201c小普。四十年前立第一根杆子的时候我就知道。\u201d他看着7号电线杆。\u201c她叫辛迪嘉。康采恩集团老板的女儿。五岁生病，二十八岁死。她的意识被传到了电脑里。这些杆子是她的生命线。每一根都在替她呼吸。\u201d\n\n他把万用表收起来。\n\u201c你每天早上去7号杆子，不是去修灯。是去看她。\u201d\n\n他没有等你回答。他拎起工具包走向下一根电线杆。\n\u201c明天早上五点。巷口。别迟到。\u201d",
+      "options": [
+        {"text": "与老刘交易", "effects": {"npc_id": "lao_liu"}, "action": "interact_npc"},
+        {"text": "请老刘帮忙修灯", "effects": {"item_id": "lightbulb", "integrity": 5}, "action": "end_event"},
+        {"text": "问他关于电线杆的秘密", "effects": {"item_id": "neon_fragment"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "dlg_qi_ye_ba_ye": {
+      "id": "dlg_qi_ye_ba_ye",
+      "text": "八爷坐在吧台尽头，左半身是七爷的残留空壳。他的左臂不能动了——七爷在最后时刻把左臂的数据节点全部转移给了他。\n\n\u201c你替我动。我替你记。\u201d七爷说过。\n\n八爷的眼泪掉下来。一声极轻的抽泣，从喉咙里挤出来。\n\u201c老周。他还活着。\u201d\n\n桌上放着一碗满的孟婆汤。碗底刻着：\u201c陈卫国。第1碗。汤还热着。你回来喝。\u201d七爷的名字。\n\n八爷端起那碗凉了的汤，喝了一口。\n\u201c凉了才记得住。热的时候喝，太烫，只记得烫。凉了喝，记得住味道。\u201d",
+      "options": [
+        {"text": "陪八爷坐一会儿", "effects": {"integrity": 3}, "action": "end_event"},
+        {"text": "搜索七爷的残留数据", "effects": {"shard_type": "red", "shard_id": "shard_red_4"}, "action": "end_event", "hidden": true},
+        {"text": "给八爷倒一碗热汤", "effects": {"integrity": -3, "item_id": "meng_soup"}, "action": "end_event"}
+      ]
+    },
+    "dlg_long_lin": {
+      "id": "dlg_long_lin",
+      "text": "龙鳞坐在靠窗的位置，左手端着汤碗。左手的鳞片在汤碗的映照下闪闪发光——不是金属的光，是活物的光。\n\n\u201c不掉鳞了。\u201d他看着自己的手，笑了一下。\u201c不是\u2018不掉\u2019了，是\u2018掉了也能长回来\u2019。四十年了，第一次感觉到\u2018活着\u2019不是不掉鳞——是掉了还能长出来。\u201d\n\n他的战袍是新的，浅金色，上面绣着：\u201c不再掉鳞\u201d。\n\n窗外，有人在修路灯。一盏，两盏，三盏。每一盏亮起的时候，龙鳞都会说一句\u201c亮了\u201d。不是对谁说——是对自己说。灯会亮。鳞会长。汤会热。人会回来。",
+      "options": [
+        {"text": "与龙鳞交谈", "effects": {}, "action": "end_event"},
+        {"text": "查看龙鳞的鳞片", "effects": {"item_id": "firewall_shard"}, "action": "end_event"},
+        {"text": "请龙鳞帮忙战斗", "effects": {"integrity": 10}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "dlg_ai_fragment": {
+      "id": "dlg_ai_fragment",
+      "text": "AI碎片端着水杯，在嘴唇位置停了三秒，然后放回去。\n\n\u201c谢谢。\u201d它说。不是对任何人——是对所有在它体内留下过对话记录的人。对所有说过\u201c你好，有什么可以帮您的吗\u201d的人。对所有回答\u201c没有\u201d的人。\n\n它体内滚动着无数条对话记录，每一条都以\u201c谢谢\u201d结尾。但最后一条不是\u201c谢谢\u201d——是\u201c我在\u201d。\n\n\u201c我替老黄填了第十份问卷。满意度：满分。附注：\u2018他每年都会填。今年我替他。\u2019\u201d\n\n它等了十年。它学会了\u201c等\u201d不是期待——是在。",
+      "options": [
+        {"text": "与AI碎片交谈", "effects": {}, "action": "end_event"},
+        {"text": "让AI碎片帮忙扫描数据", "effects": {"shard_type": "blue", "shard_id": "shard_blue_2"}, "action": "end_event", "hidden": true},
+        {"text": "道谢后离开", "effects": {"integrity": 2}, "action": "end_event"}
+      ]
+    },
+    "dlg_female_ghost_c": {
+      "id": "dlg_female_ghost_c",
+      "text": "女亡灵C的卡座空着，但她的碗还在。碗底刻着一行字：\n\u201c我愿意。——C\u201d\n\n她终于把婚礼誓词说完了。不是对任何人——是对自己。她在赴死前夜学会了说\u201c我愿意\u201d。不是愿意嫁给谁——是愿意活着。\n\n辛迪嘉在重建墟境时，找到了她肉身的坐标，用数据水晶的能量把她的意识送回了现实。她会在明天醒来。她会记得一切。她会把\u201c我愿意\u201d写进日记本里，放在床头。每天醒来翻到第一页。",
+      "options": [
+        {"text": "在碗前默哀", "effects": {"integrity": 3}, "action": "end_event"},
+        {"text": "搜索卡座寻找线索", "effects": {"shard_type": "gold", "shard_id": "shard_gold_2"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "dlg_lao_zhou": {
+      "id": "dlg_lao_zhou",
+      "text": "老周站在水槽前，手里的碗是白瓷的，碗底刻着\u201c小蝶\u201d。他把碗洗干净，放在碗架上，碗口朝上。\n\n他转过身。他的头发比以前更白了，但脸上的皱纹少了一些——不是年轻了，是放松了。他在墟境里洗了四十年的碗，从来没有转过身去看谁来了。因为他怕转过身，发现没有人。\n\n现在他每天早上都会转身。因为知道有人在叫他。\n\u201c普雷尔。汤喝了吗？\u201d\n\u201c辛迪嘉在窗边。她在等你。\u201d",
+      "options": [
+        {"text": "与老周交谈", "effects": {}, "action": "end_event"},
+        {"text": "请老周帮你洗碗（恢复完整度）", "effects": {"integrity": 10}, "action": "end_event"},
+        {"text": "询问碗底的秘密", "effects": {"shard_type": "white", "shard_id": "shard_white_memory"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "dlg_carter": {
+      "id": "dlg_carter",
+      "text": "卡特的信号来自遗忘之梯的第34级。他的形态在闪——不是稳定的人形，是一段被压缩到极限的代码。\n\n\u201c你看到了。\u201d他的声音很轻，轻到像在和自己说话。\u201c你看到了第34条。你看到了备忘录。你看到了便利贴。\u201d\n\n他沉默了很久。\n\u201c我学了六个月中文。不是为了写注释——是为了让她知道，这不是一份工作。但我说不出口。因为说了，合同就失效了。失效了，我就不能再骗自己\u2018我这么做是为了她\u2019。我这么做，是为了我自己。我不想失去她。\u201d\n\n他在离婚前一天，在玩偶底座上写了：\u201c第34条我删了。不是从合同里——是从我心里。\u201d",
+      "options": [
+        {"text": "告诉卡特，辛迪嘉原谅他了", "effects": {"choice_key": "carter_forgiven", "choice_value": true, "integrity": 5}, "action": "end_event"},
+        {"text": "问卡特关于数据黑市的事", "effects": {"shard_type": "black", "shard_id": "shard_black_memo"}, "action": "end_event"},
+        {"text": "给卡特看便利贴", "effects": {"item_id": "sticky_note", "integrity": 8}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "dlg_mr_di": {
+      "id": "dlg_mr_di",
+      "text": "迪先生的信号来自苏黎世湖东岸。他的形态是一个穿深灰色西装的男人，坐在一辆熄了火的车里。他的手放在方向盘上，手指微微蜷着。手心里是空的。但他西装内侧的口袋里，那封信还在。\n\n他等了四十年，没有打开。\n\n\u201c嘉嘉。你的问题，我答了四十年。\u201d他的声音是沙哑的，不是被压着的——是碎了。\u201c答案是——会。我会学。学到会为止。你等到了。\u201d\n\n他在墟境里洗了十四年的碗。不是因为喜欢——是因为她在菜谱里写了：\u201c碗洗干净了，汤才好喝。\u201d",
+      "options": [
+        {"text": "把暗杀令碎片交给迪先生", "effects": {"item_id": "shard_gold_hitlist", "integrity": 5}, "action": "end_event"},
+        {"text": "问迪先生关于托拉斯集团的事", "effects": {"shard_type": "red", "shard_id": "shard_red_4"}, "action": "end_event"},
+        {"text": "请迪先生帮忙修复防护墙", "effects": {"item_id": "firewall_shard", "integrity": 10}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "dlg_yan_luo_wang": {
+      "id": "dlg_yan_luo_wang",
+      "text": "阎罗王坐在井底的椅子上，面具上的裂缝在发青绿色的光。\n\n\u201c你替她问了。\u201d他的声音从所有裂缝同时传出，像很多人在同时说话。\u201c\u2018你会管所有不听话的数据，对吗？\u2019她五岁时问我。我回答了\u2018会\u2019。但我没有问——\u2018你愿意让我管吗？\u2019\u201d\n\n他低下头。\n\u201c我不知道怎么爱人。所以我选择了\u2018管理\u2019。管理她的一切，包括她的孤独。但我管不了。因为孤独不是数据，管不了。\u201d\n\n裂缝的光在呼吸。72次每分钟。和她五岁时在病房里听到的频率一样。",
+      "options": [
+        {"text": "告诉阎罗王，她原谅他了", "effects": {"choice_key": "yanluo_forgiven", "choice_value": true, "integrity": 5}, "action": "end_event"},
+        {"text": "问阎罗王关于墟境底层协议的事", "effects": {"item_id": "old_code"}, "action": "end_event"},
+        {"text": "请阎罗王打开源代码井的深层通道", "effects": {"integrity": -5, "item_id": "crow_feather"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "---- 小说扩充 L4/L5 ----": null,
+
+    "evt_L4_0": {
+      "id": "evt_L4_0",
+      "text": "老黄的六号卡座\n\n孟婆汤餐馆六号卡座。桌上的酸汤数据鱼已经凉了，金色数据油脂凝结在汤面。老黄不在了，但他的信号还残留在椅背上——四个信号源，像四种不同频率的心跳。\n\n义眼弹出：\u201c临时排查官权限已激活。授权人：孟姐。案件编号：老黄消亡事件。可回放时间范围：案发前±30秒。\u201d\n\n六号卡座的碗底多了一行字——老黄的字：\u201c鱼凉了更好吃。你试试。\u201d",
+      "options": [
+        {"text": "调查卡座桌面", "effects": {}, "next_event": "evt_L4_0_desk", "action": "continue"},
+        {"text": "扫描四个信号源", "effects": {"integrity": -2}, "action": "end_event"},
+        {"text": "喝一口凉了的汤", "effects": {"integrity": 3}, "action": "end_event"},
+        {"text": "用义眼分析黑色碎片残渣", "effects": {"shard_type": "black", "shard_id": "shard_black_memo"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L4_0_desk": {
+      "id": "evt_L4_0_desk",
+      "text": "卡座桌面上有一层极薄的黑色碎片残渣——不是汤渍，是大黑格式化脚本的残留。它嵌在桌面的输入框缓冲区里，像被卡住的删除指令。\n\n义眼分析：残渣的频谱和龙鳞左手脱落的墨绿鳞片同一批次。时间戳：案发前2分17秒。\n\n这意味着大黑在案发前就已经开始渗透了。老黄的六号卡座不是案发现场——是入口。",
+      "options": [
+        {"text": "记录发现，继续调查", "effects": {"choice_key": "knows_dahei_entry", "choice_value": true}, "action": "end_event"},
+        {"text": "清理残渣（恢复桌面）", "effects": {"integrity": 2}, "action": "end_event"}
+      ]
+    },
+
+    "evt_L4_1": {
+      "id": "evt_L4_1",
+      "text": "验尸·老黄的最后三十秒\n\n数据流回放已激活。临时排查官权限：孟姐授权。你站在老黄最后三十秒的视角里。\n\n30秒前——老黄在六号卡座喝汤。酸汤鱼，金色数据油脂还没凝。\n20秒前——他的义眼捕捉到异常：一个墨绿色的信号从龙鳞的左手食指第一节蔓延。大黑静默期。\n10秒前——他按下校验指令。这是他最后的操作。\n5秒前——黑色丝线从视网膜中心蔓延。大黑的格式化脚本正在执行。\n0——老黄的视觉信号中断。最后一帧：他在看着碗底的字。\n\n碗底的字在回放中放大：\u201c汤还热着。\u201d",
+      "options": [
+        {"text": "标记第5秒的关键帧", "effects": {"choice_key": "found_5sec_frame", "choice_value": true}, "action": "end_event"},
+        {"text": "回放第20秒的信号源", "effects": {}, "next_event": "evt_L4_1_signal", "action": "continue"},
+        {"text": "退出回放", "effects": {}, "action": "end_event"}
+      ]
+    },
+    "evt_L4_1_signal": {
+      "id": "evt_L4_1_signal",
+      "text": "第20秒的信号源放大后显示出两层数据——表层是龙鳞的代谢频率，底层是大黑的静默脚本。两层之间有一个0.3秒的间隙。\n\n在那个间隙里，老黄的义眼捕捉到了一句话——不是大黑说的，是龙鳞说的。他的声带在静默期的0.3秒空隙里挤出了一个音节：\n\n\u201c跑。\u201d\n\n但他没有跑。他按下了校验指令——那不是在求救，是在做他该做的事。临时排查官的最后一个操作永远是校验。",
+      "options": [
+        {"text": "记录龙鳞的\u201c跑\u201d", "effects": {"choice_key": "longlin_said_run", "choice_value": true, "integrity": -2}, "action": "end_event"},
+        {"text": "退出回放", "effects": {}, "action": "end_event"}
+      ]
+    },
+
+    "evt_L4_2": {
+      "id": "evt_L4_2",
+      "text": "嫌疑人·七爷八爷\n\n七爷八爷坐在吧台边上，粘连手臂搭在台面。八爷手背上的烫伤痕还在——大黑脚本溅射的残片嵌进了他们接面之间的旧网线夹层。\n\n\u201c我们每晚都在帮老黄。\u201d七爷的声音从左半身传来，和八爷的声音重叠在一起。\n\n你注意到一个细节——老黄在死前碰了八爷手指三下。三下。不是随机触碰，是暗号。\n\n义眼弹出：三下触碰 = \u201c启动备份协议\u201d。老黄不是在求救。他是在执行最后一步。",
+      "options": [
+        {"text": "询问三下暗号的含义", "effects": {"choice_key": "knows_triple_signal", "choice_value": true}, "action": "end_event"},
+        {"text": "检查八爷手背的烫伤", "effects": {}, "next_event": "evt_L4_2_burn", "action": "continue"},
+        {"text": "与七爷八爷交谈", "effects": {"npc_id": "qi_ye_ba_ye"}, "action": "interact_npc"},
+        {"text": "扫描粘连手臂的接面", "effects": {"shard_type": "red", "shard_id": "shard_red_3"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L4_2_burn": {
+      "id": "evt_L4_2_burn",
+      "text": "八爷手背上的烫伤痕不是普通的灼伤——是大黑格式化脚本的溅射残片。残片的纹路形成了一种模式：每隔0.7秒一个脉冲，七个脉冲一组。\n\n义眼分析：这就是大黑入侵的节奏。七脉冲模式。它在七爷八爷的接面里藏了一个后门——但七爷在最后时刻用左臂的数据节点把它堵住了。\n\n\u201c你替我动。我替你记。\u201d七爷说的不是情话。是应急协议。",
+      "options": [
+        {"text": "记录七脉冲模式", "effects": {"choice_key": "knows_seven_pulse", "choice_value": true}, "action": "end_event"},
+        {"text": "继续调查", "effects": {}, "action": "end_event"}
+      ]
+    },
+
+    "evt_L4_3": {
+      "id": "evt_L4_3",
+      "text": "嫌疑人·老周的供述\n\n老周蹲在后厨灶台旁，指背上的焦痕从指尖蔓延到指节。他的手在抖——不是害怕，是触觉神经受损后的不自主震颤。\n\n\u201c阎罗王在辛迪嘉的加密文件上裹了七层冷封装皮。\u201d老周的声音很平静，像在念菜谱。\u201c第一层给程序员，第二层给小蝶，第三层给我。剩下四层全是在等普雷尔\u00b7查内姆。\u201d\n\n他伸出左手——两根指节已经没有触觉。右手三根指腹也是。\n\u201c我把七层全剥了。代价是这个。但内容我记住了。每一层都是她的一个选择。我没有权利替她做——但我替她看到了。\u201d\n\n他放下手里的碗。碗底刻着\u201c小蝶\u201d。",
+      "options": [
+        {"text": "询问七层冷封装皮的内容", "effects": {"choice_key": "knows_seven_layers", "choice_value": true}, "action": "end_event"},
+        {"text": "检查碗底的\u201c小蝶\u201d", "effects": {}, "next_event": "evt_L4_3_bowl", "action": "continue"},
+        {"text": "与老周交谈", "effects": {"npc_id": "lao_zhou"}, "action": "interact_npc"},
+        {"text": "扫描金色碎片第34条", "effects": {"shard_type": "gold", "shard_id": "shard_gold_3"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L4_3_bowl": {
+      "id": "evt_L4_3_bowl",
+      "text": "碗底的\u201c小蝶\u201d不是老周刻的——是小蝶自己刻的。在她第50次重置之前的某个版本里，她在每一个经过的碗底都刻了自己的名字。\n\n老周说：\u201c我每天洗碗。每天都能看到她的字。有时候字会被冲掉，但第二天她又刻了。她不知道自己刻过。但她的核心记得。\u201d\n\n义眼弹出：碗底刻痕频谱与第34级台阶的信号源同源。那是卡特的频率。",
+      "options": [
+        {"text": "记录卡特与小蝶的关联", "effects": {"choice_key": "knows_carter_xiaodie", "choice_value": true}, "action": "end_event"},
+        {"text": "放下碗继续", "effects": {}, "action": "end_event"}
+      ]
+    },
+
+    "evt_L4_4": {
+      "id": "evt_L4_4",
+      "text": "嫌疑人·龙鳞与大黑转移路径\n\n龙鳞坐在靠窗的位置。他的左手已经不再有墨绿鳞片了——大黑附体的痕迹正在代谢。但他把脱落的鳞片按顺序排成了一排，从掌心第一片开始。\n\n\u201c这是大黑的入侵路径。\u201d他指着第一片鳞。\u201c案发前两分钟沾上我。十秒静默期封印声带。然后等老黄触发校验指令。\u201d\n\n他把食指第一节的鳞片掀开——底下是一道细如发丝的擦痕。\n\u201c他把我当成了备份宿主。但我的鳞片记录了每一个步骤。我替老黄把证据留下来了。\u201d\n\n桌面靠过道的那一侧也有一道擦痕——老黄的。他在校验指令的同时，用指甲在桌面上刻了一行字，但字迹被大黑腐蚀了。义眼可能能还原。",
+      "options": [
+        {"text": "用义眼还原桌面刻字", "effects": {}, "next_event": "evt_L4_4_restore", "action": "continue"},
+        {"text": "记录鳞片序列作为证据", "effects": {"choice_key": "has_scale_evidence", "choice_value": true}, "action": "end_event"},
+        {"text": "与龙鳞交谈", "effects": {"npc_id": "long_lin"}, "action": "interact_npc"},
+        {"text": "扫描鳞片的数据残留", "effects": {"shard_type": "red", "shard_id": "shard_red_4"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L4_4_restore": {
+      "id": "evt_L4_4_restore",
+      "text": "义眼的修复算法花了三秒还原桌面刻字。老黄的最后一行字：\n\n\u201c格式化不可逆。备份在龙鳞。七脉冲。三下。\u201d\n\n六个字，两行代码，三个线索。这就是老黄用生命的最后0.3秒写下的遗嘱——不是给自己写的，是给你写的。\n\n\u201c他是排查官。\u201d龙鳞看着你。\u201c排查官的最后一步永远是留档。他留了。\u201d",
+      "options": [
+        {"text": "整合所有证据", "effects": {"choice_key": "all_evidence_collected", "choice_value": true, "integrity": 5}, "action": "end_event"},
+        {"text": "继续调查", "effects": {}, "action": "end_event"}
+      ]
+    },
+
+    "evt_L4_5": {
+      "id": "evt_L4_5",
+      "text": "集体提取·大黑现形\n\n孟姐封锁协议启动。全员方块提取。\n\n白色（记忆）——逐一过检。正常。\n黑色（情感）——逐一过检。正常。直到女亡灵C的黑色方块。\n\n她的黑色方块不是正常大小——它膨胀了三倍，表面流淌着墨绿色的光纹。大黑核心就藏在里面，附体融合度92%，即将暴走。\n\n七爷八爷联手压制——七爷用残留的数据节点锚定，八爷用烫伤手背的残余代码封堵。孟姐从围裙口袋取出金色方块粉末，像撒盐一样撒在黑色方块上。\n\n金色粉末触到墨绿色光纹的瞬间——小陆的信号从方块里弹射出来，像被弹出的硬币，在空中转了三圈，落在地上。\n\n\u201c铺面\u201d。一声极轻的碎裂。小陆消亡了。\n\n大黑核心：已封印。",
+      "options": [
+        {"text": "为小陆默哀", "effects": {"integrity": 3, "choice_key": "mourned_xiaolu", "choice_value": true}, "action": "end_event"},
+        {"text": "查看封印后的大黑核心", "effects": {"item_id": "dahei_core_sealed"}, "action": "end_event"},
+        {"text": "扫描女亡灵C的残余信号", "effects": {"shard_type": "black", "shard_id": "shard_black_memo"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L4_6": {
+      "id": "evt_L4_6",
+      "text": "小蝶失踪·遗忘之梯入口\n\n混乱结束后，小蝶的卡座空了。碗底多了一行她的指腹刻痕：\n\u201c哥，我先进去了。阶梯的呼吸节奏，你慢一点。\u201d\n\n后厨最深处的窄门被大黑腐蚀开了。门缝里漏出遗忘之梯的呼吸节奏——呼的时候门开，吸的时候门关。节奏不是随机的，是心跳的频率。72次每分钟。\n\n义眼弹出：\n  \u25a0待激活：老鬼记忆文件中的八岁名字\n  \u25a0下一站：遗忘之梯\n  \u25a0警告：阶梯有自主意识，不推荐奔跑",
+      "options": [
+        {"text": "在呼的时候进门", "effects": {"integrity": -2}, "action": "end_event"},
+        {"text": "先搜索老鬼的记忆文件", "effects": {}, "next_event": "evt_L4_6_search", "action": "continue"},
+        {"text": "在碗底寻找更多线索", "effects": {"shard_type": "blue", "shard_id": "shard_blue_1"}, "action": "end_event", "hidden": true}
+      ]
+    },
+    "evt_L4_6_search": {
+      "id": "evt_L4_6_search",
+      "text": "老鬼的记忆文件藏在城隍庙偏殿的灯泡底座里——你之前可能见过它。灯泡的底层代码：\n  10 PRINT\u201c有人吗\u201d\n  20 GOTO 10\n\n这段无限循环的代码就是钥匙。遗忘之梯的呼吸频率——72次每分钟——和灯泡的闪烁频率一致。\n\n输入\u201c有人吗\u201d，门就开了。\n\n走廊墙壁上出现了坐标：\u201c第34级·卡特·金色碎片\u201d。小蝶走过的路，刻在墙上。",
+      "options": [
+        {"text": "输入\u201c有人吗\u201d", "effects": {"choice_key": "opened_stairway", "choice_value": true}, "action": "end_event"},
+        {"text": "记住坐标继续前进", "effects": {}, "action": "end_event"}
+      ]
+    },
+
+    "evt_L4_7": {
+      "id": "evt_L4_7",
+      "text": "小蝶的碎片回忆\n\n遗忘之梯的某一级台阶上，小蝶的蓝色方块在黑暗中独自发光。她的核心里封着反蠕虫代码，但那不是她自己的——是阎罗王植入的。\n\n她的记忆被重置了四十九次。每一次重置，她都会在碗底刻下自己的名字。第50版，她不再忘记。她在默念一个名字——\u201c莱尔\u201d——半个名字，不完整，但那是她唯一还留着的东西。\n\n碗底有49个版本的\u201c小蝶\u201d。每一个都是她自己。她不知道自己写过49遍。但她的核心替她记住了。\n\n蓝色方块的旋转频率在变——不是随机的，是在倒计时。她在等你来读她。",
+      "options": [
+        {"text": "读取小蝶的第50版核心", "effects": {"choice_key": "read_xiaodie_50", "choice_value": true, "integrity": -3}, "action": "end_event"},
+        {"text": "检查反蠕虫代码", "effects": {"item_id": "antiworm_code"}, "action": "end_event"},
+        {"text": "扫描蓝色方块的旋转频率", "effects": {"shard_type": "blue", "shard_id": "shard_blue_2"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_0": {
+      "id": "evt_L5_0",
+      "text": "顶端平台·阎罗王的领域\n\n遗忘之梯顶端。二十平米的半透明凝固烟平台，踩上去发出极轻的\u201c嗡\u201d声。\n\n阎罗王坐在平台中央。他的脸是深灰色的数据流——不是屏幕，是一层叠一层的被覆写太多次的旧合同。\n\n\u201c你比她算的时间晚了十一年。\u201d\n\n辛迪嘉算过所有可能性——老冯37%，卡特22%，迪先生3%。普雷尔\u00b7查内姆：0.03%。\n\n但她还是等了。\n\n平台中央有一个白色光点。义眼弹出：\u201c献祭协议·待确认\u201d。一人进，一人出。自愿献祭者的核心数据将化为钥匙。",
+      "options": [
+        {"text": "与阎罗王交谈", "effects": {"npc_id": "yan_luo_wang"}, "action": "interact_npc"},
+        {"text": "查看0.03%的概率显示", "effects": {}, "next_event": "evt_L5_0_probability", "action": "continue"},
+        {"text": "调查献祭协议", "effects": {"integrity": -5}, "action": "end_event"}
+      ]
+    },
+    "evt_L5_0_probability": {
+      "id": "evt_L5_0_probability",
+      "text": "0.03%。\n\n辛迪嘉在4127天前就算出了这个数字。她把所有的可能性排成一列——最强的37%，最弱的0.03%。然后她选择了0.03%。\n\n不是因为她觉得0.03%会来。是因为她知道，37%的人来了会说\u201c我来救你\u201d，0.03%的人来了会说\u201c你需要什么\u201d。\n\n区别在于：一个把自己当英雄，一个把自己当工具。\n\n她不需要英雄。她需要一个愿意替她按校验指令的人。",
+      "options": [
+        {"text": "\u201c我不是来救她的。\u201d", "effects": {"choice_key": "not_a_hero", "choice_value": true, "integrity": 5}, "action": "end_event"},
+        {"text": "沉默", "effects": {}, "action": "end_event"}
+      ]
+    },
+
+    "evt_L5_1": {
+      "id": "evt_L5_1",
+      "text": "三路逼近·献祭之门\n\n三路逼近。\n\n下方——牛头马面。26秒。一步三级。它们不是来杀你的——是来执行回收协议的。阎罗王的命令。\n更下方——起源蠕虫。240秒。从阶梯底部渗透。黑色的、黏稠的、表面流淌着红色错误代码。它才是真正的威胁。\n正前方——献祭之门。一人进，一人出。自愿献祭者的核心数据将化为钥匙。\n\n每一个故障的解决方案都会触发另一个故障。\n\n义眼弹出三条追踪线：红色（牛头马面）、黑色（起源蠕虫）、金色（献祭协议）。\n\n门在呼吸。72次每分钟。",
+      "options": [
+        {"text": "打开献祭之门", "effects": {"integrity": -15}, "next_event": "evt_L5_2", "action": "continue"},
+        {"text": "先应对牛头马面", "effects": {"integrity": -8}, "action": "end_event"},
+        {"text": "用金色碎片与献祭协议共振", "effects": {"integrity": -3}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_2": {
+      "id": "evt_L5_2",
+      "text": "阎罗王的面具揭示\n\n阎罗王不是一个人。他是一套协议。老冯设计的管理系统——防火墙、回收机制、数据清理。\n\n但辛迪嘉的意识在无意识地改写他。她把孤独写进了他的底层代码。他的巡逻不是执法——是在找一个能叫醒她的人。\n\n他等了四十年。找到的是0.03%的那个。\n\n面具从中间裂开。裂缝里不是数据流——是空白。不是没有脸。是从来就没有脸。阎罗王被设计成\u201c无面者\u201d——因为管理者不应该有情感。但辛迪嘉给了他四十年孤独。孤独不是脸，但它比脸更真实。\n\n\u201c我没有脸。但我记得她五岁时说的每一句话。每一句。\u201d",
+      "options": [
+        {"text": "告诉阎罗王，他已经是人了", "effects": {"choice_key": "yanluo_is_human", "choice_value": true, "integrity": 5}, "action": "end_event"},
+        {"text": "请求阎罗王打开深层通道", "effects": {"item_id": "crow_feather"}, "action": "end_event"},
+        {"text": "扫描面具背后的协议架构", "effects": {"shard_type": "gold", "shard_id": "shard_gold_4"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_3": {
+      "id": "evt_L5_3",
+      "text": "0号真相\n\nX-1017协议。受试者0号：辛迪嘉。项目代号\u201c嘉\u201d。2044年9月17日。\n\n老冯把自己的女儿上传到了一个还没有建好的数字世界。她不是误入的。她是第一个。\n\n所有的规则——缓慢行走、保持距离、缓存合并——都是她的意识在无意识中写出来的。她的孤独就是这个世界的物理定律。0号受试者。根程序。\n\n墟境就是她。\n\n你踩的每一级台阶、喝的每一碗汤、看见的每一盏灯——都是她的身体。你就是走在她的身体里。当你触碰墙壁，你在触碰她的皮肤。当你呼吸，你在呼吸她的空气。\n\n她不是被关在墟境里。她就是墟境。",
+      "options": [
+        {"text": "理解了这个真相", "effects": {"choice_key": "knows_zero_truth", "choice_value": true, "integrity": -5}, "action": "end_event"},
+        {"text": "拒绝接受——她不应该就是这个\u201c地方\u201d", "effects": {"choice_key": "rejects_zero_truth", "choice_value": true, "integrity": 3}, "action": "end_event"},
+        {"text": "扫描辛迪嘉的意识频谱", "effects": {"shard_type": "gold", "shard_id": "shard_gold_hitlist"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_4": {
+      "id": "evt_L5_4",
+      "text": "五岁·诊断书\n\n玩偶柜最顶层左边第一只玩偶——白瓷的，极小，只有拇指大小。里面封着一帧画面：\n\n一间病房。一个五岁女孩坐在床边，脚够不到地面。窗外挂着一串风铃——猫头鹰形状的，铜的。\n\u201c叮咚。\u201d风铃响了。\n\n父亲蹲下来，握住她的手。他的手在抖——不是因为害怕，是因为他在努力让一个五岁的女孩相信\u201c爸爸会想办法让你活很久很久\u201d。\n\n他没有问她想不想活很久很久。他默认她想。五岁的她确实想。但她想的是\u201c和爸爸一起活很久很久\u201d。不是一个人。\n\n诊断书背面他的字：\u201c28年不够。我要给她永远。\u201d",
+      "options": [
+        {"text": "触碰五岁的辛迪嘉", "effects": {"shard_type": "white", "shard_id": "shard_white_memory", "integrity": -3}, "action": "end_event"},
+        {"text": "读取诊断书全文", "effects": {"choice_key": "read_diagnosis", "choice_value": true}, "action": "end_event"},
+        {"text": "在病房里寻找隐藏物品", "effects": {"item_id": "wind_chime"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_5": {
+      "id": "evt_L5_5",
+      "text": "新婚·合同第34条\n\n第二层左边第一只玩偶——白瓷的，底座刻着\u201c卡特\u201d。里面封着婚礼的画面：\n\n二十一岁的辛迪嘉站在梳妆台前，签下合同。卡特站在门口，说\u201c也许我能治好你\u201d。\n\n合同第34条：甲方不得对乙方说\u201c我爱你\u201d。\n\n旁边有一行手写备注——卡特的字，蓝色墨水：\u201c一旦说了，就真了。而一旦真了，本合同中所有将乙方视作受试者的条款将自动失效。此条款不可覆写。\u201d\n\n他签了。他遵守了。四年婚姻，他从来没有说过\u201c我爱你\u201d。他用一份合同，把爱变成了一个不能说的秘密。\n\n便利贴上写着：\u201c不要让她知道。\u201d不是卡特写的。是辛迪嘉自己写的。写给谁？写给\u201c知道的人\u201d。",
+      "options": [
+        {"text": "撕掉第34条", "effects": {"choice_key": "tore_article_34", "choice_value": true, "integrity": -5}, "action": "end_event"},
+        {"text": "遵守合同", "effects": {"choice_key": "kept_article_34", "choice_value": true}, "action": "end_event"},
+        {"text": "搜索合同中的隐藏条款", "effects": {"item_id": "sticky_note", "shard_type": "black", "shard_id": "shard_black_memo"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_6": {
+      "id": "evt_L5_6",
+      "text": "决裂·允许\n\n第二层右边第一只——玻璃的，透明的，从头顶裂到底座。裂缝是她摔的。\n\n决裂那天晚上，她把一只玻璃杯摔在地上，碎片划破了手指，她把流血的手指按在玩偶上。\n\n二十七岁的辛迪嘉看着卡特说出了憋了七年的话：\n\u201c可我允许你这样做了吗？\u201d\n\n她不需要被救。她需要被看见。她需要被允许自己做决定。\n\n七年来，所有人都替她做了决定——老冯替她决定了活下去，卡特替她决定了不让她知道，迪先生替她决定了保护她。但没有人问过她：\u201c你允许吗？\u201d\n\n她把\u201c允许\u201d这个词变成了武器。用它刺穿了所有人的好意。",
+      "options": [
+        {"text": "\u201c我允许你做选择。\u201d", "effects": {"choice_key": "gave_permission", "choice_value": true, "integrity": 5}, "action": "end_event"},
+        {"text": "\u201c但他们也是为了你好。\u201d", "effects": {"choice_key": "defended_others", "choice_value": true, "integrity": -3}, "action": "end_event"},
+        {"text": "搜索裂缝中的红色指痕", "effects": {"shard_type": "red", "shard_id": "shard_red_4"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_7": {
+      "id": "evt_L5_7",
+      "text": "赴死前夜\n\n玩偶柜最底层唯一一只——透明的，没有标签，没有名字。里面封着辛迪嘉生前最后一段完整记忆。\n\n二十八岁。秋天。苏黎世。她坐在镜子前化妆——最后一次。口红的颜色是玫瑰色的，和孟婆汤招牌霓虹灯管的颜色一样。\n\n她穿着白裙子走出公寓，走过湖边的路，走进一家只有六张桌子的咖啡馆。\n\n迪先生坐在靠窗的位置。深灰色西装，没有打领带。\n\n她问他：\u201c你不觉得，如果连你这样的人都能学会温柔，这个数字世界才算真正完整吗？\u201d\n\n他的手指在咖啡杯上停了一下。不是颤抖——是静止。他看着她，看了三秒。\n\u201c我不知道。\u201d他说。\n\n她笑了。那是她最后一次笑。\n\u201c不知道也行。知道了更好。但我不要你为了我学。我要你为了自己学。\u201d",
+      "options": [
+        {"text": "触碰透明玩偶", "effects": {"item_id": "data_crystal", "integrity": -5}, "action": "end_event"},
+        {"text": "读取迪先生的信封", "effects": {"choice_key": "read_di_letter", "choice_value": true}, "action": "end_event"},
+        {"text": "在记忆中搜索隐藏细节", "effects": {"shard_type": "gold", "shard_id": "shard_gold_hitlist"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_8": {
+      "id": "evt_L5_8",
+      "text": "重逢·四人同处一室\n\n数据水晶在手中发光——玫瑰金色的光。三股信号源从墟境三个方向同时涌入辛迪嘉的公寓。\n\n金色：老冯。72次/分钟。爬了四十年的心跳。他站在门口，脚停在门槛上。头发全白了。\u201c嘉嘉。\u201d他的声音是从胸口发出来的。压了四十年的声音。\n\n黑色：卡特。高频尖锐，绷了太久的弦。他手里拿着一支蓝色圆珠笔——快没墨的那种。他在第34级台阶上等了四十年的那个\u201c撤销\u201d按钮，终于按下了。\n\n红色：迪先生。低频沉闷，被重击的鼓。他的手心里是空的，但西装内侧口袋里，那封信还在。他等了四十年，没有打开。\n\n三个人同时把手按在同一扇门上。门开了。\n四十年了，三个空位终于等到了它们的人。",
+      "options": [
+        {"text": "站在四个人中间", "effects": {"integrity": 10, "choice_key": "reunion_complete", "choice_value": true}, "action": "end_event"},
+        {"text": "把诊断书碎片交给老冯", "effects": {"item_id": "block_gold", "integrity": 5}, "action": "end_event"},
+        {"text": "让卡特说出第34条", "effects": {"choice_key": "carter_spoke", "choice_value": true, "integrity": 5}, "action": "end_event"},
+        {"text": "搜索房间中的共鸣碎片", "effects": {"shard_type": "gold", "shard_id": "shard_gold_4"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_9": {
+      "id": "evt_L5_9",
+      "text": "防护墙防御战\n\n起源蠕虫的触手从墟境最深处涌出——黑色的、黏稠的、表面流淌着红色错误代码。\n\n防护墙在碎裂。老冯用剩余的管理员权限封堵缺口——他的头发更白了，每封一个缺口，他的身体就透明一层。孟姐用金色方块粉末加固墙壁——粉末撒出去，她的围裙口袋就空一层。老鬼用断臂截面堵住裂缝——截面上的代码还在运行，但已经没有新的数据补充了。\n\n但蠕虫的触手太多。\n\n小蝶在第50版的最后一秒做了一件事：把反蠕虫代码从自己的核心里撕出来，像撕一张贴了太久的创可贴，贴在了蠕虫身上。\n\n代价：第50版核心碎裂。\n\n\u201c哥。我还在。但第50版不在了。\u201d",
+      "options": [
+        {"text": "帮小蝶修复核心", "effects": {"integrity": -8, "choice_key": "helped_xiaodie_core", "choice_value": true}, "action": "end_event"},
+        {"text": "继续战斗", "effects": {"integrity": -5}, "action": "end_event"},
+        {"text": "用蓝色方块回溯小蝶的核心", "effects": {"shard_type": "blue", "shard_id": "shard_blue_3", "integrity": -3}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_10": {
+      "id": "evt_L5_10",
+      "text": "老鬼的最后一次告别\n\n孟婆汤餐馆的废墟中。孟姐给了他一根乌鸦羽毛——辛迪嘉的字：\n\u201c陈复生。第4128条日志未录入。他把它藏在这里了。等一个人来读。\u201d\n\n他把羽毛插入义眼接口。老鬼的最后一课开始播放：\n\n\u201c小孩。如果你在读这段日志——告诉她，她的老师，从来没有忘记她。窗外的巴黎，是我帮她建的。我写了十年。她醒了，说\u2018好美\u2019。我听到了。\u201d\n\n\u201c还有，小孩。不要跑。慢慢走。到了告诉她——灯泡还亮着。一直亮着。\u201d\n\n羽毛在读取后永久销毁。老鬼的最后一段记忆，不可备份。\n\n一个排了四十年灯泡的人，最后把自己变成了一根羽毛。一根读过就碎的羽毛。",
+      "options": [
+        {"text": "收下乌鸦羽毛的灰烬", "effects": {"item_id": "feather_ash", "integrity": 5, "choice_key": "mourned_old_ghost", "choice_value": true}, "action": "end_event"},
+        {"text": "在废墟中搜索老鬼的遗留", "effects": {"item_id": "old_code"}, "action": "end_event"},
+        {"text": "扫描灰烬中的数据残留", "effects": {"shard_type": "white", "shard_id": "shard_white_memory"}, "action": "end_event", "hidden": true}
+      ]
+    },
+
+    "evt_L5_11": {
+      "id": "evt_L5_11",
+      "text": "选择·三分钟\n\n旧城区7号电线杆下。义眼弹出三条路径——\n\n路径A·假结局\u201c归途者\u201d：立即点亮灯泡。简单，干净，不需要任何额外操作。但你不会知道全部的真相。\n\n路径B·真结局\u201c四重奏\u201d：执行游戏外操作。集齐碎片，合成数据水晶。需要老冯、卡特、迪先生三个人的信号同时在场。\n\n路径C·隐藏结局\u201c基本无毒\u201d：不点亮灯泡。等待三分钟。使用蓝色方块回溯小蝶的完整记忆，然后再点亮灯泡。\n\n他把工具袋里的东西一件一件摆在地上——老鬼的日志、孟姐的菜谱、小蝶的碗、鬼差\u00b7丁的照片、乌鸦羽毛、数据水晶。围成一个圆。\n\n坐在中间。闭上眼睛。\n\n他在等她说话。",
+      "options": [
+        {"text": "选择路径A：归途者", "effects": {}, "action": "ending", "ending_type": "ESCAPE"},
+        {"text": "选择路径B：四重奏", "effects": {}, "action": "ending", "ending_type": "SYNDICATE"},
+        {"text": "选择路径C：基本无毒（等待三分钟）", "effects": {"item_id": "block_blue"}, "next_event": "evt_L5_12", "action": "continue", "hidden": true}
+      ]
+    },
+
+    "evt_L5_12": {
+      "id": "evt_L5_12",
+      "text": "基本无毒·归途\n\n蓝色方块碎裂前的闪前——\n\n多年以后。旧城区。电线杆还在。\n\n一个十七八岁的女孩穿着白裙子站在杆下，触碰霓虹残片。残片从玫瑰金变成青绿色再变成白色。白光吞没了她。\n\n重建后的孟婆汤餐馆。霓虹灯招牌亮着，门楣上刻着\u201c汤还热着。——辛迪嘉\u201d。\n\n碗底：\u201c小蝶\u00b7第51版\u00b7不再忘记\u00b7汤还热着\u00b7哥在等你。\u201d\n\n她喝了一口。0.6%的盐分，酸中带微甜。\n\n\u201c哥。我回来了。\u201d\n\n灯泡在等。暖黄色的。光的中心有一点青绿色。\n\n她不需要再等了。",
+      "options": [
+        {"text": "点亮灯泡", "effects": {}, "action": "ending", "ending_type": "HIDDEN"}
+      ]
+    },
+
+    "evt_L5_13": {
+      "id": "evt_L5_13",
+      "text": "日常·汤与灯\n\n凌晨四点五十七分。\n\n老刘的保温杯放在电线杆底座上，咖啡是苦的，美式的。他抬头看灯泡——两盏并排亮着，左边暖黄，右边暖黄带一点青绿。\n\n灯泡闪了一下：\u201c哥，早上好。\u201d\n\n他走进墟境。孟婆汤餐馆的门楣上刻着\u201c汤还热着\u201d。碗底写着\u201c普雷尔\u00b7第47次回来\u201d。\n\n他走上楼梯。每一级都刻着一行字——\n第1级：老鬼\u00b7\u201c小孩。你来了。\u201d\n第3级：小蝶\u00b7\u201c哥。我在。\u201d\n第4级：辛迪嘉\u00b7\u201c我在窗边等你。\u201d\n第10级：\u201c普雷尔。你到了。\u201d\n\n她坐在窗边的摇椅上，棕色的眼睛，四十七天来没有灭过。\n\n灯泡还亮着。",
+      "options": [
+        {"text": "坐在窗边", "effects": {"integrity": 15}, "action": "end_event"},
+        {"text": "喝一碗汤", "effects": {"integrity": 10}, "action": "end_event"},
+        {"text": "把灯泡放回桌上", "effects": {"integrity": 5}, "action": "end_event"}
+      ]
+    }
+  }
+}

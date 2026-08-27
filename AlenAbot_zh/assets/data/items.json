@@ -1,0 +1,345 @@
+[
+  {
+    "item_id": "item_西湖",
+    "name": "西湖",
+    "description": "一片承载了千年诗人倒影的湖水。白天它充当被消费的背景；夜晚，它收回真面目——一片记得一切却什么都不说的水。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "西湖",
+      "灯笼倒影",
+      "空心柳"
+    ]
+  },
+  {
+    "item_id": "item_沙鸥",
+    "name": "沙鸥",
+    "description": "出自杜甫'飘飘何所似？天地一沙鸥。'不是杜甫的孤独，也不是艾伦的孤独，而是两个矩阵相乘时生成的第三种东西——属于共振本身的交叉项。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "沙鸥",
+      "春望"
+    ]
+  },
+  {
+    "item_id": "item_春望",
+    "name": "春望",
+    "description": "王老师的杜甫《春望》书法：'国破山河在。'墨迹在四十年间渐渐褪色，但那几个字承载着文化传承的重量——一个摆渡人送给即将远行学生的礼物。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "春望",
+      "沙鸥"
+    ]
+  },
+  {
+    "item_id": "item_空椅子",
+    "name": "空椅子",
+    "description": "婉清曾经坐的绿色绒面扶手椅。坐垫上还留着浅浅的印痕。她走后，艾伦很少坐——直到完成手稿那天，才终于感到平静。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "空椅子",
+      "茶蒸汽"
+    ]
+  },
+  {
+    "item_id": "item_老橡树",
+    "name": "老橡树",
+    "description": "艾伦伦敦后花园的橡树。大部分叶子已经落了。它一动不动地站在雨中，像一个沉思中僵硬的人。它见证了艾伦几十年的读书、写作与失去。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "老橡树",
+      "空心柳"
+    ]
+  },
+  {
+    "item_id": "item_空心柳",
+    "name": "空心柳",
+    "description": "西湖边的老柳树，树干空心，灌满了水泥。伤疤很鲜亮，像一只永远不会闭上、也永远不会流泪的眼睛。但它还活着——春天抽芽，秋天落叶，熬过冬天。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "空心柳",
+      "西湖",
+      "老橡树"
+    ]
+  },
+  {
+    "item_id": "item_茶蒸汽",
+    "name": "茶蒸汽",
+    "description": "铁观音——婉清最爱的茶。茶叶放了一年多，香气大多散了，但热水还是能逼出一缕幽兰味。在暗房里，蒸汽升起，像一小段会动的白绸。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "茶蒸汽",
+      "空椅子"
+    ]
+  },
+  {
+    "item_id": "item_灯笼倒影",
+    "name": "灯笼倒影",
+    "description": "西湖上画舫的灯笼一盏盏亮起，倒影被涟漪打碎又慢慢重组。不是光本身，不是水本身，而是光与水在一对观看的眼睛中的乘积。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "灯笼倒影",
+      "西湖"
+    ]
+  },
+  {
+    "item_id": "item_玉简",
+    "name": "玉简",
+    "description": "无法被充分翻译的文化传承。像意象矩阵中的空符号——当一个文化概念遇到空位置时，它保留自己，但失去了回应的对应物。玉简就是翻译到达极限时余下的东西。",
+    "item_type": "key",
+    "usable": true,
+    "effects": {},
+    "imagery_related": [
+      "玉简"
+    ]
+  },
+  {
+    "item_id": "item_蓝布面书",
+    "name": "蓝布面书",
+    "description": "亚瑟·韦利译的《东方古诗选》，蓝色布面，书脊烫金斑驳。十八岁的艾伦在剑桥图书馆地下室翻开它，读到'行行重行行'，被一记闷拳击中胸口。整部汉学生涯的起点——一种不需要理解就能被击中的共振。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "蓝布面书",
+      "春望",
+      "玉简"
+    ]
+  },
+  {
+    "item_id": "item_矩阵乘法",
+    "name": "矩阵乘法",
+    "description": "那个'×'符号——不是加法，不是把两首诗融为一体，而是乘法，把两个意象空间相乘，生成一个充满张力的结构，双方都在其中，却不会抵消。补位符∅：a乘以∅等于a，意象保留自身但失去回应的对象。空不是零，空是保真单位。",
+    "item_type": "key",
+    "usable": true,
+    "effects": {},
+    "imagery_related": [
+      "矩阵乘法",
+      "沙鸥",
+      "空船",
+      "玉简"
+    ]
+  },
+  {
+    "item_id": "item_空船",
+    "name": "空船",
+    "description": "王老师说：'我只是一个摆渡人，把他们送到岸上，然后一个人划回去。'那艘空船就是a乘以∅——老师保留了'摇船'的动作，却失去了'渡人'的对象。空船不是空的，空船是一个动作与一个空位的乘积。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "空船",
+      "挥手",
+      "矩阵乘法"
+    ]
+  },
+  {
+    "item_id": "item_挥手",
+    "name": "挥手",
+    "description": "王老师在巷口挥手的动作——很轻，像在赶一只鸽子。那是乘法：一个老师对学生的所有未言明的期望，与一个学生即将离去的空位相乘。乘积就是那个挥手。不重，却在艾伦的记忆里回荡了四十年。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "挥手",
+      "空船",
+      "春望"
+    ]
+  },
+  {
+    "item_id": "item_莲子",
+    "name": "莲子",
+    "description": "莲子——'莲'谐音'怜'，'莲子'即'怜子'。一种蛰伏千年的潜能：莲子的胚芽可以在泥土中沉睡上千年，一旦条件合适，便能萌发新芽。它是时间深处的生命力，是'国破山河在'里那个'在'字的植物注解。莲子心中苦——苦是活的证据。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "莲子",
+      "西湖",
+      "春望"
+    ]
+  },
+  {
+    "item_id": "item_断桥栏杆",
+    "name": "断桥栏杆",
+    "description": "断桥上汉白玉栏杆刻着的粗拙莲花纹样。冰凉，滑腻，像被雨水冲洗过又蒙上一层薄灰。栏杆太新了，新得没有故事——但纹样本身是古老的，莲花图案穿越了多少朝代依然被刻在桥上。断裂的不是桥，是桥与故事之间的关联。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "断桥栏杆",
+      "莲子",
+      "西湖"
+    ]
+  },
+  {
+    "item_id": "item_面馆",
+    "name": "面馆",
+    "description": "日常生活的温暖锚点。北京西单的炸酱面馆——老板多舀的那一勺酱；杭州小巷的片儿川——雪菜肉丝在浓白汤里浮沉。食物不需要翻译。一碗面的温度，从北京到杭州，从1975年到2015年，从未改变。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "面馆",
+      "茶蒸汽"
+    ]
+  },
+  {
+    "item_id": "item_乘号",
+    "name": "乘号×",
+    "description": "那个'×'符号——不是加法，不是把两首诗融为一体；是乘法，让两个意象空间在保持各自属性的同时相乘。×是距离的数学化：它让两边同时在场，却不互相取消。×是哲学：理解不需要抵达，乘法本身就是意义的生成。乘法不消除距离，乘法在距离中让两边同时发声。",
+    "item_type": "key",
+    "usable": true,
+    "effects": {},
+    "imagery_related": [
+      "乘号×",
+      "矩阵乘法",
+      "沙鸥",
+      "玉简"
+    ]
+  },
+  {
+    "item_id": "item_songci",
+    "name": "泛黄的宋词选",
+    "description": "书页停在苏轼那一页——'水光潋滟晴方好'。书页在潮湿的晨气中变软了。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "西湖"
+    ]
+  },
+  {
+    "item_id": "item_chunwang_calligraphy",
+    "name": "《春望》书法",
+    "description": "王老师手书的杜甫《春望》。墨迹在四十年间渐渐褪色，纸也黄了，但那一笔一画还是清清楚楚的，像用锥子刻进去的。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "春望"
+    ]
+  },
+  {
+    "item_id": "item_blue_book",
+    "name": "蓝色布面《东方古诗选》",
+    "description": "亚瑟·韦利译的《东方古诗选》，蓝色布面，书脊烫金斑驳。十八岁的艾伦在剑桥图书馆地下室翻开它，读到'行行重行行'。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "蓝布面书"
+    ]
+  },
+  {
+    "item_id": "item_wanqing_letter",
+    "name": "婉清的明信片",
+    "description": "正面是西湖的风景——雷峰塔在暮色中矗立。背面是婉清的字：'滚烫的东西，从来都不懂得畏惧距离。'",
+    "item_type": "journal",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "灯笼倒影",
+      "茶蒸汽"
+    ]
+  },
+  {
+    "item_id": "item_wang_teacher_letter",
+    "name": "王老师的信",
+    "description": "蓝色圆珠笔，笔迹细而端正。信写了两页，讨论杜诗中主客不分的混沌。末尾：'你这孩子，走的时候那么瘦。'",
+    "item_type": "journal",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "挥手",
+      "春望"
+    ]
+  },
+  {
+    "item_id": "item_lotus_seed",
+    "name": "莲子",
+    "description": "莲子即怜子。莲心苦——苦是活的证据。胚芽可以在泥土中沉睡上千年，一旦条件合适，便能萌发新芽。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "莲子",
+      "断桥栏杆"
+    ]
+  },
+  {
+    "item_id": "item_matrix_note",
+    "name": "意象矩阵便条",
+    "description": "小陈手写的便条，上面是两首短诗，中间隔着一个'×'符号。背面：'教授，这是一个创作实验。'",
+    "item_type": "key",
+    "usable": true,
+    "effects": {},
+    "imagery_related": [
+      "矩阵乘法",
+      "乘号×"
+    ]
+  },
+  {
+    "item_id": "item_tea_cup",
+    "name": "铁观音茶杯",
+    "description": "去年的茶叶了，香气淡了大半，但热水冲下去，还是能逼出一缕若有若无的兰花味。杯底在桌面上留了一个浅浅的圆形水渍。",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "茶蒸汽"
+    ]
+  },
+  {
+    "item_id": "item_wanqing_photo",
+    "name": "婉清的黑白照片",
+    "description": "黑白照片，边缘已经泛黄。她侧着身子，望向河面。河面上有两只天鹅。她的头发被风吹乱了，手举到一半，被拍了下来。",
+    "item_type": "memory",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "空椅子",
+      "茶蒸汽"
+    ]
+  },
+  {
+    "item_id": "item_headphone",
+    "name": "小陈给的耳机",
+    "description": "在西湖边，落日和灯火之间，听着一首关于最后一支舞的歌。'所以暂时将你眼睛闭了起来……'",
+    "item_type": "fragment",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "西湖",
+      "灯笼倒影"
+    ]
+  },
+  {
+    "item_id": "item_zhaji_notebook",
+    "name": "手写札记本",
+    "description": "写满了意象矩阵的草稿。中间一个大大的'×'号。在结果矩阵的某个格子里，写着'莲子'。",
+    "item_type": "journal",
+    "usable": false,
+    "effects": {},
+    "imagery_related": [
+      "矩阵乘法",
+      "莲子",
+      "沙鸥"
+    ]
+  }
+]

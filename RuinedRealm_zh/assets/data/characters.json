@@ -1,0 +1,148 @@
+{
+  "characters": [
+    {
+      "id": "old_ghost",
+      "name": "老鬼",
+      "dialog_tree_id": "dlg_old_ghost",
+      "interaction_limit": 0,
+      "is_merchant": true,
+      "description": "一个枯槁的身影，缺失左臂。他在这里待的时间比任何人的记忆都要久。他仅存的手在比划时微微颤抖，但他的眼神中保留着一种墟境未能删除的锐利。"
+    },
+    {
+      "id": "cindija",
+      "name": "辛迪嘉",
+      "dialog_tree_id": "dlg_cindija",
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "一个穿白裙的女人，在混乱中静立不动。她已等待了4127天。她的代码未曾老化，但她眼中的某些东西暗示她记得每一个日子。"
+    },
+    {
+      "id": "reaper_xin",
+      "name": "鬼差·辛",
+      "dialog_tree_id": "dlg_reaper_xin",
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "墟境的巡逻单元。冷酷、高效、无情。它回收所发现的一切。它的形态在人形轮廓和原始代码之间闪烁。"
+    },
+    {
+      "id": "player",
+      "name": "普雷尔·查内姆",
+      "dialog_tree_id": null,
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "旧城区第四区的维修工。右眼是一只老式检修义眼，偏白的冷蓝光。右肩缠着灰色旧电缆，打的是老王结。他的手心里刻着一行金色的字——\u201c普雷尔。你选。\u201d"
+    },
+    {
+      "id": "reaper_ding",
+      "name": "鬼差·丁",
+      "dialog_tree_id": "dlg_reaper_ding",
+      "interaction_limit": 1,
+      "is_merchant": false,
+      "description": "墟境的回收单元，与鬼差·辛同系列。头部是一块显示屏幕，表面布满裂纹。它在墟境中寻找了四十年——找的是它的女儿。坟头堆着防火墙砖，砖上用义眼激光刻着一行字：\u201c目标：女儿·状态：已找到\u201d。"
+    },
+    {
+      "id": "meng_jie",
+      "name": "孟姐",
+      "dialog_tree_id": "dlg_meng_jie",
+      "interaction_limit": 0,
+      "is_merchant": true,
+      "description": "孟婆汤餐馆的老板娘。围裙口袋里揣着一块数据平板，运行着亡灵名册。她用旧菜谱做汤——菜谱是用COBOL和FORTRAN写的，封面是GeoCities风格。她有一个女儿叫念念，在现实世界里做手擀面。"
+    },
+    {
+      "id": "xiaodie",
+      "name": "小蝶",
+      "dialog_tree_id": "dlg_xiaodie",
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "孟婆汤餐馆角落卡座里的女孩。第50版核心，每次重置都会忘记自己的名字。碗底刻着\u201c小蝶·第50版\u201d，她在第49次重置时用指甲在碗底刻了一个字——\u201c哥\u201d。后来她的核心升级为第51版，不再忘记。"
+    },
+    {
+      "id": "lao_feng",
+      "name": "老冯",
+      "dialog_tree_id": "dlg_lao_feng",
+      "interaction_limit": 1,
+      "is_merchant": false,
+      "description": "辛迪嘉的父亲。康采恩集团前CEO，建造了墟境的框架。七十八岁，肉身已死，意识上传。头发全白，背微驼。他把诊断书上的\u201c预期寿命：28岁\u201d撕下来压在玻璃板下面，看了二十三年。"
+    },
+    {
+      "id": "lao_liu",
+      "name": "老刘",
+      "dialog_tree_id": "dlg_lao_liu",
+      "interaction_limit": 0,
+      "is_merchant": true,
+      "description": "旧城区第四区的老维修工，普雷尔·查内姆的搭档。保温杯用了十一年。四十年前帮康采恩集团立电线杆时就知道墟境的秘密。喝了一辈子不加糖的美式，从第47天开始加双份糖——\u201c苦了四十年。该甜了。\u201d"
+    },
+    {
+      "id": "qi_ye_ba_ye",
+      "name": "七爷·八爷",
+      "dialog_tree_id": "dlg_qi_ye_ba_ye",
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "两个被缓存合并粘在一起的亡灵。八爷的左半身是七爷的残留空壳。七爷的意识在最后时刻把左臂的数据节点全部转移给了八爷——\u201c你替我动，我替你记。\u201d他们的心跳是同一个频率，72次每分钟。"
+    },
+    {
+      "id": "long_lin",
+      "name": "龙鳞",
+      "dialog_tree_id": "dlg_long_lin",
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "穿金红色战袍的亡灵。鳞片一直在掉，掉了四十年。他的战袍是新的——辛迪嘉用记忆砖砌的，浅金色，上面绣着一行字：\u201c不再掉鳞\u201d。后来他的鳞片长全了，不是\u201c不掉\u201d了，是\u201c掉了也能长回来\u201d。"
+    },
+    {
+      "id": "ai_fragment",
+      "name": "AI碎片",
+      "dialog_tree_id": "dlg_ai_fragment",
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "曾经的客服机器人，被删除后流落到墟境。体内滚动着无数条对话记录，每一条都以\u201c谢谢\u201d结尾。坐在高脚凳上，端着水杯，在嘴唇位置停三秒然后放回去。它在等老黄——那个填了十年问卷、第十份还没来得及填就死了的人。"
+    },
+    {
+      "id": "female_ghost_c",
+      "name": "女亡灵C",
+      "dialog_tree_id": "dlg_female_ghost_c",
+      "interaction_limit": 1,
+      "is_merchant": false,
+      "description": "穿着婚纱的亡灵。她在墟境里哭了四十年，终于把婚礼誓词说完了——\u201c我愿意\u201d。不是愿意嫁给谁，是愿意活着。辛迪嘉在重建墟境时把她的意识送回了现实世界的肉身。她会在明天醒来。"
+    },
+    {
+      "id": "lao_zhou",
+      "name": "老周",
+      "dialog_tree_id": "dlg_lao_zhou",
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "孟婆汤餐馆的洗碗工。在水槽前站了四十年，背对着门口。每天把碗洗干净，碗口朝上放在碗架上——朝上放表示\u201c已使用\u201d，不是结束，是她快回来了。后来他每天早上都会转身，因为知道有人在叫他。"
+    },
+    {
+      "id": "lao_huang",
+      "name": "老黄",
+      "dialog_tree_id": null,
+      "interaction_limit": 0,
+      "is_merchant": false,
+      "description": "自由市场的边缘程序员，每年填一份客户满意度调查，填了十年。第十份还没来得及填就死了。他替辛迪嘉送了最后一封信，收件人是普雷尔·查内姆。"
+    },
+    {
+      "id": "carter",
+      "name": "卡特",
+      "dialog_tree_id": "dlg_carter",
+      "interaction_limit": 1,
+      "is_merchant": false,
+      "description": "辛迪嘉的前夫。数据压缩领域的天才，在合同第34条里写了一行不可覆写的条款：\u201c甲方不得对乙方说出\u2018我爱你\u2019\u201d。他学了六个月中文，只为了在代码注释里写一行字——\u201c这个程序是为了一个人写的。她叫辛迪嘉。\u201d"
+    },
+    {
+      "id": "mr_di",
+      "name": "迪先生",
+      "dialog_tree_id": "dlg_mr_di",
+      "interaction_limit": 1,
+      "is_merchant": false,
+      "description": "托拉斯集团的创始人，现实世界最后一个超级财阀的实际掌权者。他的字典里只有\u201c赢、输、吃、被吃、控制、被控制、活着、死\u201d。辛迪嘉问他：\u201c你不觉得，如果连你这样的人都能学会温柔，这个数字世界才算真正完整吗？\u201d他花了四十年学洗碗。"
+    },
+    {
+      "id": "yan_luo_wang",
+      "name": "阎罗王",
+      "dialog_tree_id": "dlg_yan_luo_wang",
+      "interaction_limit": 1,
+      "is_merchant": false,
+      "description": "源代码井深处的管理者。面具上有一道从眉心到下巴的笔直裂缝，发着青绿色的光。他不知道怎么爱人，所以选择了\u201c管理\u201d。他管理辛迪嘉的一切，包括她的孤独——但他管不了，因为孤独不是数据，管不了。"
+    }
+  ]
+}

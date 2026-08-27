@@ -1,0 +1,207 @@
+{
+  "characters": {
+    "briz": {
+      "char_id": "briz",
+      "name": "布里兹·察合台",
+      "description": "第五代13号容器。23岁，身高1米87，绿洲竞技主力中后卫。被遗弃在矿区医院急诊室门口的孤儿，养父母七岁时死于矿井坍塌。十七岁被老胡安带进绿洲竞技。他看见球的轨迹——蓝色的光圈在球被踢出之前就标注了落点。他的基本功是万次触球铸就的锚，不是天赋，是存进银行里的利息。后颈烙印是反向的无限符号。他的瞳孔在触碰传承碎片时变成金色。他说：'基本功不扎实。'",
+      "role": "protagonist",
+      "related_events": [
+        "four_fragments",
+        "thirteen_awakening",
+        "wall_at_four_am",
+        "landing_point",
+        "black_rock_rain",
+        "whitby_s_curve",
+        "hair_turns_white",
+        "singularity_link",
+        "archive_eight",
+        "withdrawal_bench",
+        "causality_goal",
+        "wembley_eve",
+        "wembley_wall_walk",
+        "wembley_dragon_flash",
+        "hong_kong_kick_back",
+        "decision_bernabeu",
+        "golden_ball_speech",
+        "last_dance",
+        "your_story"
+      ]
+    },
+    "old_juan": {
+      "char_id": "old_juan",
+      "name": "老胡安",
+      "description": "68岁的绿洲竞技主教练，观察小组最年轻的成员（当年25岁）。脸像一张揉过的旧地图，只说自己是'一个流浪的巴斯克人'。他在这个俱乐部待了四十年。保温杯上贴着'胡安·马丁内斯，1978'。他见过四代容器从觉醒到消亡，是唯一一个从未离开的人。他用铅笔写纸条，用保温杯传递信息，用银色剪刀替容器剪去白发。他说：'木头比铁软。你记住这个就行。'",
+      "role": "mentor",
+      "related_events": [
+        "four_fragments",
+        "thirteen_awakening",
+        "wall_at_four_am",
+        "hair_turns_white",
+        "archive_eight",
+        "wembley_eve",
+        "decision_bernabeu",
+        "your_story"
+      ]
+    },
+    "joao": {
+      "char_id": "joao",
+      "name": "若昂·奥利维拉·达席尔瓦",
+      "description": "第一代13号容器，1975年。巴西人，外号'鬼步'——他的脚触球时球会消失。桑托斯贫民窟里杀出来的天才。他看见蓝色光圈——球还没被踢出，轨迹就在那里发光。他在国王杯决赛中穿过两名后卫合拢的缝隙，站在门将身后推空门，没有人看明白。赛后他说了一段同时包含通俗希腊语和察合台方言的话。1975年11月被送进精神病院。他最后的完整句子是：'我听见马不肯走。它回来了。替我告诉下一个。'",
+      "role": "legacy_vessel_1",
+      "related_events": [
+        "four_fragments",
+        "whitby_s_curve",
+        "archive_eight",
+        "singularity_link"
+      ]
+    },
+    "diego": {
+      "char_id": "diego",
+      "name": "第二代·斗牛士之子",
+      "description": "第二代13号容器，1989年。塞维利亚13号中后卫，代号'沉默的堡垒'。斗牛士的儿子，他踢球不用看球——他能感觉到它。在国王杯半决赛的禁区里跳了一段完整的斗牛舞，对着不存在的红布和剑。左肩比右肩低两厘米——他继承了父亲的伤。赛后他赤脚坐在更衣室里，问老胡安：'他死的时候，牛在不在场？'他再没有踢过球，在塞维利亚郊区开了一家杂货店，每天用左脚在店门口画一个圆。",
+      "role": "legacy_vessel_2",
+      "related_events": [
+        "archive_eight",
+        "singularity_link"
+      ]
+    },
+    "john": {
+      "char_id": "john",
+      "name": "约翰（卡洛斯·恩里克）",
+      "description": "第三代13号容器，2003年。第一个试图理解命格原理的宿主。他花了两年得出结论：命格是可以退掉的——像退房一样，留下钥匙，叠好球衣，然后体面离开。他在欧冠赛前夜叠好了球衣放在床边，写了一封没写完的信：'替我告诉下一个。不是命格不能退。是马不让。'然后他失踪了，再也没有出现在任何一个足球场。",
+      "role": "legacy_vessel_3",
+      "related_events": [
+        "archive_eight",
+        "singularity_link"
+      ]
+    },
+    "paul": {
+      "char_id": "paul",
+      "name": "保罗·卡斯特罗",
+      "description": "第四代13号容器，'接棒者'。西乙替补后卫，体内只有微弱的命格信号。激活过程失败——命格不需要他。但他花了三年说服命格接受自己不配当宿主，然后提交了一份四十七页报告，将安全阈值从25岁延长到32岁。这是他用自己的身体充值的保固期。2016年他主动放弃命格，走进格拉斯哥建筑学院。他的手指偶尔震颤——触发原因未知。",
+      "role": "legacy_vessel_4",
+      "related_events": [
+        "archive_eight",
+        "singularity_link"
+      ]
+    },
+    "morrow": {
+      "char_id": "morrow",
+      "name": "莫罗",
+      "description": "绿洲竞技后腰/队友，邮递员，每天早上四点起床送完信才来训练。左膝有旧伤——十八岁那年滑铲广告牌铁支架留下的。他的脚步有一个很轻的拖音。他不问'为什么你不走'，只问'为什么你不踢了'。他是唯一一个在布里兹僵直时不跑开的人。他说：'不管你在场上做什么——我以前见过一次。你之前那个小伙子没有退役。'",
+      "role": "ally",
+      "related_events": [
+        "wall_at_four_am",
+        "black_rock_rain",
+        "moros_notebook",
+        "wembley_eve",
+        "wembley_wall_walk",
+        "wembley_dragon_flash",
+        "decision_bernabeu"
+      ]
+    },
+    "maya": {
+      "char_id": "maya",
+      "name": "玛雅·卡斯特罗",
+      "description": "绿洲竞技的心理医生和分析员。她在比赛录像中发现了蓝色光圈——球被踢出之前就标注了落点的发光轨迹。她用运动科学文献检索不到任何解释。她叫它'未解释视觉现象-暂名蓝圈'。她问布里兹：'你看到的东西，是不是真的在那里？'她说：'我没打算说你是疯子。我只是需要更多时间。'",
+      "role": "analyst",
+      "related_events": [
+        "landing_point",
+        "archive_eight",
+        "singularity_link"
+      ]
+    },
+    "santi": {
+      "char_id": "santi",
+      "name": "桑蒂",
+      "description": "绿洲竞技的年轻边锋。花活是足球的灵魂——至少他一直这么说，直到他发现基本功才是。他偷了布里兹的百事可乐，第五罐是空的。他不知道布里兹不能没有它。后来他把可乐还回去，布里兹说：'我需要有人替我留着它。'温布利决赛时他终于学会了基本功——23岁，及格了。",
+      "role": "ally",
+      "related_events": [
+        "withdrawal_bench",
+        "decision_bernabeu"
+      ]
+    },
+    "ledger": {
+      "char_id": "ledger",
+      "name": "账簿",
+      "description": "绿洲竞技的球队秘书长。所有人必须叫他'账簿'。他膝盖上永远摊着账本，用圆珠笔在上面书写。他记录每一罐百事可乐的日期和价格。他说：'我看过很多足球。坏足球，好足球，不好不坏的足球。从没见过他那种停球。不是技术——他先知道落点在哪里，再跑。顺序是反过来的。'",
+      "role": "npc",
+      "related_events": [
+        "landing_point",
+        "decision_bernabeu"
+      ]
+    },
+    "milo": {
+      "char_id": "milo",
+      "name": "米洛",
+      "description": "绿洲竞技的门将。比赛中扑出底线。在黑岩镇的雨战中守住了大门。他脱下手套，仰着头让雨打在脸上。",
+      "role": "npc",
+      "related_events": [
+        "black_rock_rain"
+      ]
+    },
+    "matthews": {
+      "char_id": "matthews",
+      "name": "马修斯",
+      "description": "黑岩镇的九号前锋。第七级别降级下来的。他在禁区线上用肩膀顶开防守再转身。他对布里兹喊'角斗士'，嘲笑他祖上杀过人。下半场他看到壁走的那一刻，嘴在动但发不出声音。那不是震惊，是恐惧。",
+      "role": "opponent",
+      "related_events": [
+        "black_rock_rain"
+      ]
+    },
+    "stephen_zhou": {
+      "char_id": "stephen_zhou",
+      "name": "史蒂芬·周",
+      "description": "九龙城寨的命格先驱，1979年。他把命格踢了回去——四十三脚，每一脚踢在一个不同的脑区。他不是容器，他是漏洞。他说：'命格不是你的债主。你才是。'他穿着人字拖在沙地上踢藤球，脸被太阳和风磨得像旧皮革。他的四十三个圆被布里兹带到了长生天训练墙。",
+      "role": "legacy_pioneer",
+      "related_events": [
+        "hong_kong_kick_back"
+      ]
+    },
+    "aiden": {
+      "char_id": "aiden",
+      "name": "艾登·肖",
+      "description": "第六代信号。17岁，身高接近1米85，矿区孩子特有的瘦。他选择了成为墙壁而非容器——本局命格侵蚀上限+3。他每天凌晨四点来训练场，不是来练球，是来开门。他画在墙上的第一个圆是歪的，被保留了。",
+      "role": "next_generation",
+      "related_events": [
+        "your_story"
+      ]
+    },
+    "the_collector": {
+      "char_id": "the_collector",
+      "name": "收藏家",
+      "description": "命格终极显化。120 HP 的 Boss，能收藏（从牌组移除卡牌）、命格收割（25伤害）、容器检测（蓝环无效）、五代的重量（18伤害+AP-2）、绝对压制（30伤害无视格挡）。他给老胡安发消息：'他想让你接任。不是当球员。是接他的位置。'",
+      "role": "final_boss",
+      "related_events": [
+        "your_story"
+      ]
+    },
+    "saren": {
+      "char_id": "saren",
+      "name": "萨仁",
+      "description": "布里兹的母亲。蒙古人。她在布里兹出生的那天夜里把命格引到自己身上——让它在预激活阶段提前把她当成目标，然后把门关死。她的头发在那个夜晚全白了。她的后颈烙印变成了反的无限符号。她用右手最后一根能活动的手指缝了那块绣着名字的布。她在草原的梦境中把缰绳交给了布里兹，告诉他：'你一直以为它在追你。它不是在追你。它是在等你给它一个名字。'",
+      "role": "mother",
+      "related_events": [
+        "singularity_link"
+      ]
+    },
+    "chagan": {
+      "char_id": "chagan",
+      "name": "查干·额尔德尼",
+      "description": "长生天俱乐部的年轻球员，25岁。不再是穿着两只不同球鞋的冻伤男孩。他穿着蓝灰色的训练服，队徽上的黑马正在闪电下奔跑。他从墙上取下粉笔头，塞进口袋——粉笔必须随身带着，不是非要画圆才拿出来，而是你永远不知道今天会不会有人需要一个新的圆。",
+      "role": "next_generation",
+      "related_events": [
+        "your_story"
+      ]
+    },
+    "luca": {
+      "char_id": "luca",
+      "name": "卢卡",
+      "description": "绿洲竞技新梯队的左后卫。最开始踢飞了球会骂自己三分钟的矮个边锋。在全队凌晨冒暴雨赶到训练场时，他用新粉笔重新画的那批圆里，唯一一个没有颤抖的。",
+      "role": "next_generation",
+      "related_events": [
+        "your_story"
+      ]
+    }
+  }
+}

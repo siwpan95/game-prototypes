@@ -1,0 +1,308 @@
+[
+  {
+    "id": "intercept",
+    "name": "拦截",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "BASIC",
+    "description": "格挡8点伤害。",
+    "playable": true
+  },
+  {
+    "id": "header",
+    "name": "头球",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "BASIC",
+    "description": "造成6点伤害。",
+    "playable": true
+  },
+  {
+    "id": "slide_tackle",
+    "name": "滑铲",
+    "ap_cost": 2,
+    "nerve_cost": 5,
+    "card_type": "BASIC",
+    "description": "造成12点伤害。自身消耗5点心智。",
+    "playable": true
+  },
+  {
+    "id": "basic_pass",
+    "name": "简单传球",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "BASIC",
+    "description": "抽1张牌。",
+    "playable": true
+  },
+  {
+    "id": "long_ball",
+    "name": "长传",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "BASIC",
+    "description": "造成4点伤害并获得4点格挡。",
+    "playable": true
+  },
+  {
+    "id": "positioning",
+    "name": "跑位",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "BASIC",
+    "description": "获得5点格挡。抽1张牌。",
+    "playable": true
+  },
+  {
+    "id": "stamina_burst",
+    "name": "体能爆发",
+    "ap_cost": 2,
+    "nerve_cost": 0,
+    "card_type": "BASIC",
+    "description": "造成8点伤害，再造成4点伤害。",
+    "playable": true
+  },
+  {
+    "id": "blue_ring",
+    "name": "蓝环",
+    "ap_cost": 2,
+    "nerve_cost": 15,
+    "card_type": "NERVE",
+    "description": "预知敌人下一步。下次防御+3。（消耗15心智）",
+    "playable": true
+  },
+  {
+    "id": "phantom_step",
+    "name": "幻步",
+    "ap_cost": 3,
+    "nerve_cost": 25,
+    "card_type": "NERVE",
+    "description": "造成20点伤害，无视所有护甲。（消耗25心智）",
+    "playable": true
+  },
+  {
+    "id": "vision_flash",
+    "name": "灵视闪光",
+    "ap_cost": 1,
+    "nerve_cost": 10,
+    "card_type": "NERVE",
+    "description": "揭示敌人意图2回合。（消耗10心智）",
+    "playable": true
+  },
+  {
+    "id": "wall_walk",
+    "name": "壁走",
+    "ap_cost": 3,
+    "nerve_cost": 20,
+    "card_type": "NERVE",
+    "description": "脱离物理束缚——获得15点格挡并造成12点伤害，无视护甲。本次战斗命格侵蚀+1。（消耗20心智）",
+    "playable": true
+  },
+  {
+    "id": "dislocation_advantage",
+    "name": "错位优势",
+    "ap_cost": 2,
+    "nerve_cost": 18,
+    "card_type": "NERVE",
+    "description": "让对手以为你在A点实际在B点——造成10点伤害，敌人下回合意图伤害减半。命格侵蚀+1。（消耗18心智）",
+    "playable": true
+  },
+  {
+    "id": "burkes_choice",
+    "name": "布沃克的选择",
+    "ap_cost": 1,
+    "nerve_cost": 10,
+    "card_type": "NERVE",
+    "description": "利息还是本金？选利息：失去10点心智，造成18点伤害。选本金：恢复8点心智，造成8点伤害。（消耗10心智）",
+    "playable": true
+  },
+  {
+    "id": "singularity_link",
+    "name": "奇点链接",
+    "ap_cost": 2,
+    "nerve_cost": 22,
+    "card_type": "NERVE",
+    "description": "古语激活——跨语言壁垒的命格共鸣。将弃牌堆中1张传承卡返回手牌。命格侵蚀+2。（消耗22心智）",
+    "playable": true
+  },
+  {
+    "id": "heavenly_dragon_flash",
+    "name": "奥义\u00b7天翔龙闪",
+    "ap_cost": 4,
+    "nerve_cost": 40,
+    "card_type": "NERVE",
+    "description": "终极任意球——造成35点伤害，无视护甲。使用后头发全白：牌组中加入2张白发侵蚀。命格侵蚀+3。（消耗40心智）",
+    "playable": true
+  },
+  {
+    "id": "last_dance",
+    "name": "最后一舞",
+    "ap_cost": 5,
+    "nerve_cost": 50,
+    "card_type": "NERVE",
+    "description": "世界杯决赛终极大招——造成50点伤害，无视护甲与格挡。使用后命格侵蚀达到上限，本局游戏结束。只有一舞。（消耗50心智）",
+    "playable": true
+  },
+  {
+    "id": "ghost_step",
+    "name": "传承：若昂——幽灵步",
+    "ap_cost": 3,
+    "nerve_cost": 30,
+    "card_type": "LEGACY",
+    "description": "接下来3张牌消耗0点AP。（消耗30心智）",
+    "playable": true
+  },
+  {
+    "id": "bulls_stance",
+    "name": "传承：迭戈——公牛架势",
+    "ap_cost": 2,
+    "nerve_cost": 20,
+    "card_type": "LEGACY",
+    "description": "获得15点格挡。造成5点伤害。（消耗20心智）",
+    "playable": true
+  },
+  {
+    "id": "johns_clarity",
+    "name": "传承：约翰——清明",
+    "ap_cost": 2,
+    "nerve_cost": 0,
+    "card_type": "LEGACY",
+    "description": "恢复20点心智。抽2张牌。（不消耗心智）",
+    "playable": true
+  },
+  {
+    "id": "pauls_sacrifice",
+    "name": "传承：保罗——牺牲",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "LEGACY",
+    "description": "用三年数据将安全阈值提升到32岁——恢复25点生命，移除牌组中1张白发侵蚀。命格侵蚀-1。",
+    "playable": true
+  },
+  {
+    "id": "stephen_zhou_kickback",
+    "name": "传承：史蒂芬·周——踢回",
+    "ap_cost": 2,
+    "nerve_cost": 15,
+    "card_type": "LEGACY",
+    "description": "43脚踢回命格——从弃牌堆中回收最多3张不同卡牌到手牌。命格侵蚀+1。（消耗15心智）",
+    "playable": true
+  },
+  {
+    "id": "aiden_shaw_signal",
+    "name": "传承：艾登·肖——第六代信号",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "LEGACY",
+    "description": "墙壁的觉悟——你选择成为墙壁而非容器。本局命格侵蚀上限+3。获得10点格挡。抽1张牌。",
+    "playable": true
+  },
+  {
+    "id": "old_juans_lesson",
+    "name": "老胡安的教导",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "恢复10点生命。将疲劳牌加入弃牌堆。",
+    "playable": true
+  },
+  {
+    "id": "mayas_analysis",
+    "name": "玛雅的分析",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "揭示敌人意图2回合。",
+    "playable": true
+  },
+  {
+    "id": "moros_cover",
+    "name": "莫罗的掩护",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "获得5点格挡。抽1张牌。",
+    "playable": true
+  },
+  {
+    "id": "santis_cross",
+    "name": "桑蒂的传中",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "造成6点伤害。如果手牌中有2张以上基础牌，额外造成4点伤害。",
+    "playable": true
+  },
+  {
+    "id": "ledgers_account",
+    "name": "账簿的账本",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "查看牌组顶3张牌，重新排列顺序。获得5点荣耀点。",
+    "playable": true
+  },
+  {
+    "id": "milos_gloves",
+    "name": "米洛的手套",
+    "ap_cost": 1,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "获得10点格挡。将弃牌堆中1张基础卡返回手牌。",
+    "playable": true
+  },
+  {
+    "id": "archive_discovery",
+    "name": "第八号档案柜",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "发现四个文件夹——从牌组外随机获得1张神经卡牌。命格侵蚀+1。",
+    "playable": true
+  },
+  {
+    "id": "pepsi_moment",
+    "name": "百事可乐时刻",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "桑蒂偷来的可乐——本回合AP+1。恢复5点心智。命格暂时静默：下回合命格技能消耗-5。",
+    "playable": true
+  },
+  {
+    "id": "training_wall",
+    "name": "凌晨四点训练墙",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "SPECIAL",
+    "description": "2000次触球的基本功——将手牌中所有基础牌的AP消耗降为0（本回合）。",
+    "playable": true
+  },
+  {
+    "id": "fatigue",
+    "name": "疲劳",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "STATUS",
+    "description": "不可使用。堵塞你的牌组。",
+    "playable": false
+  },
+  {
+    "id": "white_hair",
+    "name": "白发侵蚀",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "STATUS",
+    "description": "命格的代价。不可使用。每回合开始时失去3点心智。可用保罗的牺牲移除。",
+    "playable": false
+  },
+  {
+    "id": "legacy_mark",
+    "name": "命格烙印",
+    "ap_cost": 0,
+    "nerve_cost": 0,
+    "card_type": "STATUS",
+    "description": "后颈的反\u221e符号。不可使用。命格侵蚀+1。当命格侵蚀达到上限时，此牌变为最后一舞。",
+    "playable": false
+  }
+]

@@ -1,0 +1,417 @@
+{
+  "characters": {
+    "hargreaves": {
+      "name": "哈格里夫斯警员",
+      "title": "紧张搭档 — 贝克朗警局",
+      "description": "一名年轻警员，眼神永远带着忧虑，习惯性地拧着手中的帽子。他被指派为你的搭档——显然这不是他自愿的。",
+      "character_type": "ally",
+      "is_hostile": false,
+      "hp": 0,
+      "max_hp": 0,
+      "dialog_options": [
+        {
+          "option_id": "hargreaves_ask_case",
+          "text": "询问案件情况",
+          "response": "长官，在您之前已经有三位督察了。前两位被发现时——嗯，处境很不体面。第三位就……失踪了。没人想接这个案子。除了您，显然。",
+          "requires_flag": "",
+          "gives_clue": ""
+        },
+        {
+          "option_id": "hargreaves_ask_plant",
+          "text": "询问屠宰场的情况",
+          "response": "哈格雷夫肉类加工厂。六个月前因卫生检查而关闭——至少档案上是这么写的。但电力一直没有断。有人在交电费。而且附近居民报告夜间有灯光、车辆进出。",
+          "requires_flag": "",
+          "gives_clue": "plant_still_active"
+        },
+        {
+          "option_id": "hargreaves_ask_weird",
+          "text": "询问诡异事件",
+          "response": "长官，这个街区有人失踪了。不是一两个——过去三个月里失踪了十几个人。全都在同一片区域。全都在老工业区附近。上面的人说这只是'城市衰退'。我说这比那更糟。",
+          "requires_flag": "act1_started",
+          "gives_clue": "missing_persons_pattern"
+        }
+      ],
+      "first_encounter_text": "哈格里夫斯警员站在门边，帽子拿在手中。他的眼睛在房间里四处扫视，仿佛在提防什么东西从暗处扑出来。'拉姆齐-贝潘督察，长官。我被指派为您的……搭档。负责这个案子。'他明显地咽了口唾沫。'我已经看过卷宗了。我真希望我没看过。'",
+      "talk_text": "哈格里夫斯紧张地挪了挪身子。'您需要什么，长官？我会尽力帮忙，不过我得提醒您——我对这种事胃不太好。'",
+      "icon_char": "H",
+      "room_id": "intro"
+    },
+    "weiland": {
+      "name": "魏兰德医生",
+      "title": "法医 — 乔木区",
+      "description": "一位穿着沾满污渍实验服的老人。他的双眼因缺乏睡眠而布满血丝，但疲惫之下隐藏着一种敏锐——那是一个见过无法解释之事却不会停下追查之人的目光。",
+      "character_type": "npc",
+      "is_hostile": false,
+      "hp": 0,
+      "max_hp": 0,
+      "dialog_options": [
+        {
+          "option_id": "weiland_ask_body",
+          "text": "询问尸体情况",
+          "response": "我当了三十年法医。这座城市能提供的每一种死法我都见过。但这个……这不是死亡。这是别的什么东西。这个女人在死前发生了什么——以及死后。组织异变仍在进行，甚至是在死后。她仍在被*加工*。",
+          "gives_clue": "ongoing_transmutation"
+        },
+        {
+          "option_id": "weiland_ask_amber",
+          "text": "询问琥珀色物质",
+          "response": "我把样本送到了三个不同的实验室。两个回复说是'无法鉴定的化合物'。第三个实验室给我回电话，让我销毁样本并忘记我曾找到它。他们害怕了。我能从他们的声音里尝出恐惧。",
+          "requires_flag": "act1_amber_tasted",
+          "gives_clue": "lab_coverup"
+        },
+        {
+          "option_id": "weiland_ask_taste",
+          "text": "询问关于'品尝'的说法",
+          "response": "督察，您的名声在先。他们说你能尝出事物中的真相。说你的舌头是……神赐的。我花了三十年学习阅读死者的语言。也许你能读出我无法读出的东西。尝尝她的手腕。我不会评判。",
+          "gives_clue": ""
+        }
+      ],
+      "first_encounter_text": "魏兰德医生在你进来时没有抬头。他正盯着那具尸体——确切地说，是盯着露出的手腕，眉头紧锁地沉思。'所以你就是那个拥有神赐之舌的人，'他说。'我一直在等一个能真正尝出我只能看到之物的人。'",
+      "talk_text": "魏兰德医生瞥了你一眼，又看向尸体。'你的感官告诉你什么，督察？我已经到达了医学所能解释的极限。'",
+      "icon_char": "W",
+      "room_id": "morgue"
+    },
+    "mutant1": {
+      "name": "一号变异体",
+      "title": "失败实验体 — 第7批",
+      "description": "一个半透明皮肤、琥珀色血管清晰可见的人形生物。它的动作痉挛而不协调，像一个缠线木偶。",
+      "character_type": "enemy",
+      "is_hostile": true,
+      "hp": 1,
+      "max_hp": 1,
+      "dialog_options": [],
+      "first_encounter_text": "变异体的头朝你抽搐了一下。透过它脸上半透明的皮肤，你可以看到琥珀色化合物在曾经正常的血管中脉动。它张开了嘴，但没有发出声音——只有一丝细细的琥珀色液体流出。",
+      "talk_text": "",
+      "icon_char": "☠",
+      "attack_name": "扑击",
+      "attack_text": "变异体猛扑过来，琥珀色染透的双手伸向你的喉咙！",
+      "attack_damage": 5,
+      "weakness_clue": "killer_mechanic",
+      "defeat_flag": "act2_mutant1_defeated",
+      "defeat_text": "变异体在听到第7批时僵住了。那双死寂的眼睛中闪过一丝可能是认知的光芒。它退到一旁，让出了通道。",
+      "room_id": "airship_tower"
+    },
+    "mutant2": {
+      "name": "二号变异体",
+      "title": "强化实验体 — 第12批",
+      "description": "血肉与机械的怪诞融合。机械关节取代了天然肢体，双眼被琥珀色发光镜头替换。",
+      "character_type": "enemy",
+      "is_hostile": true,
+      "hp": 1,
+      "max_hp": 1,
+      "dialog_options": [],
+      "first_encounter_text": "这个变异体经过了强化——机械肢体在它转向你时咔嗒作响。琥珀色发光的双眼以一种其有机前身所缺乏的强度聚焦。有人改进了设计。",
+      "talk_text": "",
+      "icon_char": "☠",
+      "attack_name": "机械打击",
+      "attack_text": "强化变异体的机械臂以可怕的精确度挥来！",
+      "attack_damage": 8,
+      "weakness_clue": "killer_doctor",
+      "defeat_flag": "act2_mutant2_defeated",
+      "defeat_text": "变异体的机械肢体在得知自己被创造真相时痉挛起来。它发出一声曾经或许是尖叫的声音，然后倒下了。",
+      "room_id": "airship_tower"
+    },
+    "mutant3": {
+      "name": "三号变异体",
+      "title": "保留意识体 — 最终批次",
+      "description": "三个变异体中最像人的一个。它保留了面孔和某种程度的意识，尽管皮肤下琥珀色血管讲述了同样的变异故事。",
+      "character_type": "enemy",
+      "is_hostile": true,
+      "hp": 1,
+      "max_hp": 1,
+      "dialog_options": [],
+      "first_encounter_text": "第三个变异体用仍然存有人性的眼睛看着你。'你尝起来像他们，'它低语道。'像那些制造我们的人。但不一样。你尝起来像……真相。'",
+      "talk_text": "变异体的嘴唇翕动，发出琥珀色染透的喉咙勉强能产生的词语：'终结它。终结这一切。'",
+      "icon_char": "☠",
+      "attack_name": "绝望伸抓",
+      "attack_text": "变异体向你伸出手——不是攻击，而是抓取，像一个溺水之人伸向救命的绳索。",
+      "attack_damage": 3,
+      "weakness_clue": "killer_backer",
+      "defeat_flag": "act2_mutant3_defeated",
+      "defeat_text": "变异体的眼中浮现出类似希望的神色。它退到一旁，将一把钥匙按进你手中。'终结它，'它说。'终结这一切。'",
+      "room_id": "airship_tower"
+    },
+    "mastermind": {
+      "name": "幕后主使",
+      "title": "主管 — 白蔷薇炼金工坊",
+      "description": "一个穿着沾满琥珀色污渍白实验服的身影。其眼中带着将人命化为公式的冷酷算计。",
+      "character_type": "boss",
+      "is_hostile": true,
+      "hp": 3,
+      "max_hp": 3,
+      "dialog_options": [],
+      "first_encounter_text": "幕后主使从暗处走出，手中握着遥控器。'拉姆齐-贝潘督察。你的名声名副其实——你的味觉更是……出类拔萃。但你来晚了。聚合即将完成。'",
+      "talk_text": "幕后主使冷冷地笑了。'你以为你赢了？你只触及了表面。白蔷薇的根基远比这个小工坊深得多。'",
+      "icon_char": "☠",
+      "attack_name": "激活聚合",
+      "attack_text": "幕后主使按下遥控器上的按钮。聚合体在培养缸中猛烈冲击着玻璃！",
+      "attack_damage": 10,
+      "weakness_clue": "convergence_weakness",
+      "defeat_flag": "act2_boss_defeated",
+      "defeat_text": "幕后主使在聚合体消散时倒下了。他们的杰作——他们的毕生心血——化为虚无。'你……你毁了一切，'他们低语道。",
+      "room_id": "white_rose_workshop"
+    },
+    "---- 小说扩充 ----": {
+      "_comment": "以下角色均基于小说《综网：地狱之下-第十二卷》内容扩充"
+    },
+    "margaret_widow": {
+      "name": "寡妇玛格丽特",
+      "title": "诱捕者 — 棚户区",
+      "description": "约四十岁出头的女人，眼窝深陷，颧骨高耸，皮肤粗糙得像砂纸。但她的眼神很平静——平静得不像一个刚死了丈夫的寡妇。她的汤里藏着毒药，她的后院埋着尸体，但她的动机不是杀戮——是自卫。",
+      "character_type": "npc",
+      "is_hostile": false,
+      "hp": 0,
+      "max_hp": 0,
+      "dialog_options": [
+        {
+          "option_id": "widow_ask_husband",
+          "text": "询问丈夫的死",
+          "response": "\u201c肺痨。矿上干活的人都得的病。咳了三个月，最后还是没挺过去。\u201d她说得很快，太流畅了——像一段被反复排练过的台词。",
+          "gives_clue": ""
+        },
+        {
+          "option_id": "widow_ask_soup",
+          "text": "询问那碗汤",
+          "response": "她的嘴唇哆嗦了一下。\u201c那是给他的供奉。每天清早送一碗，他生前最爱喝的。土豆洋葱汤。\u201d停顿。然后她笑了——那笑容很轻，像刀片划过皮肤。\u201c您想喝一碗吗？\u201d",
+          "gives_clue": ""
+        },
+        {
+          "option_id": "widow_ask_intruders",
+          "text": "询问地痞失踪",
+          "response": "她的眼睛眯了一下。\u201c谁来保护一个死了丈夫、没有收入、每天被地痞骚扰的寡妇？市政厅不会管我们，警察不会管我们。我只有这锅汤。\u201d她竖起三根手指。",
+          "requires_flag": "act3_soup_tasted",
+          "gives_clue": "widow_confession"
+        }
+      ],
+      "first_encounter_text": "门开了一条缝，露出半张女人的脸。约四十岁出头，眼窝深陷，颧骨高耸。但她的眼神很平静——平静得不像一个刚死了丈夫的寡妇。\u201c我不记得请过侦探。\u201d",
+      "talk_text": "寡妇玛格丽特静静地看着你，眼神里那种刀片般的锋利又浮现出来。\u201c您还有别的问题吗，侦探先生？还是您只是来喝汤的？\u201d",
+      "icon_char": "M",
+      "room_id": "widow_cottage"
+    },
+    "edmond_grey": {
+      "name": "艾德蒙·格雷",
+      "title": "机械师秘书 — 前无畏号轮机班",
+      "description": "秃顶的男人，戴着金丝眼镜，指甲干净。拇指和食指内侧有液压钳的握持茧。靴子上沾着北境港口特有的铁锈红泥。他不是文职人员——他是一个经常使用重型液压设备的机械师，伪装成了工会秘书。",
+      "character_type": "npc",
+      "is_hostile": true,
+      "hp": 1,
+      "max_hp": 1,
+      "dialog_options": [
+        {
+          "option_id": "grey_ask_occupation",
+          "text": "询问他的职业",
+          "response": "\u201c工会秘书。负责记录和文书。\u201d他的声音沙哑，带着被噪音磨损的粗糙感。但你的目光落在他的老茧上——那不是握笔留下的。",
+          "gives_clue": ""
+        },
+        {
+          "option_id": "grey_ask_boots",
+          "text": "询问他的靴子",
+          "response": "他的脸色变了。\u201c我的靴子……跟您有什么关系？\u201d但他的手已经伸向桌下——那里有武器。",
+          "requires_flag": "act3_slum_examined",
+          "gives_clue": "grey_north_connection"
+        }
+      ],
+      "first_encounter_text": "秃顶的男人坐在大厅深处，金丝眼镜后的瞳孔微微收缩——不是恐惧，是警觉。像一只察觉到危险的猫，肌肉绷紧，准备随时逃跑或反击。\u201c私人侦探？这里不欢迎你。没有搜查令，请出去。\u201d",
+      "talk_text": "格雷的嘴唇紧闭。他在计算——计算逃跑路线，计算你掌握的信息量，计算沉默的成本。",
+      "icon_char": "G",
+      "attack_name": "蒸汽扳手挥击",
+      "attack_text": "格雷从桌下抽出改装蒸汽扳手，高压蒸汽的嘶鸣中砸向你！",
+      "attack_damage": 8,
+      "weakness_clue": "grey_north_connection",
+      "defeat_flag": "act3_grey_confronted",
+      "defeat_text": "银质餐刀抵在他的颈动脉上。他的蒸汽扳手需要预热三秒——他没预热。这是他今年犯的第三个错误。",
+      "room_id": "mechanic_union"
+    },
+    "chef": {
+      "name": "厨师",
+      "title": "底层成员 — 美食俱乐部",
+      "description": "身穿白色围裙、头戴厨师高帽的矮胖男人。围裙上沾满暗红色污渍，手中握着剔骨刀和一本正在燃烧的账簿。他的手指有戒断反应的抽搐，瞳孔放大但无神——长期使用某种药物的症状。舌下藏有预植毒囊。",
+      "character_type": "enemy",
+      "is_hostile": true,
+      "hp": 1,
+      "max_hp": 1,
+      "dialog_options": [],
+      "first_encounter_text": "厨师蹲在铁桶旁，正在一页页撕下账簿扔进火里。他抬起头看到你——瞳孔中浮现的不是恐惧，而是绝望。\u201c别烧，\u201d你说。他的表情从绝望变为狰狞，剔骨刀出鞘。",
+      "talk_text": "厨师的声音突然变了——变得空洞，不像他自己的。\u201c我只看到，'西区，奥古斯都庄园，后厨'。\u201d",
+      "icon_char": "☠",
+      "attack_name": "剔骨刀劈砍",
+      "attack_text": "厨师挥舞剔骨刀，银色弧线划向你的喉咙！",
+      "attack_damage": 6,
+      "weakness_clue": "augustus_estate_clue",
+      "defeat_flag": "act3_chef_encountered",
+      "defeat_text": "厨师被按在木箱上，但他体内的毒囊已经触发——虹膜被黑色吞噬，舌下囊泡膨胀破裂，黑色毒雾弥漫。他液化成了一滩黑色脓水。",
+      "room_id": "underground_cold_storage"
+    },
+    "moretti": {
+      "name": "莫雷蒂子爵",
+      "title": "贵族中间人 — 美食俱乐部",
+      "description": "穿着华贵礼服的中年男人，下巴微抬，眼神中带着世代贵族特有的优越感。他的手指上有淡淡的化学品灼伤痕迹，呼吸中带着极光会雪茄的余韵和双份糖浆咖啡的甜味。他是美食俱乐部的中间人，负责下单和验收'容器'。",
+      "character_type": "boss",
+      "is_hostile": true,
+      "hp": 2,
+      "max_hp": 2,
+      "dialog_options": [
+        {
+          "option_id": "moretti_ask_club",
+          "text": "询问美食俱乐部",
+          "response": "\u201c你尝到了备料阶段的味道——那些'容器'。你尝到了加工阶段的味道——白蔷薇的炼金术。但你还没尝过主菜的味道。\u201d他的笑容没有到达眼睛。",
+          "gives_clue": ""
+        },
+        {
+          "option_id": "moretti_ask_father",
+          "text": "询问养父",
+          "response": "他的表情微变。\u201c艾萨克·拉姆齐？一个有才华的厨师……可惜他最后关头失去了味觉。他不愿意完成最后一道菜。\u201d冷笑。\u201c所以他跑了。但他的'食材'留了下来。\u201d",
+          "requires_flag": "act5_diary_read",
+          "gives_clue": "fathers_betrayal_and_redemption"
+        }
+      ],
+      "first_encounter_text": "莫雷蒂子爵向你走来，下巴微抬，眼神中带着世代贵族特有的优越感。\u201c听说今晚有一位……非凡的客人。您一定就是那位传说中的美食侦探。\u201d他的呼吸中带着极光会雪茄和双份糖浆咖啡的味道。",
+      "talk_text": "莫雷蒂的笑容始终没有到达他的眼睛。\u201c贝潘先生，您还差最关键的一味调料。让我带您去看看。\u201d",
+      "icon_char": "M",
+      "attack_name": "异变冲锋",
+      "attack_text": "注射了浓缩泪滴的莫雷蒂异变冲锋而来，琥珀色血管在皮肤下狂暴地脉动！",
+      "attack_damage": 12,
+      "weakness_clue": "moretti_sugar_coffee",
+      "defeat_flag": "act4_boss_defeated",
+      "defeat_text": "莫雷蒂的异变体在你指出他的恐惧后僵住了。失去泪滴供给后，他退化回了人——一个颤抖的、苍白的、不再可怕的人。\u201c一切……在无畏号上……你父亲……还在那里……\u201d",
+      "room_id": "augustus_main_hall"
+    },
+    "captain_brennan": {
+      "name": "布伦南船长",
+      "title": "老船长 — 无畏号",
+      "description": "大约五十岁，脸被北境的风吹得像树皮一样粗糙，左眼戴着一只黑色眼罩。手中永远握着一杯不加糖的朗姆酒。他不是一个坏人——只是一个在贪婪雇主和危险货物之间求生存的老海员。",
+      "character_type": "ally",
+      "is_hostile": false,
+      "hp": 0,
+      "max_hp": 0,
+      "dialog_options": [
+        {
+          "option_id": "brennan_ask_ship",
+          "text": "询问无畏号",
+          "response": "\u201c这艘船跑了三十年北境航线。运过鲸油、矿石、补给。十年前开始运别的东西——密封的箱子，从没打开过，只要求保持低温。我不过问。直到那些东西开始……蠕动。\u201d",
+          "gives_clue": "dauntless_mobile_lab"
+        },
+        {
+          "option_id": "brennan_ask_father",
+          "text": "询问艾萨克·拉姆齐",
+          "response": "\u201c你的养父？他十年前是这艘船上的乘客。不是乘客——是研究者。他在下层甲板有一间实验室。我奉命不得让任何人进入。\u201d他喝了一口朗姆酒。\u201c但那已经是十年前的事了。\u201d",
+          "gives_clue": "father_on_dauntless"
+        }
+      ],
+      "first_encounter_text": "布伦南船长坐在桥楼的指挥椅上，独眼直视着你。他的声音像被海盐浸泡过的木头。\u201c拉姆齐-贝潘。我认得这个姓氏。\u201d",
+      "talk_text": "布伦南喝了一口朗姆酒。\u201c淡水箱里最近出了问题。船员们说夜间能听到蠕动的声音。我以为是老鼠，但老鼠不会发光。\u201d",
+      "icon_char": "B",
+      "room_id": "dauntless_cabin"
+    },
+    "olaf": {
+      "name": "奥拉夫·埃里克森",
+      "title": "酿酒师 — 无畏号",
+      "description": "一个坐在角落里双手颤抖的男人。眼球微黄——肝功能受损的征兆。他不是故意污染啤酒的——他只是没有选择。灵界蠕虫的分泌物混入了酿酒系统，他发现了，但没有人听。",
+      "character_type": "npc",
+      "is_hostile": false,
+      "hp": 0,
+      "max_hp": 0,
+      "dialog_options": [
+        {
+          "option_id": "olaf_ask_beer",
+          "text": "询问被污染的啤酒",
+          "response": "\u201c啤酒被污染了……不是故意的。是水箱。淡水箱的水流进了酿酒系统。那些蠕虫的分泌物混进了啤酒。喝了的人……他们会看到不该看到的东西。然后他们就开始变了。\u201d",
+          "gives_clue": "spiritual_extraction"
+        }
+      ],
+      "first_encounter_text": "酿酒师奥拉夫蜷缩在角落，面前放着半杯未完成的啤酒。他的双手在颤抖。\u201c啤酒被污染了……不是故意的……\u201d",
+      "talk_text": "奥拉夫的声音像被碾碎的酒瓶。\u201c他们不听我的。没有人听一个酒鬼的话。\u201d",
+      "icon_char": "O",
+      "room_id": "brewery"
+    },
+    "grandmother_anastasia": {
+      "name": "阿纳斯塔西娅",
+      "title": "祖母 — 贝潘家族第十八号",
+      "description": "一个坐在壁炉旁扶手椅上的老妇人，琥珀色的眼睛在暗处微微发光。她是贝潘家族第十八号'神赐之舌'的携带者——也是唯一一个活到自然衰老的携带者。她的知识和智慧跨越了两个世代。",
+      "character_type": "npc",
+      "is_hostile": false,
+      "hp": 0,
+      "max_hp": 0,
+      "dialog_options": [
+        {
+          "option_id": "grandmother_ask_history",
+          "text": "询问贝潘家族历史",
+          "response": "\u201c每一代贝潘都会诞生一个'神赐之舌'的携带者。你的母亲是第十九号。你是第二十号——也是最终号。二十代人的舌头拼合在一起，就是通往神之领域的钥匙。\u201d她的琥珀色眼睛在火光中闪烁。\u201c但你可以做出不同的选择。\u201d",
+          "gives_clue": "beppan_lineage_truth"
+        },
+        {
+          "option_id": "grandmother_ask_mother",
+          "text": "询问母亲",
+          "response": "\u201c你的母亲拒绝了。她选择封印自己的舌头，将自己封存在琥珀中，沉入枯井底部。她宁愿永远沉睡，也不愿成为那扇门的门轴。\u201d老妇人的声音微微颤抖。\u201c她爱你——胜过她爱自己的天赋。\u201d",
+          "requires_flag": "act6_grandmother_spoken",
+          "gives_clue": "mothers_will"
+        }
+      ],
+      "first_encounter_text": "一个声音从大厅深处传来——苍老、沙哑、但带着一种奇异的温暖：\u201c我的孩子。你终于回来了。\u201d阿纳斯塔西娅·贝潘从阴影中走出。她的眼睛是琥珀色的——和壁炉上每一幅画像一样。",
+      "talk_text": "祖母的琥珀色眼睛凝视着你。\u201c枯井下面，有你需要知道的一切。第二十号必须做出选择。\u201d",
+      "icon_char": "A",
+      "room_id": "beppan_estate"
+    },
+    "victoria_augustus": {
+      "name": "维多利亚·奥古斯都",
+      "title": "女主人 — 美食俱乐部",
+      "description": "白色长裙、金色高髻、齿轮与玫瑰胸针。她的眼中没有疯狂——只有一种冰冷的、算计的优雅。她是美食俱乐部的真正主人，策划了'最终晚餐'仪式，试图用二十代贝潘家族的'神赐之舌'拼合'无瞳之神'的口腔。",
+      "character_type": "boss",
+      "is_hostile": true,
+      "hp": 3,
+      "max_hp": 3,
+      "dialog_options": [],
+      "first_encounter_text": "维多利亚·奥古斯都站在圣坛前，白色长裙在烛光中如同一道瀑布。她的声音在教堂中回荡：\u201c第二十号，你终于来了。最终晚餐的餐桌已经摆好。\u201d",
+      "talk_text": "维多利亚冷冷地笑了。\u201c你以为烧掉一个工坊就能终结这一切？白蔷薇只是一个厨房。美食俱乐部只是试菜会。而这里——\u201d她指向穹顶，\u201c这里是餐厅。而你是主菜。\u201d",
+      "icon_char": "V",
+      "attack_name": "灵界裂隙",
+      "attack_text": "维多利亚按下遥控装置，大教堂穹顶的灵界裂隙中降下无瞳之神的投影——无数舌头拼合的巨大口腔！",
+      "attack_damage": 15,
+      "weakness_clue": "final_dinner_recipe",
+      "defeat_flag": "act6_choice_made",
+      "defeat_text": "维多利亚的计划化为灰烬。无论你做出什么选择，她的'最终晚餐'已经无法完成。她跪倒在圣坛前，金色的发髻散落，齿轮与玫瑰的胸针在石板上碎裂。",
+      "room_id": "cathedral_nave"
+    },
+    "foster_father_isaac": {
+      "name": "艾萨克·拉姆齐",
+      "title": "养父 — 拉姆齐机械厂创始人",
+      "description": "一个被绑在石柱上的中年男人，身上插满琥珀色导管，正在被'加工'。他的眼中没有恐惧——只有愧疚和一种迟来的、微弱的希望。十年前，他是贝潘家族'神赐之舌'的研究者；十年前，他在最后一刻选择了背叛实验，放走了你。",
+      "character_type": "npc",
+      "is_hostile": false,
+      "hp": 1,
+      "max_hp": 3,
+      "dialog_options": [
+        {
+          "option_id": "isaac_ask_why",
+          "text": "询问他为什么放走你",
+          "response": "\u201c我做不到。你是我的儿子。即使不是亲生的。即使你只是……一个配方中的材料。我无法把你放上餐桌。\u201d他的声音像碎裂的钟声。\u201c所以我写下了那个字——'逃'。然后我消失了。但这十年……我一直在准备另一道菜。一道……救赎的菜。\u201d",
+          "requires_flag": "act6_victoria_confronted",
+          "gives_clue": "fathers_betrayal_and_redemption"
+        }
+      ],
+      "first_encounter_text": "艾萨克·拉姆齐被绑在大教堂圣坛后的石柱上，琥珀色导管插满全身。他抬起头，看着你——眼中没有恐惧，只有愧疚和一种微弱的希望。\u201c乔治斯……\u201d",
+      "talk_text": "养父的嘴唇在动，鲜血和琥珀色液体同时从导管伤口涌出。\u201c吃掉我。然后……活下去。\u201d",
+      "icon_char": "I",
+      "room_id": "cathedral_nave"
+    },
+    "deep_sea_worm": {
+      "name": "深海巨虫",
+      "title": "灵界入侵体 — 无畏号寄生",
+      "description": "从灵界渗透进物理世界的巨大蠕虫状生物，缠绕在无畏号船体外部。半透明的躯体中可见消化腔——里面有人类遗骸和未完成的'容器'。它被'无瞳之神的泪滴'残留吸引而来。",
+      "character_type": "boss",
+      "is_hostile": true,
+      "hp": 3,
+      "max_hp": 3,
+      "dialog_options": [],
+      "first_encounter_text": "深海巨虫的触手从舱壁缝隙中渗入轮机舱，半透明躯体中消化腔的人类遗骸清晰可见。它的存在本身就是对物理世界的亵渎——一种不应该存在于这个维度的味道。",
+      "talk_text": "",
+      "icon_char": "☠",
+      "attack_name": "触手缠绕",
+      "attack_text": "巨虫的触手从舱壁缝隙中涌出，半透明的躯体将你缠绕！消化腔的酸液灼烧着你的皮肤！",
+      "attack_damage": 12,
+      "weakness_clue": "worm_weakness",
+      "defeat_flag": "act5_boss_defeated",
+      "defeat_text": "你的'神赐之舌'接触让灵界物质产生排异反应，巨虫从被你品尝的部位开始自我分解。它沉回了深海。",
+      "room_id": "engine_room"
+    }
+  }
+}

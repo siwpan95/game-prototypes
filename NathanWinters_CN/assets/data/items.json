@@ -1,0 +1,277 @@
+{
+  "items": {
+    "red_marlboro": {
+      "id": "red_marlboro",
+      "name": "红万宝路",
+      "description": "一包皱巴巴的红万宝路香烟。只剩两根了。包装纸摸起来莫名地发烫。你曾经试图戒掉它们——一次又一次。但每到长夜尽头，你的手指总会回到这包烟上。它们是你和另一种生活之间最后的绳索。",
+      "portable": true,
+      "used_in_puzzle": "smoking_ritual"
+    },
+    "chain_key": {
+      "id": "chain_key",
+      "name": "链条钥匙",
+      "description": "一把沉重的铁钥匙，挂在锈蚀的链条上。钥匙齿的形状像向外抓伸的微小手指。",
+      "portable": true,
+      "used_in_puzzle": "unlock_lancaster"
+    },
+    "ice_block": {
+      "id": "ice_block",
+      "name": "冰块",
+      "description": "拳头大小的冰块，永远不会融化。当你移开视线时，里面有什么黑色的东西在移动。",
+      "portable": true,
+      "used_in_puzzle": "freezing_memory"
+    },
+    "ex_altiora": {
+      "id": "ex_altiora",
+      "name": "Ex Altiora",
+      "description": "一本装订在褪色红色封面中的薄册子。里面的文字在拉丁文和某种更古老的语言之间不断切换。当你把它靠近耳边时，它会低语。",
+      "portable": true,
+      "used_in_puzzle": "smoking_ritual"
+    },
+    "prayer_strip": {
+      "id": "prayer_strip",
+      "name": "祈祷布条",
+      "description": "一条写着用血写就的祈祷文的布条。文字是一种你几乎能理解的古老语言。",
+      "portable": true,
+      "used_in_puzzle": "prayer_seal"
+    },
+    "doll_head": {
+      "id": "doll_head",
+      "name": "娃娃头",
+      "description": "一个瓷娃娃的头部，一只画上去的眼睛缺失了。剩下那只眼睛似乎一直在跟着你。",
+      "portable": true,
+      "used_in_puzzle": "doll_assembly"
+    },
+    "metal_heart": {
+      "id": "metal_heart",
+      "name": "金属心脏",
+      "description": "一个由失去光泽的黄铜制成的钟表心脏。它的滴答声不规则，仿佛在跟着秒以外的什么东西计时。",
+      "portable": true,
+      "used_in_puzzle": "heart_replacement"
+    },
+    "green_ribbon": {
+      "id": "green_ribbon",
+      "name": "绿色丝带",
+      "description": "一条褪色的绿色丝带，散发着古老花园的气息。将它系在手腕上会让低语声安静一些。",
+      "portable": true,
+      "used_in_puzzle": null
+    },
+    "a5_notebook": {
+      "id": "a5_notebook",
+      "name": "A5笔记本",
+      "description": "一本写满密密麻麻手写文字的小型A5笔记本。其中的条目描述的是尚未发生的事件。某些条目以SFC编号标记——旧金山连环案系列。最后一页的日期还没到来。",
+      "portable": true,
+      "used_in_puzzle": "laundry_infiltration"
+    },
+    "sanskrit_book": {
+      "id": "sanskrit_book",
+      "name": "梵文书",
+      "description": "一本书脊上印有梵文文字的皮装书。打开它会让房间变得更冷。某些段落在大声朗读时会发出微弱的光芒。",
+      "portable": true,
+      "used_in_puzzle": "sanskrit_translation"
+    },
+    "johns_envelope": {
+      "id": "johns_envelope",
+      "name": "约翰的信封",
+      "description": "一个白色信封，里面装着一万英镑的纸币。钱散发着油墨和棉纸混合的气味。信封上没有寄件人地址。",
+      "portable": true,
+      "used_in_puzzle": "amsterdam_deal"
+    },
+    "labyrinth_table": {
+      "id": "labyrinth_table",
+      "name": "迷宫桌",
+      "description": "一张桌子，表面刻着精密的迷宫图案，中央有一个方形的孔洞。孔洞通向某种你无法看到的深处。你的手指不自觉地被它吸引。",
+      "portable": false,
+      "used_in_puzzle": "graham_discovery"
+    },
+    "grahams_notebook": {
+      "id": "grahams_notebook",
+      "name": "格雷厄姆的笔记本",
+      "description": "一本黑色A5螺旋装订笔记本。里面的文字记录着尚未发生的事件——包括你即将做的事。",
+      "portable": true,
+      "used_in_puzzle": null
+    },
+    "fellowes_photo": {
+      "id": "fellowes_photo",
+      "name": "菲罗斯的寻人启事",
+      "description": "一张褪色的寻人启事照片。照片上的年轻人戴着黑框眼镜，嘴角带着腼腆的微笑。他口袋里露出一包红万宝路的边角。",
+      "portable": true,
+      "used_in_puzzle": "missing_student"
+    },
+    "coffin_key": {
+      "id": "coffin_key",
+      "name": "棺材钥匙",
+      "description": "一把铁制钥匙，表面有简单的花纹。它永远是温热的——即使从未被人握持过。它在梦中会呼唤你。",
+      "portable": true,
+      "used_in_puzzle": "coffin_seal"
+    },
+    "sf_file": {
+      "id": "sf_file",
+      "name": "旧金山文件",
+      "description": "一份标记为'机密'的文件，SFC系列编号清晰可见。里面的文字描述了不应该被知道的现象——一种以十二年为周期的谋杀模式。墨水在某些段落会缓慢移动。最后一页附有一张旧金山的航拍照片，照片上的某些区域在缓慢脉动。",
+      "portable": true,
+      "used_in_puzzle": "archive_discovery"
+    },
+    "memex_film": {
+      "id": "memex_film",
+      "name": "微缩胶片",
+      "description": "一卷微缩胶片。投影时显示的不是文字和图表，而是面容——被记住的人的面容。你认出了其中一个。",
+      "portable": true,
+      "used_in_puzzle": null
+    },
+    "nathans_warning": {
+      "id": "nathans_warning",
+      "name": "内森的警告",
+      "description": "一篇发在网络论坛上的帖子打印件。标题是'不要停车'。帖子的最后一个句号似乎在微微颤动。",
+      "portable": true,
+      "used_in_puzzle": "public_warning"
+    },
+    "shadow_lamp": {
+      "id": "shadow_lamp",
+      "name": "影灯",
+      "description": "一盏黄铜台灯，灯罩上覆盖着不透光的黑色布料。但灯光——灯光不是从灯泡发出的。它从灯罩的缝隙中渗出，像琥珀色的液体。在灯光下，你的影子会自己移动。守夜人称之为'净衣'，但灯的火焰是'污衣'的颜色。",
+      "portable": true,
+      "used_in_puzzle": "night_watch"
+    },
+    "water_foot_coin": {
+      "id": "water_foot_coin",
+      "name": "水脚钱",
+      "description": "一枚铜钱，但材质不像铜——更像是凝固的水。它在掌心微微脉动，像心脏在跳动。正面刻着水波纹，背面是一条鲤鱼的轮廓。排帮用它来缴纳'水脚'——走水线的过路费。",
+      "portable": true,
+      "used_in_puzzle": "water_line_passage"
+    },
+    "silver_carp_pin": {
+      "id": "silver_carp_pin",
+      "name": "银鲤胸针",
+      "description": "一枚精致的银质胸针，造型是一条跃出水面的鲤鱼。银色在灯光下会变成水蓝色。排帮守水人的信物——只有守护过水线的人才有资格佩戴。郭明德教授的领口别着一枚一模一样的。",
+      "portable": true,
+      "used_in_puzzle": "water_guardian"
+    },
+    "silk_scroll": {
+      "id": "silk_scroll",
+      "name": "旗语密约",
+      "description": "一卷丝绸卷轴，展开后水纹在丝绸表面流淌。文字只在流动中显现——这就是水文篆。它记录着晚清时期排帮与英国之间的密约，用旗帜和水纹同时编码的双重密码。翻译它需要一面旗帜和一条河流。",
+      "portable": true,
+      "used_in_puzzle": "decode_covenant"
+    },
+    "lin_zhiyuan_journal": {
+      "id": "lin_zhiyuan_journal",
+      "name": "林之远日志",
+      "description": "一本用防水油布包裹的陈旧笔记本。纸页因长期受潮而发黄，但文字仍然清晰——因为墨水是用水文篆写的，不会在水中消散。最后一条记录的日期是1937年。'灯残件尚在。排班表未签。后来人，签字续灯。'",
+      "portable": true,
+      "used_in_puzzle": "valley_outpost"
+    },
+    "duty_roster": {
+      "id": "duty_roster",
+      "name": "排班表",
+      "description": "一块石板，上面刻着密密麻麻的名字和日期。最后一个名字旁边的格位是空的——等待签字。石板表面有水纹在缓缓流动，名字在水光中忽隐忽现。签上你的名字，你就成了守夜人。",
+      "portable": false,
+      "used_in_puzzle": "night_watch_oath"
+    },
+    "r60_form": {
+      "id": "r60_form",
+      "name": "R60表格",
+      "description": "清洗部标准行动评估表格，R60编号。表格上列着行动人员、腐化指数、处置建议。安格尔顿的名字出现在审批栏。处置建议一栏写着'观察'，但'观察'二字下面还有一行更小的字：'或归档'。",
+      "portable": true,
+      "used_in_puzzle": "laundry_protocol"
+    },
+    "desk_lamp": {
+      "id": "desk_lamp",
+      "name": "台灯",
+      "description": "一盏普通的办公桌台灯，黄铜底座，绿色灯罩。它曾经站在安格尔顿的办公桌上。灯泡永远亮着，哪怕没有接电源。安格尔顿不在了——但灯还亮着。有人把灯留给了内森。意思是：值班继续。",
+      "portable": true,
+      "used_in_puzzle": "watch_succession"
+    },
+    "anchor_type4": {
+      "id": "anchor_type4",
+      "name": "锚-Ⅳ型",
+      "description": "一个拳头大小的黄铜球体，表面刻满了微缩符号。道具部的标准装备——锚定型现实稳定器。激活时，方圆三米内的物理法则会暂时恢复正常。在阈限空间中，它是唯一能让你双脚踩实地面的东西。",
+      "portable": true,
+      "used_in_puzzle": "reality_anchor"
+    },
+    "calibrated_ebony_rod": {
+      "id": "calibrated_ebony_rod",
+      "name": "校准型乌木棒",
+      "description": "一根30厘米长的乌木棒，两端镶嵌着银质接头。它用于校准影灯的燃烧频率。如果影灯的火焰开始变色——偏红或偏蓝——用这根棒轻触灯罩即可恢复。道具部的埃利斯说：'影灯和守夜人一样，需要定期校准。'",
+      "portable": true,
+      "used_in_puzzle": "lamp_calibration"
+    },
+    "sfc_files": {
+      "id": "sfc_files",
+      "name": "SFC系列档案",
+      "description": "六份标记为SFC-1到SFC-6的档案文件。每一份记录了一起以十二年为间隔的连环谋杀案。受害者之间没有已知的关联，但死亡方式和地点呈现数学级的精确模式。合恩角备忘录附在最后一页。",
+      "portable": true,
+      "used_in_puzzle": "cycle_pattern"
+    },
+    "cape_horn_memo": {
+      "id": "cape_horn_memo",
+      "name": "合恩角备忘录",
+      "description": "一份手写的备忘录，纸张边缘有海水浸泡的痕迹。'合恩角以南55°，深度3400米。装置运转正常。周期加速已被记录。关闭程序需要两名以上授权人员现场执行。注意：执行人员可能无法返回。'",
+      "portable": true,
+      "used_in_puzzle": "cape_horn_protocol"
+    },
+    "red_marlboro_cigarette": {
+      "id": "red_marlboro_cigarette",
+      "name": "单根红万宝路",
+      "description": "一根未被点燃的红万宝路香烟，静静躺在坏了的壁灯下面。它很新，没有被踩扁，像刚刚被人放在那里。它的品牌和约翰·菲罗斯口袋里那包一模一样。",
+      "portable": true,
+      "used_in_puzzle": "missing_student"
+    },
+    "broken_wall_lamp": {
+      "id": "broken_wall_lamp",
+      "name": "坏壁灯",
+      "description": "一个锈蚀的壁灯，玻璃罩积满污垢。里面没有灯泡，只有一根生锈的灯座。在它下面，一根红万宝路香烟静静躺着。这是唯一证明那个身影存在过的东西。",
+      "portable": false,
+      "used_in_puzzle": null
+    },
+    "litchenberg_print": {
+      "id": "litchenberg_print",
+      "name": "李庭博图版画",
+      "description": "Ex Altiora中的一幅木刻版画，画的是空旷的夜空。当你注视它时，背景里出现了锐利的、像树枝一样扩散开来的形状——高压电流在绝缘材料中分流的图案。和你童年朋友迈克尔背上的雷击疤痕一模一样。看着它，你感到强烈的下坠感。",
+      "portable": false,
+      "used_in_puzzle": "smoking_ritual"
+    },
+    "sanskrit_leitner_book": {
+      "id": "sanskrit_leitner_book",
+      "name": "莱特纳梵文书",
+      "description": "一本与Ex Altiora几乎一模一样的书——同样的手工装订，同样的皮革封面，同样盖着'尤根·莱特纳图书馆藏书'的藏书票。但里面是梵文，而非拉丁文。将它放在阴影中，骨头会从书页间掉落出来。",
+      "portable": false,
+      "used_in_puzzle": "sanskrit_translation"
+    },
+    "eye_painting": {
+      "id": "eye_painting",
+      "name": "巨眼之画",
+      "description": "一幅画着巨大眼睛的画作，细节清晰至极。虹膜中的纤维组成万花筒般的对称图案，每一层都是独立的图像，又与整体融为一体。画的下方有三行绿色的花体字：'赐予吾等破开无视之视。赐予吾等察觉异香之嗅。赐予吾等知悉潜音之觉。'",
+      "portable": false,
+      "used_in_puzzle": null
+    },
+    "flashlight": {
+      "id": "flashlight",
+      "name": "手电筒",
+      "description": "一把从拖车工具箱里取出的手电筒。光线在夜间公路上晃动，照亮了路肩上的白线。它是你接近路肩漫步者时唯一的保护——虽然你不确定光能阻挡什么。",
+      "portable": true,
+      "used_in_puzzle": null
+    },
+    "recruitment_letter": {
+      "id": "recruitment_letter",
+      "name": "招募信",
+      "description": "一封手写的信，墨水是深蓝色的，字迹工整而克制。'温特斯先生，我们了解您在爱丁堡、阿姆斯特丹、伯恩茅斯和北美洲的经历。我们相信您有一些我们感兴趣的信息。——J. Carpenter'",
+      "portable": true,
+      "used_in_puzzle": "laundry_protocol"
+    },
+    "employment_contract": {
+      "id": "employment_contract",
+      "name": "清洗部雇佣合同",
+      "description": "一份英国政府标准格式雇佣合同。第四条款：承认'通常不被公共知识所认可的现象和实体'。第七条款：授权使用'超出普通法律约束范围的手段'。第九条款：同意在必要时'放弃常规身份识别程序'。签下它，你就不再是内森·温特斯了。你是Bob。",
+      "portable": false,
+      "used_in_puzzle": "watch_succession"
+    },
+    "one_way_ticket": {
+      "id": "one_way_ticket",
+      "name": "单程机票",
+      "description": "一张从伦敦希思罗到温哥华的单程机票。登机口是47号。座位靠窗。你用它离开了这片大陆，以为可以逃离一切。但那些在路肩上行走的东西——它们不遵守航班时刻表。",
+      "portable": true,
+      "used_in_puzzle": null
+    }
+  }
+}

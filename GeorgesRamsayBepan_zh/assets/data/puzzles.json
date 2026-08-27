@@ -1,0 +1,234 @@
+{
+  "puzzles": {
+    "act1_final_deduction": {
+      "name": "三名杀手",
+      "description": "识别案件#897中三名负责人的身份。",
+      "puzzle_type": "deduction",
+      "prompt_text": "根据你的调查，识别案件#897中的三名杀手。每个人在行动中扮演了不同的角色。\n\n选择你的结论：",
+      "options": [
+        {
+          "option_id": "correct_three",
+          "text": "一个维护设备的机械师，一个改进流程的医生，以及一个从白蔷薇资助这一切的金主",
+          "is_correct": true,
+          "requires_clue": "three_killers",
+          "response_text": "正确。三名杀手，三个角色，一个行动。机械师的双手维持着机器运转。医生的头脑改进着流程。金主的金钱使一切成为可能。而所有线索都指向白蔷薇炼金工坊。"
+        },
+        {
+          "option_id": "wrong_single",
+          "text": "一个在屠宰场独自行动的杀手",
+          "is_correct": false,
+          "response_text": "错误。证据清楚显示了三种截然不同的特征——机械的、医疗的和财务的。这不是一个人的作品。"
+        },
+        {
+          "option_id": "wrong_cult",
+          "text": "一个在废弃工厂进行仪式献祭的邪教",
+          "is_correct": false,
+          "response_text": "错误。这不是仪式——这是工业。精确度、设备、记录……这是一条生产线，不是一场典礼。"
+        }
+      ],
+      "correct_option_id": "correct_three",
+      "on_correct_text": "你的推理已被确认。案件已经很清楚——但还没有结束。白蔷薇仍在等待。",
+      "on_wrong_text": "这与证据不符。再想想，督察。",
+      "on_complete_flag": "act1_deduction_complete",
+      "on_complete_clue": "three_killers_confirmed",
+      "sanity_penalty": 3,
+      "sanity_reward": 5,
+      "requires_clues": ["three_killers"],
+      "requires_flags": ["act1_killer1_identified", "act1_killer2_identified", "act1_killer3_identified"],
+      "is_one_time": true,
+      "room_id": "act1_deduction"
+    },
+    "---- 小说扩充 ----": {
+      "_comment": "以下谜题均基于小说《综网：地狱之下-第十二卷》内容扩充"
+    },
+    "act3_supply_chain_deduction": {
+      "name": "齿轮供应链",
+      "description": "推理'组装体'齿轮的完整供应链，从源头到终端。",
+      "puzzle_type": "deduction",
+      "prompt_text": "根据你在棚户区、机械师兄弟会和废弃泵站的调查，推理'组装体'齿轮的完整供应链。每个环节的参与者是谁？\n\n选择你的结论：",
+      "options": [
+        {
+          "option_id": "correct_chain",
+          "text": "无畏号拆下齿轮→运到贝克兰德→白蔷薇工坊加工→机械师安装到死者体内→中间人下单验收",
+          "is_correct": true,
+          "requires_clue": "gear_supply_chain",
+          "response_text": "正确。齿轮从'无畏号'上拆下，经海路运至贝克兰德，由白蔷薇炼金工坊加工为'容器'零件，再由机械师艾德蒙·格雷安装到活人体内。整个行动由一个喝双份糖浆咖啡、抽极光会雪茄的中间人下单验收。供应链的最顶端——指向奥古斯都庄园。"
+        },
+        {
+          "option_id": "wrong_local",
+          "text": "齿轮是本地采购的标准件，由屠宰场工人自行改装",
+          "is_correct": false,
+          "response_text": "错误。齿轮的磨损痕迹显示北境低温高湿盐雾环境，且齿面防锈保护膜在安装前已被磨损——这不是新的标准件，是从北境拆下的旧件。"
+        },
+        {
+          "option_id": "wrong_random",
+          "text": "齿轮来源不明，由不同的人分别提供",
+          "is_correct": false,
+          "response_text": "错误。所有齿轮的型号、模数和磨损特征完全一致——32齿，模数1.5，直径48毫米。这证明它们来自同一来源。"
+        }
+      ],
+      "correct_option_id": "correct_chain",
+      "on_correct_text": "供应链推理完成。所有齿轮来自'无畏号'，最终指向奥古斯都庄园。但更深的谜团仍在等待——'美食俱乐部'、'双份糖浆咖啡'、以及那个站在养父旧照片中的人。",
+      "on_wrong_text": "这与你收集的线索不符。重新审视证据链，督察。",
+      "on_complete_flag": "act3_deduction_complete",
+      "on_complete_clue": "supply_chain_confirmed",
+      "sanity_penalty": 3,
+      "sanity_reward": 5,
+      "requires_clues": ["gear_supply_chain", "widow_confession", "grey_north_connection"],
+      "requires_flags": ["act3_widow_truth", "act3_grey_confronted", "act3_pump_station_clue"],
+      "is_one_time": true,
+      "room_id": "act3_deduction"
+    },
+    "act4_greenhouse_deduction": {
+      "name": "温室秘密",
+      "description": "推理奥古斯都庄园地下温室的真正用途和母亲的处境。",
+      "puzzle_type": "deduction",
+      "prompt_text": "你在地下温室中发现了被封存在琥珀色培养器中的女性——你的母亲。根据所有调查线索，推理温室的真正用途。\n\n选择你的结论：",
+      "options": [
+        {
+          "option_id": "correct_incubator",
+          "text": "温室是'神性种子'的孵化器——他们用人体培养无瞳之神的碎片，而母亲是第十九号'容器'",
+          "is_correct": true,
+          "requires_clue": "mother_in_amber",
+          "response_text": "正确。奥古斯都庄园的地下温室不是花园——它是孵化器。异变植物以人体为土壤，培育'神性种子'。你的母亲玛格丽特·贝潘是第十九号'神赐之舌'的携带者，也是第十九号'容器'。她体内承载着无瞳之神的碎片——那是你'神赐之舌'超凡能力的真正来源。"
+        },
+        {
+          "option_id": "wrong_garden",
+          "text": "温室只是贵族的奇珍异草收藏，母亲是被绑架的受害者",
+          "is_correct": false,
+          "response_text": "错误。异变植物的叶脉呈琥珀色、果实内含骨骼和血管——这不是普通的园艺。且你母亲并非被动受害者——琥珀色封印是她自己的意志。"
+        },
+        {
+          "option_id": "wrong_lab_only",
+          "text": "温室只是白蔷薇工坊的分支实验室，与家族无关",
+          "is_correct": false,
+          "response_text": "错误。培养器上的编号'897-M'中的M代表Mother。莫雷蒂子爵的雪茄和糖浆咖啡指向更上层的策划者——这不是白蔷薇的独立运作，而是'美食俱乐部'核心成员的阴谋。"
+        }
+      ],
+      "correct_option_id": "correct_incubator",
+      "on_correct_text": "温室秘密揭示。你母亲是第十九号——而你，第二十号，是'最终晚餐'的最后一道材料。你必须追踪到无畏号，找到养父的实验室，了解他十年前为什么选择放你走。",
+      "on_wrong_text": "这个推论忽略了关键证据。再想想，督察——培养器上的编号、异变植物的本质、以及你自身的'神赐之舌'，它们之间有什么联系？",
+      "on_complete_flag": "act4_greenhouse_deduction_complete",
+      "on_complete_clue": "greenhouse_truth",
+      "sanity_penalty": 3,
+      "sanity_reward": 5,
+      "requires_clues": ["mother_in_amber", "divine_seed_in_mother", "moretti_sugar_coffee"],
+      "requires_flags": ["act4_mother_found", "act4_vessel_examined", "act4_moretti_met"],
+      "is_one_time": true,
+      "room_id": "underground_greenhouse"
+    },
+    "act5_dauntless_deduction": {
+      "name": "无畏号阴谋",
+      "description": "推理无畏号上发生的完整阴谋——灵性萃取、舌头标本、以及养父的选择。",
+      "puzzle_type": "deduction",
+      "prompt_text": "你在无畏号上发现了灵性萃取酒、二十个舌头标本和养父的日记。根据所有线索，推理无畏号阴谋的完整图景。\n\n选择你的结论：",
+      "options": [
+        {
+          "option_id": "correct_conspiracy",
+          "text": "无畏号是移动实验室——用灵性萃取酒'预处理'船员，收集贝潘家族二十代'神赐之舌'标本，准备'最终晚餐'仪式。但养父在最后关头选择了背叛实验。",
+          "is_correct": true,
+          "requires_clue": "fathers_betrayal_and_redemption",
+          "response_text": "正确。无畏号是整条供应链的核心——从北境运送齿轮和泪滴原料，用灵性萃取酒对不知情的船员进行'预处理'，同时收集贝潘家族'神赐之舌'的活性标本。二十个舌头标本用于拼合'无瞳之神'的口腔。但艾萨克·拉姆齐——你的养父——在写下最后一页'逃'之后，选择了放你走。这是他唯一的救赎。"
+        },
+        {
+          "option_id": "wrong_brennan",
+          "text": "布伦南船长是幕后主使，无畏号是他的工具",
+          "is_correct": false,
+          "response_text": "错误。布伦南只是一个被蒙蔽的老海员——他不知道密封箱子里装的是什么，也不知道淡水箱中的灵界蠕虫。真正的策划者在更上层。"
+        },
+        {
+          "option_id": "wrong_accident",
+          "text": "无畏号上的一切都是意外的环境污染，不存在阴谋",
+          "is_correct": false,
+          "response_text": "错误。灵性萃取酒的泪滴浓度精确到0.3毫升/升——这不是偶然污染，是精心调配的配方。二十个舌头标本的编号、养父日记中详细记录的实验过程——这些都是有组织、有预谋的。"
+        }
+      ],
+      "correct_option_id": "correct_conspiracy",
+      "on_correct_text": "无畏号阴谋揭示。二十代'神赐之舌'、灵性萃取、最终晚餐——所有线索汇聚成一个终点：安纳托利亚，贝潘古宅。那里有枯井、母亲封印、以及你必须面对的选择。",
+      "on_wrong_text": "你遗漏了关键联系。再想想——灵性萃取酒、舌头标本、养父的'逃'——它们如何组成一个完整的图景？",
+      "on_complete_flag": "act5_dauntless_deduction_complete",
+      "on_complete_clue": "dauntless_conspiracy_confirmed",
+      "sanity_penalty": 3,
+      "sanity_reward": 5,
+      "requires_clues": ["spiritual_extraction", "twenty_tongues_lineage", "fathers_betrayal_and_redemption"],
+      "requires_flags": ["act5_brewery_explored", "act5_diary_read", "act5_tongues_examined"],
+      "is_one_time": true,
+      "room_id": "foster_father_lab"
+    },
+    "final_dinner_choice": {
+      "name": "最终晚餐",
+      "description": "贝潘食谱上的第三道菜——选择。面对无瞳之神的舌头，做出你的抉择。这将决定结局。",
+      "puzzle_type": "choice",
+      "prompt_text": "圣坛上摆着三样东西：\n\n1. 无瞳之神的舌头——吞噬它，成为神之口腔的一部分，获得永恒的力量，但失去自我。\n\n2. 银质餐刀——拒绝它，切断灵界通道，保留人性，但二十代的牺牲化为虚无。\n\n3. 母亲的琥珀碎片——封印它，将它永远封存，但你的'神赐之舌'将永远沉默。\n\n三种风味，三种结局。贝潘家的孩子，切出你自己的味道。",
+      "options": [
+        {
+          "option_id": "choice_devour",
+          "text": "吞噬无瞳之神的舌头——永恒的品鉴",
+          "is_correct": true,
+          "response_text": "你将无瞳之神的舌头送入唇间。十九代先祖的味道在你体内炸开，与神性种子共振。你的瞳孔深处，黑色的环状阴影终于填满了整个虹膜。你成为了第二十号——最终号。"
+        },
+        {
+          "option_id": "choice_reject",
+          "text": "用银质餐刀拒绝——自己的风味",
+          "is_correct": true,
+          "response_text": "你举起银质餐刀，刺入灵界通道。银质刀刃切断了琥珀色雾气的流动，无瞳之神的投影溃散。你的神赐之舌依然嗡鸣——但它属于你自己。"
+        },
+        {
+          "option_id": "choice_seal",
+          "text": "用母亲的琥珀封印——凡人的味道",
+          "is_correct": true,
+          "response_text": "你将琥珀碎片按在无瞳之神的舌头上。琥珀色光芒涌出，将它包裹、封存。你的'神赐之舌'在封印中逐渐沉默——甜、酸、苦、辣、咸。五种基本味觉还在，但超凡品尝能力已永远消退。你端起一杯盐水。盐。水。温度。纯粹。简单。属于你自己。"
+        }
+      ],
+      "correct_option_id": "choice_reject",
+      "on_correct_text": "选择已做出。三种风味，每种都是真实的。品味你的选择——这就是你的最终晚餐。",
+      "on_wrong_text": "",
+      "on_complete_flag": "act6_choice_made",
+      "on_complete_clue": "final_choice_made",
+      "sanity_penalty": 0,
+      "sanity_reward": 0,
+      "requires_clues": ["final_dinner_recipe"],
+      "requires_flags": ["act6_victoria_confronted"],
+      "is_one_time": true,
+      "room_id": "cathedral_final_duel"
+    },
+    "widow_truth_puzzle": {
+      "name": "寡妇真相",
+      "description": "推理寡妇玛格丽特的汤中隐藏的真相——她丈夫的真实死因和她的行为动机。",
+      "puzzle_type": "deduction",
+      "prompt_text": "你品尝了寡妇的汤，检查了屋后的空地。根据所有线索，推理寡妇的真相。\n\n选择你的结论：",
+      "options": [
+        {
+          "option_id": "correct_widow",
+          "text": "寡妇用毒汤诱杀骚扰她的地痞——汤是陷阱，不是供奉。她丈夫的真正死因是被人'组装'后伪装成肺痨。",
+          "is_correct": true,
+          "requires_clue": "widow_poison_trap",
+          "response_text": "正确。汤中的磷化锌鼠药不是给死者的供奉——而是针对活人的陷阱。屋后的新翻泥土掩埋着三具地痞的尸体。但更关键的是：她丈夫死于'组装'实验，而非肺痨。他的遗骨中残留着工业润滑油——与'组装体'的配比完全一致。这意味着'组装'实验的范围比预想的更广，时间也更早。"
+        },
+        {
+          "option_id": "wrong_widow_murderer",
+          "text": "寡妇谋杀亲夫，用鼠药缓慢下毒",
+          "is_correct": false,
+          "response_text": "错误。鼠药不是给她丈夫的——是给那些趁夜偷喝供奉汤的地痞。她丈夫的真正死因不是鼠药中毒，而是更可怕的东西——他的遗骨中残留着工业润滑油和齿轮。"
+        },
+        {
+          "option_id": "wrong_widow_innocent",
+          "text": "寡妇是无辜的，她只是按习俗给亡夫送汤",
+          "is_correct": false,
+          "response_text": "错误。汤中的磷化锌鼠药、屋后新翻的泥土和石灰、以及她对'三根手指'的坦白——这些不是无辜者的证据。"
+        }
+      ],
+      "correct_option_id": "correct_widow",
+      "on_correct_text": "寡妇真相揭示。但更大的谜团浮现——她丈夫体内残留的润滑油指向了'组装体'实验，而这个实验的时间远早于案件#897。",
+      "on_wrong_text": "你遗漏了关键证据。再品尝一次那碗汤的味道——以及屋后泥土中的气味。",
+      "on_complete_flag": "act3_widow_truth",
+      "on_complete_clue": "widow_confession",
+      "sanity_penalty": 2,
+      "sanity_reward": 3,
+      "requires_clues": ["widow_poison_trap"],
+      "requires_flags": ["act3_soup_tasted"],
+      "is_one_time": true,
+      "room_id": "widow_cottage"
+    }
+  }
+}

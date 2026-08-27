@@ -1,0 +1,47 @@
+{
+  "map_layouts": [
+    {
+      "id": "act1_descent",
+      "name": "下沉之路",
+      "act": 1,
+      "description": "冥界上层，由霸主统治。",
+      "num_rows": 7,
+      "nodes_per_row": 3
+    },
+    {
+      "id": "act2_fracture",
+      "name": "裂隙",
+      "act": 2,
+      "description": "现实本身已经破碎。堕落幻象在等待着。",
+      "num_rows": 8,
+      "nodes_per_row": 3
+    },
+    {
+      "_comment": "---- 小说扩充 ----",
+      "id": "act3_defenders_path",
+      "name": "捍卫之路",
+      "act": 3,
+      "description": "从地狱厨房到拉脱维亚，捍卫者联盟与变种人并肩战斗的征途。",
+      "num_rows": 9,
+      "nodes_per_row": 3
+    },
+    {
+      "_comment": "---- 小说扩充 Phase3 ----",
+      "id": "act2_underground",
+      "name": "地下征途",
+      "act": 2,
+      "description": "哈德逊河下废弃核避难所与人体工厂。暗纹的源头在地底最深处脉动。",
+      "num_rows": 8,
+      "nodes_per_row": 4
+    },
+    {
+      "id": "act3_defenders_assemble",
+      "name": "捍卫者集结",
+      "act": 3,
+      "description": "捍卫者联盟成立——从地狱厨房到联合国，捍卫者在地面和地下同时作战。",
+      "num_rows": 10,
+      "nodes_per_row": 4,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    }
+  ]
+}

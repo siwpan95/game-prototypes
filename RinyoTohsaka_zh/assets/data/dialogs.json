@@ -1,0 +1,1909 @@
+[
+  {
+    "id": "dialog_intro",
+    "start_node_id": "intro_1",
+    "nodes": {
+      "intro_1": {
+        "text": "夜雨沉沉。你伫立在渡口，是唯一足够勇敢——或足够愚蠢——敢于穿越生死边界的人。\n\n七盏灯笼沿着码头摇曳，每一盏上都写着一个你几乎认出的名字。渡船静候着，船身随着水流吱呀作响。\n\n你是远野远阪。渡船守卫。边界守护者。今夜，七条灵魂的命运系于你的渡行。",
+        "choices": [
+          {
+            "text": "仔细检视七盏灯笼",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "intro_2a",
+            "condition": null,
+            "flag_set": "examined_lanterns",
+            "result_text": "你走近灯笼。每一盏上都用褪色的墨迹写着一个名字：诗织、和宏、阿秀、服部、陌生人、巫女，还有一个名字被完全刮去。第七个名字……有人试图将它从记忆中抹去。"
+          },
+          {
+            "text": "毫不犹豫地踏上码头",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "intro_2b",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你的脚步在翘曲的木板上回响。雨水触不到你——你的御札将之隔绝。但黑暗中有什么东西因你的自信而骚动。"
+          }
+        ]
+      },
+      "intro_2a": {
+        "text": "当你念出那些名字时，它们微微发光。这不是普通的渡行——每一个名字都属于一个被先祖诅咒束缚在此地的灵魂。\n\n一个笼罩在迷雾中的身影出现在码头尽头。是陌生人。他没有转过身来面对你。\n\n“第七个名字曾经是我的。如今它不属于任何人了。你愿意承载它吗？”",
+        "choices": [
+          {
+            "text": "接受第七个名字的重负",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "intro_3",
+            "condition": null,
+            "flag_set": "accepted_seventh_name",
+            "result_text": "你取过那盏被刮去名字的灯笼。它在你手中骤然亮起，温暖传遍你的胸膛。陌生人点了点头，迷雾随之分开。"
+          },
+          {
+            "text": "拒绝——有些重负不该由你来承担",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "intro_3",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "陌生人叹了口气——或者那只是风声。'那么你必须另寻他途。'灯笼暗淡下去，但前路依然敞开。"
+          }
+        ]
+      },
+      "intro_2b": {
+        "text": "你从灯笼旁大步走过，连一眼也不曾投去。雨势加剧了，仿佛连天空都对你这种冷漠表示异议。\n\n在码头尽头，一个裹着斗篷的身影注视着你。是陌生人。'你走起路来仿佛这路属于你，'他说。'但这边界属于我。'",
+        "choices": [
+          {
+            "text": "'我是渡船守卫。这条路就是我的。'",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "intro_3",
+            "condition": null,
+            "flag_set": "claimed_path",
+            "result_text": "你的声音越过水面。一瞬间，雨停了。陌生人倾了倾首——是敬意还是悲悯，你无从分辨。"
+          },
+          {
+            "text": "'那就让我看看真正的路主是谁。'",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "intro_3",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "陌生人指向渡船。'是诅咒掌控着这条路。先祖的罪孽，世代未偿。你很快就会见识它的模样。'"
+          }
+        ]
+      },
+      "intro_3": {
+        "text": "渡船启航。距离边界永远关闭还剩七天。\n\n当对岸渐渐远去，你感到诅咒的重量落在了肩头。被困在此地的七条灵魂——他们的命运掌握在你的手中。\n\n慎重选择吧，渡船守卫。并非所有渡者都能归来。",
+        "choices": [
+          {
+            "text": "开始旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "game_started",
+            "result_text": "第一天开始了。你有7天时间打破诅咒。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_day1_intro",
+    "start_node_id": "d1_1",
+    "nodes": {
+      "d1_1": {
+        "text": "第一天——渡口\n\n渡口笼罩在迷雾之中。雨水敲打着码头翘曲的木板。七盏灯笼在水边摇曳，各自承载着一个名字。\n\n空气中弥漫着湿木头和某种更古老的东西的气味——或许是熏香，或许是烧毁的祈祷文。头顶上，一只风铃轻轻摇曳，尽管根本没有风。",
+        "choices": [
+          {
+            "text": "检查供灯笼",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d1_2a",
+            "condition": null,
+            "flag_set": "examined_lanterns",
+            "result_text": "灯笼上的名字是：诗织、和宏、阿秀、服部、陌生人、巫女，还有一个被刮去的。每盏灯笼都闪烁着不同颜色的火焰。"
+          },
+          {
+            "text": "检查风铃（风铃）",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d1_2b",
+            "condition": null,
+            "flag_set": "checked_furin",
+            "result_text": "风铃无风自鸣——是灵息。一张纸条系在上面：'当名字被念出时，第一道封印便会解开。'"
+          },
+          {
+            "text": "劈开整形树篱（庭木）",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d1_2c",
+            "condition": null,
+            "flag_set": "cut_trees",
+            "result_text": "你的御札闪光，劈开那不自然的树篱。里面有东西发出尖叫——一只妖怪被你的刀刃惊扰了。"
+          }
+        ]
+      },
+      "d1_2a": {
+        "text": "七个名字烙进了你的记忆。它们就是被囚禁的灵魂的名字——而知晓它们，便赋予了你对抗诅咒的力量。\n\n一个裹着斗篷的身影从迷雾中浮现。是陌生人。他轻声说道：'你已经看见了那些名字。现在你必须承载它们。'",
+        "choices": [
+          {
+            "text": "'我将承载全部七个名字。'",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "d1_end",
+            "condition": null,
+            "flag_set": "carry_seven_names",
+            "result_text": "陌生人将手放在你肩上。'那么你比我当年更勇敢。'温暖在你的胸膛中沉淀下来。第一块玉碎片出现在你的掌心。"
+          },
+          {
+            "text": "'告诉我，是谁刮去了第七个名字。'",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d1_end",
+            "condition": null,
+            "flag_set": "asked_seventh",
+            "result_text": "陌生人的脸——你能看见的那部分——扭曲了。'是我刮的。而且我会再做一次。'他退进了迷雾中。"
+          }
+        ]
+      },
+      "d1_2b": {
+        "text": "风铃上的纸条承载着咒文封印的一道碎片。这是谜题的第一块——秘仪真言。\n\n你小心地将碎片收进口袋。诅咒的束缚似乎已经略微减弱了。",
+        "choices": [
+          {
+            "text": "继续深入渡口",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d1_end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你向前走去，风铃的回响在你身后渐渐消散。"
+          }
+        ]
+      },
+      "d1_2c": {
+        "text": "一只伞效果——一把被附身的伞妖——从树篱中弹射而出！它独眼闪烁着恶意的光芒。\n\n'擅入者！你砍了神圣的树篱！现在承受守护者的愤怒吧！'",
+        "choices": [
+          {
+            "text": "准备战斗！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_kasa",
+            "result_text": "你拔出御札。伞效果嘶嘶作响，猛扑过来！"
+          }
+        ]
+      },
+      "d1_end": {
+        "text": "第一夜渐入尾声。雨仍在下，但迷雾已经稀薄了些。你感觉到诅咒的束缚正在减弱——或者那只是它在注视着你。\n\n明天，山道在等待。",
+        "choices": [
+          {
+            "text": "休息，为第二天做准备",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你在灯笼旁安顿下来，等待黎明。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_day2_mountain",
+    "start_node_id": "d2_1",
+    "nodes": {
+      "d2_1": {
+        "text": "第二天——山道\n\n小径蜿蜒向上，穿过古老的杉树林。迷雾如鬼手般攀附着树木。在前方的某处，你听见犬灵的嚎叫。\n\n一个身影从树后走出——是服部，忍者。他的目光以训练有素的警觉扫视着阴影。\n\n'渡船守卫。犬神巡逻着这些树林。它们效力于诅咒——或者也许诅咒效力于它们。无论如何，它们会试图阻截你。'",
+        "choices": [
+          {
+            "text": "'帮我杀出重围。'",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d2_2a",
+            "condition": null,
+            "flag_set": "hattori_ally",
+            "result_text": "服部点了点头。'目前来说，我们的道路是一致的。'他融入阴影之中，准备在你发出信号时出击。"
+          },
+          {
+            "text": "'我独自行事。别挡我的路。'",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d2_2b",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "服部耸了耸肩。'随你便。但别说我没警告过你。'他消失在迷雾中。"
+          },
+          {
+            "text": "'你对诅咒了解多少？'",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d2_2c",
+            "condition": null,
+            "flag_set": "asked_curse",
+            "result_text": "服部停顿了一下。'先祖的罪孽，是将七条灵魂束缚在这边界之上。每一个灵魂都是一把锁。每一把锁都需要一把钥匙。你是渡船守卫——你携带着唯一重要的钥匙。'"
+          }
+        ]
+      },
+      "d2_2a": {
+        "text": "在服部的协助下，你伏击了犬神巡逻队。三条犬灵在它们能发出警报之前就被放倒了。\n\n但有一条逃了，嚎叫着隐入迷雾。增援将至。",
+        "choices": [
+          {
+            "text": "在增援抵达前急速推进",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d2_end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你迅速穿过杉木林，服部的影子跟在你身侧。"
+          }
+        ]
+      },
+      "d2_2b": {
+        "text": "你独自穿行在迷雾中。犬神很快就发现了你——它们的嚎叫声从各个方向传来。\n\n一条巨大的犬灵挡住了前路。在你身后，另一条正在包抄。你被包围了。",
+        "choices": [
+          {
+            "text": "杀出重围！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_inugami",
+            "result_text": "你的御札燃烧着光芒。犬神咆哮着冲来！"
+          }
+        ]
+      },
+      "d2_2c": {
+        "text": "服部的话挥之不去。七条灵魂，七把锁，七把钥匙。\n\n'你在此地度过的每一天，'他继续说道，'一个灵魂将会显化自身。你如何对待它们——以怜悯还是严厉——将决定当你抵达诅咒核心时它的形态。'",
+        "choices": [
+          {
+            "text": "'我将以怜悯对待它们。'",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "d2_end",
+            "condition": null,
+            "flag_set": "mercy_pledge",
+            "result_text": "服部审视着你。'怜悯……在渡船守卫身上是罕见的品质。也许你就是那个能打破这个循环的人。'"
+          },
+          {
+            "text": "'我只会做必要之事，不多也不少。'",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d2_end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "服部缓缓点头。'必要——是诅咒最钟爱的词。小心它别变成了你的词。'"
+          }
+        ]
+      },
+      "d2_end": {
+        "text": "山道展开为一条更宽阔的小径。远方，你看见长谷寺的轮廓映衬着傍晚的天空。\n\n明天，寺庙在等待——随之而来的，是对你决心的第一次真正考验。",
+        "choices": [
+          {
+            "text": "继续第三天的旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你向寺庙走去，旅程的重量落在肩头。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_day3_hase",
+    "start_node_id": "d3_1",
+    "nodes": {
+      "d3_1": {
+        "text": "第三天——长谷寺\n\n寺庙矗立在一道长长的石径尽头，石径两侧排列着纸灯笼。每一盏灯笼都未点亮——此地的灵更喜欢黑暗。\n\n门前，阿秀在等候。那位傀儡师。她的式神环绕着她，如同忠实的狗，纸面上画着关切的表情。\n\n'渡船守卫，'她说。'鞲冶屋守护着内殿。它古老而强大。但还有另一条路……'",
+        "choices": [
+          {
+            "text": "正面迎战鞲冶屋",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d3_2a",
+            "condition": null,
+            "flag_set": "face_tatara",
+            "result_text": "你推开阿秀，朝大门走去。大地颤抖——鞲冶屋感知到了你的接近。"
+          },
+          {
+            "text": "倾听阿秀的替代方案",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d3_2b",
+            "condition": null,
+            "flag_set": "listen_axiu",
+            "result_text": "阿秀露出了微笑——这是罕见的景象。'供殿后面有一条封印的通道。我的式神可以为你引路，但你必须先解开封印的谜题。'"
+          }
+        ]
+      },
+      "d3_2a": {
+        "text": "独足鞲冶屋从寺庙中现身。它的独眼如熔炉般燃烧，它践踏的脚震裂了脚下的石头。\n\n'谁敢进入锻造之神庙？！'\n\n它的声音是铁与火。这将是一场力量的战斗。",
+        "choices": [
+          {
+            "text": "与鞲冶屋交战！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_tatara",
+            "result_text": "你拔出御札。鞲冶屋践踏大地，地震般晃动！"
+          }
+        ]
+      },
+      "d3_2b": {
+        "text": "阿秀领着你来到封印的通道前。一道咒文锁拦住了去路——三段仪式碎片必须以正确顺序念诵。\n\n'最暗的教义先念，最古之道次之，净化仪式最后，'阿秀低语道。'那是先祖教给我们的。'",
+        "choices": [
+          {
+            "text": "尝试咒文谜题",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "puzzle_incantation",
+            "result_text": "你研究着封印。碎片在昏暗的光中微微闪烁……"
+          }
+        ]
+      },
+      "d3_after_boss": {
+        "text": "鞲冶屋崩解了，它的炉心熄灭了。从灰烬中，一块玉碎片发出光芒——七块中的第三块。\n\n但还有别的东西从烟雾中浮现。一个戴着你的脸的身影。它用你的嘴微笑，用你的声音说话。\n\n'令人赞叹。但你能与自己战斗吗？'",
+        "choices": [
+          {
+            "text": "'你不是我。现身吧，冒牌货！'",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d3_end",
+            "condition": null,
+            "flag_set": "denied_fake",
+            "result_text": "伪·远野大笑。'否认是第一个阶段。我们倒要看看这能持续多久。'身影散入迷雾中，只留下你自身笑声的回响。"
+          },
+          {
+            "text": "'你是什么？某种镜像灵？'",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d3_end",
+            "condition": null,
+            "flag_set": "questioned_fake",
+            "result_text": "伪·远野偏了偏头——你的头。'我是诅咒创造的你。你的影子。你的怀疑。我会在大神宫等你。'它如晨露般消散了。"
+          }
+        ]
+      },
+      "d3_end": {
+        "text": "寺庙归于寂静。诅咒的存在已经转变——它不再潜伏在阴影中。它走在你身侧，披着你的脸。\n\n山道向下通往笹谷。你必须继续前行。",
+        "choices": [
+          {
+            "text": "继续第四天的旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你离开了寺庙，但伪·远野的话在你脑海中回响。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_day4_valley",
+    "start_node_id": "d4_1",
+    "nodes": {
+      "d4_1": {
+        "text": "第四天——笹谷\n\n山谷有着欺骗性的宁静。竹子在无声的风中摇曳。一条清澈的溪流穿过草地，尽管时值正午，萤火虫仍在水面之上飞舞。\n\n但你深知真相。诅咒不会允许宁静——只会在试炼之间给予停顿。\n\n一只涂壁挡住了南向的路径。一道拒绝一切通行的无形灵力之壁。",
+        "choices": [
+          {
+            "text": "寻找绕开墙壁的路",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d4_2a",
+            "condition": null,
+            "flag_set": "searched_path",
+            "result_text": "你沿着溪流找到一处隐秘的浅滩。涂壁无法将它的墙壁延伸过流水——这是你从古老故事中记住的弱点。"
+          },
+          {
+            "text": "直接挑战涂壁",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d4_2b",
+            "condition": null,
+            "flag_set": "challenge_wall",
+            "result_text": "你用手掌猛击无形的墙壁。它抵抗着。涂壁的存在反推回来——它想让你放弃。"
+          }
+        ]
+      },
+      "d4_2a": {
+        "text": "隐秘的浅滩通向一座小神祠。在里面，有一块泰山府君仪式的碎片——诅咒宁愿你不拥有的危险知识。\n\n一块玉碎片在祭坛上发光。七块中的第四块。",
+        "choices": [
+          {
+            "text": "取走碎片和仪式文本",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d4_end",
+            "condition": null,
+            "flag_set": "found_taizan",
+            "result_text": "碎片在你手中嗡鸣。仪式文本不完整，但它的言辞将自身烙进了你的记忆。这知识可以拯救一条灵魂——或者诅咒一条。"
+          }
+        ]
+      },
+      "d4_2b": {
+        "text": "涂壁显化了——一座由压缩灵力构成的高塔。它不会移动。它不会屈服。它会战斗。\n\n战斗遭遇开始了！",
+        "choices": [
+          {
+            "text": "与涂壁战斗！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_nurikabe",
+            "result_text": "壁灵紧绷自身。你的御札噼啪作响，充满力量！"
+          }
+        ]
+      },
+      "d4_end": {
+        "text": "山谷落在身后。前方是伊势大神宫——随之而来的，是选别试炼。\n\n伪·远野的话回来了：'我会在大神宫等你。'一股寒意顺着你的脊背流下，与风无关。",
+        "choices": [
+          {
+            "text": "继续第五天的旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你向伊势进发。如今已无回头之路。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_day5_ise",
+    "start_node_id": "d5_1",
+    "nodes": {
+      "d5_1": {
+        "text": "第五天——伊势大神宫\n\n神社宏伟古老，它的木柱如圣树之干般耸立。空气中嗡鸣着灵能。\n\n一位年轻的巫女站在门前。尽管年轻，她的眼中有着古老。\n\n'欢迎，渡船守卫。选别试炼决定谁可以越过边界。诚实回答，否则神社会拒绝你。'",
+        "choices": [
+          {
+            "text": "接受选别试炼",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d5_2a",
+            "condition": null,
+            "flag_set": "accepted_trial",
+            "result_text": "巫女点了点头。'那么向前走。试炼有三部分：战斗、智慧与灵性。你必须至少通过其中两项。'"
+          },
+          {
+            "text": "拒绝试炼，强行通过",
+            "sin_delta": 2,
+            "atonement_delta": 0,
+            "next_node_id": "d5_2b",
+            "condition": null,
+            "flag_set": "forced_passage",
+            "result_text": "巫女睁大了眼睛。'一百年来无人拒绝试炼。'神社的守护者骚动了——它们是被束缚来守护这片圣地的妖怪。"
+          }
+        ]
+      },
+      "d5_2a": {
+        "text": "试炼开始了。首先，你面对一个战斗挑战——一只由神社守护神召唤的火鬼。\n\n战斗之后，巫女问道：'一个灵魂被束缚在一件诅咒之物上。摧毁那件物品将解放灵魂，但也会释放一只危险的灵。你怎么做？'",
+        "choices": [
+          {
+            "text": "摧毁物品——自由值得冒险",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d5_3",
+            "condition": null,
+            "flag_set": "destroyed_object",
+            "result_text": "巫女皱起了眉，但还是点了点头。'大胆。试炼接受你的回答。'"
+          },
+          {
+            "text": "封印物品——控制危险，即使灵魂仍被束缚",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d5_3",
+            "condition": null,
+            "flag_set": "sealed_object",
+            "result_text": "巫女露出了微笑。'明智。试炼接受你的回答。'"
+          }
+        ]
+      },
+      "d5_2b": {
+        "text": "神社的妖怪守护者发起了攻击！你冲过一排排灵体，御札熊熊燃烧。\n\n在内殿前，伪·远野在等候。它已经代替你通过了试炼——或者也许它根本不需要参加。\n\n'那么我们又见面了。让我们看看我们中谁是真实的？'",
+        "choices": [
+          {
+            "text": "与伪·远野战斗！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_fake_rinyo",
+            "result_text": "你面对自己的镜像。它的御札是你自己的黑暗倒置。这才是真正的试炼。"
+          }
+        ]
+      },
+      "d5_3": {
+        "text": "试炼完成了。当你穿过内门时，伪·远野显化了。\n\n'令人印象深刻。但试炼只测试了肉体和心智。灵性……那是另一回事。'\n\n它的形态闪烁着。'战斗吧，渡船守卫。证明你内部的灵性是真实的。'",
+        "choices": [
+          {
+            "text": "在战斗中面对你的影子",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_fake_rinyo",
+            "result_text": "伪·远野拔出它的暗黑御札。第五天的最终试炼开始了！"
+          }
+        ]
+      },
+      "d5_after_boss": {
+        "text": "伪·远野消散了，留下一块玉碎片——第六块。当你拾起它时，巫女注视着你。\n\n'你已接近了。还剩两天。先祖之影愈发不安。'\n\n她将某物按入你的掌心——一枚赦免之戒。'当你最需要怜悯时，这也许能帮到你。'",
+        "choices": [
+          {
+            "text": "感激地接受赦免之戒",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d5_end",
+            "condition": null,
+            "flag_set": "received_pardon_ring",
+            "result_text": "戒指在你的掌心中感觉温暖。一件怜悯的工具——但怜悯总是有代价的。"
+          },
+          {
+            "text": "拒绝——你将凭自身赢得赦免",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d5_end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "巫女掩藏了她的失望。'很好。没有它，前路将会更艰难。'"
+          }
+        ]
+      },
+      "d5_end": {
+        "text": "大神宫在远方淡去。前方是严岛，浮御鸟居之岛——然后是最终坠入常世深渊。\n\n诅咒几乎结束了。或者也许，它才刚刚开始。",
+        "choices": [
+          {
+            "text": "继续第六天的旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你离开了神社。还剩两天。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_day6_itsukushima",
+    "start_node_id": "d6_1",
+    "nodes": {
+      "d6_1": {
+        "text": "第六天——严岛\n\n巨大的鸟居半浸在潮水中，它朱红色的漆在消逝的光线中发光。岛屿很安静——太安静了。甚至连波浪似乎都被压抑了。\n\n一只貘——食梦妖——潜伏在岸边的寺庙附近。它的存在将周围一切的颜色都吸走了。",
+        "choices": [
+          {
+            "text": "小心地接近岸边寺庙",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d6_2a",
+            "condition": null,
+            "flag_set": "temple_approach",
+            "result_text": "你走上通往寺庙的漫水小径。貘用空洞的眼神注视着你，但没有攻击——它以你的决心为食，而非你的血肉。"
+          },
+          {
+            "text": "在鸟居旁休息并恢复",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d6_2b",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你在巨大的鸟居下坐下。潮水慢慢上涨，但鸟居的神圣力量将水挡在远处。你感觉到力量正在回归。"
+          }
+        ]
+      },
+      "d6_2a": {
+        "text": "在寺庙内部，你发现了一个复杂的咒文封印。五块碎片必须以正确顺序排列，才能打开通往常世的道路。\n\n封印之外是最终的坠落。明天是最后一天。",
+        "choices": [
+          {
+            "text": "尝试五部分咒文",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d6_end",
+            "condition": null,
+            "flag_set": "puzzle_five_part",
+            "result_text": "你仔细研究着封印的碎片。顺序必须完美无缺。"
+          }
+        ]
+      },
+      "d6_2b": {
+        "text": "你的休息被貘打断了。它用梦的语言低语：\n\n'你的梦承载着沉重的罪孽，渡船守卫。让我吞食它们，你就会变轻。或者与我战斗，将重量带往常世。'",
+        "choices": [
+          {
+            "text": "让貘吞噬你的噩梦",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d6_end",
+            "condition": null,
+            "flag_set": "baku_fed",
+            "result_text": "貘吸了一口气，一股重量从你的灵体中消散 而起。你最深的恐惧消失了——但你的一部分力量也随之而去。貘咧嘴一笑，消失了。"
+          },
+          {
+            "text": "拒绝，并与貘战斗",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_baku",
+            "result_text": "貘咆哮起来。'那就把你的噩梦带进坟墓吧！'它猛扑过来！"
+          }
+        ]
+      },
+      "d6_end": {
+        "text": "潮水开始退去。在鸟居之外，一条裸露石铺的路径向下通入黑暗。\n\n常世深渊。先祖的罪孽。最终的清算。\n\n明天，一切终结——无论以何种方式。",
+        "choices": [
+          {
+            "text": "为最后一天做准备",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "你注视着太阳在岛屿上方落下。明天，你将面对影子。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_day7_tokoyo",
+    "start_node_id": "d7_1",
+    "nodes": {
+      "d7_1": {
+        "text": "第七天——常世深渊\n\n路径向下伸入大地。空气变得寒冷，死者的存在使其浓稠。 微弱的 光芒——鬼火——在黑暗中飘荡。\n\n在底部，一座巨大的洞穴展开。玉藻前之影在等候——一个在狐形与人身之间闪烁的九尾轮廓。\n\n'渡船守卫。你终于来了。七天，七魂，七罪。而现在——清算之时。'",
+        "choices": [
+          {
+            "text": "'我是来打破诅咒的，不是来与你清算的。'",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "d7_2a",
+            "condition": null,
+            "flag_set": "break_curse",
+            "result_text": "影子大笑。'诅咒不能被打破。它只能被……重定向。谁来承受它，渡船守卫？你？还是你本应拯救的那些灵魂？'"
+          },
+          {
+            "text": "'让我看看先祖罪孽的真相。'",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d7_2b",
+            "condition": null,
+            "flag_set": "seek_truth",
+            "result_text": "影子的形态稳定了——它几乎变成了人形。'先祖束缚了七条灵魂，以延长自己的生命。一个自私的行为。但被束缚的灵魂们是自愿的。这会改变罪孽的本质吗？'"
+          },
+          {
+            "text": "'我要摧毁你，终结这一切！'",
+            "sin_delta": 2,
+            "atonement_delta": 0,
+            "next_node_id": "d7_2c",
+            "condition": null,
+            "flag_set": "destroy_shadow",
+            "result_text": "影子的尾巴燃起暗火。'你不能摧毁已经死亡之物。但欢迎你来尝试！'"
+          }
+        ]
+      },
+      "d7_2a": {
+        "text": "影子伸出它的尾巴。九点黑暗，每一点都持有一片先祖意志的碎片。\n\n'如果你要打破诅咒，你必须回答三个问题。诚实回答，灵魂们便获得自由。虚假回答，它们便被永远束缚。'\n\n帝之三问开始了。",
+        "choices": [
+          {
+            "text": "面对三问",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "d7_questions",
+            "condition": null,
+            "flag_set": "face_questions",
+            "result_text": "影子的眼中闪烁着古老的光芒。'那么让我们开始吧。'"
+          }
+        ]
+      },
+      "d7_2b": {
+        "text": "影子揭示了真相。七条灵魂是自愿的——他们献出自己，以拯救他们的村庄免受瘟疫。先祖接受了他们的牺牲，但那个选择的分量变成了诅咒。\n\n'接受他们的牺牲是罪吗？还是独自承受它、不分享重负，才是罪？'",
+        "choices": [
+          {
+            "text": "'罪在于独自承受。分享重负，它就会变轻。'",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "d7_pre_boss",
+            "condition": null,
+            "flag_set": "share_burden",
+            "result_text": "影子颤抖着。'你……理解了。但诅咒仍必须被面对。'它的形态凝固为最终的可怖形状。"
+          },
+          {
+            "text": "'罪在于根本接受了牺牲。有些代价绝不应被支付。'",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "d7_pre_boss",
+            "condition": null,
+            "flag_set": "reject_sacrifice",
+            "result_text": "影子的形态摇摆着。'也许吧。但死者无法如此轻易地被归还生命。'它硬化为一种战斗形态。"
+          }
+        ]
+      },
+      "d7_2c": {
+        "text": "影子咆哮起来。它的九条尾巴猛烈拍击，每一条都噼啪作响着暗黑能量。洞穴震动了。\n\n'那就这样吧。你选择了暴力。那么暴力你将得到！'",
+        "choices": [
+          {
+            "text": "与玉藻前之影战斗！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_tamamo",
+            "result_text": "最终战斗开始了！"
+          }
+        ]
+      },
+      "d7_questions": {
+        "text": "影之帝的问题在洞穴中回响：\n\n1. 如果你可以通过诅咒另一人来拯救一魂，你会这样做吗？\n2. 自由给予的怜悯，是否比通过苦难换来的怜悯更有价值？\n3. 当一切焚尽时，何物犹存？",
+        "choices": [
+          {
+            "text": "以怜悯与智慧回答",
+            "sin_delta": 0,
+            "atonement_delta": 3,
+            "next_node_id": "d7_pre_boss",
+            "condition": null,
+            "flag_set": "answered_wisely",
+            "result_text": "影子停顿了。'你的言辞有分量，渡船守卫。但诅咒仍必须被面对。'"
+          },
+          {
+            "text": "以信念与力量回答",
+            "sin_delta": 2,
+            "atonement_delta": 0,
+            "next_node_id": "d7_pre_boss",
+            "condition": null,
+            "flag_set": "answered_firmly",
+            "result_text": "影子眯起了眼。'力量是令人钦佩的。但即使力量也必须面对真相。'"
+          }
+        ]
+      },
+      "d7_pre_boss": {
+        "text": "影子凝聚为它的最终形态。九条尾巴，九片先祖意志的碎片，九个需要面对的罪孽。\n\n就是这样了。最终的战斗。你所做的一切——每一个选择，每一条灵魂，每一步——都引向了这个时刻。\n\n七块玉碎片在你手中发光。圣刃月读在鞘中低鸣。\n\n你准备好了吗，渡船守卫？",
+        "choices": [
+          {
+            "text": "面对玉藻前之影！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "combat_tamamo",
+            "result_text": "你拔出御札。最终战斗开始了！"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_ending_rainbow",
+    "start_node_id": "e1",
+    "nodes": {
+      "e1": {
+        "text": "结局：世界之虹\n\n影子消散了。诅咒如同一根从织锦中抽出的线般崩解。七条灵魂——闪烁着，半透明——从洞穴底面升起。\n\n每一条都向你鞠躬。每一条都低语一个名字——它们自己的名字，被恢复了。第七盏灯笼上被刮去的名字自行填满了。\n\n陌生人掀开了兜帽。你第一次看见了他的脸——那是你的脸，但更苍老，更悲伤，更睿智。'谢谢你，'他说。'你承载了我无法承载的东西。'\n\n生死之间的边界敞开了。不是一道门，而是一座桥——一道横跨天空的彩虹。七条灵魂穿过它，每一条都步入那它们被拒绝如此之久的光中。\n\n你在岸上注视着。渡船在流水中轻轻摇晃。你的工作完成了。\n\n但当成最后一条灵魂穿过时，你感觉到胸中有一种新的东西。不是温暖，不是寒冷——是希望。与你第一次踏上码头时承载着的同样的希望。\n\n彩虹淡去。迷雾散清。在某处，七盏灯笼明亮地燃烧着，承载着永远不会被遗忘的名字。",
+        "choices": [
+          {
+            "text": "结束旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "game_complete",
+            "result_text": "远野远阪——地狱之下\n\n结局：世界之虹\n渡船守卫选择了怜悯。七条灵魂获得了自由。\n\n感谢你的游玩。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_ending_firefly",
+    "start_node_id": "f1",
+    "nodes": {
+      "f1": {
+        "text": "结局：萤火之河\n\n影子没有消散——它变形了。它的九条尾巴变成了九条光之河，每一条都是一条迷途灵魂的归途。\n\n灵魂们没有升起。相反，它们走入——缓慢地，慎重地——光之河。每一步都溅起金色的萤火虫，散入黑暗之中。\n\n阿秀的式神展开为纸鹤，与她一同飞翔。服部的影子融入黑暗，成为河流的一部分。陌生人在水边跪下，让水流载他回家。\n\n你独自站在河岸上。萤火虫向上飘散，形成你几乎能认出的星座——七星的转生，化为光芒。\n\n诅咒没有被打破。它被转化了。七条灵魂选择了留下——不是作为囚徒，而是作为守护者。生死之间的边界将会安全，因为它们会守望它。\n\n你回到渡船旁。总会还有灵魂需要渡送。但今夜，一百年来第一次，河流是平静的。\n\n而萤火虫在飞舞。",
+        "choices": [
+          {
+            "text": "结束旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "game_complete",
+            "result_text": "远野远阪——地狱之下\n\n结局：萤火之河\n渡船守卫选择了平衡。七条灵魂成为了守护者。\n\n感谢你的游玩。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_ending_bellflower",
+    "start_node_id": "g1",
+    "nodes": {
+      "g1": {
+        "text": "结局：双铃草\n\n影子碎裂了——但边界也随之碎裂。生者之界与死者之土重叠，如同两幅图像被压在了同一块画布上。\n\n七条灵魂站在你面前，但它们没有获得自由。它们被束缚着——不是被诅咒，而是被你。渡船守卫。那个选择了严厉而非怜悯、信念而非悲悯的人。\n\n陌生人开口了。'你通过成为诅咒本身而打破了它。边界得以维持，是因为你握着它。七条灵魂，七把锁——而你就是那把钥匙。'\n\n你在胸中感觉到它们的重量。每一条灵魂都是一次心跳，一次呼吸，一段不是你自己的记忆。你永远承载着它们——不是作为重负，而是作为你自己的一部分。\n\n两株铃草生长在水边。它们的根交织在一起。一株开着白花，另一株开着紫花。 together，它们是美丽的——而且 together，它们将永远伫立。\n\n你是渡船。你是守卫。你是生死之间的边界。\n\n而你不会失败。",
+        "choices": [
+          {
+            "text": "结束旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "game_complete",
+            "result_text": "远野远阪——地狱之下\n\n结局：双铃草\n渡船守卫选择了决意。七条灵魂与守护者绑定在了一起。\n\n感谢你的游玩。"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_game_over",
+    "start_node_id": "go1",
+    "nodes": {
+      "go1": {
+        "text": "游戏结束\n\n黑暗吞噬了你。渡船在无人的水流中漂流。七盏灯笼闪烁着，逐一熄灭。\n\n诅咒延续着。灵魂们仍被困住。边界得以维持——但你不再是守护它的人。\n\n也许在另一个时代，另一位渡船守卫将会前来，完成你未能完成之事。",
+        "choices": [
+          {
+            "text": "再次尝试",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "retry",
+            "result_text": "迷雾散去。新的渡行开始了……"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "dialog_utusemi_penitence",
+    "start_node_id": "up1",
+    "nodes": {
+      "up1": {
+        "text": "空蝉之忏\n\n伊贺百地旧邸。柿树下，空蝉右手缠着绷带，左手平置木剑\u201c承柿\u201d。他的目光无法与服部半藏对视。\n\n\u201c半藏……我杀的不是师父。是玉藻操纵我的手。但刀是我握的，血是我溅的。这条命我欠着。\u201d",
+        "choices": [
+          {
+            "text": "\u201c你选择了忏悔。这本身就是回答。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "up2a",
+            "condition": null,
+            "flag_set": "utusemi_penitence_accepted",
+            "result_text": "空蝉低下头。他的左手握紧了木剑，指节泛白。\u201c我会写完第五条。以剑代笔。\u201d"
+          },
+          {
+            "text": "\u201c欠的命，用余生来还。不是用死来还。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "up2b",
+            "condition": null,
+            "flag_set": "utusemi_life_debt",
+            "result_text": "服部半藏沉默了很久。然后他伸出手，将空蝉的木剑按下。\u201c你死不了。伊贺还剩一个人。就是你。\u201d"
+          }
+        ]
+      },
+      "up2a": {
+        "text": "空蝉在木剑\u201c承柿\u201d上刻下\u201c承师之道\u201d四个字。然后他打开《忍者掟》，写下第五条：\n\n\u201c五、承师之道。师传于我者，我承于身；师未传者，我自寻之。刀非杀人之器，乃承志之器。\u201d\n\n他合上卷轴，对着柿树行了一个伊贺忍者只在师父墓前才行的大礼。",
+        "choices": [
+          {
+            "text": "目送他完成忏悔",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "utusemi_penitence_complete",
+            "result_text": "木剑上的刀痕还新。但\u201c承师之道\u201d四个字已经刻入木心，再不会磨灭。"
+          }
+        ]
+      },
+      "up2b": {
+        "text": "服部半藏从袖中取出一截柿枝，放在空蝉膝前。\n\n\u201c这是百地邸的柿树枝。师父生前每年霜降都摘柿子给弟子。你拿着它。等你能自己摘的时候，第五条就写完了。\u201d\n\n空蝉接过柿枝，沉默良久。然后他用左手握住木剑，向半藏行了一个只有伊贺上忍之间才会行的礼。",
+        "choices": [
+          {
+            "text": "退后，留给伊贺人自己的时间",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "两个伊贺忍者在柿树下对坐无言。师恩与罪债，只在他们之间了结。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十集 空蝉之忏"
+  },
+  {
+    "id": "dialog_tokoyo_abyss",
+    "start_node_id": "ta1",
+    "nodes": {
+      "ta1": {
+        "text": "常世之渊\n\n濑户内海深处。海水如墨，三重封印同时共鸣——严岛勾玉、伊贺黄泉之谷、常世之渊海底。\n\n海以念波传声：\u201c三道封印的共鸣不应是同时发生的。有人在幕后操控。玉藻……她没有消散。她在海底。\u201d",
+        "choices": [
+          {
+            "text": "\u201c玉藻不是敌人。她是选择了沉海的人。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "ta2a",
+            "condition": null,
+            "flag_set": "tamamo_ally",
+            "result_text": "海沉默了。念波中传来潮水击打严岛栈桥的回响。然后他说：\u201c你说得对。她不是沉了——她是跳了。两千年前，她抱着不死之核跳进这片海。\u201d"
+          },
+          {
+            "text": "\u201c不管她在何处，封印必须修复。\u201d",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "ta2b",
+            "condition": null,
+            "flag_set": "seal_priority",
+            "result_text": "海以念波回应：\u201c修复可以等。真相不能。三道封印同时共鸣，说明不死之核的位置已经被某人找到。\u201d"
+          }
+        ]
+      },
+      "ta2a": {
+        "text": "待灯蹲在船头，掌心桥纹在海面上泛出微光。她低声说：\u201c母上在海底。她在等人叫她的名字。\u201d\n\n她将掌心按在水面。桥形掌纹映入海水，一道暖金色的光桥从水面延伸入深渊。\n\n海底深处，一个被水草与珊瑚覆盖的身影缓缓睁开了眼睛。",
+        "choices": [
+          {
+            "text": "让待灯呼唤玉藻",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "tamamo_called",
+            "result_text": "待灯叫了一声\u201c母上\u201d。海底的身影流下两行泪——但那不是悲伤，是两千年来第一次被人认出名字。"
+          }
+        ]
+      },
+      "ta2b": {
+        "text": "三重封印的共鸣在海底回响。凛世以八咫镜之影观察封印结构——有人在从外部逆向解锁。\n\n\u201c不死之核的真实位置——\u201d凛世忽然抬头，\u201c不在海底。它一直藏在渡场的唐柜底层！三道封印是干扰，真正的核就在我们脚下！\u201d",
+        "choices": [
+          {
+            "text": "赶回渡场",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "return_to_ferry",
+            "result_text": "你调转船头。三重封印的共鸣在身后渐渐消散——真正的谜题在渡场等着你。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十一集 常世之渊"
+  },
+  {
+    "id": "dialog_core_succession",
+    "start_node_id": "cs1",
+    "nodes": {
+      "cs1": {
+        "text": "核之承\n\n渡场唐柜底层。不死之核以桔梗之姿静静绽放，银边花瓣在暗中自行发光。\n\n信长站在唐柜前，颈间的核壳忽然变得灼热。他伸手触碰柜底——核壳与核同时亮了。\n\n\u201c壳在等核。核在等壳。它们从未分开过——是我把它们分开的。\u201d信长说。",
+        "choices": [
+          {
+            "text": "\u201c殿下选择承载核壳。那就由殿下决定核的去向。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "cs2a",
+            "condition": null,
+            "flag_set": "nobunaga_carries_core",
+            "result_text": "信长将核壳取下，放在桔梗旁。壳与核相距一掌之宽，却仿佛隔了三十年。然后他将核壳重新挂回颈间，对凛世说：\u201c核留在渡场。壳跟着我。我替核承受外面的事。\u201d"
+          },
+          {
+            "text": "\u201c核不属于任何人。它长成了桔梗——让它留在土里。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "cs2b",
+            "condition": null,
+            "flag_set": "core_stays_kikyou",
+            "result_text": "凛世将八咫镜之影映向桔梗。镜中映出核壳与核之间的光丝——不是束缚，是\u201c待\u201d。核壳在等核，核在等壳。但它们不需要重合——只需要彼此知道对方在那里。"
+          }
+        ]
+      },
+      "cs2a": {
+        "text": "待灯走到信长面前，掌心桥纹轻轻按在核壳上。\n\n\u201c殿下，核壳中的业丝——我看到了。每一根都是一个人最后的念头。殿下愿意让我替他们补名字吗？\u201d\n\n信长沉默了很久。然后他说：\u201c补。一个都不许漏。\u201d",
+        "choices": [
+          {
+            "text": "见证核壳被承载",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "core_shell_bond",
+            "result_text": "核壳在信长颈间微微发亮。壳壁内侧浮现出玉藻生前刻下的秦篆——\u201c以业为核，业尽壳碎。\u201d这是契约的开始。"
+          }
+        ]
+      },
+      "cs2b": {
+        "text": "玉藻从海水中浮现，如水母般透明的身形站在桔梗旁。待灯第一次看见她的母亲——不是镜面中的影子，是一个真实的、在两千年前选择沉海的女人。\n\n\u201c母上。\u201d待灯叫了一声。\n\n玉藻伸出手，在待灯掌心的桥纹上轻轻一碰。两千年的等待在那个触碰中化为一声极轻的叹息——不是解脱，是\u201c终于等到了\u201d。",
+        "choices": [
+          {
+            "text": "让玉藻自由",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "tamamo_freed",
+            "result_text": "玉藻的身体开始散为光点。但她没有消散——她变成了待灯掌心桥纹中一道永远温暖的底色。从此以后，待灯画桥时，桥上总有母亲的温度。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十二集 核之承"
+  },
+  {
+    "id": "dialog_firefly_river",
+    "start_node_id": "fr1",
+    "nodes": {
+      "fr1": {
+        "text": "萤火之河\n\n九人共赴安土城。堀川渡场的栈桥上，七星珏的七枚玉片同时发光。\n\n信长取出铁扇，用朱漆笔写下第八盏灯的名字——\u201c桥\u201d。然后他以祖宗血脉之力点燃了灯芯。\n\n川面上，萤火从每一盏献灯中升起，汇聚成一条横跨天际的光河。七个灵魂从光河中浮现——他们等了两千年，终于有人叫出了他们的名字。",
+        "choices": [
+          {
+            "text": "念出七魂之名",
+            "sin_delta": 0,
+            "atonement_delta": 3,
+            "next_node_id": "fr2",
+            "condition": null,
+            "flag_set": "seven_souls_named",
+            "result_text": "七个名字从凛世口中念出。每一个名字都使一盏灯焰变色——暖金、海蓝、琥珀、深蓝、银白、绀碧、灰白。七色灯焰在萤火之河中交相辉映。"
+          },
+          {
+            "text": "沉默——让灵魂自己选择",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "fr2",
+            "condition": null,
+            "flag_set": "souls_choose",
+            "result_text": "七魂不需要被念名。他们已经等了两千年——在这一刻，他们自己选择了是否离去。有的升空，有的留下。萤火之河照见了每一条灵魂的归途。"
+          }
+        ]
+      },
+      "fr2": {
+        "text": "萤火之河横贯夜空。九人站在栈桥上，仰望那条由光与念构成的河。\n\n待灯蹲在桥头，用帚柄在川面上画了一座桥——桥从渡场延伸到萤火之河的尽头。\n\n\u201c这座桥，谁都可以走。不用渡费。\u201d她说。",
+        "choices": [
+          {
+            "text": "继续旅程",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "firefly_bridge_drawn",
+            "result_text": "萤火之河在夜空中流淌了整整一夜。天明时，河面上只剩九盏灯和一座还在微微发光的桥。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十四集 萤火之河"
+  },
+  {
+    "id": "dialog_emperor_dream",
+    "start_node_id": "ed1",
+    "nodes": {
+      "ed1": {
+        "text": "秦影之渊\n\n不死之核第四层。始皇帝之影在咸阳殿中苏醒。三道未答之问悬于殿中金柱之上。\n\n帝影的声音如金石相击：\u201c两千年。无人敢答朕三问。你是谁？为何能进入朕的梦境？\u201d",
+        "choices": [
+          {
+            "text": "\u201c我是待灯。桥待灯。我替一个等了两千年的孩子来回答。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "ed2",
+            "condition": null,
+            "flag_set": "tourou_introduced",
+            "result_text": "帝影沉默了。然后龙椅上那个两千年无人敢直视的身影，第一次偏了偏头。不是愤怒——是困惑。\u201c桥……两千年了，终于有人不是来求长生，而是来回答。\u201d"
+          },
+          {
+            "text": "\u201c我是送り番。渡场之守。你是必须被渡的魂。\u201d",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "ed2",
+            "condition": null,
+            "flag_set": "rinyo_confronts",
+            "result_text": "帝影冷笑：\u201c渡？朕不需要渡。朕需要的是——回答。\u201d三道问题的光芒在金柱上亮起，如三颗冷星。"
+          }
+        ]
+      },
+      "ed2": {
+        "text": "三问横亘于咸阳殿、琅琊台、沙丘之间。待灯必须穿越三处梦境，逐一作答。\n\n第一问·咸阳殿：\u201c朕筑长城以守万民，为何万民不感其恩？\u201d",
+        "choices": [
+          {
+            "text": "\u201c万民不感其恩，是因为长城也困住了他们。守者亦为囚者。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "ed3",
+            "condition": null,
+            "flag_set": "answered_xianyang",
+            "result_text": "帝影的轮廓微微颤动。咸阳殿的梦境碎裂，碎片化为琅琊台的海风。第二问浮现在海天之间。"
+          },
+          {
+            "text": "\u201c万民不感其恩，因为恩不由受者论。帝自以为恩，民不以为然。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "ed3",
+            "condition": null,
+            "flag_set": "answered_xianyang_alt",
+            "result_text": "帝影无言。咸阳殿的石柱上，第一道问题的金光黯淡了——不是被否定，是被\u201c听见了\u201d。"
+          }
+        ]
+      },
+      "ed3": {
+        "text": "第二问·琅琊台：\u201c朕遣徐福渡海求仙，仙未得而人已散。朕错了吗？\u201d\n\n海风卷起千帆的残影。徐福的船队在远方消散，如一场两千年前的旧梦。",
+        "choices": [
+          {
+            "text": "\u201c错不在求仙——错在不认错。不承认失去，便永远等不到归来。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "ed4",
+            "condition": null,
+            "flag_set": "answered_langya",
+            "result_text": "琅琊台的梦境如潮水般退去。沙丘的黄昏取而代之。帝影的轮廓不再那么巍峨——他只是一个老人，在沙丘的落日中，等不到一个人的回答。"
+          },
+          {
+            "text": "\u201c错了。但错不在求——错在不知归来。仙不可求，人不可弃。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "ed4",
+            "condition": null,
+            "flag_set": "answered_langya_alt",
+            "result_text": "帝影的目光第一次避开了你的视线。两千年无人敢直言其错——但这一次，他没有反驳。"
+          }
+        ]
+      },
+      "ed4": {
+        "text": "第三问·沙丘：\u201c朕崩于沙丘，身边无一人敢言真相。为何？\u201d\n\n沙丘的暮色如血。帝影不再坐在龙椅上——他躺在简陋的行宫榻上，身边空无一人。两千年来的第一位孤独者。",
+        "choices": [
+          {
+            "text": "\u201c因为怕。不是臣子怕——是帝怕。怕到不让人说真话。怕到连死都不敢承认。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "ed5",
+            "condition": null,
+            "flag_set": "answered_shaqiu",
+            "result_text": "帝影——不，那个在沙丘孤身死去的老人——闭上了眼睛。他的身形开始碎裂，但不是崩溃，是释然。\n\u201c两千年了。终于有人说出了那个字——怕。\u201d"
+          },
+          {
+            "text": "\u201c因为没有人被允许说真话。帝不允许，臣便不敢。但真话不会因不允而消失。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "ed5",
+            "condition": null,
+            "flag_set": "answered_shaqiu_alt",
+            "result_text": "帝影的眼中映出了沙丘暮色。他终于低下了头——不是屈服，是承认。\n\u201c朕不许人言，人便不言。但朕一直知道答案。只是两千年无人敢替朕说出来。\u201d"
+          }
+        ]
+      },
+      "ed5": {
+        "text": "三问已答。帝影化为星尘，向天穹升去。在他消散的最后一刻，他回头看了待灯一眼。\n\n\u201c你叫桥待灯。替朕告诉那孩子——他等了两千年的答案，朕收到了。\u201d\n\n星尘汇入九天之上那颗未名星。星光忽然亮了一倍。待灯在掌心桥纹中感受到了那颗星的温度——不再是冷光，是暖的。",
+        "choices": [
+          {
+            "text": "走出梦境",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "emperor_answered",
+            "result_text": "不死之核第四层封印消散。卢守——卢生后裔——在渡场门外等候，手中捧着一份来自咸阳故地的封魂玉残迹。他说：\u201c帝已渡。但还有更古老的东西，在咸阳之下等着。\u201d"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十五集 秦影之渊"
+  },
+  {
+    "id": "dialog_rinyo_name",
+    "start_node_id": "rn1",
+    "nodes": {
+      "rn1": {
+        "text": "远坂之姓\n\n天正九年正月朔日。堀川渡场大雪。\n\n信长的朱印状送到渡场——渡场正式命名为\u201c公仪渡\u201d，归属远坂氏。\n\n影站在番屋缘侧，看着那纸朱印。她开口了：\u201c本家和分家，以后怎么办？\u201d\n\n凛世没有立刻回答。",
+        "choices": [
+          {
+            "text": "\u201c没有本家了。远坂是桥，不是墙。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "rn2a",
+            "condition": null,
+            "flag_set": "no_main_house",
+            "result_text": "影看着凛世。然后她笑了——不是镜面的模仿，是自己长出来的笑。\u201c没有本家。那就不用管谁大谁小。桥就是桥。\u201d"
+          },
+          {
+            "text": "\u201c远坂是姓氏。姓氏意味着传承——不是区隔。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "rn2b",
+            "condition": null,
+            "flag_set": "surname_is_legacy",
+            "result_text": "刘吉在旁边插嘴：\u201c远坂家谱三百年来都是用来记谁欠谁的。现在变成记谁渡过谁的。这不挺好吗？\u201d阿绣在旁边闷声：\u201c又没有人问我。\u201d"
+          }
+        ]
+      },
+      "rn2a": {
+        "text": "咎将双戒从指上取下，放在唐柜中层。\u201c赦戒与罚戒，不再戴了。不是不要——是不需要戴在手上才知道自己在守什么。放在唐柜里，它们就在。\u201d\n\n影也取下罚戒，放在赦戒旁。两枚戒指在柜中微微发光——不是咒术，是远坂家戒指与唐柜木板相接时特有的反应。",
+        "choices": [
+          {
+            "text": "将双戒归入唐柜",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "rn3",
+            "condition": null,
+            "flag_set": "rings_stored",
+            "result_text": "双戒在唐柜中安静如常。从今往后，守与罚不再需要佩戴来证明。"
+          }
+        ]
+      },
+      "rn2b": {
+        "text": "待灯蹲在桔梗丛前，手里拿着一卷空卷轴。她抬头看着凛世：\u201c我不知道姓什么。以前我叫玉藻的女儿，叫待灯。但没有姓。\u201d\n\n凛世说：\u201c你姓什么，应该由你决定。\u201d",
+        "choices": [
+          {
+            "text": "让待灯自决姓氏",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "rn3",
+            "condition": null,
+            "flag_set": "tourou_chooses_surname",
+            "result_text": "待灯在卷轴上写下：\u201c橋待灯\u201d。桥是渡的东西——母上在甲板上画桥时，甘渊最早给她的一个字。"
+          }
+        ]
+      },
+      "rn3": {
+        "text": "夜深。渡场灯全亮。\n\n凛世在《渡场觉》上写下最后一行：\n\n\u201c渡场所在处，皆远坂氏所渡之人。至此不必再论本家分家。远坂者，桥也。\u201d\n\n她搁下笔。切形树上願札在春风中轻轻旋转。阿绣偷偷挂了第十八枚——\u201c帰\u201d。\n\n渡场的灯全亮。远方的安土城天守阁第八盏灯，焰色正由暖橙转为与桔梗新叶相同的浅葱。",
+        "choices": [
+          {
+            "text": "结束——渡场继续",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "ferry_continues",
+            "result_text": "远坂者，桥也。渡场所在处，皆远坂氏所渡之人。不收渡费，只收团子与柿饼。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十六集 远坂之姓"
+  },
+  {
+    "id": "dialog_azuchi_lantern",
+    "start_node_id": "al1",
+    "nodes": {
+      "al1": {
+        "text": "天下人之楔\n\n安土城天守。御幸之间。八盏南蛮玻璃灯排列如北斗之形。待灯已点燃前七盏。\n\n第八盏仍暗。灯芯是新捻的棉线，灯油是信长亲手购得的鲸油。火镰放在待灯膝前。\n\n信长坐在上座，颈间核壳贴在胸口。他说：\u201c开始吧。\u201d",
+        "choices": [
+          {
+            "text": "待灯点燃第八盏灯",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "al2",
+            "condition": null,
+            "flag_set": "eighth_lantern_lit",
+            "result_text": "火星溅上灯芯——灯焰升起。第八盏灯的焰色不断变化：暖金、海蓝、干褐、银边白。复数的颜色一道接一道浮起、化开、轮转。而信长颈间的核壳，裂开了第一道细纹。"
+          }
+        ]
+      },
+      "al2": {
+        "text": "核壳中的业丝开始缠绕。信长身体前倾——壳骤然变重。\n\n待灯走到他面前，将掌心桥纹按在核壳上。她看见了——一个女人跪在田垄上，怀里抱着已经死去的婴儿。她在唱一首尾张的民谣。\n\n\u201c殿下，很重吗？\u201d\n\u201c重。\u201d",
+        "choices": [
+          {
+            "text": "\u201c重不必独承。让待灯看见，就是分担。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "al3",
+            "condition": null,
+            "flag_set": "burden_shared",
+            "result_text": "待灯的桥纹扯断了核壳中几丝业丝。断口处不是黑色——是暖金。她用自己的\u201c待\u201d为信长的业注入了极微小的一丝慰藉。"
+          },
+          {
+            "text": "\u201c殿下，这是你选择的重量。但你可以选择不被压垮。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "al3",
+            "condition": null,
+            "flag_set": "weight_acknowledged",
+            "result_text": "信长咬紧牙关。核壳的重量没有减轻——但他的脊背慢慢挺直了。"
+          }
+        ]
+      },
+      "al3": {
+        "text": "信长将铁扇翻开，在扇背写下一行字。然后他对凛世说出了一生中最难承认的话：\n\n\u201c怕。\u201d\n\n他改称\u201c我\u201d，不再自称\u201c孤\u201d。\n\n\u201c我怕的是我死后，天上那孩子还站在船甲板上等。他已经等太久了。\u201d",
+        "choices": [
+          {
+            "text": "\u201c怕不是罪。承认怕，才是渡的第一步。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "fear_admitted",
+            "result_text": "信长将核壳取下，放在待灯掌心。壳在他掌中从不主动发光，在待灯掌心却微微亮了一下。\n\u201c木。粟太。\u201d他说出了两个名字。\n待灯将它们写入了收养名单。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十七集 天下人之楔"
+  },
+  {
+    "id": "dialog_kikyou_return",
+    "start_node_id": "kr1",
+    "nodes": {
+      "kr1": {
+        "text": "桔梗之归\n\n天正九年春分。渡场切形树下，桔梗银边早开。\n\n信长以私人身份首访堀川渡场。他只穿一身素白筒袖，腰挂母上遗刀，颈间核壳在春光下泛着温润光泽。壳上已有三道裂痕——但壳仍未碎。\n\n他在桔梗前盘膝坐下。半年的守灯，灯焰从暖橙转赤、转黑、转暗紫，最后沉定为青绿。每一次变色，核壳便多一道裂痕。",
+        "choices": [
+          {
+            "text": "聆听信长的守灯之冬",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "kr2",
+            "condition": null,
+            "flag_set": "heard_nobunaga_winter",
+            "result_text": "信长低声诉说了灯焰的每一道颜色。赤是三万颗头颅。黑是比叡山的火。暗紫是父亲的手。青——是土田氏祖先在秦船上回头看他的那一笑。"
+          },
+          {
+            "text": "\u201c殿下来此，是寻找答案，还是寻找勇气？\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "kr2",
+            "condition": null,
+            "flag_set": "asked_nobunaga_purpose",
+            "result_text": "信长看了你很久。然后他说：\u201c孤缺的不是勇气。是借口。给她一个来看桔梗的借口。\u201d"
+          }
+        ]
+      },
+      "kr2": {
+        "text": "待灯将厚厚的收养名单递给信长。每一页都是待灯的字——木、粟太，以及九千余无名遗属的名字。\n\n信长一页一页翻过。他不是在看名字——他是在看那些原本以为绝不配被记住的人，如今一笔一划地坐进了《渡场觉》的某一页。\n\n核壳最后一道裂痕在他手指下收缩了。\n\n不是碎裂。是愈合。",
+        "choices": [
+          {
+            "text": "将守刀放在桔梗旁",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "kr3",
+            "condition": null,
+            "flag_set": "tanto_offered",
+            "result_text": "信长将母上的守刀放在桔梗根边。\u201c秦地的土，在这里开出了花。\u201d他向桔梗、向核、向守刀，低首行了一个极短却极重的礼。"
+          }
+        ]
+      },
+      "kr3": {
+        "text": "夜深。信长独自在切形树下守了最后一夜。\n\n天明前他离开了渡场，只留下一封信和那柄守刀。信的最后一行：\n\n\u201c业壳未碎，但已合。约未终。——吉法师\u201d\n\n凛世用灵视观察刀柄勾玉——玉中封着的不是土。是一小粒枯死的桔梗种子。两千年前卢生在咸阳殿外种的第一株桔梗的种子。\n\n现在它被放在渡场。与核所长出的桔梗，只隔一丛花的距离。",
+        "choices": [
+          {
+            "text": "结束——桥在，待星者在",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "kikyou_returned",
+            "result_text": "核壳裂痕完全闭合。壳壁外侧浮现出从未被任何人读到的另一半铭文——\u201c业尽壳愈。愈者，非无业也，乃不再独承。\u201d\n\n第九株桔梗——普通的、无核无影的桔梗——抽出了第一片嫩叶。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 ----": "第十卷 远坂凛世 第十八集 桔梗之归"
+  },
+  {
+    "id": "dialog_spirit_stone_vision",
+    "start_node_id": "ssv1",
+    "nodes": {
+      "ssv1": {
+        "text": "天正残照·暗室\n\n凛世十三岁。渡场番屋地板下，一道从未被打开的暗门。\n\n石阶向下延伸，空气越来越冷。尽头是一间低矮的石室，灵石悬于壁上，发出幽冷的青光。石壁上刻满了文字——远坂永胤的罪与封印铭文。\n\n灵石的光芒忽然变强。凛世的掌心灼热——一道青色印记在掌心浮现，瑟夏守护灵觉醒。",
+        "choices": [
+          {
+            "text": "以灵视观察灵石铭文",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "ssv2a",
+            "condition": null,
+            "flag_set": "spirit_stone_read",
+            "result_text": "铭文在灵视中浮现——永胤的罪：窃核封魂，三处藏之。远坂氏实为秦影众末裔，不死之核碎片分三处封印。"
+          },
+          {
+            "text": "伸手触碰灵石",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "ssv2b",
+            "condition": null,
+            "flag_set": "touched_spirit_stone",
+            "result_text": "灵石的记忆灌入凛世脑海——永胤窃取不死之核碎片的画面、三处封印的地图、唐柜底层的秘密。信息量太大，凛世踉跄后退。"
+          }
+        ]
+      },
+      "ssv2a": {
+        "text": "灵石铭文全部显现。唐柜三重秘密在此揭晓：\n\n一、远坂氏非渡场原住——实为秦影众末裔。\n二、不死之核碎片分三处封印：勾玉（第一重）、黄泉之谷（第二重）、海底（第三重）。\n三、开柜之钥不在手——在心。心锁之问：何者为罪？何者为赎？\n\n地下暗室忽然震动。独脚踏鞴——从灵石的裂缝中苏醒。",
+        "choices": [
+          {
+            "text": "战斗！瑟夏守护灵——觉醒！",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "ssv3",
+            "condition": null,
+            "flag_set": "sersha_awakening_combat",
+            "result_text": "掌心青色印记爆发出强烈光芒。瑟夏守护灵第一次显现——不是完整形态，是一道青光屏障。独脚踏鞴的炉焰被压制了。"
+          }
+        ]
+      },
+      "ssv2b": {
+        "text": "灵石的记忆还在脑中翻涌。南蛮炼金术师的观测记录浮现在意识中——他们观测到了凛世的灵力爆发，远在堀川之外。\n\n暗室震动。独脚踏鞴苏醒。凛世必须战斗——这是十三岁时的记忆，却比任何现世的战斗都要危险。",
+        "choices": [
+          {
+            "text": "以灵力压制踏鞴",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "ssv3",
+            "condition": null,
+            "flag_set": "combat_katatagane_solo",
+            "result_text": "凛世掌心的青色印记与灵石共鸣。独脚踏鞴的炉焰被灵石之光照穿——但它不会退去。"
+          }
+        ]
+      },
+      "ssv3": {
+        "text": "独脚踏鞴崩解。灵石恢复了平静的青光。\n\n凛世跪坐在暗室中，掌心的青色印记缓缓暗淡——但不会消失。瑟夏守护灵已与她绑定。\n\n从此以后，凛世的灵视范围扩大。她能看见业丝，能感应封印共鸣，能透过八咫镜之影观察核壳裂痕。\n\n十三岁的凛世走出暗室。渡场的灯全亮着。咎站在番屋缘侧，赎罪灯焰如旧——她什么都没说，只是在凛世走过时，将一杯热茶放在了缘侧。",
+        "choices": [
+          {
+            "text": "结束记忆——返回现在",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "spirit_stone_memory_complete",
+            "result_text": "暗室的记忆如灵石之青光般沉淀。凛世醒来时，掌心印记微微发烫——瑟夏从未离开。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第零集 天正残照（上）"
+  },
+  {
+    "id": "dialog_mountain_inugami",
+    "start_node_id": "mi1",
+    "nodes": {
+      "mi1": {
+        "text": "山道犬神\n\n長谷越山道。雾气弥漫，五只犬形灵体从雾中浮现。它们不是野犬——是式神。每只犬灵的眼中都有同一种空洞的紫光，由同一人操控。\n\n暗处传来术法的低频嗡鸣。施术者在雾中。",
+        "choices": [
+          {
+            "text": "先击杀施术者，断其操控",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "mi2a",
+            "condition": null,
+            "flag_set": "target_caster_first",
+            "result_text": "凛世以灵视穿透迷雾，锁定施术者的位置。犬神群失去操控后，灵体消散为紫雾。施术者被识破后试图逃遁。"
+          },
+          {
+            "text": "以瑟夏之力驱散犬神群",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "mi2b",
+            "condition": null,
+            "flag_set": "dispel_inugami",
+            "result_text": "掌心青色印记亮起。瑟夏的守护之力如涟漪般扩散，犬神群的紫光眼瞳逐一熄灭。它们不是被杀死——是被\u201c唤醒\u201d了。五只犬灵茫然四顾，然后如雾般消散。"
+          },
+          {
+            "text": "正面对抗犬神群",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "mi2c",
+            "condition": null,
+            "flag_set": "combat_inugami_pack",
+            "result_text": "五只犬灵合围。凛世的御札与调伏铃同时出手——铃声明灭之间，犬神群的协同被短暂打断。但施术者在暗处不断重新操控。"
+          }
+        ]
+      },
+      "mi2a": {
+        "text": "施术者被逼出迷雾——是一个穿灰衣的人影。他没有正面对战的打算，以术法牵制凛世的同时向山道深处逃去。\n\n逃走前他丢下一句话：\u201c冒牌的那位……比你更像你。\u201d\n\n冒牌？凛世心中一沉。",
+        "choices": [
+          {
+            "text": "追击施术者",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "mi3",
+            "condition": null,
+            "flag_set": "chase_caster",
+            "result_text": "山道雾中追击——但施术者对山道了如指掌。凛世追到炭窑前，人影已消失。炭窑中有凶案残留的气息。"
+          },
+          {
+            "text": "返回山道继续前行",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "mi3",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "施术者消失在迷雾中。凛世按原计划继续向长谷寺行进。\u201c冒牌\u201d二字如刺在心。"
+          }
+        ]
+      },
+      "mi2b": {
+        "text": "犬神群消散后，迷雾中出现了一枚命代铜牌。不是凛世的——是另一个\u201c凛世\u201d的。\n\n冒牌凛世已经先一步经过了这条山道。而且她在山道上留下了自己的\u201c命代\u201d——这意味着她也在承受某种代价。",
+        "choices": [
+          {
+            "text": "捡起命代铜牌",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "mi3",
+            "condition": null,
+            "flag_set": "found_fake_copper_plate",
+            "result_text": "铜牌冰冷，但上面残留着与凛世相同的灵力印记——不，不完全相同。像是一面镜子的反射，左右相反。"
+          }
+        ]
+      },
+      "mi2c": {
+        "text": "犬神群的战斗消耗了大量灵力。凛世击退了三只，但另外两只在施术者的操控下反复攻击。\n\n最终凛世以灵石碎片的共鸣波驱散了它们。但施术者在暗处已经逃遁。",
+        "choices": [
+          {
+            "text": "继续前行",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "mi3",
+            "condition": null,
+            "flag_set": null,
+            "result_text": "灵力消耗大半。凛世在山道旁找到一处炭窑——窑中有不祥的气息。但那不是现在的优先事项。长谷寺在前方。"
+          }
+        ]
+      },
+      "mi3": {
+        "text": "山道尽头。长谷寺的轮廓在雾中显现。\n\n一位少女站在寺门前。帚柄不离手，眉目间有与年龄不符的严肃。她看见凛世时，拔刀——不是攻击，是警戒。\n\n\u201c你的背后——有不属于你的影子。\u201d阿绣说。",
+        "choices": [
+          {
+            "text": "进入长谷寺",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "arrive_hase_dera",
+            "result_text": "阿绣持刀后退半步，没有放行。她的眼中映出凛世的身形——以及凛世身后某种她能看见但说不清的东西。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "dialog_axiu_confrontation",
+    "start_node_id": "ac1",
+    "nodes": {
+      "ac1": {
+        "text": "阿绣对峙\n\n长谷寺门前。阿绣（刘绣）持刀面对凛世。\n\n\u201c你的背后——有不属于你的影子。\u201d\n\n她的帚柄横在身前，结界笔直如线。刘吉之女的直觉告诉她——眼前这个人与她记忆中的\u201c凛世姐姐\u201d有什么不同。",
+        "choices": [
+          {
+            "text": "展示瑟夏印记——证明身份",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "ac2a",
+            "condition": null,
+            "flag_set": "show_sersha_mark",
+            "result_text": "凛世摊开掌心。青色印记在暗光中微微发光——瑟夏守护灵之证。阿绣盯着印记看了很久，然后缓缓放下刀。"
+          },
+          {
+            "text": "\u201c你说的影子，是冒牌凛世吗？\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "ac2b",
+            "condition": null,
+            "flag_set": "ask_about_fake",
+            "result_text": "阿绣的眼睛眯了起来。\u201c你也知道？那她比你先到。她在寺里。她……\u201d阿绣咬了咬嘴唇，\u201c她说她是你。\u201d"
+          },
+          {
+            "text": "强行通过",
+            "sin_delta": 2,
+            "atonement_delta": 0,
+            "next_node_id": "ac2c",
+            "condition": null,
+            "flag_set": "force_past_axiu",
+            "result_text": "凛世侧身而过。阿绣的刀在空中停了一瞬——她没有真的挥下去。但她眼中的失望比刀锋更冷。"
+          }
+        ]
+      },
+      "ac2a": {
+        "text": "阿绣放下刀。她领着凛世走向枯死菩提树。\n\n树下有一个铁盒。盒上刻着桔梗纹——与菊姬发簪上的花纹一模一样。\n\n\u201c这是她留下的。\u201d阿绣低声说。\u201c那个冒牌的你，没有碰这个盒子。她好像……不敢。\u201d",
+        "choices": [
+          {
+            "text": "打开铁盒",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "ac3",
+            "condition": null,
+            "flag_set": "open_iron_box",
+            "result_text": "铁盒中：菊姬血书、八咫镜碎片、六瓣桔梗梳。三件物品上都有微弱的灵力残留——不是凛世的灵力，是菊姬的。"
+          }
+        ]
+      },
+      "ac2b": {
+        "text": "阿绣犹豫了。然后她说：\u201c她先你一步到了长谷寺。她知道我的名字、渡场的事——甚至知道我帚柄的握法。但她不知道……\u201d\n\n阿绣抬起头：\u201c她不知道桔梗树下的铁盒。那是我和阿绣——不，是我和凛世姐姐之间的秘密。\u201d",
+        "choices": [
+          {
+            "text": "\u201c铁盒里有什么？\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "ac3",
+            "condition": null,
+            "flag_set": "ask_about_box",
+            "result_text": "阿绣领着凛世走到枯死菩提树下。铁盒中：菊姬血书、八咫镜碎片、六瓣桔梗梳。"
+          }
+        ]
+      },
+      "ac2c": {
+        "text": "凛世穿过寺门。阿绣没有追上来，但她的话追了上来：\n\n\u201c你和她一样。都不问别人信不信你。\u201d\n\n本堂方向传来争吵声。另一个凛世正在与服部对峙。",
+        "choices": [
+          {
+            "text": "走向本堂",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "go_to_main_hall",
+            "result_text": "两个凛世即将对峙。阿绣的话在凛世脑中回响——\u201c你和她一样\u201d。一样什么？一样不信任别人？"
+          }
+        ]
+      },
+      "ac3": {
+        "text": "铜镜碎片中的记忆读取——凛世以灵视触碰八咫镜碎片。画面浮现：\n\n一个与凛世一模一样的人，在长谷寺门前与阿绣说话。她的动作、语气甚至微笑都与凛世相同。但她掌心没有青色印记——她下意识地把手藏在了袖中。\n\n冒牌凛世。分家后裔。复制者。\n\n阿绣看着凛世读完记忆：\u201c现在你信了吗？她比你先到。她在本堂等你。\u201d",
+        "choices": [
+          {
+            "text": "前往本堂——面对冒牌",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "confront_fake_rinyo",
+            "result_text": "凛世起身。掌心瑟夏印记微微发烫——守护灵也在告诉她，前方有一个不属于她的\u201c影子\u201d。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "dialog_true_vs_fake",
+    "start_node_id": "tvf1",
+    "nodes": {
+      "tvf1": {
+        "text": "真赝对决\n\n长谷寺本堂前。两个凛世对峙。\n\n一个站在灯明旁——灯已燃。一个站在暗处——灯未燃。\n\n阿绣无法分辨。她的刀横在两人之间，刃口不知该对准谁。\n\n服部从本堂暗处走出，手持一枚暗码纸条：\u201c灯明已燃者——未必是持灯之人。暗处未燃者——未必是无灯之人。\u201d",
+        "choices": [
+          {
+            "text": "\u201c我是远坂凛世。掌心有瑟夏印记为证。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "tvf2a",
+            "condition": null,
+            "flag_set": "claim_identity",
+            "result_text": "凛世摊开掌心。青色印记在灯明下清晰可见。暗处的另一个凛世也摊开掌心——空白。但她的表情毫无动摇。"
+          },
+          {
+            "text": "\u201c不必争辩。让悬镜照心。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "tvf2b",
+            "condition": null,
+            "flag_set": "request_mirror",
+            "result_text": "凛世指向本堂中央的悬镜。镜面如水，映照来者内心。两个凛世同时走向镜前。"
+          },
+          {
+            "text": "\u201c你说你是我？那你告诉我——桔梗树下铁盒里有什么？\u201d",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "tvf2c",
+            "condition": null,
+            "flag_set": "test_fake",
+            "result_text": "暗处的凛世微微一笑：\u201c菊姬血书、八咫镜碎片、六瓣桔梗梳。铁盒是菊姬留给远坂家的。你以为只有你知道？\u201d她的回答完全正确——分家的情报窃取能力远超想象。"
+          }
+        ]
+      },
+      "tvf2a": {
+        "text": "掌心印记的证据并没有立刻说服所有人。阿绣看着两个凛世，声音颤抖：\u201c瑟夏……守护灵不会骗人。但我不敢确定——\u201d\n\n服部开口：\u201c暗码的答案不在掌心——在灯。灯明已燃者，灯从何来？谁点的灯？\u201d\n\n凛世看了一眼灯明旁的那个\u201c自己\u201d。她的灯——是偷来的。",
+        "choices": [
+          {
+            "text": "请求悬镜照心——让镜来判",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "tvf3",
+            "condition": null,
+            "flag_set": "mirror_judgment",
+            "result_text": "两个凛世站在悬镜前。镜面泛起涟漪。"
+          }
+        ]
+      },
+      "tvf2b": {
+        "text": "悬镜照心。镜面泛起涟漪，映出两个不同的影像。\n\n灯明旁的凛世——镜中映出\u201c碎片之镜\u201d。无数碎裂的镜面，每一片映出一张不同的脸，没有一张是自己的。\n\n暗处的凛世——镜中映出\u201c业之锁\u201d。缠绕的锁链，沉重但真实。是罪与业的具现，不是束缚，是承载。",
+        "choices": [
+          {
+            "text": "\u201c镜已判。你照出的是碎片——没有自我的复制者。\u201d",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "tvf3",
+            "condition": null,
+            "flag_set": "verdict_fragments",
+            "result_text": "冒牌凛世的表情终于出现了裂痕。不是恐惧——是被看见的愤怒。\u201c碎片？你叫它碎片？这是分家两千年的积累！\u201d"
+          },
+          {
+            "text": "\u201c镜不判善恶。但镜映真实。你是谁？\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "tvf3",
+            "condition": null,
+            "flag_set": "ask_true_identity",
+            "result_text": "冒牌凛世沉默了。悬镜映出她犹豫的瞬间——碎裂的镜面中，有一片映出了她真正的脸。不是凛世的脸。是分家后裔的脸。"
+          }
+        ]
+      },
+      "tvf2c": {
+        "text": "冒牌凛世的回答完全正确。情报窃取——她不仅知道铁盒的内容，连菊姬血书末尾那句\u201c何者为罪？何者为赎？\u201d都一字不差。\n\n但阿绣注意到了一个细节：\u201c你说\u2018铁盒是菊姬留给远坂家的\u2019。不对。铁盒是菊姬留给凛世姐姐的。不是留给\u2018远坂家\u2019——是留给\u2018凛世\u2019。\u201d\n\n冒牌凛世的眼中闪过一丝慌乱。她窃取了信息，但没有窃取情感。",
+        "choices": [
+          {
+            "text": "悬镜照心——真相已明",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "tvf3",
+            "condition": null,
+            "flag_set": "mirror_reveal",
+            "result_text": "两个凛世站在悬镜前。镜面泛起涟漪。真相即将浮现。"
+          }
+        ]
+      },
+      "tvf3": {
+        "text": "冒牌凛世身份揭示。\n\n\u201c影之座。远坂分家后裔。\u201d服部的声音从暗处传来，他手中的暗码纸条已经被译出。\n\n\u201c分家两千年——一直在本家的影子中生存。复制能力是分家的血脉之术。情报窃取是影之座的看家本领。\u201d\n\n冒牌凛世——不，分家后裔——站在悬镜前，碎裂的镜面映出她的真容。\n\n\u201c你们本家有什么资格独占远坂之名？两千年了——分家一直活在你们的影子里。我不过是……照着影子长出来的花。\u201d",
+        "choices": [
+          {
+            "text": "\u201c远坂不是血脉——是桥。分家也好本家也好，桥在此处，你便可以走。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 3,
+            "next_node_id": "tvf4a",
+            "condition": null,
+            "flag_set": "offer_bridge",
+            "result_text": "分家后裔愣住了。悬镜中碎裂的镜面——有一片停止了碎裂。她不知道如何回应善意。两千年没有人对她说过\u201c你可以走\u201d。"
+          },
+          {
+            "text": "\u201c你有自己的名字。不必用我的。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 2,
+            "next_node_id": "tvf4b",
+            "condition": null,
+            "flag_set": "offer_name",
+            "result_text": "分家后裔的嘴唇微微颤抖。她低下头，碎裂的镜面中映出她自己的脸——不是凛世的，是她自己的。那是两千年来第一次有人对她说：你有自己的名字。"
+          },
+          {
+            "text": "\u201c窃取永远不是正途。你们分家选择了错误的道路。\u201d",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "tvf4c",
+            "condition": null,
+            "flag_set": "condemn_branch",
+            "result_text": "分家后裔的眼神重新变冷。碎裂的镜面重新碎裂——甚至碎得更彻底。\u201c错误的道路？本家独占一切，分家在暗处苟活——你告诉我什么是正确的道路？\u201d"
+          }
+        ]
+      },
+      "tvf4a": {
+        "text": "阿绣走到两人之间，帚柄横放。\n\n\u201c桥我画。帚柄立在这里——谁都可以走。但走过去的人，要自己选择往哪边走。\u201d\n\n分家后裔看着阿绣。然后她从袖中取出一根红线——连接她与影之座操控者的灵力丝线。她犹豫了一下，没有剪断。但她把红线的一端放在了帚柄上。\n\n\u201c我没有名字。但我可以不叫凛世。\u201d",
+        "choices": [
+          {
+            "text": "将红线作为线索——追踪影之座",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "trace_shadow_seat",
+            "result_text": "红线指向远方——影之座的位置已被标记。但分家后裔没有剪断红线。她选择了与影之座保持联系——不是为了背叛，而是为了从内部终结两千年来的暗影。"
+          }
+        ]
+      },
+      "tvf4b": {
+        "text": "分家后裔从怀中取出一枚六瓣桔梗复制梳——冒牌凛世的道具。她看了很久，然后把它放在了悬镜前的供桌上。\n\n\u201c这把梳……是影之座给我的。复制桔梗纹的道具。我用了它十三年。\u201d\n\n她抬头看向凛世：\u201c你说我有自己的名字。那我想问问——远坂影，她是怎么找到自己的名字的？\u201d",
+        "choices": [
+          {
+            "text": "\u201c影自决了姓名与命运。以\u2018影\u2019为名——不逃避影子，而是承认它。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "share_kage_story",
+            "result_text": "分家后裔沉默良久。然后她从袖中取出红线——灵力丝线。她没有剪断它，但她把它系在了悬镜的镜框上。不是束缚——是\u201c我知道你在那里\u201d。"
+          }
+        ]
+      },
+      "tvf4c": {
+        "text": "分家后裔退后一步。碎裂的镜面在她身后重组——但重组出的不是凛世的脸，是一个陌生人。\n\n\u201c你说窃取不是正途。那告诉我——两千年了，本家何时给过分家正途？\u201d\n\n她将红线收回袖中。她没有剪断红线——但她的眼神变了。不是愤怒，是某种比愤怒更冷的东西。\n\n\u201c影之座不会因为一次照心就消散。但我会记住这面镜子。还有你说的话。\u201d",
+        "choices": [
+          {
+            "text": "目送她离去",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "fake_rinyo_retreats",
+            "result_text": "分家后裔消失在本堂门外。红线在她身后拖出一道暗红的轨迹——通往影之座的方向。这不是结束，只是序曲。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第三集 双面之影（一）"
+  },
+  {
+    "id": "dialog_hattori_expanded",
+    "start_node_id": "he1",
+    "nodes": {
+      "he1": {
+        "text": "服部半藏·雨夜来访\n\n堀川渡场。雨夜。\n\n一个黑影从雨幕中走出。番屋檐下风铎叮当，七盏献灯彻夜不灭。来者停在灯下——斗笠下是一张半隐的面孔。\n\n\u201c保熟。\u201d他说。\n\n这是服部半藏的切口。意为：我不是来杀你的。",
+        "choices": [
+          {
+            "text": "\u201c保熟。进来吧。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "he2a",
+            "condition": null,
+            "flag_set": "hattori_password_accepted",
+            "result_text": "半藏踏入番屋。他的斗笠还在滴水——但他没有坐下。服部半藏从不坐着说话。"
+          },
+          {
+            "text": "\u201c切口归切口。你为何而来？\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "he2b",
+            "condition": null,
+            "flag_set": "ask_hattori_purpose",
+            "result_text": "半藏摘下斗笠。雨水从他的面颊滑落——但他的眼神是干的。\u201c百鬼夜行。不是妖邪作乱——是有人在引阵。\u201d"
+          }
+        ]
+      },
+      "he2a": {
+        "text": "半藏站在番屋中央，环视四周。\n\n\u201c桔梗还是银边的。唐柜还在缘侧。灯还是七盏。\u201d他低声说，\u201c渡场什么都没变。但外面变了。\u201d\n\n他走到唐柜旁，但没有触碰它。\u201c逆七星夺灵阵——你知道这个名字吗？\u201d",
+        "choices": [
+          {
+            "text": "\u201c逆七星？那是什么？\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 0,
+            "next_node_id": "he3",
+            "condition": null,
+            "flag_set": "ask_seven_stars",
+            "result_text": "半藏的声音压得更低：\u201c百鬼夜行的真相——不是妖邪作乱，是有人在用七星珏引动逆七星夺灵阵。七魂苏醒，不是自然的。是被引动的。\u201d"
+          },
+          {
+            "text": "\u201c七星珏……我在渡场觉中读到过。\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "he3",
+            "condition": null,
+            "flag_set": "know_seven_stars",
+            "result_text": "半藏点了点头。\u201c刘吉的渡场觉里有记载。那你应该知道——七星珏一旦被启动，七日之内必须有人回应七魂的苏醒。否则阵法逆行，连启动者也会被吞噬。\u201d"
+          }
+        ]
+      },
+      "he2b": {
+        "text": "半藏直入正题。\n\n\u201c百鬼夜行。不是妖邪作乱——是逆七星夺灵阵。有人在用七星珏引动七魂苏醒。\u201d\n\n他从怀中取出一枚暗码纸条，放在供桌上。\n\u201c这是我在犬神群的操控者身上截获的。暗码内容——指向长谷寺。你的分家后裔，在那里等你。\u201d",
+        "choices": [
+          {
+            "text": "\u201c七日之内，如何回应七魂？\u201d",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "he3",
+            "condition": null,
+            "flag_set": "ask_seven_days",
+            "result_text": "半藏：\u201c七日之约——每一天回应一个苏醒之魂。以怜悯或以惩戒，由渡者自决。但七日之内不回应——阵法逆行。\u201d"
+          }
+        ]
+      },
+      "he3": {
+        "text": "七日之约。\n\n半藏收起暗码纸条。他走到番屋门口，雨幕如帘。\n\n\u201c七日之约已立。凛世——从今夜起，你每一天都会面对一个苏醒之魂。你如何对待它们，将决定阵法的走向。\u201d\n\n他回头看了凛世一眼。\u201c另外——菊姬的命代铜牌和发簪，都在长谷寺。她是第一个苏醒之魂的线索。\u201d\n\n然后他消失在雨幕中。",
+        "choices": [
+          {
+            "text": "七日之约——接受",
+            "sin_delta": 0,
+            "atonement_delta": 1,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "seven_day_pact_accepted",
+            "result_text": "雨还在下。渡场的七盏灯在雨中不灭。凛世站在番屋缘侧，看着半藏消失的方向。七日之约——第一天从今夜开始。"
+          },
+          {
+            "text": "七日之约——但我会用自己的方式回应",
+            "sin_delta": 1,
+            "atonement_delta": 0,
+            "next_node_id": "end",
+            "condition": null,
+            "flag_set": "seven_day_pact_own_way",
+            "result_text": "凛世握紧掌心的瑟夏印记。七日之约是外部的框架——但回应的方式，由她自己决定。不是怜悯，不是惩戒——是渡。"
+          }
+        ]
+      }
+    },
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第一集 桔梗渡异闻"
+  }
+]

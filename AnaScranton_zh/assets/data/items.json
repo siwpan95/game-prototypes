@@ -1,0 +1,372 @@
+[
+  {
+    "item_id": "ev_murkoff_memo",
+    "name": "Murkoff 备忘录",
+    "description": "一份机密内部备忘录，提及“Walrider 计划”和从工厂车间招募志愿者。",
+    "item_type": "EVIDENCE",
+    "act_source": 1,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 1,
+      "puzzle_bonus": "CIPHER_DECRYPTION"
+    }
+  },
+  {
+    "item_id": "ev_factory_log",
+    "name": "工厂班次日志",
+    "description": "详细的工人分配记录，显示异常的夜班和“体检”要求。",
+    "item_type": "EVIDENCE",
+    "act_source": 1,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 1,
+      "puzzle_bonus": "EVIDENCE_CORRELATION"
+    }
+  },
+  {
+    "item_id": "ev_resignation_letter",
+    "name": "辞职信",
+    "description": "Anna 未提交的辞职信。信中揭示了她选择调查而非顺从的那一刻。",
+    "item_type": "EVIDENCE",
+    "act_source": 1,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "humanity_boost",
+      "effect_value": 5,
+      "puzzle_bonus": ""
+    }
+  },
+  {
+    "item_id": "ev_fisher_note",
+    "name": "费舍的纸条",
+    "description": "保罗·费舍的手写笔记，附有部分密码密钥和一句话：“别相信穿白大褂的人。“",
+    "item_type": "EVIDENCE",
+    "act_source": 1,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "LIE_DETECTION"
+    }
+  },
+  {
+    "item_id": "mm_rusted_badge",
+    "name": "生锈的安保徽章",
+    "description": "你在工厂的旧安保徽章。提醒着你曾经是谁。",
+    "item_type": "MEMENTO",
+    "act_source": 1,
+    "type_data": {
+      "passive_effect": "hp_regen",
+      "effect_value": 3
+    }
+  },
+  {
+    "item_id": "mm_mothers_photo",
+    "name": "母亲的照片",
+    "description": "一张褪色的母亲照片。她的目光似乎追随着你。",
+    "item_type": "MEMENTO",
+    "act_source": 1,
+    "type_data": {
+      "passive_effect": "humanity_regen",
+      "effect_value": 2
+    }
+  },
+  {
+    "item_id": "ev_patient_file",
+    "name": "患者档案 #4471",
+    "description": "一份来自 Massive 山的涂改患者档案。名字被涂黑，但治疗方案很清楚：形态发生引擎暴露。",
+    "item_type": "EVIDENCE",
+    "act_source": 2,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "EVIDENCE_CORRELATION"
+    }
+  },
+  {
+    "item_id": "ev_murkoff_email",
+    "name": "Murkoff 邮件转储",
+    "description": "一批 Murkoff 内部邮件，证明他们知晓 Walrider 计划的人性代价。",
+    "item_type": "EVIDENCE",
+    "act_source": 2,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "CIPHER_DECRYPTION"
+    }
+  },
+  {
+    "item_id": "ev_trager_scalpel",
+    "name": "特拉格的手术刀",
+    "description": "一把带有理查德·特拉格名字缩写的手术刀。上面仍留有使用痕迹。",
+    "item_type": "EVIDENCE",
+    "act_source": 2,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "damage",
+      "effect_value": 10,
+      "puzzle_bonus": ""
+    }
+  },
+  {
+    "item_id": "ev_experiment_log",
+    "name": "实验日志",
+    "description": "地下实验室的手写笔记。受试者反应、失败率，以及一个被反复圈出的词：“协议。“",
+    "item_type": "EVIDENCE",
+    "act_source": 2,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 1,
+      "puzzle_bonus": "TIMELINE_RECONSTRUCTION"
+    }
+  },
+  {
+    "item_id": "mm_lab_coat",
+    "name": "偷来的实验服",
+    "description": "一件 Murkoff 配发的实验服。穿上它让你感到共谋，但也让你隐形。",
+    "item_type": "MEMENTO",
+    "act_source": 2,
+    "type_data": {
+      "passive_effect": "corruption_resist",
+      "effect_value": 3
+    }
+  },
+  {
+    "item_id": "ev_snakehead_ledger",
+    "name": "蛇头账本",
+    "description": "一份详细的人口贩运操作账本。姓名、日期、付款——苦难的完整供应链。",
+    "item_type": "EVIDENCE",
+    "act_source": 3,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "TIMELINE_RECONSTRUCTION"
+    }
+  },
+  {
+    "item_id": "ev_phone_recording",
+    "name": "电话录音",
+    "description": "你与母亲最后一次通话的录音。当她说她为你骄傲时，声音破裂了。",
+    "item_type": "EVIDENCE",
+    "act_source": 3,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "humanity_boost",
+      "effect_value": 10,
+      "puzzle_bonus": ""
+    }
+  },
+  {
+    "item_id": "ev_trafficking_manifest",
+    "name": "加密货运清单",
+    "description": "一份高度加密的货运清单。目的地代码与 Murkoff 设施匹配。",
+    "item_type": "EVIDENCE",
+    "act_source": 3,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "CIPHER_DECRYPTION"
+    }
+  },
+  {
+    "item_id": "ev_judgment_record",
+    "name": "审判记录",
+    "description": "你对自己每个审判的个人记录。有些条目被划掉。有些被用红笔圈出。",
+    "item_type": "EVIDENCE",
+    "act_source": 3,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "JUDGMENT"
+    }
+  },
+  {
+    "item_id": "mm_valkyrie_shard",
+    "name": "女武神碎片",
+    "description": "你撕下的蜂群意识碎片。它在低语。它在记忆。",
+    "item_type": "MEMENTO",
+    "act_source": 3,
+    "type_data": {
+      "passive_effect": "corruption_boost",
+      "effect_value": 5
+    }
+  },
+  {
+    "item_id": "ev_valkyrie_injector",
+    "name": "---- 小说扩充 ---- 纳米蜂群注射器",
+    "description": "特拉格用来注射瓦尔基里纳米蜂群的装置。空了，但管壁上仍残留着银色微粒——它们在黑暗中微微发光。",
+    "item_type": "EVIDENCE",
+    "act_source": 2,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "CIPHER_DECRYPTION"
+    }
+  },
+  {
+    "item_id": "mm_broken_fingers",
+    "name": "---- 小说扩充 ---- 银灰色断指截面",
+    "description": "左手无名指与小指的纳米截面。不再是血肉，而是银灰色的蜂群结晶。触摸它时，你能听到47个回音。",
+    "item_type": "MEMENTO",
+    "act_source": 3,
+    "type_data": {
+      "passive_effect": "corruption_resist",
+      "effect_value": 5
+    }
+  },
+  {
+    "item_id": "mm_black_gloves",
+    "name": "---- 小说扩充 ---- 黑色手套",
+    "description": "遮掩断指的黑色皮手套。安娜从不摘下它们——不是为了遮丑，而是为了不让蜂群在无意中被激活。",
+    "item_type": "MEMENTO",
+    "act_source": 3,
+    "type_data": {
+      "passive_effect": "hp_regen",
+      "effect_value": 3
+    }
+  },
+  {
+    "item_id": "mm_prepaid_phone",
+    "name": "---- 小说扩充 ---- 预付费手机",
+    "description": "一次性通讯设备。独立记者A.S.的标志性工具——每72小时更换一次，号码从不重复。",
+    "item_type": "MEMENTO",
+    "act_source": 3,
+    "type_data": {
+      "passive_effect": "humanity_regen",
+      "effect_value": 2
+    }
+  },
+  {
+    "item_id": "mm_leather_notebook",
+    "name": "---- 小说扩充 ---- 皮面笔记本",
+    "description": "安娜的记录本。每一页都是密密麻麻的手写笔迹——姓名、日期、罪行。笔迹在裁决模式激活时会变得不规则。",
+    "item_type": "MEMENTO",
+    "act_source": 3,
+    "type_data": {
+      "passive_effect": "humanity_regen",
+      "effect_value": 3
+    }
+  },
+  {
+    "item_id": "mm_plaid_scarf",
+    "name": "---- 小说扩充 ---- 方格围巾",
+    "description": "麦琪·陈送的方格围巾。安娜只在最寒冷的夜晚才会戴上它——物理的冷，和心里的冷。",
+    "item_type": "MEMENTO",
+    "act_source": 4,
+    "type_data": {
+      "passive_effect": "humanity_regen",
+      "effect_value": 4
+    }
+  },
+  {
+    "item_id": "ev_alissa_diary",
+    "name": "---- 小说扩充 ---- 艾丽莎日记",
+    "description": "格蕾丝母亲的日记。记录了浣熊市的最后日子——以及黑斑在幸存者中蔓延的恐惧。T病毒变体的第一手证词。",
+    "item_type": "EVIDENCE",
+    "act_source": 4,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 3,
+      "puzzle_bonus": "EVIDENCE_CORRELATION"
+    }
+  },
+  {
+    "item_id": "ev_encrypted_usb",
+    "name": "---- 小说扩充 ---- 加密U盘",
+    "description": "鹪木旅馆中获取的关键证据。包含穆克夫残余组织的完整通讯记录和T病毒变体研究数据。",
+    "item_type": "EVIDENCE",
+    "act_source": 4,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 3,
+      "puzzle_bonus": "CIPHER_DECRYPTION"
+    }
+  },
+  {
+    "item_id": "ev_protocol_c",
+    "name": "---- 小说扩充 ---- 协议C文件",
+    "description": "新地平线生物科技的绝密文件。'协议C'：穆克夫残余的最后一道保险——销毁所有受试者以掩盖证据。",
+    "item_type": "EVIDENCE",
+    "act_source": 4,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 3,
+      "puzzle_bonus": "TIMELINE_RECONSTRUCTION"
+    }
+  },
+  {
+    "item_id": "ev_elpis_project",
+    "name": "---- 小说扩充 ---- 厄尔庇斯项目文件",
+    "description": "希腊语'希望'。一份被截获的内部报告，描述穆克夫如何将现实裂缝武器化。项目编号SS-1988-07。",
+    "item_type": "EVIDENCE",
+    "act_source": 4,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "JUDGMENT"
+    }
+  },
+  {
+    "item_id": "mm_foundation_logo",
+    "name": "---- 小说扩充 ---- 斯克兰顿基金会徽章",
+    "description": "麦琪·陈设计的logo——一只握笔的手与一只持盾的手交握。下方铭文：'记录·守护·锚定'。",
+    "item_type": "MEMENTO",
+    "act_source": 4,
+    "type_data": {
+      "passive_effect": "humanity_regen",
+      "effect_value": 5
+    }
+  },
+  {
+    "item_id": "ev_reality_anchor_doc",
+    "name": "---- 小说扩充 ---- 特拉格现实锚论文",
+    "description": "1995年论文《论局部现实的稳定与扰动》。埃德娜·普雷斯顿从石溪镇图书馆保存的孤本。安娜家族遗传能力的科学解释。",
+    "item_type": "EVIDENCE",
+    "act_source": 4,
+    "type_data": {
+      "uses": 2,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 3,
+      "puzzle_bonus": "EVIDENCE_CORRELATION"
+    }
+  },
+  {
+    "item_id": "ev_falcone_inheritance",
+    "name": "---- 小说扩充 ---- 蜂群传承印记",
+    "description": "法尔科内·马罗尼左手断指处的银灰色纳米截面——安娜从锚点传承的蜂群印记。传承完成时，断面发出微弱蓝光。",
+    "item_type": "EVIDENCE",
+    "act_source": 4,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "puzzle_bonus",
+      "effect_value": 2,
+      "puzzle_bonus": "JUDGMENT"
+    }
+  },
+  {
+    "item_id": "ev_maroni_mirror",
+    "name": "---- 小说扩充 ---- 镜像裁决记录",
+    "description": "马罗尼·法尔科内的私人审判日志。每一页都是对安娜的扭曲模仿——'裁决'变成了'处决'，'记录'变成了'抹除'。",
+    "item_type": "EVIDENCE",
+    "act_source": 4,
+    "type_data": {
+      "uses": 1,
+      "effect_type": "damage",
+      "effect_value": 15,
+      "puzzle_bonus": ""
+    }
+  }
+]

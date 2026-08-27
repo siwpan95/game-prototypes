@@ -1,0 +1,243 @@
+[
+  {
+    "id": "puzzle_incantation_01",
+    "puzzle_type": "incantation",
+    "description": "将咒文碎片按正确的仪式顺序排列，以解封屏障。",
+    "data": {
+      "fragments": ["净化仪式", "古神道", "秘仪真言"],
+      "correct_order": ["秘仪真言", "古神道", "净化仪式"],
+      "hint": "最暗的教义必先诵念，最古之道次之，净化仪式最后。"
+    },
+    "reward": {"gold": 15, "item": "item_shichiseiketsu_1"}
+  },
+  {
+    "id": "puzzle_heart_lock",
+    "puzzle_type": "riddle",
+    "description": "封印之门开口了：'回答我的问题，否则永远困于此地。' 三道问题把守前路。",
+    "data": {
+      "questions": [
+        {"question": "何为罪？", "answer": "执着"},
+        {"question": "何为赎罪？", "answer": "放下"}
+      ],
+      "correct_answer": "执着",
+      "hint": "佛陀教导说，苦来源于执念……"
+    },
+    "reward": {"gold": 20, "item": "item_shichiseiketsu_3"}
+  },
+  {
+    "id": "puzzle_spirit_sight_01",
+    "puzzle_type": "spirit_sight",
+    "description": "此处隐藏着什么。使用灵视来揭示真相。（消耗10点灵力）",
+    "data": {
+      "options": [
+        {"id": "seal_a", "text": "检视供桌后的阴影", "result": "你在桌后发现了一条隐秘通道！"},
+        {"id": "seal_b", "text": "以灵视观察壁绘", "result": "壁绘微微发光，揭示出一幅寺庙地图。"},
+        {"id": "seal_c", "text": "凝视香霭", "result": "烟雾形成形状——前方有陷阱的警告。"}
+      ],
+      "correct_option": "seal_a",
+      "hint": "角落里的阴影似乎比应有的更深。"
+    },
+    "reward": {"gold": 10, "item": "item_shichiseiketsu_2"}
+  },
+  {
+    "id": "puzzle_divination_01",
+    "puzzle_type": "divination",
+    "description": "抛出三枚铜钱以占卜你的道路。灵将揭示它们所愿揭示的。",
+    "data": {
+      "possible_results": [
+        "三阳：大吉——你将找到你所寻之物。",
+        "两阳一阴：小吉——前方有挑战，但你将克服它。",
+        "一阳两阴：凶——谨慎前行，因危险近在咫尺。",
+        "三阴：大凶——先祖之影愈加强大。"
+      ],
+      "hint": "铜钱不说谎，但它们也不透露全部真相。"
+    },
+    "reward": {"gold": 5, "item": null}
+  },
+  {
+    "id": "puzzle_incantation_02",
+    "puzzle_type": "incantation",
+    "description": "更复杂的封印需要五部分咒文。碎片散落在神社各处。",
+    "data": {
+      "fragments": ["终祓", "秘仪真言", "古神道", "灵缚", "净化仪式"],
+      "correct_order": ["秘仪真言", "灵缚", "古神道", "净化仪式", "终祓"],
+      "hint": "如前开始，但缚灵必须在古道之前。祓除总是最后。"
+    },
+    "reward": {"gold": 25, "item": "item_shichiseiketsu_5"}
+  },
+  {
+    "id": "puzzle_mirror_truth",
+    "puzzle_type": "spirit_sight",
+    "description": "真言之镜伫立在你面前。深深凝视——何为真实，何为幻象？",
+    "data": {
+      "options": [
+        {"id": "truth_a", "text": "这才是真正的阿秀", "result": "你感受到她言语中的真诚。这才是真正的阿秀。"},
+        {"id": "truth_b", "text": "这个阿秀是假的", "result": "她的眼神有些不对……这是冒牌货！"}
+      ],
+      "correct_option": "truth_b",
+      "hint": "真正的阿秀绝不会那样笑。"
+    },
+    "reward": {"gold": 0, "item": "item_shichiseiketsu_4"}
+  },
+  {
+    "id": "puzzle_emperor_questions",
+    "puzzle_type": "riddle",
+    "description": "影之帝提出了三个问题。你的回答将决定七魂的命运。",
+    "data": {
+      "questions": [
+        {"question": "若你可以通过诅咒另一人来拯救一魂，你会这样做吗？", "answer": "不"},
+        {"question": "自由给予的怜悯，是否比通过苦难换来的怜悯更有价值？", "answer": "是"},
+        {"question": "当一切焚尽时，何物犹存？", "answer": "希望"}
+      ],
+      "correct_answer": "希望",
+      "hint": "最后的答案，是渡船守卫心中所承载之物。"
+    },
+    "reward": {"gold": 0, "item": "item_shichiseiketsu_7"}
+  },
+  {
+    "id": "puzzle_emperor_xianyang",
+    "puzzle_type": "riddle",
+    "description": "帝影第一问·咸阳殿：\u201c朕筑长城以守万民，为何万民不感其恩？\u201d待灯代答——穿越咸阳殿梦境。",
+    "data": {
+      "questions": [
+        {"question": "长城筑于万民之骨上。万民感其恩否？", "answer": "不感"}
+      ],
+      "correct_answer": "不感",
+      "hint": "城虽守万民，亦困万民。恩不恩，由受者论。"
+    },
+    "reward": {"gold": 0, "item": null},
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "puzzle_emperor_langya",
+    "puzzle_type": "spirit_sight",
+    "description": "帝影第二问·琅琊台：\u201c朕遣徐福渡海求仙，仙未得而人已散。朕错了吗？\u201d以灵视观察琅琊台梦境中的选择。",
+    "data": {
+      "options": [
+        {"id": "langya_a", "text": "错在求仙——长生非人力所及", "result": "待灯答：\u201c错不在求。错在不认错。\u201d"},
+        {"id": "langya_b", "text": "错在遣人——徐福非仙，人非棋子", "result": "待灯答：\u201c错不在遣。错在不知归来。\u201d"}
+      ],
+      "correct_option": "langya_a",
+      "hint": "求仙者非罪，不认错者方为罪。"
+    },
+    "reward": {"gold": 0, "item": null},
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "puzzle_emperor_shaqiu",
+    "puzzle_type": "riddle",
+    "description": "帝影第三问·沙丘：\u201c朕崩于沙丘，身边无一人敢言真相。为何？\u201d待灯以千年孤女之身作答。",
+    "data": {
+      "questions": [
+        {"question": "帝崩于沙丘，无人敢言真相。为何？", "answer": "怕"}
+      ],
+      "correct_answer": "怕",
+      "hint": "不是无人敢言——是无人被允许言。怕的，不是臣子，是帝王自己。"
+    },
+    "reward": {"gold": 0, "item": "item_shichiseiketsu_6"},
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "puzzle_karakuri_lock",
+    "puzzle_type": "riddle",
+    "description": "唐柜底层的心锁。只有将正确的思念放入才能开启。答案不在文字中，在于\u201c谁在等你打开\u201d。",
+    "data": {
+      "questions": [
+        {"question": "唐柜底层锁着不死之核。开锁之物是什么？", "answer": "核壳"}
+      ],
+      "correct_answer": "核壳",
+      "hint": "唐柜中藏着核——而壳在信长颈上。壳归则核现。"
+    },
+    "reward": {"gold": 0, "item": "item_kakukaku"},
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "puzzle_kakukaku_divination",
+    "puzzle_type": "divination",
+    "description": "核壳的光色占卜。壳随信长之业变色：暖橙为释然，赤为追忆，黑为罪业，暗紫为孤惧，青为冷静，金为桔梗花开。以秦半两铜钱三枚占卜壳色走向。",
+    "data": {
+      "possible_results": [
+        "三阳·暖橙：大吉——业壳正在愈合，信长已承认恐惧。",
+        "两阳一阴·赤：小吉——追忆之色，信长梦见旧日战场。",
+        "一阳两阴·暗紫：凶——孤惧之色，信长梦中不敢握父亲之手。",
+        "三阴·黑：大凶——罪业最深处，但壳未碎意味着还有路。"
+      ],
+      "hint": "壳色无常，业丝不灭。但\u201c业尽壳愈\u201d——愈者非无业也，乃不再独承。"
+    },
+    "reward": {"gold": 0, "item": null},
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "puzzle_shin_inscription",
+    "puzzle_type": "incantation",
+    "description": "咸阳故地秦篆碑文排列。卢守带来的封魂玉残迹铭文，需按秦篆碑文时序排列。",
+    "data": {
+      "fragments": ["始皇帝诏", "泰山封禅", "琅琊刻石", "沙丘遗命", "不死之约"],
+      "correct_order": ["始皇帝诏", "泰山封禅", "琅琊刻石", "不死之约", "沙丘遗命"],
+      "hint": "帝先诏令天下，再封禅告天，刻石记功，求不死之约，遗命于沙丘——终末亦为序曲。"
+    },
+    "reward": {"gold": 20, "item": "item_shin_copper"},
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "puzzle_spirit_stone_seal",
+    "puzzle_type": "spirit_sight",
+    "description": "渡场地下暗室灵石封印观察。灵石上的铭文以灵视方可阅读——远坂永胤的罪与封印铭文。需以灵视观察三处铭文，解读封印结构。",
+    "data": {
+      "options": [
+        {"id": "seal_spirit_01", "text": "以灵视观察灵石正面铭文", "result": "灵石正面刻着永胤的罪——\u201c窃核封魂，三处藏之，以待来者。\u201d"},
+        {"id": "seal_spirit_02", "text": "以灵视观察灵石底座铭文", "result": "底座刻着封印结构——\u201c勾玉封第一重，黄泉封第二重，海底封第三重。三重共鸣，核方显。\u201d"},
+        {"id": "seal_spirit_03", "text": "以灵视观察灵石背面铭文", "result": "背面刻着唐柜三重秘密——\u201c远坂氏实为秦影众末裔。不死之核碎片分三处封印。开柜之钥不在手——在心。\u201d"}
+      ],
+      "correct_option": "seal_spirit_02",
+      "hint": "封印的结构才是关键——底座铭文揭示了三重封印的完整地图。"
+    },
+    "reward": {"gold": 10, "item": "item_magatama_fragment_awakened"},
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第零集 天正残照（上）"
+  },
+  {
+    "id": "puzzle_derailed_signpost",
+    "puzzle_type": "riddle",
+    "description": "長谷越山道上的道标矢被篡改。原本指向长谷寺的道标被改为指向深山炭窑。地藏菩萨的头部被更换——原本慈悲面，现为怒目面。需判断正确的行进方向。",
+    "data": {
+      "questions": [
+        {"question": "道标矢指向炭窑，但炭窑是凶案现场。地藏怒目面朝东——长谷寺在何方？", "answer": "西"}
+      ],
+      "correct_answer": "西",
+      "hint": "怒目地藏面朝东，意为\u201c东方有凶\u201d。背向而行，方为正途。长谷寺在西。"
+    },
+    "reward": {"gold": 15, "item": "item_mirror_shard"},
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "puzzle_heart_lock_questions",
+    "puzzle_type": "riddle",
+    "description": "唐柜心锁之问。\u201c何者为罪？何者为赎？\u201d答案不在文字中——在打开唐柜的人心中。这是菊姬血书末尾的质问，也是打开铁盒的关键。",
+    "data": {
+      "questions": [
+        {"question": "何者为罪？", "answer": "执着"},
+        {"question": "何者为赎？", "answer": "放下"}
+      ],
+      "correct_answer": "执着",
+      "hint": "罪源于执着——远坂永胤窃核封魂，皆因执着于不死。赎源于放下——但不放下亦可赎，关键在于承认。"
+    },
+    "reward": {"gold": 20, "item": "item_kikuhime_blood_letter"},
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "puzzle_mirror_discern",
+    "puzzle_type": "spirit_sight",
+    "description": "悬镜辨真伪。长谷寺本堂的悬镜照心法器——两个凛世站在镜前，镜中映出不同的影像。需以灵视观察镜中映像，判断真假。",
+    "data": {
+      "options": [
+        {"id": "mirror_discern_01", "text": "观察镜中左侧影像——\u201c业之锁\u201d", "result": "镜中映出缠绕的锁链——是罪与业的具现。这不是束缚，是承载。此人选择了背负。"},
+        {"id": "mirror_discern_02", "text": "观察镜中右侧影像——\u201c碎片之镜\u201d", "result": "镜中映出碎裂的镜面——无数碎片映出无数张脸，没有一张是自己的。此人没有自我，只有复制。"},
+        {"id": "mirror_discern_03", "text": "以灵视观察两人掌心", "result": "左侧掌心青色印记——瑟夏守护灵之证。右侧掌心空白——分家后裔无法继承守护灵。"}
+      ],
+      "correct_option": "mirror_discern_03",
+      "hint": "瑟夏印记是唯一无法复制的东西——守护灵不认影，只认主。"
+    },
+    "reward": {"gold": 0, "item": "item_mirror_of_heart"},
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第三集 双面之影（一）"
+  }
+]

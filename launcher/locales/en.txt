@@ -1,0 +1,27 @@
+# Hell Below Launcher - English (en) translations
+# Platform
+app_title = Hell Below
+platform_name = Super Universe Comprehensive Game Network Platform
+language = Language
+quit = Quit
+back = Back
+
+# Main Menu
+menu_title = H E L L   B E L O W
+menu_subtitle = Super Universe Comprehensive Game Network Platform
+menu_enter = E N T E R
+menu_language = Language
+menu_quit = Quit
+
+# Game Grid
+grid_title = S E L E C T   G A M E
+grid_subtitle = With will as weapon, memory as fuel, existence as stake
+grid_footer = Click a game card to launch | ESC: Back | F11: Fullscreen
+not_available = N/A
+
+# Controls
+controls_fullscreen = F11: Fullscreen
+controls_back = ESC: Back
+
+# Footer
+footer = F11: Fullscreen | ESC: Back

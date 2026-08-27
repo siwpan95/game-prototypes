@@ -1,0 +1,795 @@
+{
+  "enemies": [
+    {
+      "id": "shadow_lurker",
+      "name": "暗影潜伏者",
+      "hp_range": [
+        20,
+        28
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 6
+        },
+        {
+          "type": "ATTACK",
+          "damage": 6
+        },
+        {
+          "type": "DEFEND",
+          "block": 5
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "wailing_spirit",
+      "name": "哀嚎之灵",
+      "hp_range": [
+        18,
+        24
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 5
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 8
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "hellhound",
+      "name": "地狱犬",
+      "hp_range": [
+        25,
+        35
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 7
+        },
+        {
+          "type": "ATTACK",
+          "damage": 7
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "lost_soul",
+      "name": "迷失之魂",
+      "hp_range": [
+        15,
+        22
+      ],
+      "action_pattern": [
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 4
+        },
+        {
+          "type": "ATTACK",
+          "damage": 4
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "iron_wraith",
+      "name": "铁甲亡灵",
+      "hp_range": [
+        30,
+        40
+      ],
+      "action_pattern": [
+        {
+          "type": "DEFEND",
+          "block": 8
+        },
+        {
+          "type": "ATTACK",
+          "damage": 8
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 6,
+          "block": 4
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "corrupted_monk",
+      "name": "堕化武僧",
+      "hp_range": [
+        35,
+        45
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 8
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        },
+        {
+          "type": "DEFEND",
+          "block": 6
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false
+    },
+    {
+      "id": "demon_blade",
+      "name": "魔刃",
+      "hp_range": [
+        40,
+        55
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 12
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 6,
+          "block": 6
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 8
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false
+    },
+    {
+      "id": "kingpin",
+      "name": "霸主",
+      "hp_range": [
+        80,
+        100
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 10
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 12,
+          "block": 8
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 15
+        }
+      ],
+      "is_elite": false,
+      "is_boss": true
+    },
+    {
+      "id": "flayed_one",
+      "name": "剥皮者",
+      "hp_range": [
+        22,
+        30
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 8
+        },
+        {
+          "type": "ATTACK",
+          "damage": 5
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "phantom_thief",
+      "name": "幻影盗贼",
+      "hp_range": [
+        28,
+        36
+      ],
+      "action_pattern": [
+        {
+          "type": "DEFEND",
+          "block": 10
+        },
+        {
+          "type": "ATTACK",
+          "damage": 9
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 5,
+          "block": 5
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "void_stalker",
+      "name": "虚空猎手",
+      "hp_range": [
+        45,
+        60
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 11
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 14
+        },
+        {
+          "type": "DEFEND",
+          "block": 8
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false
+    },
+    {
+      "id": "corrupted_vision",
+      "name": "堕落幻象",
+      "hp_range": [
+        100,
+        130
+      ],
+      "action_pattern": [
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 12
+        },
+        {
+          "type": "ATTACK",
+          "damage": 12
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 14,
+          "block": 10
+        },
+        {
+          "type": "ATTACK",
+          "damage": 18
+        }
+      ],
+      "is_elite": false,
+      "is_boss": true
+    },
+    {
+      "id": "fractured_mirror",
+      "name": "破碎倒影",
+      "hp_range": [
+        30,
+        38
+      ],
+      "action_pattern": [
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 7
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "abyss_crawler",
+      "name": "深渊爬行者",
+      "hp_range": [
+        35,
+        45
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 9
+        },
+        {
+          "type": "ATTACK",
+          "damage": 9
+        },
+        {
+          "type": "DEFEND",
+          "block": 12
+        },
+        {
+          "type": "ATTACK",
+          "damage": 12
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "nightmare_weaver",
+      "name": "梦魇编织者",
+      "hp_range": [
+        50,
+        65
+      ],
+      "action_pattern": [
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 14
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false
+    },
+    {
+      "_comment": "---- 小说扩充 ----",
+      "id": "optimizer_soldier",
+      "name": "优化者士兵",
+      "hp_range": [
+        28,
+        38
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 9
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 11
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "hand_ninja",
+      "name": "手合会忍者",
+      "hp_range": [
+        22,
+        30
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 7
+        },
+        {
+          "type": "ATTACK",
+          "damage": 7
+        },
+        {
+          "type": "DEFEND",
+          "block": 6
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "dark_vein_infected",
+      "name": "暗纹感染体",
+      "hp_range": [
+        32,
+        42
+      ],
+      "action_pattern": [
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        },
+        {
+          "type": "ATTACK",
+          "damage": 6
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false
+    },
+    {
+      "id": "sentinel_prototype",
+      "name": "哨兵原型机",
+      "hp_range": [
+        55,
+        70
+      ],
+      "action_pattern": [
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 12
+        },
+        {
+          "type": "ATTACK",
+          "damage": 12
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 10,
+          "block": 8
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false
+    },
+    {
+      "id": "pandora_armor",
+      "name": "潘多拉装甲",
+      "hp_range": [
+        60,
+        78
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 11
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 8,
+          "block": 8
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 14
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false
+    },
+    {
+      "id": "kingpin_enhanced",
+      "name": "金并·暗纹强化",
+      "hp_range": [
+        110,
+        140
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 12
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 10,
+          "block": 10
+        },
+        {
+          "type": "ATTACK",
+          "damage": 15
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 18
+        }
+      ],
+      "is_elite": false,
+      "is_boss": true
+    },
+    {
+      "id": "heavenly_emperor",
+      "name": "天帝",
+      "hp_range": [
+        150,
+        190
+      ],
+      "action_pattern": [
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 14
+        },
+        {
+          "type": "ATTACK",
+          "damage": 14
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 16,
+          "block": 12
+        },
+        {
+          "type": "ATTACK",
+          "damage": 22
+        }
+      ],
+      "is_elite": false,
+      "is_boss": true
+    },
+    {
+      "_comment": "---- 小说扩充 Phase3 ----",
+      "id": "optimizer_elite",
+      "name": "精英优化者",
+      "hp_range": [
+        45,
+        60
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 10
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 8,
+          "block": 8
+        },
+        {
+          "type": "ATTACK",
+          "damage": 13
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false
+    },
+    {
+      "id": "optimizer_k9",
+      "name": "优化者K9",
+      "hp_range": [
+        35,
+        48
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 8
+        },
+        {
+          "type": "ATTACK",
+          "damage": 8
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 12
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "bullseye",
+      "name": "靶眼",
+      "hp_range": [
+        50,
+        65
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 13
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "vulnerable"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        },
+        {
+          "type": "ATTACK",
+          "damage": 15
+        },
+        {
+          "type": "DEFEND",
+          "block": 6
+        }
+      ],
+      "is_elite": true,
+      "is_boss": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "pandora_osborn",
+      "name": "奥斯本·潘多拉",
+      "hp_range": [
+        100,
+        130
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 12
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 10,
+          "block": 10
+        },
+        {
+          "type": "DEBUFF",
+          "debuff": "weak"
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK",
+          "damage": 16
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 14,
+          "block": 8
+        }
+      ],
+      "is_elite": false,
+      "is_boss": true,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "hydra_remnant",
+      "name": "九头蛇残党",
+      "hp_range": [
+        28,
+        38
+      ],
+      "action_pattern": [
+        {
+          "type": "ATTACK",
+          "damage": 8
+        },
+        {
+          "type": "BUFF",
+          "buff": "strength"
+        },
+        {
+          "type": "ATTACK_DEFEND",
+          "damage": 6,
+          "block": 6
+        },
+        {
+          "type": "ATTACK",
+          "damage": 10
+        }
+      ],
+      "is_elite": false,
+      "is_boss": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    }
+  ]
+}
