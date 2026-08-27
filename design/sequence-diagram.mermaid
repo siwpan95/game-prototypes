@@ -1,0 +1,44 @@
+sequenceDiagram
+    autonumber
+    participant M as main loop
+    participant GW as GameWorld
+    participant P as Player
+    participant WM as WorldMap
+    participant R as DOOMRenderer
+    participant D as DopplerEffect
+    participant N as NoiseAlgorithm
+    participant H as HUD
+    participant A as DynamicAudioSystem
+
+    M->>M: pygame.event.get() (QUIT/ESC/KEYDOWN)
+    M->>GW: update(keys)
+    GW->>P: move(forward, strafe)
+    GW->>P: rotate(direction)
+    GW->>A: update_position(px, py, angle) [if enabled]
+
+    M->>GW: render(screen)
+    GW->>R: render(player, world_map, render_mode)
+    loop 每个屏幕列 i
+        R->>R: world_angle = player.angle + ray_angles[i]
+        R->>R: cast_ray(px, py, world_angle, world_map)
+        R->>WM: is_wall(map_x, map_y)
+        WM-->>R: bool / TextureType
+        R->>R: 计算击中距离与 side
+        alt SOLID
+            R->>R: 纯色 = distance_to_color(distance)
+        else TEXTURED
+            R->>R: render_column(纹理采样 + 距离亮度)
+        else DOOM_STYLE
+            R->>N: 取预生成纹理
+            R->>D: distance_to_color(distance)
+            R->>R: render_column(纹理×亮度×多普勒)
+        end
+    end
+    R->>D: apply_motion_blur(screen, player.get_speed(), angle) [DOOM_STYLE & 运动中]
+
+    GW->>H: render_minimap(screen, world_map, player)
+    GW->>H: render_info(screen, world, player, fps)
+    opt 音频启用
+        GW->>H: render_audio(screen, audio)
+    end
+    M->>M: pygame.display.flip(); clock.tick(60)

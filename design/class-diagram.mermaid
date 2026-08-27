@@ -1,0 +1,144 @@
+classDiagram
+    direction LR
+
+    class Vector2 {
+        +float x
+        +float y
+        +rotate(angle: float) Vector2
+        +translate(dx: float, dy: float) Vector2
+        +distance_to(other: Vector2) float
+        +copy() Vector2
+        +to_tuple() tuple
+    }
+
+    class TextureType {
+        <<enum>>
+        BRICK
+        STONE
+        METAL
+        WOOD
+    }
+
+    class RenderMode {
+        <<enum>>
+        WIREFRAME
+        SOLID
+        TEXTURED
+        DOOM_STYLE
+    }
+
+    class Wall {
+        +int grid_x
+        +int grid_y
+        +TextureType texture_type
+    }
+
+    class Player {
+        +Vector2 pos
+        +float angle
+        +float velocity_x
+        +float velocity_y
+        +float speed
+        +float rotate_speed
+        +move(forward: float, strafe: float)
+        +rotate(direction: float)
+        +get_speed() float
+    }
+
+    class WorldMap {
+        +int width
+        +int height
+        +List~List~Optional~TextureType~~ cells
+        +generate_maze(w: int, h: int)
+        +is_wall(gx: int, gy: int) bool
+        +get_texture(gx: int, gy: int) Optional~TextureType~
+    }
+
+    class NoiseAlgorithm {
+        +perlin_noise_1d(x: float, seed: int) float
+        +fractal_noise(x: float, octaves: int, persistence: float) float
+        +generate_wall_texture(w: int, h: int, seed: int) Surface
+        +apply_surface_noise(surface, intensity: float) Surface
+    }
+
+    class DopplerEffect {
+        +calculate_frequency_shift(distance, velocity, base) float
+        +distance_to_color(distance, max_distance) tuple
+        +apply_motion_blur(surface, velocity, angle) Surface
+    }
+
+    class DOOMRenderer {
+        +int screen_width
+        +int screen_height
+        +float fov
+        +float plane_len
+        +List~float~ ray_angles
+        +dict textures
+        +setup_rays()
+        +load_textures()
+        +cast_ray(px: float, py: float, angle: float, world: WorldMap) tuple
+        +render_column(x: int, distance: float, tex: TextureType, side: int, ray_angle: float, mode: RenderMode)
+        +render(player: Player, world: WorldMap, mode: RenderMode)
+    }
+
+    class PhysicsRaySonar {
+        +float x
+        +float y
+        +float base_angle
+        +calculate_motion(nx, ny) tuple
+        +cast_ray_with_motion(angle, vel, walls, is_second) float
+        +generate_motion_triggered_audio(vel, d1, d2, density) float
+        +update(x, y, angle, world) tuple
+    }
+
+    class AdaptiveKarplusStrong {
+        +deque delay_line
+        +float feedback
+        +float lowpass_factor
+        +adapt_parameters(vel, density, signal)
+        +fill_with_signal(signal, density)
+        +process() float
+    }
+
+    class DynamicAudioSystem {
+        +bool enabled
+        +PhysicsRaySonar sonar
+        +AdaptiveKarplusStrong synth
+        +start(x, y, angle, world)
+        +stop()
+        +update_position(x, y, angle)
+        +visualize(surface, x, y, w, h)
+    }
+
+    class HUD {
+        +render_minimap(surface, world, player)
+        +render_info(surface, world, player, fps)
+        +render_audio(surface, audio)
+    }
+
+    class GameWorld {
+        +Player player
+        +WorldMap world_map
+        +DOOMRenderer renderer
+        +DynamicAudioSystem audio
+        +RenderMode render_mode
+        +generate()
+        +update(keys)
+        +render(screen)
+    }
+
+    Player --> Vector2 : has
+    WorldMap "1" *-- "many" Wall : contains
+    WorldMap --> TextureType : cell type
+    GameWorld --> Player : owns
+    GameWorld --> WorldMap : owns
+    GameWorld --> DOOMRenderer : owns
+    GameWorld --> DynamicAudioSystem : owns (0..1)
+    GameWorld --> HUD : uses
+    DOOMRenderer --> NoiseAlgorithm : uses
+    DOOMRenderer --> DopplerEffect : uses
+    DOOMRenderer --> WorldMap : reads
+    DynamicAudioSystem --> PhysicsRaySonar : uses
+    DynamicAudioSystem --> AdaptiveKarplusStrong : uses
+    DynamicAudioSystem --> WorldMap : reads for rays
+    HUD --> GameWorld : reads

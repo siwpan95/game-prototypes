@@ -1,0 +1,6 @@
+# loly dependencies (auto-generated 2026-08-20)
+numpy
+pygame_ce
+pygame-ce
+pytest
+sounddevice
