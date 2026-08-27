@@ -1,41 +1,21 @@
-# 孤独的沙漠公路
+# Endless Highway
 
-#### 介绍
-复刻版
+一款基于 ECS 架构的无尽高速公路驾驶游戏，含漂移玩法与电子风音频。
 
-#### 软件架构
-软件架构说明
+## 语言 / 类型
+- Python / pygame 图形界面驾驶游戏（ECS 架构）
 
+## 目录要点
+- `main.py` —— 入口（创建 World、生成实体、运行游戏循环）
+- `ecs/` —— 组件与系统（输入、漂移、碰撞、渲染、HUD、装饰物）
+- `audio/` —— 音频系统与音频管理器
+- `faatt.py` —— 程序化音频合成
+- `config.json` —— 窗口、道路、玩家、漂移等配置
 
-#### 安装教程
+## 运行方式与依赖
+- 运行：`F:\Python314\python.exe main.py`
+- 依赖：pygame（项目未提供 requirements.txt）；音频合成可能需 numpy/scipy
 
-run
-
-#### 使用说明
-
-从main进入。faatt是输出音频的。
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-
-
----
-
-## 仓库索引标注（2026-08-25 · siwpan 统一治理）
-
-> 沙漠公路驾驶游戏；本地对应 G:\games\Endless Highway（README 标题为旧名）。
-> 本标注为发布面统一追加，不改变原有内容。
+## 测试状态
+- py_compile 语法检查通过（11 个 .py）
+- GUI 窗口游戏，未运行（仅编译）
