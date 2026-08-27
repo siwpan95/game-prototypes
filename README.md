@@ -1,45 +1,37 @@
-# 表格挂机
+# 表格挂机 · Progress Quest v2 风格挂机桌游
 
-#### 介绍
-excel表格挂机
+> 独立仓 siwpan/table-hanging-machine（本地 G:\repos\table-hanging-machine）。全自动挂机桌游：Excel 配置驱动 + 自动角色成长（tkinter GUI）。
 
-#### 软件架构
-软件架构说明
+## 玩法
 
+- **全自动角色创建**：无存档时随机生成角色，开局即挂机。
+- **PQ 风格内容**：Progress Quest 风格的法术 / 装备 / 特殊宝物，按等级自动生成怪物（无章节限怪）。
+- **章节 = 纯进度标记**：挂机推进即进度。
+- 存档：`save.json`（自动保存）；配置：`config.xlsx`（Excel 驱动数值与内容）。
 
-#### 安装教程
+## 运行
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```bash
+python main.pyw
+```
 
-#### 使用说明
+依赖：Python 3（tkinter + openpyxl，见 requirements）。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 结构要点
 
-#### 参与贡献
+- `main.pyw`：主入口 + 游戏循环（tkinter GUI）。
+- `game_engine.py`：核心挂机引擎（成长/战斗/掉落）。
+- `create_cards.py` / `excel_writer.py` / `gen_conf.py` / `progress_tracker.py`：内容生成与 Excel 配置工具链。
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+## 测试与打包
 
+- 打包：`table-hanging-machine.spec`（PyInstaller，onedir）。
+- 发行面：gitee release `v1.0.0`（表格挂机 v1.0.0）。
 
-#### 特技
+## 谱系（2026-08-27 统一治理）
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- 挂机族谱系：与 Idle / stay / pq-multiverse / bee / Life Reset 同族；本仓为独立留存（本地无副本，勿删）。
 
+## 许可
 
----
-
-## 仓库索引标注（2026-08-25 · siwpan 统一治理）
-
-> 本地已删（2026-08-25 挂机族去重；保留版=Idle/stay/pq_multiverse/bee/Life Reset，本仓库为唯一留存，勿删）。
-> 本标注为发布面统一追加，不改变原有内容。
+MIT · Copyright (c) 2026 siwpan
