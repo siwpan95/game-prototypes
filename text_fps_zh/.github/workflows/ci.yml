@@ -1,0 +1,39 @@
+# =============================================================================
+# CI configuration — import smoke + dependency reachability gate
+#
+# NOTE: This project currently has no git / no CI host configured. This file
+# is kept as the reference GitHub Actions definition. If the team later moves
+# to GitLab CI, Gitea Actions, or any other runner, port the same three steps:
+#   1) set up Python 3.13
+#   2) pip install -r requirements.txt
+#   3) python scripts/import_smoke.py   (must print IMPORT_SMOKE_OK, exit 0)
+# =============================================================================
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke:
+    name: Import smoke + dependency gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run import smoke + dependency gate
+        run: python scripts/import_smoke.py
+        # Gate passes only when the script prints IMPORT_SMOKE_OK (exit 0).
+        # Any import failure in core/systems/models/save/data, or a missing /
+        # misspelled requirement, makes the script exit non-zero and fails CI.

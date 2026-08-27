@@ -1,0 +1,23 @@
+# Theme colors
+BG_DARK = (26, 26, 46)        # #1a1a2e
+BG_PANEL = (22, 33, 62)       # #16213e
+BG_PANEL_LIGHT = (15, 52, 96) # #0f3460
+
+TEXT_PRIMARY = (22, 199, 154)  # #16c79a
+TEXT_SECONDARY = (150, 160, 180)
+TEXT_DIM = (100, 110, 130)
+TEXT_WHITE = (230, 230, 240)
+
+HP_RED = (231, 76, 60)        # #e74c3c
+HP_LOW = (200, 50, 30)
+ARMOR_BLUE = (52, 152, 219)   # #3498db
+NOISE_YELLOW = (241, 196, 15) # #f1c40f
+AMMO_GREEN = (46, 204, 113)   # #2ecc71
+
+BTN_NORMAL = (22, 33, 62)     # #16213e
+BTN_HOVER = (15, 52, 96)      # #0f3460
+BTN_DISABLED = (44, 44, 62)   # #2c2c3e
+BTN_ACTIVE = (22, 199, 154)   # #16c79a
+
+BORDER_COLOR = (40, 50, 80)
+DIVIDER = (50, 60, 90)
