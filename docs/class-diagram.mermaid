@@ -1,0 +1,372 @@
+classDiagram
+    direction LR
+
+    %% ══════ 表现层（存量，仅增量修改） ══════
+    class MainCLI {
+        <<module main.py>>
+        +main()
+        +background_choice(player, backgrounds)
+        +run_background_step(player, step_data)
+        +choose_life_path(player) str
+        +play_reigns_mode(player)
+        +life_event(player, events_data, stage) bool
+        +traditional_ending(player)
+        +save_game(player, game_mode)
+        +load_game_menu() tuple
+    }
+
+    class GameApp {
+        <<tkinter game_gui.py>>
+        +Player player
+        +str game_mode
+        +show_main_menu()
+        +show_era_choice()
+        +show_talent_draft()
+        +show_background_step()
+        +show_reigns_screen()
+        +show_adventure_event()
+        +show_ending_gallery()
+        +show_run_report()
+        +save_and_return()
+        +load_game()
+    }
+
+    %% ══════ 存量领域对象 ══════
+    class Player {
+        <<存量类，仅追加字段>>
+        +str name
+        +str gender
+        +int strength
+        +int intelligence
+        +int agility
+        +int charisma
+        +int luck
+        +int wealth
+        +int happiness
+        +int health
+        +int EI
+        +int SN
+        +int TF
+        +int JP
+        +list traits
+        +int age
+        +int schema_version
+        +str game_mode
+        +str era
+        +list talents
+        +str education
+        +str career_id
+        +int career_tier
+        +dict relationships
+        +dict seen_content
+        +list run_flags
+        +list run_log
+        +int score
+        +adjust(**kwargs)
+        +init_decision_tree()
+        +to_dict() Dict
+        +from_dict(data)$ Player
+    }
+
+    class DecisionTree {
+        <<存量引擎，仅 +30 行>>
+        +Player player
+        +dict~Dimension,int~ dimensions
+        +list history
+        +int year
+        +bool crisis_imminent
+        +list decision_cards
+        +get_available_cards() List
+        +apply_decision(card, choice) Dict
+        +adjust_dimension(dim, delta)
+        -_check_card_conditions(card) bool
+        -_check_chain_reactions(card, choice) List
+        -_check_crisis()
+        +is_game_over() Tuple
+        +get_ending_based_on_history() str
+    }
+
+    class Dimension {
+        <<enumeration>>
+        STRENGTH
+        INTELLIGENCE
+        CHARISMA
+        WEALTH
+        MORALITY
+        STABILITY
+        CHURCH
+        NOBLES
+        COMMONERS
+        HEALTH
+        HAPPINESS
+    }
+
+    %% ══════ core 基础设施 ══════
+    class Services {
+        <<facade core/__init__.py>>
+        +ContentLoader content
+        +Profile profile
+        +AntiRepeatEngine anti_repeat
+        +TalentSystem talents
+        +DeckBinder deck
+        +EventPicker events
+        +CareerSystem careers
+        +RelationshipSystem relations
+        +EndingResolver endings
+        +AchievementSystem achievements
+        +SaveManager saves
+        +get_services()$ Services
+    }
+
+    class ContentLoader {
+        +dict raw
+        +dict index
+        +list errors
+        +load() ContentLoader
+        +cards(era) List~CardItem~
+        +events(group, sub) List~EventItem~
+        +talents() List~Talent~
+        +careers() List~Career~
+        +endings() List~Ending~
+        +achievements() List~Achievement~
+        +backgrounds() Dict
+        -_deep_merge(base, extra)
+        -_apply_defaults(item, kind)
+        -_build_index()
+    }
+
+    class AntiRepeatEngine {
+        +Profile profile
+        +set seen_this_run
+        +int degraded
+        +effective_weight(item, ctx) float
+        +pick(pool, k, ctx) List
+        +mark_seen(item_id)
+        +begin_run()
+        +end_run()
+        -_filter(pool, ctx, ignore_cd, ignore_seen) List
+        -_weighted_sample(cands, k) List
+    }
+
+    class Profile {
+        +int schema_version
+        +int total_runs
+        +list unlocked_achievements
+        +list seen_endings
+        +str inherited_talent
+        +list unlocked_talents
+        +list unlocked_card_pools
+        +dict content_state
+        +dict stats
+        +list lineage
+        +load()$ Profile
+        +save()
+        +begin_run()
+        +end_run(result)
+        +is_unlocked(key) bool
+        +grant(key)
+        -_repair(raw) dict
+    }
+
+    class SaveManager {
+        +dump(player, mode) Dict
+        +load(path) Tuple
+        +list_saves() List
+        +normalize_mode(m)$ str
+        +migrate_v1_to_v2(data)$ Dict
+    }
+
+    %% ══════ core 玩法系统 ══════
+    class TalentSystem {
+        +ContentLoader content
+        +roll(profile, n) List~Talent~
+        +apply(player, chosen)
+        +modifier_for(player) TalentModifier
+        +inherit(profile, talent_id)
+        -_pick_by_rarity(pool) Talent
+        -_exclude_mutex(pool, drawn) List
+    }
+
+    class TalentModifier {
+        +dict event_weight_by_tag
+        +dict stat_gain
+        +dict stat_loss
+        +dict career_bonus
+        +float relationship_decay
+        +weight_for(tags) float
+        +scale(stat, delta) int
+    }
+
+    class DeckBinder {
+        +AntiRepeatEngine anti_repeat
+        +ContentLoader content
+        +bind(dt, player)
+        +next_cards(dt, player, k) List
+        +on_decision_applied(dt, player, card)
+        -_build_pool(player) List
+        -_inject(dt, cards)
+    }
+
+    class EventPicker {
+        +AntiRepeatEngine anti_repeat
+        +ContentLoader content
+        +pick(player, pools) EventItem
+        +apply_choice(player, event, key) Dict
+        -_auto_pools(player) List~str~
+        -_age_band(age) str
+    }
+
+    class CareerSystem {
+        +available(player) List~Career~
+        +promote(player, career_id) bool
+        +tick_year(player) Dict
+        +meets(player, career) bool
+        +education_rank(edu)$ int
+        -_roll_risk(player, career) Dict
+    }
+
+    class RelationshipSystem {
+        +tick(player, years) Dict
+        +adjust(player, who, delta)
+        +status(player) Dict
+    }
+
+    class EndingResolver {
+        +resolve(player, dt) Ending
+        +candidates(player, dt) List~Ending~
+        +gallery(profile) List~Dict~
+        -_match(player, dt, ending) bool
+    }
+
+    class AchievementSystem {
+        +check(player, profile, phase) List~Achievement~
+        +grant(profile, ach)
+        +gallery(profile) List~Dict~
+        -_eval_trigger(trigger, player, profile) bool
+    }
+
+    class LifeReport {
+        +Player player
+        +Ending ending
+        +dict ratings
+        +int total_score
+        +build(player, ending, dt)$ LifeReport
+        +to_text() str
+        +export(path) str
+        -_rate_axis(name, value) str
+    }
+
+    %% ══════ 数据模型 ══════
+    class Talent {
+        +str id
+        +str name
+        +str rarity
+        +str category
+        +str description
+        +str mutex_group
+        +float weight
+        +dict effects
+        +list unlocks
+        +str unlock_condition
+        +bool inheritable
+    }
+
+    class Career {
+        +str id
+        +str name
+        +str category
+        +int tier
+        +dict requires
+        +int income
+        +dict effects_per_year
+        +dict risk
+    }
+
+    class Ending {
+        +str id
+        +str name
+        +str category
+        +str rarity
+        +int priority
+        +dict conditions
+        +str text
+        +int score_bonus
+    }
+
+    class Achievement {
+        +str id
+        +str name
+        +str category
+        +bool hidden
+        +dict trigger
+        +list unlocks
+        +int score_bonus
+    }
+
+    class CardItem {
+        +str id
+        +str title
+        +str era
+        +str category
+        +list tags
+        +float weight
+        +dict conditions
+        +list chain_reactions
+        +to_engine_dict() Dict
+    }
+
+    class EventItem {
+        +str id
+        +str desc
+        +list tags
+        +float weight
+        +dict conditions
+        +dict options
+    }
+
+    %% ══════ 关系 ══════
+    MainCLI ..> Services : 调用
+    GameApp ..> Services : 调用
+    MainCLI --> Player : 创建/持有
+    GameApp --> Player : 创建/持有
+    Player "1" --> "0..1" DecisionTree : decision_tree
+    DecisionTree ..> Dimension : 使用
+
+    Services *-- ContentLoader
+    Services *-- Profile
+    Services *-- AntiRepeatEngine
+    Services *-- SaveManager
+    Services *-- TalentSystem
+    Services *-- DeckBinder
+    Services *-- EventPicker
+    Services *-- CareerSystem
+    Services *-- RelationshipSystem
+    Services *-- EndingResolver
+    Services *-- AchievementSystem
+
+    AntiRepeatEngine --> Profile : 读写 content_state
+    DeckBinder --> AntiRepeatEngine : 抽样
+    DeckBinder --> ContentLoader : 取卡池
+    DeckBinder ..> DecisionTree : 注入 decision_cards
+    EventPicker --> AntiRepeatEngine : 抽样
+    EventPicker --> ContentLoader : 取事件池
+    TalentSystem --> ContentLoader : 取天赋库
+    TalentSystem --> Profile : 继承/解锁
+    TalentSystem ..> TalentModifier : 生成
+    DeckBinder ..> TalentModifier : 权重修饰
+    EventPicker ..> TalentModifier : 权重修饰
+    CareerSystem --> ContentLoader
+    EndingResolver --> ContentLoader
+    AchievementSystem --> ContentLoader
+    AchievementSystem --> Profile : 派发解锁物
+    EndingResolver ..> Ending : 返回
+    LifeReport ..> Ending : 引用
+    LifeReport ..> Player : 读取
+
+    ContentLoader ..> Talent : 构造
+    ContentLoader ..> Career : 构造
+    ContentLoader ..> Ending : 构造
+    ContentLoader ..> Achievement : 构造
+    ContentLoader ..> CardItem : 构造
+    ContentLoader ..> EventItem : 构造
+    SaveManager ..> Player : 序列化

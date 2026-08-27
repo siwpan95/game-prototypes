@@ -1,0 +1,305 @@
+{
+  "_meta": {
+    "source": "B3 增量补充：generic 组由 16 补至目标 30",
+    "added": 14,
+    "note": "通过 ContentLoader 深合并（列表追加去重）并入 event_templates.generic，不动存量 events.json / events_adult.json"
+  },
+  "event_templates": {
+    "generic": [
+      {
+        "id": "ev_generic_rainy_commute",
+        "desc": "暴雨毫无征兆地砸下来，你站在地铁口看着排起的长龙。",
+        "options": {
+          "A": {
+            "text": "打车冲一把，钱算什么 (财富-3, 敏捷+1)",
+            "effects": {"wealth": -3, "agility": 1},
+            "feedback": ["钱包又瘦了一圈。", "但至少没变成落汤鸡。"]
+          },
+          "B": {
+            "text": "挤地铁，顺便背两个单词 (健康-1, 智力+1)",
+            "effects": {"health": -1, "intelligence": 1},
+            "feedback": ["人贴人，味儿挺冲。", "知识就是力量，也是汗味。"]
+          },
+          "C": {
+            "text": "算了，请假躺平 (快乐+2, EI-1)",
+            "effects": {"happiness": 2, "EI": -1},
+            "feedback": ["老板的已读不回你假装没看见。", "今天属于你自己。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_lost_phone",
+        "desc": "口袋一摸，手机不见了。冷汗瞬间冒出来。",
+        "options": {
+          "A": {
+            "text": "原路返回疯狂找 (敏捷+1, 健康-1)",
+            "effects": {"agility": 1, "health": -1},
+            "feedback": ["功夫不负有心人。", "找到了，屏幕还裂着。"]
+          },
+          "B": {
+            "text": "先挂失冻结银行卡 (智力+2, 财富-1)",
+            "effects": {"intelligence": 2, "wealth": -1},
+            "feedback": ["止损第一名。", "损失控制在最小。"]
+          },
+          "C": {
+            "text": "破财消灾，旧的不去新的不来 (财富-3, 运气+1)",
+            "effects": {"wealth": -3, "luck": 1},
+            "feedback": ["下单了最新款。", "贫穷但快乐。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_unexpected_bonus",
+        "desc": "工资卡突然多了一笔钱，备注写着「节日慰问」。",
+        "options": {
+          "A": {
+            "text": "全部存起来，理财第一步 (财富+2, 智力+1)",
+            "effects": {"wealth": 2, "intelligence": 1},
+            "feedback": ["稳健。", "复利是世界第八大奇迹。"]
+          },
+          "B": {
+            "text": "立刻犒劳自己一顿好的 (财富-1, 快乐+2)",
+            "effects": {"wealth": -1, "happiness": 2},
+            "feedback": ["吃到扶墙出。", "值得。"]
+          },
+          "C": {
+            "text": "给家里人也分一点 (魅力+2, 幸福+1)",
+            "effects": {"charisma": 2, "happiness": 1},
+            "feedback": ["妈说你懂事了。", "亲情账户也充值了。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_midnight_snack",
+        "desc": "凌晨一点，肚子叫得比闹钟还响。",
+        "options": {
+          "A": {
+            "text": "煮碗面，加蛋加肠 (健康+1, 快乐+1, 财富-1)",
+            "effects": {"health": 1, "happiness": 1, "wealth": -1},
+            "feedback": ["人间烟火气。", "罪恶又满足。"]
+          },
+          "B": {
+            "text": "忍住，明天再说 (智力+1, 快乐-1)",
+            "effects": {"intelligence": 1, "happiness": -1},
+            "feedback": ["意志力+1。", "梦里都在吃。"]
+          },
+          "C": {
+            "text": "点外卖，管他呢 (财富-2, 健康-1, 快乐+2)",
+            "effects": {"wealth": -2, "health": -1, "happiness": 2},
+            "feedback": ["骑手比你还困。", "深夜放纵最爽。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_old_friend_call",
+        "desc": "许久不联系的老同学突然打来电话。",
+        "options": {
+          "A": {
+            "text": "热情寒暄，约顿饭 (魅力+1, 幸福+1)",
+            "effects": {"charisma": 1, "happiness": 1},
+            "feedback": ["感情还在。", "叙旧到半夜。"]
+          },
+          "B": {
+            "text": "简短应付，挂了忙正事 (EI-1, 智力+1)",
+            "effects": {"EI": -1, "intelligence": 1},
+            "feedback": ["你最近确实忙。", "借口用完了。"]
+          },
+          "C": {
+            "text": "假装没看见，事后编理由 (EI-2)",
+            "effects": {"EI": -2},
+            "feedback": ["心虚。", "但省了尴尬。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_bad_haircut",
+        "desc": "理发师手一抖，你的发型成了抽象艺术。",
+        "options": {
+          "A": {
+            "text": "当场要求重剪 (财富-1, 魅力-1)",
+            "effects": {"wealth": -1, "charisma": -1},
+            "feedback": ["越剪越短。", "最终像戴了顶帽子。"]
+          },
+          "B": {
+            "text": "戴帽子遮住，淡定出门 (魅力-1, 敏捷+1)",
+            "effects": {"charisma": -1, "agility": 1},
+            "feedback": ["时尚是个圈。", "没人看出破绽。"]
+          },
+          "C": {
+            "text": "干脆剃光，从头开始 (健康+1, 魅力+1, 运气+1)",
+            "effects": {"health": 1, "charisma": 1, "luck": 1},
+            "feedback": ["清爽。", "据说光头显聪明。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_free_sample",
+        "desc": "商场柜台小姐姐笑着递来试吃的小块蛋糕。",
+        "options": {
+          "A": {
+            "text": "尝一口，礼貌道谢 (快乐+1, 魅力+1)",
+            "effects": {"happiness": 1, "charisma": 1},
+            "feedback": ["甜。", "嘴甜人更甜。"]
+          },
+          "B": {
+            "text": "多站会儿，把试吃区扫荡一遍 (财富+1, 健康-1)",
+            "effects": {"wealth": 1, "health": -1},
+            "feedback": ["午饭省了。", "热量超标。"]
+          },
+          "C": {
+            "text": "摆手拒绝，你在减肥 (健康+1, 智力+1)",
+            "effects": {"health": 1, "intelligence": 1},
+            "feedback": ["自律即自由。", "小姐投来赞许。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_power_outage",
+        "desc": "夜里突然停电，整栋楼陷入黑暗。",
+        "options": {
+          "A": {
+            "text": "点蜡烛看书，岁月静好 (智力+1, 幸福+1)",
+            "effects": {"intelligence": 1, "happiness": 1},
+            "feedback": ["烛光里字都温柔了。", "难得的安静。"]
+          },
+          "B": {
+            "text": "摸黑找充电宝刷手机 (敏捷+1, 健康-1)",
+            "effects": {"agility": 1, "health": -1},
+            "feedback": ["屏幕光映着脸。", "眼睛有点酸。"]
+          },
+          "C": {
+            "text": "顺势早睡，顺应自然 (健康+2, 快乐+1)",
+            "effects": {"health": 2, "happiness": 1},
+            "feedback": ["一觉到天亮。", "作息大师。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_park_bench",
+        "desc": "晚饭后你在公园长椅上发呆，旁边坐着个晒太阳的老人。",
+        "options": {
+          "A": {
+            "text": "搭句话，听他讲过去 (智力+1, 魅力+1, 幸福+1)",
+            "effects": {"intelligence": 1, "charisma": 1, "happiness": 1},
+            "feedback": ["故事比书精彩。", "时光的味道。"]
+          },
+          "B": {
+            "text": "安静坐着，享受独处 (幸福+1, SN+1)",
+            "effects": {"happiness": 1, "SN": 1},
+            "feedback": ["不需要说话也很舒服。", "和自己相处是种能力。"]
+          },
+          "C": {
+            "text": "低头刷手机，假装忙碌 (EI-1, 智力-1)",
+            "effects": {"EI": -1, "intelligence": -1},
+            "feedback": ["信息流停不下来。", "其实什么也没看进去。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_coffee_spill",
+        "desc": "手一抖，热咖啡泼了一裤子。",
+        "options": {
+          "A": {
+            "text": "淡定擦擦，继续开会 (健康-1, 智力+1)",
+            "effects": {"health": -1, "intelligence": 1},
+            "feedback": ["职场演技派。", "没人发现。"]
+          },
+          "B": {
+            "text": "借口去洗手间处理 (敏捷+1, 魅力-1)",
+            "effects": {"agility": 1, "charisma": -1},
+            "feedback": ["疾步走开。", "回来时还有印子。"]
+          },
+          "C": {
+            "text": "自嘲一句，化解尴尬 (魅力+2, 快乐+1)",
+            "effects": {"charisma": 2, "happiness": 1},
+            "feedback": ["全场笑了。", "幽默是最高级的防御。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_random_kid",
+        "desc": "路上一个不认识的小孩冲你喊了声叔叔/阿姨好。",
+        "options": {
+          "A": {
+            "text": "蹲下来认真回礼 (魅力+1, 幸福+1)",
+            "effects": {"charisma": 1, "happiness": 1},
+            "feedback": ["童声最治愈。", "你笑出了皱纹。"]
+          },
+          "B": {
+            "text": "摸摸头，塞颗糖 (财富-1, 魅力+1)",
+            "effects": {"wealth": -1, "charisma": 1},
+            "feedback": ["小手接过的瞬间。", "善良会上瘾。"]
+          },
+          "C": {
+            "text": "愣了一下，匆匆走过 (EI-1)",
+            "effects": {"EI": -1},
+            "feedback": ["太久没被这样对待。", "有点恍惚。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_cold_snap",
+        "desc": "预报说降温十度，你只穿了件薄外套。",
+        "options": {
+          "A": {
+            "text": "硬扛，风度不能丢 (健康-2, 魅力+1)",
+            "effects": {"health": -2, "charisma": 1},
+            "feedback": ["美丽动人（冻人）。", "鼻音重了。"]
+          },
+          "B": {
+            "text": "赶紧买件厚衣服 (财富-2, 健康+1)",
+            "effects": {"wealth": -2, "health": 1},
+            "feedback": ["保暖要紧。", "钱包又瘪了。"]
+          },
+          "C": {
+            "text": "回家换衣，今天不出门了 (健康+1, 快乐+1)",
+            "effects": {"health": 1, "happiness": 1},
+            "feedback": ["被窝才是归宿。", "效率为负但快乐为正。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_forget_umbrella",
+        "desc": "出门忘带伞，偏偏下班时下雨了。",
+        "options": {
+          "A": {
+            "text": "淋雨跑回家，就当洗澡 (健康-1, 敏捷+1)",
+            "effects": {"health": -1, "agility": 1},
+            "feedback": ["落汤鸡造型。", "回家立刻冲热水。"]
+          },
+          "B": {
+            "text": "便利店买把伞 (财富-1, 健康+1)",
+            "effects": {"wealth": -1, "health": 1},
+            "feedback": ["这把伞能用好久。", "未雨绸缪第一步。"]
+          },
+          "C": {
+            "text": "等雨停，刷会儿手机 (智力+1, 快乐-1)",
+            "effects": {"intelligence": 1, "happiness": -1},
+            "feedback": ["雨总会停。", "就是有点无聊。"]
+          }
+        }
+      },
+      {
+        "id": "ev_generic_missed_bus",
+        "desc": "你眼睁睁看着公交关上门开走，差三秒。",
+        "options": {
+          "A": {
+            "text": "骂一句，等下一班 (快乐-1, 运气-1)",
+            "effects": {"happiness": -1, "luck": -1},
+            "feedback": ["气不打一处来。", "下一班也来了。"]
+          },
+          "B": {
+            "text": "扫码骑个共享单车追 (敏捷+2, 健康-1)",
+            "effects": {"agility": 2, "health": -1},
+            "feedback": ["风一样的人。", "追上了下一站。"]
+          },
+          "C": {
+            "text": "算了，走路上班当锻炼 (健康+1, 智力+1)",
+            "effects": {"health": 1, "intelligence": 1},
+            "feedback": ["顺路想通了个难题。", "身体和脑子都动了。"]
+          }
+        }
+      }
+    ]
+  }
+}

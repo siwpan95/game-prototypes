@@ -1,0 +1,504 @@
+{
+  "_meta": {
+    "source": "B3 增量补充：by_age 组由 25 补至目标 48",
+    "added": 23,
+    "note": "通过 ContentLoader 深合并（按子组追加去重）并入 event_templates.by_age，子组键须与 age_group() 产出一致：20s/30s/40s/50s/60+"
+  },
+  "event_templates": {
+    "by_age": {
+      "20s": [
+        {
+          "id": "ev_age_20s_first_job",
+          "desc": "你拿到人生第一份正式工作的 offer，工资不高但好歹独立了。",
+          "options": {
+            "A": {
+              "text": "欣然入职，攒经验 (财富+1, 智力+1)",
+              "effects": {"wealth": 1, "intelligence": 1},
+              "feedback": ["从打印复印做起。", "职场第一课。"]
+            },
+            "B": {
+              "text": "嫌钱少，继续海投 (智力+1, 运气-1)",
+              "effects": {"intelligence": 1, "luck": -1},
+              "feedback": ["海投石沉大海。", "但也更清楚自己要什么。"]
+            },
+            "C": {
+              "text": "听家里安排进熟人公司 (财富+2, EI-1)",
+              "effects": {"wealth": 2, "EI": -1},
+              "feedback": ["稳定是稳定。", "总差了点自己选的味道。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_20s_rent_room",
+          "desc": "你租了人生第一间属于自己的小屋，墙皮有点掉。",
+          "options": {
+            "A": {
+              "text": "精心布置，营造归属感 (快乐+2, 财富-1)",
+              "effects": {"happiness": 2, "wealth": -1},
+              "feedback": ["灯一开就暖了。", "这是你的窝。"]
+            },
+            "B": {
+              "text": "凑合住，省钱要紧 (财富+1, 快乐-1)",
+              "effects": {"wealth": 1, "happiness": -1},
+              "feedback": ["能住就行。", "钱包是保住了。"]
+            },
+            "C": {
+              "text": "找室友合租分摊 (财富+1, EI+1)",
+              "effects": {"wealth": 1, "EI": 1},
+              "feedback": ["多了个饭搭子。", "边界感也是门学问。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_20s_first_love",
+          "desc": "大学同学向你表白了，心跳快得不正常。",
+          "options": {
+            "A": {
+              "text": "勇敢答应，试试看 (魅力+1, 幸福+2)",
+              "effects": {"charisma": 1, "happiness": 2},
+              "feedback": ["初恋甜得发腻。", "值得。"]
+            },
+            "B": {
+              "text": "犹豫，怕耽误对方 (幸福-1, EI+1)",
+              "effects": {"happiness": -1, "EI": 1},
+              "feedback": ["你太懂事。", "也有点可惜。"]
+            },
+            "C": {
+              "text": "婉拒，专注事业 (智力+1, 魅力-1)",
+              "effects": {"intelligence": 1, "charisma": -1},
+              "feedback": ["先搞钱。", "心动先放一边。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_20s_exam_fail",
+          "desc": "准备了半年的资格证考试，差两分没过。",
+          "options": {
+            "A": {
+              "text": "复盘再战 (智力+2, 快乐-1)",
+              "effects": {"intelligence": 2, "happiness": -1},
+              "feedback": ["错题本写满了。", "下次稳了。"]
+            },
+            "B": {
+              "text": "怀疑自己能力 (智力-1, 幸福-1)",
+              "effects": {"intelligence": -1, "happiness": -1},
+              "feedback": ["自我怀疑最伤人。", "别这样。"]
+            },
+            "C": {
+              "text": "换个方向试试 (智力+1, 运气+1)",
+              "effects": {"intelligence": 1, "luck": 1},
+              "feedback": ["条条大路。", "新赛道反而顺。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_20s_night_out",
+          "desc": "同事拉你去人生第一次 KTV 团建，唱到凌晨。",
+          "options": {
+            "A": {
+              "text": "放开了玩 (快乐+2, 健康-1)",
+              "effects": {"happiness": 2, "health": -1},
+              "feedback": ["破音也开心。", "第二天全靠咖啡续命。"]
+            },
+            "B": {
+              "text": "提前溜了 (健康+1, EI-1)",
+              "effects": {"health": 1, "EI": -1},
+              "feedback": ["你总差那么点融入。", "但睡眠保住了。"]
+            },
+            "C": {
+              "text": "主动组织下次 (魅力+2, EI+1)",
+              "effects": {"charisma": 2, "EI": 1},
+              "feedback": ["你成了气氛组担当。", "人缘肉眼可见地好了。"]
+            }
+          }
+        }
+      ],
+      "30s": [
+        {
+          "id": "ev_age_30s_mortgage",
+          "desc": "你签了三十年房贷合同，月供像座小山。",
+          "options": {
+            "A": {
+              "text": "咬牙扛，稳定还贷 (财富-2, 幸福+1)",
+              "effects": {"wealth": -2, "happiness": 1},
+              "feedback": ["有房了。", "踏实。"]
+            },
+            "B": {
+              "text": "提前还贷一部分 (财富-3, 智力+1)",
+              "effects": {"wealth": -3, "intelligence": 1},
+              "feedback": ["无债一身轻。", "利息省下一大笔。"]
+            },
+            "C": {
+              "text": "租房观望，不背债 (财富+1, 幸福-1)",
+              "effects": {"wealth": 1, "happiness": -1},
+              "feedback": ["自由是自由。", "就是总缺个根。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_30s_marriage",
+          "desc": "交往多年的对象问你，什么时候结婚。",
+          "options": {
+            "A": {
+              "text": "今年就办 (魅力+1, 财富-2, 幸福+2)",
+              "effects": {"charisma": 1, "wealth": -2, "happiness": 2},
+              "feedback": ["红本本到手。", "有人陪你扛了。"]
+            },
+            "B": {
+              "text": "再谈两年 (幸福+1, EI-1)",
+              "effects": {"happiness": 1, "EI": -1},
+              "feedback": ["不急。", "但对方有点急。"]
+            },
+            "C": {
+              "text": "恐婚，回避话题 (幸福-1, EI-2)",
+              "effects": {"happiness": -1, "EI": -2},
+              "feedback": ["逃避解决不了问题。", "裂痕悄悄出现。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_30s_burnout",
+          "desc": "连续加班三个月，你开始怀疑工作的意义。",
+          "options": {
+            "A": {
+              "text": "请假调整 (健康+2, 财富-1)",
+              "effects": {"health": 2, "wealth": -1},
+              "feedback": ["睡了整周。", "脑子清了。"]
+            },
+            "B": {
+              "text": "裸辞休整 (财富-3, 快乐+2, 健康+1)",
+              "effects": {"wealth": -3, "happiness": 2, "health": 1},
+              "feedback": ["口袋空了。", "但人活过来了。"]
+            },
+            "C": {
+              "text": "硬撑，相信会好 (健康-2, 智力+1)",
+              "effects": {"health": -2, "intelligence": 1},
+              "feedback": ["你太能扛。", "也太能耗自己。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_30s_new_parent",
+          "desc": "产房外，你听见了婴儿的第一声啼哭。",
+          "options": {
+            "A": {
+              "text": "请陪产假全心带娃 (幸福+2, 财富-1, 魅力+1)",
+              "effects": {"happiness": 2, "wealth": -1, "charisma": 1},
+              "feedback": ["换手感拉满。", "当爹/当妈第一课。"]
+            },
+            "B": {
+              "text": "主打赚钱养家 (财富+2, 幸福-1)",
+              "effects": {"wealth": 2, "happiness": -1},
+              "feedback": ["奶粉钱有着落。", "陪伴少了点。"]
+            },
+            "C": {
+              "text": "手足无措找长辈帮忙 (智力+1, EI+1)",
+              "effects": {"intelligence": 1, "EI": 1},
+              "feedback": ["长辈经验真香。", "你也学着稳了。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_30s_friend_wed",
+          "desc": "发小结婚，你作为伴郎站了一整晚。",
+          "options": {
+            "A": {
+              "text": "真心祝福 (幸福+1, 魅力+1)",
+              "effects": {"happiness": 1, "charisma": 1},
+              "feedback": ["兄弟幸福你也暖。", "情谊还在。"]
+            },
+            "B": {
+              "text": "随份子肉疼 (财富-2, 快乐-1)",
+              "effects": {"wealth": -2, "happiness": -1},
+              "feedback": ["红包厚度见友情。", "钱包在哭。"]
+            },
+            "C": {
+              "text": "暗自比较人生进度 (幸福-1, 智力+1)",
+              "effects": {"happiness": -1, "intelligence": 1},
+              "feedback": ["比较是偷走幸福的贼。", "但谁没比过呢。"]
+            }
+          }
+        }
+      ],
+      "40s": [
+        {
+          "id": "ev_age_40s_midlife",
+          "desc": "体检报告好几项标红，你第一次认真想 aging。",
+          "options": {
+            "A": {
+              "text": "开始健身养生 (健康+2, 财富-1)",
+              "effects": {"health": 2, "wealth": -1},
+              "feedback": ["办了张健身卡。", "身体是本钱。"]
+            },
+            "B": {
+              "text": "买辆跑车犒劳自己 (财富-3, 魅力+2, 健康-1)",
+              "effects": {"wealth": -3, "charisma": 2, "health": -1},
+              "feedback": ["油门一踩年轻十岁。", "腰也在抗议。"]
+            },
+            "C": {
+              "text": "接纳平凡 (幸福+1, 智力+1)",
+              "effects": {"happiness": 1, "intelligence": 1},
+              "feedback": ["平凡也挺好。", "松了口气。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_40s_teen_conflict",
+          "desc": "你青春期孩子摔门而出，留你对着冷掉的饭。",
+          "options": {
+            "A": {
+              "text": "主动沟通 (魅力+1, EI+1, 幸福+1)",
+              "effects": {"charisma": 1, "EI": 1, "happiness": 1},
+              "feedback": ["坐下来听他说。", "门没白敲。"]
+            },
+            "B": {
+              "text": "装作没事 (幸福-1, EI-1)",
+              "effects": {"happiness": -1, "EI": -1},
+              "feedback": ["冷战最伤人。", "但你也累。"]
+            },
+            "C": {
+              "text": "请伴侣去谈 (魅力-1, EI+1)",
+              "effects": {"charisma": -1, "EI": 1},
+              "feedback": ["分工明确。", "你躲过一劫。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_40s_parents_aging",
+          "desc": "你发现父亲记性变差，母亲腰腿也不利索了。",
+          "options": {
+            "A": {
+              "text": "接来同住照顾 (幸福+1, 财富-1, 魅力+1)",
+              "effects": {"happiness": 1, "wealth": -1, "charisma": 1},
+              "feedback": ["三代同堂。", "辛苦但暖。"]
+            },
+            "B": {
+              "text": "请护工定期上门 (财富-2, 智力+1)",
+              "effects": {"wealth": -2, "intelligence": 1},
+              "feedback": ["专业的事交给专业的人。", "你也省心。"]
+            },
+            "C": {
+              "text": "多打电话陪聊 (幸福+1, EI+1)",
+              "effects": {"happiness": 1, "EI": 1},
+              "feedback": ["声音里的笑就够了。", "陪伴不在远近。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_40s_promotion",
+          "desc": "公司宣布你升任中层管理，薪水涨了一截。",
+          "options": {
+            "A": {
+              "text": "全心投入新角色 (财富+2, 智力+1, 健康-1)",
+              "effects": {"wealth": 2, "intelligence": 1, "health": -1},
+              "feedback": ["责任更重。", "实至名归。"]
+            },
+            "B": {
+              "text": "低调做人 (财富+1, 魅力-1)",
+              "effects": {"wealth": 1, "charisma": -1},
+              "feedback": ["闷声发大财。", "不张扬。"]
+            },
+            "C": {
+              "text": "用涨薪改善生活 (财富-1, 快乐+2)",
+              "effects": {"wealth": -1, "happiness": 2},
+              "feedback": ["带全家吃了顿好的。", "值。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_40s_old_flame",
+          "desc": "前任突然加你微信，说路过这座城市。",
+          "options": {
+            "A": {
+              "text": "坦然叙旧 (魅力+1, EI+1)",
+              "effects": {"charisma": 1, "EI": 1},
+              "feedback": ["老朋友而已。", "体面。"]
+            },
+            "B": {
+              "text": "婉拒见面 (EI-1, 幸福+1)",
+              "effects": {"EI": -1, "happiness": 1},
+              "feedback": ["有些门不必再开。", "现任更重要。"]
+            },
+            "C": {
+              "text": "隐瞒伴侣赴约 (幸福-2, EI-2)",
+              "effects": {"happiness": -2, "EI": -2},
+              "feedback": ["心虚一整晚。", "别犯糊涂。"]
+            }
+          }
+        }
+      ],
+      "50s": [
+        {
+          "id": "ev_age_50s_empty_nest",
+          "desc": "孩子去外地读大学，家里忽然安静得吓人。",
+          "options": {
+            "A": {
+              "text": "培养新爱好 (幸福+1, 智力+1)",
+              "effects": {"happiness": 1, "intelligence": 1},
+              "feedback": ["报了个摄影班。", "生活重新有了焦点。"]
+            },
+            "B": {
+              "text": "频繁视频查岗 (EI-1, 幸福-1)",
+              "effects": {"EI": -1, "happiness": -1},
+              "feedback": ["孩子有点烦。", "你也知道。"]
+            },
+            "C": {
+              "text": "和伴侣重新约会 (幸福+2, 魅力+1)",
+              "effects": {"happiness": 2, "charisma": 1},
+              "feedback": ["二人世界回来了。", "挺甜。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_50s_career_plateau",
+          "desc": "你到了岗位天花板，年轻人已经追上来了。",
+          "options": {
+            "A": {
+              "text": "带徒弟传帮带 (智力+1, 魅力+1)",
+              "effects": {"intelligence": 1, "charisma": 1},
+              "feedback": ["桃李满园。", "经验有了出口。"]
+            },
+            "B": {
+              "text": "转管理或顾问 (财富+1, 智力+1)",
+              "effects": {"wealth": 1, "intelligence": 1},
+              "feedback": ["换条赛道。", "老本行还能吃。"]
+            },
+            "C": {
+              "text": "焦虑被淘汰 (健康-1, 幸福-1)",
+              "effects": {"health": -1, "happiness": -1},
+              "feedback": ["内耗最伤身。", "别慌。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_50s_health_scare",
+          "desc": "一次晕倒让你住了三天院，医生让改生活习惯。",
+          "options": {
+            "A": {
+              "text": "遵医嘱严格改 (健康+2, 财富-1)",
+              "effects": {"health": 2, "wealth": -1},
+              "feedback": ["戒了油腻。", "指标稳了。"]
+            },
+            "B": {
+              "text": "好了伤疤忘了疼 (健康-1, 快乐+1)",
+              "effects": {"health": -1, "happiness": 1},
+              "feedback": ["该吃吃该喝喝。", "身体记着账呢。"]
+            },
+            "C": {
+              "text": "买份保险兜底 (财富-2, 智力+1)",
+              "effects": {"wealth": -2, "intelligence": 1},
+              "feedback": ["有备无患。", "睡得着了。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_50s_parents_pass",
+          "desc": "你送走了最后一位老人，成了一家之长。",
+          "options": {
+            "A": {
+              "text": "整理遗物疗愈 (幸福+1, 智力+1)",
+              "effects": {"happiness": 1, "intelligence": 1},
+              "feedback": ["旧物里有故事。", "慢慢释怀。"]
+            },
+            "B": {
+              "text": "沉浸在悲伤里 (幸福-2, 健康-1)",
+              "effects": {"happiness": -2, "health": -1},
+              "feedback": ["允许自己难过。", "但别太久。"]
+            },
+            "C": {
+              "text": "把家风写下来 (智力+2, 魅力+1)",
+              "effects": {"intelligence": 2, "charisma": 1},
+              "feedback": ["一笔精神财富。", "传给下一代。"]
+            }
+          }
+        }
+      ],
+      "60+": [
+        {
+          "id": "ev_age_60plus_retire",
+          "desc": "办完退休手续，你忽然不知道每天该干嘛。",
+          "options": {
+            "A": {
+              "text": "规划退休生活 (幸福+1, 智力+1)",
+              "effects": {"happiness": 1, "intelligence": 1},
+              "feedback": ["清单列了三页。", "日子有奔头。"]
+            },
+            "B": {
+              "text": "返聘发挥余热 (财富+1, 健康-1)",
+              "effects": {"wealth": 1, "health": -1},
+              "feedback": ["被需要挺好。", "就是有点累。"]
+            },
+            "C": {
+              "text": "含饴弄孙 (幸福+2, 魅力+1)",
+              "effects": {"happiness": 2, "charisma": 1},
+              "feedback": ["小祖宗最治愈。", "累并快乐着。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_60plus_grandchild",
+          "desc": "女儿生了娃，你第一次抱起软绵绵的小生命。",
+          "options": {
+            "A": {
+              "text": "乐得当免费保姆 (幸福+2, 健康-1)",
+              "effects": {"happiness": 2, "health": -1},
+              "feedback": ["半夜还得起。", "但值。"]
+            },
+            "B": {
+              "text": "适度帮忙不越界 (幸福+1, EI+1)",
+              "effects": {"happiness": 1, "EI": 1},
+              "feedback": ["分寸感最舒服。", "一家和睦。"]
+            },
+            "C": {
+              "text": "享受二人世界 (幸福+1, 魅力+1)",
+              "effects": {"happiness": 1, "charisma": 1},
+              "feedback": ["老两口去旅行。", "也挺浪漫。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_60plus_legacy",
+          "desc": "律师提醒你该立遗嘱了，你想了想手里的东西。",
+          "options": {
+            "A": {
+              "text": "早早安排清楚 (智力+1, 财富+1)",
+              "effects": {"intelligence": 1, "wealth": 1},
+              "feedback": ["心里踏实。", "省得后人争。"]
+            },
+            "B": {
+              "text": "忌讳，拖着不办 (幸福-1, 运气-1)",
+              "effects": {"happiness": -1, "luck": -1},
+              "feedback": ["避讳解决不了问题。", "迟早要面对。"]
+            },
+            "C": {
+              "text": "捐一部分做公益 (魅力+2, 幸福+1)",
+              "effects": {"charisma": 2, "happiness": 1},
+              "feedback": ["留名不如留善。", "心里亮堂。"]
+            }
+          }
+        },
+        {
+          "id": "ev_age_60plus_old_friends",
+          "desc": "同学聚会，当年意气风发的人都添了白发。",
+          "options": {
+            "A": {
+              "text": "感慨相聚 (幸福+1, EI+1)",
+              "effects": {"happiness": 1, "EI": 1},
+              "feedback": ["见一面少一面。", "珍惜。"]
+            },
+            "B": {
+              "text": "攀比子女成就 (幸福-1, EI-1)",
+              "effects": {"happiness": -1, "EI": -1},
+              "feedback": ["比来比去最累。", "放下吧。"]
+            },
+            "C": {
+              "text": "约好每年都聚 (魅力+1, 幸福+1)",
+              "effects": {"charisma": 1, "happiness": 1},
+              "feedback": ["约定就是盼头。", "挺好。"]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

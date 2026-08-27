@@ -1,0 +1,97 @@
+{
+  "_meta": {
+    "schema": "challenges/v1",
+    "description": "挑战模式预设剧本 8 个。灵感来源:BitLife 社区挑战(Zero to Hero/Criminal Empire/No Education)+ Vampire Survivors 成就驱动解锁。每个挑战含:开局覆盖(start_override)、限制(restrictions)、胜利条件(win_conditions)、完成奖励(reward)。挑战完成解锁物写入 profile.unlocked_*。挑战模式让固定内容产生持续新鲜感。",
+    "design_notes": "挑战模式不增加引擎复杂度——只是给现有玩法套一层'目标+约束'。start_override 在出身阶段生效;restrictions 在全流程校验(违反即挑战失败但不结束游戏,仅标记失败);win_conditions 在结算时检查。"
+  },
+  "challenges": [
+    {
+      "id": "chl_zero_to_hero",
+      "name": "寒门贵子",
+      "description": "出身赤贫,四十岁前白手起家达到财务自由。游戏借鉴BitLife'Zero to Hero'挑战。",
+      "difficulty": "hard",
+      "start_override": {"wealth": 0, "talents_blacklist": ["tal_tianlongren", "tal_fu_ercidai"]},
+      "restrictions": {"max_initial_wealth": 1, "forbidden_inherit_talent": true},
+      "win_conditions": {"wealth_gte": 15, "age_lte": 40},
+      "reward": {"unlock_talent": "tal_self_made", "unlock_achievement": "ach_zero_to_hero"},
+      "flavor": "你没有伞,所以必须跑得比别人快。"
+    },
+    {
+      "id": "chl_no_education",
+      "name": "不靠学历",
+      "description": "全程不接受高等教育(education上限high_school),却要爬到职业tier≥4。",
+      "difficulty": "hard",
+      "start_override": {"education_cap": "high_school"},
+      "restrictions": {"max_education": "high_school", "forbidden_careers_min_education": ["bachelor", "master", "phd"]},
+      "win_conditions": {"career_tier_gte": 4, "age_lte": 50},
+      "reward": {"unlock_background_option": "bg_drop_out_origin", "unlock_achievement": "ach_no_education_success"},
+      "flavor": "学历是块敲门砖,但你要证明门也能踹开。"
+    },
+    {
+      "id": "chl_triple_bankruptcy",
+      "name": "三次破产",
+      "description": "单局内经历三次财富归零,却仍活到六十岁。",
+      "difficulty": "normal",
+      "start_override": {},
+      "restrictions": {},
+      "win_conditions": {"bankruptcies_gte": 3, "age_gte": 60},
+      "reward": {"unlock_talent": "tal_phoenix_rebirth", "unlock_achievement": "ach_bankrupt_thrice"},
+      "flavor": "破产三次还能站起来的人,要么是天才,要么是没别的路。"
+    },
+    {
+      "id": "chl_pacifist_king",
+      "name": "仁君之路",
+      "description": "王权模式下,STRENGTH(武力)全程不超过30,却要存活到自然死亡。",
+      "difficulty": "hard",
+      "start_override": {"mode": "reigns"},
+      "restrictions": {"max_dimension": {"STRENGTH": 30}, "forbidden_cards_tag": ["军事", "war"]},
+      "win_conditions": {"mode": "reigns", "age_gte": 60, "survived": true},
+      "reward": {"unlock_talent": "tal_benevolent_ruler", "unlock_achievement": "ach_secret_pacifist"},
+      "flavor": "不杀一人,亦能治天下。"
+    },
+    {
+      "id": "chl_back_to_land",
+      "name": "归园田居",
+      "description": "全程持有'土地情结'特质,结局幸福≥10。",
+      "difficulty": "easy",
+      "start_override": {"force_trait": "土地情结"},
+      "restrictions": {"must_keep_trait": "土地情结"},
+      "win_conditions": {"has_trait": "土地情结", "happiness_gte": 10, "age_gte": 60},
+      "reward": {"unlock_talent": "tal_farmer_sage", "unlock_achievement": "ach_back_to_land"},
+      "flavor": "采菊东篱下,悠然见南山。"
+    },
+    {
+      "id": "chl_polymath",
+      "name": "跨界奇才",
+      "description": "单局内在三个不同职业门类各达到tier≥3。",
+      "difficulty": "very_hard",
+      "start_override": {},
+      "restrictions": {},
+      "win_conditions": {"distinct_career_categories_tier3_gte": 3},
+      "reward": {"unlock_talent": "tal_polymath", "unlock_achievement": "ach_polymath"},
+      "flavor": "什么都懂一点,什么都不精——直到你什么都精了。"
+    },
+    {
+      "id": "chl_cultivation_seek",
+      "name": "求道者",
+      "description": "在传统模式下活过100岁并触发修行线(需持有'神秘小盒子'天赋)。",
+      "difficulty": "very_hard",
+      "start_override": {"force_talent_pool": ["tal_mysterious_box"]},
+      "restrictions": {},
+      "win_conditions": {"mode_switched_to": "cultivation", "age_gte": 100},
+      "reward": {"unlock_mode": "cultivation_unlock", "unlock_achievement": "ach_secret_box_opened"},
+      "flavor": "凡所有相,皆是虚妄。盒子打开的那一刻,你才真正开始活着。"
+    },
+    {
+      "id": "chl_three_lives_one_talent",
+      "name": "三生执念",
+      "description": "连续3局继承同一天赋并完成游戏。",
+      "difficulty": "normal",
+      "start_override": {},
+      "restrictions": {"consecutive_runs_same_inherited_talent": 3},
+      "win_conditions": {"runs_completed_with_same_inherited_talent": 3},
+      "reward": {"unlock_talent": "tal_three_lives_bond", "unlock_achievement": "ach_secret_three_lives"},
+      "flavor": "一个天赋,三辈子。它已经不只是天赋,是你的执念。"
+    }
+  ]
+}

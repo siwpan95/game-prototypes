@@ -1,0 +1,195 @@
+{
+  "_meta": {
+    "schema": "events_by_career/v1",
+    "description": "by_career 事件 20 条。8 大职业门类(academic/medical/engineering/finance/law_gov/culture/labor/gray)各 2-3 条专属事件。触发条件:玩家 career_category 匹配子组键。沿用 event schema(id/desc/options{A/B/C/D{text,effects,feedback≥2}}/tags)。effects 键: 小写玩家属性(strength/intelligence/...)或大写维度。"
+  },
+  "event_templates": {
+    "by_career": {
+      "academic": [
+        {
+          "id": "ev_car_paper_review",
+          "desc": "审稿意见回来了。审稿人#2写了三千字，最后一句是'建议大修后重投'。",
+          "options": {
+            "A": {"text": "通宵一周按意见改 (智力+2, 健康-5, 财富+0)", "effects": {"intelligence": 2, "health": -5}, "feedback": ["你把每个字都抠了一遍。", "论文接收那天，审稿人#2回了句'这次不错'。"]},
+            "B": {"text": "怼回去:这意见不合理 (智力+1, 魅力+1, 幸福-2)", "effects": {"intelligence": 1, "charisma": 1, "happiness": -2}, "feedback": ["你写了封措辞克制的反驳信。", "编辑回信说'已转审稿人'，然后就没有然后了。"]},
+            "C": {"text": "换投影响因子低一档的期刊 (财富+1, 智力-1)", "effects": {"wealth": 1, "intelligence": -1}, "feedback": ["三周后接收了。", "你把这篇论文从'代表作'里悄悄挪了出去。"]}
+          },
+          "tags": ["academic", "paper", "review"]
+        },
+        {
+          "id": "ev_car_student_question",
+          "desc": "课后一个学生追出来问你刚才课上讲的某个公式是不是推错了。你回去翻了翻笔记——还真是。",
+          "options": {
+            "A": {"text": "下节课公开道歉并更正 (智力+1, 魅力+3, 幸福-1)", "effects": {"intelligence": 1, "charisma": 3, "happiness": -1}, "feedback": ["学生鼓掌，说'老师真坦荡'。", "其实你只是没好意思说，这公式你推错十年了。"]},
+            "B": {"text": "私下告诉那个学生，让他别说出去 (智力+0, 道德-3, 魅力-1)", "effects": {"intelligence": 0, "charisma": -1}, "feedback": ["学生眼神变了变，答应了。", "下次课他没来，你也没问。"]},
+            "C": {"text": "硬刚:是学生记错了 (智力-1, 魅力-2)", "effects": {"intelligence": -1, "charisma": -2}, "feedback": ["学生没反驳。", "但你知道，他知道，你知道他知道。"]}
+          },
+          "tags": ["academic", "teaching", "honesty"]
+        },
+        {
+          "id": "ev_car_research_grant",
+          "desc": "国自然基金放榜。你的项目在'建议资助'名单里，但金额被砍了三分之一。",
+          "options": {
+            "A": {"text": "接受，砍预算重做实验方案 (财富+2, 智力+1, 健康-3)", "effects": {"wealth": 2, "intelligence": 1, "health": -3}, "feedback": ["你把实验组从8个砍到5个。", "组里博士生松了口气，本来他就快扛不住了。"]},
+            "B": {"text": "申诉，要求恢复原额 (财富+0, 魅力+1, 幸福-2)", "effects": {"charisma": 1, "happiness": -2}, "feedback": ["申诉被驳回，理由就四个字'经费有限'。", "你把这四个字贴在了电脑边上。"]}
+          },
+          "tags": ["academic", "grant", "research"]
+        }
+      ],
+      "medical": [
+        {
+          "id": "ev_car_night_shift",
+          "desc": "又是夜班。凌晨两点急诊送来一个车祸重伤的，家属在外面哭，你在手术台上手抖了一下。",
+          "options": {
+            "A": {"text": "深呼吸，继续手术 (智力+2, 力量+1, 健康-4, 幸福-1)", "effects": {"intelligence": 2, "strength": 1, "health": -4, "happiness": -1}, "feedback": ["病人救回来了。", "交班时你坐在椅子上睡着了，护士给你盖了件白大褂。"]},
+            "B": {"text": "让二线医生接手 (智力+0, 魅力-1, 幸福-2)", "effects": {"charisma": -1, "happiness": -2}, "feedback": ["二线医生白了你一眼接了台。", "事后他没说什么，但你知道这会传到主任耳朵里。"]},
+            "C": {"text": "硬着头皮做下去 (智力+1, 健康-6)", "effects": {"intelligence": 1, "health": -6}, "feedback": ["手术很险但成功了。", "你回家后对着镜子看了很久自己的手。"]}
+          },
+          "tags": ["medical", "night_shift", "emergency"]
+        },
+        {
+          "id": "ev_car_patient_redenvelope",
+          "desc": "病人术前家属塞了个红包，硬往你白大褂口袋里塞，揣得你口袋鼓起来。",
+          "options": {
+            "A": {"text": "收下，术后充进病人住院费 (道德+3, 魅力+1)", "effects": {"intelligence": 0}, "feedback": ["你让护士长把红包钱打到病人账户上。", "出院结账时家属发现少交了钱，问护士，护士指了指你。"]},
+            "B": {"text": "当场退回 (道德+2, 魅力+2, 幸福-1)", "effects": {"charisma": 2, "happiness": -1}, "feedback": ["家属脸涨得通红，连说'医生你别误会'。", "你说'我误会什么，您孩子会没事的'。"]},
+            "C": {"text": "收下 (财富+3, 道德-5, 健康-2)", "effects": {"wealth": 3, "health": -2}, "feedback": ["红包厚得不正常。", "夜里你翻来覆去，第二天又退了回去——但退的方式没那么体面。"]}
+          },
+          "tags": ["medical", "ethics", "bribe"]
+        }
+      ],
+      "engineering": [
+        {
+          "id": "ev_car_production_incident",
+          "desc": "线上出了P0事故。你的手机在凌晨被叫醒群轰炸，监控大屏红了一片。",
+          "options": {
+            "A": {"text": "立刻爬起来远程修 (智力+2, 健康-5, 财富+1)", "effects": {"intelligence": 2, "health": -5, "wealth": 1}, "feedback": ["凌晨四点事故恢复。", "第二天早会你顶着黑眼圈复盘，PM说'辛苦了'，三个字。"]},
+            "B": {"text": "让值班同事先顶，你天亮去 (智力+0, 魅力-2, 健康-1)", "effects": {"charisma": -2, "health": -1}, "feedback": ["值班同事骂骂咧咧但顶住了。", "这件事被记进了你的年度评价，写的是'响应及时性待提升'。"]},
+            "C": {"text": "回滚，明早再查 (智力+1, 财富-1)", "effects": {"intelligence": 1, "wealth": -1}, "feedback": ["回滚损失了一小时数据。", "但事故没扩大，老板说'回滚是对的'。"]}
+          },
+          "tags": ["engineering", "incident", "oncall"]
+        },
+        {
+          "id": "ev_car_tech_offer",
+          "desc": "猎头找上门，对手公司开出了1.5倍的薪水。但你现在带的项目还差三个月上线。",
+          "options": {
+            "A": {"text": "拒了，等手头项目收尾 (道德+3, 魅力+2, 财富-2)", "effects": {"charisma": 2, "wealth": -2}, "feedback": ["猎头说'你这种人不多'。", "项目上线那天老板请你吃了顿饭，没提加薪。"]},
+            "B": {"text": "接offer，按合同提前30天走 (财富+5, 魅力-2, 道德-1)", "effects": {"wealth": 5, "charisma": -2}, "feedback": ["同事嘴上说恭喜，眼神里有点东西。", "交接文档你写了四十页，比代码还详细。"]},
+            "C": {"text": "用offer反向谈加薪 (财富+3, 智力+1, 魅力-1)", "effects": {"wealth": 3, "intelligence": 1, "charisma": -1}, "feedback": ["老板加了，但只加到1.2倍。", "你留下了，但公司里开始流传你是'谈薪高手'。"]}
+          },
+          "tags": ["engineering", "job_hopping", "loyalty"]
+        }
+      ],
+      "finance": [
+        {
+          "id": "ev_car_insider_tip",
+          "desc": "饭局上一个'消息灵通人士'给你透了个内幕消息，某只股票下周要拉升。他说这话时眼睛瞟了瞟包厢门。",
+          "options": {
+            "A": {"text": "当没听见，回家把这条记进备忘录 (智力+1, 道德+2)", "effects": {"intelligence": 1}, "feedback": ["你写下了日期、人物、原话。", "三个月后那人被查，你协助调查，没牵连进去。"]},
+            "B": {"text": "全仓杀入 (财富+5或-8, 运气±3)", "effects": {"wealth": -2, "luck": 0}, "feedback": ["消息是真的，但你买晚了。", "或者：消息是假的，你被割了。无论如何，你都睡不着觉了。"], "conditions_note": "效果随机：60%概率财富+5, 40%概率财富-8"},
+            "C": {"text": "小仓位试水 (财富±2)", "effects": {"wealth": 1}, "feedback": ["你买了两手，赚了顿饭钱。", "但你心里清楚，这一步迈出去就难收回来了。"]}
+          },
+          "tags": ["finance", "insider", "risk"]
+        },
+        {
+          "id": "ev_car_client_loss",
+          "desc": "大客户打电话说要撤资，理由是'最近风向不太对'。你管他账户八年，他撤资信写得比结婚请柬还正式。",
+          "options": {
+            "A": {"text": "飞过去当面谈 (财富-1, 魅力+2, 健康-2)", "effects": {"charisma": 2, "health": -2, "wealth": -1}, "feedback": ["你在机场候机厅改了三次方案。", "客户被你的诚意打动，撤资改成减半。"]},
+            "B": {"text": "电话里挽留，挽留不住就算 (财富-5, 幸福-2)", "effects": {"wealth": -5, "happiness": -2}, "feedback": ["客户说'你也别为难'。", "你挂了电话，盯着K线图发了一会儿呆。"]},
+            "C": {"text": "建议他转给同行，留个人情 (魅力+3, 财富-3, 道德+2)", "effects": {"charisma": 3, "wealth": -3}, "feedback": ["你给他介绍了个更稳的对手。", "对手请你吃了顿饭，说'下次有这种好客户多介绍'。"]}
+          },
+          "tags": ["finance", "client", "relationship"]
+        }
+      ],
+      "law_gov": [
+        {
+          "id": "ev_car_red_envelope_gov",
+          "desc": "审批对象送来一个'土特产'盒子，掂量着不像土特产。对方笑着说'一点心意'。",
+          "options": {
+            "A": {"text": "退回，并记录在案 (道德+3, 魅力+1, 财富-1)", "effects": {"charisma": 1, "wealth": -1}, "feedback": ["对方脸色变了一瞬，又堆起笑。", "事后他批文交得特别快——可能是怕你。"]},
+            "B": {"text": "收下，转交纪委 (道德+2, 智力+1)", "effects": {"intelligence": 1}, "feedback": ["你开了个封条把盒子原样送过去。", "纪委的同志说'你这个同志，觉悟可以'。"]},
+            "C": {"text": "收下 (财富+2, 道德-6, 健康-3)", "effects": {"wealth": 2, "health": -3}, "feedback": ["盒子里的东西比你想的重。", "从那天起你看见穿制服的就心跳加速。"]}
+          },
+          "tags": ["law_gov", "integrity", "bribe"]
+        },
+        {
+          "id": "ev_car_mass_petition",
+          "desc": "门口来了一群上访群众，拉着横幅，要求见领导。保安在挡，群众在推，你在三楼窗户后面看。",
+          "options": {
+            "A": {"text": "下去接访，听他们说 (魅力+3, 智力+1, 健康-2, 幸福-1)", "effects": {"charisma": 3, "intelligence": 1, "health": -2, "happiness": -1}, "feedback": ["你听了三个小时，记了十二页笔记。", "群众走时说'终于有个肯听的'。你把这十二页笔记交了上去，石沉大海。"]},
+            "B": {"text": "让信访办处理，自己不去 (智力+0, 魅力-2)", "effects": {"charisma": -2}, "feedback": ["信访办的人过了一会来汇报'已劝离'。", "'劝离'两个字你听了心里不太舒服。"]},
+            "C": {"text": "拍照留证，让他们闹大再说 (智力+1, 道德-3)", "effects": {"intelligence": 1}, "feedback": ["你看着楼下，相机举了几次又放下。", "最后没拍。你说不清自己是为了什么。"]}
+          },
+          "tags": ["law_gov", "petition", "responsibility"]
+        }
+      ],
+      "culture": [
+        {
+          "id": "ev_car_scandal_expose",
+          "desc": "娱乐号爆出你三年前的一段'黑料'，断章取义得离谱。热搜词条已经挂在第一了。",
+          "options": {
+            "A": {"text": "发声明澄清 (魅力+1, 幸福-3, 财富-2)", "effects": {"charisma": 1, "happiness": -3, "wealth": -2}, "feedback": ["声明阅读量破千万，但澄清的传播力只有造谣的十分之一。", "三天后热搜散了，但搜索联想里多了那个词。"]},
+            "B": {"text": "发律师函 (财富-3, 魅力+2, 智力+1)", "effects": {"charisma": 2, "intelligence": 1, "wealth": -3}, "feedback": ["对方删帖了，但截图已经传开。", "你赢了官司，输了舆论。"]},
+            "C": {"text": "不回应，让时间冲淡 (魅力-1, 幸福-4)", "effects": {"charisma": -1, "happiness": -4}, "feedback": ["经纪人急得跳脚，你关了手机去爬山了。", "一周后热搜换了别的，但你的代言掉了一个。"]}
+          },
+          "tags": ["culture", "scandal", "PR"]
+        },
+        {
+          "id": "ev_car_fan_stalker",
+          "desc": "一个粉丝跟踪到你家楼下，已经蹲了三天。他看见你出来时眼眶红了，说'哥/姐我终于见到你了'。",
+          "options": {
+            "A": {"text": "报警 (魅力-2, 道德+1, 幸福-1)", "effects": {"charisma": -2, "happiness": -1}, "feedback": ["警察来了，粉丝哭着被带走。", "经纪人松了口气，但你知道这事会上粉丝群。"]},
+            "B": {"text": "下楼和他谈谈 (魅力+2, 智力+1, 健康-2)", "effects": {"charisma": 2, "intelligence": 1, "health": -2}, "feedback": ["你劝了他半小时，他答应不再跟踪。", "走前他让你签了个名，手抖得签歪了。"]},
+            "C": {"text": "搬离这个住处 (财富-3, 幸福-2)", "effects": {"wealth": -3, "happiness": -2}, "feedback": ["新住处比旧的贵一倍。", "但你晚上终于能不拉窗帘睡觉了。"]}
+          },
+          "tags": ["culture", "stalker", "privacy"]
+        }
+      ],
+      "labor": [
+        {
+          "id": "ev_car_wage_arrears",
+          "desc": "包工头这个月又拖欠工资。工友们在工棚里骂娘，老张说要去堵门，你拦了半天。",
+          "options": {
+            "A": {"text": "带头去劳动局投诉 (魅力+3, 力量+1, 财富+1)", "effects": {"charisma": 3, "strength": 1, "wealth": 1}, "feedback": ["劳动局受理了，三周后工资到账。", "包工头从此看见你就绕道走。"]},
+            "B": {"text": "私下找包工头'谈' (力量+2, 魅力-1, 财富+2)", "effects": {"strength": 2, "charisma": -1, "wealth": 2}, "feedback": ["你揣着把扳手去了。", "钱第二天就结了，但你也知道这种方式不能常用。"]},
+            "C": {"text": "忍着，等下个月一起结 (道德-1, 幸福-3)", "effects": {"happiness": -3}, "feedback": ["老张骂你软蛋，你没回嘴。", "其实你是怕闹大了被拉黑，下次没活干。"]}
+          },
+          "tags": ["labor", "wage", "rights"]
+        },
+        {
+          "id": "ev_car_site_accident",
+          "desc": "工地上一个新工人没系安全带从脚手架摔下来了。是你组的班，按规定你该检查的。",
+          "options": {
+            "A": {"text": "立刻送医并上报 (道德+3, 智力+1, 财富-2)", "effects": {"intelligence": 1, "wealth": -2}, "feedback": ["工人腿保住了，但你被罚了款。", "包工头说'下次别报那么快'，你装没听见。"]},
+            "B": {"text": "私下和工人谈赔偿 (道德-3, 财富-1, 魅力-2)", "effects": {"wealth": -1, "charisma": -2}, "feedback": ["你给了五万块私了。", "工人收了钱，但每次见你都低着头。"]},
+            "C": {"text": "假装不知道 (道德-5, 幸福-4)", "effects": {"happiness": -4}, "feedback": ["工友帮你打了掩护。", "但那天晚上你做梦，梦见自己也从架子上掉了下来。"]}
+          },
+          "tags": ["labor", "safety", "responsibility"]
+        }
+      ],
+      "gray": [
+        {
+          "id": "ev_car_police_visit",
+          "desc": "两个穿便衣的来敲门了。其中一个亮了下证件，另一个说'配合一下，跟我们走一趟'。",
+          "options": {
+            "A": {"text": "配合，如实交代 (智力+1, 道德+1, 财富-10)", "effects": {"intelligence": 1, "wealth": -10}, "feedback": ["你交代了所有的事。", "争取到了从轻处理，但你这一行算是到头了。"]},
+            "B": {"text": "装糊涂，一问三不知 (智力-1, 魅力-2, 运气-2)", "effects": {"intelligence": -1, "charisma": -2, "luck": -2}, "feedback": ["他们没当场拿下你，但留了句话'我们会再来的'。", "从那天起你出门都看后视镜。"]},
+            "C": {"text": "找'关系'打探 (财富-5, 魅力+1, 道德-2)", "effects": {"wealth": -5, "charisma": 1}, "feedback": ["关系说'没事，就是例行'。", "但你给关系的钱，他没退。"]}
+          },
+          "tags": ["gray", "police", "consequence"]
+        },
+        {
+          "id": "ev_car_debtor_desperate",
+          "desc": "借了你高利贷的那个人跪在你面前。他妻子在旁边哭，孩子站在门口不知道发生了什么。",
+          "options": {
+            "A": {"text": "免了他一部分债 (道德+2, 财富-3, 幸福+1)", "effects": {"wealth": -3, "happiness": 1}, "feedback": ["你免了他本金的一半。", "他磕了三个头，你没躲，但心里发虚。"]},
+            "B": {"text": "让他用房子抵债 (财富+5, 道德-5, 幸福-3)", "effects": {"wealth": 5, "happiness": -3}, "feedback": ["房子过户那天他没来，让他老婆签的字。", "他老婆签完手抖了五分钟。"]},
+            "C": {"text": "宽限他三个月 (道德+1, 财富-1)", "effects": {"wealth": -1}, "feedback": ["他答应三个月内连本带利还清。", "三个月后他没还，也没再出现——听说去了南方。"]}
+          },
+          "tags": ["gray", "usury", "morality"]
+        }
+      ]
+    }
+  }
+}

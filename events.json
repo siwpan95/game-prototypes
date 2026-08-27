@@ -1,0 +1,882 @@
+{
+  "event_templates": {
+    "generic": [
+      {
+        "id": "ev_legacy_generic_0",
+        "desc": "一个旅行商人向你兜售一件奇怪的东西。",
+        "options": {
+          "A": {
+            "text": "买！就当交朋友了 (财富-2, 魅力+1)",
+            "effects": {
+              "wealth": -2,
+              "charisma": 1
+            },
+            "feedback": [
+              "行吧，你开心就好。",
+              "有钱任性。",
+              "这很符合你的人设。"
+            ]
+          },
+          "B": {
+            "text": "先砍价，这是基本操作 (财富-1, 智力+1)",
+            "effects": {
+              "wealth": -1,
+              "intelligence": 1
+            },
+            "feedback": [
+              "不愧是砍价高手。",
+              "精明！",
+              "这很符合你的人设。"
+            ]
+          },
+          "C": {
+            "text": "假装没看到 (社交压力-1)",
+            "effects": {
+              "EI": -1
+            },
+            "feedback": [
+              "社恐发作。",
+              "选择性失明。",
+              "这很符合你的人设。"
+            ]
+          }
+        }
+      },
+      {
+        "id": "ev_legacy_generic_1",
+        "desc": "路上捡到一个钱包。",
+        "options": {
+          "A": {
+            "text": "交给官府 (运气+1)",
+            "effects": {
+              "luck": 1
+            },
+            "feedback": [
+              "好人一生平安。",
+              "道德标兵。"
+            ]
+          },
+          "B": {
+            "text": "自己留着 (财富+2)",
+            "effects": {
+              "wealth": 2
+            },
+            "feedback": [
+              "意外的惊喜。",
+              "不拿白不拿。"
+            ]
+          },
+          "C": {
+            "text": "等失主 (魅力+1, 幸福-1)",
+            "effects": {
+              "charisma": 1,
+              "happiness": -1
+            },
+            "feedback": [
+              "等了半天没人来。",
+              "浪费了时间。"
+            ]
+          }
+        }
+      },
+      {
+        "id": "ev_legacy_generic_2",
+        "desc": "邻居家的狗对你狂吠不止。",
+        "options": {
+          "A": {
+            "text": "蹲下来和它对视 (力量+1, 魅力-1)",
+            "effects": {
+              "strength": 1,
+              "charisma": -1
+            },
+            "feedback": [
+              "勇敢但不太聪明。",
+              "狗：你在挑衅我？"
+            ]
+          },
+          "B": {
+            "text": "绕路走 (敏捷+1)",
+            "effects": {
+              "agility": 1
+            },
+            "feedback": [
+              "好汉不吃眼前亏。",
+              "走为上策。"
+            ]
+          },
+          "C": {
+            "text": "扔块骨头过去 (财富-1, 幸福+1)",
+            "effects": {
+              "wealth": -1,
+              "happiness": 1
+            },
+            "feedback": [
+              "化敌为友。",
+              "狗：好人！"
+            ]
+          }
+        }
+      },
+      {
+        "id": "ev_legacy_generic_3",
+        "desc": "酒馆里有人邀请你拼桌喝酒。",
+        "options": {
+          "A": {
+            "text": "欣然加入 (魅力+1, 幸福+1, 财富-1)",
+            "effects": {
+              "charisma": 1,
+              "happiness": 1,
+              "wealth": -1
+            },
+            "feedback": [
+              "社交达人。",
+              "酒逢知己千杯少。"
+            ]
+          },
+          "B": {
+            "text": "礼貌拒绝 (智力+1)",
+            "effects": {
+              "intelligence": 1
+            },
+            "feedback": [
+              "清醒的选择。",
+              "明天不会头疼。"
+            ]
+          },
+          "C": {
+            "text": "假装听不见 (幸福-1)",
+            "effects": {
+              "happiness": -1
+            },
+            "feedback": [
+              "社恐的日常。",
+              "我是一条鱼。"
+            ]
+          }
+        }
+      }
+    ],
+    "by_wealth": {
+      "rich": [
+        {
+          "id": "ev_legacy_by_wealth_rich_0",
+          "desc": "你的存款有点多，朋友找你投资。",
+          "options": {
+            "A": {
+              "text": "投！格局打开 (财富-3, 运气+2)",
+              "effects": {
+                "wealth": -3,
+                "luck": 2
+              },
+              "feedback": [
+                "投资有风险。",
+                "搏一搏，单车变摩托。"
+              ]
+            },
+            "B": {
+              "text": "投一点点，就当打水漂 (财富-1)",
+              "effects": {
+                "wealth": -1
+              },
+              "feedback": [
+                "小赌怡情。",
+                "试试水。"
+              ]
+            },
+            "C": {
+              "text": "不投，怕被割韭菜 (智力+1)",
+              "effects": {
+                "intelligence": 1
+              },
+              "feedback": [
+                "明智的选择。",
+                "不亏就是赚。"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ev_legacy_by_wealth_rich_1",
+          "desc": "有钱就是任性，你决定改善生活。",
+          "options": {
+            "A": {
+              "text": "买一匹好马 (财富-3, 敏捷+2)",
+              "effects": {
+                "wealth": -3,
+                "agility": 2
+              },
+              "feedback": [
+                "策马奔腾。",
+                "速度与激情。"
+              ]
+            },
+            "B": {
+              "text": "雇佣几个仆人 (财富-2, 魅力+2)",
+              "effects": {
+                "wealth": -2,
+                "charisma": 2
+              },
+              "feedback": [
+                "排面拉满。",
+                "人上人体验卡。"
+              ]
+            },
+            "C": {
+              "text": "存起来，以备不时之需 (财富+1)",
+              "effects": {
+                "wealth": 1
+              },
+              "feedback": [
+                "理性消费。",
+                "未雨绸缪。"
+              ]
+            }
+          }
+        }
+      ],
+      "poor": [
+        {
+          "id": "ev_legacy_by_wealth_poor_0",
+          "desc": "你又没钱了，朋友喊你聚餐。",
+          "options": {
+            "A": {
+              "text": "找借口不去 (魅力-1)",
+              "effects": {
+                "charisma": -1
+              },
+              "feedback": [
+                "社交压力-1。",
+                "又穷又没朋友。"
+              ]
+            },
+            "B": {
+              "text": "去，但只点最便宜的 (幸福-1)",
+              "effects": {
+                "happiness": -1
+              },
+              "feedback": [
+                "穷且要面子。",
+                "硬着头皮上。"
+              ]
+            },
+            "C": {
+              "text": "找朋友借钱 (财富+1, 魅力-2)",
+              "effects": {
+                "wealth": 1,
+                "charisma": -2
+              },
+              "feedback": [
+                "开始借钱了。",
+                "脸皮厚吃个够。"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ev_legacy_by_wealth_poor_1",
+          "desc": "肚子饿了，但兜里没几个钱。",
+          "options": {
+            "A": {
+              "text": "去当一天苦力换饭吃 (力量+1, 财富+1)",
+              "effects": {
+                "strength": 1,
+                "wealth": 1
+              },
+              "feedback": [
+                "劳动最光荣。",
+                "靠自己双手。"
+              ]
+            },
+            "B": {
+              "text": "啃干粮凑合 (幸福-1, 财富+0)",
+              "effects": {
+                "happiness": -1
+              },
+              "feedback": [
+                "艰苦朴素。",
+                "省钱达人。"
+              ]
+            },
+            "C": {
+              "text": "去寺庙蹭斋饭 (运气+1)",
+              "effects": {
+                "luck": 1
+              },
+              "feedback": [
+                "佛祖保佑。",
+                "化缘大师。"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "by_personality": {
+      "introvert": [
+        {
+          "id": "ev_legacy_by_personality_introvert_0",
+          "desc": "周末了，你想一个人待着。朋友突然约你。",
+          "options": {
+            "A": {
+              "text": "拒绝，享受独处 (幸福+1)",
+              "effects": {
+                "happiness": 1
+              },
+              "feedback": [
+                "社恐的快乐。",
+                "一个人的狂欢。"
+              ]
+            },
+            "B": {
+              "text": "勉强答应，但全程尴尬 (幸福-1, 魅力-1)",
+              "effects": {
+                "happiness": -1,
+                "charisma": -1
+              },
+              "feedback": [
+                "社交酷刑。",
+                "如坐针毡。"
+              ]
+            },
+            "C": {
+              "text": "装病不去 (智力+1)",
+              "effects": {
+                "intelligence": 1
+              },
+              "feedback": [
+                "演技+1。",
+                "善意的谎言。"
+              ]
+            }
+          }
+        }
+      ],
+      "extrovert": [
+        {
+          "id": "ev_legacy_by_personality_extrovert_0",
+          "desc": "周末了，你的社交能量已充满！",
+          "options": {
+            "A": {
+              "text": "约朋友出来嗨 (魅力+1, 财富-1)",
+              "effects": {
+                "charisma": 1,
+                "wealth": -1
+              },
+              "feedback": [
+                "社交悍匪出动。",
+                "快乐加倍。"
+              ]
+            },
+            "B": {
+              "text": "组织大型聚会 (魅力+2, 财富-2)",
+              "effects": {
+                "charisma": 2,
+                "wealth": -2
+              },
+              "feedback": [
+                "派对之王。",
+                "破产式社交。"
+              ]
+            },
+            "C": {
+              "text": "去认识新朋友 (魅力+1, 运气+1)",
+              "effects": {
+                "charisma": 1,
+                "luck": 1
+              },
+              "feedback": [
+                "社交牛逼症发作。",
+                "朋友遍天下。"
+              ]
+            }
+          }
+        }
+      ],
+      "nt_rational": [
+        {
+          "id": "ev_legacy_by_personality_nt_rational_0",
+          "desc": "你发现了一个明显的逻辑漏洞。",
+          "options": {
+            "A": {
+              "text": "必须指出来！这是原则问题 (智力+1, 魅力-1)",
+              "effects": {
+                "intelligence": 1,
+                "charisma": -1
+              },
+              "feedback": [
+                "你是对的，但没人喜欢你。",
+                "道理我都懂。"
+              ]
+            },
+            "B": {
+              "text": "心里吐槽，但不说出来 (幸福-1)",
+              "effects": {
+                "happiness": -1
+              },
+              "feedback": [
+                "内伤+1。",
+                "忍住了。"
+              ]
+            },
+            "C": {
+              "text": "写篇文章分析 (智力+2, EI-1)",
+              "effects": {
+                "intelligence": 2,
+                "EI": -1
+              },
+              "feedback": [
+                "键盘侠觉醒。",
+                "笔比剑更有力。"
+              ]
+            }
+          }
+        }
+      ],
+      "nf_idealist": [
+        {
+          "id": "ev_legacy_by_personality_nf_idealist_0",
+          "desc": "看到流浪猫，它对你喵了一声。",
+          "options": {
+            "A": {
+              "text": "带回家！从此是有猫一族 (幸福+2, 财富-1)",
+              "effects": {
+                "happiness": 2,
+                "wealth": -1
+              },
+              "feedback": [
+                "猫奴确认。",
+                "铲屎官上任。"
+              ]
+            },
+            "B": {
+              "text": "喂点吃的，但家里不让养 (TF-1)",
+              "effects": {
+                "TF": -1
+              },
+              "feedback": [
+                "心软了。",
+                "善良的人。"
+              ]
+            },
+            "C": {
+              "text": "拍了张照片发朋友圈 (魅力+1)",
+              "effects": {
+                "charisma": 1
+              },
+              "feedback": [
+                "云吸猫。",
+                "点赞收割机。"
+              ]
+            }
+          }
+        }
+      ],
+      "strong_warrior": [
+        {
+          "id": "ev_legacy_by_personality_strong_warrior_0",
+          "desc": "一场比武大赛正在举行，冠军将赢得丰厚奖金。",
+          "options": {
+            "A": {
+              "text": "报名参赛！ (力量+1, 财富+3, 魅力+1)",
+              "effects": {
+                "strength": 1,
+                "wealth": 3,
+                "charisma": 1
+              },
+              "feedback": [
+                "冠军就是你！",
+                "力量碾压一切。"
+              ]
+            },
+            "B": {
+              "text": "当观众，享受比赛 (幸福+1)",
+              "effects": {
+                "happiness": 1
+              },
+              "feedback": [
+                "看别人打，也挺好。",
+                "安全第一。"
+              ]
+            },
+            "C": {
+              "text": "暗中下注 (运气+1, 财富+1)",
+              "effects": {
+                "luck": 1,
+                "wealth": 1
+              },
+              "feedback": [
+                "赌狗的胜利。",
+                "运气也是实力。"
+              ]
+            }
+          }
+        }
+      ],
+      "smart_scholar": [
+        {
+          "id": "ev_legacy_by_personality_smart_scholar_0",
+          "desc": "你发现了一个可以改进本地水利工程的方案。",
+          "options": {
+            "A": {
+              "text": "向领主提出建议 (魅力+1, 财富+1, 智力+1)",
+              "effects": {
+                "charisma": 1,
+                "wealth": 1,
+                "intelligence": 1
+              },
+              "feedback": [
+                "人才啊。",
+                "被赏识了。"
+              ]
+            },
+            "B": {
+              "text": "写成论文藏起来 (智力+1)",
+              "effects": {
+                "intelligence": 1
+              },
+              "feedback": [
+                "闷声发大财。",
+                "学术孤芳。"
+              ]
+            },
+            "C": {
+              "text": "自己动手修建 (力量+1, 敏捷+1)",
+              "effects": {
+                "strength": 1,
+                "agility": 1
+              },
+              "feedback": [
+                "实干家。",
+                "理论不如实践。"
+              ]
+            }
+          }
+        }
+      ],
+      "adventurer": [
+        {
+          "id": "ev_legacy_by_personality_adventurer_0",
+          "desc": "远方传来传说，在迷雾山脉中有古代宝藏。",
+          "options": {
+            "A": {
+              "text": "组织探险队出发！ (敏捷+1, 运气+2, 力量-1)",
+              "effects": {
+                "agility": 1,
+                "luck": 2,
+                "strength": -1
+              },
+              "feedback": [
+                "冒险开始！",
+                "富贵险中求。"
+              ]
+            },
+            "B": {
+              "text": "谨慎研究地图后再决定 (智力+1)",
+              "effects": {
+                "intelligence": 1
+              },
+              "feedback": [
+                "谋定而后动。",
+                "不怕一万就怕万一。"
+              ]
+            },
+            "C": {
+              "text": "认为太危险，放弃 (幸福-1)",
+              "effects": {
+                "happiness": -1
+              },
+              "feedback": [
+                "安全第一。",
+                "遗憾但活着。"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "by_age": {
+      "20s": [
+        {
+          "id": "ev_legacy_by_age_20s_0",
+          "desc": "你刚成年，面临人生选择。",
+          "options": {
+            "A": {
+              "text": "继续读书深造 (智力+2, 财富-1)",
+              "effects": {
+                "intelligence": 2,
+                "wealth": -1
+              },
+              "feedback": [
+                "知识就是力量。",
+                "卷王之路开始。"
+              ]
+            },
+            "B": {
+              "text": "开始工作赚钱 (财富+2, 智力-1)",
+              "effects": {
+                "wealth": 2,
+                "intelligence": -1
+              },
+              "feedback": [
+                "搞钱最重要。",
+                "现实主义者。"
+              ]
+            },
+            "C": {
+              "text": "gap一年去旅行 (魅力+1, 运气+1)",
+              "effects": {
+                "charisma": 1,
+                "luck": 1
+              },
+              "feedback": [
+                "世界那么大。",
+                "诗和远方。"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ev_legacy_by_age_20s_1",
+          "desc": "你在酒馆遇到了一个神秘的旅人，他说可以教你一门手艺。",
+          "options": {
+            "A": {
+              "text": "学剑术 (力量+2, 敏捷+1)",
+              "effects": {
+                "strength": 2,
+                "agility": 1
+              },
+              "feedback": [
+                "剑在手，跟我走。",
+                "习武之人。"
+              ]
+            },
+            "B": {
+              "text": "学炼金术 (智力+2, 运气+1)",
+              "effects": {
+                "intelligence": 2,
+                "luck": 1
+              },
+              "feedback": [
+                "化学家？",
+                "点石成金？"
+              ]
+            },
+            "C": {
+              "text": "学社交技巧 (魅力+2, EI+1)",
+              "effects": {
+                "charisma": 2,
+                "EI": 1
+              },
+              "feedback": [
+                "社交达人养成。",
+                "人脉就是钱脉。"
+              ]
+            }
+          }
+        }
+      ],
+      "30s": [
+        {
+          "id": "ev_legacy_by_age_30s_0",
+          "desc": "三十而立，你面临成家立业的压力。",
+          "options": {
+            "A": {
+              "text": "专心事业 (财富+3, 幸福-1)",
+              "effects": {
+                "wealth": 3,
+                "happiness": -1
+              },
+              "feedback": [
+                "工作狂模式。",
+                "先立业后成家。"
+              ]
+            },
+            "B": {
+              "text": "寻找伴侣 (魅力+2, 运气+1)",
+              "effects": {
+                "charisma": 2,
+                "luck": 1
+              },
+              "feedback": [
+                "想脱单了。",
+                "渴望爱情。"
+              ]
+            },
+            "C": {
+              "text": "躺平 (幸福+2, 财富-1)",
+              "effects": {
+                "happiness": 2,
+                "wealth": -1
+              },
+              "feedback": [
+                "躺平即正义。",
+                "反内卷先锋。"
+              ]
+            }
+          }
+        },
+        {
+          "id": "ev_legacy_by_age_30s_1",
+          "desc": "你的事业到了一个瓶颈期。",
+          "options": {
+            "A": {
+              "text": "转行冒险 (运气+2, 财富-2)",
+              "effects": {
+                "luck": 2,
+                "wealth": -2
+              },
+              "feedback": [
+                "跳出舒适圈。",
+                "不破不立。"
+              ]
+            },
+            "B": {
+              "text": "深耕本行 (智力+1, 财富+1)",
+              "effects": {
+                "intelligence": 1,
+                "wealth": 1
+              },
+              "feedback": [
+                "坚持就是胜利。",
+                "术业有专攻。"
+              ]
+            },
+            "C": {
+              "text": "找贵人提携 (魅力+2, 运气+1)",
+              "effects": {
+                "charisma": 2,
+                "luck": 1
+              },
+              "feedback": [
+                "人脉的力量。",
+                "抱大腿。"
+              ]
+            }
+          }
+        }
+      ],
+      "40s": [
+        {
+          "id": "ev_legacy_by_age_40s_0",
+          "desc": "中年危机来了，你开始怀疑人生。",
+          "options": {
+            "A": {
+              "text": "开始养生 (力量+2, 财富-1)",
+              "effects": {
+                "strength": 2,
+                "wealth": -1
+              },
+              "feedback": [
+                "保温杯里泡枸杞。",
+                "养生达人。"
+              ]
+            },
+            "B": {
+              "text": "追求第二春 (魅力+2, 运气-1)",
+              "effects": {
+                "charisma": 2,
+                "luck": -1
+              },
+              "feedback": [
+                "中年叛逆。",
+                "追求刺激。"
+              ]
+            },
+            "C": {
+              "text": "佛系面对 (幸福+1)",
+              "effects": {
+                "happiness": 1
+              },
+              "feedback": [
+                "一切随缘。",
+                "佛系中年。"
+              ]
+            }
+          }
+        }
+      ],
+      "50s": [
+        {
+          "id": "ev_legacy_by_age_50s_0",
+          "desc": "年过半百，你开始思考退休生活。",
+          "options": {
+            "A": {
+              "text": "提前退休 (幸福+2, 财富-3)",
+              "effects": {
+                "happiness": 2,
+                "wealth": -3
+              },
+              "feedback": [
+                "享受生活。",
+                "早退早享受。"
+              ]
+            },
+            "B": {
+              "text": "继续工作 (财富+2, 力量-1)",
+              "effects": {
+                "wealth": 2,
+                "strength": -1
+              },
+              "feedback": [
+                "还能再干几年。",
+                "闲不下来。"
+              ]
+            },
+            "C": {
+              "text": "发展爱好 (智力+1, 幸福+1)",
+              "effects": {
+                "intelligence": 1,
+                "happiness": 1
+              },
+              "feedback": [
+                "活到老学到老。",
+                "培养新兴趣。"
+              ]
+            }
+          }
+        }
+      ],
+      "60+": [
+        {
+          "id": "ev_legacy_by_age_60plus_0",
+          "desc": "退休了，你终于可以享受生活了。",
+          "options": {
+            "A": {
+              "text": "含饴弄孙 (幸福+1, 力量-1)",
+              "effects": {
+                "happiness": 1,
+                "strength": -1
+              },
+              "feedback": [
+                "天伦之乐。",
+                "累并快乐着。"
+              ]
+            },
+            "B": {
+              "text": "周游世界 (魅力+2, 财富-2)",
+              "effects": {
+                "charisma": 2,
+                "wealth": -2
+              },
+              "feedback": [
+                "实现梦想。",
+                "走遍天下。"
+              ]
+            },
+            "C": {
+              "text": "在公园下棋 (智力+1, EI+1)",
+              "effects": {
+                "intelligence": 1,
+                "EI": 1
+              },
+              "feedback": [
+                "悠闲晚年。",
+                "老有所乐。"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

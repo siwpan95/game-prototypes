@@ -1,0 +1,53 @@
+{
+  "_meta": {
+    "schema": "achievements/v1",
+    "description": "成就库 40 个。5 类：milestone(8)里程碑 / stat_extreme(8)属性极限 / ending_collection(8)结局收集 / weird(10)奇葩 / hidden(6)隐藏。12 个绑定 unlocks(新天赋id/新卡池id/新出身选项id)，落实'成就解锁扩池'。trigger 描述判定条件，由表现层/引擎对照执行。hidden=true 时图鉴显示???，触发时才显示名称。",
+    "trigger_format": "trigger 字段为条件描述(语义化)，引擎解析时支持: stat(单属性值), stats_all(全属性≥), age, runs(累计局数), endings_count, endings_set(指定结局id集合), choices_direction(连续选向), tag_events(标签事件累计), money_bankruptcies, relationship_state, talent_picked, career_reached, mode, special(语义化特殊条件)。"
+  },
+  "achievements": [
+    {"id": "ach_first_run", "name": "人生初体验", "category": "milestone", "hidden": false, "trigger": {"runs": 1}, "description": "完成你的人生第一局。无论结局如何，你迈出了第一步。", "unlocks": [], "score_bonus": 10},
+    {"id": "ach_ten_runs", "name": "十级人生玩家", "category": "milestone", "hidden": false, "trigger": {"runs": 10}, "description": "你玩满了十局。研究表明，到这个数字的人，多半已经上瘾了。", "unlocks": ["tal_veteran_soul"], "score_bonus": 50},
+    {"id": "ach_fifty_runs", "name": "百折不挠", "category": "milestone", "hidden": false, "trigger": {"runs": 50}, "description": "五十次重开。你比大多数婚姻坚持得都久。", "unlocks": ["pool_meta_cards"], "score_bonus": 200},
+    {"id": "ach_centenarian", "name": "百岁老人", "category": "milestone", "hidden": false, "trigger": {"age": 100}, "description": "活到了一百岁。蛋糕上的蜡烛比你吹过的所有愿望都多。", "unlocks": [], "score_bonus": 80},
+    {"id": "ach_octogenarian", "name": "耄耋之年", "category": "milestone", "hidden": false, "trigger": {"age": 80}, "description": "活到了八十岁，开始被年轻人叫爷爷/奶奶。", "unlocks": [], "score_bonus": 40},
+    {"id": "ach_survive_crisis", "name": "劫后余生", "category": "milestone", "hidden": false, "trigger": {"special": "任一危机维度归零后存活超过5年"}, "description": "你从一次致命危机里爬了回来。从此你不再相信'绝境'这个词。", "unlocks": [], "score_bonus": 60},
+    {"id": "ach_all_modes", "name": "三栖玩家", "category": "milestone", "hidden": false, "trigger": {"special": "三种game_mode(traditional/reigns/cultivation)各完成一局"}, "description": "传统、王权、修行，三种人生你都体验过了。", "unlocks": [], "score_bonus": 70},
+    {"id": "ach_first_ending", "name": "第一种结局", "category": "milestone", "hidden": false, "trigger": {"endings_count": 1}, "description": "你解锁了第一个结局。还有59种在等你。", "unlocks": [], "score_bonus": 10},
+
+    {"id": "ach_stat_single_20", "name": "单项登顶", "category": "stat_extreme", "hidden": false, "trigger": {"stat_max": 20}, "description": "某项属性达到了20。你已经把这一项练到了人类的极限。", "unlocks": ["tal_specialist"], "score_bonus": 90},
+    {"id": "ach_stat_all_10", "name": "六边形战士", "category": "stat_extreme", "hidden": false, "trigger": {"stats_all": 10}, "description": "全属性都达到了10。你是个没有短板的人——这可能也是一种短板。", "unlocks": [], "score_bonus": 120},
+    {"id": "ach_zero_wealth_alive", "name": "一贫如洗", "category": "stat_extreme", "hidden": false, "trigger": {"special": "财富=0仍存活超过10年"}, "description": "你身无分文却还活着。钱对你来说已经是个抽象概念。", "unlocks": [], "score_bonus": 70},
+    {"id": "ach_zero_health_alive", "name": "命悬一线", "category": "stat_extreme", "hidden": false, "trigger": {"special": "健康≤5仍存活超过5年"}, "description": "健康见底你却没倒下。医生说这是奇迹，你说这是倔。", "unlocks": [], "score_bonus": 80},
+    {"id": "ach_luck_zero", "name": "非酋本酋", "category": "stat_extreme", "hidden": false, "trigger": {"stat": "luck", "value": 0}, "description": "运气归零。你出门能踩到没有的坑，喝水能呛到没有的气。", "unlocks": ["tal_curse_bad_luck"], "score_bonus": 50},
+    {"id": "ach_charisma_max", "name": "万人迷", "category": "stat_extreme", "hidden": false, "trigger": {"stat": "charisma", "value": 20}, "description": "魅力拉满。陌生人见你会笑，流浪猫见你也蹭你的腿。", "unlocks": [], "score_bonus": 90},
+    {"id": "ach_intelligence_max", "name": "天才", "category": "stat_extreme", "hidden": false, "trigger": {"stat": "intelligence", "value": 20}, "description": "智力封顶。你能在脑子里同时算七位数乘法和今晚吃什么。", "unlocks": [], "score_bonus": 90},
+    {"id": "ach_strength_max", "name": "大力出奇迹", "category": "stat_extreme", "hidden": false, "trigger": {"stat": "strength", "value": 20}, "description": "力量满值。搬家公司请你做代言，你嫌他们运费太贵。", "unlocks": [], "score_bonus": 90},
+
+    {"id": "ach_endings_10", "name": "结局收藏家", "category": "ending_collection", "hidden": false, "trigger": {"endings_count": 10}, "description": "解锁了10种结局。你的人生版图开始变得丰富。", "unlocks": [], "score_bonus": 60},
+    {"id": "ach_endings_30", "name": "人生百科", "category": "ending_collection", "hidden": false, "trigger": {"endings_count": 30}, "description": "解锁了30种结局。半数人生已被你穷尽。", "unlocks": ["pool_rare_endings_events"], "score_bonus": 150},
+    {"id": "ach_endings_60", "name": "全结局达成", "category": "ending_collection", "hidden": false, "trigger": {"endings_count": 60}, "description": "你解锁了全部60种结局。从今天起，没有'如果'能难倒你。", "unlocks": ["tal_omniscient"], "score_bonus": 500},
+    {"id": "ach_all_legendary_endings", "name": "传说收割机", "category": "ending_collection", "hidden": false, "trigger": {"endings_set": ["end_cultivation_ascend", "end_legend_richest", "end_legend_immortalized", "end_reigns_church_saint", "end_reigns_army_conqueror"]}, "description": "集齐了全部传说结局。你的人生是教科书级别的传奇。", "unlocks": [], "score_bonus": 300},
+    {"id": "ach_all_death_endings", "name": "死法研究员", "category": "ending_collection", "hidden": false, "trigger": {"special": "解锁全部death类结局"}, "description": "你解锁了所有死亡结局。希望这只是游戏里的成就。", "unlocks": [], "score_bonus": 120},
+    {"id": "ach_hidden_endings", "name": "隐藏猎手", "category": "ending_collection", "hidden": false, "trigger": {"special": "解锁全部12个hidden类结局"}, "description": "你找到了所有隐藏结局。开发者表示很欣慰——终于有人发现了。", "unlocks": [], "score_bonus": 180},
+    {"id": "ach_reigns_all_titles", "name": "万王之王", "category": "ending_collection", "hidden": false, "trigger": {"special": "解锁全部reigns称号结局"}, "description": "你集齐了王权模式所有称号。史官该为你单独写一卷。", "unlocks": [], "score_bonus": 150},
+    {"id": "ach_emo_endings", "name": "感情专家", "category": "ending_collection", "hidden": false, "trigger": {"special": "解锁全部emotion类结局"}, "description": "你体验了所有情感结局。从白头偕老到众叛亲离，你都走过了。", "unlocks": [], "score_bonus": 100},
+
+    {"id": "ach_bankrupt_thrice", "name": "破产三连", "category": "weird", "hidden": false, "trigger": {"special": "单局内财富三次跌至0以下"}, "description": "你在一局里破产了三次。每次都说'这是最后一次'，每次都不是。", "unlocks": [], "score_bonus": 70},
+    {"id": "ach_reject_all_kindness", "name": "铁石心肠", "category": "weird", "hidden": false, "trigger": {"special": "单局内拒绝所有正面善意选项"}, "description": "你拒绝了所有递过来的橄榄枝。世界对你伸出的手，你一一打掉。", "unlocks": [], "score_bonus": 60},
+    {"id": "ach_left_five_times", "name": "左手选手", "category": "weird", "hidden": false, "trigger": {"choices_direction": "left", "count": 5}, "description": "连续五次选了左边。你的人生像是被按了左转键。", "unlocks": [], "score_bonus": 40},
+    {"id": "ach_right_ten_times", "name": "右撇子人生", "category": "weird", "hidden": false, "trigger": {"choices_direction": "right", "count": 10}, "description": "连续十次选了右边。你的人生一路向右，再也回不了头。", "unlocks": [], "score_bonus": 50},
+    {"id": "ach_no_education_success", "name": "自学成才", "category": "weird", "hidden": false, "trigger": {"special": "education=none且wealth≥10"}, "description": "你没读过书却混出了头。学历这东西，被你证伪了。", "unlocks": ["bg_drop_out_origin"], "score_bonus": 100},
+    {"id": "ach_all_stats_zero_alive", "name": "归零者", "category": "weird", "hidden": false, "trigger": {"special": "全属性≤2仍存活超过3年"}, "description": "你的所有属性都接近归零，却还活着。这本身就是一个悖论。", "unlocks": [], "score_bonus": 110},
+    {"id": "ach_married_thrice", "name": "三次红毯", "category": "weird", "hidden": false, "trigger": {"special": "单局内结婚3次"}, "description": "你走过三次红毯。司仪都熟了，给你打了八折。", "unlocks": [], "score_bonus": 60},
+    {"id": "ach_change_career_five", "name": "斜杠青年", "category": "weird", "hidden": false, "trigger": {"special": "单局内更换5次以上不同门类职业"}, "description": "你换了五个行业。简历写得像盗梦空间，HR看完愣了三秒。", "unlocks": [], "score_bonus": 70},
+    {"id": "ach_zero_friend", "name": "孤狼", "category": "weird", "hidden": false, "trigger": {"special": "relationships_friend=0且活到60岁"}, "description": "你一辈子没交到朋友，却活到了六十。你说'我一个人也行'——其实你也是这么过来的。", "unlocks": [], "score_bonus": 80},
+    {"id": "ach_chase_dream_late", "name": "大器晚成", "category": "weird", "hidden": false, "trigger": {"special": "50岁后首次切换到梦想相关职业并达到tier≥3"}, "description": "你五十岁才去追那个被搁置半生的梦。结果居然成了。", "unlocks": [], "score_bonus": 90},
+
+    {"id": "ach_secret_box_opened", "name": "盒子打开了", "category": "hidden", "hidden": true, "trigger": {"special": "持有tal_tianlongren... wait, 持有神秘小盒子天赋并活过100岁触发修行线"}, "description": "你打开了那个跟随你百年的小盒子。里面的东西，比你想的简单，也比你想的重。", "unlocks": ["mode_cultivation_unlock"], "score_bonus": 250},
+    {"id": "ach_secret_three_lives", "name": "三生有幸", "category": "hidden", "hidden": true, "trigger": {"special": "连续3局继承同一天赋"}, "description": "你把同一个天赋带了三辈子。它已经不只是天赋，是你的执念。", "unlocks": [], "score_bonus": 130},
+    {"id": "ach_secret_perfect_run", "name": "完美人生", "category": "hidden", "hidden": true, "trigger": {"special": "单局全属性≥12且活过80岁且解锁happy类结局"}, "description": "你度过了真正'完美'的一生。这种完美稀有到，连游戏都不太相信。", "unlocks": ["tal_perfect_soul"], "score_bonus": 400},
+    {"id": "ach_secret_betray_reign", "name": "篡位者", "category": "hidden", "hidden": true, "trigger": {"special": "reigns模式下NOBLES≥90且MORALITY≤10"}, "description": "你架空了王权。史书没给你留好话，但你不在乎——赢家写史。", "unlocks": [], "score_bonus": 160},
+    {"id": "ach_secret_pacifist", "name": "不杀一人", "category": "hidden", "hidden": true, "trigger": {"special": "reigns模式下通关且STRENGTH从未超过30"}, "description": "你以仁治天下，从不动武。史官不解，百姓懂你。", "unlocks": [], "score_bonus": 140},
+    {"id": "ach_secret_mirror", "name": "镜中人", "category": "hidden", "hidden": true, "trigger": {"special": "连续3局选择相同出身且结局完全相同"}, "description": "你三次开了同样的局，得到了同样的结局。你以为这是命运，其实是习惯。", "unlocks": [], "score_bonus": 150}
+  ]
+}
