@@ -1,9 +1,9 @@
 # 地牢冒险者 (Dungeon Delver)
 
-> **G:\example + G:\alloy = 一个完整的、可以运行的游戏。**
+> **内联 alloy 引擎 + 内联 procgen 世界生成 = 一个完整的、可以运行的游戏。**
+> 独立仓 siwpan/sandbox（一仓一目录）。
 
-把 `G:\example` 里 `procgen` 的程序化**世界生成**能力，
-与 `G:\alloy` 的**游戏引擎**熔接成一个真正能玩的
+把 procgen 的程序化**世界生成**能力，与 alloy 游戏引擎熔接成一个真正能玩的
 **回合制 Roguelike 地牢探险游戏**。
 
 - `procgen` 负责「造世界」：地牢/洞穴几何、怪物名字、宝箱掉落风味。
@@ -24,10 +24,10 @@
 ## 自包含 / 零跨项目耦合
 
 按「复制即复用」原则，本游戏把两个库**内联**进项目，
-运行时不再依赖 `G:\alloy` 或 `G:\tools\procgen`：
+运行时不再依赖任何外部项目路径（引擎 patch 记录见 `engine.patch.yaml`）：
 
 ```
-G:\game\
+sandbox/
 ├── alloy/     # 内联引擎源码（完整镜像：含 fonts/ 字体、example 脚本、.github CI）
 ├── procgen/         # 内联 procgen 包（含 cli.py / test_smoke.py / pyproject.toml 等完整外层）
 ├── entities.py      # ECS 组件 + 物品目录 + 怪物库
@@ -44,7 +44,7 @@ G:\game\
 （引擎渲染/音频用到 pygame/scipy/asteval，但本控制台游戏不依赖它们。）
 
 ```bat
-cd G:\game
+cd G:\repos\sandbox
 python run.py                 REM 交互游玩
 python run.py --seed 7       REM 换种子
 python run.py --floors 8     REM 更多层
@@ -129,7 +129,7 @@ python run.py --auto         REM 无头自动演示（自检，无需键盘）
 ### 测试
 
 ```bat
-cd G:\game
+cd G:\repos\sandbox
 python -m unittest tests.test_enhancements tests.test_gui -v
 ```
 
@@ -138,3 +138,7 @@ python -m unittest tests.test_enhancements tests.test_gui -v
 GUI 冒烟（构建 + 角色面板 + 升级三选一真实点击 + 深层远程怪与陷阱渲染；
 无显示环境自动跳过）。
 
+## 发布面与许可
+
+- gitee：siwpan/sandbox，release `v1.0.0`（Windows 可执行程序，PyInstaller）。
+- 许可：MIT · Copyright (c) 2026 siwpan
