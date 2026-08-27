@@ -1,45 +1,23 @@
 # kard
 
-#### 介绍
-打牌
+KARD：一款类《吸血鬼幸存者》+《杀戮尖塔》关键字玩法的无尽模式卡牌动作游戏（英文版）。
 
-#### 软件架构
-软件架构说明
+## 语言/类型
+Python 3（pygame-ce），ECS 架构，鼠标驱动的桌面 GUI 游戏。
 
+## 目录要点
+- `main.py`：入口（GUI 游戏循环）
+- `ecs.py` / `components.py`：实体组件系统与组件定义
+- `card_factory.py` / `enemy_factory.py`：卡牌与敌人工厂
+- `game_state.py` / `constants.py` / `excel_loader.py`：游戏状态、常量与 Excel 数据加载
+- `config/` `data/` `systems/`：配置、数据与各功能系统
+- `venv/`：本地虚拟环境；`requirements.txt`：依赖清单
 
-#### 安装教程
+## 运行方式与依赖
+```
+F:\Python314\python.exe main.py
+```
+依赖：`pygame-ce>=2.3.0`、`openpyxl>=3.1.0`（见 `requirements.txt`）。GUI 窗口游戏，运行后会阻塞等待交互。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-
-
----
-
-## 仓库索引标注（2026-08-25 · siwpan 统一治理）
-
-> 打牌游戏；本地对应 G:\games\kard。
-> 本标注为发布面统一追加，不改变原有内容。
+## 测试状态
+`py_compile` 语法检查 13 个 `.py` 全部通过；GUI（pygame）未做自动运行。
