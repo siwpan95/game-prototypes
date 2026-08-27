@@ -1,45 +1,30 @@
-# 十二试炼
+# TwelveLabors
 
-#### 介绍
-十二试炼
+十二试炼：神话重构。
 
-#### 软件架构
-软件架构说明
+## 简介
+希腊神话十二试炼题材的文字冒险 / roguelite 游戏，支持三种界面：Tkinter（默认）、pygame、控制台；数据（角色、遗物、结局、随机事件、章节）以 JSON + Excel 管理，含解锁系统与存档。
 
+## 语言 / 类型
+- 语言：Python
+- 类型：桌面 GUI 游戏（tkinter / pygame / 控制台多 UI）
 
-#### 安装教程
+## 目录要点
+- `main.py`：主入口（`--ui tkinter|console|pygame`、`--import-excel`、`--gen-template` 等参数）
+- `src/`：`game_engine.py`（引擎）、`ui_tkinter.py`、`ui_pygame.py`、`ui_console.py`、`unlock_manager.py`、`validate_data.py`
+- `data/`：角色、结局、遗物、随机事件、章节等 JSON；`saves/`：存档
+- `excel_importer.py`、`generate_template.py`、`TwelveLabors.xlsx`：Excel 导入/模板生成
+- `docs/`：设计文档；`dist/`：打包 exe；`run.bat` / `run.sh`：启动脚本
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 运行方式与依赖
+```
+python main.py                 # 默认 tkinter 界面
+python main.py --console       # 控制台界面
+python main.py --ui=pygame     # pygame 界面
+python main.py --import-excel --check   # 校验 Excel 数据
+```
+- 依赖：tkinter（默认，随 Python 提供）；pygame（可选）；Excel 导入/模板需 `openpyxl`（当前环境未安装）。
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-
-
----
-
-## 仓库索引标注（2026-08-25 · siwpan 统一治理）
-
-> 十二试炼；本地对应 G:\games\TwelveLabors。
-> 本标注为发布面统一追加，不改变原有内容。
+## 测试状态
+- `py_compile` 语法检查：通过（10 个 .py）。
+- 运行：默认 GUI，未实际启动；Excel 导入功能依赖未安装的 openpyxl。
