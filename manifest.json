@@ -1,0 +1,8 @@
+{
+  "name": "sign-in-simulator",
+  "version": "1.0.0",
+  "entry": "qiandao.pyw",
+  "interface": ["fetch"],
+  "description": "签到工具（站点签到族）",
+  "python": "auto"
+}
