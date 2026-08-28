@@ -1,4 +1,4 @@
-# Build and Release Folders
+﻿# Build and Release Folders
 bin-debug/
 bin-release/
 [Oo]bj/
@@ -16,3 +16,7 @@ bin-release/
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
+# Python 产物 + 运行时状态（2026-08-28 治理）
+__pycache__/
+*.pyc
+qiandao_state.json
