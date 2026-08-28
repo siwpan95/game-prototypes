@@ -1,5 +1,63 @@
 [
   {
+    "id": "ending_abyss_return",
+    "name": "深渊归来",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "flag", "name": "fed_companions", "value": true}
+      ]
+    },
+    "text": "你以追随者的血肉喂食了地狱犬，从此冥界的气息再未离开你。你从深渊归来，却不再是人。你成了行走的死亡，连诸神都不敢直视你的眼睛。"
+  },
+  {
+    "id": "ending_mad_king",
+    "name": "疯王",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "疯狂", "op": ">=", "value": 18}
+      ]
+    },
+    "text": "疯狂彻底吞噬了你的王座。你在空旷的宫殿中自言自语，对着不存在的臣民发号施令。你是英雄，也是疯子——但没人分得清哪个才是真的。"
+  },
+  {
+    "id": "ending_destroyer",
+    "name": "弑神者",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "神恩", "op": "<=", "value": -3},
+        {"type": "stat", "name": "疯狂", "op": ">=", "value": 8}
+      ]
+    },
+    "text": "你挣脱所有枷锁，奥林匹斯在战栗中崩塌。世界将记住你，以恐惧之名。"
+  },
+  {
+    "id": "ending_beast",
+    "name": "无名野兽",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "疯狂", "op": ">=", "value": 15},
+        {"type": "stat", "name": "荣耀", "op": "<=", "value": 5}
+      ]
+    },
+    "text": "荣耀熄灭，疯狂燃烧。你不再记得自己的名字，只记得撕咬与咆哮。你成了传说中那头无名的野兽，在荒野中游荡，直到时间的尽头。"
+  },
+  {
+    "id": "ending_nameless",
+    "name": "无名之辈",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "荣耀", "op": "<=", "value": 0},
+        {"type": "counter", "name": "labors_completed", "op": ">=", "value": 3}
+      ]
+    },
+    "text": "你的名字无人知晓。你完成了试炼，却没有人传唱。你消失在历史的尘埃里，仿佛从未存在过。"
+  },
+  {
     "id": "ending_immortal",
     "name": "升格半神",
     "condition": {
@@ -25,16 +83,39 @@
     "text": "你力竭而亡，但吟游诗人将传唱你的名字，直到诸神黄昏。"
   },
   {
-    "id": "ending_destroyer",
-    "name": "弑神者",
+    "id": "ending_kratos_rebirth",
+    "name": "战神重生",
     "condition": {
       "logic": "AND",
       "rules": [
-        {"type": "stat", "name": "神恩", "op": "<=", "value": -3},
-        {"type": "stat", "name": "疯狂", "op": ">=", "value": 8}
+        {"type": "stat", "name": "力量", "op": ">=", "value": 18},
+        {"type": "stat", "name": "疯狂", "op": ">=", "value": 12}
       ]
     },
-    "text": "你挣脱所有枷锁，奥林匹斯在战栗中崩塌。世界将记住你，以恐惧之名。"
+    "text": "奎托斯的愤怒超越了人类的极限，他不再是任何神明的工具。斯巴达的幽灵，已成为行走的灾难。"
+  },
+  {
+    "id": "ending_beowulf_legend",
+    "name": "不朽传奇",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "stat", "name": "荣耀", "op": ">=", "value": 20},
+        {"type": "counter", "name": "labors_completed", "op": "==", "value": 3}
+      ]
+    },
+    "text": "贝奥武夫的事迹被刻进北境的岩石，永世流传。英雄不死，英雄只是化成了传说。"
+  },
+  {
+    "id": "ending_ascended",
+    "name": "升神",
+    "condition": {
+      "logic": "AND",
+      "rules": [
+        {"type": "path_sequence", "value": ["divine", "divine", "divine"]}
+      ]
+    },
+    "text": "你直面神明，并取而代之。奥林匹斯的王座已易主。"
   },
   {
     "id": "ending_beastmaster",
@@ -57,40 +138,5 @@
       ]
     },
     "text": "你用智慧征服所有考验，但世人畏惧你的城府。你注定孤独。"
-  },
-  {
-    "id": "ending_ascended",
-    "name": "升神",
-    "condition": {
-      "logic": "AND",
-      "rules": [
-        {"type": "path_sequence", "value": ["divine", "divine", "divine"]}
-      ]
-    },
-    "text": "你直面神明，并取而代之。奥林匹斯的王座已易主。"
-  },
-  {
-    "id": "ending_beowulf_legend",
-    "name": "不朽传奇",
-    "condition": {
-      "logic": "AND",
-      "rules": [
-        {"type": "stat", "name": "荣耀", "op": ">=", "value": 20},
-        {"type": "counter", "name": "labors_completed", "op": "==", "value": 3}
-      ]
-    },
-    "text": "贝奥武夫的事迹被刻进北境的岩石，永世流传。英雄不死，英雄只是化成了传说。"
-  },
-  {
-    "id": "ending_kratos_rebirth",
-    "name": "战神重生",
-    "condition": {
-      "logic": "AND",
-      "rules": [
-        {"type": "stat", "name": "力量", "op": ">=", "value": 18},
-        {"type": "stat", "name": "疯狂", "op": ">=", "value": 12}
-      ]
-    },
-    "text": "奎托斯的愤怒超越了人类的极限，他不再是任何神明的工具。斯巴达的幽灵，已成为行走的灾难。"
   }
 ]

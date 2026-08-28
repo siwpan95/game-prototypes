@@ -10,10 +10,11 @@ datas = [
 
 a = Analysis(
     ['main.py'],
-    pathex=[],
+    pathex=['src'],
     binaries=[],
     datas=datas,
-    hiddenimports=[],
+    hiddenimports=['excel_importer', 'generate_template', 'validate_data',
+                   'ui_tkinter', 'ui_console', 'ui_pygame'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

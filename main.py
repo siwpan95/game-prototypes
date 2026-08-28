@@ -2,6 +2,10 @@ import sys
 import json
 import os
 from pathlib import Path
+
+# 核心源码位于 src/ 目录，加入模块搜索路径
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src'))
+
 from game_engine import GameEngine
 from unlock_manager import UnlockManager
 
@@ -67,6 +71,17 @@ def main():
     # ── 特殊操作参数（Excel 导入/生成模板）──
     if _handle_excel_import(sys.argv[1:]):
         return
+
+    # ── 启动前数据校验 ──
+    try:
+        from validate_data import validate_all
+        _verrors = validate_all(_data_path('data'))
+        if _verrors:
+            print("[数据校验警告] 发现以下问题：")
+            for _ve in _verrors:
+                print("  -", _ve)
+    except Exception as _ve:
+        print(f"[数据校验跳过] {_ve}")
 
     # 解析启动参数：--ui tkinter/console/pygame（默认 tkinter）
     ui_mode = "tkinter"
