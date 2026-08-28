@@ -20,3 +20,8 @@ bin-release/
 __pycache__/
 *.pyc
 qiandao_state.json
+
+# 打包产物（2026-08-28 治理）
+*.spec
+build/
+dist/
