@@ -18,9 +18,9 @@ import importlib.util
 from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────
-BASE = Path("C:/Users/13122/Desktop/stay/hell below")
-CH_DIR = BASE / "ch"
-HELL_BELOW = BASE / "hell_below"
+BASE = Path(__file__).resolve().parent
+CH_DIR = BASE  # 游戏目录在仓根（原 ch/ 布局已随建仓迁移）
+HELL_BELOW = BASE / "launcher"
 
 sys.path.insert(0, str(CH_DIR))
 sys.path.insert(0, str(HELL_BELOW / "src"))

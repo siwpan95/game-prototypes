@@ -1,8 +1,8 @@
 """Quick test: launch one game and report result."""
-import subprocess, sys, time
+import os, subprocess, sys, time
 
-main_py = r"c:\Users\13122\Desktop\stay\hell below\ch\NathanWinters_CN\main.py"
-cwd = r"c:\Users\13122\Desktop\stay\hell below\ch\NathanWinters_CN"
+main_py = os.path.join(os.path.dirname(os.path.abspath(__file__)), "NathanWinters_CN", "main.py")
+cwd = os.path.dirname(main_py)
 
 proc = subprocess.Popen(
     [sys.executable, main_py],

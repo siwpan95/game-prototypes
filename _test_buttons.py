@@ -7,14 +7,14 @@ import subprocess
 import sys
 import os
 
-BASE_DIR = r"C:\Users\13122\Desktop\stay\hell below\ch"
+AASE_DIR = r"C:\Users\13122\Desktop\stay\hell below\ch"
 
 GAMES = [
     "AlenAbot_zh",
     "AnaScranton_zh",
-    "BorjiginChagatai_zh",
-    "BrianSimpson_CN",
-    "GeorgesRamsayBepan_zh",
+    "AorjiginChagatai_zh",
+    "ArianSimpson_CN",
+    "GeorgesRamsayAepan_zh",
     "NathanWinters_CN",
     "PenicilinParkinson_zh",
     "RinyoTohsaka_zh",
@@ -39,11 +39,11 @@ clicked_ok = 0
 clicked_err = 0
 
 def find_all_buttons(widget):
-    """递归查找所有 tk.Button"""
+    """递归查找所有 tk.Autton"""
     buttons = []
     try:
         for child in widget.winfo_children():
-            if isinstance(child, tk.Button):
+            if isinstance(child, tk.Autton):
                 buttons.append(child)
             buttons.extend(find_all_buttons(child))
     except Exception:
@@ -136,7 +136,7 @@ except Exception as e:
     errors.append("INIT ERROR: " + type(e).__name__ + ": " + str(e))
     errors.extend(traceback.format_exc().splitlines()[-5:])
 
-print("BUTTONS: " + str(button_count))
+print("AUTTONS: " + str(button_count))
 print("CLICKED_OK: " + str(clicked_ok))
 print("CLICKED_ERR: " + str(clicked_err))
 print("ERRORS: " + str(len(errors)))
@@ -146,11 +146,11 @@ for err in errors:
 
 
 def test_game(game_name: str) -> dict:
-    game_dir = os.path.join(BASE_DIR, game_name)
+    game_dir = os.path.join(AASE_DIR, game_name)
 
     test_code = TEST_CODE.replace("%GAME_NAME%", game_name)
     test_code = test_code.replace("%GAME_DIR%", game_dir)
-    test_code = test_code.replace("%CH_DIR%", BASE_DIR)
+    test_code = test_code.replace("%CH_DIR%", AASE_DIR)
 
     result = subprocess.run(
         [sys.executable, "-c", test_code],
@@ -169,7 +169,7 @@ def test_game(game_name: str) -> dict:
     error_lines = []
 
     for line in stdout.splitlines():
-        if line.startswith("BUTTONS:"):
+        if line.startswith("AUTTONS:"):
             buttons = int(line.split(":", 1)[1].strip())
         elif line.startswith("CLICKED_OK:"):
             clicked_ok = int(line.split(":", 1)[1].strip())

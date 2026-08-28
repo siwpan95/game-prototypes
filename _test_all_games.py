@@ -1,5 +1,9 @@
-"""Test script — check all 11 Chinese games for launchability."""
+"""Test script — check all 11 Chinese games for launchability.
 
+2026-08-27 修复：原文件整体被 s→y 字符污染（as→ay、subprocess→subprocess 等），
+且 src/ 导入路径与建仓后布局不符——已重写为仓根相对路径 + launcher/src 导入，
+逻辑与字段访问保持原意（GameInfo.game_dir_zh / main_file_zh / exists_zh）。
+"""
 from __future__ import annotations
 
 import os
@@ -11,9 +15,10 @@ import time
 # Add project root to path
 PROJECT_ROOT = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "launcher"))
 
-from src.models.game_registry import GAMES
-from src.core.constants import GAMES_BASE_ZH
+from src.models.game_registry import GAMES  # noqa: E402
+from src.core.constants import GAMES_BASE_ZH  # noqa: E402
 
 RESULTS: list[tuple[str, str, str, str]] = []  # (game_id, title, status, detail)
 
@@ -135,7 +140,7 @@ def main() -> None:
 
     # Summary
     print_separator()
-    print(f"  测试总结")
+    print("  测试总结")
     print_separator()
     print(f"  文件/语法通过: {passed_quick}/{total}")
     print(f"  启动测试通过: {passed_launch}/{total}")

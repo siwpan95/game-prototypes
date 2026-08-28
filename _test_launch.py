@@ -8,10 +8,10 @@ import sys
 import subprocess
 import time
 
-BASE = r"C:\Users\13122\Desktop\stay\hell below\ch"
+BASE = os.path.dirname(os.path.abspath(__file__))
 
 PROJECTS = sorted([
-    d for d in os.listdir(BASE)
+    d for d in os.listdir(BASE) if d.endswith("_zh") or d.endswith("_CN")
     if os.path.isdir(os.path.join(BASE, d)) and not d.startswith(".")
 ])
 
