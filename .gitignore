@@ -1,0 +1,8 @@
+﻿
+
+# 未跟踪产物/输出治理（2026-08-28）
+__pycache__/
+dist/
+MC1/saves/
+release/
+saves/
