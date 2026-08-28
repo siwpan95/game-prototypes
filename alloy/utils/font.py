@@ -495,7 +495,13 @@ def load_cjk_tk_font(
             except tk.TclError:
                 pass
 
-    # 4. 兜底
+    # 4. 兜底（需默认根窗口：无头 / 测试线程下保证 font 可用）
+    if tk._default_root is None:
+        try:
+            default_root = tk.Tk()
+            default_root.withdraw()
+        except tk.TclError:
+            pass
     return tkfont.Font(size=size, weight=weight)
 
 

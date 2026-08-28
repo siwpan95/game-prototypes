@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from alloy.core.context import (
     Context,
+    DuplicateScopeError,
     DuplicateServiceError,
     MissingDependencyError,
 )
@@ -161,6 +162,175 @@ def test_context_install_apply_returns_disposer():
     ctx = Context()
     ctx.install(P())
     assert ctx.get("p_svc") == 1
+
+
+# ── fork 双作用域（Cordis fork / reusable 语义） ─────────
+
+def test_context_fork_named_scope():
+    ctx = Context()
+    fork = ctx.fork("arena")
+    assert fork.name == "arena"
+    assert fork.parent() is ctx
+    assert ("arena", fork) in ctx.scopes()
+
+
+def test_context_fork_duplicate_name_raises():
+    ctx = Context()
+    ctx.fork("arena")
+    try:
+        ctx.fork("arena")
+        raise AssertionError("应当抛 DuplicateScopeError")
+    except DuplicateScopeError:
+        pass
+
+
+def test_context_fork_dispose_detaches_and_reusable():
+    ctx = Context()
+    a = ctx.fork("arena")
+    a.dispose()
+    assert ctx.scopes() == []
+    b = ctx.fork("arena")  # 同名可复用：旧实例销毁后自动摘除
+    assert b.name == "arena"
+    b.dispose()
+    assert ctx.scopes() == []
+
+
+def test_context_fork_isolated_rollback():
+    ctx = Context()
+    ctx.provide("svc", "parent")
+    order = []
+    fork = ctx.fork("f")
+    fork.provide("svc", "child")  # shadow 父层
+    fork.effect(lambda: order.append("fx"))
+    fork.provide("tmp", 1, dispose=lambda: order.append("disposed"))
+    assert fork.get("svc") == "child"
+    assert ctx.get("svc") == "parent"
+    assert fork.get("tmp") == 1
+    fork.dispose()
+    assert order == ["disposed", "fx"]  # 本层逆序回滚
+    assert ctx.get("svc") == "parent"
+    assert not ctx.has("tmp")  # 子层服务随作用域消失
+    assert not fork.has("tmp")
+
+
+def test_context_fork_install_isolated_instances():
+    ctx = Context()
+
+    class Counter:
+        name = "counter"
+
+        def apply(self, ctx, config):
+            ctx.provide("value", config["value"])
+            return None
+
+    f1 = ctx.fork_install(Counter(), {"value": 1})
+    f2 = ctx.fork_install(Counter(), {"value": 2})
+    assert f1.name == "counter#1"
+    assert f2.name == "counter#2"
+    assert f1.get("value") == 1
+    assert f2.get("value") == 2
+    f1.dispose()
+    assert f2.get("value") == 2  # 实例独立，互不影响
+    assert not f1.has("value")
+
+
+def test_context_fork_install_outer_once():
+    ctx = Context()
+    calls = []
+
+    class P:
+        name = "p"
+
+        def outer(self, ctx):
+            calls.append("outer")
+            ctx.provide("shared", {"count": 0})
+
+        def apply(self, ctx, config):
+            calls.append("apply")
+            shared = ctx.get("shared")  # 经父链取 outer 注册的共享状态
+            shared["count"] += 1
+            ctx.provide("local", shared["count"])
+            return None
+
+    a = ctx.fork_install(P())
+    b = ctx.fork_install(P())
+    assert calls == ["outer", "apply", "apply"]  # outer 只执行一次
+    assert ctx.get("shared")["count"] == 2  # 共享状态累计
+    assert a.get("local") == 1
+    assert b.get("local") == 2
+    a.dispose()  # 卸载实例只回滚 apply 副作用，outer 共享状态保留
+    assert ctx.get("shared")["count"] == 2
+
+
+def test_context_fork_install_apply_disposer_runs_on_dispose():
+    ctx = Context()
+    flags = []
+
+    class P:
+        name = "p2"
+
+        def apply(self, ctx, config):
+            return lambda: flags.append("p2-disposed")
+
+    fork = ctx.fork_install(P())
+    fork.dispose()
+    assert flags == ["p2-disposed"]
+
+
+def test_engine_mount_scoped_and_unmount():
+    engine = GameEngine()
+    engine.add_core()
+
+    class Greet:
+        name = "greet"
+
+        def apply(self, ctx, config):
+            ctx.provide("greeting", f"hi:{config['who']}")
+            return None
+
+    fork = engine.mount_scoped(Greet(), {"who": "allin"})
+    assert fork.name == "greet#1"
+    assert fork.get("greeting") == "hi:allin"  # 实例服务经 fork 句柄访问
+    assert engine.get("greeting") is None  # 依赖方向唯一：引擎层对 fork 服务不可见
+    assert engine.unmount("greet#1") is True
+    assert not fork.has("greeting")
+    assert engine.unmount("greet#1") is False  # 幂等：已卸载返回 False
+
+
+def test_engine_mount_scoped_multiple_instances():
+    engine = GameEngine()
+    engine.add_core()
+
+    class Room:
+        name = "room"
+
+        def apply(self, ctx, config):
+            ctx.provide("room_id", config["id"])
+            return None
+
+    engine.mount_scoped(Room(), {"id": "a"})
+    engine.mount_scoped(Room(), {"id": "b"})
+    ids = sorted(f.name + "=" + f.get("room_id") for _, f in engine.ctx.scopes())
+    assert ids == ["room#1=a", "room#2=b"]
+    engine.unmount("room#1")
+    assert [n for n, _ in engine.ctx.scopes()] == ["room#2"]
+
+
+def test_engine_shutdown_disposes_scoped_mounts():
+    engine = GameEngine()
+    engine.add_core()
+    flags = []
+
+    class P:
+        name = "p3"
+
+        def apply(self, ctx, config):
+            return lambda: flags.append("off")
+
+    engine.mount_scoped(P())
+    engine.shutdown()
+    assert flags == ["off"]
+    assert engine._scoped_mounts == {}
 
 
 # ── GameEngine 兼容层 ────────────────────────────────

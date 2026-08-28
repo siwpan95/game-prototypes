@@ -27,8 +27,8 @@ from typing import Any, Dict, List, Optional
 
 ENGINE_DIR = Path(__file__).resolve().parent
 
-#: 同步时忽略的目录（环境/版本控制/缓存，不属于引擎源码）
-PRUNE_DIRS = {".venv", "__pycache__", ".github", ".git", "saves"}
+#: 同步时忽略的目录（环境/版本控制/缓存/构建产物，不属于引擎源码）
+PRUNE_DIRS = {".venv", "__pycache__", ".github", ".git", "saves", "alloy.egg-info"}
 
 
 def _md5(path: Path) -> str:
@@ -155,22 +155,16 @@ def cmd_sync(args) -> int:
     if not project.is_dir():
         print(f"[错误] 项目目录不存在: {project}", file=sys.stderr)
         return 2
-    if args.engine_dir:
-        project_engine = Path(args.engine_dir).resolve()
-        if not project_engine.is_dir():
-            print(f"[错误] 引擎副本目录不存在: {project_engine}", file=sys.stderr)
-            return 2
-    else:
-        candidates = [
-            project / "alloy",
-            project / "tools" / "alloy",
-            project / "allin_engine",        # 旧名（未改名的内联副本）
-            project / "tools" / "allin_engine",
-        ]
-        project_engine = next((c for c in candidates if c.is_dir()), None)
-        if project_engine is None:
-            print(f"[错误] 未找到内联引擎副本（查找: {candidates}）", file=sys.stderr)
-            return 2
+    candidates = [
+        project / "alloy",
+        project / "tools" / "alloy",
+        project / "allin_engine",        # 旧名（未改名的内联副本）
+        project / "tools" / "allin_engine",
+    ]
+    project_engine = next((c for c in candidates if c.is_dir()), None)
+    if project_engine is None:
+        print(f"[错误] 未找到内联引擎副本（查找: {candidates}）", file=sys.stderr)
+        return 2
     reference = Path(args.reference).resolve() if args.reference else None
     exclude = [e for e in (args.exclude or "").split(",") if e]
     take_base = [t.strip() for t in (args.take_base or "").split(",") if t.strip()]
@@ -215,23 +209,15 @@ def cmd_sync(args) -> int:
 
     if args.apply:
         to_copy = result["upgrades"] + result["stale"] + result["take"]
-        if args.subset:
-            to_copy = result["stale"] + result["take"]  # 子集模式：不新增本体文件
         n_copied = 0
         for rel in to_copy:
             src = ENGINE_DIR / rel
             dst = project_engine / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dst)
-            if args.import_prefix:
-                text = dst.read_text(encoding="utf-8", errors="ignore")
-                text = text.replace("from alloy.", f"from {args.import_prefix}.")
-                text = text.replace("import alloy\n", f"import {args.import_prefix} as alloy\n")
-                dst.write_text(text, encoding="utf-8")
             n_copied += 1
         patch["upgrades_applied"] = to_copy
-        extra = "（子集模式：跳过本体新增）" if args.subset else ""
-        print(f"[apply] 已升级 {n_copied} 个文件（新增 {len(result['upgrades'])} / 覆盖过期 {len(result['stale'])} / 以本体为准 {len(result['take'])}）{extra}")
+        print(f"[apply] 已升级 {n_copied} 个文件（新增 {len(result['upgrades'])} / 覆盖过期 {len(result['stale'])} / 以本体为准 {len(result['take'])}）")
     else:
         print("[dry-run] 未改动任何文件")
 
@@ -343,9 +329,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     p_sync.add_argument("--apply", action="store_true", help="复制升级文件（保留定制与冲突）")
     p_sync.add_argument("--reference", help="旧版引擎副本路径（用于区分'过期'与'定制'）")
     p_sync.add_argument("--take-base", help="逗号分隔的 glob，命中文件一律以本体为准（如 test/*,core/event_bus.py）")
-    p_sync.add_argument("--engine-dir", help="引擎副本目录覆盖（默认按 alloy/allin_engine/tools/... 候选探测）")
-    p_sync.add_argument("--subset", action="store_true", help="子集模式：只更新已存在的文件，不新增本体文件（厂商裁剪副本用）")
-    p_sync.add_argument("--import-prefix", help="复制后把文件内 'from alloy.'/'import alloy' 改写为指定前缀（如 vendor.alloy）")
     p_sync.add_argument("--exclude", help="逗号分隔的排除子目录（除默认 PRUNE 外）")
 
     args = parser.parse_args(argv)

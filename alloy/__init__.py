@@ -311,6 +311,8 @@ class GameEngine:
         self.state: GameState | None = None
         self.log: WorldLog | None = None
         self._systems: dict[str, object] = {}
+        # fork 作用域挂载（mount_scoped）：name -> fork Context
+        self._scoped_mounts: dict[str, Context] = {}
         self.running: bool = False
         self.loop: FixedTimestepLoop | None = None
 
@@ -407,10 +409,11 @@ class GameEngine:
         return name in self._systems or self.ctx.has(name)
 
     def mount(self, plugin, config: object = None) -> "GameEngine":
-        """装配第三方插件（name/inject/apply 协议），注册进 self.ctx。
+        """装配第三方插件（name/inject/apply 协议），注册进 self.ctx（平铺模式）。
 
         inject 声明的依赖缺失时在装配期报错；apply 返回可调用对象
         则作为插件统一 disposer，随 shutdown()/unload() 自动执行。
+        需要多实例/整体回收时用 mount_scoped()（fork 双作用域）。
         """
         self.ctx.install(plugin, config)
         return self
@@ -435,6 +438,43 @@ class GameEngine:
         elif key == "log":
             self.log = None
         return ok
+
+    def mount_scoped(self, plugin, config: object = None, *,
+                     name: str | None = None) -> Context:
+        """fork 双作用域装配（对齐 Cordis fork / reusable 语义）。
+
+        - 插件 outer(ctx) 钩子在引擎 ctx 上只执行一次（共享状态/一次性注册）；
+        - apply(ctx, config) 在新建的 fork 作用域内执行——同一插件可多次
+          mount_scoped 多实例并存，每个实例的副作用随各自 fork 独立回收；
+        - 返回该 fork（Context），实例服务经 fork.get(...) 访问；可用
+          unmount(name) 整体卸载（fork 内同名服务遮蔽引擎层同名服务，
+          引擎层对 fork 服务不可见——依赖方向唯一，与 Cordis 一致）；
+        - WorldLog 记录 plugin.mount / plugin.unmount 事件供审计溯源。
+
+        注意：fork 实例名默认 `<plugin.name>#<序号>`；显式传 name 时，
+        同名作用域未卸载重复挂载抛 DuplicateScopeError。
+        """
+        fork = self.ctx.fork_install(plugin, config, name=name)
+        scope = fork.name if fork.name is not None else plugin.name
+        self._scoped_mounts[scope] = fork
+        if self.log is not None:
+            self.log.append("plugin.mount", {"name": scope})
+        return fork
+
+    def unmount(self, name: str) -> bool:
+        """整体卸载指定 fork 作用域：逆序回滚该实例全部副作用并移除。
+
+        未找到返回 False；挂载时 WorldLog 记录了 plugin.mount 事件，
+        卸载记录 plugin.unmount，供审计溯源。
+        """
+        fork = self._scoped_mounts.get(name)
+        if fork is None:
+            return False
+        fork.dispose()
+        del self._scoped_mounts[name]
+        if self.log is not None:
+            self.log.append("plugin.unmount", {"name": name})
+        return True
 
     # ── 生命周期 ────────────────────────────────────
 
@@ -475,6 +515,7 @@ class GameEngine:
         self.running = False
         self.ctx.dispose()
         self._systems.clear()
+        self._scoped_mounts.clear()
         self.world = None
         self.bus = None
         self.state = None

@@ -8,7 +8,9 @@
     get(key, default=...)                    依赖查找，缺失即装配期报错
     effect(fn)                               注册可逆副作用，随上下文销毁自动撤销
 
-另外提供插件安装（install）、单服务卸载（unload）、子作用域（child）。
+另外提供插件安装（install）、单服务卸载（unload）、fork 双作用域
+（fork / fork_install / scopes：命名子作用域 + reusable 语义，
+对齐 Cordis fork 事件与 reusable 插件）。
 
 设计约定：
     - dispose 栈按注册逆序回滚（后注册先销毁），与 Cordis 语义一致；
@@ -23,6 +25,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 
 __all__ = [
     "Context",
+    "DuplicateScopeError",
     "DuplicateServiceError",
     "MissingDependencyError",
 ]
@@ -31,6 +34,13 @@ _MISSING = object()
 
 # 条目类型：(key, disposer)；key 为 None 表示匿名副作用（effect）
 _Entry = Tuple[Optional[str], Optional[Callable[[], Any]]]
+
+
+class DuplicateScopeError(RuntimeError):
+    """同一父上下文中重复 fork 同名作用域。"""
+
+    def __init__(self, name: str):
+        super().__init__(f"作用域已存在: '{name}'（重复 fork）。先 dispose 或换名")
 
 
 class DuplicateServiceError(RuntimeError):
@@ -68,6 +78,9 @@ class Context:
         self._entries: List[_Entry] = []
         self._disposed = False
         self._children: List["Context"] = []
+        self._name: Optional[str] = None
+        self._outer_done: set = set()
+        self._fork_seq: Dict[str, int] = {}
 
     # ── 注册 ──────────────────────────────────────────
 
@@ -117,6 +130,11 @@ class Context:
     def parent(self) -> Optional["Context"]:
         return self._parent
 
+    @property
+    def name(self) -> Optional[str]:
+        """fork 作用域名（顶层或匿名 child 为 None）。"""
+        return self._name
+
     # ── 插件 ──────────────────────────────────────────
 
     def install(self, plugin: Any, config: Any = None) -> "Context":
@@ -152,7 +170,8 @@ class Context:
     def dispose(self) -> None:
         """销毁本上下文：按注册逆序回滚全部 effect/disposer，并递归销毁子上下文。
 
-        幂等；单个 disposer 抛异常不中断其余回滚（与 EventBus 容错口径一致）。
+        幂等；单个 disposer 抛异常不中断其余回滚（与 EventBus 容错口径一致）；
+        fork 作用域销毁后自动从父上下文摘除（反复 fork/mount 不累积）。
         """
         if self._disposed:
             return
@@ -168,12 +187,60 @@ class Context:
         self._entries.clear()
         self._services.clear()
         self._disposed = True
+        if self._parent is not None and self in self._parent._children:
+            self._parent._children.remove(self)
 
     def child(self) -> "Context":
-        """创建子作用域：查找沿父链向上，销毁只回滚自身注册。"""
+        """创建匿名子作用域：查找沿父链向上，销毁只回滚自身注册。
+
+        fork(name=None) 的等价形式；命名作用域请用 fork()。
+        """
+        return self.fork(None)
+
+    # ── fork 双作用域（Cordis fork / reusable 语义） ────────
+
+    def fork(self, name: Optional[str] = None) -> "Context":
+        """创建命名 fork 作用域（对齐 Cordis fork 事件）。
+
+        - 服务查找沿父链向上（get/has 已支持）；注册/effect 只落本层；
+        - 同层 provide 可遮蔽父层同名服务（shadow），父层不受影响；
+        - dispose 逆序回滚本层全部副作用，并自动从父上下文摘除——
+          同一名称可反复 fork，多实例玩法复用（每个实例独立回收）；
+        - 同名作用域未销毁时重复 fork 抛 DuplicateScopeError，防作用域混叠。
+        """
+        self._ensure_live()
+        if name is not None and any(c._name == name for c in self._children):
+            raise DuplicateScopeError(name)
         child = Context(parent=self)
+        child._name = name
         self._children.append(child)
         return child
+
+    def fork_install(self, plugin: Any, config: Any = None, *,
+                     name: Optional[str] = None) -> "Context":
+        """reusable/fork 双作用域装配：outer 只执行一次，apply 每次落独立 fork。
+
+        - 插件若提供 outer(ctx) 钩子（可重用外作用域：共享状态、一次性注册），
+          按插件 name 在**本上下文**去重执行，其副作用挂本上下文；
+        - apply(ctx, config) 每次调用都在新建的 fork 作用域内装配，
+          返回该 fork——同一插件可多实例并存，实例副作用随各自 fork 独立回收。
+        """
+        self._ensure_live()
+        pname = getattr(plugin, "name", None) or plugin.__class__.__name__
+        outer = getattr(plugin, "outer", None)
+        if callable(outer) and pname not in self._outer_done:
+            outer(self)
+            self._outer_done.add(pname)
+        seq = self._fork_seq.get(pname, 0) + 1
+        self._fork_seq[pname] = seq
+        scope = name if name is not None else f"{pname}#{seq}"
+        fork = self.fork(scope)
+        fork.install(plugin, config)
+        return fork
+
+    def scopes(self) -> List[Tuple[Optional[str], "Context"]]:
+        """当前存活的子作用域（fork）清单：[(name, child), ...]。"""
+        return [(c._name, c) for c in self._children]
 
     # ── 内部 ──────────────────────────────────────────
 
@@ -185,4 +252,6 @@ class Context:
         return self.has(key)
 
     def __repr__(self) -> str:
-        return f"<Context keys={sorted(self.keys())} parent={'yes' if self._parent else 'no'}>"
+        name = f" name={self._name!r}" if self._name is not None else ""
+        return (f"<Context{name} keys={sorted(self.keys())} "
+                f"parent={'yes' if self._parent else 'no'}>")
