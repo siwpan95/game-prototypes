@@ -235,3 +235,12 @@ klein2 = Sequence.from_dict(sess2.character)
 ## 📄 许可证
 
 本项目为《诡秘之主》粉丝向模拟器，仅供学习与原著推演使用。原著角色、途径设定版权归作者 **爱潜水的乌贼** 及出品方所有。代码以 MIT 风格开源，使用即表示你已了解此用途限制。
+
+## 规则内核接入判定（R2 · 2026-08-27）
+
+勘查结论：本作数值为概率/权重体系（`random.choices` 权重、`random.random` 概率、
+`random.Random(seed)` 序列模拟；污染/锚为累积阈值机制，无骰子判定）——alloy.trpg
+（D&D 三宝书 + GURPS Basic Set）无同构原语可接；按「只接同构原语、绝不破坏行为契约」
+原则**不接入**（记账声明）。将来若引入 d20/3d6 检定：
+`from alloy.trpg import roll_3d6, gurps_success_chance`（接入模式参照
+running-group-simulator 的 `core/dice.py`）。
