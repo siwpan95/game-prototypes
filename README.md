@@ -142,3 +142,13 @@ GUI 冒烟（构建 + 角色面板 + 升级三选一真实点击 + 深层远程�
 
 - gitee：siwpan/sandbox，release `v1.0.0`（Windows 可执行程序，PyInstaller）。
 - 许可：MIT · Copyright (c) 2026 siwpan
+
+## 规则内核接入判定（R2 · 2026-08-27）
+
+勘查结论：本作数值为百分比判定（暴击率/闪避）与词缀权重抽取，无 D&D/GURPS 骰系
+可接——按「只接同构原语、绝不破坏行为契约」原则规则层面**不接入**（记账声明）。
+内联引擎副本（`alloy/`，本仓 vendored 旧版快照，含本地改动）升级到含
+`alloy.trpg` 的当前版需走 alloy 的 patch 重放流程（`engine.patch.yaml` +
+`python -m alloy sync`），属引擎同步工程而非规则接入，**另立待办**。
+将来若引入检定/属性规则：`from alloy.trpg import roll_3d6, Character`
+（接入模式参照 running-group-simulator 的 `core/dice.py`）。
