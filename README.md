@@ -28,3 +28,11 @@ python 随机地牢.py
 ## 许可
 
 MIT · Copyright (c) 2026 siwpan
+
+## 规则内核接入判定（R2 · 2026-08-27）
+
+勘查结论：本作数值均为玩法区间随机（`randint` 范围 / `random.choice`），不含
+D&D/GURPS 骰系（d20/3d6/难度表）；alloy.trpg（D&D 三宝书 + GURPS Basic Set）无同构
+原语可接。按「只接同构原语、绝不破坏行为契约」原则**不接入**（记账声明）。
+将来若引入检定/属性规则：`from alloy.trpg import roll_3d6, gurps_success_chance`
+（接入模式参照 running-group-simulator 的 `core/dice.py`）。
