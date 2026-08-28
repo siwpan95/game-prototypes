@@ -1,7 +1,4 @@
-# 运行时依赖
-pygame-ce>=2.5.0
-# 测试依赖
-pytest>=7.0
-# 音频生产依赖（faatt.py 程序化合成 WAV）
-numpy>=1.24.0
-scipy>=1.10.0
+# carimara_py dependencies (auto-generated 2026-08-20)
+numpy
+pygame-ce
+pytest

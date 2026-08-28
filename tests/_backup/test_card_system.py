@@ -31,7 +31,7 @@ def card_sys(bus):
 def world_with_card_entity():
     w = World()
     e = Entity(eid="test_card")
-    e.add(CardCollectible(card_id="lavender_01", collected=False)
+    e.add(CardCollectible(card_id="lavender_01", collected=False))
     w.add_entity(e)
     return w, e
 
@@ -98,7 +98,7 @@ class TestInitCollection:
     def test_precollected_marked(self, card_sys, bus):
         w = World()
         e = Entity(eid="pre_card")
-        e.add(CardCollectible(card_id="carimara_01", collected=True)
+        e.add(CardCollectible(card_id="carimara_01", collected=True))
         w.add_entity(e)
         card_sys.init_collection(w)
         assert card_sys.has_card("carimara_01")
@@ -106,7 +106,7 @@ class TestInitCollection:
     def test_uncollected_not_marked(self, card_sys, bus):
         w = World()
         e = Entity(eid="uncollected")
-        e.add(CardCollectible(card_id="key_01", collected=False)
+        e.add(CardCollectible(card_id="key_01", collected=False))
         w.add_entity(e)
         card_sys.init_collection(w)
         assert not card_sys.has_card("key_01")
