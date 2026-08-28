@@ -28,7 +28,7 @@ from doom_game.core.types import TextureType
 from doom_game.core.world_map import WorldMap
 from doom_game.world.game_world import GameWorld
 
-LEVEL_01 = "G:/loly/maps/level_01.json"
+LEVEL_01 = config.DEFAULT_MAP_PATH
 ROOM_SIZE = 13          # stone border at 0 / 12, open interior 1..11
 
 

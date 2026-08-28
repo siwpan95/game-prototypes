@@ -84,8 +84,11 @@ FRAME_DT = 1.0 / 60.0                  # nominal per-frame delta time (seconds)
 # ---------------------------------------------------------------------------
 # Default level storage paths
 # ---------------------------------------------------------------------------
-DEFAULT_MAP_DIR = "G:/loly/maps"       # default directory holding level files
-DEFAULT_MAP_PATH = "G:/loly/maps/level_01.json"  # default playable level
+# 地图目录随仓库走（config.py 位于 <root>/doom_game/），不写死绝对路径——
+# 仓库曾在 G:\loly，现位于 G:\repos\loly，写死会导致关卡加载失败回退迷宫。
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_MAP_DIR = os.path.join(_PROJECT_ROOT, "maps")     # default directory holding level files
+DEFAULT_MAP_PATH = os.path.join(DEFAULT_MAP_DIR, "level_01.json")  # default playable level
 
 # ---------------------------------------------------------------------------
 # Enemy ranged attack + projectiles (incremental V2 tunables)

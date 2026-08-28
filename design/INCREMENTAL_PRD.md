@@ -8,7 +8,7 @@
 
 ## 1. 变更概述（4 项各一句话目标）
 
-1. **README 文档**：为项目根目录补一份 `G:/loly/README.md`，统一说明安装、运行、操作、特性、关卡文件格式、架构与各模块职责、测试方式。
+1. **README 文档**：为项目根目录补一份 `README.md`（现位于 `G:\repos\loly`，早期路径为 `G:/loly/README.md`），统一说明安装、运行、操作、特性、关卡文件格式、架构与各模块职责、测试方式。
 2. **敌人 / 拾取物**：在 `GameWorld` 中新增实体层（敌人、拾取物），并实现「简单追逐」敌人 AI、玩家生命/分数模型与对应碰撞、HUD 生命条与分数显示。
 3. **纹理生成改用 surfarray 提速**：将 `render/noise.py` 的 `generate_wall_texture` 由逐像素 `set_at` 改为 numpy + `pygame.surfarray` 向量化生成，**保持确定性且 4 种纹理视觉一致**。
 4. **简易关卡编辑器**：提供「游戏内 pygame GUI 编辑器 + JSON/ASCII 文本地图格式」，二者读写同一份地图格式；主游戏启动时支持从地图文件加载关卡。
@@ -33,7 +33,7 @@
 
 | ID | 优先级 | 需求条目 | 验收 |
 |---|---|---|---|
-| R1.1 | P0 | 项目根目录必须新增 `G:/loly/README.md` | 文件存在且 `python -c "import os; assert os.path.exists('README.md')"` 通过 |
+| R1.1 | P0 | 项目根目录必须新增 `README.md`（现位于 `G:\repos\loly`） | 文件存在且 `python -c "import os; assert os.path.exists('README.md')"` 通过 |
 | R1.2 | P0 | README 必须覆盖：项目简介、环境依赖与安装（pygame-ce / numpy / sounddevice）、运行方式（含 `--headless N` CI 模式与 `DISABLE_AUDIO`）、操作说明（WASD 移动、←/→ 旋转、1–4 切 RenderMode、ESC 退出）、游戏特性 | 上述小节全部存在 |
 | R1.3 | P0 | README 必须含「关卡文件格式说明」（对应需求 4 的 JSON schema 与 ASCII 字符表，见第 5.3 节） | 给出 JSON 字段与 ASCII 字符表示例 |
 | R1.4 | P0 | README 必须含「架构概览（模块职责）」与「测试运行方式」 | 列出 `core/ render/ audio/ world/` 各模块一句话职责；给出 `pytest` 运行命令 |
@@ -198,7 +198,7 @@ Pickup:
 |---|---|---|---|
 | Q1 | 敌人伤害/生命/速度数值 | `ENEMY_HP=30`、`ENEMY_DAMAGE=10`、`ENEMY_SPEED=0.06`、`ENEMY_CONTACT_DIST=0.5`、`ENEMY_PERCEPTION_RANGE=6.0` | 落入 `config.py`；数值后续可平衡调整 |
 | Q2 | 玩家生命上限与拾取数值 | `PLAYER_MAX_HP=100`、`HEALTH_PICKUP_AMOUNT=25`、`SCORE_PICKUP_AMOUNT=100`、`PICKUP_CONTACT_DIST=0.5` | 同上 |
-| Q3 | 地图文件默认路径 | `G:/loly/maps/`（新增目录），默认文件名 `level_01.json`；`--map` 缺省时仍走 `generate_maze` | 由 `DEFAULT_MAP_PATH` 常量控制 |
+| Q3 | 地图文件默认路径 | `maps/`（项目根下，现为 `G:\repos\loly\maps`），默认文件名 `level_01.json`；`--map` 缺省时仍走 `generate_maze` | 由 `DEFAULT_MAP_PATH` 常量控制（2026-08-28 起随仓库推导，不再写死） |
 | Q4 | GUI 编辑器如何进入/退出 | `E` 切换编辑模式；编辑模式 `ESC` 退回游玩（退出时可选保存）；游玩模式 `ESC` 仍为退出程序 | 需与 `main.py` 现有 ESC=quit 协调，避免误触 |
 | Q5 | 实体模块/编辑器模块落点 | 实体 `doom_game/core/entities.py`；关卡 I/O `doom_game/world/level_io.py`；编辑器 `doom_game/editor/level_editor.py`（新建子包） | 最终由架构师定，保持「基础类型只从 core 导入」约定 |
 | Q6 | 敌人 3D 渲染形式 | 先用纯色 billboard 色块（贴墙后叠加矩形/圆），后续 P1 再做 sprite 图集/动画 | 最小可用即可 |

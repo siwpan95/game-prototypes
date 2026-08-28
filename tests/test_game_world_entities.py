@@ -13,6 +13,8 @@ import os
 import pytest
 
 from doom_game.config import (
+    DEFAULT_MAP_DIR,
+    DEFAULT_MAP_PATH,
     ENEMY_DAMAGE,
     HEALTH_PICKUP_AMOUNT,
     PICKUP_CONTACT_DIST,
@@ -22,7 +24,7 @@ from doom_game.config import (
 from doom_game.core.entities import Enemy, Pickup, PickupType
 from doom_game.world.game_world import GameWorld
 
-LEVEL_01 = "G:/loly/maps/level_01.json"
+LEVEL_01 = DEFAULT_MAP_PATH
 
 
 @pytest.fixture
@@ -257,7 +259,7 @@ class TestLevelFileLoading:
             gw.cleanup()
 
     def test_missing_map_file_falls_back_to_maze(self):
-        gw = GameWorld(map_path="G:/loly/maps/__does_not_exist__.json")
+        gw = GameWorld(map_path=os.path.join(DEFAULT_MAP_DIR, "__does_not_exist__.json"))
         gw.audio.enabled = False
         try:
             assert gw.enemies == []

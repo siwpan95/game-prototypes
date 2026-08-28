@@ -566,7 +566,7 @@ sequenceDiagram
 3. **编辑器网格视图坐标映射**：推荐编辑器用**独立视口**（如屏幕左侧 70% 区域按 `cell = viewport_w // width` 映射 `screen→(gx,gy)`），避免与右下角小地图（玩法 HUD）视觉冲突；保存时仅导出 `WorldMap.cells` + 实体，不导出视口。
 4. **玩家起点落在墙格**：编辑器应校验 `player_start` 不在 `is_wall` 格；`load_map` 若发现冲突则回退到 `find_open_cell()` 并打印 warning。
 5. **死亡/重开键**：PRD R2.11 为 P1。推荐 `R` 键在游玩模式重开（按原始 `map_path` 或 maze 重建 GameWorld，复位 hp/score/实体）；HUD 在 `hp<=0` 叠加「YOU DIED」提示。
-6. **`DEFAULT_MAP_PATH` 绝对值**：PRD 给 `G:/loly/maps/level_01.json`。推荐保留该绝对路径作为默认，但 `--map` 也接受相对路径（相对 cwd）；同时 IT4 生成示例文件使默认可用。
+6. **`DEFAULT_MAP_PATH` 随仓库走**：早期 PRD 给过绝对路径 `G:/loly/maps/level_01.json`（当时仓库位于 G:\loly）；仓库迁至 `G:\repos\loly` 后（2026-08-28），改为由 `config.py` 自身位置推导项目根，不再写死绝对路径；`--map` 仍接受相对路径（相对 cwd）。
 7. **ASCII 元数据丢失**：已明确 JSON 权威、ASCII 仅结构稳定（见 4.3）；测试不应要求 `json→ascii→json` 元数据逐字相等。
 8. **`los_clear` 步进精度**：推荐 DDA 网格步进（与 `cast_ray` 同思路），步长 0.05 格采样，遇首个墙即 False；足够「简单追逐」判定，不引入浮点误差放大。
 

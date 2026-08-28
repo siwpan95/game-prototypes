@@ -14,6 +14,7 @@ import json
 import pytest
 
 from doom_game.config import (
+    DEFAULT_MAP_PATH,
     ENEMY_DAMAGE,
     ENEMY_HP,
     ENEMY_SPEED,
@@ -34,7 +35,7 @@ from doom_game.world.level_io import (
     save_map,
 )
 
-LEVEL_01 = "G:/loly/maps/level_01.json"
+LEVEL_01 = DEFAULT_MAP_PATH
 
 
 def _wall_mask(cells):
@@ -108,7 +109,7 @@ class TestLoadMap:
 
     def test_missing_file_raises_filenotfound(self):
         with pytest.raises(FileNotFoundError):
-            load_map("G:/loly/maps/__missing_level__.json")
+            load_map(DEFAULT_MAP_PATH + "__missing_level__.json")
 
     def test_malformed_json_raises_valueerror(self, tmp_path):
         bad = tmp_path / "bad.json"
