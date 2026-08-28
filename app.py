@@ -1,6 +1,8 @@
 """
-斯金纳箱 · 表情版  —  模块化重构 + 风扇背景
-按 空格 签到，按 E 切换表情浏览模式，按 H 查看历史
+斯金纳箱 · 表情版 v2  —  模块化重构 + 风扇背景 + 行为设计增强
+按 空格 签到（抽卡式开奖动画），E 表情浏览，H 历史，S 统计/热力图/成就
+新机制：软/硬保底、连胜冻结卡（Duolingo 式）、里程碑成就、
+        屏幕震动 + 彩带庆祝（game juice）
 风扇在背景自主运行，恶搞音效作为环境音
 """
 import pygame
@@ -62,9 +64,11 @@ from core.qiandao import QiandaoState
 from core.face_engine import FaceEngine
 from core.fan_engine import FanEngine
 from core.expression_map import result_to_expression
+from core.juice import ScreenShake, ConfettiSystem
 from ui.sign_panel import SignPanel
 from ui.browse_panel import BrowsePanel
 from ui.history_panel import HistoryPanel
+from ui.stats_panel import StatsPanel
 
 
 # ══════════════════════════════════════════════════════════════
@@ -163,14 +167,24 @@ class SkinnerFaceApp:
         self.fan_sound = FanSoundController(self.audio, FAN_SOUNDS_DIR)
         self.fan_sound.startup()
 
+        # Game Juice：屏幕震动 + 彩带庆祝
+        self.shake = ScreenShake()
+        self.confetti = ConfettiSystem()
+
         # UI 面板
-        self.sign_panel = SignPanel(self.qd, self.face, self.audio)
+        self.sign_panel = SignPanel(self.qd, self.face, self.audio,
+                                    shake=self.shake, confetti=self.confetti)
         self.browse_panel = BrowsePanel(self.face)
         self.history_panel = HistoryPanel(self.qd)
+        self.stats_panel = StatsPanel(self.qd)
+
+        # 世界画布（先画到这里，再按震动偏移贴到屏幕 → 实现屏幕震动）
+        self.canvas = pygame.Surface((WIDTH, HEIGHT))
 
         # 状态
         self.mode = "sign"       # "sign" | "browse"
         self.show_history = False
+        self.show_stats = False
 
         # 初始表情
         self._update_idle_expression()
@@ -185,14 +199,6 @@ class SkinnerFaceApp:
                 self.face.set_expression(expr, play_sound=False)
         else:
             self.face.set_expression("default", play_sound=False)
-
-    def _sign_btn_rect(self):
-        """签到按钮位置（需要与 SignPanel 一致）"""
-        panel_x = WIDTH // 2 + 10
-        panel_w = WIDTH // 2 - 30
-        cx = panel_x + panel_w // 2
-        # cy 在 panel y=20 + pad=20 + 50 + 28 + 35 + 30 = ~183
-        return pygame.Rect(cx - 100, 183, 200, 55)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -218,33 +224,48 @@ class SkinnerFaceApp:
             rpm = self.fan.update()
             self.fan_sound.update(rpm, self.fan.speed_ratio)
             self.sign_panel.update(dt)
+            self.shake.update(dt)
+            self.confetti.update(dt)
 
-            # 签到结果淡出后回归待机表情
-            if self.sign_panel.result_display_timer <= 0 and self.sign_panel.result_fade <= 0:
+            # 签到结果淡出后回归待机表情（开奖动画期间不干扰）
+            if (not self.sign_panel.reveal.active
+                    and self.sign_panel.result_display_timer <= 0
+                    and self.sign_panel.result_fade <= 0):
                 if self.qd.last_result:
                     self._update_idle_expression()
 
-            # ── 绘制 ──
-            screen.fill(BG_COLOR)
+            # ── 绘制（画到 canvas，再按震动偏移贴到屏幕）──
+            canvas = self.canvas
+            canvas.fill(BG_COLOR)
 
             # 1) 风扇背景（左上角 + 右下角，半透明）
-            self.fan.draw(screen, 130, 130, 110, alpha=120)
-            self.fan.draw(screen, WIDTH - 100, HEIGHT - 100, 80, alpha=80)
+            self.fan.draw(canvas, 130, 130, 110, alpha=120)
+            self.fan.draw(canvas, WIDTH - 100, HEIGHT - 100, 80, alpha=80)
 
             # 2) 前景内容
-            if self.show_history:
-                self.history_panel.draw(screen, WIDTH, HEIGHT)
+            if self.show_stats:
+                self.stats_panel.draw(canvas, WIDTH, HEIGHT)
+            elif self.show_history:
+                self.history_panel.draw(canvas, WIDTH, HEIGHT)
             elif self.mode == "sign":
                 # 左半边 - 表情
                 face_cx = WIDTH // 4
                 face_cy = HEIGHT // 2
-                self.face.draw_face(screen, face_cx, face_cy, face_scale=0.85, dt=dt)
+                self.face.draw_face(canvas, face_cx, face_cy, face_scale=0.85, dt=dt)
                 # 右半边 - 签到面板
                 panel_x = WIDTH // 2 + 10
                 panel_w = WIDTH // 2 - 30
-                self.sign_panel.draw(screen, panel_x, 20, panel_w, HEIGHT - 40)
+                self.sign_panel.draw(canvas, panel_x, 20, panel_w, HEIGHT - 40)
             else:
-                self.browse_panel.draw(screen, WIDTH, HEIGHT, dt)
+                self.browse_panel.draw(canvas, WIDTH, HEIGHT, dt)
+
+            # 3) 彩带（最上层）
+            self.confetti.draw(canvas)
+
+            # 4) 震动偏移合成
+            dx, dy = self.shake.offset()
+            screen.fill(BG_COLOR)
+            screen.blit(canvas, (int(dx), int(dy)))
 
             pygame.display.flip()
             clock.tick(60)
@@ -254,7 +275,9 @@ class SkinnerFaceApp:
 
     def _handle_key(self, key):
         if key == pygame.K_ESCAPE:
-            if self.show_history:
+            if self.show_stats:
+                self.show_stats = False
+            elif self.show_history:
                 self.show_history = False
             elif self.mode == "browse":
                 self.mode = "sign"
@@ -262,7 +285,7 @@ class SkinnerFaceApp:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
 
         elif key == pygame.K_SPACE:
-            if self.mode == "sign" and not self.show_history:
+            if self.mode == "sign" and not self.show_history and not self.show_stats:
                 if self.qd.can_sign_today():
                     self.sign_panel.sign()
 
@@ -271,14 +294,19 @@ class SkinnerFaceApp:
 
         elif key == pygame.K_h:
             self.show_history = not self.show_history
+            self.show_stats = False
+
+        elif key == pygame.K_s:
+            self.show_stats = not self.show_stats
+            self.show_history = False
 
         if self.mode == "browse":
             self.browse_panel.handle_key(key)
 
     def _handle_click(self, pos):
-        if self.mode == "sign" and not self.show_history:
-            btn_rect = self._sign_btn_rect()
-            self.sign_panel.handle_click(pos, btn_rect)
+        if self.mode == "sign" and not self.show_history and not self.show_stats:
+            # 使用 SignPanel 绘制时记录的真实按钮区域（修复原先的硬编码坐标）
+            self.sign_panel.handle_click(pos)
 
 
 # ══════════════════════════════════════════════════════════════
