@@ -24,3 +24,11 @@ python text_adventure_zh/main.py       # 中文版
 ## 测试状态
 - `py_compile` 语法检查：通过（44 个 .py）。
 - 运行：GUI 窗口游戏，未实际启动（避免卡住）。
+
+## 规则内核接入判定（R2 · 2026-08-27）
+
+勘查结论：本作为谜题引擎（计分/连击/时间奖励，无骰子与角色属性），alloy.trpg
+（D&D 三宝书 + GURPS Basic Set）无同构原语可接——按「只接同构原语、绝不破坏行为
+契约」原则**不接入**（记账声明）。将来若引入检定/角色成长：
+`from alloy.trpg import Character, roll_3d6`（接入模式参照 running-group-simulator
+的 `core/dice.py`）。
