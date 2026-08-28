@@ -82,10 +82,6 @@ class CardComponent(Component):
         damage: int = 0,            # For attack cards
         shield: int = 0,            # For skill cards
         heal: int = 0,              # For skill cards
-        upgraded: bool = False,     # Card upgrade status
-        pool: str = "B",           # Card pool: "A"=player, "B"=shared, "C"=enemy
-        element: str = "none",     # 元素类型: fire/ice/lightning/wind/earth/dark/light/none
-        status_effect: dict | None = None,  # 施加状态: {"type": "burn", "turns":2, "value":3}
     ) -> None:
         self.card_id = card_id
         self.name = name
@@ -102,17 +98,12 @@ class CardComponent(Component):
         self.damage = damage
         self.shield = shield
         self.heal = heal
-        self.upgraded = upgraded
-        self.pool = pool
-        self.element: str = element
-        self.status_effect: dict | None = status_effect
 
 
 class DeckComponent(Component):
-    def __init__(self, cards: list | None = None, owner: str = "player") -> None:
+    def __init__(self, cards: list | None = None) -> None:
         self.cards: list = cards or []       # Entity IDs in deck
         self.discard: list = []              # Entity IDs in discard
-        self.owner: str = owner              # "player" or "enemy"
 
     def draw_one(self):
         if not self.cards:
@@ -132,9 +123,8 @@ class DeckComponent(Component):
 
 
 class HandComponent(Component):
-    def __init__(self, owner: str = "player") -> None:
+    def __init__(self) -> None:
         self.cards: list = []  # Entity IDs in hand
-        self.owner: str = owner  # "player" or "enemy"
 
 
 class BoardComponent(Component):
@@ -259,44 +249,3 @@ class PlayerComponent(Component):
         self.cards_played: int = 0
         self.highest_wave: int = 0
         self.turns_this_wave: int = 0
-        self.temp_attack_buff: int = 0  # Permanent demon buff from events
-        self.player_class: str = ""     # TEW class: 元素使/暗刃骑士/狂怒斗士 etc.
-
-
-# ── Element / Status Effects (TEW 最终物语体系) ────────────────────────
-
-class ElementComponent(Component):
-    """赋予实体元素伤害类型。"""
-    def __init__(self, element: str = "none") -> None:
-        # "fire", "ice", "lightning", "wind", "earth", "dark", "light", "none"
-        self.element: str = element
-
-
-class StatusEffectComponent(Component):
-    """实体当前的状态效果列表。
-
-    每个状态是一个 dict: {"type": str, "turns": int, "value": int}
-      - type: "stun"/"slow"/"weaken"/"freeze"/"shaken"/"burn"/"poison"/"shield_up"
-      - turns: 剩余持续回合数（0 = 本回合结束时移除）
-      - value: 效果强度（如 burn=每回合伤害，slow=攻击减益量）
-    """
-    def __init__(self) -> None:
-        self.effects: list[dict] = []
-
-    def add(self, effect_type: str, turns: int = 1, value: int = 0) -> None:
-        """添加状态效果；同类型叠加时刷新回合数、取最大值。"""
-        for ef in self.effects:
-            if ef["type"] == effect_type:
-                ef["turns"] = max(ef["turns"], turns)
-                ef["value"] = max(ef["value"], value)
-                return
-        self.effects.append({"type": effect_type, "turns": turns, "value": value})
-
-    def has(self, effect_type: str) -> bool:
-        return any(ef["type"] == effect_type and ef["turns"] > 0 for ef in self.effects)
-
-    def get_value(self, effect_type: str) -> int:
-        for ef in self.effects:
-            if ef["type"] == effect_type and ef["turns"] > 0:
-                return ef["value"]
-        return 0
