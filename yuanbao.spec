@@ -1,18 +1,8 @@
 # -*- mode: python ; coding: utf-8 -*-
-#
-# 打包配置：把"细胞工厂"打成单文件 GUI 可执行程序。
-#
-# 构建：
-#   pip install pyinstaller
-#   pyinstaller yuanbao.spec
-#
-# 产物：dist/yuanbao.exe（无控制台窗口，双击即启动 GUI）
-#
-
-
+# yuanbao 细胞工厂安装包 spec（2026-08-27，pywallpaper 样板同款；onedir contents_directory=.；目录重构更新路径）
 a = Analysis(
-    ['main.py'],
-    pathex=[],
+    ['G:/repos/yuanbao/main.py'],
+    pathex=['G:/repos/yuanbao'],
     binaries=[],
     datas=[],
     hiddenimports=['tkinter'],
@@ -21,27 +11,17 @@ a = Analysis(
     runtime_hooks=[],
     excludes=[],
     noarchive=False,
-    optimize=0,
 )
 pyz = PYZ(a.pure)
-
 exe = EXE(
-    pyz,
-    a.scripts,
-    a.binaries,
-    a.datas,
-    [],
+    pyz, a.scripts, [],
+    exclude_binaries=True,
     name='yuanbao',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
+    upx=False,
     console=False,
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
+    contents_directory='.',
 )
+coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name='yuanbao')
