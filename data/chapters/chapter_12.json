@@ -1,0 +1,66 @@
+[
+  {
+    "event_id": "ch12_arrival",
+    "type": "story",
+    "title": "第十二试炼：刻耳柏洛斯",
+    "text": "冥界的入口在泰纳克翁张开。三头犬刻耳柏洛斯蹲踞在门槛上——它的三颗头颅注视着过去、现在与未来。亡灵在它身后徘徊，在等待进入或离开。",
+    "options": [
+      {"text": "向冥后珀尔塞福涅请求通行", "effects": {"神恩": 1}, "branch": "pray"},
+      {"text": "观察刻耳柏洛斯的弱点", "effects": {"智慧": 1}, "branch": "watch"}
+    ]
+  },
+  {
+    "event_id": "ch12_confrontation",
+    "type": "story",
+    "title": "亡者之犬",
+    "text": "刻耳柏洛斯感知到了你——活人的气息。它站起身，三颗头颅同时咆哮。音波令大地颤抖，亡灵们瑟瑟发抖。你必须让这头野兽安静下来。",
+    "options": [
+      {
+        "text": "用铁链强行拖拽",
+        "effects": {"疯狂": 5, "力量": 2},
+        "required_stat": {"力量": 10},
+        "fail_text": "你被拖入深渊，险些无法返回。",
+        "fail_effects": {"生命": -3, "疯狂": 3},
+        "branch": "force",
+        "set_world_state": {"cerberus_forced": true}
+      },
+      {
+        "text": "弹奏竖琴，使其入睡",
+        "effects": {"神恩": 5, "智慧": 2},
+        "required_stat": {"智慧": 8},
+        "fail_text": "音乐没能安抚它，它向你扑来。",
+        "fail_effects": {"生命": -2, "疯狂": 2},
+        "branch": "peace",
+        "set_world_state": {"cerberus_slept": true}
+      },
+      {
+        "text": "用追随者的血肉喂食它",
+        "effects": {"疯狂": 5, "神恩": -5},
+        "required_stat": {"疯狂": 5},
+        "fail_text": "追随者反抗，你不得不强行喂食。",
+        "fail_effects": {"荣耀": -3},
+        "branch": "dark",
+        "set_world_state": {"fed_companions": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch12_twist",
+    "type": "story",
+    "title": "冥河之畔",
+    "text": "刻耳柏洛斯安静下来后，你来到冥河畔。河水映出你的所有——活着的你，和已经死去的你。船夫卡戎撑着渡船靠近：“想看看自己死后的样子吗？免费的，英雄。”",
+    "options": [
+      {"text": "凝视冥河，直面死亡", "effects": {"疯狂": 1, "智慧": 2}, "branch": "gaze", "set_world_state": {"stared_into_styx": true}},
+      {"text": "拒绝卡戎，不回头", "effects": {"神恩": 1, "荣耀": 1}, "required_stat": {"神恩": 5}, "fail_text": "冥河的水汽侵蚀了你的信念。", "fail_effects": {"疯狂": 1}, "branch": "refuse", "set_world_state": {"resisted_styx": true}}
+    ]
+  },
+  {
+    "event_id": "ch12_aftermath",
+    "type": "story",
+    "title": "生死的边界",
+    "text": "你踏入了冥界，又活着走了出来。刻耳柏洛斯在你身后哀嚎——它从未被这样对待过。珀尔塞福涅在阴影中注视着你。“十二试炼已完成，”她低语，“但真正的考验才刚刚开始。”",
+    "options": [
+      {"text": "带着冥界的印记返回人间", "effects": {"神恩": 1}, "branch": "finish"}
+    ]
+  }
+]

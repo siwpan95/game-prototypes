@@ -1,0 +1,56 @@
+[
+  {
+    "event_id": "ch03_arrival",
+    "type": "story",
+    "title": "第三试炼：刻律涅牝鹿",
+    "text": "金色的牝鹿在林间飞奔，蹄声如风。它是阿尔忒弥斯的圣物，有着金色的角和银色的毛皮。神谕说：你必须活着捉住它，否则试炼失败。",
+    "options": [
+      {"text": "紧追不舍，开始追逐", "effects": {"力量": 1}, "branch": "chase"},
+      {"text": "观察它的习性，寻找规律", "effects": {"智慧": 1}, "branch": "observe"}
+    ]
+  },
+  {
+    "event_id": "ch03_hunt",
+    "type": "story",
+    "title": "追猎神鹿",
+    "text": "你追了整整三天三夜。牝鹿始终在前方，从不停下。饥饿和疲惫侵蚀着你——但阿尔忒弥斯在天上注视着你。",
+    "options": [
+      {
+        "text": "一箭射穿它的腿，强行捕获",
+        "effects": {"荣耀": 3, "神恩": -2},
+        "required_stat": {"力量": 6},
+        "fail_text": "你射偏了，激怒了女神。",
+        "fail_effects": {"神恩": -2, "疯狂": 1},
+        "branch": "force",
+        "set_world_state": {"harmed_sacred_deer": true}
+      },
+      {
+        "text": "继续跟随，直到它自愿停下",
+        "effects": {"神恩": 3, "智慧": 1},
+        "required_stat": {"智慧": 5},
+        "fail_text": "你太累了，在树下睡着了。",
+        "fail_effects": {"生命": -1, "疯狂": 1},
+        "branch": "patience"
+      }
+    ]
+  },
+  {
+    "event_id": "ch03_twist",
+    "type": "story",
+    "title": "月神的审视",
+    "text": "牝鹿被捕获，天空却骤然暗下。阿尔忒弥斯降临，银弓搭箭，瞄准你的心口。“凡人，”她的声音如寒冰，“你触碰了我的圣物。给我一个理由，不取你性命。”",
+    "options": [
+      {"text": "单膝跪地，恳求女神宽恕", "effects": {"神恩": 2, "荣耀": -1}, "branch": "mercy", "set_world_state": {"artemis_forgiven": true}},
+      {"text": "直视女神，陈述试炼之命", "effects": {"荣耀": 2, "神恩": -1}, "required_stat": {"荣耀": 6}, "fail_text": "你的傲慢激怒了女神。", "fail_effects": {"神恩": -2, "生命": -1}, "branch": "defiance", "set_world_state": {"artemis_defied": true}}
+    ]
+  },
+  {
+    "event_id": "ch03_aftermath",
+    "type": "story",
+    "title": "女神的礼物",
+    "text": "一年的追逐后，牝鹿终于停下脚步，用那双金色的眼睛看着你。你轻轻抚摸它的脖颈，它允许你骑在它背上。你将它带回了迈锡尼。",
+    "options": [
+      {"text": "将神鹿献给欧律斯修斯王", "effects": {"荣耀": 2}, "branch": "continue"}
+    ]
+  }
+]

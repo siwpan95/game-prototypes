@@ -1,0 +1,57 @@
+[
+  {
+    "event_id": "ch11_arrival",
+    "type": "story",
+    "title": "第十一试炼：赫斯珀里得斯金苹果",
+    "text": "世界尽头的花园，永恒的金苹果挂在枝头。守护者是永不睡眠的巨龙拉冬。而真正的挑战是：阿特拉斯正背负着整片天空，你需要他帮你摘取苹果。",
+    "options": [
+      {"text": "主动承担天空的重量", "effects": {"力量": 1, "疯狂": 1}, "branch": "help"},
+      {"text": "寻找其他获取苹果的方法", "effects": {"智慧": 1}, "branch": "search"}
+    ]
+  },
+  {
+    "event_id": "ch11_trial",
+    "type": "story",
+    "title": "天空之下",
+    "text": "阿特拉斯将天空交给你——那一刻，你的骨头几乎被压碎。众神在上，穹顶如巨石般压在你身上。阿特拉斯走向金苹果树，摘下了三颗苹果。",
+    "options": [
+      {
+        "text": "欺骗阿特拉斯，让他继续背负天空",
+        "effects": {"智慧": 3, "神恩": -3, "疯狂": 2},
+        "required_stat": {"智慧": 8},
+        "fail_text": "阿特拉斯识破了你的谎言。",
+        "fail_effects": {"疯狂": 3, "神恩": -2},
+        "branch": "trick",
+        "set_world_state": {"atlas_deceived": true}
+      },
+      {
+        "text": "杀死巨龙拉冬，亲手摘取",
+        "effects": {"力量": 3, "疯狂": 3},
+        "required_stat": {"力量": 10},
+        "fail_text": "拉冬的鳞片坚不可摧，你被龙焰灼伤。",
+        "fail_effects": {"生命": -3, "疯狂": 2},
+        "branch": "fight",
+        "set_world_state": {"dragon_slain": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch11_twist",
+    "type": "story",
+    "title": "永恒的重量",
+    "text": "金苹果在手中散发永恒的光芒。但每多看一秒，心智就被拉扯一分——时间在你周围扭曲，过去与未来同时涌来。时间诅咒已降临，每次抉择都会加深疯狂。",
+    "options": [
+      {"text": "食用一颗金苹果，获得永恒", "effects": {"生命": 3, "神恩": 2, "疯狂": 2}, "branch": "eat", "grant_relic": "golden_apple", "set_world_state": {"apple_eaten": true}},
+      {"text": "不食禁果，仅带走", "effects": {"疯狂": 1, "智慧": 1}, "required_stat": {"智慧": 7}, "fail_text": "苹果的诱惑几乎压垮你的理智。", "fail_effects": {"疯狂": 2}, "branch": "resist", "set_world_state": {"apple_resisted": true}}
+    ]
+  },
+  {
+    "event_id": "ch11_aftermath",
+    "type": "story",
+    "title": "时间的诅咒",
+    "text": "金苹果在你手中，它们是永恒的象征。但从你触碰它们的那一刻起，某种不安的感觉开始蔓延——时间在你身上留下了痕迹。镜中的你似乎老了一些，又似乎从未改变。",
+    "options": [
+      {"text": "带着苹果离开，不再回头", "effects": {"疯狂": 1}, "branch": "continue", "set_world_state": {"apples_obtained": true}}
+    ]
+  }
+]

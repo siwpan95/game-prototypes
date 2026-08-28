@@ -1,0 +1,49 @@
+[
+  {
+    "event_id": "kratos_ch01_arrival",
+    "type": "story",
+    "title": "阿瑞斯的命令",
+    "text": "你曾向战神阿瑞斯发誓效忠，以换取力量战胜敌人。那一天你赢了，但代价是你的家人死在你自己的混沌之刃下。愤怒、悲痛、仇恨——这一切燃烧着，将你驱使向奥林匹斯的台阶。",
+    "options": [
+      {"text": "压抑愤怒，冷静分析战略", "effects": {"智慧": 1, "疯狂": -1}, "branch": "cold"},
+      {"text": "释放内心的怒火，踏上杀神之路", "effects": {"力量": 1, "疯狂": 1}, "branch": "rage"}
+    ]
+  },
+  {
+    "event_id": "kratos_ch01_combat",
+    "type": "story",
+    "title": "斯巴达之怒",
+    "text": "阿瑞斯派出了他最强大的战士群来阻止你。他们是你昔日的同袍——但他们现在是神的走狗。混沌之刃在你手中旋转，链条如蛇般缠绕，斯巴达的战吼震裂了神殿的柱子。",
+    "options": [
+      {
+        "text": "斯巴达方阵，以力碾压一切",
+        "effects": {"力量": 3, "疯狂": 2, "荣耀": 1},
+        "difficulty": 12,
+        "check_stat": "力量",
+        "fail_text": "数量的优势压制了你，你被围困其中。",
+        "fail_effects": {"生命": -2, "疯狂": 1},
+        "branch": "strength",
+        "set_world_state": {"spartan_rage_used": true}
+      },
+      {
+        "text": "以混沌之刃的锁链绑住首领要挟",
+        "effects": {"智慧": 2, "神恩": -1, "力量": 1},
+        "difficulty": 10,
+        "check_stat": "智慧",
+        "fail_text": "首领挣脱了锁链，反击刺伤了你。",
+        "fail_effects": {"生命": -1, "疯狂": 1},
+        "branch": "chains"
+      }
+    ]
+  },
+  {
+    "event_id": "kratos_ch01_aftermath",
+    "type": "story",
+    "title": "灰烬中的誓言",
+    "text": "战场归于寂静。你望着自己灰白色的皮肤——那是你家人血液的颜色，永远洗不去的标记。\"斯巴达幽灵\"——他们这样叫你，不知是赞美还是诅咒。你不在乎。你只在乎一件事：弑神。",
+    "options": [
+      {"text": "在心中默念亡者的名字，继续前行", "effects": {"疯狂": -1, "荣耀": 1}, "branch": "grieve"},
+      {"text": "压制悲痛，怒火就是你的武器", "effects": {"疯狂": 2, "力量": 1}, "branch": "anger"}
+    ]
+  }
+]

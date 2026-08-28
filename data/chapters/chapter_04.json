@@ -1,0 +1,58 @@
+[
+  {
+    "event_id": "ch04_arrival",
+    "type": "story",
+    "title": "第四试炼：厄律曼托斯野猪",
+    "text": "大雪封山，寒风如刀。巨大的野猪横冲直撞，摧毁沿途村庄。村民们跪在雪地里哭泣，恳求英雄出现。你来了——带着寒气和决心。",
+    "options": [
+      {"text": "直接追踪野猪足迹", "effects": {"力量": 1}, "branch": "track"},
+      {"text": "先安抚村民，了解情况", "effects": {"荣耀": 1}, "branch": "talk"}
+    ]
+  },
+  {
+    "event_id": "ch04_hunt",
+    "type": "story",
+    "title": "雪地围猎",
+    "text": "野猪比想象的更大，它的獠牙能轻易刺穿盾牌。雪地深及腰部，每一步都消耗体力。你需要一个策略。",
+    "options": [
+      {
+        "text": "驱赶它跌入深雪坑活埋",
+        "effects": {"力量": 2, "疯狂": 1},
+        "required_stat": {"力量": 7},
+        "fail_text": "野猪挣脱了你的绳索，撞伤了你。",
+        "fail_effects": {"生命": -2, "疯狂": 1},
+        "branch": "strength",
+        "set_world_state": {"boar_trapped": true}
+      },
+      {
+        "text": "建造围栏诱捕，智取为上",
+        "effects": {"智慧": 2, "荣耀": 1},
+        "required_stat": {"智慧": 5},
+        "fail_text": "野猪撞破了围栏，向你冲来。",
+        "fail_effects": {"生命": -1},
+        "branch": "wisdom",
+        "set_world_state": {"boar_captured": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch04_twist",
+    "type": "story",
+    "title": "雪中幻象",
+    "text": "扛着野猪下山，暴风雪骤然加剧。在白茫茫的雪幕中，你看见自己的倒影——但那不是你。倒影中的你双眼血红，嘴角挂着嗜血的笑。“杀戮让你快乐，不是吗？”它说。",
+    "options": [
+      {"text": "承认内心的嗜血本性", "effects": {"疯狂": 2, "力量": 1}, "branch": "embrace", "set_world_state": {"bloodlust_accepted": true}},
+      {"text": "否认幻象，坚守理性", "effects": {"神恩": 1, "疯狂": -1}, "required_stat": {"智慧": 5}, "fail_text": "幻象的嘲笑刺入你的心智。", "fail_effects": {"疯狂": 1}, "branch": "deny"}
+    ]
+  },
+  {
+    "event_id": "ch04_aftermath",
+    "type": "story",
+    "title": "山中老人",
+    "text": "你将野猪扛回城中。途中，一个老人出现在路边——他是酒神狄俄尼索斯的挚友。“年轻人，”他说，“真正的野兽不在山林，而在人心。”",
+    "options": [
+      {"text": "感谢老人，继续前行", "effects": {"智慧": 1, "疯狂": -1}, "branch": "continue"},
+      {"text": "询问关于内心野兽的含义", "effects": {"疯狂": 1}, "branch": "continue", "set_world_state": {"met_old_man": true}}
+    ]
+  }
+]

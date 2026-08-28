@@ -1,0 +1,57 @@
+[
+  {
+    "event_id": "ch06_arrival",
+    "type": "story",
+    "title": "第六试炼：斯廷法利斯怪鸟",
+    "text": "青铜羽毛的怪鸟遮蔽天空，它们的叫声令人发狂。更可怕的是，它们排出的粪便正在毒化整片湖泊。雅典娜出现在你梦中，赐予你一对铜锣——敲响它，鸟会惊飞。",
+    "options": [
+      {"text": "研究地形，寻找鸟群巢穴", "effects": {"智慧": 1}, "branch": "study"},
+      {"text": "直接敲响铜锣，驱赶鸟群", "effects": {"力量": 1}, "branch": "attack"}
+    ]
+  },
+  {
+    "event_id": "ch06_combat",
+    "type": "story",
+    "title": "铜锣震天",
+    "text": "铜锣震响，怪鸟惊飞——但只有片刻。它们很快适应了噪音，向你俯冲。你必须用另一种方法。",
+    "options": [
+      {
+        "text": "趁鸟惊飞，逐一射杀",
+        "effects": {"力量": 2, "疯狂": 1},
+        "required_stat": {"力量": 7},
+        "fail_text": "你被鸟群围攻，羽毛如刀片切割。",
+        "fail_effects": {"生命": -2, "疯狂": 1},
+        "branch": "strength",
+        "set_world_state": {"birds_slain": true}
+      },
+      {
+        "text": "用毒药污染水源，一网打尽",
+        "effects": {"智慧": 2, "神恩": -2},
+        "required_stat": {"智慧": 6},
+        "fail_text": "毒药效力不足，你被鸟群发现。",
+        "fail_effects": {"生命": -1, "神恩": -1},
+        "branch": "cunning",
+        "set_world_state": {"birds_poisoned": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch06_twist",
+    "type": "story",
+    "title": "智慧之盾",
+    "text": "湖泊净化后，雅典娜的真身显现于云端。她抛下一面闪耀智慧之光的盾牌。“你证明了自己的机智，”她说，“此盾能看破一切幻象——但记住，智慧亦有代价。”",
+    "options": [
+      {"text": "接受神盾，立誓效忠智慧", "effects": {"智慧": 1, "神恩": 1}, "branch": "accept", "grant_relic": "athena_shield", "set_world_state": {"pledged_to_athena": true}},
+      {"text": "谢绝神盾，独行其道", "effects": {"荣耀": 2, "神恩": -1}, "branch": "refuse", "set_world_state": {"rejected_athena": true}}
+    ]
+  },
+  {
+    "event_id": "ch06_aftermath",
+    "type": "story",
+    "title": "净化之地",
+    "text": "怪鸟或死或逃，湖泊恢复了平静。你用羽毛为自己制作了一顶头盔——青铜羽毛的保护。雅典娜在云端微笑，她认可了你的机智。",
+    "options": [
+      {"text": "带着羽毛头盔继续前行", "effects": {"神恩": 1}, "branch": "continue"}
+    ]
+  }
+]

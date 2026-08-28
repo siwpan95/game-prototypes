@@ -1,0 +1,50 @@
+[
+  {
+    "event_id": "beowulf_ch03_arrival",
+    "type": "story",
+    "title": "最后的龙",
+    "text": "五十年了。你已是须发皆白的老王，但龙的吐息正在烧毁你的王国。年轻的战士们吓得面如土色，只有你——站起来，穿上了锈迹斑斑的盔甲。人生最后一战，没有退路，只有荣耀。",
+    "options": [
+      {"text": "独自前往龙穴，不愿战士送死", "effects": {"荣耀": 3, "生命": -1}, "branch": "alone"},
+      {"text": "带上最忠心的战士维格拉夫", "effects": {"荣耀": 1, "力量": 1}, "branch": "together"}
+    ]
+  },
+  {
+    "event_id": "beowulf_ch03_combat",
+    "type": "story",
+    "title": "老王与龙",
+    "text": "龙的火焰融化了你的盾牌，它的爪子将你按在岩石上。生命正在流逝，但你的手还能动——你抓住了龙的脖子，将匕首刺入它柔软的腹部。同归于尽，还是奇迹？",
+    "options": [
+      {
+        "text": "拼尽最后力气，双双同归于尽",
+        "effects": {"荣耀": 8, "生命": -4},
+        "difficulty": 10,
+        "check_stat": "力量",
+        "fail_text": "你的力量已油尽灯枯，无法完成最后的刺击。",
+        "fail_effects": {"生命": -3, "疯狂": 1},
+        "branch": "sacrifice",
+        "set_world_state": {"dragon_slain": true, "beowulf_fell": true}
+      },
+      {
+        "text": "等待维格拉夫的援助，共同完成击杀",
+        "effects": {"荣耀": 4, "生命": -2, "神恩": 2},
+        "difficulty": 8,
+        "check_stat": "荣耀",
+        "fail_text": "维格拉夫来得太迟，你已经被龙焰灼伤。",
+        "fail_effects": {"生命": -2},
+        "branch": "teamwork",
+        "set_world_state": {"dragon_slain": true}
+      }
+    ]
+  },
+  {
+    "event_id": "beowulf_ch03_aftermath",
+    "type": "story",
+    "title": "英雄的黄昏",
+    "text": "龙死了。战士们围在你身边，他们终于明白了荣耀是什么。维格拉夫握住你的手，你将黄金颈链交给他。\"传下去，\"你说，\"不是财富——是勇气。\"诗人将在遥远的地方唱起这一刻，直到最后一个人类消失于世间。",
+    "options": [
+      {"text": "闭上眼睛，安然接受命运", "effects": {"荣耀": 3, "神恩": 3}, "branch": "peace"},
+      {"text": "挣扎着站起，向部众宣告继续战斗", "effects": {"荣耀": 5, "生命": -2, "疯狂": 1}, "branch": "defiance"}
+    ]
+  }
+]

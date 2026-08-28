@@ -1,0 +1,58 @@
+[
+  {
+    "event_id": "ch07_arrival",
+    "type": "story",
+    "title": "第七试炼：克里特公牛",
+    "text": "米诺斯王的女儿阿里阿德涅亲自迎接你。“这头牛是波塞冬的礼物，”她说，“我父亲想用它向神明证明什么。但它已经疯了。”神牛在远处的田野里横冲直撞。",
+    "options": [
+      {"text": "向波塞冬祈祷，请求指引", "effects": {"神恩": 1}, "branch": "pray"},
+      {"text": "直接去见米诺斯王，了解详情", "effects": {"智慧": 1}, "branch": "talk"}
+    ]
+  },
+  {
+    "event_id": "ch07_combat",
+    "type": "story",
+    "title": "驯牛之战",
+    "text": "神牛比你想象的更加狂暴。它的蹄子踏碎岩石，角能穿透城墙。阿里阿德涅递给你一根绳索——那是她用克诺索斯迷宫般的纱线织成的。",
+    "options": [
+      {
+        "text": "强行跃上牛背，勒紧缰绳",
+        "effects": {"力量": 3, "神恩": -2},
+        "required_stat": {"力量": 8},
+        "fail_text": "你被甩下，背部撞上岩石。",
+        "fail_effects": {"生命": -2},
+        "branch": "strength",
+        "set_world_state": {"bull_tamed": true, "poseidon_angered": true}
+      },
+      {
+        "text": "用绳索设下陷阱，智取",
+        "effects": {"智慧": 2, "神恩": 2},
+        "required_stat": {"智慧": 6},
+        "fail_text": "绳索被挣断，你差点被牛角刺穿。",
+        "fail_effects": {"生命": -1, "神恩": -1},
+        "branch": "wisdom",
+        "set_world_state": {"bull_captured": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch07_twist",
+    "type": "story",
+    "title": "海神之怒",
+    "text": "公牛被制服，大海却开始咆哮。波塞冬从浪涛中升起，三叉戟指向你。“你驯服了我的礼物，”他咆哮，“凡人不该触碰神之物！”巨浪如山般压来。",
+    "options": [
+      {"text": "以力量抗衡海神之怒", "effects": {"力量": 1, "生命": -1}, "required_stat": {"力量": 8}, "fail_text": "海浪将你拍翻在礁石上。", "fail_effects": {"生命": -2}, "branch": "resist", "set_world_state": {"poseidon_resisted": true}},
+      {"text": "献祭公牛，平息海神", "effects": {"神恩": 2, "荣耀": -1}, "branch": "sacrifice", "set_world_state": {"bull_sacrificed": true}}
+    ]
+  },
+  {
+    "event_id": "ch07_aftermath",
+    "type": "story",
+    "title": "公主的告别",
+    "text": "神牛终于安静下来。阿里阿德涅看着你，眼中满是钦佩。“你愿意带我离开克里特吗？”她低声问，“这迷宫困住了我太久。”",
+    "options": [
+      {"text": "答应带她离开", "effects": {"疯狂": 1, "神恩": -1}, "branch": "continue", "set_world_state": {"ariadne_escaped": true}},
+      {"text": "拒绝，英雄不应被爱情羁绊", "effects": {"荣耀": 1}, "branch": "continue"}
+    ]
+  }
+]

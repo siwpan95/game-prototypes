@@ -1,0 +1,58 @@
+[
+  {
+    "event_id": "ch02_arrival",
+    "type": "story",
+    "title": "第二试炼：勒尔涅九头蛇",
+    "text": "沼泽深处，剧毒蒸汽升腾。九头蛇——勒尔涅的噩梦——从腐水中升起。它有九颗头颅，每一颗都能独立思考。你听说一个传闻：砍下一个头，会长出两个。",
+    "options": [
+      {"text": "准备武器，尝试斩首战术", "effects": {"力量": 1}, "branch": "prepare"},
+      {"text": "寻找火源，烧灼伤口", "effects": {"智慧": 1}, "branch": "research"}
+    ]
+  },
+  {
+    "event_id": "ch02_combat",
+    "type": "story",
+    "title": "九头齐攻",
+    "text": "九颗头颅同时向你扑来！毒液飞溅，腐蚀了岩石。你必须战斗——但砍下头颅不是答案。",
+    "options": [
+      {
+        "text": "挥剑猛斩，以暴制暴",
+        "effects": {"疯狂": 3, "力量": 2},
+        "required_stat": {"力量": 8},
+        "fail_text": "你砍下一颗头，却长出两颗。毒液灼伤了你的皮肤。",
+        "fail_effects": {"生命": -2, "疯狂": 2, "max_life": -1},
+        "branch": "strength",
+        "set_world_state": {"hydra_method": "slaughter"},
+        "active_mechanic": "hydra_regen"
+      },
+      {
+        "text": "火烧伤口，阻断再生",
+        "effects": {"智慧": 3, "荣耀": -1},
+        "required_stat": {"智慧": 6},
+        "fail_text": "火焰引燃了毒雾，爆炸将你炸飞。",
+        "fail_effects": {"生命": -2},
+        "branch": "wisdom",
+        "set_world_state": {"hydra_method": "fire"}
+      }
+    ]
+  },
+  {
+    "event_id": "ch02_twist",
+    "type": "story",
+    "title": "不朽之颅",
+    "text": "九头蛇躯体倒下，但中央那颗最大的头颅——传说中的不朽之头——仍在蠕动，发出嘶嘶声。它无法被杀死，只能被埋葬。再生之力仍在延续，每一瞬都在啃噬你的生机。",
+    "options": [
+      {"text": "以巨石镇压，深埋不朽之头", "effects": {"力量": 1, "荣耀": 1}, "required_stat": {"力量": 8}, "fail_text": "巨石太重，砸伤了你的腿。", "fail_effects": {"生命": -1}, "branch": "seal", "set_world_state": {"hydra_immortal_sealed": true}},
+      {"text": "以毒血腐蚀，使其永眠", "effects": {"疯狂": 2, "智慧": 1}, "branch": "poison", "set_world_state": {"hydra_poisoned": true}}
+    ]
+  },
+  {
+    "event_id": "ch02_aftermath",
+    "type": "story",
+    "title": "毒血之河",
+    "text": "九头蛇终于倒下，剧毒的血液渗入大地。你浑身是伤，但活了下来。你用毒蛇之血浸泡箭矢——从此你的箭带有剧毒。",
+    "options": [
+      {"text": "用毒血涂抹武器，继续前行", "effects": {"神恩": -1}, "branch": "continue"}
+    ]
+  }
+]

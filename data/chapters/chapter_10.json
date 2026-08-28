@@ -1,0 +1,57 @@
+[
+  {
+    "event_id": "ch10_arrival",
+    "type": "story",
+    "title": "第十试炼：革律翁牛群",
+    "text": "厄律忒斯提亚岛，红色太阳永不落下。三头巨人革律翁看守着他的牛群——每一头牛都是神赐的宝藏。巨人有着三颗头颅，意味着三倍的视野，你无法偷袭。",
+    "options": [
+      {"text": "正面挑战，先解决革律翁", "effects": {"力量": 1}, "branch": "fight"},
+      {"text": "寻找牧场的入口和出口", "effects": {"智慧": 1}, "branch": "scout"}
+    ]
+  },
+  {
+    "event_id": "ch10_battle",
+    "type": "story",
+    "title": "三连战",
+    "text": "战斗比想象的更加惨烈。革律翁的三颗头颅分工明确——一颗喷火，一颗放牧，一颗战斗。你必须在他重新调配之前抓住时机。",
+    "options": [
+      {
+        "text": "连战三场，击杀所有守护者",
+        "effects": {"力量": 3, "生命": -2, "荣耀": 2},
+        "required_stat": {"力量": 9},
+        "fail_text": "你被火焰灼伤，险些丧命。",
+        "fail_effects": {"生命": -3, "疯狂": 1},
+        "branch": "strength",
+        "set_world_state": {"geryon_slain": true, "cattle_seized": true}
+      },
+      {
+        "text": "趁夜色偷走牛群，狂奔而逃",
+        "effects": {"智慧": 3, "疯狂": 1},
+        "required_stat": {"智慧": 7},
+        "fail_text": "你被牛群践踏，勉强逃脱。",
+        "fail_effects": {"生命": -2},
+        "branch": "stealth",
+        "set_world_state": {"cattle_stolen": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch10_twist",
+    "type": "story",
+    "title": "冥界的影子",
+    "text": "跨越大陆途中，你路过一个深渊。深渊中传来三声犬吠——刻耳柏洛斯，你最终的宿命。一个蒙面人挡住去路：“去冥界之前，先回答我：你最害怕什么？”",
+    "options": [
+      {"text": "坦承恐惧：害怕变成怪物", "effects": {"疯狂": -1, "神恩": 1}, "branch": "truth", "set_world_state": {"fear_admitted": true}},
+      {"text": "拒绝回答，挥拳驱赶", "effects": {"力量": 1, "疯狂": 1}, "branch": "refuse", "set_world_state": {"fear_denied": true}}
+    ]
+  },
+  {
+    "event_id": "ch10_aftermath",
+    "type": "story",
+    "title": "跨越大陆",
+    "text": "牛群跟着你穿越了整个欧洲大陆。一路上，赫拉克利特留下的食人巨牛不断骚扰。你赶走它们，继续前行——直到欧律斯修斯王的使者出现，宣告试炼结束。",
+    "options": [
+      {"text": "将牛群交给国王", "effects": {"荣耀": 2}, "branch": "continue"}
+    ]
+  }
+]
