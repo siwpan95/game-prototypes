@@ -340,6 +340,123 @@
             "category": "称号",
             "rarity": "神话",
             "description": "至高荣耀"
+        },
+        {
+            "name": "复活币",
+            "base": 0.2,
+            "gamma": 0.01,
+            "delta": 0.018,
+            "category": "道具",
+            "rarity": "普通",
+            "description": "原地复活"
+        },
+        {
+            "name": "体力药水",
+            "base": 0.28,
+            "gamma": 0.015,
+            "delta": 0.02,
+            "category": "药水",
+            "rarity": "普通",
+            "description": "恢复行动力"
+        },
+        {
+            "name": "高级经验书",
+            "base": 0.09,
+            "gamma": 0.025,
+            "delta": 0.008,
+            "category": "经验",
+            "rarity": "稀有",
+            "description": "海量经验"
+        },
+        {
+            "name": "祝福油",
+            "base": 0.05,
+            "gamma": 0.06,
+            "delta": 0.007,
+            "category": "强化",
+            "rarity": "稀有",
+            "description": "提升装备成功率"
+        },
+        {
+            "name": "藏宝图",
+            "base": 0.065,
+            "gamma": 0.055,
+            "delta": 0.009,
+            "category": "道具",
+            "rarity": "稀有",
+            "description": "指引隐藏宝藏"
+        },
+        {
+            "name": "改名卡",
+            "base": 0.03,
+            "gamma": 0.07,
+            "delta": 0.005,
+            "category": "功能",
+            "rarity": "稀有",
+            "description": "更改角色名称"
+        },
+        {
+            "name": "保护符",
+            "base": 0.02,
+            "gamma": 0.09,
+            "delta": 0.003,
+            "category": "强化",
+            "rarity": "史诗",
+            "description": "强化失败不掉级"
+        },
+        {
+            "name": "翅膀皮肤",
+            "base": 0.018,
+            "gamma": 0.11,
+            "delta": 0.004,
+            "category": "外观",
+            "rarity": "史诗",
+            "description": "炫酷翅膀幻化"
+        },
+        {
+            "name": "光环碎片",
+            "base": 0.025,
+            "gamma": 0.08,
+            "delta": 0.006,
+            "category": "外观",
+            "rarity": "史诗",
+            "description": "合成华丽光环"
+        },
+        {
+            "name": "传奇宝石",
+            "base": 0.008,
+            "gamma": 0.13,
+            "delta": 0.003,
+            "category": "宝石",
+            "rarity": "传说",
+            "description": "镶嵌于传说装备"
+        },
+        {
+            "name": "龙之徽章",
+            "base": 0.007,
+            "gamma": 0.14,
+            "delta": 0.002,
+            "category": "徽章",
+            "rarity": "传说",
+            "description": "龙族力量的证明"
+        },
+        {
+            "name": "限定时装·星河",
+            "base": 0.003,
+            "gamma": 0.22,
+            "delta": 0.0008,
+            "category": "时装",
+            "rarity": "神话",
+            "description": "联动活动限定"
+        },
+        {
+            "name": "神话装备",
+            "base": 0.001,
+            "gamma": 0.3,
+            "delta": 0.0005,
+            "category": "装备",
+            "rarity": "神话",
+            "description": "创世之力"
         }
     ]
 }
