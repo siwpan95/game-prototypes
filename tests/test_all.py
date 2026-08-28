@@ -684,6 +684,9 @@ def t_gui_advanced_flow():
         for act in ch.act_catalog():
             ch.perform_action(act)
         expect(ch.digested, f"序列{lvl} 扮演已完全消化")
+        # E1：普通晋升（序列1~9）需魔药材料——先搜集再晋升
+        # （2026-08-28 修复：E1 材料门禁上线后本测试未同步，晋升被拦截）
+        gui._do_gather_materials()
         gui._do_ascend()
         ch = gui.character
         expect(ch.LEVEL == lvl - 1, f"晋升至序列{lvl-1}（{ch.SEQUENCE_NAME}）")
