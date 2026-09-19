@@ -6,8 +6,8 @@
 > 本项目由旧版单文件 `chess.py` (634 行 God Class) 重构为 MVVM 分层架构，
 > 并按上海麻将标准规则全面完善。
 >
-> **引擎接入 (alloy)**：基础设施层（事件总线 / 固定步长主循环 / 字体加载）
-> 已替换为内联的 `alloy/`（见下方说明），并对牌与棋盘做了**深度 ECS 化**
+> **引擎接入 (allin_engine)**：基础设施层（事件总线 / 固定步长主循环 / 字体加载）
+> 已替换为内联的 `allin_engine/`（见下方说明），并对牌与棋盘做了**深度 ECS 化**
 > —— 每张牌是引擎 `World` 中的一个 `Entity`，携带 `Tile`（本身即 Component）与
 > `PositionComponent`（三维坐标）。`Board` 是 `World` 的适配器，对外 API 不变，
 > 因此 `services/` 与 `views/` 无需改动即可运行在 ECS 之上。
@@ -67,7 +67,7 @@ python main.py
 ```
 mahjong/
 ├── main.py                  # 入口：组装 root + ViewModel + Views；用 FixedTimestepLoop 驱动计时
-├── alloy/            # 内联的引擎副本 (事件总线/World/固定步长循环/字体工具)
+├── allin_engine/            # 内联的引擎副本 (事件总线/World/固定步长循环/字体工具)
 │                             #   （排除 .git，字体 SimHei.ttf/Arial.ttf 已并入 fonts/）
 ├── models/                  # Model 层 (纯数据/ECS，无 UI 依赖)
 │   ├── components.py        #   Pos + PositionComponent(引擎 Component)：三维坐标
@@ -105,9 +105,9 @@ View 点击 ──> ViewModel.select(pos) ──> Model 更新 (Board/GameState)
 ViewModel 通过 `add_listener` 注册回调，自身不持有任何 UI 引用，
 可脱离 tkinter 独立测试。
 
-## 引擎接入 (alloy)
+## 引擎接入 (allin_engine)
 
-`alloy` 以**静态内联副本**方式存在于 `mahjong/alloy/`（与 dwarf_scrolls
+`allin_engine` 以**静态内联副本**方式存在于 `mahjong/allin_engine/`（与 dwarf_scrolls
 同模式，零跨项目硬引用；更新引擎时在此副本内同步）。mahjong 用到的引擎能力：
 
 - **事件总线 `EventBus`**（`core/event_bus.py`）：替换 ViewModel 原手写 `add_listener`/`_emit`

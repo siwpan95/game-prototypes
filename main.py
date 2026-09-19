@@ -14,7 +14,7 @@ import time
 import tkinter as tk
 from tkinter import messagebox
 
-from alloy.core.game_loop import FixedTimestepLoop
+from allin_engine.core.game_loop import FixedTimestepLoop
 from models.game_state import GameMode
 from services.layouts import LayoutKind
 from viewmodel.game_viewmodel import GameViewModel

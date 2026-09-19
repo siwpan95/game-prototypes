@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-from alloy.core import Component
+from allin_engine.core import Component
 
 
 class Suit(Enum):

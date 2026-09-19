@@ -6,7 +6,7 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-from alloy.core import Component
+from allin_engine.core import Component
 
 
 Pos = Tuple[int, int, int]  # (layer, row, col)

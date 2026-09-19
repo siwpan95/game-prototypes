@@ -12,7 +12,7 @@
 from dataclasses import dataclass, field
 from typing import Dict, Iterator, List, Optional, Tuple
 
-from alloy.core import Entity, World
+from allin_engine.core import Entity, World
 
 from .components import Pos, PositionComponent
 from .tile import Tile

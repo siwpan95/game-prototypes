@@ -32,7 +32,7 @@ sys.path.insert(0, ROOT)
 from models.game_state import GameMode, GameState  # noqa: E402
 from models.tile import Suit, Tile  # noqa: E402
 from services.layouts import LayoutKind  # noqa: E402
-from alloy.core.event_bus import EventBus  # noqa: E402
+from allin_engine.core.event_bus import EventBus  # noqa: E402
 from viewmodel.game_viewmodel import GameViewModel  # noqa: E402
 
 

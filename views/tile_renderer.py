@@ -20,7 +20,7 @@ from typing import Dict, List, Optional, Tuple
 
 from PIL import Image, ImageDraw, ImageFont, ImageTk
 
-from alloy.utils.font import discover_local_fonts
+from allin_engine.utils.font import discover_local_fonts
 from models.tile import Suit, Tile
 
 # 数字 1..9 -> 中文
@@ -128,7 +128,7 @@ class TileRenderer:
 
     # ---- 字体（交给引擎字体发现机制托管）-------------------
     def _load_fonts(self) -> None:
-        # 引擎已把 SimHei.ttf / Arial.ttf 并入 alloy/fonts/，
+        # 引擎已把 SimHei.ttf / Arial.ttf 并入 allin_engine/fonts/，
         # discover_local_fonts() 按文件名 stem 给出别名 (simhei / arial)。
         table = {alias: str(path) for alias, path in discover_local_fonts()}
         self._font_main = table.get("simhei")

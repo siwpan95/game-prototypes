@@ -1,6 +1,6 @@
 """Cocos 音频控制器 —— 将 ViewModel 事件映射到 Cocos 真人语音/音效。
 
-使用 alloy.audio.AudioSystem 作为播放器，自动处理 pygame 不可用、
+使用 allin_engine.audio.AudioSystem 作为播放器，自动处理 pygame 不可用、
 文件缺失等异常（无头/静默环境不崩溃、不抛错）。
 """
 from __future__ import annotations
@@ -51,7 +51,7 @@ class AudioController:
         sfx_volume: float = 1.0,
     ) -> None:
         self._vm = vm
-        from alloy.audio import AudioSystem
+        from allin_engine.audio import AudioSystem
 
         self._audio = AudioSystem(master_volume=master_volume)
         self._audio.set_sfx_volume(sfx_volume)

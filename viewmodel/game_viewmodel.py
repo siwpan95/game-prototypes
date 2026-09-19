@@ -26,7 +26,7 @@ from services.matcher import (
     can_link, find_hint_pair, has_solution, is_free, tile_match,
 )
 from services.scorer import score_for_match, time_bonus, COMBO_WINDOW
-from alloy.core.event_bus import EventBus
+from allin_engine.core.event_bus import EventBus
 
 
 Listener = Callable[["GameEvent"], None]

@@ -8,7 +8,7 @@ from __future__ import annotations
 import tkinter as tk
 from typing import Callable
 
-from alloy.utils.font import load_local_tk_font
+from allin_engine.utils.font import load_local_tk_font
 from models.game_state import GameMode
 from services.layouts import LayoutKind
 from viewmodel.game_viewmodel import GameViewModel
@@ -17,7 +17,7 @@ from viewmodel.game_viewmodel import GameViewModel
 class Hud:
     def __init__(self, parent: tk.Widget, vm: GameViewModel) -> None:
         self.vm = vm
-        # 字体统一交给引擎字体工具加载（别名 simhei，由 alloy/fonts/ 托管）
+        # 字体统一交给引擎字体工具加载（别名 simhei，由 allin_engine/fonts/ 托管）
         self.f = load_local_tk_font(10, name="simhei") or ("SimHei", 10)
         self.fb = load_local_tk_font(11, name="simhei", bold=True) or ("SimHei", 11, "bold")
         self.fbig = load_local_tk_font(18, name="simhei", bold=True) or ("SimHei", 18, "bold")
