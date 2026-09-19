@@ -1,9 +1,9 @@
-# 设计文档：为 alloy 补齐「我的世界复刻（2D 文字/卡牌向）」引擎地基
+# 设计文档：为 allin_engine 补齐「我的世界复刻（2D 文字/卡牌向）」引擎地基
 
 > 架构师：高见远（Gao）
 > 范围：仅补引擎地基（A–G 七块缺口 + mc_clone 骨架），不写任何游戏逻辑（无玩家循环/移动/碰撞/UI 玩法）。
 > 方向：2D 侧视方块世界 + 文字(ASCII/ANSI)渲染。保持代码 3D-就绪，第一轮只做 2D 侧视。
-> 约束：纯 Python 3.14 扩展 alloy，零新增硬依赖（pygame 仅作可选软依赖）。
+> 约束：纯 Python 3.14 扩展 allin_engine，零新增硬依赖（pygame 仅作可选软依赖）。
 
 ---
 
@@ -23,7 +23,7 @@
 
 ## 2. 文件列表及相对路径
 
-### 2.1 引擎侧（`D:\allin\tools\alloy\`，相对引擎根）
+### 2.1 引擎侧（`D:\allin\tools\allin_engine\`，相对引擎根）
 | 文件 | 职责 |
 |---|---|
 | `core/geometry.py` | 新增：`Vec2i`、`AABB2D`、`clamp`、`lerp` 几何/视口数学原语。 |
@@ -35,14 +35,14 @@
 | `world/data/blocks.default.json` | 新增资源：默认方块集 JSON 定义，供 `BlockRegistry.load_defaults()` 加载。 |
 | `render/text_world_renderer.py` | 新增：`TextWorldRenderer`——给定 BlockWorld + 视口，按方块 glyph+color 产出 ANSI/ASCII 文本行。 |
 | `systems/input_realtime.py` | 新增：`PygameKeyStateSource`（按住状态、is_down/poll）+ `RealtimeInputManager`。延迟 import pygame。 |
-| `alloy/__init__.py` | 更新：re-export 新模块。 |
+| `allin_engine/__init__.py` | 更新：re-export 新模块。 |
 | `render/__init__.py`、`systems/__init__.py` | 更新：补充新模块导出（在末尾追加，不覆盖既有）。 |
 
 ### 2.2 游戏骨架侧（`D:\allin\tools\mc_clone\`）
 | 文件 | 职责 |
 |---|---|
 | `mc_clone/__init__.py` | 新增：包初始化，导出 `main`。 |
-| `mc_clone/main.py` | 新增：stub `main()`——导入 alloy 并打印就绪信息（无玩法代码）。 |
+| `mc_clone/main.py` | 新增：stub `main()`——导入 allin_engine 并打印就绪信息（无玩法代码）。 |
 | `mc_clone/README.md` | 新增：骨架说明。 |
 
 ---
@@ -165,7 +165,7 @@ class RealtimeInputManager:
 
 | 任务 | 名称 | 源文件 | 依赖 | 优先级 |
 |---|---|---|---|---|
-| T01 | 几何与噪声地基 | `core/geometry.py`、`world/noise.py`、`world/__init__.py`、`alloy/__init__.py`（补导出） | 无 | P0 |
+| T01 | 几何与噪声地基 | `core/geometry.py`、`world/noise.py`、`world/__init__.py`、`allin_engine/__init__.py`（补导出） | 无 | P0 |
 | T02 | 方块数据层 | `world/block_registry.py`、`world/data/blocks.default.json`、`world/__init__.py`（补导出） | 无 | P0 |
 | T03 | 世界模型与地形生成 | `world/block_world.py`、`world/terrain.py`、`world/__init__.py`（补导出） | T01、T02 | P0 |
 | T04 | 文字渲染与实时输入 | `render/text_world_renderer.py`、`systems/input_realtime.py`、`render/__init__.py`、`systems/__init__.py` | T01、T02、T03 | P1 |

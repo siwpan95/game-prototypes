@@ -25,7 +25,7 @@ from _testutil import (
 
 # ── 导入安全性模拟：强制 pygame 不可用（顶层不得 import pygame）──
 # 通过把 sys.modules['pygame'] 设为 None，使任何 `import pygame` 抛 ImportError，
-# 验证本例模块与 alloy 在无 pygame 时能正常导入。
+# 验证本例模块与 allin_engine 在无 pygame 时能正常导入。
 sys.modules.pop("pygame", None)
 sys.modules["pygame"] = None
 
@@ -46,7 +46,7 @@ from mcclone.render import text_world_renderer# noqa: E402
 from mcclone.render.text_world_renderer import TextWorldRenderer  # noqa: E402
 
 from mcclone.input import input_realtime# noqa: E402
-import mcclone._engine as alloy  # noqa: E402  (内联引擎，验证可导入)
+import mcclone._engine as allin_engine  # noqa: E402  (内联引擎，验证可导入)
 
 
 # =====================================================================
@@ -394,8 +394,8 @@ def test_import_safety_without_pygame():
                 "mcclone.core.block_world", "mcclone.core.terrain",
                 "mcclone.render.text_world_renderer", "mcclone.input.input_realtime"]:
         importlib.import_module(mod)
-    import mcclone._engine as alloy  # 必须成功
-    assert alloy is not None
+    import mcclone._engine as allin_engine  # 必须成功
+    assert allin_engine is not None
 
 
 def test_input_pygame_key_source_raises_without_pygame():

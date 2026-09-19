@@ -7,7 +7,7 @@
     所有状态仅通过 PUBLIC 构造器 + 运行时属性赋值（p.hp = ...、
     inventory.add(...) 或必要时直接写 player.inventory._items、
     survival.set_spawn(...) 等）在运行时重建。
-  - SaveGame 继承 alloy.core.serializable.Serializable（dataclass），
+  - SaveGame 继承 allin_engine.core.serializable.Serializable（dataclass），
     字段以原生 dict/list 容器承载各子系统快照，to_dict()/from_dict()
     自动基于 dataclass 字段完成；本模块在存/读时负责把 dict 快照与真实
     对象互相转换。
@@ -113,8 +113,8 @@ def build_savegame(*, world, player, survival, daynight, creatures,
                    saved_at: str | None = None) -> SaveGame:
     """构造 SaveGame 数据容器（引擎 Serializable，自带 to_dict/from_dict）。
 
-    整合：SaveGame 是 alloy.core.serializable.Serializable 的子类，
-    可直接交给 alloy.systems.save_load.SaveLoadManager 多槽位持久化。
+    整合：SaveGame 是 allin_engine.core.serializable.Serializable 的子类，
+    可直接交给 allin_engine.systems.save_load.SaveLoadManager 多槽位持久化。
     """
     return SaveGame(
         version=1,

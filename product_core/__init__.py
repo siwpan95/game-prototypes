@@ -14,7 +14,7 @@
 可切换表现层的统一产品。MC1 / MC2 在启动时把各自的 bus / audio / save_mgr /
 registry 接到本内核的同一实例上，事件、音频、存档与资源便在两种玩法层间贯通。
 
-注：本模块仅依赖 alloy，不反向依赖 MC1 / MC2，避免循环导入；
+注：本模块仅依赖 allin_engine，不反向依赖 MC1 / MC2，避免循环导入；
 MC1 / MC2 的资源登记通过惰性方法（register_mc1_items / register_mc2_blocks）完成。
 """
 
@@ -24,10 +24,10 @@ import os
 from pathlib import Path
 from typing import Any, Optional
 
-from alloy.core.event_bus import EventBus as _EngineEventBus
-from alloy.audio.audio_system import AudioSystem
-from alloy.systems.save_load import SaveLoadManager
-from alloy.systems.stackable_inventory import ItemRegistry, StackableInventory
+from allin_engine.core.event_bus import EventBus as _EngineEventBus
+from allin_engine.audio.audio_system import AudioSystem
+from allin_engine.systems.save_load import SaveLoadManager
+from allin_engine.systems.stackable_inventory import ItemRegistry, StackableInventory
 
 # ── 共享存档槽位划分（同一 SaveLoadManager / 同一存档目录）──
 SLOT_PROFILE = 9     # 跨玩法层的共享角色/进度档案

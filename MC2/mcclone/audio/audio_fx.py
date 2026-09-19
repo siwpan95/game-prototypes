@@ -98,7 +98,7 @@ class PygameMixerBackend:
 
 
 try:
-    from alloy.audio import AudioSystem as _EngineAudioSystem
+    from allin_engine.audio import AudioSystem as _EngineAudioSystem
     _HAS_ENGINE_AUDIO = True
 except Exception:  # noqa: BLE001 — 引擎音频不可用时静默降级
     _EngineAudioSystem = None
@@ -106,7 +106,7 @@ except Exception:  # noqa: BLE001 — 引擎音频不可用时静默降级
 
 
 class EngineAudioBackend:
-    """后端：复用 alloy.audio.AudioSystem 播放（统一引擎音频管线）。
+    """后端：复用 allin_engine.audio.AudioSystem 播放（统一引擎音频管线）。
 
     MC2 程序合成的 16-bit PCM 波形转为 float32 数组后交给引擎 AudioSystem 播放，
     实现「MC2 音效接入统一引擎」的整合目标。headless / 无 numpy 时静默降级，
@@ -160,7 +160,7 @@ class SoundEngine:
         self._shared_audio = audio_system
 
     def init(self) -> bool:
-        """选定后端：优先 alloy.audio.AudioSystem（可复用共享实例），
+        """选定后端：优先 allin_engine.audio.AudioSystem（可复用共享实例），
         失败回退 PygameMixer，再回退 Null（静音容错，headless 安全）。"""
         if self.backend is None:
             for BackendCls in (EngineAudioBackend, PygameMixerBackend):

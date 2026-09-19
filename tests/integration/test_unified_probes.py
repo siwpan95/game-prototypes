@@ -29,7 +29,7 @@ for _p in (str(_ROOT), str(_MC1), str(_MC2)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from alloy.test import Probe, ProbeManager      # noqa: E402
+from allin_engine.test import Probe, ProbeManager      # noqa: E402
 from product_core import ProductCore                   # noqa: E402
 from minecraft_adventure import MinecraftAdventure     # noqa: E402
 from mcclone.core.event_bus import EventBus, EventTypes  # noqa: E402

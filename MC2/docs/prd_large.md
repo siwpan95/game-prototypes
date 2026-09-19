@@ -249,7 +249,7 @@ graph LR
 | M5-R1 | **生物群系**：地形生成扩展群系噪声（平原/沙漠/山地/水域），按群系选方块调色板 | ① 出现可辨识区域；② 确定性可复现 |
 | M5-R2 | **洞穴 & 矿脉**：利用 M3 多层，用 3D 噪声开凿洞穴，在石中散布矿（铁/煤/钻石） | ① 地下有洞穴与矿脉；② 矿按层分布合理 |
 | M5-R3 | **存档/读档**：复用 `BlockWorld.to_dict/from_dict` + 序列化玩家/背包/时间/生物；`F5` 存、启动读 | ① 重载后世界+玩家+状态一致 |
-| M5-R4 | **PyInstaller 打包**：`build.spec` 打包为 exe，捆绑 `alloy` 与资源 | ① 目标机无 Python 可双击运行 |
+| M5-R4 | **PyInstaller 打包**：`build.spec` 打包为 exe，捆绑 `allin_engine` 与资源 | ① 目标机无 Python 可双击运行 |
 
 #### P1
 
@@ -330,7 +330,7 @@ graph LR
 | Q3 | **Z 层级是否 M1 就启用** | M1 即 `depth>1`（更复杂）/ M1 仍 `depth=1`，M3 起启用 | **M1 保持 `depth=1`**（垂直切片更稳）；数据结构已支持 `z`，M3 直接启用 >1，无返工 |
 | Q4 | **模拟层性能预算** | 高 tick（如 60Hz，吃 CPU）/ 低 tick（如 10Hz，响应慢）/ 折中 | **模拟 tick ≤ 20Hz，且只重算「有变化的 chunk」**；瓦片渲染目标 30–60 FPS |
 | Q5 | **M1 是否支持鼠标瞄准** | 是（贴近 MC/Terraria，pygame 已支持）/ 否（纯键盘 J-K） | **是**（鼠标瞄准为默认；键盘 `J-K` 作降级保留） |
-| Q6 | **游戏循环驱动** | 复用 `alloy` `FixedTimestepLoop` / 用 pygame `Clock` 固定步长累加器 | **pygame `Clock` + 固定步长累加器**（减少引擎耦合，便于 PyInstaller 打包）；保留 `alloy` 仅用于 `Serializable`/`JSONLoader`/`InputManager` 基类 |
+| Q6 | **游戏循环驱动** | 复用 `allin_engine` `FixedTimestepLoop` / 用 pygame `Clock` 固定步长累加器 | **pygame `Clock` + 固定步长累加器**（减少引擎耦合，便于 PyInstaller 打包）；保留 `allin_engine` 仅用于 `Serializable`/`JSONLoader`/`InputManager` 基类 |
 | Q7 | **默认世界尺寸** | 小（64×24，呼应首轮）/ 中（256×96）/ 大（512×192） | **宽 256 × 高 96 × depth**（M1 depth=1；M3 起 8–16）；比首轮大以体现「相机跟随有意义」 |
 
 ---
@@ -358,7 +358,7 @@ graph LR
 | `player.py` | 玩家实体 + 物理（移动/重力/碰撞/生命/饥饿） | M1/M2 |
 | `camera.py` | 视口跟随 + 边界钳制 + Z 层级视口 | M1/M3 |
 | `hud.py` | pygame HUD / 快捷栏 / 提示条绘制 | M1 |
-| `inventory.py` | 本地 `Inventory`（推荐自实现，降耦合，不依赖 `alloy.systems.inventory`） | M2 |
+| `inventory.py` | 本地 `Inventory`（推荐自实现，降耦合，不依赖 `allin_engine.systems.inventory`） | M2 |
 | `crafting.py` | 配方表（JSON 数据驱动）与合成逻辑 | M2 |
 | `daynight.py` | 昼夜时间累加器与光照/色调 | M2 |
 | `simulation/temperature.py` | 温度场 + 扩散 | M3 |
@@ -375,7 +375,7 @@ graph LR
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖** | 渲染 / 输入 / 主循环；`>=2.5` |
-| `alloy`（纯净版，位于 `D:\allin\tools`） | 保留依赖 | 仅用 `core.serializable.Serializable`、`utils.json_loader.JSONLoader`、`systems.input.InputManager` 基类；M1 起游戏循环改用 pygame，不再依赖其 `FixedTimestepLoop`/`EventBus`（本地轻量事件即可） |
+| `allin_engine`（纯净版，位于 `D:\allin\tools`） | 保留依赖 | 仅用 `core.serializable.Serializable`、`utils.json_loader.JSONLoader`、`systems.input.InputManager` 基类；M1 起游戏循环改用 pygame，不再依赖其 `FixedTimestepLoop`/`EventBus`（本地轻量事件即可） |
 | Python 3.14 标准库 | 标准 | `json` / `math` / `random` / `dataclasses` / `argparse` / `os` / `sys` 等 |
 | `PyInstaller` | **构建期**依赖 | 仅 M5 打包使用，不进运行时 |
 

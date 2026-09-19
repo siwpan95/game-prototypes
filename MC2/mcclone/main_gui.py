@@ -35,7 +35,7 @@ _PROJECT_ROOT = os.path.dirname(_THIS_DIR)
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
-# 整合后 mcclone._engine 复用 alloy，需让 alloy 包可导入
+# 整合后 mcclone._engine 复用 allin_engine，需让 allin_engine 包可导入
 # （引擎位于 example 的父目录 D:/allin/MCclone）。
 _ENGINE_PARENT = os.path.dirname(_PROJECT_ROOT)
 if _ENGINE_PARENT not in sys.path:
@@ -176,7 +176,7 @@ def spawn_player(world: BlockWorld, registry: BlockRegistry) -> Player:
 class SaveController:
     """存档 / 读档控制器（M5），从 GameLoop 拆出。
 
-    整合增强：可注入 alloy 的 SaveLoadManager（统一产品内核的共享存档），
+    整合增强：可注入 allin_engine 的 SaveLoadManager（统一产品内核的共享存档），
     存档在写入文件的同时经引擎多槽位管理器持久化；读档优先从管理器读取，
     实现 MC1 / MC2 共用同一套引擎存档主干。
     """

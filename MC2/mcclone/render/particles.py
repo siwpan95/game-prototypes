@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""particles — M6 粒子系统（整合到 alloy.fx.particle）。
+"""particles — M6 粒子系统（整合到 allin_engine.fx.particle）。
 
 整合说明（去「本地平行实现」为「引擎上层应用」）：
   MC2 原本自带一套轻量粒子系统（仅日志/视觉）。整合后，MC2 的粒子真正
-  跑在 alloy 的统一粒子引擎之上：
+  跑在 allin_engine 的统一粒子引擎之上：
 
-    - 粒子存储与物理演化由 alloy.fx.particle.ParticleSystem 承担
+    - 粒子存储与物理演化由 allin_engine.fx.particle.ParticleSystem 承担
       （重力力场 + 生命衰减 + 死亡回收，引擎统一实现）；
     - 单个粒子即引擎的 Particle 原语；
     - 游戏特有的 spawn 预设（挖掘碎屑/受击/死亡爆裂/脚步尘土）、
@@ -24,7 +24,7 @@ import random
 from typing import Dict, List, Optional, Tuple
 
 # 引擎统一粒子引擎（真正承载存储与物理演化）
-from alloy.fx.particle import (
+from allin_engine.fx.particle import (
     Particle as _EngineParticle,
     ForceField,
     ParticleSystem as _EngineParticleSystem,
@@ -57,7 +57,7 @@ Particle = _EngineParticle
 
 
 class ParticleSystem(_EngineParticleSystem):
-    """MC2 粒子系统 —— 玩法层，底层为 alloy.fx.particle.ParticleSystem。
+    """MC2 粒子系统 —— 玩法层，底层为 allin_engine.fx.particle.ParticleSystem。
 
     继承引擎粒子系统，复用其存储与物理演化；游戏特有的 spawn 预设、
     相机坐标 draw、事件订阅在此叠加。

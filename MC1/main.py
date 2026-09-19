@@ -2,7 +2,7 @@
 """
 《我的世界》文字冒险 — 主程序入口
 ==================================
-基于 alloy 构建，使用 PingFangJiangNanTi-2.ttf 字体的 Tkinter GUI。
+基于 allin_engine 构建，使用 PingFangJiangNanTi-2.ttf 字体的 Tkinter GUI。
 
 启动方式:
     python main.py
@@ -11,7 +11,7 @@
     - Python 3.10+
     - tkinter（通常自带）
     - PingFangJiangNanTi-2.ttf（项目目录下）
-    - D:\allin\tools\alloy（引擎）
+    - D:\allin\tools\allin_engine（引擎）
 """
 
 from __future__ import annotations
@@ -22,9 +22,9 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import font, scrolledtext, ttk
 
-# 添加引擎路径（引擎统一位于 D:/allin/MCclone/alloy）
+# 添加引擎路径（引擎统一位于 D:/allin/MCclone/allin_engine）
 # minecraft_adventure 内部已把 MC1 的父目录（MCclone）注入 sys.path，
-# 这里也做一层兜底，保证 alloy 可被导入。
+# 这里也做一层兜底，保证 allin_engine 可被导入。
 _ENGINE_PARENT = str(Path(__file__).resolve().parent.parent)
 if _ENGINE_PARENT not in sys.path:
     sys.path.insert(0, _ENGINE_PARENT)

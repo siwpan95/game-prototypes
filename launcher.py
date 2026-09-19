@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-launcher — MCclone 统一启动器（MC1 文字冒险 + MC2 2D 复刻，均基于 alloy）
+launcher — MCclone 统一启动器（MC1 文字冒险 + MC2 2D 复刻，均基于 allin_engine）
 
 功能：
   1. 启动 MC1 —— 我的世界文字冒险（Tkinter GUI）
   2. 启动 MC2 —— 我的世界 2D 侧视复刻（pygame GUI）
-  3. 运行探针测试 —— 用 alloy.test.Probe 验证两游戏可运行、可玩
+  3. 运行探针测试 —— 用 allin_engine.test.Probe 验证两游戏可运行、可玩
   4. 退出
 
 说明：
   - MC1 / MC2 在启动时会自行把引擎父目录（本目录 D:/allin/MCclone）注入 sys.path，
-    因此只要 alloy 在本目录下，即可正常导入。
+    因此只要 allin_engine 在本目录下，即可正常导入。
   - GUI 程序以独立子进程启动（不阻塞本菜单）；探针测试在本进程内运行并可查看明细。
   - 命令行用法：python launcher.py --probes   直接运行全部探针并返回退出码。
 
@@ -81,7 +81,7 @@ def _run_probes() -> int:
 def _menu() -> None:
     while True:
         print("\n" + "=" * 56)
-        print("  MCclone 统一启动器  ·  基于 alloy 引擎")
+        print("  MCclone 统一启动器  ·  基于 allin_engine 引擎")
         print("=" * 56)
         print("  [1] 启动 MC1 —— 我的世界文字冒险（Tkinter GUI）")
         print("  [2] 启动 MC2 —— 我的世界 2D 侧视复刻（pygame GUI）")

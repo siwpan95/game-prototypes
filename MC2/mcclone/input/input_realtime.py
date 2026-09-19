@@ -10,8 +10,8 @@ input_realtime — 实时键盘输入（pygame 为可选软依赖，延迟导入
   - 若运行环境无 pygame，构造或使用会抛出清晰的 RuntimeError。
   - 不破坏既有 InputManager 的文本命令能力（运行时需 tkinter/CLI 源）。
 
-本模块只依赖纯净版 alloy 的通用能力：
-  - alloy.systems.input.InputManager
+本模块只依赖纯净版 allin_engine 的通用能力：
+  - allin_engine.systems.input.InputManager
 """
 
 from __future__ import annotations

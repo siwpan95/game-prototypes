@@ -17,7 +17,7 @@
 | Z 层级 | **M1 `depth=1`**；M3 起启用 `depth>1`（数据结构已支持，无返工） |
 | 模拟预算 | 模拟 tick ≤ **20Hz**，仅重算变化 chunk；瓦片渲染目标 **30–60 FPS** |
 | 瞄准 | **M1 默认鼠标瞄准**，键盘 `J-K` 作降级保留 |
-| 游戏循环 | **pygame.Clock + 固定步长累加器**；降 `alloy` 耦合，仅保留 `Serializable` / `JSONLoader` / `InputManager` 基类 |
+| 游戏循环 | **pygame.Clock + 固定步长累加器**；降 `allin_engine` 耦合，仅保留 `Serializable` / `JSONLoader` / `InputManager` 基类 |
 | 默认世界 | **256 × 96**（M1 `depth=1`） |
 | 坐标约定 | 继承地基：x 右、y 上、z 层；`屏幕第 r 行 ↔ world y = viewport.max_y - r`，`第 c 列 ↔ world x = viewport.min_x + c` |
 
@@ -31,11 +31,11 @@
 
 - **渲染**：采用 **pygame-ce**（`>=2.5`）的 `pygame.Surface` + `blit` 做 2D 瓦片渲染。每个非空方块渲染为一个 `tile_size×tile_size` 的 `pygame.Surface`；瓦片 Surface 以 `block_id` 为键缓存（程序生成纯色块）。**不引入任何 3D / OpenGL / numpy**——纯 Python + pygame 足以驱动 256×96 世界、视口 80×24 瓦片的 30–60 FPS 渲染，且对 PyInstaller 打包友好。
 - **输入**：复用现有 `input_realtime.RealtimeInputManager` / `PygameKeyStateSource`（键盘）。**新增 `MouseStateSource`** 提供鼠标位置与按键状态，并由 **`GUIInputManager(RealtimeInputManager)`** 组合键盘+鼠标（详见 §3）。为保持地基零改动，鼠标相关类放入**新建** `mouse_input.py`，不修改 `input_realtime.py`。
-- **游戏循环**：**放弃** `alloy.core.game_loop.FixedTimestepLoop`，改用 **`pygame.time.Clock` + 固定步长累加器**（fixed dt = 1/60）。理由：减少引擎耦合、便于 PyInstaller 冻结、逻辑与渲染解耦。
-- **事件系统**：**放弃** `alloy.core.event_bus.EventBus` / `EventTypes`，改用**轻量本地 `EventBus`**（新建 `event_bus.py`）。M1 仅做日志订阅；常量 `PLAYER_MOVED / BLOCK_BROKEN / BLOCK_PLACED / PLAYER_LANDED` 本地定义。
-- **存档/数据**：`BlockWorld.to_dict/from_dict` 与 `BlockDef` 继续继承 `alloy.core.serializable.Serializable`；`BlockRegistry.from_json` 继续用 `alloy.utils.json_loader.JSONLoader`。这两基类 + `InputManager` 基类是 **仅保留** 的引擎依赖。
+- **游戏循环**：**放弃** `allin_engine.core.game_loop.FixedTimestepLoop`，改用 **`pygame.time.Clock` + 固定步长累加器**（fixed dt = 1/60）。理由：减少引擎耦合、便于 PyInstaller 冻结、逻辑与渲染解耦。
+- **事件系统**：**放弃** `allin_engine.core.event_bus.EventBus` / `EventTypes`，改用**轻量本地 `EventBus`**（新建 `event_bus.py`）。M1 仅做日志订阅；常量 `PLAYER_MOVED / BLOCK_BROKEN / BLOCK_PLACED / PLAYER_LANDED` 本地定义。
+- **存档/数据**：`BlockWorld.to_dict/from_dict` 与 `BlockDef` 继续继承 `allin_engine.core.serializable.Serializable`；`BlockRegistry.from_json` 继续用 `allin_engine.utils.json_loader.JSONLoader`。这两基类 + `InputManager` 基类是 **仅保留** 的引擎依赖。
 
-### 1.2 与 `alloy` 的依赖边界（关键结论）
+### 1.2 与 `allin_engine` 的依赖边界（关键结论）
 
 | 能力 | 现状（地基） | M1 决策 |
 |---|---|---|
@@ -47,7 +47,7 @@
 | `systems/inventory.Inventory` | MVP 拟复用 | **弃用** → M2 自定义本地 `Inventory`（降耦合） |
 | `core/ecs` | 未使用 | **不涉及** |
 
-> **结论**：M1 对 `alloy` 的运行时依赖收敛为 **3 个基类**（`Serializable` / `JSONLoader` / `InputManager`）。`D:\allin\tools` 通过 `PYTHONPATH` 注入，不进 `requirements.txt`；为 PyInstaller 冻结时仅需把这 3 个基类模块打进包。
+> **结论**：M1 对 `allin_engine` 的运行时依赖收敛为 **3 个基类**（`Serializable` / `JSONLoader` / `InputManager`）。`D:\allin\tools` 通过 `PYTHONPATH` 注入，不进 `requirements.txt`；为 PyInstaller 冻结时仅需把这 3 个基类模块打进包。
 
 ### 1.3 模块分层（M1）
 
@@ -92,7 +92,7 @@ worldgen:       （复用现有 terrain.py；M5 扩展 worldgen/*）
 
 | 文件 | 职责 | 里程碑 |
 |---|---|---|
-| `inventory.py` | 本地 `Inventory`（槽位 `{block_id, count}`），**不依赖** `alloy.systems.inventory` | M2 |
+| `inventory.py` | 本地 `Inventory`（槽位 `{block_id, count}`），**不依赖** `allin_engine.systems.inventory` | M2 |
 | `crafting.py` | 配方表（JSON 数据驱动）+ 合成逻辑 | M2 |
 | `daynight.py` | 昼夜时间累加器 + 天空/背景色调 | M2 |
 | `simulation/__init__.py` `simulation/temperature.py` | 温度场 + 扩散 | M3 |
@@ -510,7 +510,7 @@ graph TD
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖（运行时）** | 渲染/输入/主循环；`>=2.5` |
-| `alloy`（纯净版，`D:\allin\tools`） | **仅基类来源** | 运行期只需 `core/serializable.Serializable`、`utils/json_loader/JSONLoader`、`systems/input/InputManager` 三个基类；经 `PYTHONPATH` 注入，**不进** `requirements.txt` |
+| `allin_engine`（纯净版，`D:\allin\tools`） | **仅基类来源** | 运行期只需 `core/serializable.Serializable`、`utils/json_loader/JSONLoader`、`systems/input/InputManager` 三个基类；经 `PYTHONPATH` 注入，**不进** `requirements.txt` |
 | Python 3.14 标准库 | 标准 | `json` / `math` / `random` / `dataclasses` / `argparse` / `os` / `sys` / `logging` / `time` |
 | `PyInstaller` | **构建期** | 仅 M5 打包使用，不进运行时 |
 
@@ -519,7 +519,7 @@ graph TD
 # 运行时硬依赖
 pygame-ce>=2.5
 
-# alloy：仅作为 3 个基类来源（Serializable/JSONLoader/InputManager），
+# allin_engine：仅作为 3 个基类来源（Serializable/JSONLoader/InputManager），
 # 由 PYTHONPATH=D:/allin/tools 注入，不列入 pip 依赖。
 # PyInstaller：仅 M5 构建期使用，单独 pip install pyinstaller，不进运行时。
 ```
@@ -621,7 +621,7 @@ pygame-ce>=2.5
 - **T-M5-A** 生物群系 `worldgen/biome.py`（群系噪声 + 调色板）
 - **T-M5-B** 洞穴 & 矿脉 `worldgen/caves.py`（3D 噪声开凿 + 矿按层分布）
 - **T-M5-C** 存档/读档 `save_load.py`（复用 `BlockWorld.to_dict` + 玩家/背包/时间/生物；F5 存）
-- **T-M5-D** PyInstaller `build.spec`（捆绑 `alloy` 基类 + 资源，双击即玩）
+- **T-M5-D** PyInstaller `build.spec`（捆绑 `allin_engine` 基类 + 资源，双击即玩）
 - **T-M5-E** 设置/菜单 + 多世界 + Modding(JSON 增方块) + 全中文本地化
 
 ### 9.1 全路线图依赖图（Mermaid graph）
@@ -642,7 +642,7 @@ graph LR
 
 1. **窗口尺寸**：2560×820 窗口在部分低分辨率屏需缩放；建议 `main_gui.py` 支持 `--scale` 或自动 `display.set_mode(..., pygame.RESIZABLE)`。M1 先按固定尺寸实现，缩放留钩子。
 2. **浮点 AABB**：`Player` 复用 `AABB2D` 存浮点，需团队一致遵守 §7.8，避免后续模块误当整数。
-3. **`alloy` 注入**：PyInstaller 冻结时需确保 3 个基类模块被打入；建议 M5 在 `build.spec` 显式 `hiddenimports`。
+3. **`allin_engine` 注入**：PyInstaller 冻结时需确保 3 个基类模块被打入；建议 M5 在 `build.spec` 显式 `hiddenimports`。
 4. **性能**：M1 渲染逐格 `blit`（80×24≈1920 次/帧）在 60 FPS 下约 11.5 万 blit/s，pygame 可胜任；若卡顿，可改为「脏矩形」或预渲染整屏 Surface 缓存（仅玩家/变化格重绘）。M3 模拟层务必按 chunk + dirty 限制。
 5. **确定性边界**：鼠标操作非确定（玩家输入），但**世界生成/模拟**须保持 `random.Random(seed)` 确定；存档序列化不依赖帧时序。
 

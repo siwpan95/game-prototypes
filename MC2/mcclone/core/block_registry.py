@@ -9,9 +9,9 @@ block_registry — 方块定义与注册表（无硬依赖）。
   0=air(空气)  1=stone(石头) 2=dirt(泥土)
   3=grass(草)  4=water(水)   5=sand(沙)
 
-本模块只依赖纯净版 alloy 的通用能力：
-  - alloy.core.serializable.Serializable
-  - alloy.utils.json_loader.JSONLoader
+本模块只依赖纯净版 allin_engine 的通用能力：
+  - allin_engine.core.serializable.Serializable
+  - allin_engine.utils.json_loader.JSONLoader
 """
 
 from __future__ import annotations

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""event_bus — MC2 事件总线，统一到 alloy.core.event_bus.EventBus。
+"""event_bus — MC2 事件总线，统一到 allin_engine.core.event_bus.EventBus。
 
 整合说明（去「本地平行实现」为「引擎上层应用」）：
   MC2 原本自带一套轻量事件总线（仅日志订阅）。整合后，MC2 的事件真正流经
-  alloy 的统一事件总线（递归保护 / 容错 / 调试日志一应俱全），与 MC1
+  allin_engine 的统一事件总线（递归保护 / 容错 / 调试日志一应俱全），与 MC1
   共用同一套引擎事件实现，构成统一产品。
 
   - 对外 API 完全保持兼容：subscribe(event_type, handler) / emit(event_type, **data)
@@ -19,7 +19,7 @@ import inspect
 import logging
 from typing import Any, Callable, Dict, List, Optional
 
-from alloy.core.event_bus import EventBus as _EngineEventBus
+from allin_engine.core.event_bus import EventBus as _EngineEventBus
 
 # 事件类型常量（保留原样，确保既有代码与测试零改动）。
 class EventTypes:
@@ -83,7 +83,7 @@ def _dispatch(handler: Callable, event_type: str, data: Any) -> None:
 
 
 class EventBus:
-    """MC2 事件总线 —— 适配器，底层为 alloy 统一事件总线。
+    """MC2 事件总线 —— 适配器，底层为 allin_engine 统一事件总线。
 
     emit 同步调用所有订阅者（经引擎总线，带递归保护与容错）；
     订阅者签名 ``(event_type, data)`` 或 ``(data)`` 均可。

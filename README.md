@@ -1,6 +1,6 @@
 # MCclone
 
-MCclone：基于 alloy 的《我的世界》风格复刻合集，含 MC1（文字冒险，tkinter）与 MC2（2D 侧视复刻，pygame），由统一启动器管理。
+MCclone：基于 allin_engine 的《我的世界》风格复刻合集，含 MC1（文字冒险，tkinter）与 MC2（2D 侧视复刻，pygame），由统一启动器管理。
 
 ## 语言/类型
 Python 3（tkinter + pygame），桌面 GUI 游戏合集。
@@ -9,7 +9,7 @@ Python 3（tkinter + pygame），桌面 GUI 游戏合集。
 - `launcher.py`：统一启动器（命令行菜单，支持 `--probes` 无头自检）
 - `MC1/`：文字冒险游戏（tkinter 入口 `MC1/main.py`）
 - `MC2/`：2D 侧视复刻（pygame 入口 `MC2/mcclone/main_gui.py`）
-- `alloy/`：自研引擎（ECS、渲染、AI、音频、战斗、存档等，含自身 `pyproject.toml` 与 README）
+- `allin_engine/`：自研引擎（ECS、渲染、AI、音频、战斗、存档等，含自身 `pyproject.toml` 与 README）
 - `product_core/` `saves/` `tests/` `.github/`：产品核心、存档、集成测试与 CI 配置
 
 ## 运行方式与依赖

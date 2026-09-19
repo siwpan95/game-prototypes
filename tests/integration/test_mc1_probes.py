@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-MC1 探针测试 — 基于 alloy.test.Probe / ProbeManager
+MC1 探针测试 — 基于 allin_engine.test.Probe / ProbeManager
 
 通过探针验证：
   1. 引擎全部子系统在线（ECS / EventBus / 背包 / 合成 / 战斗 / 存档 / 特效 / 音频 / 行为树 / 状态机）
@@ -20,14 +20,14 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-# 让 alloy 与 MC1 的裸导入（from game_data import ...）可解析
+# 让 allin_engine 与 MC1 的裸导入（from game_data import ...）可解析
 _ROOT = Path(__file__).resolve().parents[2]          # D:/allin/MCclone
 _MC1 = _ROOT / "MC1"
 for _p in (str(_ROOT), str(_MC1)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from alloy.test import Probe, ProbeManager          # noqa: E402
+from allin_engine.test import Probe, ProbeManager          # noqa: E402
 from minecraft_adventure import (                           # noqa: E402
     GamePhase,
     MinecraftAdventure,
@@ -270,7 +270,7 @@ def build_manager() -> ProbeManager:
 
 def main() -> int:
     print("=" * 60)
-    print("MC1 探针测试（alloy 集成验证）")
+    print("MC1 探针测试（allin_engine 集成验证）")
     print("=" * 60)
     mgr = build_manager()
     results = mgr.run_all()

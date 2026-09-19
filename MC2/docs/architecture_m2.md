@@ -471,7 +471,7 @@ graph TD
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖（运行时）** | 渲染/输入/主循环；`>=2.5`（沿用 M1，M2 不新增） |
-| `alloy`（纯净版，`D:\allin\tools`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；M2 仍仅经 `PYTHONPATH` 注入，不进 pip |
+| `allin_engine`（纯净版，`D:\allin\tools`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；M2 仍仅经 `PYTHONPATH` 注入，不进 pip |
 | Python 3.14 标准库 | 标准 | `json`/`math`/`random`/`dataclasses`/`os`/`sys`/`logging`（无新增第三方） |
 | `PyInstaller` | **构建期** | 仅 M5 使用，不进运行时 |
 

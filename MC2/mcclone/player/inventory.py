@@ -11,7 +11,7 @@
   - 前 hotbar_size 个槽是手持切换与放置的唯一数据源；Player 在构造时预填。
   - 增/删受 STACK_MAX 限制；跨多栈合并；空槽自动复用。
 
-本模块不依赖 alloy，与 M1 风格一致（扁平本地 import）。
+本模块不依赖 allin_engine，与 M1 风格一致（扁平本地 import）。
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from typing import List, Optional, Tuple
 
 # 整合：把本地方块背包投影为引擎 StackableInventory（跨玩法层资源核算）。
 # 本地方块背包仍是权威存储（热栏/放置依赖其定长槽位模型）。
-from alloy.systems.stackable_inventory import (  # noqa: E402
+from allin_engine.systems.stackable_inventory import (  # noqa: E402
     StackableInventory,
     ItemRegistry,
 )
@@ -207,7 +207,7 @@ class Inventory:
         本地方块背包仍是其权威存储（热栏/放置依赖其定长槽位模型）；
         此投影是「引擎子系统真正承担库存核算」的整合点，而非影子副本。
         """
-        from alloy.systems.stackable_inventory import StackableInventory as _SI
+        from allin_engine.systems.stackable_inventory import StackableInventory as _SI
         eng = _SI(registry)
         for it in self._items:
             if it is None:

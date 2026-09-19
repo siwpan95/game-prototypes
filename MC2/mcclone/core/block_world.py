@@ -10,7 +10,7 @@ block_world — 方块世界存储（无硬依赖）。
 
 本模块依赖：
   - 本地 geometry（Vec2i/AABB2D/clamp/lerp）
-  - 纯净版 alloy.core.serializable.Serializable
+  - 纯净版 allin_engine.core.serializable.Serializable
 """
 
 from __future__ import annotations

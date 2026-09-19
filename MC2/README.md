@@ -4,8 +4,8 @@
 建造、生存（饥饿/昼夜）、作业模拟、生物 AI 与战斗、群系/洞穴、存档读档，并可一键打包为
 可分发 exe。
 
-> 引擎地基（`alloy` 里的 MC 专属模块）已整体迁出；本目录 `D:\allin\example` 是**完全自包含**的独立成品。
-> 原 `alloy` 的三个通用能力（`Serializable` / `JSONLoader` / `InputManager`）已内联到 `mcclone/_engine/`，
+> 引擎地基（`allin_engine` 里的 MC 专属模块）已整体迁出；本目录 `D:\allin\example` 是**完全自包含**的独立成品。
+> 原 `allin_engine` 的三个通用能力（`Serializable` / `JSONLoader` / `InputManager`）已内联到 `mcclone/_engine/`，
 > 无需额外 PYTHONPATH，克隆即可运行。
 
 ## 里程碑
@@ -103,7 +103,7 @@ python packaging/build.py        # 产物：dist/mc_clone_gui/mc_clone_gui.exe
 
 - **确定性**：`(seed, width, height)` 固定则世界逐格一致；群系/洞穴/生物/存档均基于 `random.Random(seed)`。
 - **扁平本地引用**：模块内部互引用均用扁平本地 import（如 `from block_world import BlockWorld`）。
-  引擎通用能力已内联到 `mcclone/_engine/`，不再依赖外部 `alloy`。
+  引擎通用能力已内联到 `mcclone/_engine/`，不再依赖外部 `allin_engine`。
 - **坐标约定**：x 向右、y 向上；屏幕行 r ↔ world y = `max_y - r`，列 c ↔ world x = `min_x + c`。
 - **方块 id**：0=air 1=stone 2=dirt 3=grass 4=water 5=sand 6=stone_brick 7=glass 8=lava
   9=beef 10=pork 11=rotten_flesh。

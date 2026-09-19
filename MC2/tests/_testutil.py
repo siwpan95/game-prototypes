@@ -3,7 +3,7 @@
 _testutil — MC-Clone 测试公共工具（零依赖，可被所有测试文件复用）。
 
 职责：
-  - 在导入期自动注入路径，保证 ``alloy`` 与本地模块可导入，
+  - 在导入期自动注入路径，保证 ``allin_engine`` 与本地模块可导入，
     从而去除各测试文件里的硬编码绝对路径。
   - 提供 pygame 可用性模拟助手（无 pygame 时强制不可用；有则恢复）。
   - 提供与 pytest 解耦的极简 ``TestRunner``，可在纯 ``python`` 下运行。
@@ -27,7 +27,7 @@ EXAMPLE_DIR = os.path.normpath(os.path.join(_THIS_DIR, ".."))          # D:\alli
 TOOLS_DIR = os.path.normpath(os.path.join(EXAMPLE_DIR, "..", "tools"))  # 历史遗留（已弃用）
 PROJECT_ROOT = os.path.normpath(os.path.join(EXAMPLE_DIR, ".."))       # D:\allin\MCclone
 
-# mcclone/_engine 现已统一到 alloy，运行测试需让 alloy 可导入。
+# mcclone/_engine 现已统一到 allin_engine，运行测试需让 allin_engine 可导入。
 for _p in (EXAMPLE_DIR, PROJECT_ROOT):
     if _p not in sys.path:
         sys.path.insert(0, _p)

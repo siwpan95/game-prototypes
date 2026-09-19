@@ -17,7 +17,7 @@ import os
 import sys
 
 # 自举：注入 example/ 自身，使 ``mcclone.*`` 可导入。
-#   整合后 mcclone._engine 直接复用 alloy，需让 alloy 可导入
+#   整合后 mcclone._engine 直接复用 allin_engine，需让 allin_engine 可导入
 #   （引擎位于 example 的父目录 D:/allin/MCclone）。
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _THIS_DIR not in sys.path:

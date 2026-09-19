@@ -9,7 +9,7 @@
 ## 0. 项目信息
 
 - **语言**：中文
-- **技术栈**：Python 3.14 + 纯净引擎 `alloy`（`core/ecs`、`core/event_bus`、`core/game_loop`、`systems/input`、`systems/inventory`）+ 第一轮 mc_clone 地基（`geometry` / `noise` / `block_registry` / `block_world` / `terrain` / `text_world_renderer` / `input_realtime`）；pygame 为可选软依赖（仅用于捕获键盘）；渲染为 ANSI/ASCII 文本。
+- **技术栈**：Python 3.14 + 纯净引擎 `allin_engine`（`core/ecs`、`core/event_bus`、`core/game_loop`、`systems/input`、`systems/inventory`）+ 第一轮 mc_clone 地基（`geometry` / `noise` / `block_registry` / `block_world` / `terrain` / `text_world_renderer` / `input_realtime`）；pygame 为可选软依赖（仅用于捕获键盘）；渲染为 ANSI/ASCII 文本。
 - **项目名**：`mc_clone_mvp`
 - **原始需求复述**：在第一轮「引擎地基」之上，交付一个可玩 MVP——2D 侧视文字方块世界，玩家可左右移动、跳跃、受重力并碰撞；可破坏/放置方块；相机（文字视口）跟随玩家；由引擎 `FixedTimestepLoop` 驱动、每帧读 `RealtimeInputManager` 按键并更新世界，关键行为通过 `EventBus` 发预置 `EventTypes`。
 
@@ -152,5 +152,5 @@
 
 - **复用第一轮**：`geometry.Vec2i/AABB2D/clamp/lerp`（玩家 AABB、视口）、`block_world.BlockWorld`（读写/序列化）、`terrain.TerrainGenerator`（生成世界）、`text_world_renderer.TextWorldRenderer`（渲染）、`input_realtime.RealtimeInputManager`（实时键盘）。
 - **复用引擎**：`core.game_loop.FixedTimestepLoop`（主循环）、`core.event_bus.EventBus`+`EventTypes`（事件）、`systems/input.py` 的 `InputManager`（基类）、`systems/inventory.py` 的 `Inventory`（待确认④若选 A）。
-- **零新增硬依赖**：pygame 仍为可选软依赖；其余纯标准库 + alloy。
+- **零新增硬依赖**：pygame 仍为可选软依赖；其余纯标准库 + allin_engine。
 - **不修改任何源码**：本 PRD 仅定义需求，实现由后续架构/工程阶段落地。

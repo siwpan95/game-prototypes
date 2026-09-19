@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-《我的世界》文字冒险 — 基于 alloy 引擎实现
+《我的世界》文字冒险 — 基于 allin_engine 引擎实现
 ================================================
 
-本模块在 D:/allin/MCclone/alloy（统一游戏引擎）之上构建，
+本模块在 D:/allin/MCclone/allin_engine（统一游戏引擎）之上构建，
 **充分利用引擎的全部功能**：
 
   - core.ECS   : World + Entity + Component（玩家/生物实体化）
@@ -38,24 +38,24 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-# ── 让 alloy 可被导入（引擎位于 D:/allin/MCclone/alloy）──
+# ── 让 allin_engine 可被导入（引擎位于 D:/allin/MCclone/allin_engine）──
 # 引擎父目录 = MC1 所在目录的父目录（即 MCclone）
 _ENGINE_PARENT = str(Path(__file__).resolve().parent.parent)
 if _ENGINE_PARENT not in sys.path:
     sys.path.insert(0, _ENGINE_PARENT)
 
-# ── 引擎子系统（统一游戏引擎 alloy）──
-from alloy.core import World, Entity, Component
-from alloy.core.event_bus import EventBus, EventTypes
-from alloy.systems import (
+# ── 引擎子系统（统一游戏引擎 allin_engine）──
+from allin_engine.core import World, Entity, Component
+from allin_engine.core.event_bus import EventBus, EventTypes
+from allin_engine.systems import (
     StackableInventory, ItemRegistry, EquipmentSlots,
     CraftingSystem, Recipe,
     SimpleCombat, MobTemplate, MobLibrary,
     SaveLoadManager,
 )
-from alloy.fx import ParticleSystem, create_sparkle, create_explosion, create_magic_circle
-from alloy.audio import AudioSystem
-from alloy.ai.decision import (
+from allin_engine.fx import ParticleSystem, create_sparkle, create_explosion, create_magic_circle
+from allin_engine.audio import AudioSystem
+from allin_engine.ai.decision import (
     BehaviorTree, Blackboard,
     Sequence, Selector, Condition, Action,
     GenericStateMachine, create_state_machine,
@@ -344,7 +344,7 @@ class MC1SaveState:
 # ═════════════════════════════════════════════════════════
 
 class MinecraftAdventure:
-    """基于 alloy 的《我的世界》文字冒险。"""
+    """基于 allin_engine 的《我的世界》文字冒险。"""
 
     def __init__(self, log_callback=None, bus: Optional[EventBus] = None, core=None):
         self.log_callback = log_callback
@@ -462,7 +462,7 @@ class MinecraftAdventure:
         """挂载特效。
 
         fx 可能是:
-          - alloy.fx.ParticleSystem（create_sparkle/explosion/magic_circle
+          - allin_engine.fx.ParticleSystem（create_sparkle/explosion/magic_circle
             等预设工厂的返回值，本身已是完整粒子系统）→ 存入 fx_systems 单独驱动
           - Emitter（单个发射器）→ 加入主系统 self.fx
         """

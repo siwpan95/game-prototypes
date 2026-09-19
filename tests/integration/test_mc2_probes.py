@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-MC2 探针测试 — 验证 MC2 已统一到 alloy 并真正使用该引擎能力
+MC2 探针测试 — 验证 MC2 已统一到 allin_engine 并真正使用该引擎能力
 
 验证点：
   1. 去重统一：mcclone._engine 的 Serializable/JSONLoader/InputManager 与
-     alloy 同一份实现（身份相同），不再内联重复代码。
+     allin_engine 同一份实现（身份相同），不再内联重复代码。
   2. 世界生成/渲染：BlockRegistry(继承引擎 Serializable) + JSONLoader 加载，
      TerrainGenerator 生成，TextWorldRenderer 渲染出非空画面。
-  3. 音频接入引擎：SoundEngine 默认后端为 alloy.audio.AudioSystem
+  3. 音频接入引擎：SoundEngine 默认后端为 allin_engine.audio.AudioSystem
      （EngineAudioBackend），play() 经引擎音频管线且不抛错。
   4. headless 可游玩：组装 GameLoop（引擎音频后端 + 粒子系统），触发挖掘事件
      驱动粒子与音效，连续 _update 不崩 → 证明游戏可运行、可玩。
@@ -28,15 +28,15 @@ for _p in (str(_ROOT), str(_MC2)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from alloy.test import Probe, ProbeManager      # noqa: E402
-import alloy.core.serializable as _eng_serializable   # noqa: E402
-import alloy.utils.json_loader as _eng_json          # noqa: E402
-import alloy.systems.input as _eng_input              # noqa: E402
+from allin_engine.test import Probe, ProbeManager      # noqa: E402
+import allin_engine.core.serializable as _eng_serializable   # noqa: E402
+import allin_engine.utils.json_loader as _eng_json          # noqa: E402
+import allin_engine.systems.input as _eng_input              # noqa: E402
 import mcclone._engine as _mc2_engine                        # noqa: E402
 
 
 def probe_mc2_engine_unified() -> tuple[bool, str]:
-    """mcclone._engine 应与 alloy 同一份实现（去重验证）。"""
+    """mcclone._engine 应与 allin_engine 同一份实现（去重验证）。"""
     ok = (
         _mc2_engine.Serializable is _eng_serializable.Serializable
         and _mc2_engine.JSONLoader is _eng_json.JSONLoader
@@ -69,7 +69,7 @@ def probe_mc2_world_gen_render() -> tuple[bool, str]:
 
 
 def probe_mc2_audio_engine_backend() -> tuple[bool, str]:
-    """SoundEngine 应接入 alloy.audio.AudioSystem。"""
+    """SoundEngine 应接入 allin_engine.audio.AudioSystem。"""
     from mcclone.audio.audio_fx import SoundEngine
 
     sound = SoundEngine()
@@ -178,7 +178,7 @@ def build_manager() -> ProbeManager:
 
 def main() -> int:
     print("=" * 60)
-    print("MC2 探针测试（统一到 alloy 验证）")
+    print("MC2 探针测试（统一到 allin_engine 验证）")
     print("=" * 60)
     mgr = build_manager()
     results = mgr.run_all()

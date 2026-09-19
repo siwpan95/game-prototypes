@@ -11,7 +11,7 @@
 | 群系 | `worldgen/biomes.py` | terrain.py 禁改；确定性（PerlinNoise+random.Random） |
 | 洞穴 | `worldgen/caves.py` | 仅挖 z∈[1,depth-2]，绝不破 z=0 地表与 z=depth-1 岩浆湖 |
 | 存档 | `savegame.py` | 地基零改动：经 PUBLIC 构造器/属性还原，不新增 to_dict |
-| 打包 | `build.spec`/`build.py`/`requirements.txt` | alloy 外部依赖经 pathex 注入捆绑 |
+| 打包 | `build.spec`/`build.py`/`requirements.txt` | allin_engine 外部依赖经 pathex 注入捆绑 |
 
 ## 任务清单（T-M5-01~12）
 - T-M5-01 `Biome(Enum)` + `BiomeMap`（列→群系确定性映射，归一化分阶段保证 5 种齐备）
@@ -24,7 +24,7 @@
 - T-M5-08 事件总线新增 `SAVE_GAME`/`LOAD_GAME` 并订阅日志
 - T-M5-09 `GameLoop` 接入：`request_save`/`request_load`/`save_on_exit`，F5/F9 键位，`--load`/`--save` 参数，读档分支重建 spawn 指向新世界
 - T-M5-10 输入层 `GUIInputManager.save_pressed`/`load_pressed`（F5/F9）
-- T-M5-11 PyInstaller：`build.spec`（pathex 注入 alloy + datas 收集 data/ + hiddenimports）+ `build.py` + `requirements.txt`
+- T-M5-11 PyInstaller：`build.spec`（pathex 注入 allin_engine + datas 收集 data/ + hiddenimports）+ `build.py` + `requirements.txt`
 - T-M5-12 测试：`test_m5_worldgen.py`(12) / `test_m5_save.py`(13) / `test_m5_integration.py`(5)；全量回归无退化
 
 ## 关键设计
@@ -37,7 +37,7 @@
 - 严格夹紧在 `z∈[1, D-2]`，z=0 与 z=D-1 层**完全不触碰**。
 
 ### 存档（savegame.py）
-- `SaveGame` 继承 `alloy.core.serializable.Serializable`（dataclass），字段为原生 dict/list 容器；`to_dict/from_dict` 自动基于字段完成。
+- `SaveGame` 继承 `allin_engine.core.serializable.Serializable`（dataclass），字段为原生 dict/list 容器；`to_dict/from_dict` 自动基于字段完成。
 - **不重新生成世界**：直接保存 `world.to_dict()` 完整网格（含所有 z 层），读档 `BlockWorld.from_dict` 还原，字节一致。
 - 地基零改动：所有状态仅经 PUBLIC 构造器 + 运行时属性赋值重建（含 `p._fx/_fy` + `_sync_aabb()`、直接赋值 `player.inventory._items` 等运行时操作，不修改任何源文件）。
 - 容错：文件缺失→`FileNotFoundError`；JSON 损坏→`ValueError`；缺可选字段用默认值兜底。
@@ -50,9 +50,9 @@
 - 读档后 `request_load` 重建 `SpawnSystem` 指向新世界/生物，避免写入旧列表。
 
 ### 打包（build.spec）
-- `pathex=[example, D:/allin]`：让分析器找到本地模块与 alloy。
+- `pathex=[example, D:/allin]`：让分析器找到本地模块与 allin_engine。
 - `datas=[(data, "data")]`：data/*.json 随包收集，运行时由 `main_gui._THIS_DIR` 定位（与开发期一致）。
-- `hiddenimports`：显式列出 alloy 各子包，避免动态导入漏收集。
+- `hiddenimports`：显式列出 allin_engine 各子包，避免动态导入漏收集。
 - `excludes=["tkinter", ...]`：GUI 走 pygame，tkinter 仅 headless 测试用，不进包。
 - 产物 `dist/mc_clone_gui.exe`（console=False，图形界面无控制台窗口）。
 
@@ -61,7 +61,7 @@
 - **R2 洞穴边界**：雕刻夹紧 `z∈[1,D-2]`，测试断言 z=0 地表与 z=D-1 岩浆湖净快照不变。
 - **R3 地基零改动**：群系/洞穴/存档均不修改 terrain.py/block_world.py/player.py/survival.py/inventory.py/daynight.py/creatures/*；存档经 PUBLIC 接口还原。
 - **R4 读档一致性**：world 存完整网格，读档字节一致；玩家/生物数值经断言还原。
-- **R5 外部引擎打包**：alloy 经 pathex + hiddenimports 捆绑，data 经 datas 收集；开发期 PYTHONPATH 注入保持一致。
+- **R5 外部引擎打包**：allin_engine 经 pathex + hiddenimports 捆绑，data 经 datas 收集；开发期 PYTHONPATH 注入保持一致。
 
 ## 质量与验证
 - 全量 **250 passed / 0 failed**（M1–M4 225 + M5 25）。
