@@ -25,3 +25,5 @@ saves/
 # Python
 __pycache__/
 *.pyc
+vendor/allin_engine/fonts/
+# 引擎字体（体积大，按需自备；见引擎 README「本地字体加载」）
