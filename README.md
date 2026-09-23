@@ -1,5 +1,7 @@
 # smile
 
+> 仓库：<https://gitee.com/siwpan/smile> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+
 斯金纳箱 · 表情版 v2。
 
 ## 简介
