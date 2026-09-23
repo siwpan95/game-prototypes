@@ -1,6 +1,9 @@
 # 表格挂机 · Progress Quest v2 风格挂机桌游
 
-> 独立仓 siwpan/table-hanging-machine（本地 G:\repos\table-hanging-machine）。全自动挂机桌游：Excel 配置驱动 + 自动角色成长（tkinter GUI）。
+> 仓库：<https://gitee.com/siwpan/table-hanging-machine> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+> 注：文中 <PATH> 为路径占位符，请替换为你本机实际的目录 / 可执行文件路径。
+
+> 独立仓 siwpan/table-hanging-machine（本地 <PATH>）。全自动挂机桌游：Excel 配置驱动 + 自动角色成长（tkinter GUI）。
 
 ## 玩法
 
