@@ -1,5 +1,7 @@
 # kard
 
+> 仓库：<https://gitee.com/siwpan/kard> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+
 KARD：一款类《吸血鬼幸存者》+《杀戮尖塔》关键字玩法的无尽模式卡牌动作游戏（英文版）。
 
 ## 语言/类型
@@ -15,7 +17,7 @@ Python 3（pygame-ce），ECS 架构，鼠标驱动的桌面 GUI 游戏。
 
 ## 运行方式与依赖
 ```
-F:\Python314\python.exe main.py
+python main.py
 ```
 依赖：`pygame-ce>=2.3.0`、`openpyxl>=3.1.0`（见 `requirements.txt`）。GUI 窗口游戏，运行后会阻塞等待交互。
 
