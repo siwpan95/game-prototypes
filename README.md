@@ -1,5 +1,7 @@
 # Carimara
 
+> 仓库：<https://gitee.com/siwpan/under-withered-limbs> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+
 一款基于 pygame-ce 的卡牌游戏，含程序化音频合成工具。
 
 ## 语言 / 类型
@@ -12,7 +14,7 @@
 - `faatt.py` —— 程序化音频（WAV）合成工具
 
 ## 运行方式与依赖
-- 运行：`F:\Python314\python.exe main.py`
+- 运行：`python main.py`
 - 依赖（`requirements.txt`）：pygame-ce>=2.5.0；numpy、scipy（音频）；pytest（测试）
 
 ## 测试状态
