@@ -4,7 +4,7 @@ test/test_command.py — 命令系统单元测试
 测试 CommandParser (别名解析/命令解析) 和 CommandHandler (分发/上下文)。
 
 运行：
-    cd D:/allin && python -m allin_engine.test.test_command
+    cd <仓库根> && python -m allin_engine.test.test_command
 """
 
 import sys

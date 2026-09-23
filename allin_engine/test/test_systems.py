@@ -4,7 +4,7 @@ test/test_systems.py — systems 层单元测试
 测试游戏系统（Inventory / PuzzleSystem / SaveLoadManager）。
 
 运行：
-    cd D:/allin/allin_engine && python -m test.test_systems
+    cd <仓库根>/allin_engine && python -m test.test_systems
 """
 
 import sys

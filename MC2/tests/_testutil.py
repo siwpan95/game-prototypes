@@ -23,9 +23,9 @@ from typing import Callable, List, Tuple
 # 路径注入：基于本文件真实位置推导 example/ 与项目根目录，绝不硬编码盘符。
 # ─────────────────────────────────────────────────────────────────────────
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-EXAMPLE_DIR = os.path.normpath(os.path.join(_THIS_DIR, ".."))          # D:\allin\MCclone\MC2
+EXAMPLE_DIR = os.path.normpath(os.path.join(_THIS_DIR, ".."))          # <仓库根>\MC2
 TOOLS_DIR = os.path.normpath(os.path.join(EXAMPLE_DIR, "..", "tools"))  # 历史遗留（已弃用）
-PROJECT_ROOT = os.path.normpath(os.path.join(EXAMPLE_DIR, ".."))       # D:\allin\MCclone
+PROJECT_ROOT = os.path.normpath(os.path.join(EXAMPLE_DIR, ".."))       # <仓库根>
 
 # mcclone/_engine 现已统一到 allin_engine，运行测试需让 allin_engine 可导入。
 for _p in (EXAMPLE_DIR, PROJECT_ROOT):

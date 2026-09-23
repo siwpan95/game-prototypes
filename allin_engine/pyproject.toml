@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "allin_engine"
 version = "1.0.0"
-description = "统一游戏引擎 — 从 D:\\allin 下多项目提炼的通用 Python 游戏引擎"
+description = "统一游戏引擎 — 从本地工作区多项目提炼的通用 Python 游戏引擎"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.10"

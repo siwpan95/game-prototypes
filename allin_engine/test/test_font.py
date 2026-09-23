@@ -9,7 +9,7 @@ test/test_font.py — 本地字体加载单元测试
   - 别名注册、列出、清空缓存
 
 运行：
-    cd D:/allin && python -m allin_engine.test.test_font
+    cd <仓库根> && python -m allin_engine.test.test_font
 """
 
 import os

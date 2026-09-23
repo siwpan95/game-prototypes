@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 # 让 allin_engine 与 MC1 的裸导入（from game_data import ...）可解析
-_ROOT = Path(__file__).resolve().parents[2]          # D:/allin/MCclone
+_ROOT = Path(__file__).resolve().parents[2]          # <仓库根>
 _MC1 = _ROOT / "MC1"
 for _p in (str(_ROOT), str(_MC1)):
     if _p not in sys.path:

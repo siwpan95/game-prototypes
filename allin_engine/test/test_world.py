@@ -4,7 +4,7 @@ test/test_world.py — world 层单元测试
 测试世界模型（GameState / PlayerState / Item / Character / Room / MapGraph）。
 
 运行：
-    cd D:/allin/allin_engine && python -m test.test_world
+    cd <仓库根>/allin_engine && python -m test.test_world
 """
 
 import sys

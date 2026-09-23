@@ -7,7 +7,7 @@ example_local_font.py — 本地字体加载示例
   - tkinter 端：load_local_tk_font 用于 GUI 标题/按钮
 
 运行：
-    cd D:/allin && python allin_engine/example_local_font.py
+    cd <仓库根> && python allin_engine/example_local_font.py
 
 说明：
   - 无需显示器即可体验字体加载逻辑（pygame 渲染部分在无头环境仅导出 PNG）

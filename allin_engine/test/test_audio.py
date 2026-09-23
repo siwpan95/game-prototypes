@@ -5,7 +5,7 @@ test/test_audio.py — audio 层单元测试
 振荡器与包络 (需 numpy)。
 
 运行：
-    cd D:/allin && python -m allin_engine.test.test_audio
+    cd <仓库根> && python -m allin_engine.test.test_audio
 """
 
 import sys

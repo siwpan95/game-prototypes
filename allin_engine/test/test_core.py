@@ -4,7 +4,7 @@ test/test_core.py — core 层单元测试
 测试核心 ECS 架构和事件总线。
 
 运行：
-    cd D:/allin/allin_engine && python -m test.test_core
+    cd <仓库根>/allin_engine && python -m test.test_core
 """
 
 import sys

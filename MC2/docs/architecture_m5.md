@@ -50,7 +50,7 @@
 - 读档后 `request_load` 重建 `SpawnSystem` 指向新世界/生物，避免写入旧列表。
 
 ### 打包（build.spec）
-- `pathex=[example, D:/allin]`：让分析器找到本地模块与 allin_engine。
+- `pathex=[ROOT, ENGINE]`（`ROOT`=<仓库根>/MC2、`ENGINE`=<仓库根>）：让分析器找到本地模块与 allin_engine。
 - `datas=[(data, "data")]`：data/*.json 随包收集，运行时由 `main_gui._THIS_DIR` 定位（与开发期一致）。
 - `hiddenimports`：显式列出 allin_engine 各子包，避免动态导入漏收集。
 - `excludes=["tkinter", ...]`：GUI 走 pygame，tkinter 仅 headless 测试用，不进包。

@@ -5,7 +5,7 @@ test/test_mod_loader.py — ModLoader 数据驱动集成测试
 ModManager 的 Mod 发现、地图解析、传送门/机关数据驱动链路。
 
 运行：
-    cd D:/allin && python -m allin_engine.test.test_mod_loader
+    cd <仓库根> && python -m allin_engine.test.test_mod_loader
 """
 
 import sys

@@ -2,13 +2,13 @@
 运行所有单元测试
 
 用法：
-    cd D:/allin && python -m allin_engine.test.run_all
+    cd <仓库根> && python -m allin_engine.test.run_all
 """
 
 import sys
 import os
 
-# 确保项目根目录（D:/allin）在路径中
+# 确保仓库根（allin_engine 的上级目录）在路径中
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, PROJECT_ROOT)
 

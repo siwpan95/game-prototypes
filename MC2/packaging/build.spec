@@ -11,7 +11,7 @@
 
 要点（地基零改动 + 外部引擎依赖）：
   - 入口 mcclone/main_gui.py（支持 --no-gui / --seed / --load / --save）。
-  - allin_engine 位于 example 的父目录（D:/allin），经 pathex 注入分析器
+  - allin_engine 位于 ROOT 的父目录（仓库根），经 pathex 注入分析器
     并随包捆绑（hiddenimports 显式列出其各子包，避免动态导入漏收集）。
   - data/*.json 经 datas 收集，运行时由 main_gui._THIS_DIR 定位（与开发期一致）。
   - 排除 tkinter（GUI 走 pygame，tkinter 仅 headless 测试用，不需要进包）。
@@ -23,7 +23,7 @@ block_cipher = None
 # ROOT 优先取 build.py 注入的环境变量 M5_ROOT（最稳健），
 # 回退到 SPECPATH（绝对路径传入 build.spec 时通常为 example 目录）。
 ROOT = os.environ.get("M5_ROOT") or os.path.dirname(os.path.abspath(SPECPATH))
-ENGINE = os.path.dirname(ROOT)                       # allin_engine 所在父目录（D:/allin）
+ENGINE = os.path.dirname(ROOT)                       # allin_engine 所在父目录（仓库根）
 
 a = Analysis(
     [os.path.join(ROOT, "mcclone", "main_gui.py")],

@@ -5,8 +5,8 @@ test_engine_foundation — 「我的世界复刻(2D 文字向)」引擎地基独
 自包含、可用纯 `python` 运行（不依赖 pytest）。
 
 运行方式（任一）：
-  - PYTHONPATH=D:\\allin\\tools python D:\\allin\\example\\tests\\test_engine_foundation.py
-  - 直接：python D:\\allin\\example\\tests\\test_engine_foundation.py   (文件顶部已注入 sys.path)
+  - 在 <仓库根>/MC2 下：python tests/test_engine_foundation.py
+  - 或直接：python <仓库根>/MC2/tests/test_engine_foundation.py   (文件顶部已注入 sys.path)
 
 断言基准：严格对照 team-lead 给出的「关键约定」与实现者提供的「实现微调」记录。
 所有测试用极简自定义运行器执行：每个用例独立 try/except 计数，互不阻断。

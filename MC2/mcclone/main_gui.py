@@ -36,7 +36,7 @@ if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
 # 整合后 mcclone._engine 复用 allin_engine，需让 allin_engine 包可导入
-# （引擎位于 example 的父目录 D:/allin/MCclone）。
+# （引擎 allin_engine 位于仓库根，即本目录的上级）。
 _ENGINE_PARENT = os.path.dirname(_PROJECT_ROOT)
 if _ENGINE_PARENT not in sys.path:
     sys.path.insert(0, _ENGINE_PARENT)

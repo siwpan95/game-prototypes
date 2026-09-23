@@ -5,7 +5,7 @@ test/test_ai.py — AI 层单元测试
 对话引擎 (DialogueEngine 规则模式)。
 
 运行：
-    cd D:/allin && python -m allin_engine.test.test_ai
+    cd <仓库根> && python -m allin_engine.test.test_ai
 """
 
 import sys

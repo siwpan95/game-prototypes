@@ -18,7 +18,7 @@ import sys
 
 # 自举：注入 example/ 自身，使 ``mcclone.*`` 可导入。
 #   整合后 mcclone._engine 直接复用 allin_engine，需让 allin_engine 可导入
-#   （引擎位于 example 的父目录 D:/allin/MCclone）。
+#   （引擎 allin_engine 位于仓库根，即本目录的上级）。
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _THIS_DIR not in sys.path:
     sys.path.insert(0, _THIS_DIR)

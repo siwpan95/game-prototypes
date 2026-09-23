@@ -18,7 +18,7 @@ python packaging/build.py
 
 ## 设计要点
 - **入口** `main_gui.py`，支持 `--no-gui / --seed / --load / --save`。
-- **外部引擎**：`build.spec` 的 `pathex=[example, D:/allin]` 让分析器找到 allin_engine；`hiddenimports` 显式列出其各子包，避免动态导入漏收集。
+- **外部引擎**：`build.spec` 的 `pathex=[ROOT, ENGINE]`（`ROOT`=<仓库根>/MC2、`ENGINE`=<仓库根>）让分析器找到 allin_engine；`hiddenimports` 显式列出其各子包，避免动态导入漏收集。
 - **数据文件**：`datas=[(data, "data")]` 收集 `data/*.json`，运行时由 `main_gui._THIS_DIR` 定位（与开发期一致）。
 - **裁剪**：`excludes=["tkinter", ...]` —— GUI 走 pygame，tkinter 仅 headless 测试用，不进包。
 - **窗口**：`console=False`，图形界面不弹控制台。

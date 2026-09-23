@@ -5,7 +5,7 @@ test/test_render.py — render 层单元测试
 Color 系统、FormulaEngine (纯 Python 模式)。
 
 运行：
-    cd D:/allin && python -m allin_engine.test.test_render
+    cd <仓库根> && python -m allin_engine.test.test_render
 """
 
 import sys

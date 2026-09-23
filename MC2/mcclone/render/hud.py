@@ -203,7 +203,7 @@ class HUD:
 
     # 字体缓存：避免每次绘制都重建字体。
     _font_cache: dict = {}
-    # 本地字体候选（优先 D:\allin\example 下的中文友好字体；直接用文件加载，
+    # 本地字体候选（优先自本文件向上遍历到的项目目录下的中文友好字体；直接用文件加载，
     # 规避 SysFont 在 Windows + Python3.14 下枚举系统字体崩溃的问题）。
     _FONT_NAMES = ("SmileySans-Oblique-2.ttf", "SmileySans-Oblique-3.otf")
     _local_font_path = None  # 启动时查找一次
