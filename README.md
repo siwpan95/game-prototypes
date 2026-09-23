@@ -1,5 +1,8 @@
 # 文字传奇 · 点怪就打 （MVP + ECS + MVVM 混合架构）
 
+> 仓库：<https://gitee.com/siwpan/legend> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+> 注：文中 <PATH> 为路径占位符，请替换为你本机实际的目录 / 可执行文件路径。
+
 原单文件 `demo.py` 按以下架构拆分为多模块：
 
 ## 架构说明
@@ -45,7 +48,7 @@ lol/
 ## 运行
 
 ```bash
-cd C:/Users/13122/Desktop/stay/hard/lol
+cd <PATH>
 python main.py
 ```
 
