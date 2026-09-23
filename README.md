@@ -1,5 +1,7 @@
 # TwelveLabors
 
+> 仓库：<https://gitee.com/siwpan/god-hand-> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+
 十二试炼：神话重构。
 
 ## 简介
