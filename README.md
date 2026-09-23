@@ -1,5 +1,7 @@
 # 六一快乐 · 六一零食大闯关（无尽模式）
 
+> 仓库：<https://gitee.com/siwpan/happy-childrens-day> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+
 > 独立仓 siwpan/happy-childrens-day（一仓一目录）。六一礼物：零食收集闯关小游戏（tkinter + 自研 ECS）。
 > 发布面：gitee release `v1.0.0`（Windows 可执行程序，PyInstaller）。
 
