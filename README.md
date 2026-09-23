@@ -1,5 +1,7 @@
 # MCclone
 
+> 仓库：<https://gitee.com/siwpan/mc-clone> ｜ 许可：MIT（见 [LICENSE](LICENSE)）
+
 MCclone：基于 allin_engine 的《我的世界》风格复刻合集，含 MC1（文字冒险，tkinter）与 MC2（2D 侧视复刻，pygame），由统一启动器管理。
 
 ## 语言/类型
@@ -14,8 +16,8 @@ Python 3（tkinter + pygame），桌面 GUI 游戏合集。
 
 ## 运行方式与依赖
 ```
-F:\Python314\python.exe launcher.py
-F:\Python314\python.exe launcher.py --probes   # 无头运行全部探针
+python launcher.py
+python launcher.py --probes   # 无头运行全部探针
 ```
 依赖：Python 3.10+；MC1 需 tkinter，MC2 需 pygame（无显示设备时 GUI 无法启动，但探针可 headless 运行）。GUI 窗口游戏，运行后会阻塞等待交互。
 
