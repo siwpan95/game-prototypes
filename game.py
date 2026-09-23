@@ -37,6 +37,7 @@ import savegame as savegame_mod
 # 新增强化模块（成长 / 词缀 / AI Director）
 import progression as prog_mod
 from progression import (
+    PERK_MAP,   # 2026-09-23 修复：779/808 行用到 PERK_MAP 但原导入清单里没有它（选 perk 时 NameError）
     Progression, grant_xp, apply_perk, roll_perk_choices, compute_perk_mods,
 )
 import affixes as affix_mod
