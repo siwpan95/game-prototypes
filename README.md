@@ -1,5 +1,8 @@
 # JOTUNNSLAYER 复刻原型 · Python / pygame-ce
 
+> 仓库：<https://gitee.com/siwpan/jotunnslayer> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+> 注：文中 <PATH> 为路径占位符，请替换为你本机实际的目录 / 可执行文件路径。
+
 > 俯视角幸存者割草（survivors-like）玩法复刻原型，对标《Jotunnslayer: Hordes of Hel》的**核心循环**。
 > 全部素材程序化生成（零外部资源），数值与内容走明文数据表驱动，扩展内容不需要改逻辑。
 
@@ -39,7 +42,7 @@ python tests\test_pixel.py
 python tests\test_vendor.py
 ```
 
-环境：Python 3.14、pygame-ce 2.5+。Windows 控制台用 `F:\Python314\python.exe` 即可。
+环境：Python 3.14、pygame-ce 2.5+。Windows 控制台用 `python` 即可。
 音频合成需要 numpy（scipy 仅 BGM WAV 渲染用，缺失则整局静默无声）；
 首次运行会把合成音效/BGM 缓存到 `%TEMP%/jotunnslayer_audio`。
 
@@ -319,5 +322,5 @@ jotunnslayer_py/
 
 ## 仓库索引标注（2026-08-25 · siwpan 统一治理）
 
-> JOTUNNSLAYER 复刻原型；本地对应 G:\games\jotunnslayer_py；develop/feature/hotfix/release 为空占位分支。
+> JOTUNNSLAYER 复刻原型；本地对应 <PATH> 为空占位分支。
 > 本标注为发布面统一追加，不改变原有内容。
