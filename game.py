@@ -1,7 +1,7 @@
 """game.py — 地牢冒险者 (Dungeon Delver)
 
-把 G:\\example 的 procgen 生成能力，与 G:\\alloy 的游戏引擎，
-融合成一个*可以真正游玩*的回合制 Roguelike。
+把 <procgen 源仓> 的 procgen 生成能力，与 <alloy 源仓> 的游戏引擎，
+融合成一个*可以真正游玩*的回合制 Roguelike（两者均已内联进本仓）。
 
 引擎整合点（alloy）：
   - world.map_data.MapData        地形字符网格
@@ -23,7 +23,7 @@ import os
 import random
 import sys
 
-# 让 G:\game 内的 alloy / procgen 包可被 import（自包含，零跨项目耦合）
+# 让本仓内的 alloy / procgen 包可被 import（自包含，零跨项目耦合）
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from alloy.core.ecs import World
