@@ -1,5 +1,8 @@
 # 地牢冒险者 (Dungeon Delver)
 
+> 仓库：<https://gitee.com/siwpan/sandbox> ｜ 许可：MIT（见 [LICENSE](LICENSE)）
+> 注：文中 <PATH> 为路径占位符，请替换为你本机实际的目录 / 可执行文件路径。
+
 > **内联 alloy 引擎 + 内联 procgen 世界生成 = 一个完整的、可以运行的游戏。**
 > 独立仓 siwpan/sandbox（一仓一目录）。
 
@@ -44,7 +47,7 @@ sandbox/
 （引擎渲染/音频用到 pygame/scipy/asteval，但本控制台游戏不依赖它们。）
 
 ```bat
-cd G:\repos\sandbox
+cd <PATH>
 python run.py                 REM 交互游玩
 python run.py --seed 7       REM 换种子
 python run.py --floors 8     REM 更多层
@@ -129,7 +132,7 @@ python run.py --auto         REM 无头自动演示（自检，无需键盘）
 ### 测试
 
 ```bat
-cd G:\repos\sandbox
+cd <PATH>
 python -m unittest tests.test_enhancements tests.test_gui -v
 ```
 
