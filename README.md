@@ -1,5 +1,7 @@
 # Endless Highway
 
+> 仓库：<https://gitee.com/siwpan/lonely-desert-road> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+
 一款基于 ECS 架构的无尽高速公路驾驶游戏，含漂移玩法与电子风音频。
 
 ## 语言 / 类型
@@ -13,7 +15,7 @@
 - `config.json` —— 窗口、道路、玩家、漂移等配置
 
 ## 运行方式与依赖
-- 运行：`F:\Python314\python.exe main.py`
+- 运行：`python main.py`
 - 依赖：pygame（项目未提供 requirements.txt）；音频合成可能需 numpy/scipy
 
 ## 测试状态
