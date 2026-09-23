@@ -4,7 +4,7 @@
 > 范围：基于 `docs/prd_large.md`（M4 章节 M4-R1~R8）+ `docs/architecture_gui.md` / `docs/architecture_m2.md` / `docs/architecture_m3.md`
 > 的 **M4 系统架构设计 + 单元级任务分解**。
 > **本文件只描述设计与分解，不写任何实现代码、不修改任何 .py 源码。**
-> 演进基点：`D:\allin\example` 现有地基（零改动、仅 import）+ 已交付 M1（96 测试）/ M2（52 测试）/ M3（模拟层）。
+> 演进基点：`<仓库根>/MC2` 现有地基（零改动、仅 import）+ 已交付 M1（96 测试）/ M2（52 测试）/ M3（模拟层）。
 > 语言：中文。
 
 ---
@@ -73,7 +73,7 @@
 
 ## 2. 实现方案 + 模块划分
 
-### 2.1 M4 新增文件（相对 `D:\allin\example\`）
+### 2.1 M4 新增文件（相对 `<仓库根>/MC2/`）
 
 | 文件 | 职责 | 关键接口（设计签名，非实现） |
 |---|---|---|
@@ -632,7 +632,7 @@ sequenceDiagram
   - **事件**：`CREATURE_SPAWNED/DIED/HIT/PLAYER_HIT` 经 `EventBus` 正确 emit（订阅者收到）。
   - **HUD R2/P1**：`hud.draw(..., creature_count=3, nearest_hp=8, nearest_max=20)` 不报错（headless screen=None）。
   - **集成**：构造带 `creatures/spawn` 的 `GameLoop`（桩 screen/input），多帧 `_update` 后生物存在/移动/攻击生效；`creatures=None` 时行为与 M3 一致。
-  - **回归**：`cd D:\allin\example` 后 `python -m pytest tests -q` 全量约 193 个 M1/M2/M3 用例仍绿（重点 `test_m2_blocks_and_gameloop.py` / `test_m3_*`）；`--no-gui` 仍返回 0。
+  - **回归**：`cd <仓库根>/MC2` 后 `python -m pytest tests -q` 全量约 193 个 M1/M2/M3 用例仍绿（重点 `test_m2_blocks_and_gameloop.py` / `test_m3_*`）；`--no-gui` 仍返回 0。
   - 验收：以上用例全过；M1/M2/M3 回归无退化（集成闸口验证）。
 
 ### 5.1 M4 任务依赖图（Mermaid graph）
@@ -676,7 +676,7 @@ graph TD
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖（运行时）** | 渲染/输入/主循环；`>=2.5`（沿用 M1~M3，M4 不新增） |
-| `allin_engine`（纯净版，`D:\allin\tools`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；仅经 `PYTHONPATH` 注入，不进 pip |
+| `allin_engine`（纯净版，`<仓库根>`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；仅经 `PYTHONPATH` 注入，不进 pip |
 | Python 3.14 标准库 | 标准 | `json`/`math`/`random`/`dataclasses`/`enum`/`os`/`sys`/`logging`（无新增第三方） |
 | `PyInstaller` | **构建期** | 仅 M5 使用，不进运行时 |
 
@@ -811,7 +811,7 @@ graph TD
    - `GameLoop.__init__` 新增 `creatures=None, spawn=None` 可选 → M2/M3 stub 测试（只传 survival/daynight/crafting/world_sim/jobs）零影响。
    - 左键战斗分支 `if self.creatures is not None` 包裹 → 无生物系统时逐字回退 `try_break`，`test_m2_blocks_and_gameloop.py` 全绿。
    - `hud.draw` 新增参数带默认值 → 旧调用不报错；`event_bus` 仅增常量、机制不变 → `test_m*_eventbus` 全绿。
-   - 全量回归门：`cd D:\allin\example && python -m pytest tests -q` 须约 193 绿（T-M4-12）。
+   - 全量回归门：`cd <仓库根>/MC2 && python -m pytest tests -q` 须约 193 绿（T-M4-12）。
 3. **渲染 headless 断言**：`CreatureRenderer.draw(screen=None, ...)` 仅遍历验证（不 blit），映射复用 `tile_world_renderer._world_to_screen` 同款公式，可对照断言；`TileWorldRenderer` 本体不改造。
 4. **性能预算（实体上限/AI tick）**：`CREATURE_CAP=20` 硬上限；移动每帧随 FIXED_DT（与玩家同成本，O(n)）；AI 决策节流 `AI_DECISION_STEP=0.5s`（随机/转向非每帧），实际随机调用频率 ≤2Hz×n，远低于玩家物理；满足 30–60 FPS。
 5. **与 M3 模拟层/作业系统的潜在耦合**：

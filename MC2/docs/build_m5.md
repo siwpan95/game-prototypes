@@ -1,16 +1,16 @@
 # M5 打包说明（PyInstaller）
 
-将 `D:\allin\example` 的 2D 我的世界复刻版打包为可分发 exe。
+将 `<仓库根>/MC2` 的 2D 我的世界复刻版打包为可分发 exe。
 
 ## 前置
 - Python 3.14（开发/测试用 managed 运行时；打包用已装 pyinstaller 的解释器）
 - `pygame-ce`（运行时依赖，已随项目环境安装）
 - `PyInstaller >= 6.0`
-- `allin_engine`：外部引擎，位于 `D:\allin\allin_engine`，**无需 pip 安装**，由 `build.spec` 的 `pathex` 注入
+- `allin_engine`：外部引擎，位于 `<仓库根>/allin_engine`，**无需 pip 安装**，由 `build.spec` 的 `pathex` 注入
 
 ## 一键打包
 ```bash
-cd D:\allin\example
+cd <仓库根>/MC2
 python packaging/build.py
 # 等价：pyinstaller --clean --noconfirm packaging/build.spec
 ```

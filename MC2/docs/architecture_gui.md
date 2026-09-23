@@ -3,7 +3,7 @@
 > 架构师：高见远（Gao）
 > 范围：基于 `docs/prd_large.md` 的**系统架构设计 + 全里程碑任务分解**。
 > **本文件只描述设计与分解，不写任何实现代码、不修改任何 .py 源码。**
-> 演进基点：`D:\allin\example` 现有 2D 文字向 MC 地基（`geometry` / `noise` / `block_registry` / `block_world` / `terrain` / `text_world_renderer` / `input_realtime` / `main.py` / `data/blocks.default.json`）。
+> 演进基点：`<仓库根>/MC2` 现有 2D 文字向 MC 地基（`geometry` / `noise` / `block_registry` / `block_world` / `terrain` / `text_world_renderer` / `input_realtime` / `main.py` / `data/blocks.default.json`）。
 > 语言：中文。
 
 ---
@@ -47,7 +47,7 @@
 | `systems/inventory.Inventory` | MVP 拟复用 | **弃用** → M2 自定义本地 `Inventory`（降耦合） |
 | `core/ecs` | 未使用 | **不涉及** |
 
-> **结论**：M1 对 `allin_engine` 的运行时依赖收敛为 **3 个基类**（`Serializable` / `JSONLoader` / `InputManager`）。`D:\allin\tools` 通过 `PYTHONPATH` 注入，不进 `requirements.txt`；为 PyInstaller 冻结时仅需把这 3 个基类模块打进包。
+> **结论**：M1 对 `allin_engine` 的运行时依赖收敛为 **3 个基类**（`Serializable` / `JSONLoader` / `InputManager`）。`<仓库根>` 通过 `PYTHONPATH` 注入，不进 `requirements.txt`；为 PyInstaller 冻结时仅需把这 3 个基类模块打进包。
 
 ### 1.3 模块分层（M1）
 
@@ -72,7 +72,7 @@ worldgen:       （复用现有 terrain.py；M5 扩展 worldgen/*）
 
 ## 2. 文件列表及相对路径
 
-> 相对根：`D:\allin\example\`。**粗体 = M1 新建文件**；其余为 M2–M5 规划文件。
+> 相对根：`<仓库根>/MC2/`。**粗体 = M1 新建文件**；其余为 M2–M5 规划文件。
 
 ### 2.1 M1（GUI 垂直切片）新增文件
 
@@ -362,7 +362,7 @@ sequenceDiagram
 
 ### 5.1 M1 · GUI 垂直切片（拆到工程师可直接执行的最小单元）
 
-> 每个任务标注：源文件、依赖、优先级。`foundation` 指现有 `D:\allin\example` 地基模块（已存在、不修改）。
+> 每个任务标注：源文件、依赖、优先级。`foundation` 指现有 `<仓库根>/MC2` 地基模块（已存在、不修改）。
 > 通用配置常量（`TILE_SIZE=32`、`HUD_TOP=28`、`HUD_BOTTOM=48`、`VIEW_OFFSET_X=0`、`FIXED_DT=1/60`、`FPS_CAP=60`、`WORLD_W=256`、`WORLD_H=96`、`VIEWPORT_TILES=(80,24)`、`SEED=12345`）集中在 `main_gui.py` 顶部，供各任务引用。
 
 #### T-M1-01 瓦片渲染器骨架（程序生成纯色块 + 视口 blit + y 翻转映射）
@@ -465,7 +465,7 @@ sequenceDiagram
   - 验收：订阅者可接收；调用点存在（M1-R11）。
 
 #### T-M1-11 单元测试（核心：碰撞 / 目标格 / 相机钳制 / 瓦片映射一致性）
-- **源文件**：`tests/test_m1_*.py`（新建，或 `D:\allin\example\tests\`）
+- **源文件**：`tests/test_m1_*.py`（新建，或 `<仓库根>/MC2/tests/`）
 - **依赖**：T-M1-01、T-M1-02、T-M1-03、T-M1-04（被测模块就绪）
 - **优先级**：P0（质量门）
 - **落地要点**：
@@ -510,17 +510,17 @@ graph TD
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖（运行时）** | 渲染/输入/主循环；`>=2.5` |
-| `allin_engine`（纯净版，`D:\allin\tools`） | **仅基类来源** | 运行期只需 `core/serializable.Serializable`、`utils/json_loader/JSONLoader`、`systems/input/InputManager` 三个基类；经 `PYTHONPATH` 注入，**不进** `requirements.txt` |
+| `allin_engine`（纯净版，`<仓库根>`） | **仅基类来源** | 运行期只需 `core/serializable.Serializable`、`utils/json_loader/JSONLoader`、`systems/input/InputManager` 三个基类；经 `PYTHONPATH` 注入，**不进** `requirements.txt` |
 | Python 3.14 标准库 | 标准 | `json` / `math` / `random` / `dataclasses` / `argparse` / `os` / `sys` / `logging` / `time` |
 | `PyInstaller` | **构建期** | 仅 M5 打包使用，不进运行时 |
 
-**`requirements.txt`（已落地于 `D:\allin\example\requirements.txt`）**
+**`requirements.txt`（已落地于 `<仓库根>/MC2/packaging/requirements.txt`）**
 ```
 # 运行时硬依赖
 pygame-ce>=2.5
 
 # allin_engine：仅作为 3 个基类来源（Serializable/JSONLoader/InputManager），
-# 由 PYTHONPATH=D:/allin/tools 注入，不列入 pip 依赖。
+# 由 PYTHONPATH=<仓库根> 注入，不列入 pip 依赖。
 # PyInstaller：仅 M5 构建期使用，单独 pip install pyinstaller，不进运行时。
 ```
 

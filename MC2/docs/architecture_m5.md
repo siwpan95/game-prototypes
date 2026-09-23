@@ -1,4 +1,4 @@
-# M5 群系/洞穴/存档/打包 · 架构文档（mc_clone_gui / D:\allin\example）
+# M5 群系/洞穴/存档/打包 · 架构文档（mc_clone_gui / <仓库根>/MC2）
 
 ## 一句话总结
 在 M1–M4 基础上完成 M5「世界深度」：确定性**群系**（5 种生物群系 + 海洋）、**洞穴**雕刻（不破地表与岩浆湖）、完整**存档/读档**（world/daynight/player/survival/creatures 经 PUBLIC 接口还原）、以及 **PyInstaller 一键打包**。全量 **250 测试通过 / 0 失败**（M1–M4 无退化 + 25 个 M5 新测试）。
@@ -71,8 +71,8 @@
 ## 运行方式
 ```bash
 # 开发运行
-cd D:\allin\example
-set PYTHONPATH=D:/allin;D:/allin/example
+cd <仓库根>/MC2
+set PYTHONPATH=<仓库根>;<仓库根>/MC2
 python -m pytest tests -q            # 全量测试
 python main_gui.py --seed 12345      # 启动 GUI（F5 存档 / F9 读档 / 退出自动存档）
 python main_gui.py --load save/quicksave.json   # 从存档启动

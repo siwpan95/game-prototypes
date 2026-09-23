@@ -2,7 +2,7 @@
 
 > 产品经理：许清楚（Xu）
 > 范围：仅需求分析，**不写任何代码、不修改任何 .py 源码**。本文件为新建，不覆盖 `prd_mvp.md`。
-> 方向：在 `D:\allin\example` 现有 2D 文字向 MC 地基之上，演进为 **pygame-ce 驱动的 2D 瓦片 GUI 版本**，
+> 方向：在 `<仓库根>/MC2` 现有 2D 文字向 MC 地基之上，演进为 **pygame-ce 驱动的 2D 瓦片 GUI 版本**，
 > 参考《我的世界》可玩闭环与《矮人要塞》瓦片化/模拟深度，**绝不引入 3D OpenGL**（贴合用户既有 pygame 栈、可达、易打包）。
 > 调研结论引用：主理人已搜集的《我的世界》《矮人要塞》信息（见文末附录引用）。
 
@@ -17,7 +17,7 @@
 | **项目名** | `mc_clone_gui` |
 | **明确不引入** | 3D / OpenGL（obiwac 等 Python 3D 克隆路线不在本项目范围） |
 | **渲染范式** | 2D 侧视（Terraria 式）方块世界 + 瓦片（tile）图形渲染，非 ASCII |
-| **原始需求复述** | 在 `D:\allin\example` 已完成「2D 文字向 MC 地基 + 可玩 MVP PRD + 架构文档 + 全套测试」的基础上，做成《我的世界》复刻的 **GUI 版本**，并参考《矮人要塞》的瓦片化与模拟深度；按**大型项目**规划，从「文字渲染」演进为「GUI 瓦片渲染」，扩展为多里程碑路线图（M1~M5）。 |
+| **原始需求复述** | 在 `<仓库根>/MC2` 已完成「2D 文字向 MC 地基 + 可玩 MVP PRD + 架构文档 + 全套测试」的基础上，做成《我的世界》复刻的 **GUI 版本**，并参考《矮人要塞》的瓦片化与模拟深度；按**大型项目**规划，从「文字渲染」演进为「GUI 瓦片渲染」，扩展为多里程碑路线图（M1~M5）。 |
 
 > **坐标与数据约定（继承地基，不破坏）**：x 向右、y 向上、z 为层（depth，地基默认 1，本路线图 M3 起启用 >1）；方块 id `0=air 1=stone 2=dirt 3=grass 4=water 5=sand`；`BlockDef` 含 `solid/transparent/props`，`BlockWorld` 以 `(x,y,z)` 稀疏存储并支持 `to_dict/from_dict` 序列化。
 
@@ -337,7 +337,7 @@ graph LR
 
 ## 8. 复用与依赖说明（本 PRD 不写代码，仅标注）
 
-### 8.1 复用现有 `D:\allin\example` 模块（不修改）
+### 8.1 复用现有 `<仓库根>/MC2` 模块（不修改）
 
 | 模块 | 复用点 | 备注 |
 |---|---|---|
@@ -375,7 +375,7 @@ graph LR
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖** | 渲染 / 输入 / 主循环；`>=2.5` |
-| `allin_engine`（纯净版，位于 `D:\allin\tools`） | 保留依赖 | 仅用 `core.serializable.Serializable`、`utils.json_loader.JSONLoader`、`systems.input.InputManager` 基类；M1 起游戏循环改用 pygame，不再依赖其 `FixedTimestepLoop`/`EventBus`（本地轻量事件即可） |
+| `allin_engine`（纯净版，位于 `<仓库根>`） | 保留依赖 | 仅用 `core.serializable.Serializable`、`utils.json_loader.JSONLoader`、`systems.input.InputManager` 基类；M1 起游戏循环改用 pygame，不再依赖其 `FixedTimestepLoop`/`EventBus`（本地轻量事件即可） |
 | Python 3.14 标准库 | 标准 | `json` / `math` / `random` / `dataclasses` / `argparse` / `os` / `sys` 等 |
 | `PyInstaller` | **构建期**依赖 | 仅 M5 打包使用，不进运行时 |
 

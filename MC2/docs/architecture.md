@@ -23,7 +23,7 @@
 
 ## 2. 文件列表及相对路径
 
-### 2.1 引擎侧（`D:\allin\tools\allin_engine\`，相对引擎根）
+### 2.1 引擎侧（`<仓库根>/allin_engine/`，相对引擎根）
 | 文件 | 职责 |
 |---|---|
 | `core/geometry.py` | 新增：`Vec2i`、`AABB2D`、`clamp`、`lerp` 几何/视口数学原语。 |
@@ -38,7 +38,7 @@
 | `allin_engine/__init__.py` | 更新：re-export 新模块。 |
 | `render/__init__.py`、`systems/__init__.py` | 更新：补充新模块导出（在末尾追加，不覆盖既有）。 |
 
-### 2.2 游戏骨架侧（`D:\allin\tools\mc_clone\`）
+### 2.2 游戏骨架侧（`<仓库根>/MC2/mcclone/`）
 | 文件 | 职责 |
 |---|---|
 | `mc_clone/__init__.py` | 新增：包初始化，导出 `main`。 |

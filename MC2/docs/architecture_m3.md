@@ -4,7 +4,7 @@
 > 范围：基于 `docs/prd_large.md`（M3 章节）+ `docs/architecture_gui.md` / `docs/architecture_m2.md`
 > 的 **M3 系统架构设计 + 单元级任务分解**。
 > **本文件只描述设计与分解，不写任何实现代码、不修改任何 .py 源码。**
-> 演进基点：`D:\allin\example` 现有地基（零改动、仅 import）+ 已交付 M1（96 测试）/ M2（52 测试）。
+> 演进基点：`<仓库根>/MC2` 现有地基（零改动、仅 import）+ 已交付 M1（96 测试）/ M2（52 测试）。
 > 语言：中文。
 
 ---
@@ -64,7 +64,7 @@
 
 ## 2. 实现方案 + 模块划分
 
-### 2.1 M3 新增文件（相对 `D:\allin\example\`）
+### 2.1 M3 新增文件（相对 `<仓库根>/MC2/`）
 
 | 文件 | 职责 | 关键接口 |
 |---|---|---|
@@ -632,7 +632,7 @@ graph TD
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖（运行时）** | 渲染/输入/主循环；`>=2.5`（沿用 M1/M2，M3 不新增） |
-| `allin_engine`（纯净版，`D:\allin\tools`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；M3 仍仅经 `PYTHONPATH` 注入，不进 pip |
+| `allin_engine`（纯净版，`<仓库根>`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；M3 仍仅经 `PYTHONPATH` 注入，不进 pip |
 | Python 3.14 标准库 | 标准 | `json`/`math`/`random`/`dataclasses`/`os`/`sys`/`logging`（无新增第三方） |
 | `PyInstaller` | **构建期** | 仅 M5 使用，不进运行时 |
 

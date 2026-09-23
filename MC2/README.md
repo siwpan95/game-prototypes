@@ -4,7 +4,7 @@
 建造、生存（饥饿/昼夜）、作业模拟、生物 AI 与战斗、群系/洞穴、存档读档，并可一键打包为
 可分发 exe。
 
-> 引擎地基（`allin_engine` 里的 MC 专属模块）已整体迁出；本目录 `D:\allin\example` 是**完全自包含**的独立成品。
+> 引擎地基（`allin_engine` 里的 MC 专属模块）已整体迁出；本目录 `<仓库根>/MC2` 是**完全自包含**的独立成品。
 > 原 `allin_engine` 的三个通用能力（`Serializable` / `JSONLoader` / `InputManager`）已内联到 `mcclone/_engine/`，
 > 无需额外 PYTHONPATH，克隆即可运行。
 
@@ -20,7 +20,7 @@
 
 ## 目录结构
 
-D:\allin\example
+<仓库根>/MC2
 ├── main.py              # 命令行入口：生成地形并 ANSI 渲染（--no-gui 降级路径）
 ├── mcclone/             # 方案 B 深度分层包（单一命名空间 mcclone）
 │   ├── main_gui.py      # GUI 主入口（--seed / --load / --save；F5 存档 / F9 读档）
@@ -69,7 +69,7 @@ D:\allin\example
 Python 3.14+ 即可，无需额外依赖或 PYTHONPATH——项目已完全自包含。
 
 ```bash
-cd D:\allin\example
+cd <仓库根>/MC2
 python -m mcclone.main_gui --seed 12345
 ```
 
@@ -85,7 +85,7 @@ GUI 操作：
 `conftest.py` 基于文件实际位置自动注入路径，无需手动设置 `PYTHONPATH`：
 
 ```bash
-cd D:\allin\example
+cd <仓库根>/MC2
 python -m pytest -q
 # 或零依赖运行器：python tests/run_tests.py
 ```
@@ -95,7 +95,7 @@ python -m pytest -q
 详见 [docs/build_m5.md](docs/build_m5.md)。
 
 ```bash
-cd D:\allin\example
+cd <仓库根>/MC2
 python packaging/build.py        # 产物：dist/mc_clone_gui/mc_clone_gui.exe
 ```
 

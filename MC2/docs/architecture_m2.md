@@ -3,7 +3,7 @@
 > 架构师：高见远（Gao）
 > 范围：基于 `docs/prd_large.md` 的 **M2 系统架构设计 + 单元级任务分解**。
 > **本文件只描述设计与分解，不写任何实现代码、不修改任何 .py 源码。**
-> 演进基点：`D:\allin\example` 现有地基 + 已交付 M1（GUI 垂直切片，全量 96 passed）。
+> 演进基点：`<仓库根>/MC2` 现有地基 + 已交付 M1（GUI 垂直切片，全量 96 passed）。
 > 语言：中文。
 
 ---
@@ -60,7 +60,7 @@
 
 ## 2. 实现方案 + 模块划分
 
-### 2.1 M2 新增文件（相对 `D:\allin\example\`）
+### 2.1 M2 新增文件（相对 `<仓库根>/MC2/`）
 
 | 文件 | 职责 | 关键接口 |
 |---|---|---|
@@ -471,7 +471,7 @@ graph TD
 | 依赖 | 类型 | 说明 |
 |---|---|---|
 | **pygame-ce** | **硬依赖（运行时）** | 渲染/输入/主循环；`>=2.5`（沿用 M1，M2 不新增） |
-| `allin_engine`（纯净版，`D:\allin\tools`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；M2 仍仅经 `PYTHONPATH` 注入，不进 pip |
+| `allin_engine`（纯净版，`<仓库根>`） | **仅基类来源** | `Serializable`/`JSONLoader`/`InputManager`；M2 仍仅经 `PYTHONPATH` 注入，不进 pip |
 | Python 3.14 标准库 | 标准 | `json`/`math`/`random`/`dataclasses`/`os`/`sys`/`logging`（无新增第三方） |
 | `PyInstaller` | **构建期** | 仅 M5 使用，不进运行时 |
 
