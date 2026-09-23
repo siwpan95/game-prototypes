@@ -1,6 +1,9 @@
 # 随机地牢 · 终端文字地牢探险
 
-> 独立仓 siwpan/random-dungeon-（本地 G:\repos\random-dungeon-）。纯 Python 标准库实现的终端文字地牢探险游戏。
+> 仓库：<https://gitee.com/siwpan/random-dungeon-> ｜ 许可：MIT-0（MIT No Attribution）（见 [LICENSE](LICENSE)）
+> 注：文中 <PATH> 为路径占位符，请替换为你本机实际的目录 / 可执行文件路径。
+
+> 独立仓 siwpan/random-dungeon-（本地 <PATH>）。纯 Python 标准库实现的终端文字地牢探险游戏。
 
 ## 玩法
 
@@ -23,7 +26,7 @@ python 随机地牢.py
 
 ## 谱系（2026-08-27 统一治理）
 
-- 本仓为体面留存：本地开发副本已归档至 `G:\archive\trash\随机地牢`（勿删）；仓库为唯一活跃留存。
+- 本仓为体面留存：本地开发副本已归档至 `<PATH>`（勿删）；仓库为唯一活跃留存。
 
 ## 许可
 
