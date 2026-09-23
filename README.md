@@ -42,7 +42,7 @@
 ## 📁 目录结构
 
 ```
-G:\project_root\
+<仓库根>\
 ├── README.md                  # 本文件
 ├── requirements.txt           # 依赖说明（纯标准库，无第三方包）
 ├── run_gui.bat                # Windows 一键启动 GUI（UTF-8 编码）
@@ -112,14 +112,14 @@ G:\project_root\
 **通用（命令行）**：
 
 ```bash
-cd G:\project_root
+cd <仓库根>
 python gui_app.py          # 薄启动器，等价于 python -m gui.app
 ```
 
 ### 方式二：命令行演示
 
 ```bash
-cd G:\project_root
+cd <仓库根>
 python main.py                      # 默认运行 full 完整旅程
 python main.py --demo basic         # 基础演示：偷盗者 → 诈骗师
 python main.py --demo multi         # 多途径展示：6 条途径序列 9 → 8
@@ -162,7 +162,7 @@ python main.py --demo all           # 运行以上全部演示
 
 ```python
 import sys
-sys.path.insert(0, "G:/project_root")  # 或在本目录运行
+sys.path.insert(0, "<仓库根>")  # 或在本目录运行
 
 from sequences import make_sequence
 from anchor import Anchor
