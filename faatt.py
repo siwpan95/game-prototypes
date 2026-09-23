@@ -41,6 +41,25 @@ from pathlib import Path
 
 
 # ============================================================
+#  默认输出目录（去本地化）
+# ============================================================
+def _default_output_dir() -> str:
+    """解析默认音频输出根目录。
+
+    优先级：环境变量 STAY_ASSETS_AUDIO → 仓根 assets/audio（由 __file__ 推导）。
+    原硬编码的桌面绝对路径已失效，故改为可推导默认值。
+    """
+    env = os.environ.get("STAY_ASSETS_AUDIO")
+    if env:
+        return env
+    here = Path(__file__).resolve().parent
+    for d in (here, *here.parents):
+        if (d / ".git").exists() or (d / "assets").is_dir():
+            return str(d / "assets" / "audio")
+    return str(here / "assets" / "audio")
+
+
+# ============================================================
 #  全局常量
 # ============================================================
 SR = 44100          # 采样率
@@ -1301,7 +1320,7 @@ class GameAudioWorkstationGUI:
         # 核心
         self.player = PreviewPlayer()
         self.exporter: Optional[AudioBatchExporter] = None
-        self.output_dir = tk.StringVar(value=r"C:\Users\13122\Desktop\stay\kard_CN\assets\audio")
+        self.output_dir = tk.StringVar(value=_default_output_dir())
 
         # 当前选中项
         self.selected_preset: Optional[tuple] = None  # (category, name, voice)
@@ -1660,7 +1679,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch", action="store_true",
                         help="CLI 批量导出模式 (不启动GUI)")
     parser.add_argument("--output", "-o", type=str,
-                        default=r"C:\Users\13122\Desktop\stay\kard_CN\assets\audio",
+                        default=_default_output_dir(),
                         help="输出根目录")
     parser.add_argument("--duration", "-d", type=float, default=30.0,
                         help="每首音乐的时长(秒)")
