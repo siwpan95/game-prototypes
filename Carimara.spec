@@ -35,5 +35,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['C:\\Users\\13122\\Desktop\\waper\\1.ico'],
+    # 原为 icon=['C:\\Users\\13122\\Desktop\\waper\\1.ico'] —— 该外部绝对路径已失效，
+    # 且仓内无任何 .ico 资源（git ls-files 无命中，已丢失），故移除该项，改用 PyInstaller 默认图标。
+    # 如需自定义图标：把 .ico 放进仓库后改为 icon=[os.path.join(SPECPATH, '<文件名>.ico')]。
 )
