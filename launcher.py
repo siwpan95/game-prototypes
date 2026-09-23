@@ -9,7 +9,7 @@ launcher — MCclone 统一启动器（MC1 文字冒险 + MC2 2D 复刻，均基
   4. 退出
 
 说明：
-  - MC1 / MC2 在启动时会自行把引擎父目录（本目录 D:/allin/MCclone）注入 sys.path，
+  - MC1 / MC2 在启动时会自行把引擎父目录（本目录 <仓库根>）注入 sys.path，
     因此只要 allin_engine 在本目录下，即可正常导入。
   - GUI 程序以独立子进程启动（不阻塞本菜单）；探针测试在本进程内运行并可查看明细。
   - 命令行用法：python launcher.py --probes   直接运行全部探针并返回退出码。

@@ -8,7 +8,7 @@ InputManager）。整合后改为直接 re-export allin_engine 的对应实现�
   - JSONLoader    ← allin_engine.utils.json_loader
   - InputManager  ← allin_engine.systems.input
 
-要求 allin_engine 包可导入（MC2 启动时已将其父目录 D:/allin/MCclone 注入 sys.path，
+要求 allin_engine 包可导入（MC2 启动时已将其父目录 <仓库根> 注入 sys.path，
 测试时由 tests/conftest.py 与 tests/_testutil.py 注入）。
 """
 

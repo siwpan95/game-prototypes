@@ -3,7 +3,7 @@
 《我的世界》文字冒险 — 基于 allin_engine 引擎实现
 ================================================
 
-本模块在 D:/allin/MCclone/allin_engine（统一游戏引擎）之上构建，
+本模块在 <仓库根>/allin_engine（统一游戏引擎）之上构建，
 **充分利用引擎的全部功能**：
 
   - core.ECS   : World + Entity + Component（玩家/生物实体化）
@@ -38,7 +38,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-# ── 让 allin_engine 可被导入（引擎位于 D:/allin/MCclone/allin_engine）──
+# ── 让 allin_engine 可被导入（引擎位于 <仓库根>/allin_engine）──
 # 引擎父目录 = MC1 所在目录的父目录（即 MCclone）
 _ENGINE_PARENT = str(Path(__file__).resolve().parent.parent)
 if _ENGINE_PARENT not in sys.path:
