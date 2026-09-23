@@ -5,7 +5,8 @@ import wave
 import math
 import random
 
-SOUNDS_DIR = r"D:\allin\smile\sounds"
+# 音效输出目录：默认落在本脚本同级的 sounds/（原为本机一条已失效的绝对路径，见硬编码门禁清单）
+SOUNDS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sounds")
 os.makedirs(SOUNDS_DIR, exist_ok=True)
 
 def make_wav(filepath, samples, sample_rate=44100):
