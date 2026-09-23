@@ -2,8 +2,8 @@
 """
 core/paths.py — 统一路径解析（含空格路径安全）
 
-使用 pathlib.Path，禁止字符串拼接。项目根目录 G:\\Life Reset Simulator 含空格，
-所有上层模块一律从这里取路径，避免 os.path.join 拼接带来的隐患。
+使用 pathlib.Path，禁止字符串拼接。项目根目录可能含空格（本机曾置于带空格的
+绝对路径下），所有上层模块一律从这里取路径，避免 os.path.join 拼接带来的隐患。
 本模块零 UI 依赖，禁止 import tkinter / print / input / time.sleep。
 """
 
