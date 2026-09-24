@@ -1,7 +1,7 @@
 """procgen 冒烟测试：import procgen 并断言各生成函数返回形状/类型正确。
 
 运行：
-    cd G:/tools/procgen
+    cd <仓库根>/procgen
     python test_smoke.py
 """
 

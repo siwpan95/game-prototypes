@@ -18,7 +18,7 @@ alloy — 决策 / 行为范式 集成示例
     的 advance() 集成。
 
 运行：
-    cd D:\\allin\\tools
+    cd <仓库根>    # alloy 的上一级
     python -m alloy.example_decision_ai
 """
 
