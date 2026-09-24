@@ -18,7 +18,7 @@ allin_engine — 决策 / 行为范式 集成示例
     的 advance() 集成。
 
 运行：
-    cd D:\\allin\\tools
+    cd <仓库根>    # allin_engine 的上一级
     python -m allin_engine.example_decision_ai
 """
 
