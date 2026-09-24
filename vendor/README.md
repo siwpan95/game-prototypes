@@ -4,10 +4,10 @@
 
 ## 来源：allin_engine
 
-- 上游路径：`G:/games/allin_engine`（作者 "全哥"，MIT License）
+- 上游路径：`allin_engine` 上游仓（作者 "全哥"，MIT License；原宿主目录已失效）
 - vendored 时间：2026 年（本项目 Phase 6/8 落地阶段）
 - 许可：MIT。原版权声明保留在各文件头部，此处附上游 LICENSE 摘要：
-  > Copyright (c) allin_engine 作者，特此免费授予任何获得本软件及相关文档文件副本的人不受限制地处理本软件的权利……（详见 G:/games/allin_engine/LICENSE）
+  > Copyright (c) allin_engine 作者，特此免费授予任何获得本软件及相关文档文件副本的人不受限制地处理本软件的权利……（许可证原文随 vendor 副本保留，见本目录 LICENSE）
 
 ### 复制的文件与用途
 
