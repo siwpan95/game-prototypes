@@ -1,0 +1,5 @@
+# mcclone3d 依赖
+#
+# ⚠ 引擎**不在**这里：world3d 来自 3dworld 检出（见 README「引擎从哪来」），
+# 它不是 PyPI 包，写进 requirements 会让人以为 `pip install -r` 就够了。
+pyglet>=2.1,<3

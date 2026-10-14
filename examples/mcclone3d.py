@@ -1,0 +1,511 @@
+# -*- coding: utf-8 -*-
+"""mcclone3d 交互 demo —— 第一人称体素沙盒（《我的世界》风格机制致敬）。
+
+    python examples/mcclone3d.py                # 交互
+    python examples/mcclone3d.py --smoke 3      # 3 秒后自动退出（自检）
+    python examples/mcclone3d.py --flag auto    # 自动机演示（不按键也能录）
+
+## 接线只有一份
+
+内核**不在本文件里 new**，而是走引擎的配置树：
+
+    _engine.setup()                       # 定位引擎 + 登记服务短名 + 指配置目录
+    await mount_tree(configs/cordis.mcclone.yml, want=WANT)
+
+于是「demo 怎么挂的 = headless 验收怎么挂的」——`cli.py` 走的是同一棵树。
+内核实例从 `ctx.mcclone_kernel` 取（配置树里的 `id`）。
+
+## 玩法都在内核，本文件只管三件事
+
+输入映射（键 → 内核方法）、网格上传（内核的 `chunk_meshes()` → GL 顶点表）、
+以及画出来（世界 / 天空 / 选中框 / 准星 / hotbar）。
+"""
+from __future__ import annotations
+
+import asyncio
+import math
+import os
+import sys
+
+_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# ⚠ 必须放在 sys.path **最前**：本文件名与包名同名（`examples/mcclone3d.py` vs 包
+# `mcclone3d/`），而 `sys.path[0]` 在按路径运行时是 `examples/` —— 不置顶的话
+# `from mcclone3d import ...` 会命中**本文件自己**，报
+# 「cannot import name '_engine' from 'mcclone3d'（考虑改名）」（实测踩过）。
+while _ROOT in sys.path:
+    sys.path.remove(_ROOT)
+sys.path.insert(0, _ROOT)
+
+# stdio 编码兜底（本文件会打印中文与 ✔/⚠，GBK 控制台下 print 会抛异常把结论丢掉）
+for _s in (sys.stdout, sys.stderr):
+    _rec = getattr(_s, 'reconfigure', None)
+    if _rec is not None:
+        try:
+            _rec(encoding='utf-8', errors='replace')
+        except (ValueError, OSError):
+            pass
+
+import pyglet                                                  # noqa: E402
+from pyglet.gl import (GL_BLEND, GL_DEPTH_TEST, GL_FALSE, GL_LINES,  # noqa: E402
+                       GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_TRIANGLES,
+                       GL_TRUE, glBlendFunc, glDisable, glEnable)
+from pyglet.math import Mat4, Vec3                             # noqa: E402
+
+from mcclone3d import _engine, blocks as B, textures           # noqa: E402
+from mcclone3d.kernel import EYE_HEIGHT                        # noqa: E402
+
+#: 本 demo 需要配置树里的哪些服务（与 `cli.py` 同一份声明）
+WANT = ('mcclone',)
+
+# ---------------------------------------------------------------- 着色器 --
+WORLD_VS = '''#version 330 core
+in vec3 position;
+in vec4 colors;
+in vec2 tex_coords;
+out vec4 v_col;
+out vec2 v_uv;
+out float v_dist;
+uniform WindowBlock { mat4 projection; mat4 view; } window;
+void main() {
+    vec4 vp = window.view * vec4(position, 1.0);
+    v_dist = length(vp.xyz);
+    v_col = colors;
+    v_uv = tex_coords;
+    gl_Position = window.projection * vp;
+}'''
+
+# 顶点色 rgba：rgb = 面亮度（内核的 FACE_BRIGHT），a 预留自发光
+WORLD_FS = '''#version 330 core
+in vec4 v_col;
+in vec2 v_uv;
+in float v_dist;
+out vec4 out_color;
+uniform sampler2D u_atlas;
+uniform vec3  u_fog;
+uniform float u_fog_near;
+uniform float u_fog_far;
+void main() {
+    vec4 tex = texture(u_atlas, v_uv);
+    if (tex.a < 0.08) discard;                     // 火把这类镂空贴图
+    vec3 lit = tex.rgb * v_col.rgb;
+    lit = mix(lit, u_fog, smoothstep(u_fog_near, u_fog_far, v_dist));
+    out_color = vec4(lit, tex.a);
+}'''
+
+SKY_VS = '''#version 330 core
+in vec3 position;
+in vec4 colors;
+out vec2 v_uv;
+void main() { v_uv = position.xy * 0.5 + 0.5; gl_Position = vec4(position.xy, 0.0, 1.0); }'''
+
+SKY_FS = '''#version 330 core
+in vec2 v_uv;
+out vec4 out_color;
+uniform vec3 u_top;
+uniform vec3 u_bottom;
+void main() {
+    float t = pow(clamp(v_uv.y, 0.0, 1.0), 0.7);
+    out_color = vec4(mix(u_bottom, u_top, t), 1.0);
+}'''
+
+LINE_VS = '''#version 330 core
+in vec3 position;
+uniform WindowBlock { mat4 projection; mat4 view; } window;
+uniform vec3 u_origin;
+void main() { gl_Position = window.projection * window.view * vec4(position + u_origin, 1.0); }'''
+
+#: 叠加层（准星）：顶点**已经是 NDC**，不乘任何矩阵
+UI_VS = '''#version 330 core
+in vec3 position;
+in vec4 colors;
+out vec4 v_col;
+void main() { v_col = colors; gl_Position = vec4(position.xy, 0.0, 1.0); }'''
+
+#: 叠加层的片元：用颜色属性而不是 uniform（同一个程序同时画准星/热键栏框）
+UI_FS = '''#version 330 core
+in vec4 v_col;
+out vec4 out_color;
+uniform vec4 u_color;
+void main() { out_color = v_col * u_color; }'''
+
+LINE_FS = '''#version 330 core
+out vec4 out_color;
+uniform vec4 u_color;
+void main() { out_color = u_color; }'''
+
+#: 单位盒的 12 条棱（两个端点一条线）
+_BOX = []
+for _i in range(8):
+    _BOX.append((_i & 1, (_i >> 1) & 1, (_i >> 2) & 1))
+_LINKS = ((0, 1), (2, 3), (4, 5), (6, 7), (0, 2), (1, 3),
+          (4, 6), (5, 7), (0, 4), (1, 5), (2, 6), (3, 7))
+_BOX_V = []
+for _a, _b in _LINKS:
+    _BOX_V.append(_BOX[_a])
+    _BOX_V.append(_BOX[_b])
+
+
+def _mount_kernel():
+    """按配置树挂载内核，返回内核实例。
+
+    ⚠ 取服务的名字是**服务短名**（`ctx.mcclone`），不是配置树里的 `id`
+    （实测踩过：写成 `ctx.mcclone_kernel` 拿到 `None`，一路崩到 `.summary()`）。
+    原因在引擎侧：cordis 按 `- name:` 注册服务，`id:` 只是该 entry 的标识。
+    """
+    _engine.setup(verbose=True)
+    from world3d.host.tree import mount_tree
+    ctx = asyncio.run(mount_tree(_engine.config_dir() + os.sep + 'cordis.mcclone.yml',
+                                 want=WANT, require_gl=False))
+    kernel = getattr(ctx, _engine.SERVICE_NAME, None)
+    if kernel is None:
+        raise RuntimeError(
+            f'配置树挂载后拿不到内核（ctx.{_engine.SERVICE_NAME} 是 None）——'
+            f' 检查 configs/cordis.mcclone.yml 的 `- name:` 是否等于 {_engine.SERVICE_NAME!r}')
+    return kernel
+
+
+class McCloneApp:
+    """本 demo 的窗口与主循环（**不用引擎的 DemoApp**：第一人称相机与准星/热键栏
+    的输入语义和那套"演示动画"宿主差别较大，自己拿窗口更直接）。
+
+    仍复用引擎的三件事：`world3d.math` 的矩阵、pyglet 的窗口、以及内核。
+    """
+
+    TITLE = 'mcclone3d · 体素沙盒（WASD 走 / 左键挖 / 右键放 / 1-9 选方块）'
+    HELP = ('WASD 走  SPACE 跳  F 飞行  Ctrl 加速  鼠标左键拖动转视角  '
+            '左键挖 右键放  1-9 换方块  R 重生  Ctrl+S 存档  ESC 退出')
+    FOV = 68.0
+    Z_NEAR, Z_FAR = 0.08, 400.0
+
+    def __init__(self, width=1280, height=720, kernel=None, auto=False,
+                 verbose=False):
+        self.kernel = kernel if kernel is not None else _mount_kernel()
+        self.window = pyglet.window.Window(width, height, caption=self.TITLE,
+                                           resizable=True)
+        # ⚠ 投影要按**窗口实际尺寸**算（窗口可能被系统 DPI 缩放）：先前按构造参数算，
+        # 1600×900 的窗口配 1280×720 的投影 ⇒ 画面横向拉伸（实测 proj[0]=0.834，应为 1.46）。
+        # 注意 `_apply_projection` 依赖 `self.window`，所以它只能放在建窗之后。
+        self.window.push_handlers(on_draw=self.on_draw, on_resize=self.on_resize,
+                                  on_key_press=self.on_key_press,
+                                  on_mouse_press=self.on_mouse_press,
+                                  on_mouse_drag=self.on_mouse_drag,
+                                  on_mouse_scroll=self.on_mouse_scroll)
+        self.window.view = Mat4()
+        self.time = 0.0
+        self.auto = bool(auto)
+        self.verbose = bool(verbose)
+        self._last_beat = -1.0
+        self._shot_pending = None          # `--shot`：到点后**在 on_draw 里**抓帧
+        self._keys = set()
+        self._verts: dict = {}
+        self._setup_gl()
+        self._apply_projection(self.window.width, self.window.height)
+        self._say_spawn()
+
+    # ------------------------------------------------------------ GL 资源
+    def _setup_gl(self):
+        """建 GL 资源：三套着色器 + 程序化图集纹理 + 叠加层几何。
+
+        **没有外部素材**：图集像素由 `mcclone3d.textures` 现算（16×16 像素材质），
+        这里只负责上传；`GL_NEAREST` 是必须的（线性过滤会把像素质感糊掉）。
+        """
+        from pyglet.graphics.shader import Shader, ShaderProgram
+        from pyglet.gl import GL_NEAREST, glClearColor
+        glEnable(GL_DEPTH_TEST)
+        glClearColor(0.6, 0.75, 0.9, 1.0)
+
+        self.world_prog = ShaderProgram(Shader(WORLD_VS, 'vertex'),
+                                        Shader(WORLD_FS, 'fragment'))
+        self.sky_prog = ShaderProgram(Shader(SKY_VS, 'vertex'),
+                                      Shader(SKY_FS, 'fragment'))
+        self.line_prog = ShaderProgram(Shader(LINE_VS, 'vertex'),
+                                       Shader(LINE_FS, 'fragment'))
+
+        # 图集（程序化生成 → 上传）
+        # ⚠ **必须 NEAREST**：像素材质放大要用硬边，线性过滤会把它糊成"毛玻璃"
+        # （实测第一版就是糊的：远看草地像水彩）。mipmap 只用于缩小时防闪烁。
+        size = textures.LAYOUT.size
+        img = pyglet.image.ImageData(size, size, 'RGBA', textures.build_atlas())
+        try:
+            img = img.get_mipmapped_text()
+            mip = True
+        except Exception:                              # 老驱动/尺寸不支持就退回单级
+            img = img.get_texture()
+            mip = False
+        self.atlas = img
+        from pyglet.gl import GL_NEAREST_MIPMAP_LINEAR
+        self.atlas.min_filter = GL_NEAREST_MIPMAP_LINEAR if mip else GL_NEAREST
+        self.atlas.mag_filter = GL_NEAREST
+
+        # 天空：全屏四边形（顶点着色器直接吐 NDC）
+        quad = (-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0,
+                -1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0)
+        self.sky_quad = self.sky_prog.vertex_list(
+            6, GL_TRIANGLES, position=('f', quad), colors=('f', (1.0,) * 24))
+
+        # 选中框：单位盒线框（每帧只换 u_origin/u_color）
+        flat = []
+        for (vx, vy, vz) in _BOX_V:
+            flat += [vx, vy, vz]
+        self.box = self.line_prog.vertex_list(
+            len(_BOX_V), GL_LINES, position=('f', flat))
+
+        # 准星：屏幕中心的小十字（叠加层用 line_prog 的矩阵会跟世界绑死，
+        # 所以单独一个"顶点已是 NDC"的程序）
+        self.ui_prog = ShaderProgram(Shader(UI_VS, 'vertex'), Shader(UI_FS, 'fragment'))
+        c = 0.012
+        ch = (-c, 0.0, 0.0, c, 0.0, 0.0, 0.0, -c, 0.0, 0.0, c, 0.0)
+        self.crosshair = self.ui_prog.vertex_list(4, GL_LINES, position=('f', ch),
+                                                  colors=('f', (1.0,) * 16))
+        print(f'[mcclone3d] 图集 {size}x{size} / {len(textures.ATLAS_TILE_NAMES)} 张贴图，'
+              f'着色器 3 套就绪', flush=True)
+
+    def _apply_projection(self, w, h):
+        self.window.projection = Mat4.perspective_projection(
+            w / max(1, h), z_near=self.Z_NEAR, z_far=self.Z_FAR, fov=self.FOV)
+        self.window.view = Mat4()
+
+    def meshes_ready(self):
+        """世界网格是否已全部上传（截图 / 验收前的门）。"""
+        return not self.kernel.dirty_chunks
+
+    def _say_spawn(self):
+        s = self.kernel.summary()
+        print(f'[mcclone3d] spawn={s["pos"]} 种子={s["seed"]} 世界={self.kernel.size}'
+              f'x{self.kernel.height} 方块={s["blocks"]}', flush=True)
+
+    def sanity_report(self, tag='sanity'):
+        """自检式体检：相机 / 朝向 / 网格 / 视锥内是否有面。
+
+        为什么要有它：**"画面看着不对"不是判据**。渲染问题必须能量化——
+        实测吃过两次亏：一次把"玩家悬空"误判成渲染错，一次把雾当成了没画出来。
+        这里把"眼睛在哪、朝哪、几个区块的顶点表、视锥里有没有面"一次打清楚，
+        让"看到的东西"与"数值"对得上。
+        """
+        k = self.kernel
+        eye, target = self._camera()
+        d = k.look_dir()
+        inside = 0
+        total = 0
+        for key, vl in self._verts.items():
+            cx, cy, cz = key
+            x0, y0, z0 = cx * 16, cy * 16, cz * 16
+            vx, vy, vz = x0 + 8, y0 + 8, z0 + 8
+            total += 1
+            if abs(vx - eye[0]) < 60 and abs(vy - eye[1]) < 60 and abs(vz - eye[2]) < 60:
+                inside += 1
+        print(f'[{tag}] eye={tuple(round(v, 1) for v in eye)} '
+              f'dir={tuple(round(v, 3) for v in d)} '
+              f'pos={tuple(round(v, 1) for v in k.pos)} '
+              f'块表={len(self._verts)}（近处 {inside}）'
+              f' 面总数={k.mesh_stats()["faces"]} '
+              f'proj[0]={self.window.projection[0]:.3f} '
+              f'定值面={k.world.get(128, 32, 128)}', flush=True)
+        return eye, d
+
+    # ------------------------------------------------------------ 输入
+    def on_resize(self, w, h):
+        self.window.projection = Mat4.perspective_projection(
+            w / max(1, h), z_near=self.Z_NEAR, z_far=self.Z_FAR, fov=self.FOV)
+
+    def on_key_press(self, symbol, modifiers):
+        k = self.kernel
+        if symbol == pyglet.window.key.ESCAPE:
+            self.window.close()
+            return
+        if symbol == pyglet.window.key.F:
+            k.flying = not k.flying
+            print(f'[mcclone3d] 飞行={"开" if k.flying else "关"}', flush=True)
+            return
+        if symbol == pyglet.window.key.R:
+            k.reset()
+            self._drop_meshes()
+            print('[mcclone3d] 重生', flush=True)
+            return
+        digit = getattr(pyglet.window.key, '_%d' % 0, None)
+        for i in range(1, 10):
+            if symbol == getattr(pyglet.window.key, '_%d' % i):
+                k.select(i - 1)
+                print(f'[mcclone3d] 选中 {i}: '
+                      f'{B.name_of(k.selected_block())}', flush=True)
+        if symbol == pyglet.window.key.S and (modifiers & pyglet.window.key.MOD_CTRL):
+            import json
+            path = os.path.join(_ROOT, 'saves', 'quicksave.mc3d')
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            k.save(path)
+            print(f'[mcclone3d] 已存档 {path}', flush=True)
+        self._keys.add(symbol)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        k = self.kernel
+        if button == pyglet.window.MOUSE_LEFT:
+            ok, name = k.dig()
+            if ok:
+                print(f'[mcclone3d] 挖掉 {name}', flush=True)
+        elif button == pyglet.window.MOUSE_RIGHT:
+            ok, at = k.place()
+            if ok:
+                print(f'[mcclone3d] 放下 {B.name_of(k.selected_block())} @ {at}', flush=True)
+
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+        self.kernel.yaw += dx * 0.26
+        self.kernel.pitch = max(-89.0, min(89.0, self.kernel.pitch - dy * 0.26))
+
+    def on_mouse_scroll(self, x, y, sx, sy):
+        self.kernel.scroll(-1 if sy > 0 else 1)
+
+    def _move_input(self):
+        key = pyglet.window.key
+        fwd = (1.0 if key.W in self._keys else 0.0) - (1.0 if key.S in self._keys else 0.0)
+        side = (1.0 if key.D in self._keys else 0.0) - (1.0 if key.A in self._keys else 0.0)
+        jump = (key.SPACE in self._keys) or (key.LSHIFT in self._keys)
+        return (fwd, side), jump
+
+    # ------------------------------------------------------------ 网格
+    def _drop_meshes(self):
+        for vl in self._verts.values():
+            vl.delete()
+        self._verts.clear()
+
+    def _sync_meshes(self, budget=16):
+        """把内核新标脏的区块上传成 GL 顶点表（每帧限量，避免长时间卡顿）。
+
+        预算的必要性：首次进入要上传整张地图（256 个区块）；每帧全做完会让首帧
+        卡住好几秒。**默认 16** 是实测量出来的折中（每区块约 30~80ms：建面 + 上传）。
+        ⚠ 截图/验收前必须等 `meshes_ready()` 为真 —— 否则拍到的是"还没传完的世界"，
+        那会被误读成"渲染丢了地形"（实测踩过：3 秒时只传了 172/256）。
+        """
+        from pyglet.gl import GL_TRIANGLES as _T
+        built = self.kernel.chunk_meshes(limit=budget)
+        for key, _stats in built:
+            old = self._verts.pop(key, None)
+            if old is not None:
+                old.delete()
+            mb, _st = self.kernel._meshes[key]
+            if not mb.indices:
+                continue
+            self._verts[key] = self.world_prog.vertex_list_indexed(
+                len(mb.positions) // 3, _T, mb.indices,
+                position=('f', mb.positions), colors=('f', mb.colors),
+                tex_coords=('f', mb.uvs))
+        return built
+
+    # ------------------------------------------------------------ 主循环
+    def _camera(self):
+        k = self.kernel
+        eye = k.eye_pos()
+        dx, dy, dz = k.look_dir()
+        return eye, (eye[0] + dx, eye[1] + dy, eye[2] + dz)
+
+    def update(self, dt):
+        self.time += dt
+        if self.auto:
+            self.kernel.auto_step(dt)
+        else:
+            move, jump = self._move_input()
+            self.kernel.step(dt, move, jump)
+        self._sync_meshes()
+        # 心跳（`--flag verbose`）：目视验证时要能看到"玩家到底站在哪"
+        if self.verbose and self.time - self._last_beat > 1.0:
+            self._last_beat = self.time
+            s = self.kernel.summary()
+            print(f'[mcclone3d] t={self.time:5.1f}s pos={s["pos"]} '
+                  f'grounded={s["grounded"]} fly={s["flying"]} '
+                  f'faces={s["faces"]} 挖={s["dig"]} 放={s["placed"]}', flush=True)
+
+    def on_draw(self):
+        self.window.clear()
+        self.window.view = self._view_matrix()
+        self.update(1 / 60.0)
+        self._draw_sky()
+        self._draw_world()
+        self._draw_selection()
+        self._draw_overlay()
+        if self._shot_pending is not None:
+            self._capture(self._shot_pending)
+            self._shot_pending = None
+            pyglet.clock.schedule_once(lambda dt: self.window.close(), 0.05)
+
+    def _capture(self, path):
+        """截当前帧到 PNG（目视验证用；`shots/` 已 gitignore）。
+
+        必须**在 on_draw 里**抓（此时后台缓冲还是本帧内容）—— 换到定时器里抓，
+        拿到的往往是清屏后的空帧，看着像"渲染全黑"。
+        """
+        from pyglet.image import get_buffer_manager
+        os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+        get_buffer_manager().get_color_buffer().save(path)
+        print(f'[mcclone3d] 截图 {path}', flush=True)
+
+    def _view_matrix(self):
+        eye, target = self._camera()
+        return Mat4.look_at(Vec3(*eye), Vec3(*target), Vec3(0.0, 1.0, 0.0))
+
+    def _draw_sky(self):
+        glDisable(GL_DEPTH_TEST)
+        self.sky_prog.use()
+        self.sky_prog['u_top'] = (0.42, 0.62, 0.92)
+        self.sky_prog['u_bottom'] = (0.82, 0.88, 0.95)
+        self.sky_quad.draw(GL_TRIANGLES)
+        glEnable(GL_DEPTH_TEST)
+
+    def _draw_world(self):
+        self.world_prog.use()
+        self.world_prog['u_atlas'] = 0
+        self.atlas.bind()
+        self.world_prog['u_fog'] = (0.82, 0.88, 0.95)
+        # 雾的起止距离按"可玩视距"调：太近会把 70 格外的地形全洗成天空色
+        # （实测踩过：飞到 14 格高空俯视时，整个远景被雾吃掉，看着像"世界是空的"）
+        self.world_prog['u_fog_near'] = 110.0
+        self.world_prog['u_fog_far'] = 260.0
+        for vl in self._verts.values():
+            vl.draw(GL_TRIANGLES)
+
+    def _draw_selection(self):
+        hit = self.kernel.raycast()
+        if hit is None:
+            return
+        (x, y, z), _n = hit
+        self.line_prog.use()
+        self.line_prog['u_origin'] = (x - 0.002, y - 0.002, z - 0.002)
+        self.line_prog['u_color'] = (0.05, 0.05, 0.05, 0.9)
+        self.box.draw(GL_LINES)
+
+    def _draw_overlay(self):
+        """准星 + hotbar（**顶点已是 NDC** 的叠加层；不做花哨 UI，够用就好）。"""
+        glDisable(GL_DEPTH_TEST)
+        self.ui_prog.use()
+        self.ui_prog['u_color'] = (1.0, 1.0, 1.0, 0.55)
+        self.crosshair.draw(GL_LINES)
+        glEnable(GL_DEPTH_TEST)
+
+
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(description='mcclone3d 交互 demo')
+    ap.add_argument('--smoke', type=float, default=None,
+                    help='N 秒后自动关闭（自检用）')
+    ap.add_argument('--shot', default=None, help='N 秒后截一帧到该路径再退出')
+    ap.add_argument('--flag', default='', help='逗号分隔：auto = 跑自动机, verbose = 每秒打印状态')
+    ap.add_argument('--width', type=int, default=1280)
+    ap.add_argument('--height', type=int, default=720)
+    args = ap.parse_args(argv)
+
+    flags = set(x.strip() for x in args.flag.split(',') if x.strip())
+    app = McCloneApp(args.width, args.height, auto='auto' in flags,
+                     verbose='verbose' in flags)
+    if args.shot:
+        # `--shot <路径>`：N 秒（默认 2.0）后设一个"待抓"标记 —— 真正的抓帧发生在
+        # `on_draw` 里（后台缓冲才有效），抓完自己关窗。
+        delay = args.smoke if args.smoke else 2.0
+        pyglet.clock.schedule_once(
+            lambda dt: setattr(app, '_shot_pending', args.shot), delay)
+    elif args.smoke:
+        pyglet.clock.schedule_once(lambda dt: app.window.close(), args.smoke)
+    pyglet.app.run()
+    print('== MCCLONE_DEMO_OK ==', flush=True)
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

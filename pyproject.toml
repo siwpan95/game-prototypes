@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcclone3d"
+# ⚠ 版本口径与 3dworld 一致：**库**用 SemVer（0.x 允许破坏性变更），
+# **发行版/tag** 用日期（如 v2026.10.14），两者不是同一套编号。
+version = "0.1.0"
+description = "《我的世界》风格 3D 体素沙盒（基于 3dworld 引擎）"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "siwpan" }]
+keywords = ["voxel", "sandbox", "game", "pyglet", "engine"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Games/Entertainment",
+]
+
+# ⚠ 引擎（world3d）**不在依赖里**：它是 3dworld 仓的检出，不是 PyPI 包
+# （写进来会让人以为 `pip install -e .` 就够了）。接入方式见 README「引擎从哪来」。
+dependencies = ["pyglet>=2.1,<3"]
+
+[project.urls]
+Source = "https://gitee.com/siwpan/mcclone3d"
+
+# ⚠ 只打包 `mcclone3d` 包：`examples/` / `tests/` / `configs/` 是仓内资产，
+# 不是发行物（`find` 只找包，漏配会让"装上后 import 不到"）。
+[tool.setuptools]
+packages = ["mcclone3d"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
