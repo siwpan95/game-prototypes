@@ -250,15 +250,134 @@ class McCloneApp:
         self.box = self.line_prog.vertex_list(
             len(_BOX_V), GL_LINES, position=('f', flat))
 
-        # 准星：屏幕中心的小十字（叠加层用 line_prog 的矩阵会跟世界绑死，
-        # 所以单独一个"顶点已是 NDC"的程序）
+        # 准星：屏幕中心的小十字（顶点已是 NDC）
         self.ui_prog = ShaderProgram(Shader(UI_VS, 'vertex'), Shader(UI_FS, 'fragment'))
         c = 0.012
         ch = (-c, 0.0, 0.0, c, 0.0, 0.0, 0.0, -c, 0.0, 0.0, c, 0.0)
         self.crosshair = self.ui_prog.vertex_list(4, GL_LINES, position=('f', ch),
                                                   colors=('f', (1.0,) * 16))
+        # --- HUD（血条 / 饥饿条 / hotbar / 死亡遮罩）---
+        # 分两条顶点表：**静态底板**（槽位底，建一次）+ **动态条**（每帧按生存状态改）。
+        # 这样每帧只改动态那条（≤22 个矩形），静态的 29 个矩形一个字节都不动。
+        self._hud_quads_static = self._build_hud_layout()
+        flat = []
+        for (x0, y0, x1, y1, _c) in self._hud_quads_static:
+            flat += [x0, y0, 0.0, x1, y0, 0.0, x1, y1, 0.0,
+                     x0, y0, 0.0, x1, y1, 0.0, x0, y1, 0.0]
+        cols = []
+        for (_x0, _y0, _x1, _y1, col) in self._hud_quads_static:
+            cols += list(col) * 6
+        self.hud_bg = self.ui_prog.vertex_list(len(self._hud_quads_static) * 6,
+                                               GL_TRIANGLES,
+                                               position=('f', flat), colors=('f', cols))
+        # 动态条的最大条数：血 10 + 饥饿 10 + hotbar 选中框 1 + 死亡遮罩 1
+        self._hud_dyn_max = 22
+        self.hud_fg = self.ui_prog.vertex_list(
+            self._hud_dyn_max * 6, GL_TRIANGLES,
+            position=('f', [0.0] * (self._hud_dyn_max * 18)),
+            colors=('f', [1.0] * (self._hud_dyn_max * 24)))
+        # 复用的缓冲（每帧原地改写，避免 60fps 下反复分配）
+        self._hud_pos = [0.0] * (self._hud_dyn_max * 18)
+        self._hud_col = [1.0] * (self._hud_dyn_max * 24)
+        self._hud_used_quads = 0
         print(f'[mcclone3d] 图集 {size}x{size} / {len(textures.ATLAS_TILE_NAMES)} 张贴图，'
-              f'着色器 3 套就绪', flush=True)
+              f'着色器 3 套 + HUD 就绪', flush=True)
+
+    # ------------------------------------------------------------ HUD 几何
+    @staticmethod
+    def _hud_quads(items):
+        """把 `[(x0,y0,x1,y1,rgba)]` 展开成三角形顶点（返回 NDC 坐标元组列表）。"""
+        out = []
+        for (x0, y0, x1, y1, col) in items:
+            out.append((x0, y0, x1, y1, col))
+        return out
+
+    def _build_hud_layout(self):
+        """静态底板：hotbar 底、血条槽、饥饿条槽。
+
+        NDC 坐标（x 右、y 上，各 ±1）；**按 16:9 设计**，窗口比例变了会拉伸
+        —— 这是刻意取舍：像素风 UI 拉伸一点不影响读，省掉一套正交投影。
+        """
+        q = []
+        # hotbar：9 格，底部居中
+        slot_w, gap = 0.062, 0.006
+        total = 9 * slot_w + 8 * gap
+        x = -total / 2
+        for _ in range(9):
+            q.append((x, -0.94, x + slot_w, -0.86, (0.0, 0.0, 0.0, 0.42)))
+            x += slot_w + gap
+        # 血条槽（左）与饥饿条槽（右）：10 段
+        seg_w, seg_gap = 0.036, 0.005
+        bx = -0.92
+        for _ in range(10):
+            q.append((bx, -0.80, bx + seg_w, -0.755, (0.0, 0.0, 0.0, 0.42)))
+            bx += seg_w + seg_gap
+        hx = 0.92 - 10 * seg_w - 9 * seg_gap
+        for _ in range(10):
+            q.append((hx, -0.80, hx + seg_w, -0.755, (0.0, 0.0, 0.0, 0.42)))
+            hx += seg_w + seg_gap
+        return q
+
+    def _hud_dynamic_quads(self):
+        """按当前生存状态生成动态条：血量、饥饿、hotbar 选中框、死亡遮罩。"""
+        k = self.kernel
+        q = []
+        seg_w, seg_gap = 0.036, 0.005
+        # 血量：把 0..max 映射成 10 段（**半颗心也画**，所以按比例填宽）
+        hp_frac = max(0.0, min(1.0, k.health / max(1e-6, k.max_health)))
+        for i in range(10):
+            x0 = -0.92 + i * (seg_w + seg_gap)
+            fill = max(0.0, min(1.0, hp_frac * 10 - i))
+            if fill > 0:
+                q.append((x0, -0.80, x0 + seg_w * fill, -0.755, (0.82, 0.18, 0.18, 0.95)))
+        # 饥饿
+        hg_frac = max(0.0, min(1.0, k.hunger / max(1e-6, k.max_hunger)))
+        base = 0.92 - 10 * seg_w - 9 * seg_gap
+        for i in range(10):
+            x0 = base + i * (seg_w + seg_gap)
+            fill = max(0.0, min(1.0, hg_frac * 10 - i))
+            if fill > 0:
+                q.append((x0, -0.80, x0 + seg_w * fill, -0.755, (0.85, 0.62, 0.22, 0.95)))
+        # hotbar 选中框
+        slot_w, gap = 0.062, 0.006
+        total = 9 * slot_w + 8 * gap
+        x = -total / 2 + k.selected * (slot_w + gap)
+        q.append((x, -0.94, x + slot_w, -0.86, (1.0, 1.0, 1.0, 0.35)))
+        # 死亡遮罩（整屏偏红）
+        if k.state == 'dead':
+            q.append((-1.0, -1.0, 1.0, 1.0, (0.55, 0.05, 0.05, 0.45)))
+        return q
+
+    def _refresh_hud(self):
+        """把动态条写进顶点表。
+
+        ⚠ pyglet 2.1 的 `VertexList` **没有 `.vertices` 可赋值**（实测
+        `AttributeError: 'VertexList' object has no attribute 'vertices'`）——
+        要改内容得走 `set_attribute_data(name, data)`。
+        本函数把"当前该画几个矩形"写进**复用的缓冲**（不每帧新建列表），
+        然后一次推给 GPU；多出来的顶点用 `resize` 收掉，否则会重复画上一帧的残影。
+        """
+        quads = self._hud_dynamic_quads()[:self._hud_dyn_max]
+        pos, col = self._hud_pos, self._hud_col
+        i = 0
+        for (x0, y0, x1, y1, c4) in quads:
+            for (vx, vy) in ((x0, y0), (x1, y0), (x1, y1),
+                             (x0, y0), (x1, y1), (x0, y1)):
+                pos[i * 3 + 0] = vx
+                pos[i * 3 + 1] = vy
+                pos[i * 3 + 2] = 0.0
+                col[i * 4 + 0] = c4[0]
+                col[i * 4 + 1] = c4[1]
+                col[i * 4 + 2] = c4[2]
+                col[i * 4 + 3] = c4[3]
+                i += 1
+        n = i
+        if n != self._hud_used_quads * 6:
+            self.hud_fg.resize(max(1, n))       # 顶点数按本帧实际用量收缩/扩张
+            self._hud_used_quads = n // 6
+        if n:
+            self.hud_fg.set_attribute_data('position', pos[:n * 3])
+            self.hud_fg.set_attribute_data('colors', col[:n * 4])
 
     def _apply_projection(self, w, h):
         self.window.projection = Mat4.perspective_projection(
@@ -472,11 +591,18 @@ class McCloneApp:
         self.box.draw(GL_LINES)
 
     def _draw_overlay(self):
-        """准星 + hotbar（**顶点已是 NDC** 的叠加层；不做花哨 UI，够用就好）。"""
+        """准星 + HUD（血条 / 饥饿条 / hotbar / 死亡遮罩）。顶点已是 NDC。"""
         glDisable(GL_DEPTH_TEST)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         self.ui_prog.use()
+        self.ui_prog['u_color'] = (1.0, 1.0, 1.0, 1.0)
+        self.hud_bg.draw(GL_TRIANGLES)          # 槽位底
+        self._refresh_hud()                     # 按当前状态填动态条
+        self.hud_fg.draw(GL_TRIANGLES)
         self.ui_prog['u_color'] = (1.0, 1.0, 1.0, 0.55)
         self.crosshair.draw(GL_LINES)
+        glDisable(GL_BLEND)
         glEnable(GL_DEPTH_TEST)
 
 

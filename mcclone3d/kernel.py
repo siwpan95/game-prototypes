@@ -31,12 +31,15 @@ import math
 import os
 
 from . import blocks as B
+from . import items as I
+from . import recipes as R
 from ._engine import Service
 from .world import CHUNK, SEA_LEVEL, ChunkedWorld
 
 __all__ = ['McCloneKernel', 'make_offline', 'DEFAULT_SEED', 'REACH', 'PLAYER_HALF',
            'PLAYER_HEIGHT', 'GRAVITY', 'JUMP_V', 'WALK_SPEED', 'FLY_SPEED', 'SCRIPT',
-           'WORLD_SIZE', 'WORLD_HEIGHT', 'STEP_HZ', 'START_STOCK']
+           'WORLD_SIZE', 'WORLD_HEIGHT', 'STEP_HZ', 'START_STOCK',
+           'MAX_HEALTH', 'MAX_HUNGER', 'DROP_PICKUP_R', 'DROP_TTL']
 
 # ---------------------------------------------------------------- 常量
 DEFAULT_SEED = 20261014
@@ -54,11 +57,28 @@ FLY_SPEED = 11.0                  # 飞行速度
 TERMINAL_V = 40.0                 # 终端速度（防穿地）
 STEP_HZ = 60.0                    # 自动机的量化步频
 
-#: 默认 hotbar（名字 → id；配置树可覆盖）
+#: 默认 hotbar（**物品名** → id；配置树可覆盖）
 DEFAULT_HOTBAR = B.DEFAULT_HOTBAR
 
 #: 开局赠送（创造模式手感：每样给一组，挖了还会补）
 START_STOCK = 64
+
+# ---------------------------------------------------------------- 生存（Phase 1）
+MAX_HEALTH = 20.0                 # 血量上限（10 颗心，与 MC 同量级）
+MAX_HUNGER = 20.0                 # 饥饿上限
+START_SATURATION = 5.0            # 开局"饱食度"（先掉它、再掉饥饿）
+HUNGER_PER_METER = 0.012          # 每走一格消耗的饥饿（走得远才饿）
+HUNGER_PER_DIG = 0.05             # 挖一格的消耗
+REGEN_AT = 18.0                   # 饥饿高于它才自然回血
+REGEN_RATE = 0.35                 # 回血速度（点/秒）
+STARVE_RATE = 0.5                 # 饿到 0 后掉血速度（点/秒）
+FALL_SAFE = 3.5                   # 摔落安全高度（格）
+FALL_DAMAGE_PER = 1.0             # 每多摔一格掉多少血
+
+# ---------------------------------------------------------------- 掉落物
+DROP_PICKUP_R = 1.4               # 拾取半径（格）
+DROP_TTL = 300.0                  # 掉落物存在时长（秒）；太长会拖慢存档
+DROP_FALL_V = 6.0                 # 掉落物下落速度（格/秒，简单常量不走重力积分）
 
 
 def _sign(x: float) -> int:
@@ -88,7 +108,8 @@ class McCloneKernel(Service):
         self.creative = bool(cfg.get('creative', True))
         self.reach = float(cfg.get('reach', REACH))
         hotbar_names = cfg.get('hotbar') or list(DEFAULT_HOTBAR)
-        self.hotbar = [B.by_name(n).id for n in hotbar_names]
+        # hotbar 里放的是**物品 id**（方块物品同名），这样手持工具/食物也能进 hotbar
+        self.hotbar = [I.item_by_name(n).id for n in hotbar_names]
         self.world = ChunkedWorld(self.seed, self.size, self.height)
         self.world.generate()
         self.world.plant_trees()
@@ -112,12 +133,35 @@ class McCloneKernel(Service):
         self.pitch = -8.0         # 略微低头，看得见脚下
         self.flying = False
         self.grounded = False
+        #: 背包：**物品 id** → 数量（Phase 1 起用物品 id 空间，方块物品是 100+）
         self.inventory = {}
-        if self.creative:
-            for b in B.all_blocks():
-                self.inventory[b.id] = START_STOCK
+        #: 工具实例：物品 id → 剩余耐久（工具带状态，不能压在数量里）
+        self.tool_durability = {}
         self.selected = 0
-        self.stats = {'dug': 0, 'placed': 0}
+        self.stats = {'dug': 0, 'placed': 0, 'crafted': 0, 'smelted': 0,
+                      'picked': 0, 'eaten': 0, 'deaths': 0, 'damage': 0.0}
+        # --- 生存状态 ---
+        self.max_health = MAX_HEALTH
+        self.health = float(MAX_HEALTH)
+        self.max_hunger = MAX_HUNGER
+        self.hunger = float(MAX_HUNGER)
+        self.saturation = float(START_SATURATION)
+        self.state = 'playing'          # playing / dead
+        self.death_cause = ''
+        #: 世界里的掉落物：`[{'pos':[x,y,z], 'item':id, 'n':count, 't':已存活秒}]`
+        self.drops = []
+        #: 当前挖掘进度（秒）；换目标就清零
+        self.dig_target = None
+        self.dig_progress = 0.0
+        #: 摔落结算用：离地那一刻的高度（落地时清零）
+        self._fall_from = None
+        #: 熔炉状态：`{'fuel_left':秒, 'cook_left':秒, 'recipe':id|None}`
+        self.furnace = {'fuel_left': 0.0, 'cook_left': 0.0, 'recipe': None}
+        if self.creative:
+            for it in I.all_items():
+                self.inventory[it.id] = START_STOCK
+                if it.is_tool:
+                    self.tool_durability[it.id] = it.durability
 
     def _spawn_y(self, x: int, z: int) -> int:
         """出生高度：**站在该列真实的地表上**（脚能站、头不卡）。
@@ -247,28 +291,137 @@ class McCloneKernel(Service):
     def scroll(self, delta: int) -> int:
         return self.select(self.selected + int(delta))
 
+    def selected_item(self) -> int:
+        """当前手持的**物品** id（空气返回 0）。"""
+        return self.hotbar[self.selected] if self.hotbar else 0
+
     def selected_block(self) -> int:
-        return self.hotbar[self.selected] if self.hotbar else B.AIR
+        """当前手持物品对应的**方块** id（手持工具/材料时返回 AIR）。
+
+        Phase 0 的语义保留在这里：hotbar 里仍以"放下就成方块"为主。
+        """
+        it = I.ITEMS.get(self.selected_item())
+        return it.block_id if (it is not None and it.is_block) else B.AIR
+
+    def held_tool(self):
+        """当前手持的 `Item`（不是工具、或**这把工具已经断了**都返回 None）。
+
+        ⚠ 必须同时看"背包里还有没有"：`_use_tool` 断裂时清的是 `inventory` 与
+        `tool_durability`，但 **hotbar 那一格还留着那个 id** ——
+        只按 hotbar 判会让断掉的镐变成"幽灵镐"：照旧按镐的速度挖、照旧掉落
+        （TEST-SMITH 实测抓出：断裂后 `held_durability()` 还报满耐久 60）。
+        """
+        it = I.ITEMS.get(self.selected_item())
+        if it is None or not it.is_tool:
+            return None
+        if it.id not in self.inventory and it.id not in self.tool_durability:
+            return None
+        return it
+
+    def held_durability(self):
+        """手持工具的剩余耐久（不是工具返回 None）。"""
+        it = self.held_tool()
+        return None if it is None else int(self.tool_durability.get(it.id, it.durability))
+
+    # ---------------------------------------------------------------- 挖
+    def dig_time(self) -> float:
+        """挖"准星正指的那一格"需要多少秒（没瞄到返回 0）。"""
+        hit = self.raycast()
+        if hit is None:
+            return 0.0
+        b = self.world.get(*hit[0])
+        if not I.can_break(b):
+            return float('inf')                    # 基岩：永远挖不完
+        return I.break_time(b, self.held_tool())
+
+    def dig_dt(self, dt: float):
+        """**按住左键**推进挖掘：累积到 `dig_time()` 才真正挖掉。
+
+        返回 `('digging', 进度0..1)` / `('done', 掉落列表)` / `('idle', None)`。
+        换目标（准星指到别的格子）会**清零进度** —— 这是 MC 的手感，
+        也避免了"左右横跳蹭进度"。
+        """
+        hit = self.raycast()
+        if hit is None:
+            self.dig_target, self.dig_progress = None, 0.0
+            return 'idle', None
+        target = hit[0]
+        if self.dig_target != target:
+            self.dig_target, self.dig_progress = target, 0.0
+        need = self.dig_time()
+        if need == float('inf'):
+            return 'idle', None                    # 基岩：进度条永远不动
+        if need <= 0.0:
+            ok, info = self._finish_dig(target)
+            return ('done' if ok else 'idle'), info
+        self.dig_progress += max(0.0, float(dt))
+        if self.dig_progress >= need:
+            ok, info = self._finish_dig(target)
+            return ('done' if ok else 'idle'), info
+        return 'digging', min(1.0, self.dig_progress / need)
 
     def dig(self):
-        """挖掉准星指的方块。返回 `(ok, 方块名)`（没瞄到就 `(False, None)`）。"""
+        """**瞬时挖**（创造模式手感 / 自检脚本用）：挖掉准星指的方块。
+
+        返回 `(ok, 掉落物名或方块名)`。生存模式走 `dig_dt()` 的累积路径，
+        这个方法是它的"一步到位"等价物（`dig_dt(dig_time())`）。
+
+        ⚠ 返回协议是 `(bool, 名字)`，**不是** `dig_dt` 的 `(状态, 进度)` ——
+        两者刻意不同（一个答"成没成"，一个答"挖到哪了"），
+        早期版本在这里返回了 `_finish_dig` 的原始元组，导致 `dig_dt` 的调用方
+        拿到 `(True, 'dirt')` 却以为第一个元素是状态串（实测踩过）。
+        """
         hit = self.raycast()
         if hit is None:
             return False, None
-        (x, y, z), _n = hit
-        old = self.world.get(x, y, z)
-        if old == B.AIR or old == B.BEDROCK:
-            return False, None                     # 基岩挖不动（与 MC 一致）
-        if self.world.set(x, y, z, B.AIR):
-            self._mark_dirty(x, y, z)
-            self.stats['dug'] += 1
-            if not self.creative:
-                self._give(old, 1)
-            return True, B.by_id(old).name
-        return False, None
+        return self._finish_dig(hit[0])
 
+    def _finish_dig(self, target):
+        """真正破坏一格：掉落 + 工具磨损 + 计数 + 标脏。"""
+        x, y, z = target
+        old = self.world.get(x, y, z)
+        if old == B.AIR or not I.can_break(old):
+            self.dig_target, self.dig_progress = None, 0.0
+            return False, None
+        if not self.world.set(x, y, z, B.AIR):
+            return False, None
+        self._mark_dirty(x, y, z)
+        self.stats['dug'] += 1
+        self.dig_target, self.dig_progress = None, 0.0
+
+        tool = self.held_tool()
+        dropped = R.drops_for(old, tool, seed_parts=(x, y, z, self.seed))
+        label = I.name_of(dropped[0][0]) if dropped else B.name_of(old)
+        if self.creative:
+            # 创造模式：方块**本身**直接进背包（搭房子要的是方块，不是它的生存掉落物）。
+            # ⚠ 标签要跟**实际给的东西**一致（先前标签取自生存掉落 ⇒ 挖石头进的是石头、
+            #    日志却报 cobble，HUD 会骗人 —— TEST-SMITH 实测抓出）。
+            it = R.as_item(old)
+            if it is not None:
+                self.give(it.id, 1)
+                label = it.name
+        else:
+            for (iid, n) in dropped:
+                self.spawn_drop(x + 0.5, y + 0.5, z + 0.5, iid, n)
+            self.hunger = max(0.0, self.hunger - HUNGER_PER_DIG)
+            self._use_tool(tool)
+        return True, label
+
+    def _use_tool(self, tool, n: int = 1):
+        """扣工具耐久；扣到 0 就**断掉**（从背包移除）。返回是否断了。"""
+        if tool is None:
+            return False
+        left = int(self.tool_durability.get(tool.id, tool.durability)) - int(n)
+        if left <= 0:
+            self.tool_durability.pop(tool.id, None)
+            self.inventory.pop(tool.id, None)
+            return True
+        self.tool_durability[tool.id] = left
+        return False
+
+    # ---------------------------------------------------------------- 放
     def place(self):
-        """在准星指的**相邻空位**放当前 hotbar 方块。返回 `(ok, 坐标或 None)`。"""
+        """在准星指的**相邻空位**放当前手持的方块。返回 `(ok, 坐标或 None)`。"""
         hit = self.raycast()
         if hit is None:
             return False, None
@@ -282,36 +435,268 @@ class McCloneKernel(Service):
             return False, None                     # 不许把自己封死
         bid = self.selected_block()
         if bid == B.AIR:
+            return False, None                     # 手持的不是方块（工具/材料）
+        it = R.as_item(bid)
+        if it is None:
             return False, None
-        if not self.creative and self.inventory.get(bid, 0) <= 0:
+        if not self.creative and self.inventory.get(it.id, 0) <= 0:
             return False, None
         if self.world.set(tx, ty, tz, bid):
             self._mark_dirty(tx, ty, tz)
             self.stats['placed'] += 1
             if not self.creative:
-                self._take(bid, 1)
+                self.take(it.id, 1)
             return True, (tx, ty, tz)
         return False, None
 
+    # ---------------------------------------------------------------- 背包
+    def give(self, item_id: int, n: int = 1):
+        """进背包（**物品 id**）。工具进包时初始化耐久。"""
+        it = I.ITEMS.get(int(item_id))
+        if it is None:
+            raise KeyError(f'未知物品 id {item_id!r}')
+        self.inventory[it.id] = int(self.inventory.get(it.id, 0)) + int(n)
+        if it.is_tool and it.id not in self.tool_durability:
+            self.tool_durability[it.id] = it.durability
+        return it.id
+
+    def give_item(self, name: str, n: int = 1):
+        """按名字进背包（脚本/配方用；名字错会当场爆）。"""
+        return self.give(I.item_by_name(name).id, n)
+
+    def take(self, item_id: int, n: int = 1) -> bool:
+        """从背包扣（不够则**一点不扣**并返回 False）。"""
+        have = int(self.inventory.get(int(item_id), 0))
+        if have < n:
+            return False
+        left = have - int(n)
+        if left <= 0:
+            self.inventory.pop(int(item_id), None)
+            self.tool_durability.pop(int(item_id), None)
+        else:
+            self.inventory[int(item_id)] = left
+        return True
+
+    def have(self, name: str, n: int = 1) -> bool:
+        """按名字查背包（配方判定用）。"""
+        return int(self.inventory.get(I.item_by_name(name).id, 0)) >= int(n)
+
+    def inventory_by_name(self) -> dict:
+        """`{物品名: 数量}` —— 配方系统吃这个口径（不认 id）。"""
+        out = {}
+        for iid, n in self.inventory.items():
+            if n > 0:
+                out[I.name_of(iid)] = int(n)
+        return out
+
+    # ---------------------------------------------------------------- 掉落物
+    def spawn_drop(self, x: float, y: float, z: float, item_id: int, n: int = 1):
+        """在世界里放一个掉落物（生存模式挖方块的产物）。"""
+        self.drops.append({'pos': [float(x), float(y), float(z)],
+                           'item': int(item_id), 'n': int(n), 't': 0.0})
+        return self.drops[-1]
+
+    def pickup_nearby(self):
+        """把玩家附近的掉落物收进背包，返回 `[(物品名, 数量)]`。"""
+        picked = []
+        keep = []
+        px, py, pz = self.pos
+        for d in self.drops:
+            dx = d['pos'][0] - px
+            dy = d['pos'][1] - (py + 0.9)
+            dz = d['pos'][2] - pz
+            if dx * dx + dy * dy + dz * dz <= DROP_PICKUP_R ** 2:
+                self.give(d['item'], d['n'])
+                self.stats['picked'] += int(d['n'])
+                picked.append((I.name_of(d['item']), int(d['n'])))
+            else:
+                keep.append(d)
+        self.drops = keep
+        return picked
+
+    def _update_drops(self, dt: float):
+        """掉落物：简单下落（不接物理引擎）+ 超时清理。
+
+        ⚠ 落地判据必须用 `floor(中心 y)` 与 `floor(中心 y) - 1`（TEST-SMITH 实测抓出）：
+        先前写的是 `int(p[1] - 0.5)`，而 `int()` 是**截断**不是向下取整 ——
+        掉落物中心在 20.9 时 `int(20.4) == 20`，查的是"它自己那一格"（空气），
+        而地板在 19 ⇒ 判据**恒为假**，掉落物一路沉穿地板掉到 y=0，玩家再也捡不到。
+        """
+        alive = []
+        for d in self.drops:
+            d['t'] += dt
+            if d['t'] > DROP_TTL:
+                continue
+            p = d['pos']
+            cx, cz = int(math.floor(p[0])), int(math.floor(p[2]))
+            here = B.is_solid(self.world.get(cx, int(math.floor(p[1])), cz))
+            below = B.is_solid(self.world.get(cx, int(math.floor(p[1])) - 1, cz))
+            if not (here or below):
+                p[1] = max(0.0, p[1] - DROP_FALL_V * dt)
+            alive.append(d)
+        self.drops = alive
+
+    # ---------------------------------------------------------------- 合成
+    def craft(self, recipe_id: str):
+        """按配方 id 合成（在背包上就地扣减）。返回 `(ok, 产出物品名或原因)`。"""
+        try:
+            rec = R.recipe_by_id(recipe_id)
+        except KeyError as exc:
+            return False, str(exc)
+        if rec.kind != 'craft':
+            return False, f'{recipe_id} 不是合成配方（是 {rec.kind}）'
+        inv = self.inventory_by_name()
+        if not R.craftable(rec, inv):
+            return False, '材料不足'
+        if not R.craft(rec, inv):
+            return False, '材料不足（扣减阶段）'
+        self._apply_inventory_names(inv)
+        self.stats['crafted'] += 1
+        return True, rec.output
+
+    def _apply_inventory_names(self, inv_by_name: dict):
+        """把"名字口径"的背包写回 id 口径（合成的收尾；工具顺带补耐久）。"""
+        new = {}
+        for name, n in inv_by_name.items():
+            it = I.ITEMS_BY_NAME.get(name)
+            if it is None:
+                raise KeyError(f'配方产出了未知物品 {name!r}')
+            if n > 0:
+                new[it.id] = int(n)
+        self.inventory = new
+        # 清掉已不在包里的工具耐久
+        for iid in list(self.tool_durability):
+            if iid not in new:
+                self.tool_durability.pop(iid, None)
+        for iid in new:
+            it = I.ITEMS.get(iid)
+            if it is not None and it.is_tool and iid not in self.tool_durability:
+                self.tool_durability[iid] = it.durability
+
+    # ---------------------------------------------------------------- 熔炉
+    def furnace_load(self, recipe_id: str):
+        """给熔炉装上配方（**只扣料、不发货**）。返回 `(ok, 说明)`。
+
+        ⚠ 这里必须用 `R.consume()` 而**不是** `R.craft()`：`craft()` 的语义含"加产出"，
+        用它装料会让产物在**装炉那一刻**就进背包，烧完再给一次（一炉发货两次）。
+        TEST-SMITH 实测抓出过这个 bug（5 条烧炼配方全中），这条注释就是那次的结论。
+        """
+        rec = R.recipe_by_id(recipe_id)
+        if rec.kind != 'smelt':
+            return False, f'{recipe_id} 不是烧炼配方'
+        if self.furnace['recipe'] is not None:
+            return False, '熔炉里还有东西'
+        inv = self.inventory_by_name()
+        if not R.craftable(rec, inv):
+            return False, '材料不足（含燃料）'
+        if not R.consume(rec, inv):              # 只扣输入；产出等 furnace_step
+            return False, '材料不足（扣减阶段）'
+        self._apply_inventory_names(inv)
+        self.furnace['recipe'] = recipe_id
+        self.furnace['cook_left'] = rec.time
+        self.furnace['fuel_left'] = rec.time * 1.5      # 燃料给 1.5 倍时间（够一炉）
+        return True, rec.output
+
+    def furnace_step(self, dt: float):
+        """推进熔炉（按累计时间，与帧率无关）。返回 `('idle'|'cooking'|'done', 产出名)`。"""
+        st = self.furnace
+        if st['recipe'] is None:
+            return 'idle', None
+        dt = max(0.0, float(dt))
+        st['fuel_left'] = max(0.0, st['fuel_left'] - dt)
+        if st['fuel_left'] <= 0.0:
+            st['recipe'] = None
+            return 'idle', None                     # 没柴了：炉子停（材料已扣，属正常损耗）
+        st['cook_left'] -= dt
+        if st['cook_left'] <= 0.0:
+            rec = R.recipe_by_id(st['recipe'])
+            self.give_item(rec.output, rec.count)
+            self.stats['smelted'] += 1
+            st['recipe'] = None
+            return 'done', rec.output
+        return 'cooking', None
+
+    # ---------------------------------------------------------------- 生存
+    def hurt(self, amount: float, cause: str = ''):
+        """掉血（Phase 2 的生物也走这个入口 —— '受伤来源'只有这一处）。"""
+        if self.state != 'playing' or amount <= 0:
+            return self.health
+        self.health = max(0.0, self.health - float(amount))
+        self.stats['damage'] += float(amount)
+        if self.health <= 0.0:
+            self.state = 'dead'
+            self.death_cause = cause or 'unknown'
+            self.stats['deaths'] += 1
+        return self.health
+
+    def eat(self, slot_index: int | None = None):
+        """吃手持（或指定格）的食物：回饥饿与血，消耗一个。返回 `(ok, 物品名)`。"""
+        it = I.ITEMS.get(self.selected_item() if slot_index is None
+                         else (self.hotbar[slot_index] if self.hotbar else 0))
+        if it is None or it.kind != I.KIND_FOOD:
+            return False, None
+        if self.hunger >= self.max_hunger and it.heal <= 0:
+            return False, 'already_full'
+        if not self.take(it.id, 1):
+            return False, 'none_left'
+        self.hunger = min(self.max_hunger, self.hunger + it.food)
+        if it.heal:
+            self.health = min(self.max_health, self.health + it.heal)
+        self.stats['eaten'] += 1
+        return True, it.name
+
+    def respawn(self):
+        """死亡后重生：状态归位（**背包保留** —— 本版不做掉落惩罚，见设计稿 §五）。"""
+        if self.state != 'dead':
+            return False
+        self.state = 'playing'
+        self.health = float(self.max_health)
+        self.hunger = float(self.max_hunger)
+        self.saturation = float(START_SATURATION)
+        self.death_cause = ''
+        x, z = self.size // 2, self.size // 2
+        self.pos = [float(x) + 0.5, float(self._spawn_y(x, z)), float(z) + 0.5]
+        self.vel = [0.0, 0.0, 0.0]
+        return True
+
+    def _survival_step(self, dt: float, moved: float):
+        """饥饿 / 回血 / 饿死 / 摔落伤害（**只在生存模式生效**）。"""
+        if self.creative or self.state != 'playing':
+            return
+        # 走路消耗（先吃"饱食度"，它见底才吃饥饿）
+        cost = moved * HUNGER_PER_METER
+        if cost > 0:
+            if self.saturation > 0:
+                self.saturation = max(0.0, self.saturation - cost)
+            else:
+                self.hunger = max(0.0, self.hunger - cost)
+        # 自然回血（饿过头不回血，这是 MC 的核心手感）
+        if self.hunger >= REGEN_AT and self.health < self.max_health:
+            self.health = min(self.max_health, self.health + REGEN_RATE * dt)
+        # 饿死
+        if self.hunger <= 0.0:
+            self.hurt(STARVE_RATE * dt, 'starve')
+        # 摔落：落地那一刻按落差结算（只在"刚落地"这一帧触发）
+        if self.grounded and self._fall_from is not None:
+            fall = self._fall_from - self.pos[1]
+            if fall > FALL_SAFE:
+                self.hurt((fall - FALL_SAFE) * FALL_DAMAGE_PER, 'fall')
+            self._fall_from = None
+
     def _mark_dirty(self, x: int, y: int, z: int):
-        """记下"哪些区块脏了"：改动格所在区块 + 贴在边界时相邻区块也要重建。"""
+        """记下"哪些区块脏了"：改动格所在区块 + 贴在边界时相邻区块也要重建。
+
+        （Phase 1 重构时被误删过一次 —— 症状是"一挖就 AttributeError"。
+        它是网格重建的唯一入口，所以有单测直接盯着它。）
+        """
         self.revision += 1
         cx, cy, cz = x // CHUNK, y // CHUNK, z // CHUNK
         self.dirty_chunks.add((cx, cy, cz))
-        for dx, dy, dz in ((1, 0, 0), (-1, 0, 0), (0, 0, 1), (0, 0, -1), (0, 1, 0), (0, -1, 0)):
+        for dx, dy, dz in ((1, 0, 0), (-1, 0, 0), (0, 0, 1), (0, 0, -1),
+                           (0, 1, 0), (0, -1, 0)):
             nx, ny, nz = x + dx, y + dy, z + dz
             if (nx // CHUNK, ny // CHUNK, nz // CHUNK) != (cx, cy, cz):
                 self.dirty_chunks.add((nx // CHUNK, ny // CHUNK, nz // CHUNK))
-
-    def _give(self, block_id: int, n: int):
-        self.inventory[block_id] = self.inventory.get(block_id, 0) + int(n)
-
-    def _take(self, block_id: int, n: int = 1) -> bool:
-        have = self.inventory.get(block_id, 0)
-        if have < n:
-            return False
-        self.inventory[block_id] = have - n
-        return True
 
     # ============================================================== 物理
     def _player_boxes(self, x: float, y: float, z: float):
@@ -384,10 +769,12 @@ class McCloneKernel(Service):
             self.vel[1] = 0.0
             if jump:
                 self.vel[1] = speed
+            before = list(self.pos)
             self.pos[0] += self.vel[0] * dt
             self.pos[2] += self.vel[2] * dt
             self.pos[1] += self.vel[1] * dt
             self._clamp_bounds()
+            self._post_step(dt, before)
             return
 
         self.vel[0] = wish_x * speed
@@ -397,6 +784,8 @@ class McCloneKernel(Service):
             self.grounded = False
         self.vel[1] = max(-TERMINAL_V, self.vel[1] - GRAVITY * dt)
 
+        before = list(self.pos)
+        was_grounded = self.grounded
         self._move_axis(1, self.vel[1] * dt)
         self._move_axis(0, self.vel[0] * dt)
         self._move_axis(2, self.vel[2] * dt)
@@ -409,6 +798,23 @@ class McCloneKernel(Service):
             if self._blocked(*below):
                 self.grounded = True
                 self.vel[1] = 0.0
+        # 离地那一刻记高度（摔落伤害的判据：只算"这一次离地到落地"的落差）
+        if was_grounded and not self.grounded and self._fall_from is None:
+            self._fall_from = before[1]
+        self._post_step(dt, before)
+
+    def _post_step(self, dt: float, before):
+        """一帧收尾：位移统计 → 生存结算 → 掉落物 → 拾取 → 熔炉。
+
+        顺序有讲究：**先生存结算再拾取**（这一帧饿死就不该再捡东西），
+        熔炉放最后（它只跟时间有关，跟移动无关）。
+        """
+        moved = math.dist(self.pos, before) if hasattr(math, 'dist') else (
+            sum((a - b) ** 2 for a, b in zip(self.pos, before)) ** 0.5)
+        self._survival_step(dt, 0.0 if self.flying else moved)
+        self._update_drops(dt)
+        self.pickup_nearby()
+        self.furnace_step(dt)
 
     def _clamp_bounds(self):
         """别掉出世界（掉出去就送回地表）。"""
@@ -435,6 +841,12 @@ class McCloneKernel(Service):
         while self._auto_i < len(SCRIPT) and self._auto_t >= SCRIPT[self._auto_i][0]:
             self._auto_run(self._auto_i)
             self._auto_i += 1
+        # `hold_dig`：按住左键 —— 每帧推进挖掘进度（**和真人按住一样走 dig_dt**）
+        if getattr(self, '_auto_hold', False):
+            kind, info = self.dig_dt(dt)
+            if kind == 'done':
+                self._auto_log.append(('dig_done', True, info))
+                self._auto_hold = False
         # 脚本之外：每帧按当前指令走（move/jump 由 _auto_run 写进 _auto_move）
         self.step(dt, getattr(self, '_auto_move', (0.0, 0.0)),
                   getattr(self, '_auto_jump', False))
@@ -456,15 +868,49 @@ class McCloneKernel(Service):
             self._auto_move = (0.0, 0.0)
             ok, name = self.dig()
             self._auto_log.append(('dig', ok, name))
+        elif kind == 'hold_dig':
+            # 生存模式：按住左键（每帧 dig_dt 推进）—— 与真人操作同一条代码路径
+            self._auto_move = (0.0, 0.0)
+            self._auto_hold = True
         elif kind == 'select':
             self.select(int(arg))
+        elif kind == 'select_item':
+            # 按**物品名**选 hotbar（hotbar 里没有就临时塞进去 —— 脚本要能自足）
+            iid = I.item_by_name(str(arg)).id
+            if iid not in self.hotbar:
+                self.hotbar[self.selected] = iid
+            else:
+                self.select(self.hotbar.index(iid))
+            self._auto_log.append(('select_item', True, str(arg)))
+        elif kind == 'give':
+            # `arg` 可以是名字或 `(名字, 数量)`（脚本里两种写法都方便）
+            if isinstance(arg, (tuple, list)):
+                name, n = arg[0], int(arg[1])
+            else:
+                name, n = arg, 1
+            self.give_item(str(name), n)
+            self._auto_log.append(('give', True, f'{name}x{n}'))
         elif kind == 'place':
             ok, at = self.place()
             self._auto_log.append(('place', ok, at))
+        elif kind == 'craft':
+            ok, out = self.craft(str(arg))
+            self._auto_log.append(('craft', ok, f'{arg}->{out}'))
+        elif kind == 'smelt_load':
+            ok, out = self.furnace_load(str(arg))
+            self._auto_log.append(('smelt_load', ok, str(out)))
+        elif kind == 'eat':
+            ok, name = self.eat()
+            self._auto_log.append(('eat', ok, name))
         elif kind == 'aim_down':
             self.pitch = -35.0
         elif kind == 'aim_up':
             self.pitch = 25.0
+        elif kind == 'hurt':
+            self.hurt(float(arg), 'scripted')
+            self._auto_log.append(('hurt', True, arg))
+        elif kind == 'respawn':
+            self._auto_log.append(('respawn', self.respawn(), None))
 
     # ============================================================== 网格
     def chunk_meshes(self, *, only_dirty: bool = True, limit: int = 8):
@@ -502,9 +948,13 @@ class McCloneKernel(Service):
 
     # ============================================================== 存档
     def dump(self) -> dict:
-        """完整存档：世界（种子 + 编辑增量）+ 玩家 + hotbar。"""
+        """完整存档：世界（种子 + 编辑增量）+ 玩家 + 背包/工具 + 生存状态 + 掉落物。
+
+        **一律按名字存**（方块名与物品名），这样将来重排编号不会读坏旧档；
+        未知名字在读档时**响亮报错**（不静默丢格/丢物品）。
+        """
         return {
-            'version': 1,
+            'version': 2,
             'world': self.world.dump(),
             'player': {
                 'pos': [float(v) for v in self.pos],
@@ -513,16 +963,28 @@ class McCloneKernel(Service):
                 'pitch': float(self.pitch),
                 'flying': bool(self.flying),
                 'selected': int(self.selected),
-                'hotbar': [B.by_id(b).name for b in self.hotbar],
-                'inventory': {B.by_id(k).name: int(v)
+                'hotbar': [I.name_of(i) for i in self.hotbar],
+                'inventory': {I.name_of(k): int(v)
                               for k, v in sorted(self.inventory.items()) if v},
+                # 工具耐久：只存"还没满"的那些（与默认值相同的没必要写进去）
+                'tools': {I.name_of(k): int(v) for k, v in sorted(self.tool_durability.items())
+                          if I.ITEMS.get(k) and int(v) != I.ITEMS[k].durability},
+                'health': float(self.health),
+                'hunger': float(self.hunger),
+                'saturation': float(self.saturation),
+                'state': self.state,
+                'death_cause': self.death_cause,
                 'stats': dict(self.stats),
             },
+            'drops': [{'pos': [float(c) for c in d['pos']], 'item': I.name_of(d['item']),
+                       'n': int(d['n']), 't': float(d['t'])} for d in self.drops],
+            'furnace': dict(self.furnace),
         }
 
     def load(self, data: dict):
         """读档（世界按存档的种子/尺寸重建，再重放增量与玩家状态）。"""
-        if int(data.get('version', 0)) != 1:
+        ver = int(data.get('version', 0))
+        if ver not in (1, 2):
             raise ValueError(f'不支持的存档版本：{data.get("version")!r}')
         wd = data['world']
         # ⚠ 校验必须在**覆盖字段之前**（实测踩过：先 `self.size = wd['size']` 再比对，
@@ -544,11 +1006,49 @@ class McCloneKernel(Service):
         self.yaw = float(p.get('yaw', 0.0))
         self.pitch = float(p.get('pitch', 0.0))
         self.flying = bool(p.get('flying', False))
-        self.hotbar = [B.by_name(n).id for n in p['hotbar']]
+        # ⚠ 读档要能吃两种口径：v1 存的是**方块名**（Phase 0），v2 存的是**物品名**。
+        # 两者同名（`grass` 既是方块名也是物品名），所以这里统一按物品名查；
+        # 查不到就响亮报错（不静默丢物品）。
+        def _item_id(name: str) -> int:
+            if name in I.ITEMS_BY_NAME:
+                return I.ITEMS_BY_NAME[name].id
+            if name in B.BLOCK_NAMES:                  # 只在 v1 存档里可能出现
+                it = R.as_item(B.BLOCK_NAMES[name].id)
+                if it is not None:
+                    return it.id
+            raise ValueError(f'存档里有未知物品/方块名：{name!r}')
+        self.hotbar = [_item_id(n) for n in p['hotbar']]
         self.selected = int(p.get('selected', 0)) % max(1, len(self.hotbar))
-        self.inventory = {B.by_name(n).id: int(v)
-                          for n, v in (p.get('inventory') or {}).items()}
-        self.stats = dict(p.get('stats') or {'dug': 0, 'placed': 0})
+        self.inventory = {}
+        for n, v in (p.get('inventory') or {}).items():
+            if int(v) > 0:
+                self.inventory[_item_id(n)] = int(v)
+        self.tool_durability = {}
+        for n, v in (p.get('tools') or {}).items():
+            iid = _item_id(n)
+            self.tool_durability[iid] = int(v)
+        for iid in list(self.inventory):
+            it = I.ITEMS.get(iid)
+            if it is not None and it.is_tool and iid not in self.tool_durability:
+                self.tool_durability[iid] = it.durability
+        self.health = float(p.get('health', self.max_health))
+        self.hunger = float(p.get('hunger', self.max_hunger))
+        self.saturation = float(p.get('saturation', START_SATURATION))
+        self.state = str(p.get('state', 'playing'))
+        self.death_cause = str(p.get('death_cause', ''))
+        self.stats = dict(p.get('stats') or {})
+        for key in ('dug', 'placed', 'crafted', 'smelted', 'picked', 'eaten',
+                    'deaths'):
+            self.stats.setdefault(key, 0)
+        self.stats.setdefault('damage', 0.0)
+        self.drops = [{'pos': [float(c) for c in d['pos']],
+                       'item': _item_id(d['item']), 'n': int(d['n']),
+                       't': float(d.get('t', 0.0))}
+                      for d in (data.get('drops') or [])]
+        self.furnace = dict(data.get('furnace') or
+                            {'fuel_left': 0.0, 'cook_left': 0.0, 'recipe': None})
+        self.dig_target, self.dig_progress = None, 0.0
+        self._fall_from = None
         self.revision += 1
         self.dirty_chunks = set(self.world.chunks)
         self._meshes = {}
@@ -570,19 +1070,38 @@ class McCloneKernel(Service):
         """一句话状态（CLI 打印与 HUD 共用）。"""
         w = self.world.stats()
         m = self.mesh_stats()
+        held = I.ITEMS.get(self.selected_item())
         return {
             'seed': self.seed, 'pos': tuple(round(v, 2) for v in self.pos),
             'yaw': round(self.yaw, 1), 'pitch': round(self.pitch, 1),
             'grounded': self.grounded, 'flying': self.flying,
-            'slot': self.selected, 'holding': B.by_id(self.selected_block()).name,
-            'dig': self.stats['dug'], 'placed': self.stats['placed'],
+            'slot': self.selected,
+            # `holding` 保留"方块名"口径（Phase 0 的调用方按它取方块）；
+            # 新增 `holding_item` / `durability` 供 Phase 1 的 UI 用。
+            'holding': B.name_of(self.selected_block()),
+            'holding_item': held.name if held else 'air',
+            'durability': self.held_durability(),
+            'health': round(float(self.health), 2),
+            'hunger': round(float(self.hunger), 2),
+            'state': self.state,
+            'drops': len(self.drops),
+            'furnace': self.furnace['recipe'],
+            'dig': self.stats.get('dug', 0), 'placed': self.stats.get('placed', 0),
+            'crafted': self.stats.get('crafted', 0),
+            'smelted': self.stats.get('smelted', 0),
+            'picked': self.stats.get('picked', 0),
             'blocks': w['blocks'], 'edits': w['edits'],
             'mesh_chunks': m['chunks'], 'faces': m['faces'],
         }
 
 
 #: 自动机脚本：`(时刻秒, 动作, 参数)`。**时间驱动 ⇒ 与帧率无关**。
+#:
+#: Phase 1 起这条脚本跑的是**完整生存循环**：给材料 → 合成工具 → 挖（按住左键）
+#: → 烧炼 → 吃东西。前 8 秒的 Phase 0 段（走 / 挖 / 放）保持不变，
+#: 老断言（`dug >= 2` 等）继续成立。
 SCRIPT = (
+    # --- Phase 0 段：走 / 挖 / 放（老断言靠它） ---
     (0.10, 'aim_down', None),
     (0.20, 'walk', (1.0, 0.0)),
     (2.00, 'stop', None),
@@ -601,7 +1120,28 @@ SCRIPT = (
     (7.20, 'dig', None),
     (7.50, 'select', 0),
     (7.70, 'place', None),
+    # --- Phase 1 段：给材料 → 合成 → 挖 → 烧 → 吃 ---
     (8.20, 'stop', None),
+    (8.40, 'give', ('log', 8)),          # 原木：8 根 ⇒ 32 木板（够做 2 把镐 + 木棍）
+    (8.60, 'craft', 'planks_from_log'),  # 原木 → 木板 ×4
+    (8.80, 'craft', 'sticks_from_planks'),   # 木板 → 木棍
+    (9.00, 'craft', 'wooden_pickaxe'),   # 合成木镐
+    (9.20, 'select_item', 'wooden_pickaxe'),
+    (9.40, 'give', ('stone', 3)),
+    (9.60, 'give', ('cobble', 3)),
+    (9.80, 'craft', 'stone_pickaxe'),
+    (10.00, 'select_item', 'stone_pickaxe'),
+    (10.20, 'aim_down', None),
+    (10.40, 'hold_dig', None),           # 按住左键（每帧 dig_dt 推进）
+    (12.40, 'give', ('raw_iron', 2)),
+    (12.60, 'give', ('coal', 2)),
+    (12.80, 'smelt_load', 'iron_ingot'),   # 装炉
+    (14.00, 'stop', None),
+    (14.20, 'give', ('bread', 2)),
+    (14.40, 'select_item', 'bread'),
+    (14.60, 'eat', None),
+    (14.80, 'hurt', 3.0),                # 受点伤（验证 hurt 入口）
+    (15.00, 'stop', None),
 )
 
 

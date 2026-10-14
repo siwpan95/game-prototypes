@@ -3,6 +3,7 @@
 
 跑什么（每条都会打印 `[ok] / [FAIL]`，失败一律非零退出）
 --------------------------------------------------------
+Phase 0：
 1. `world`   —— 世界生成确定性（同种子两次逐格相同）+ 尺寸/地层合理性
 2. `mesh`    —— 面剔除正确（埋起来的方块面数为 0）+ 绕序/UV 合法性
 3. `physics` —— 重力落地、跳跃高度、贴墙滑行、不穿墙
@@ -10,6 +11,12 @@
 5. `digplace`—— 挖 → 放往返、基岩挖不动、不许把自己封死
 6. `save`    —— 存档往返（种子 + 增量 + 玩家状态），编辑不丢
 7. `auto`    —— 自动机脚本跑完（与帧率无关：三种帧率同一结果）
+
+Phase 1（生存循环）：
+8. `items`   —— 物品 id 契约 + 挖掘耗时按公式对拍 + 收获门槛
+9. `drops`   —— 掉落确定性 + "不带镐挖石头白挖" + 掉落表覆盖完整
+10. `recipes`—— **反向自检**：每条配方都能被自己的输入合成出来（防死配方）
+11. `survival`—— 按住挖掘累积 / 工具耐久断裂边界 / 熔炉与帧率无关 / 掉落拾取 / 饿死与重生
 
 用法::
 
@@ -21,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 import tempfile
 
@@ -36,6 +44,8 @@ for _stream in (sys.stdout, sys.stderr):
             pass
 
 from mcclone3d import blocks as B                       # noqa: E402
+from mcclone3d import items as I                         # noqa: E402
+from mcclone3d import recipes as R                       # noqa: E402
 from mcclone3d import textures                          # noqa: E402
 from mcclone3d.kernel import (SCRIPT, STEP_HZ, McCloneKernel, make_offline)  # noqa: E402
 from mcclone3d.mesh import (_CORNERS, FACE_BRIGHT, NORMALS, build_chunk_mesh,  # noqa: E402
@@ -316,6 +326,195 @@ def c_auto():
     # 脚本里只有 3 次 dig ⇒ 挖到的块数上限就是 3（同一格连挖会递减）
     _report('auto', same and dug >= 2 and placed >= 1 and edits >= 3,
             f'30/60/120Hz 结果={results}（dug,placed,edits） 一致={same}')
+
+
+@check('items')
+def c_items():
+    """物品 id 契约 + 挖掘耗时按公式对拍 + 收获门槛。"""
+    ids = sorted(I.ITEMS)
+    contract = (len(ids) == len(set(ids)) and min(ids) >= I.ITEM_BASE
+                and all(I.is_item_id(i) and not I.is_block_id(i) for i in ids))
+    names_ok = len({it.name for it in I.all_items()}) == len(ids)
+    # 挖掘耗时：徒手挖石头 vs 木镐 —— 用表里的数值自己算一遍再比（不是"看着合理"）
+    stone_h = B.by_id(B.STONE).hardness
+    bare = I.break_time(B.STONE, None)
+    pick = I.break_time(B.STONE, I.item_by_name('wooden_pickaxe'))
+    want_bare = stone_h * I.NEEDS_TOOL_PENALTY
+    want_pick = stone_h / I.TOOL_SPEED[1]
+    time_ok = (abs(bare - want_bare) < 1e-9 and abs(pick - want_pick) < 1e-9
+               and bare > pick)
+    # 收获门槛：石类必须带镐；土/沙/木徒手也掉；基岩/水永远不掉
+    harvest_ok_ = (I.harvest_ok(B.STONE, None) is False
+                   and I.harvest_ok(B.STONE, I.item_by_name('wooden_pickaxe')) is True
+                   and I.harvest_ok(B.DIRT, None) is True
+                   and I.harvest_ok(B.LOG, None) is True
+                   and I.harvest_ok(B.BEDROCK, I.item_by_name('iron_pickaxe')) is False
+                   and I.harvest_ok(B.WATER, I.item_by_name('iron_pickaxe')) is False)
+    bedrock_inf = math.isinf(I.break_time(B.BEDROCK, I.item_by_name('iron_pickaxe')))
+    unknown_safe = I.name_of_item(999999) == 'unknown:999999'
+    tools1 = all(it.max_stack == 1 for it in I.all_items() if it.is_tool)
+    blocks64 = all(it.max_stack == 64 for it in I.all_items()
+                   if it.is_block and not it.is_tool)
+    _report('items', contract and names_ok and time_ok and harvest_ok_ and bedrock_inf
+            and unknown_safe and tools1 and blocks64,
+            f'物品 {len(ids)} 个（id≥{I.ITEM_BASE}）契约={contract} 名字唯一={names_ok} '
+            f'徒手石头={bare:.1f}s 木镐={pick:.1f}s（公式对拍={time_ok}） '
+            f'收获门槛={harvest_ok_} 基岩=inf {bedrock_inf} 未知id安全={unknown_safe} '
+            f'工具不堆叠={tools1} 方块堆叠64={blocks64}')
+
+
+@check('drops')
+def c_drops():
+    """掉落确定性 + "不带镐挖石头白挖" + 掉落表覆盖完整。"""
+    pick = I.item_by_name('wooden_pickaxe')
+    a = R.drops_for(B.STONE, pick, seed_parts=(1, 2, 3))
+    b = R.drops_for(B.STONE, pick, seed_parts=(1, 2, 3))
+    deterministic = a == b
+    stone_pick = a and I.name_of_item(a[0][0]) == 'cobble'
+    stone_bare = R.drops_for(B.STONE, None, seed_parts=(1, 2, 3)) == []
+    glass_none = R.drops_for(B.GLASS, pick, seed_parts=(1, 2, 3)) == []
+    bedrock_none = R.drops_for(B.BEDROCK, pick) == []
+    coal = R.drops_for(B.COAL_ORE, pick, seed_parts=(4, 5, 6))
+    coal_ok = bool(coal) and I.name_of_item(coal[0][0]) == 'coal' and 1 <= coal[0][1] <= 2
+    # 覆盖完整：每个可破坏方块要么在掉落表里、要么能由 as_item 兜住
+    missing = []
+    for b in B.all_blocks():
+        if not I.can_break(b.id):
+            continue
+        if b.id in R.DROP_TABLE or R.as_item(b.id) is not None:
+            continue
+        missing.append(b.name)
+    _report('drops', deterministic and stone_pick and stone_bare and glass_none
+            and bedrock_none and coal_ok and not missing,
+            f'确定性={deterministic} 石头+镐→圆石={stone_pick} 徒手挖石头→空={stone_bare} '
+            f'玻璃→空={glass_none} 基岩→空={bedrock_none} 煤1~2={coal_ok} '
+            f'掉落表未覆盖={missing or "无"}')
+
+
+@check('recipes')
+def c_recipes():
+    """**反向自检**：每条配方都能被它自己的输入合成出来（防"写了但做不出来"）。"""
+    bad = []
+    for rec in R.RECIPES:
+        inv = {}
+        for need, opts in rec.input_options():
+            inv[opts[0]] = inv.get(opts[0], 0) + need      # 只用首选输入（不含备选）
+        if not R.craftable(rec, inv):
+            bad.append((rec.id, 'craftable 判否'))
+            continue
+        if not R.craft(rec, inv):
+            bad.append((rec.id, 'craft 扣减失败'))
+            continue
+        if int(inv.get(rec.output, 0)) != rec.count:
+            bad.append((rec.id, f'产出 {inv.get(rec.output)} != {rec.count}'))
+    # 产出名都在物品表里
+    unknown_out = [r.id for r in R.RECIPES if r.output not in I.ITEMS_BY_NAME]
+    # 半扣回归：材料不够时背包一点不动
+    rec0 = R.recipe_by_id('planks_from_log')
+    inv0 = {'log': 0}
+    before = dict(inv0)
+    R.craft(rec0, inv0)
+    no_half = inv0 == before
+    _report('recipes', not bad and not unknown_out and no_half,
+            f'配方 {len(R.RECIPES)} 条（合成 {len(R.craft_recipes())} / 烧炼 {len(R.smelt_recipes())}）'
+            f' 反向自检失败={bad or "无"} 未知产出={unknown_out or "无"} '
+            f'失败不半扣={no_half}')
+
+
+@check('survival')
+def c_survival():
+    """按住挖掘 / 工具耐久边界 / 熔炉与帧率无关 / 掉落拾取 / 饿死与重生。"""
+    k = make_offline({'seed': 4242, 'size': 48, 'height': 32})
+    k.creative = False
+    k.inventory.clear()
+    k.tool_durability.clear()
+    # ① 按住挖掘：进度累积到 dig_time 才破坏，且换目标清零
+    k.flying = True
+    k.pos = [24.5, 22.0, 24.5]
+    k.pitch = -89.9
+    k.world.set(24, 21, 24, B.DIRT)
+    need = k.dig_time()
+    k.dig_dt(need * 0.5)
+    half_ok = k.world.get(24, 21, 24) == B.DIRT and 0.0 < k.dig_progress < need
+    kind, info = k.dig_dt(need * 0.6)
+    done_ok = (kind == 'done' and k.world.get(24, 21, 24) == B.AIR)
+    # 换目标清零
+    k.world.set(25, 21, 24, B.DIRT)
+    k.dig_dt(need * 0.5)
+    prog_before = k.dig_progress
+    k.yaw = 90.0                     # 换个方向看
+    k.dig_dt(0.0)
+    reset_ok = k.dig_progress < prog_before or k.dig_target is None
+    # ② 工具耐久：连挖 N 下后恰好断在第 N+1 下之前
+    k2 = make_offline({'seed': 4242, 'size': 48, 'height': 32})
+    k2.creative = False
+    k2.inventory.clear()
+    k2.tool_durability.clear()
+    k2.flying = True
+    k2.pos = [24.5, 22.0, 24.5]
+    k2.pitch = -89.9
+    tool = I.item_by_name('wooden_pickaxe')
+    k2.give(tool.id, 1)
+    k2.select(k2.hotbar.index(tool.id) if tool.id in k2.hotbar
+              else 0)
+    if k2.selected_item() != tool.id:
+        k2.hotbar[k2.selected] = tool.id
+    dur = tool.durability
+    broken_at = None
+    for i in range(dur + 3):
+        k2.world.set(24, 21, 24, B.STONE)
+        k2.tool_durability[tool.id] = dur - i
+        if k2.tool_durability[tool.id] <= 0:
+            broken_at = i
+            break
+        k2._use_tool(tool)
+    wear_ok = (broken_at == dur and k2.inventory.get(tool.id) in (0, None))
+    # ③ 掉落 → 拾取
+    k3 = make_offline({'seed': 4242, 'size': 48, 'height': 32})
+    k3.creative = False
+    k3.inventory.clear()
+    k3.spawn_drop(k3.pos[0], k3.pos[1] + 0.2, k3.pos[2], I.item_by_name('coal').id, 2)
+    picked = k3.pickup_nearby()
+    pick_ok = bool(picked) and k3.inventory.get(I.item_by_name('coal').id) == 2
+    k3.spawn_drop(k3.pos[0] + 30.0, k3.pos[1], k3.pos[2], I.item_by_name('coal').id, 1)
+    far_kept = len(k3.drops) == 1
+    # ④ 熔炉：按 dt 累积，且三种帧率同一结果
+    res = []
+    for hz in (30, 60, 120):
+        kf = make_offline({'seed': 1, 'size': 32, 'height': 32})
+        kf.creative = False
+        kf.inventory.clear()
+        kf.give_item('raw_iron', 1)
+        kf.give_item('coal', 1)
+        ok, _ = kf.furnace_load('iron_ingot')
+        if not ok:
+            res.append(None)
+            continue
+        t = 0.0
+        while t < 30.0:
+            kf.furnace_step(1.0 / hz)
+            t += 1.0 / hz
+        res.append(kf.inventory.get(I.item_by_name('iron_ingot').id, 0))
+    # 燃料给 1.5 倍时间 ⇒ 一炉可能烧出 >1 个（这是设计，不是 bug）：断言"至少 1 个且各帧率相同"
+    smelt_ok = res[0] is not None and len(set(res)) == 1 and res[0] >= 1
+    # ⑤ 饿死 → 死亡 → 重生
+    ke = make_offline({'seed': 1, 'size': 32, 'height': 32})
+    ke.creative = False
+    ke.hunger = 0.0
+    ke.saturation = 0.0
+    for _ in range(int(60 * 60)):
+        ke.step(1 / 60)
+        if ke.state != 'playing':
+            break
+    dead_ok = ke.state == 'dead' and ke.death_cause == 'starve'
+    cause = ke.death_cause                 # ⚠ 先抓住原因：`respawn()` 会把它清成空串
+    respawn_ok = ke.respawn() and ke.state == 'playing' and ke.health == ke.max_health
+    _report('survival', half_ok and done_ok and reset_ok and wear_ok and pick_ok
+            and far_kept and smelt_ok and dead_ok and respawn_ok,
+            f'按住挖掘半程={half_ok} 到点破坏={done_ok} 换目标清零={reset_ok} '
+            f'耐久断在第{broken_at}下（应={dur}）={wear_ok} 拾取={pick_ok} 远处不拾={far_kept} '
+            f'熔炉30/60/120Hz={res} 一致且出铁={smelt_ok} 饿死={dead_ok}({cause}) '
+            f'重生={respawn_ok}')
 
 
 # ---------------------------------------------------------------- 主流程

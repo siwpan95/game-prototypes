@@ -70,7 +70,19 @@ def t_hotbar():
     assert k.select(n) == 0, '越界应回绕'
     assert k.select(-1) == n - 1, '负数应回绕到末尾'
     assert k.scroll(1) == 0
-    assert k.selected_block() == k.hotbar[0]
+    # ⚠ Phase 1 起 hotbar 存的是**物品 id**（≥ items.ITEM_BASE），而 `selected_block()`
+    # 返回的是**方块 id** —— 两者不再相等。先前这里断言 `selected_block() == hotbar[0]`，
+    # 在"两套编号并存"之后变成了"拿物品 id 和方块 id 比"，是错的（实测红）。
+    from mcclone3d import items as _I
+    k.select(0)
+    item0 = k.hotbar[0]
+    assert _I.is_item_id(item0), f'hotbar 里该是物品 id，实际 {item0}'
+    assert _I.is_block_id(k.selected_block()), f'selected_block 该是方块 id，实际 {k.selected_block()}'
+    assert k.selected_block() == _I.item(item0).block_id, \
+        '手持方块物品时，selected_block() 该等于该物品对应的方块 id'
+    assert k.selected_item() == item0, 'selected_item 该就是 hotbar 当前格'
+    # 默认 hotbar 第一格是草方块（DEFAULT_HOTBAR[0]），仍是方块物品
+    assert k.selected_block() == B.GRASS, f'默认第一格该是草方块，实际 {B.name_of(k.selected_block())}'
 
 
 @test('挖：命中才挖、挖掉变空气、增量 +1、计数 +1')
@@ -180,8 +192,16 @@ def t_place_occupied():
     assert at != tgt_before, f'放置位置等于被占格：{at}'
 
 
-@test('生存模式：挖到的进库存、放置要消耗、没有就不许放')
+@test('生存模式：挖到的掉在世界里、走过去捡进背包、放置要消耗、没有就不许放')
 def t_survival_stock():
+    """⚠ 语义变更（Phase 1）：生存模式挖掉方块的产物**不再直接进背包**，
+    而是生成 `kernel.drops` 里的掉落物，要 `pickup_nearby()`（或走过去）才进包。
+    先前这里断言 `inventory[B.STONE] == 1`，测的是 Phase 0 的"挖了就进包"——
+    那个行为在生存模式下已经不存在了（创造模式才直接进包）。
+    """
+    from mcclone3d import items as _I
+    stone_item = _I.item_by_name('stone')
+    cobble_item = _I.item_by_name('cobble')
     k = _empty_kernel(creative=False)               # reach 已放大到 8
     k.pos = [20.5, 22.0, 20.5]                      # 眼睛 23.62
     k.world.set(20, 23, 20, B.STONE)                # 地板（= 眼睛那一格，射线必中）
@@ -189,38 +209,92 @@ def t_survival_stock():
     k.pitch = -89.9
     hit = k.raycast()
     assert hit is not None and hit[0] == (20, 23, 20), f'测试前提：射线该命中地板，实际 {hit}'
+    # ⚠ 先验一条**徒手**的对照：徒手挖石头"挖得动但什么都不掉"（Phase 1 的门槛），
+    # 此时返回的标签是**方块名**（没有掉落物可报）。这条也是"手上没镐"的判据。
+    ok0, label0 = k.dig()
+    assert ok0 is True, '徒手该挖得动石头（挖得动 ≠ 掉得出）'
+    assert label0 == 'stone', f'没有掉落物时该报方块名，实际 {label0!r}'
+    assert k.drops == [], '徒手挖石头不该有掉落'
+    # 手持镐再挖一次：这次才该掉圆石
+    k.world.set(20, 23, 20, B.STONE)                # 方块放回去
+    pick = _I.item_by_name('wooden_pickaxe')
+    k.give(pick.id, 1)
+    k.hotbar[k.selected] = pick.id                  # hotbar 存物品 id，要塞进格子里才算"手持"
+    k.select(k.hotbar.index(pick.id))
+    assert k.held_tool() is not None, '测试前提：手上该拿着镐'
     ok, name = k.dig()
-    assert ok and name == 'stone', f'没挖到石头：{ok} {name}'
-    assert k.inventory.get(B.STONE) == 1, f'挖到的东西没进库存：{k.inventory}'
+    assert ok is True, f'该挖成功：{(ok, name)}'
+    assert name == 'cobble', f'带镐挖石头该报掉落物（圆石），实际 {name!r}'
+    # ① 产物掉在世界里（不是背包）
+    assert k.inventory.get(cobble_item.id, 0) == 0, \
+        f'生存模式不该"挖了就进包"：{k.inventory}'
+    assert k.drops, '挖掉石头却什么都没掉出来（该有 1 个圆石掉落物）'
+    got = {(_I.name_of(d['item']), d['n']) for d in k.drops}
+    assert got == {('cobble', 1)}, f'掉落物不对：{got}'
+    # ② 拾取才进背包
+    picked = k.pickup_nearby()
+    assert picked == [('cobble', 1)], f'拾取结果不对：{picked}'
+    assert k.inventory.get(cobble_item.id) == 1, f'捡起来的东西没进背包：{k.inventory}'
+    assert k.drops == [], '拾取后掉落物没被清掉'
     # 射线改朝上，命中头顶那块天花板，相邻空位就是**天花板之下、眼睛之上**那一格。
     k.world.set(20, 23, 20, B.STONE)                # 脚下那块放回去（保持站在原处）
     k.world.set(20, 25, 20, B.STONE)                # 头顶上方 2 格处一块天花板
     k.pitch = 89.9                                  # 抬头看
-    hit2 = k.raycast()
     # ⚠ 抬头时眼睛那一格 (20,23,20) 本身是石头（脚下那块），射线起点在其中 ⇒
     # 会**先命中起点格**（这是 DDA 的正确行为，法向为零向量）。所以先把脚下那块清掉。
     k.world.set(20, 23, 20, B.AIR)
     hit2 = k.raycast()
     assert hit2 is not None and hit2[0] == (20, 25, 20), f'测试前提：抬头该命中天花板，实际 {hit2}'
-    # ⚠ 放置用的是 **hotbar 当前格**，不是"刚挖到的那种" —— 必须选到石头那一格，
+    # ⚠ 放置用的是 **hotbar 当前格**，不是"刚捡到的那种" —— 必须选到石头那一格，
     # 否则会拿手里的草去放，测出来的是"草不够"而不是"石头被消耗"（实测踩过一次）。
-    k.select(k.hotbar.index(B.STONE))
+    # 而且 hotbar 现在存的是**物品 id** ⇒ 必须用物品 id 去 index（拿方块 id 会 ValueError）。
+    k.select(k.hotbar.index(stone_item.id))
     assert k.selected_block() == B.STONE
-    ok2, at = k.place()
-    assert ok2, f'放置失败（射线命中 {hit2}）'
-    assert k.inventory.get(B.STONE, 0) == 0, '放置没消耗库存'
+    # 库存里只有圆石、没有石头 ⇒ 放石头必须被拒（库存判定用的是物品 id）
+    ok1, at1 = k.place()
+    assert not ok1, f'手里没有石头却放出去了：{at1}'
+    # 给 1 个石头物品 ⇒ 能放，并且**扣的是石头物品**
+    k.give(stone_item.id, 1)
+    ok2, at2 = k.place()
+    assert ok2, f'有库存却放不了（射线命中 {hit2}）'
+    assert k.world.get(*at2) == B.STONE, f'放下的不是石头：{at2}'
+    assert k.inventory.get(stone_item.id, 0) == 0, '放置没消耗库存'
+    assert k.inventory.get(cobble_item.id, 0) == 1, \
+        '放置扣错了东西（把圆石也扣了）'
     ok3, _ = k.place()
     assert not ok3, '库存为 0 还能放'
 
 
-@test('创造模式：库存无限（挖了不补、放不完）')
+@test('创造模式：挖了直接进背包（给方块本身）、放置不消耗')
 def t_creative_stock():
+    """⚠ 语义变更（Phase 1）：创造模式"库存无限"的具体含义是
+    **放置不消耗**（先前这里断言"挖了库存不变"—— 那条已经不对了：
+    创造模式挖方块会把**方块本身**放进背包，这是 Phase 0 的搭房子手感）。
+    """
+    from mcclone3d import items as _I
+    stone_item = _I.item_by_name('stone')
     k = _empty_kernel(creative=True)
+    k.give_item('wooden_pickaxe', 1)                 # ⚠ 必须手持镐，否则徒手挖石头不掉落
+    k.hotbar[k.selected] = _I.item_by_name('wooden_pickaxe').id
+    k.select(k.hotbar.index(_I.item_by_name('wooden_pickaxe').id))
+    k.pos = [20.5, 22.0, 20.5]                       # 别站在待放格子上（否则"封死自己"会拒）
     k.world.set(20, 15, 20, B.STONE)
-    n0 = k.inventory.get(B.STONE, 0)
-    k.dig()
-    assert k.inventory.get(B.STONE, 0) == n0, '创造模式不该改变库存'
-    assert n0 == START_STOCK
+    n0 = k.inventory.get(stone_item.id, 0)
+    assert n0 == START_STOCK, f'创造模式开局该有满库存，实际 {n0}'
+    ok, label = k.dig()
+    assert ok is True, f'该挖成功：{(ok, label)}'
+    assert k.drops == [], '创造模式不该往世界里掉东西'
+    assert k.inventory.get(stone_item.id, 0) == n0 + 1, \
+        f'创造模式挖石头该把方块本身放进背包：{n0} → {k.inventory.get(stone_item.id)}'
+    assert label == 'stone', f'标签该跟实际给的东西一致：{label!r}'
+    # 放置不消耗：库存不减
+    k.world.set(20, 15, 20, B.STONE)
+    k.world.set(20, 14, 20, B.AIR)
+    k.select(k.hotbar.index(stone_item.id))
+    before = dict(k.inventory)
+    ok2, at = k.place()
+    assert ok2, f'创造模式放不了：{at}'
+    assert k.inventory == before, f'创造模式放置**不该**消耗库存：{before} → {k.inventory}'
 
 
 @test('增量记账：改动落在正确区块，且相邻区块也被标脏（边界要重建）')
@@ -247,8 +321,13 @@ def t_mesh_scheduling():
     assert again == [], f'没有脏区块却又重建了 {len(again)} 个'
 
 
-@test('存档往返：世界增量 + 玩家状态 + hotbar 全部一致')
+@test('存档往返：世界增量 + 玩家状态 + hotbar/工具/生存/掉落物 全部一致')
 def t_save_roundtrip():
+    """⚠ Phase 1 起存档是 **version 2**：除 Phase 0 的字段外还多出
+    `tools`（工具耐久）/`health`/`hunger`/`saturation`/`state`/`death_cause`/`drops`/`furnace`。
+    先前这里只断言了 Phase 0 的那几项 —— 新字段一个都没覆盖，等于"加了字段没人验证"。
+    """
+    from mcclone3d import items as _I
     k = make_offline({'seed': 31337, 'size': 48, 'height': 32})
     k.pitch = -89.9
     k.dig()
@@ -257,7 +336,25 @@ def t_save_roundtrip():
     k.pos = [10.25, 20.0, 12.75]
     k.yaw, k.pitch, k.flying = 33.0, -12.0, True
     k.stats['dug'] = 7
+    # --- 造出"非默认"的生存状态，否则往返断言会因为"两边都是默认值"而恒真 ---
+    pick = _I.item_by_name('iron_pickaxe')
+    k.give(pick.id, 1)
+    k.tool_durability[pick.id] = 77               # 磨损过的耐久（≠ 表值 251 才会进存档）
+    k.select(0)                                   # 手持草：别让"手上那把镐"干扰统计
+    k.health, k.hunger, k.saturation = 13.5, 9.25, 0.5
+    k.spawn_drop(11.5, 21.5, 12.5, _I.item_by_name('coal').id, 2)
+    k.furnace = {'fuel_left': 3.5, 'cook_left': 4.25, 'recipe': 'iron_ingot'}
+    k.state, k.death_cause = 'playing', ''
     blob = json.loads(json.dumps(k.dump()))        # 过一遍 JSON，模拟真实落盘
+    # 存档格式本身：版本 + 新字段都要在
+    assert blob['version'] == 2, f'Phase 1 的存档版本该是 2，实际 {blob["version"]!r}'
+    for key in ('tools', 'health', 'hunger', 'saturation', 'state', 'death_cause'):
+        assert key in blob['player'], f'v2 存档的 player 里缺字段 {key}'
+    assert 'drops' in blob and 'furnace' in blob, 'v2 存档缺 drops / furnace 段'
+    assert blob['player']['tools'] == {'iron_pickaxe': 77}, \
+        f'磨损过的工具耐久该进存档：{blob["player"]["tools"]}'
+    assert blob['drops'] and blob['drops'][0]['item'] == 'coal', \
+        f'掉落物该按名字进存档：{blob["drops"]}'
     k2 = McCloneKernel.__new__(McCloneKernel)
     k2.ctx = None
     # ⚠ 读档要求"当前世界的种子/尺寸与存档一致"（这是**有意的**校验：不然增量会落到
@@ -272,25 +369,49 @@ def t_save_roundtrip():
     assert k2.hotbar == k.hotbar and k2.selected == k.selected
     assert k2.stats == k.stats
     assert k2.dirty_chunks == set(k2.world.chunks), '读档后没把网格标脏'
+    # --- 新字段逐一往返 ---
+    assert dict(k2.inventory) == dict(k.inventory), '背包没还原'
+    assert k2.tool_durability.get(pick.id) == 77, \
+        f'工具耐久没还原：{k2.tool_durability}'
+    assert abs(k2.health - 13.5) < 1e-9 and abs(k2.hunger - 9.25) < 1e-9 \
+        and abs(k2.saturation - 0.5) < 1e-9, \
+        f'生存状态没还原：{k2.health} {k2.hunger} {k2.saturation}'
+    assert k2.state == 'playing' and k2.death_cause == ''
+    assert len(k2.drops) == 1, f'掉落物没还原：{k2.drops}'
+    d = k2.drops[0]
+    assert d['item'] == _I.item_by_name('coal').id and d['n'] == 2, f'掉落物不对：{d}'
+    assert [round(v, 6) for v in d['pos']] == [11.5, 21.5, 12.5], f'掉落物位置没还原：{d["pos"]}'
+    assert k2.furnace == k.furnace, f'熔炉状态没还原：{k2.furnace} vs {k.furnace}'
 
 
-@test('存档文件往返（真实文件 + UTF-8 + 方块名而非 id）')
+@test('存档文件往返（真实文件 + UTF-8 + 名字而非 id + v2 字段）')
 def t_save_file():
+    from mcclone3d import items as _I
     k = make_offline({'seed': 777, 'size': 48, 'height': 32})
     k.pitch = -89.9
     k.dig()
+    pick = _I.item_by_name('stone_pickaxe')
+    k.give(pick.id, 1)
+    k.tool_durability[pick.id] = 40
+    k.health, k.hunger = 17.0, 12.0
     with tempfile.TemporaryDirectory() as td:
         path = os.path.join(td, 'save.mc3d')
         k.save(path)
         assert os.path.exists(path)
         raw = open(path, encoding='utf-8').read()
         assert 'grass' in raw or 'stone' in raw, '存档里应出现方块名（可读、可手改）'
+        # v2 的新字段也要是**名字**口径（不是裸 id），这样重排编号不会读坏旧档
+        assert '"tools"' in raw and '"health"' in raw and '"hunger"' in raw, \
+            'v2 存档缺 tools/health/hunger 段'
+        assert 'stone_pickaxe' in raw, '工具耐久该按物品名存（不是 id）'
         assert '"edits"' in raw and '"seed"' in raw
         k2 = McCloneKernel.__new__(McCloneKernel)
         k2.ctx = None
         k2._init({'seed': 777, 'size': 48, 'height': 32})
         k2.load_file(path)
         assert dict(k2.world.edits) == dict(k.world.edits)
+        assert k2.tool_durability.get(pick.id) == 40, f'工具耐久没从文件还原：{k2.tool_durability}'
+        assert abs(k2.health - 17.0) < 1e-9 and abs(k2.hunger - 12.0) < 1e-9
 
 
 @test('存档拒绝：版本不对 / 未知方块名 / 种子尺寸不匹配 都要响亮报错')
@@ -417,28 +538,71 @@ def t_summary():
     assert isinstance(text, str)
 
 
-@test('reset：换种子重建世界，增量清零，玩家回到地表')
+@test('reset：换种子重建世界，增量清零，玩家回到地表，生存状态归位')
 def t_reset():
+    """⚠ Phase 1 起 `stats` 有 8 个键（新增 crafted/smelted/picked/eaten/deaths/damage）。
+    先前这里断言 `stats == {'dug': 0, 'placed': 0}` —— 那是在 Phase 0 的 2 键口径下写的，
+    现在必然红。判据没放宽：改的是"**每一个**统计键都归零"，比原来更严。
+    """
+    from mcclone3d import items as _I
     k = make_offline({'seed': 1, 'size': 48, 'height': 32})
     k.pitch = -89.9
     k.dig()
     assert k.world.edits
+    # 把生存状态弄脏，验证 reset 会归位（不只是世界）
+    pick = _I.item_by_name('wooden_pickaxe')
+    k.give(pick.id, 1)
+    k.tool_durability[pick.id] = 5
+    k.health, k.hunger, k.saturation = 3.0, 2.0, 0.0
+    k.spawn_drop(10.5, 20.5, 10.5, _I.item_by_name('coal').id, 1)
+    k.hurt(999.0, 'test')
+    assert k.state == 'dead' and k.stats['deaths'] == 1
     old_seed = k.seed
     k.reset(2)
     assert k.seed == 2 and k.world.seed == 2
     assert k.world.edits == {}, 'reset 没清增量'
-    assert k.stats == {'dug': 0, 'placed': 0}
+    # 统计键**集合**要完整、且每个都归零（比旧断言更严：旧断言只看了 2 个键）
+    assert set(k.stats) == {'dug', 'placed', 'crafted', 'smelted', 'picked',
+                            'eaten', 'deaths', 'damage'}, f'统计键集合变了：{sorted(k.stats)}'
+    assert all(v == 0 for v in k.stats.values()), f'reset 没清统计：{k.stats}'
+    # 生存状态归位
+    assert k.state == 'playing' and k.health == k.max_health
+    assert k.hunger == k.max_hunger and k.death_cause == ''
+    assert k.drops == [], 'reset 没清掉落物'
+    assert k.dig_target is None and k.dig_progress == 0.0, 'reset 没清挖掘进度'
+    assert k.furnace['recipe'] is None, 'reset 没清熔炉'
+    # 创造模式（默认）下 reset 后库存该重新发满
+    assert k.inventory, 'reset 后创造模式该重新发满库存'
+    assert k.tool_durability.get(pick.id) == pick.durability, 'reset 后工具耐久该回满'
+    # 玩家回到地表
+    below = k.world.get(int(k.pos[0]), int(k.pos[1]) - 1, int(k.pos[2]))
+    assert B.is_solid(below), f'reset 后脚下的 {B.name_of(below)} 不是固体'
     k.reset(old_seed)
     assert k.world.seed == old_seed
 
 
 @test('配置树的值真的到达内核（seed/size/height/reach/hotbar 全部生效）')
 def t_config_passthrough():
+    """⚠ hotbar 存的是**物品 id**（不是方块 id）—— 先前断言 `hotbar == [B.STONE, B.GLASS]`
+    是拿方块 id 比物品 id，必然红。判据改成"按名字查出来的物品 id"，并**逐项验证
+    方块映射仍然成立**（这才是配置树真正要保证的事）。
+    """
+    from mcclone3d import items as _I
     k = make_offline({'seed': 123, 'size': 64, 'height': 48, 'reach': 9.5,
                       'hotbar': ['stone', 'glass'], 'creative': False})
     assert (k.seed, k.size, k.height) == (123, 64, 48)
     assert abs(k.reach - 9.5) < 1e-9
-    assert k.hotbar == [B.STONE, B.GLASS]
+    assert k.hotbar == [_I.item_by_name('stone').id, _I.item_by_name('glass').id], \
+        f'hotbar 该是物品 id：{k.hotbar}'
+    assert all(_I.is_item_id(i) for i in k.hotbar), 'hotbar 里出现了方块 id（号段混了）'
+    # 配置写的是名字，两套号段都要能认：hotbar 里那两格放下来必须正好是石头/玻璃
+    assert k.hotbar[0] == _I.item_by_name('stone').id
+    assert _I.item(k.hotbar[0]).block_id == B.STONE
+    assert _I.item(k.hotbar[1]).block_id == B.GLASS
+    k.select(0)
+    assert k.selected_block() == B.STONE, 'hotbar 第 1 格该放下石头'
+    k.select(1)
+    assert k.selected_block() == B.GLASS, 'hotbar 第 2 格该放下玻璃'
     assert k.creative is False and k.inventory == {}
 
 

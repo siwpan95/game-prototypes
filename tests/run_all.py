@@ -31,6 +31,11 @@ MODULES = [
     ('tests.test_physics', 'ALL_PHYSICS_TESTS_PASSED', '玩家物理与碰撞'),
     ('tests.test_raycast', 'ALL_RAYCAST_TESTS_PASSED', 'DDA 体素拾取'),
     ('tests.test_kernel', 'ALL_KERNEL_TESTS_PASSED', '内核动作 / 存档 / 自动机'),
+    # --- Phase 1 新增（物品/掉落/配方/生存）---
+    ('tests.test_items', 'ALL_ITEMS_TESTS_PASSED', '物品表 / 工具 / 挖掘规则'),
+    ('tests.test_drops', 'ALL_DROPS_TESTS_PASSED', '掉落规则与确定性'),
+    ('tests.test_recipes', 'ALL_RECIPES_TESTS_PASSED', '合成 / 烧炼配方'),
+    ('tests.test_survival', 'ALL_SURVIVAL_TESTS_PASSED', '生存循环 / 耐久 / 熔炉'),
 ]
 
 
