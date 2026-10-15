@@ -8,6 +8,9 @@ from .skill import Skill
 class Character:
     """玩家角色 / 基础角色类"""
 
+    # 装备槽位顺序（物品栏/面板展示用）
+    EQUIP_SLOTS = ("武器", "头", "身", "手", "鞋")
+
     def __init__(self, name: str, hp: int, max_hp: int,
                  attack: int, defense: int, speed: int):
         self.name = name
@@ -20,16 +23,20 @@ class Character:
         self.exp = 0
         self.exp_to_next = 100
         self.skills = []  # list[Skill]
-        self.equipment = {}  # dict[槽位名 -> Item]，人类装备（T1.7 起生效）
+        self.equipment = {}  # dict[槽位名 -> Item]，人类装备
         # 当前乘坐的战车引用（由外部设置）
         self.vehicle: Optional["Vehicle"] = None
 
     @property
     def attack(self):
-        """攻击力 = 基础攻击 + 战车加成"""
+        """攻击力 = 基础攻击 + 战车加成 + 武器加成"""
+        total = self._base_attack
         if self.vehicle and self.vehicle.is_alive():
-            return self._base_attack + self.vehicle.attack
-        return self._base_attack
+            total += self.vehicle.attack
+        weapon = self.equipment.get("武器")
+        if weapon is not None:
+            total += weapon.effect_value
+        return total
 
     @attack.setter
     def attack(self, value):
@@ -37,10 +44,14 @@ class Character:
 
     @property
     def defense(self):
-        """防御力 = 基础防御 + 战车加成"""
+        """防御力 = 基础防御 + 战车加成 + 各防具加成"""
+        total = self._base_defense
         if self.vehicle and self.vehicle.is_alive():
-            return self._base_defense + self.vehicle.defense
-        return self._base_defense
+            total += self.vehicle.defense
+        for slot, item in self.equipment.items():
+            if slot != "武器":
+                total += item.effect_value
+        return total
 
     @defense.setter
     def defense(self, value):
@@ -61,6 +72,29 @@ class Character:
         """学习技能（不重复学习）"""
         if skill.id not in [s.id for s in self.skills]:
             self.skills.append(skill)
+
+    # ── 装备 ──
+
+    def equip(self, item: "Item") -> Optional["Item"]:
+        """装备物品，返回被换下的旧装备（没有则 None）
+
+        非装备类物品返回 None 且不装入槽位。
+        """
+        slot = getattr(item.data, "equip_slot", "") if item.data else ""
+        if not slot:
+            return None
+        old = self.equipment.get(slot)
+        self.equipment[slot] = item
+        return old
+
+    def unequip(self, slot: str) -> Optional["Item"]:
+        """卸下指定槽位的装备，返回卸下的物品（没有则 None）"""
+        return self.equipment.pop(slot, None)
+
+    def equipped_slots(self) -> list:
+        """按固定顺序返回已装备的 (槽位, Item) 列表"""
+        return [(slot, self.equipment[slot])
+                for slot in self.EQUIP_SLOTS if slot in self.equipment]
 
     def is_alive(self) -> bool:
         return self.hp > 0

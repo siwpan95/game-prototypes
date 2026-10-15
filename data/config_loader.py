@@ -55,6 +55,11 @@ class ItemData:
     price: int
     description: str
     usable_in_battle: bool
+    equip_slot: str = ""  # 装备槽位：""=消耗品；头/身/手/鞋/武器=可装备
+
+    @property
+    def is_equipment(self) -> bool:
+        return self.equip_slot != ""
 
 @dataclass
 class VehicleData:
@@ -194,7 +199,8 @@ class ConfigLoader:
                     effect_value=int(row['效果值']),
                     price=int(row['价格']),
                     description=str(row['描述']),
-                    usable_in_battle=bool(row['战斗中可用'])
+                    usable_in_battle=bool(row['战斗中可用']),
+                    equip_slot=str(_col(row, '装备槽位', '') or '').strip(),
                 )
                 self.items[item.id] = item
             print(f"加载了 {len(self.items)} 个物品配置")

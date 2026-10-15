@@ -273,7 +273,9 @@ class MainWindow:
         elif d.state == GameState.INVENTORY:
             if event.char.isdigit():
                 idx = int(event.char) - 1
-                if 0 <= idx < len(d.inventory):
+                # 序号范围：物品栏 + 已装备区（续排编号用于卸下）
+                max_idx = len(d.inventory) + len(d.player.equipped_slots()) - 1
+                if 0 <= idx <= max_idx:
                     self.vm.command_use_item(idx)
         elif d.state == GameState.BATTLE:
             if event.char == '1':

@@ -248,15 +248,24 @@ class GameViewModel:
         )
 
     def _render_inventory(self) -> str:
+        d = self.data
         lines = ["=== 物品栏 ===\n"]
-        if not self.data.inventory:
+        if not d.inventory:
             lines.append("物品栏是空的。\n")
         else:
-            for i, item in enumerate(self.data.inventory):
+            for i, item in enumerate(d.inventory):
                 usable = "✓" if item.usable_in_battle else " "
+                kind = "装备" if getattr(item.data, "is_equipment", False) else "使用"
                 lines.append(f"{i+1}. [{usable}] {item.name:15} - {item.description}\n")
-                lines.append(f"    类型: {item.type}, 效果: {item.effect_value}\n\n")
-        lines.append("\n按数字键使用物品，按ESC返回游戏。")
+                lines.append(f"    类型: {item.type}, 效果: {item.effect_value}（按 {i+1} {kind}）\n\n")
+        # 已装备列表（序号续排在物品栏之后，按对应数字卸下）
+        equipped = d.player.equipped_slots()
+        if equipped:
+            lines.append("── 已装备 ──\n")
+            for j, (slot, item) in enumerate(equipped):
+                num = len(d.inventory) + j + 1
+                lines.append(f"{num}. [E] [{slot}] {item.name:15} - 效果: {item.effect_value}（按 {num} 卸下）\n")
+        lines.append("\n按数字键使用/装备/卸下，按ESC返回游戏。")
         return "".join(lines)
 
     def _render_town(self) -> str:
@@ -478,11 +487,44 @@ class GameViewModel:
     # ═══════════════════════════════════════════════════
 
     def command_use_item(self, index: int):
-        if index < 0 or index >= len(self.data.inventory):
-            return
-        item = self.data.inventory[index]
-        d = self.data
+        """使用/装备物品
 
+        编号在物品栏范围内：消耗品直接使用，装备类执行装备（换下的旧装备回包）。
+        编号超出物品栏：视为卸下已装备（序号续排在物品栏之后，见 _render_inventory）。
+        """
+        d = self.data
+        if index < 0:
+            return
+
+        if index < len(d.inventory):
+            item = d.inventory[index]
+            if getattr(item.data, "is_equipment", False):
+                old = d.player.equip(item)
+                d.inventory.pop(index)
+                if old is not None:
+                    d.inventory.append(old)
+                    d.add_log(f"卸下了{old.name}，装备了{item.name}！")
+                else:
+                    d.add_log(f"装备了{item.name}！")
+                return
+            self._consume_item(index)
+            return
+
+        # 卸下装备：序号 = len(inventory) + 已装备列表下标
+        equipped = d.player.equipped_slots()
+        eq_index = index - len(d.inventory)
+        if 0 <= eq_index < len(equipped):
+            slot, old = equipped[eq_index]
+            d.player.unequip(slot)
+            d.inventory.append(old)
+            d.add_log(f"卸下了{old.name}。")
+            return
+        d.add_log("没有这个物品。")
+
+    def _consume_item(self, index: int):
+        """消耗品使用逻辑"""
+        d = self.data
+        item = d.inventory[index]
         if item.type == "heal":
             d.player.heal(item.effect_value)
             d.add_log(f"使用了{item.name}，恢复了{item.effect_value}点HP！")
@@ -494,6 +536,11 @@ class GameViewModel:
                 d.inventory.pop(index)
             else:
                 d.add_log("没有战车可以使用燃料！")
+        elif item.type == "buff":
+            d.add_log(f"使用了{item.name}，感觉充满了力量！（buff 效果下阶段实装）")
+            d.inventory.pop(index)
+        else:
+            d.add_log(f"{item.name}现在不能使用。")
 
     def _gain_item(self, item: Item):
         """获得物品的统一入口：入包 + 收集任务追踪（购买/掉落走这里）"""
