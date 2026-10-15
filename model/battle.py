@@ -21,6 +21,22 @@ class BattleEngine:
     """战斗引擎：处理所有战斗计算逻辑"""
 
     @staticmethod
+    def _hit_target(player: Character) -> str:
+        """描述受击对象：乘战车且存活 → 战车，否则 → 角色名"""
+        vehicle = player.vehicle
+        if vehicle is not None and vehicle.is_alive():
+            return f"战车{vehicle.name}"
+        return player.name
+
+    @staticmethod
+    def _vehicle_break_message(player: Character, was_alive: bool) -> str:
+        """战车在本回合刚被击毁时的提示（未毁返回空串）"""
+        vehicle = player.vehicle
+        if (was_alive and vehicle is not None and not vehicle.is_alive()):
+            return f"战车{vehicle.name}被击毁了！"
+        return ""
+
+    @staticmethod
     def calculate_damage(attacker: Character, defender: Character) -> int:
         """计算攻击伤害"""
         base = attacker.attack + random.randint(-5, 5)
@@ -50,8 +66,15 @@ class BattleEngine:
             return result
 
         # 敌人反击
+        vehicle_was_alive = (data.player.vehicle is not None
+                             and data.player.vehicle.is_alive())
         dmg2 = BattleEngine.calculate_enemy_damage(enemy, data.player)
-        result.messages.append(f"{enemy.name}反击造成{dmg2}点伤害！")
+        result.messages.append(
+            f"{enemy.name}攻击{BattleEngine._hit_target(data.player)}造成{dmg2}点伤害！"
+        )
+        break_msg = BattleEngine._vehicle_break_message(data.player, vehicle_was_alive)
+        if break_msg:
+            result.messages.append(break_msg)
 
         if not data.player.is_alive():
             result.player_dead = True
@@ -62,20 +85,35 @@ class BattleEngine:
 
     @staticmethod
     def player_defend(data: "GameData") -> BattleResult:
-        """玩家防御"""
+        """玩家防御（乘战车时翻倍战车防御，否则翻倍自身防御）"""
         result = BattleResult()
         enemy = data.current_enemy
         if not enemy:
             return result
 
         result.messages.append(f"{data.player.name}采取了防御姿态！")
-        original_def = data.player._base_defense
-        data.player._base_defense *= 2
+        vehicle = data.player.vehicle
+        if vehicle is not None and vehicle.is_alive():
+            original = vehicle.defense
+            vehicle.defense *= 2
+            vehicle_was_alive = True
+        else:
+            original = data.player._base_defense
+            data.player._base_defense *= 2
+            vehicle_was_alive = False
 
         dmg = BattleEngine.calculate_enemy_damage(enemy, data.player)
-        result.messages.append(f"{enemy.name}攻击造成{dmg}点伤害！")
+        result.messages.append(
+            f"{enemy.name}攻击{BattleEngine._hit_target(data.player)}造成{dmg}点伤害！"
+        )
 
-        data.player._base_defense = original_def
+        if vehicle_was_alive:
+            vehicle.defense = original
+        else:
+            data.player._base_defense = original
+        break_msg = BattleEngine._vehicle_break_message(data.player, vehicle_was_alive)
+        if break_msg:
+            result.messages.append(break_msg)
 
         if not data.player.is_alive():
             result.player_dead = True
@@ -119,15 +157,29 @@ class BattleEngine:
             result.messages.append(f"造成{actual}点技能伤害！")
 
         elif skill_type == "defense":
-            # 防御技能：临时大幅加防御
+            # 防御技能：临时大幅加防御（乘战车时加成战车）
             boost = 2 + (int(effect_val) if effect_val.isdigit() else 3)
-            original = player._base_defense
-            player._base_defense *= boost
+            vehicle = player.vehicle
+            vehicle_was_alive = vehicle is not None and vehicle.is_alive()
+            if vehicle_was_alive:
+                original = vehicle.defense
+                vehicle.defense *= boost
+            else:
+                original = player._base_defense
+                player._base_defense *= boost
             result.messages.append(f"防御力提升{boost}倍！")
 
             dmg = BattleEngine.calculate_enemy_damage(enemy, player)
-            result.messages.append(f"{enemy.name}攻击造成{dmg}点伤害！")
-            player._base_defense = original
+            result.messages.append(
+                f"{enemy.name}攻击{BattleEngine._hit_target(player)}造成{dmg}点伤害！"
+            )
+            if vehicle_was_alive:
+                vehicle.defense = original
+            else:
+                player._base_defense = original
+            break_msg = BattleEngine._vehicle_break_message(player, vehicle_was_alive)
+            if break_msg:
+                result.messages.append(break_msg)
 
         elif skill_type == "special":
             # 特殊技能：回复HP
@@ -136,8 +188,15 @@ class BattleEngine:
             result.messages.append(f"恢复了{heal_amount}点HP！")
 
             # 敌人照常攻击
+            vehicle_was_alive = (player.vehicle is not None
+                                 and player.vehicle.is_alive())
             dmg = BattleEngine.calculate_enemy_damage(enemy, player)
-            result.messages.append(f"{enemy.name}攻击造成{dmg}点伤害！")
+            result.messages.append(
+                f"{enemy.name}攻击{BattleEngine._hit_target(player)}造成{dmg}点伤害！"
+            )
+            break_msg = BattleEngine._vehicle_break_message(player, vehicle_was_alive)
+            if break_msg:
+                result.messages.append(break_msg)
 
         elif skill_type == "evade":
             # 回避技能：概率完全闪避
@@ -145,8 +204,15 @@ class BattleEngine:
             if random.random() < dodge_chance:
                 result.messages.append("完全闪避了攻击！")
             else:
+                vehicle_was_alive = (player.vehicle is not None
+                                     and player.vehicle.is_alive())
                 dmg = BattleEngine.calculate_enemy_damage(enemy, player)
-                result.messages.append(f"{enemy.name}攻击造成{dmg}点伤害！")
+                result.messages.append(
+                    f"{enemy.name}攻击{BattleEngine._hit_target(player)}造成{dmg}点伤害！"
+                )
+                break_msg = BattleEngine._vehicle_break_message(player, vehicle_was_alive)
+                if break_msg:
+                    result.messages.append(break_msg)
 
         # 检查击杀
         if not enemy.is_alive():
@@ -175,8 +241,15 @@ class BattleEngine:
             return result
 
         result.messages.append("逃跑失败！")
+        vehicle_was_alive = (data.player.vehicle is not None
+                             and data.player.vehicle.is_alive())
         dmg = BattleEngine.calculate_enemy_damage(enemy, data.player)
-        result.messages.append(f"{enemy.name}攻击造成{dmg}点伤害！")
+        result.messages.append(
+            f"{enemy.name}攻击{BattleEngine._hit_target(data.player)}造成{dmg}点伤害！"
+        )
+        break_msg = BattleEngine._vehicle_break_message(data.player, vehicle_was_alive)
+        if break_msg:
+            result.messages.append(break_msg)
 
         if not data.player.is_alive():
             result.player_dead = True

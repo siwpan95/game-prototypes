@@ -100,13 +100,14 @@ class Character:
         return self.hp > 0
 
     def take_damage(self, damage: int) -> int:
-        """造成伤害，返回实际伤害值（战车先承受伤害）"""
-        actual_damage = max(1, damage - self.defense // 2)
-        # 如果有战车且战车存活，战车先承受伤害
+        """造成伤害，返回实际伤害值
+
+        原作语义：乘战车且战车存活时，伤害由战车全额承担（车内人免火）；
+        战车被毁或未乘战车时，才扣驾驶员 HP（防御减伤）。
+        """
         if self.vehicle and self.vehicle.is_alive():
-            vehicle_dmg = actual_damage // 2
-            self.vehicle.take_damage(vehicle_dmg)
-            actual_damage -= vehicle_dmg
+            return self.vehicle.take_damage(damage)
+        actual_damage = max(1, damage - self.defense // 2)
         self.hp -= actual_damage
         if self.hp < 0:
             self.hp = 0

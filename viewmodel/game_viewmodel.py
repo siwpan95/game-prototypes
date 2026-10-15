@@ -229,6 +229,16 @@ class GameViewModel:
         desc = enemy.data.description.strip() if enemy.data.description else ""
         desc_line = f"        ║  {desc[:46]:^46}║\n" if desc else ""
 
+        # 乘战车作战时显示战车状态
+        vehicle_line = ""
+        vehicle = self.data.player.vehicle
+        if vehicle is not None and vehicle.is_alive():
+            vehicle_line = (
+                f"        ║  战车: {vehicle.name} "
+                f"HP: {vehicle.hp}/{vehicle.max_hp}"
+                f"  燃料: {int(vehicle.fuel)}/{int(vehicle.max_fuel):<20}║\n"
+            )
+
         return (
             f"\n"
             f"        ╔══════════════════════════════════════════════════════╗\n"
@@ -241,6 +251,7 @@ class GameViewModel:
             f"        ║                                                      ║\n"
             f"        ║              VS                                      ║\n"
             f"        ║                                                      ║\n"
+            f"{vehicle_line}"
             f"        ║  {self.data.player.name:^20}                                    ║\n"
             f"        ║  HP: {self.data.player.hp:>3}/{self.data.player.max_hp:<3}                                      ║\n"
             f"        ║                                                      ║\n"
