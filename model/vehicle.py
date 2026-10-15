@@ -44,3 +44,26 @@ class Vehicle:
     def repair(self):
         self.hp = self.max_hp
         self.broken = False
+
+    # ── 存档序列化 ──
+
+    def to_dict(self) -> dict:
+        """序列化为可 JSON 存档的字典"""
+        return {
+            "id": self.id,
+            "hp": self.hp,
+            "fuel": self.fuel,
+            "broken": self.broken,
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict, config) -> "Vehicle":
+        """从存档字典重建战车；config 为 ConfigLoader"""
+        vehicle_data = config.get_vehicle_by_id(d["id"])
+        if vehicle_data is None:
+            raise ValueError(f"存档引用了不存在的战车ID: {d['id']}")
+        v = cls(vehicle_data)
+        v.hp = d.get("hp", v.max_hp)
+        v.fuel = d.get("fuel", v.max_fuel)
+        v.broken = d.get("broken", False)
+        return v

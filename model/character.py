@@ -1,6 +1,9 @@
 """角色与敌人数据模型（纯数据+业务逻辑，零UI依赖）"""
 from typing import Optional
 
+from .item import Item
+from .skill import Skill
+
 
 class Character:
     """玩家角色 / 基础角色类"""
@@ -17,6 +20,7 @@ class Character:
         self.exp = 0
         self.exp_to_next = 100
         self.skills = []  # list[Skill]
+        self.equipment = {}  # dict[槽位名 -> Item]，人类装备（T1.7 起生效）
         # 当前乘坐的战车引用（由外部设置）
         self.vehicle: Optional["Vehicle"] = None
 
@@ -94,6 +98,45 @@ class Character:
         self._base_defense += 2
         self._base_speed += 1
         self.hp = self.max_hp
+
+    # ── 存档序列化 ──
+
+    def to_dict(self) -> dict:
+        """序列化为可 JSON 存档的字典"""
+        return {
+            "name": self.name,
+            "hp": self.hp,
+            "max_hp": self.max_hp,
+            "base_attack": self._base_attack,
+            "base_defense": self._base_defense,
+            "base_speed": self._base_speed,
+            "level": self.level,
+            "exp": self.exp,
+            "exp_to_next": self.exp_to_next,
+            "skills": [s.id for s in self.skills],
+            "equipment": {slot: it.id for slot, it in self.equipment.items()},
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict, config) -> "Character":
+        """从存档字典重建角色；config 为 ConfigLoader"""
+        c = cls(
+            d["name"], d["max_hp"], d["max_hp"],
+            d["base_attack"], d["base_defense"], d["base_speed"],
+        )
+        c.hp = d.get("hp", c.max_hp)
+        c.level = d.get("level", 1)
+        c.exp = d.get("exp", 0)
+        c.exp_to_next = d.get("exp_to_next", 100)
+        for skill_id in d.get("skills", []):
+            skill_data = config.get_skill_by_id(skill_id)
+            if skill_data is not None:
+                c.learn_skill(Skill(skill_data))
+        for slot, item_id in d.get("equipment", {}).items():
+            item_data = config.get_item_by_id(item_id)
+            if item_data is not None:
+                c.equipment[slot] = Item(item_data)
+        return c
 
 
 class Enemy(Character):

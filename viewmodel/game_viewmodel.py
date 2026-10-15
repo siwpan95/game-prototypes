@@ -1,9 +1,11 @@
 """游戏主 ViewModel — 连接 Model 和 View 的桥梁（完整版）"""
+import os
 import tkinter as tk
 import random
 import time
 from typing import Optional, Callable
 
+from data import ConfigLoader, SaveManager
 from model import (
     Character, Enemy, Item, Vehicle, NPC, Skill,
     GameState, GameData, Direction, QuestTrack,
@@ -18,6 +20,10 @@ class GameViewModel:
         self.config = config_loader
         self.data = GameData()
         self.data.config = config_loader
+
+        # 存档目录：配置文件所在目录下的 saves/
+        config_dir = os.path.dirname(os.path.abspath(config_loader.excel_path))
+        self.save_manager = SaveManager(os.path.join(config_dir, "saves"))
 
         # ── Observable 属性（View 绑定这些） ──
         self.display_text = tk.StringVar(value="")
@@ -514,6 +520,54 @@ class GameViewModel:
 
     def command_new_game(self):
         self.init_new_game()
+
+    # ═══════════════════════════════════════════════════
+    # 命令 — 存档 / 读档
+    # ═══════════════════════════════════════════════════
+
+    def has_save(self, slot: int) -> bool:
+        """指定槽位是否有存档"""
+        return self.save_manager.has_save(slot)
+
+    def list_saves(self) -> list:
+        """列出所有有存档的槽位"""
+        return self.save_manager.list_saves()
+
+    def command_save(self, slot: int) -> bool:
+        """保存游戏到指定槽位（战斗中/主菜单禁止保存）"""
+        d = self.data
+        if d.state == GameState.BATTLE:
+            d.add_log("战斗中无法保存游戏！")
+            return False
+        if d.state == GameState.MENU or not d.player:
+            d.add_log("当前没有可保存的游戏进度。")
+            return False
+        ok = self.save_manager.save(slot, d.to_dict())
+        if ok:
+            d.add_log(f"游戏已保存到槽位 {slot}。")
+        else:
+            d.add_log(f"保存失败（槽位 {slot}）！")
+        return ok
+
+    def command_load(self, slot: int) -> bool:
+        """从指定槽位读取游戏"""
+        if not self.save_manager.has_save(slot):
+            self.data.add_log(f"槽位 {slot} 没有存档。")
+            return False
+        raw = self.save_manager.load(slot)
+        if raw is None:
+            self.data.add_log(f"读取槽位 {slot} 失败：存档文件损坏。")
+            return False
+        try:
+            new_data = GameData.from_dict(raw, self.config)
+        except Exception as e:
+            self.data.add_log(f"读取槽位 {slot} 失败：{e}")
+            return False
+        self.data = new_data
+        self.data.add_log(f"已读取槽位 {slot} 的存档。")
+        self._notify_state()
+        self._refresh_all()
+        return True
 
     # ═══════════════════════════════════════════════════
     # 内部方法

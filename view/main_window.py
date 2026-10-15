@@ -1,6 +1,6 @@
 """主窗口 — 组装所有 View 组件，绑定 ViewModel"""
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 from typing import TYPE_CHECKING
 
 from model import GameState, Direction
@@ -325,13 +325,35 @@ class MainWindow:
     def _on_new_game(self):
         self.vm.command_new_game()
 
+    def _ask_slot(self, title: str):
+        """弹出槽位选择框（1-3），取消返回 None"""
+        return simpledialog.askinteger(
+            title, "选择存档槽位 (1-3)：",
+            minvalue=1, maxvalue=3, parent=self.root
+        )
+
     def _on_save(self):
-        self.vm.data.add_log("游戏已保存（演示版不实际保存）")
-        show_messagebox("保存", "游戏已保存！")
+        slot = self._ask_slot("保存游戏")
+        if slot is None:
+            return
+        ok = self.vm.command_save(slot)
+        if ok:
+            show_messagebox("保存", f"游戏已保存到槽位 {slot}。")
+        else:
+            show_messagebox("保存", "保存失败！战斗中或主菜单下无法保存。", kind="warning")
 
     def _on_load(self):
-        self.vm.data.add_log("游戏已加载（演示版不实际加载）")
-        show_messagebox("加载", "游戏已加载！")
+        slot = self._ask_slot("读取游戏")
+        if slot is None:
+            return
+        if not self.vm.has_save(slot):
+            show_messagebox("读取", f"槽位 {slot} 没有存档。", kind="warning")
+            return
+        ok = self.vm.command_load(slot)
+        if ok:
+            show_messagebox("读取", f"已读取槽位 {slot} 的存档。")
+        else:
+            show_messagebox("读取", "读取失败！存档可能已损坏。", kind="error")
 
     def _show_vehicles(self):
         d = self.vm.data

@@ -2,6 +2,10 @@
 from enum import Enum
 from typing import Optional
 
+from .character import Character
+from .item import Item
+from .vehicle import Vehicle
+
 
 class GameState(Enum):
     MENU = 0
@@ -29,6 +33,27 @@ class QuestTrack:
         self.kill_count = 0
         self.collect_count = 0
         self.explored = False
+
+    # ── 存档序列化 ──
+
+    def to_dict(self) -> dict:
+        return {
+            "quest_id": self.quest_data.id,
+            "kill_count": self.kill_count,
+            "collect_count": self.collect_count,
+            "explored": self.explored,
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict, config) -> "QuestTrack":
+        quest_data = config.get_quest_by_id(d["quest_id"])
+        if quest_data is None:
+            raise ValueError(f"存档引用了不存在的任务ID: {d['quest_id']}")
+        t = cls(quest_data)
+        t.kill_count = d.get("kill_count", 0)
+        t.collect_count = d.get("collect_count", 0)
+        t.explored = d.get("explored", False)
+        return t
 
 
 class QuestManager:
@@ -129,4 +154,80 @@ class GameData:
 
     def is_in_town(self) -> bool:
         return (self.player_x, self.player_y) in self.town_positions
+
+    # ── 存档序列化 ──
+
+    def to_dict(self) -> dict:
+        """序列化为可 JSON 存档的字典
+
+        注意：战斗中/对话中的临时对象（current_enemy/current_npc/current_shop）
+        不持久化，VM 层会阻止在战斗中保存。
+        """
+        current_vehicle_index = -1
+        if self.current_vehicle is not None:
+            try:
+                current_vehicle_index = self.vehicles.index(self.current_vehicle)
+            except ValueError:
+                current_vehicle_index = -1
+        return {
+            "schema_version": 1,
+            "state": self.state.name,
+            "current_map_id": self.current_map_id,
+            "player_x": self.player_x,
+            "player_y": self.player_y,
+            "game_time": self.game_time,
+            "gold": self.gold,
+            "player": self.player.to_dict() if self.player else None,
+            "inventory": [item.to_dict() for item in self.inventory],
+            "vehicles": [v.to_dict() for v in self.vehicles],
+            "current_vehicle_index": current_vehicle_index,
+            "active_quests": [q.id for q in self.active_quests],
+            "completed_quests": [q.id for q in self.completed_quests],
+            "quest_progress": [t.to_dict() for t in self.quest_progress],
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict, config) -> "GameData":
+        """从存档字典重建游戏数据；config 为 ConfigLoader"""
+        gd = cls()
+        gd.config = config
+        gd.current_map_id = d.get("current_map_id", 1)
+        gd.player_x = d.get("player_x", 10)
+        gd.player_y = d.get("player_y", 10)
+        gd.game_time = d.get("game_time", 0.0)
+        gd.gold = d.get("gold", 0)
+
+        player_d = d.get("player")
+        if player_d:
+            gd.player = Character.from_dict(player_d, config)
+
+        gd.inventory = [Item.from_dict(x, config) for x in d.get("inventory", [])]
+        gd.vehicles = [Vehicle.from_dict(x, config) for x in d.get("vehicles", [])]
+
+        idx = d.get("current_vehicle_index", -1)
+        if isinstance(idx, int) and 0 <= idx < len(gd.vehicles):
+            gd.current_vehicle = gd.vehicles[idx]
+            if gd.player:
+                gd.player.vehicle = gd.current_vehicle
+
+        for quest_id in d.get("active_quests", []):
+            quest = config.get_quest_by_id(quest_id)
+            if quest is not None:
+                gd.active_quests.append(quest)
+        for quest_id in d.get("completed_quests", []):
+            quest = config.get_quest_by_id(quest_id)
+            if quest is not None:
+                gd.completed_quests.append(quest)
+        for track_d in d.get("quest_progress", []):
+            gd.quest_progress.append(QuestTrack.from_dict(track_d, config))
+
+        # 状态校正：依赖未持久化临时对象的状态一律回退到 WORLD
+        try:
+            state = GameState[d.get("state", "WORLD")]
+        except KeyError:
+            state = GameState.WORLD
+        if state in (GameState.DIALOG, GameState.SHOP, GameState.BATTLE):
+            state = GameState.WORLD
+        gd.state = state
+        return gd
 
