@@ -44,6 +44,7 @@ class EnemyData:
     gold_reward: int
     encounter_rate: float
     description: str
+    region_id: int = 1  # 出现区域（对应 Maps 表 ID，1=荒野）
 
 @dataclass
 class ItemData:
@@ -171,7 +172,8 @@ class ConfigLoader:
                     exp_reward=int(row['经验值']),
                     gold_reward=int(row['金币']),
                     encounter_rate=float(row['遭遇率']),
-                    description=str(row['描述'])
+                    description=str(row['描述']),
+                    region_id=int(_col(row, '区域ID', 1)),
                 )
                 self.enemies[enemy.id] = enemy
             print(f"加载了 {len(self.enemies)} 个敌人配置")
@@ -357,11 +359,19 @@ class ConfigLoader:
         return self.quests.get(quest_id)
     
     def get_random_enemy(self, map_id: int = 1) -> Optional[EnemyData]:
-        """根据地图ID按遭遇率加权随机获取一个敌人"""
+        """按地图ID抽取敌人：只在该区域敌人中按遭遇率加权随机
+
+        该区域没有配置敌人时，回退为区域 1（荒野通用怪），避免空图。
+        """
         if not self.enemies:
             return None
 
-        enemies = list(self.enemies.values())
+        enemies = [e for e in self.enemies.values() if e.region_id == map_id]
+        if not enemies:
+            enemies = [e for e in self.enemies.values() if e.region_id == 1]
+        if not enemies:
+            enemies = list(self.enemies.values())
+
         weights = [e.encounter_rate for e in enemies]
 
         # 加权随机选择
