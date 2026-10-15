@@ -39,6 +39,8 @@ MODULES = [
     # --- Phase 2-B 新增（生物）---
     ('tests.test_mobs', 'ALL_MOBS_TESTS_PASSED', '生物表与实体'),
     ('tests.test_ai', 'ALL_AI_TESTS_PASSED', '生物 AI / 刷怪 / 攻击'),
+    # --- Phase 2-C 新增（洞穴与矿脉分层）---
+    ('tests.test_caves', 'ALL_CAVES_TESTS_PASSED', '洞穴生成与护栏'),
 ]
 
 

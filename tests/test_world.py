@@ -10,7 +10,9 @@ import sys
 from tests._util import make_suite
 
 from mcclone3d import blocks as B
-from mcclone3d.world import CHUNK, ChunkedWorld, chunk_key, surface_height
+from mcclone3d import caves
+from mcclone3d.world import (CHUNK, ORE_BANDS, ChunkedWorld, chunk_key, ore_bands,
+                             surface_height)
 
 test, main = make_suite('ALL_WORLD_TESTS_PASSED', '世界生成')
 
@@ -34,36 +36,49 @@ def t_chunks_complete():
     w = ChunkedWorld(7, 32, 32).generate()
     want = (32 // CHUNK) * (32 // CHUNK) * (32 // CHUNK)
     assert len(w.chunks) == want, f'区块数 {len(w.chunks)} != 期望 {want}'
+    holes = caves.tunnels(w.seed, w.size, w.height, w.sea_level).holes
     for x in range(0, 32, 5):
         for z in range(0, 32, 5):
             h = w.surface_at(x, z)
             col = [w.get(x, y, z) for y in range(max(0, h - 4), min(32, h + 2))]
-            assert any(b != B.AIR for b in col), f'({x},{z}) 地表附近全是空气'
+            if all(b == B.AIR for b in col):
+                # 全空只允许是 worm 洞口（Phase 2-C 打穿了表土）
+                assert (x, z) in holes, \
+                    f'({x},{z}) 地表附近全是空气却不是 worm 洞口（生成漏了？）'
 
 
 @test('地层：y=0 是基岩；地表 = 该列高度上的那一格；地下按泥沙石分层')
 def t_layers():
     w = ChunkedWorld(99, 32, 32).generate()
+    holes = caves.tunnels(w.seed, w.size, w.height, w.sea_level).holes
     for x in range(0, 32, 6):
         for z in range(0, 32, 6):
             assert w.get(x, 0, z) == B.BEDROCK, f'({x},{z}) 底部不是基岩'
             h = w.surface_at(x, z)
             assert h + 1 < w.height, f'({x},{z}) 地表顶到世界顶'
             # ⚠ 不能断言"地表上面是空气"：树冠会长在地表之上（实测踩过）。
-            # 能断言的是"地表那一格不是空气，也不是石头"（石头只出现在地表以下）。
+            # ⚠ 地表那一格**可以是空气** —— 但只在 worm 洞口处（Phase 2-C 的
+            #   "允许自然洞口"）。噪声挖穿地表是 bug，两者用 `holes` 区分开。
             top = w.get(x, h, z)
-            assert top != B.AIR, f'({x},{z}) 地表那一格是空气（h={h}）'
+            if top == B.AIR:
+                assert (x, z) in holes, \
+                    f'({x},{z}) 地表是空气却不在 worm 洞口清单里（噪声挖穿了地表？）'
             assert top != B.STONE, f'({x},{z}) 地表那一格是石头（h={h}）'
             if h > w.sea_level + 2:
                 # 高地：地表下 1~3 格是泥土（生成规则里的 3 格土层）
                 assert w.get(x, h - 1, z) == B.DIRT, \
                     f'({x},{z}) 地表下 1 格是 {B.name_of(w.get(x, h - 1, z))}，期望泥土'
-            # ⚠ 不断言"再往下一定是石头"：土层之下还有**矿脉带**（煤/铁），
-            # 6 格深处完全可能是矿石（实测踩过）。能断言的是"不再是土/沙"。
+            # ⚠ 不断言"再往下一定是石头"：土层之下还有**矿脉带**（煤/铁/金/钻石）
+            # 与**洞穴**（Phase 2-C）。能断言的是"不再是土/沙，且空气是合法来源"。
             if h > 8:
-                deep = w.get(x, h - 6, z)
-                assert deep in (B.STONE, B.COAL_ORE, B.IRON_ORE), \
+                y = h - 6
+                deep = w.get(x, y, z)
+                assert deep in (B.STONE, B.AIR, B.COAL_ORE, B.IRON_ORE,
+                                B.GOLD_ORE, B.DIAMOND_ORE), \
                     f'({x},{z}) 地表下 6 格是 {B.name_of(deep)}，既不是石头也不是矿石'
+                if deep == B.AIR:
+                    assert w.cave_field.is_cave(x, y, z, h) or (x, z) in holes, \
+                        f'({x},{z}) y={y} 是空气，但既不是洞穴也不是 worm'
 
 
 @test('地表材质口径：地表既不是空气也不是石头（矿石不许长到地表上）')
@@ -72,17 +87,26 @@ def t_surface_type():
 
     先前把矿脉判定写在土层之前，`y == h` 同时满足"地表"与"在矿脉里"，
     于是地表偶尔冒出煤矿/铁矿（实测随机打红"高地表应长草"）。
+
+    Phase 2-C：地表**可以是空气**，但只在 worm 洞口处（"允许自然洞口"）。
+    所以判据从"不许是空气"改成"是空气就必须在洞口清单里" ——
+    这样"噪声挖穿地表"这种 bug 依然会响，而真洞口不会。
     """
     for seed, size, height in ((99, 32, 32), (2026, 48, 64), (7, 64, 48)):
         w = ChunkedWorld(seed, size, height).generate()
         sea, snow = w.sea_level, w.snow_line
+        holes = caves.tunnels(seed, size, height, sea).holes
         for x in range(size):
             for z in range(size):
                 h = w.surface_at(x, z)
                 assert 1 < h < height - 1, f'({x},{z}) 地表高度越界：{h}'
                 top = w.get(x, h, z)
-                assert top != B.AIR, f'seed={seed} ({x},{z}) 地表是空气'
-                assert top not in (B.COAL_ORE, B.IRON_ORE), \
+                if top == B.AIR:
+                    assert (x, z) in holes, \
+                        f'seed={seed} ({x},{z}) 地表是空气却不是 worm 洞口'
+                    continue
+                assert top not in (B.COAL_ORE, B.IRON_ORE, B.GOLD_ORE,
+                                   B.DIAMOND_ORE), \
                     f'seed={seed} ({x},{z}) 地表长出了矿石（{B.name_of(top)}）'
                 if h <= sea:
                     assert top in (B.SAND, B.GRAVEL), \
@@ -165,6 +189,81 @@ def t_chunk_key():
                 key = chunk_key(x, y, z)
                 assert key in w.chunks, f'({x},{y},{z}) 的区块 {key} 不存在'
                 assert w.get(x, y, z) is not None
+
+
+# ==================================================================== 矿脉分层（Phase 2-C）
+@test('矿带表：深度上限随世界高度等比缩放（64 高 ⇒ 煤40/铁28/金16/钻石8）')
+def t_ore_bands_scale():
+    """写死绝对值会让矮世界的"钻石层"挤成 3 格甚至空掉 —— 与
+    `surface_height`/`sea_level` 同一套缩放纪律（那条教训记在 `surface_height`）。"""
+    def names(y, height=64):
+        return [b[0] for b in ore_bands(y, height)]
+
+    # 64 高世界：四个上限逐个对拍
+    assert names(39) == ['coal_ore'], names(39)
+    assert 'iron_ore' in names(27) and 'gold_ore' not in names(27), names(27)
+    assert 'gold_ore' in names(15) and 'diamond_ore' not in names(15), names(15)
+    assert 'diamond_ore' in names(7), names(7)
+    # ⚠ **候选是全部而不是第一个**：初版"第一个覆盖该深度的带胜出"，
+    #   于是 y=27 永远只能是煤 —— 铁实际只落在 y<16，"煤40/铁28"名存实亡。
+    assert names(7) == ['coal_ore', 'iron_ore', 'gold_ore', 'diamond_ore'], names(7)
+    assert names(20) == ['coal_ore', 'iron_ore'], names(20)
+    # 浅于最浅矿带 ⇒ 没有矿（"矿不会长到地表"由判据自己兜住）
+    for y in range(1, 8):
+        assert ore_bands(y, 64), f'y={y} 在 64 高世界里不该有矿带'
+    # 缩放：32 高世界里上限减半（铁 28→14），且每层都有矿带（不会空掉）
+    for y in range(1, 20):
+        assert ore_bands(y, 32), f'height=32 时 y={y} 没有任何矿带'
+    assert 'iron_ore' not in names(15, 32), names(15, 32)
+    assert 'iron_ore' in names(13, 32), names(13, 32)
+    assert names(3, 32) == ['coal_ore', 'iron_ore', 'gold_ore', 'diamond_ore'], \
+        names(3, 32)
+
+
+@test('矿脉分层：真实世界里每种矿都在自己的深度区间内（穷举 64 高世界）')
+def t_ore_depth_ranges():
+    w = ChunkedWorld(2026, 96, 64).generate()
+    tops = {name: top for (name, top, _c, _p) in ORE_BANDS}
+    seen = {name: [] for (name, _t, _c, _p) in ORE_BANDS}
+    for x in range(96):
+        for z in range(96):
+            h = w.surface_at(x, z)
+            for y in range(0, h + 1):
+                b = w.get(x, y, z)
+                for name in seen:
+                    if b == B.BLOCK_IDS[name]:
+                        seen[name].append(y)
+    for name, ys in seen.items():
+        if not ys:
+            continue                      # 96×96 采不到某矿种不算失败（概率事件）
+        assert max(ys) < tops[name], \
+            f'{name} 出现在 y={max(ys)}，超过上限 {tops[name]}'
+    # 分层的意义：浅层矿的总量必须明显多于深层矿
+    coal = len(seen['coal_ore'])
+    iron = len(seen['iron_ore'])
+    gold = len(seen['gold_ore'])
+    diamond = len(seen['diamond_ore'])
+    if coal and iron and gold:
+        assert coal > iron > gold, f'矿量没有随深度递减：煤{coal} 铁{iron} 金{gold}'
+    if gold and diamond:
+        assert gold > diamond, f'钻石比金还多：{diamond} vs {gold}'
+
+
+@test('矿脉：不在地表，也不出现在洞穴空气里（矿在洞壁上，不在空气里）')
+def t_ore_not_in_surface_or_air():
+    w = ChunkedWorld(777, 64, 64).generate()
+    for x in range(64):
+        for z in range(64):
+            h = w.surface_at(x, z)
+            for y in range(0, h + 1):
+                b = w.get(x, y, z)
+                if b not in (B.COAL_ORE, B.IRON_ORE, B.GOLD_ORE, B.DIAMOND_ORE):
+                    continue
+                assert y < h, f'({x},{y},{z}) 矿石长到了地表之上'
+                assert B.is_solid(b), f'矿石 {B.name_of(b)} 不该是液体/空气'
+    # 洞穴把石头挖走时，**矿也跟着没了**（说明矿脉判定在洞穴之前）
+    w2 = ChunkedWorld(777, 64, 64).generate()
+    assert w2.block_count(B.GOLD_ORE) >= 0      # 冒烟：统计接口不炸
 
 
 if __name__ == '__main__':

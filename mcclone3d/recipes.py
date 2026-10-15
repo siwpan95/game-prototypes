@@ -15,9 +15,9 @@ Phase 0 的"挖了就进背包"是简化；Phase 1 起"挖"与"得到"分开（�
 from __future__ import annotations
 
 from . import items as I
-from .blocks import (BEDROCK, BRICK, COAL_ORE, COBBLE, CRAFTING_TABLE, DIRT,
-                     FURNACE, GLASS, GRASS, GRAVEL, IRON_ORE, LEAVES, LOG,
-                     PLANKS, SAND, SNOW, STONE, TORCH, WATER)
+from .blocks import (BEDROCK, BRICK, COAL_ORE, COBBLE, CRAFTING_TABLE, DIAMOND_ORE,
+                     DIRT, FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE,
+                     LEAVES, LOG, PLANKS, SAND, SNOW, STONE, TORCH, WATER)
 
 __all__ = ['drops_for', 'Recipe', 'RECIPES', 'recipe_by_id', 'recipes_for',
            'craftable', 'craft', 'consume', 'smelt_recipes', 'craft_recipes',
@@ -56,6 +56,9 @@ DROP_TABLE = {
     STONE: ('cobble', 1, 1),        # 石头挖掉变圆石（**且必须带镐**）
     COAL_ORE: ('coal', 1, 2),
     IRON_ORE: ('raw_iron', 1, 1),
+    # Phase 2-C：金/钻石**只掉 1 个**（越深越稀有，掉 2 个会让"深度分层"白做）
+    GOLD_ORE: ('raw_gold', 1, 1),
+    DIAMOND_ORE: ('diamond', 1, 1),
     CRAFTING_TABLE: ('crafting_table', 1, 1),
     FURNACE: ('furnace', 1, 1),
     # 火把：挖掉掉回自己（它是"放下去的光源"，回收是合理的）
@@ -175,6 +178,8 @@ def _smelts():
     # 燃料：煤炭 / 木炭 / 原木（原木烧得少）
     add(Recipe('iron_ingot', 'smelt', {'raw_iron': 1, 'coal|charcoal': 1},
                'iron_ingot', 1, time=10.0, note='燃料：煤或木炭'))
+    add(Recipe('gold_ingot', 'smelt', {'raw_gold': 1, 'coal|charcoal': 1},
+               'gold_ingot', 1, time=10.0, note='Phase 2-C：金锭（钻石 Phase 3 再加工）'))
     add(Recipe('charcoal', 'smelt', {'log': 1, 'coal|charcoal': 1},
                'charcoal', 1, time=10.0, note='木炭：烧原木'))
     add(Recipe('glass', 'smelt', {'sand': 1, 'coal|charcoal': 1},

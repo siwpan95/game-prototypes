@@ -24,11 +24,15 @@
 """
 from __future__ import annotations
 
+import math
+from functools import lru_cache
+
 from .blocks import (AIR, BEDROCK, BLOCK_IDS, COAL_ORE, DIRT, GRASS, GRAVEL,
                      IRON_ORE, LEAVES, LOG, SAND, SNOW, STONE, WATER,
                      by_id, is_solid, name_of)
 
-__all__ = ['CHUNK', 'SEA_LEVEL', 'ChunkedWorld', 'chunk_key']
+__all__ = ['CHUNK', 'SEA_LEVEL', 'ChunkedWorld', 'chunk_key', 'ORE_BANDS',
+           'ore_bands', 'surface_height']
 
 #: 区块边长（三轴同长，索引换算最简单）
 CHUNK = 16
@@ -60,13 +64,17 @@ def _hash01(*args) -> float:
     * `random` 要赌跨平台逐位一致；
     * `hash()` 对 str 带随机盐（`PYTHONHASHSEED`）⇒ 同一份代码两次运行会生成不同的世界。
     自己写一行 sin 哈希，两个坑都绕开（与引擎 `logic/blocks.py` 的 `_hash01` 同源思路）。
+
+    ⚠ **别改这个函数的算法** —— 存档只存「种子 + 编辑增量」，地形/矿脉/洞穴
+    全部由它重算。改哈希 ⇒ 老存档里的玩家建筑会浮空或埋进石头。
+    性能上只能做**行为等价**的优化（`import math` 提到模块级：本函数被调
+    百万次，每次函数体内 import 都要查一遍 `sys.modules`）。
     """
     h = 0
     for i, a in enumerate(args):
         h = (h * 131 + int(a) * (7 + i * 13)) & 0x7FFFFFFF
     s = (h % 1000003) / 1000003.0
     # 再用一层三角函数打散低位规律（不然整数格点上会出现明显的棋盘纹）
-    import math
     return (math.sin(s * 12.9898 + h * 0.0001) * 43758.5453) % 1.0
 
 
@@ -105,6 +113,46 @@ def surface_height(x: int, z: int, seed: int, height: int = 64) -> int:
     return int(base + (v - 0.5) * amp * 2.0)
 
 
+# ------------------------------------------------------------ 矿脉分层（Phase 2-C）
+#: 矿带：`(方块名, 深度上限, 簇尺度, 概率)`。深度只决定"能不能出现"，
+#: 同深度内各矿种按概率**分段**（见 `_ore_at`）。
+#:
+#: 深度上限**随世界高度等比缩放**（基准 64 高）：默认世界正好是
+#: 煤 40 / 铁 28 / 金 16 / 钻石 8。写死绝对值会让 32 高的测试世界里
+#: "钻石层"挤成 3 格甚至空掉 —— 与 `surface_height`/`sea_level` 同一套缩放纪律。
+#: 簇尺度统一 2：一次哈希就能定矿种（见 `_ore_at` 的性能说明），
+#: 而且 2×2 的簇正是 MC 矿脉的观感。
+ORE_BANDS = (
+    ('coal_ore', 40, 2, 0.055),
+    ('iron_ore', 28, 2, 0.040),
+    ('gold_ore', 16, 2, 0.020),
+    ('diamond_ore', 8, 2, 0.008),
+)
+
+
+@lru_cache(maxsize=512)
+def ore_bands(y: int, height: int):
+    """这一深度**允许**的矿带列表 `(方块名, 簇尺度, 概率)`，按浅→深排列。
+
+    ⚠ **不是"第一个命中的带"，而是全部候选**（2026-10-15 实测踩到）：
+    初版写成"从上往下第一个满足深度上限的带胜出"，于是 y=27 永远只能是煤
+    （27 < 40 命中煤带，铁带根本没机会）—— 铁实际只出现在 y<16，
+    "煤 40 / 铁 28" 变成了"煤 40 / 铁 16"，分层名存实亡。
+    正确口径与 MC 一致：**深度只决定"能不能出现"，各矿种各自按概率撒点**。
+
+    ⚠ **必须 `lru_cache`**：生成热路径上它被调 **183 万次**（每格一次），
+    而参数只有两个小整数、返回值恒定。不缓存的话每次都要新建一个 4 元素
+    列表 + 元组 —— 实测 `generate()` 从 5.8s 涨到 **8.8s（+3s）**，
+    而这 3s 里没有一点是"洞穴"的锅（又一次：先 profile 再改）。
+    """
+    scale = height / 64.0
+    out = []
+    for (name, top, cell, prob) in ORE_BANDS:
+        if y < int(top * scale):
+            out.append((name, cell, prob))
+    return tuple(out)
+
+
 # ------------------------------------------------------------------ 世界
 class ChunkedWorld:
     """有限箱体世界。`size` 是水平边长（格），`height` 是竖直格数。"""
@@ -119,6 +167,13 @@ class ChunkedWorld:
         #: 写死 30 会让矮世界里"海平面在地表之上"，整片地形泡在水里）
         self.sea_level = int(round(self.height * 0.47))
         self.snow_line = int(round(self.height * 0.69))
+        # Phase 2-C：**洞场预计算一次**，生成热路径只查数组。
+        # ⚠ 局部导入（不是循环依赖）：`caves` 顶层 `from .world import _hash01`，
+        #   而这里已经是**运行时**（world 模块早已加载完毕），所以安全；
+        #   反过来在 world 顶层 import caves 会成环。
+        from . import caves as _caves
+        self.cave_field = _caves.CaveField(self.seed, self.size, self.height,
+                                           self.sea_level)
         self.chunks: dict[tuple, bytearray] = {}
         #: 相对生成结果的**增量**：`(x,y,z) -> block_id`（存档只存这个）
         self.edits: dict[tuple, int] = {}
@@ -181,6 +236,15 @@ class ChunkedWorld:
                     b = self._column_block(wx, wy, wz, h, beach, seed, sea)
                     if b:
                         buf[_idx(lx, ly, lz)] = b
+        # Phase 2-C：**worm 隧道**在这一步之后刷（它是"后处理"）。
+        # 为什么不逐格问"我在不在某个球心里"：球心有几千个，
+        # 逐格问就是十亿级比较。按区块分组索引 ⇒ O(1)，且与调用顺序无关
+        # （`tunnels()` 只由 seed/size/height 决定 ⇒ 惰性分块生成结果一致）。
+        from . import caves as _caves
+        cells = _caves.tunnels(seed, self.size, self.height,
+                               self.sea_level).cells_in(cx, cy, cz)
+        for (lx, ly, lz) in cells:
+            buf[_idx(lx, ly, lz)] = AIR
         return buf
 
     def _column_block(self, x: int, y: int, z: int, h: int, beach: bool, seed: int,
@@ -209,30 +273,51 @@ class ChunkedWorld:
             return SAND if beach else GRASS
         if y >= h - 3:
             return SAND if beach else DIRT            # 地表下 1~3 格：土层
-        # 深处：矿脉（按确定性哈希撒点，成小团）
-        if self._ore_at(x, y, z, seed, sea):
-            return self._ore_kind(x, y, z, seed, sea)
+        # Phase 2-C：**洞穴**（挖空 ⇒ 空气）。护栏都在 `CaveField.is_cave` 里
+        # （基岩 / 表土保底 3 格 / 海平面以上；水下地形整列不挖），
+        # 所以这里直接问就行。
+        # ⚠ 必须在矿脉**之前**：洞是空气、矿脉是石头，两者互斥；
+        #   而"矿会长在洞穴壁上"正是想要的（MC 同款）。
+        if self.cave_field.is_cave(x, y, z, h):
+            return AIR
+        # 深处：矿脉（**按深度分层**：浅层煤、深层铁/金/钻石，见 `ORE_BANDS`）
+        ore = self._ore_at(x, y, z, seed, self.height)
+        if ore is not None:
+            return ore
         return STONE
 
     @staticmethod
-    def _ore_at(x: int, y: int, z: int, seed: int, sea: int = SEA_LEVEL) -> bool:
-        """是否落在矿脉里（把坐标压到 4 格尺度 ⇒ 成小团而不是单点）。
+    def _ore_at(x: int, y: int, z: int, seed: int, height: int = 64):
+        """这一格是什么矿（不在任何矿带里返回 None）。
 
-        ⚠ 函数**自己兜住深度上界**（`y <= sea × 1.5`）：调用方不必也不能用调用顺序
-        去保证"矿石不出现在地表"—— 那种保证一旦有人调换两行就没了（实测踩过，
+        ⚠ **深度上界由 `ore_bands` 自己兜住**，调用方不必也不能用调用顺序去保证
+        "矿石不出现在地表" —— 那种保证一旦有人调换两行就没了（实测踩过，
         地表偶尔冒出矿石、把"高地表应长草"的断言随机打红）。
         **约束写在判据里，不写在调用者的顺序里。**
-        """
-        lo, hi = 4, int(sea * 1.5)
-        if y < lo or y > hi:
-            return False
-        v = _hash01(x // 2, y // 2, z // 2, seed ^ 0x5EED)
-        return v < 0.045
 
-    @staticmethod
-    def _ore_kind(x: int, y: int, z: int, seed: int, sea: int = SEA_LEVEL) -> int:
-        """矿种：深处偏铁，浅处偏煤。"""
-        return IRON_ORE if y < int(sea * 0.85) else COAL_ORE
+        ## 为什么是"一次哈希 + 概率分段"
+
+        初版对**每个候选带各算一次哈希**。深层格平均有 **2.64 个候选带**
+        ⇒ 全图 118 万次哈希（`_hash01` 是本仓最热的函数，cProfile 里
+        187 万次调用占 tottime 1.9s）。改成：一次哈希把 `[0,1)` 切进
+        各带的概率区间（浅→深累加）⇒ 每格恰好 1 次，簇尺度统一为 2
+        （2×2 的簇也正是 MC 矿脉的观感）。
+        """
+        bands = ore_bands(y, height)
+        if not bands:
+            return None
+        # 钻石允许贴基岩（y=1），其余矿留一层底
+        floor = 1 if bands[-1][0] == 'diamond_ore' else 4
+        if y < floor:
+            return None
+        cell = bands[0][2]
+        v = _hash01(x // cell, y // cell, z // cell, seed ^ 0x5EED)
+        acc = 0.0
+        for (name, _c, prob) in bands:
+            acc += prob
+            if v < acc:
+                return BLOCK_IDS[name]
+        return None
 
     def plant_trees(self, count: int = 0) -> int:
         """按确定性散布种树，返回实际种下的棵数。

@@ -322,7 +322,7 @@ class LightEngine:
             import sys as _sys
             print(f'[light] box=({bx0},{by0},{bz0})..({bx1},{by1},{bz1}) '
                   f'种子={len(seeds_sky)}', file=_sys.stderr, flush=True)
-        n = self._spread_from('sky', seeds_sky)
+        n = self._spread_from('sky', seeds_sky, box=(bx0, by0, bz0, bx1, by1, bz1))
 
         # ③ 方块光：盒内的自发光方块当种子
         seeds_block = []
@@ -337,7 +337,8 @@ class LightEngine:
                         lv = min(MAX_LIGHT, max(0, int(round(ent.emissive * MAX_LIGHT))))
                         if self._set('block', x, y, z, lv):
                             seeds_block.append((x, y, z, lv))
-        n += self._spread_from('block', seeds_block)
+        n += self._spread_from('block', seeds_block,
+                               box=(bx0, by0, bz0, bx1, by1, bz1))
         self.stats['relit'] += n
         self.relit_chunks += 1
         return n
@@ -423,7 +424,8 @@ class LightEngine:
         self.stats['built'] = n
         return n
 
-    def _spread_from(self, buf_name: str, seeds, max_visits: int = 400_000) -> int:
+    def _spread_from(self, buf_name: str, seeds, max_visits: int = 400_000,
+                     box=None) -> int:
         """**逐层 BFS**：从种子出发向六邻扩散，每格 −1，直到 0。
 
         只朝"还能更亮"的方向扩散（`want > 当前值` 才写），所以：
@@ -434,11 +436,23 @@ class LightEngine:
         实测把一个 python 进程喂到 **5.8 GB 内存**才被我强杀。
         超限时**响亮抛错**（`LightOverflow`），绝不静默截断 ——
         静默截断会让光照"看着差不多、某些地方莫名发黑"，那种 bug 最难查。
+
+        ## `box` 为什么必须有（2026-10-15 实测踩到，Phase 2-C 加洞穴后暴露）
+
+        `box = (x0, y0, z0, x1, y1, z1)`：扩散**只在这个盒子里**发生。
+        没有它，BFS 会顺着地形一路走出盒子 —— 世界没有洞穴时无所谓
+        （地下全实心，扩散几步就撞墙停），但**一旦有洞穴**：天光会顺着
+        洞口灌进整个洞穴系统，每写一次值就再扩散一轮，单区块访问量
+        冲到 **113 万**（护栏 40 万）⇒ `LightOverflow` ⇒ **demo 直接起不来**。
+        而且它还是**错的**：洞里被灌成 level 14 的"全亮"。
+        `relight_chunk` 的文档早写了"只在本区块内横向扩散"，这里补上实现。
         """
         changed = 0
         visits = 0
         queue = list(seeds)
         world_get = self.world.get
+        if box is not None:
+            bx0, by0, bz0, bx1, by1, bz1 = box
         while queue:
             visits += len(queue)
             if visits > max_visits:
@@ -452,6 +466,9 @@ class LightEngine:
                     continue
                 for (dx, dy, dz) in _NEIGHBORS:
                     nx, ny, nz = x + dx, y + dy, z + dz
+                    if box is not None and not (bx0 <= nx <= bx1 and by0 <= ny <= by1
+                                                and bz0 <= nz <= bz1):
+                        continue
                     b = world_get(nx, ny, nz)
                     if not _transparent(b):
                         continue
@@ -483,6 +500,12 @@ class LightEngine:
         # 周围一圈当种子（半径取 MAX_LIGHT：再远的光不可能一步影响这里）
         seeds_sky, seeds_block = [], []
         r = MAX_LIGHT
+        # ⚠ 扩散**限制在这颗球的包围盒内**（与 `relight_chunk` 同一条纪律）：
+        #   没有边界时光会顺着洞口一路灌进整个洞穴系统 —— 既错又爆护栏。
+        box = (max(0, x - r), max(0, y - r), max(0, z - r),
+               min(self.world.size - 1, x + r),
+               min(self.world.height - 1, y + r),
+               min(self.world.size - 1, z + r))
         for dx in range(-r, r + 1):
             for dy in range(-r, r + 1):
                 for dz in range(-r, r + 1):
@@ -500,8 +523,8 @@ class LightEngine:
                     vb = self._cell('block', sx, sy, sz)
                     if vb > 1:
                         seeds_block.append((sx, sy, sz, vb))
-        n += self._spread_from('sky', seeds_sky)
-        n += self._spread_from('block', seeds_block)
+        n += self._spread_from('sky', seeds_sky, box=box)
+        n += self._spread_from('block', seeds_block, box=box)
         # 新方块若是光源，把它自己种下去
         b = self.world.get(x, y, z)
         ent = B.BLOCKS.get(b)
@@ -509,7 +532,7 @@ class LightEngine:
             lv = min(MAX_LIGHT, max(0, int(round(ent.emissive * MAX_LIGHT))))
             if self._set('block', x, y, z, lv):
                 n += 1
-                n += self._spread_from('block', [(x, y, z, lv)])
+                n += self._spread_from('block', [(x, y, z, lv)], box=box)
                 self.stats['seeded'] += 1
         self.stats['relit'] += n
         return n

@@ -35,8 +35,9 @@ t = hardness × (5 if 需要工具且手上没有对路工具 else 1) / 工具�
 from __future__ import annotations
 
 from .blocks import (AIR, BEDROCK, BLOCKS, BRICK, COAL_ORE, COBBLE, CRAFTING_TABLE,
-                     DIRT, FURNACE, GLASS, GRASS, GRAVEL, IRON_ORE, LEAVES, LOG,
-                     PLANKS, SAND, SNOW, STONE, TORCH, WATER, by_id, by_name, name_of)
+                     DIAMOND_ORE, DIRT, FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL,
+                     IRON_ORE, LEAVES, LOG, PLANKS, SAND, SNOW, STONE, TORCH,
+                     WATER, by_id, by_name, name_of)
 
 __all__ = [
     'ITEM_BASE', 'KIND_BLOCK', 'KIND_MATERIAL', 'KIND_TOOL', 'KIND_FOOD',
@@ -152,7 +153,8 @@ def _defs():
 
     # --- 工具：木/石/铁 三档 × 四类 ---
     # 耐久与速度来自 TOOL_DURABILITY / TOOL_SPEED（表驱动，改数值只改一处）
-    pick_mines = (STONE, COBBLE, COAL_ORE, IRON_ORE, BRICK, FURNACE, GLASS)
+    pick_mines = (STONE, COBBLE, COAL_ORE, IRON_ORE, GOLD_ORE, DIAMOND_ORE,
+                  BRICK, FURNACE, GLASS)
     axe_mines = (LOG, PLANKS, CRAFTING_TABLE)
     shovel_mines = (DIRT, GRASS, SAND, GRAVEL, SNOW)
     sword_mines = (LEAVES,)
@@ -165,6 +167,11 @@ def _defs():
                                   (('sword'), sword_mines, '剑')):
             add(f'{mat}_{kind}', f'{label}{noun}', KIND_TOOL, stack=1, tool=kind,
                 tier=tier, durability=dur, mines=mines)
+    # --- Phase 2-C 追加（**必须在最后**：顺序即 id，插在中间会挤掉既有物品的 id，
+    #     存档里记的就是 id —— 那与"方块 id 只追加不改号"是同一条纪律）---
+    add('raw_gold', '粗金')
+    add('gold_ingot', '金锭')
+    add('diamond', '钻石')
     return out
 
 

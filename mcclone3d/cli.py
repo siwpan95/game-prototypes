@@ -83,13 +83,22 @@ def c_world():
                for x in range(0, 64, 5) for y in range(0, 32, 3) for z in range(0, 64, 5))
     bedrock = all(a.get(x, 0, z) == B.BEDROCK for x in range(0, 64, 7) for z in range(0, 64, 7))
     # 地表材质口径（穷举，不看抽样）
+    # ⚠ Phase 2-C：地表**可以是空气**，但只在 worm 洞口处（"允许自然洞口"）。
+    #   噪声挖穿地表仍算异常 —— 所以这里拿 `holes` 当白名单。
+    from mcclone3d import caves as _cv
     sea, snow = a.sea_level, a.snow_line
+    holes = _cv.tunnels(a.seed, a.size, a.height, sea).holes
     bad_surface = 0
+    cave_holes = 0
     for x in range(0, 64, 3):
         for z in range(0, 64, 3):
             h = a.surface_at(x, z)
             top = a.get(x, h, z)
-            if top in (B.AIR, B.STONE, B.COAL_ORE, B.IRON_ORE):
+            if top == B.AIR and (x, z) in holes:
+                cave_holes += 1
+                continue
+            if top in (B.AIR, B.STONE, B.COAL_ORE, B.IRON_ORE, B.GOLD_ORE,
+                       B.DIAMOND_ORE):
                 bad_surface += 1
     a.plant_trees()
     logs = a.block_count(B.LOG)
@@ -97,7 +106,8 @@ def c_world():
     edits_clean = len(a.edits) == 0
     _report('world', same and diff and bedrock and logs > 0 and bad_surface == 0 and edits_clean,
             f'确定性={same} 换种子有变化={diff} 基岩底={bedrock} 树={logs} '
-            f'地表异常={bad_surface} 种树不留增量={edits_clean} sea={sea} snow={snow}')
+            f'地表异常={bad_surface}（其中 worm 洞口 {cave_holes} 处为合法） '
+            f'种树不留增量={edits_clean} sea={sea} snow={snow}')
 
 
 @check('mesh')
@@ -712,6 +722,144 @@ def c_mobs():
             f'追击最近 {dmin:.2f}={chase_ok} 命中 {len(hit_times)} 次冷却={cd_ok} '
             f'间距>={AI.MIN_PLAYER_GAP}={gap_ok} '
             f'死亡掉落={drop_ok} 300只每帧 {per_frame_ms:.2f}ms={perf_ok}')
+
+
+@check('caves')
+def c_caves():
+    """Phase 2-C：洞穴空腔 / 自然洞口 / 矿脉分层 / 洞内光照 / 生成耗时。
+
+    每条判据都对着设计稿里的一个承诺；`time_phase=0.25` 冻结在白天才对
+    （判据要测的是"洞里黑不黑"，不是"现在几点"）。
+    """
+    import time as _time
+    from mcclone3d import caves as CV
+    from mcclone3d.blocks import BLOCK_IDS
+    from mcclone3d.light import LightEngine
+    from mcclone3d.world import ore_bands
+
+    SIZE, HEIGHT, SEED = 128, 64, 20261014
+    t0 = _time.perf_counter()
+    w = ChunkedWorld(SEED, SIZE, HEIGHT).generate()
+    t_gen = _time.perf_counter() - t0
+    sea = w.sea_level
+    holes = CV.tunnels(SEED, SIZE, HEIGHT, sea).holes
+
+    # ① 挖空比例（候选带内）：防"阈值调到没洞"与"挖成海绵"两头
+    tot = cav = 0
+    depth_seen = {}
+    for x in range(0, SIZE, 2):
+        for z in range(0, SIZE, 2):
+            h = w.surface_at(x, z)
+            if h <= sea + 1:
+                continue
+            for y in range(2, min(h - CV.SOIL_KEEP, sea)):
+                tot += 1
+                if w.get(x, y, z) == B.AIR:
+                    cav += 1
+                    depth_seen[y // 8 * 8] = depth_seen.get(y // 8 * 8, 0) + 1
+    ratio = cav / max(1, tot)
+    ratio_ok = 0.03 <= ratio <= 0.25
+    # 越深越密：最深那档不少于最浅那档（阈值随深度下降的实测口径）
+    deep_ok = True
+    if len(depth_seen) >= 2:
+        ks = sorted(depth_seen)
+        deep_ok = depth_seen[ks[0]] >= depth_seen[ks[-1]] * 0.9
+
+    # ② 护栏：基岩完好 + 地表不长矿
+    rock_ok = all(w.get(x, 0, z) == B.BEDROCK
+                  for x in range(0, SIZE, 4) for z in range(0, SIZE, 4))
+    surf_ore = 0
+    for x in range(0, SIZE, 2):
+        for z in range(0, SIZE, 2):
+            h = w.surface_at(x, z)
+            if w.get(x, h, z) in (BLOCK_IDS['coal_ore'], BLOCK_IDS['iron_ore'],
+                                  BLOCK_IDS['gold_ore'], BLOCK_IDS['diamond_ore']):
+                surf_ore += 1
+
+    # ③ 矿脉分层：四种矿的深度上限 + 总量单调递减
+    tops = {'coal_ore': 40, 'iron_ore': 28, 'gold_ore': 16, 'diamond_ore': 8}
+    ore_bad = []
+    ore_n = {n: w.block_count(BLOCK_IDS[n]) for n in tops}
+    for n, top in tops.items():
+        ys = [y for x in range(0, SIZE, 2) for z in range(0, SIZE, 2)
+              for y in range(0, w.surface_at(x, z) + 1)
+              if w.get(x, y, z) == BLOCK_IDS[n]]
+        if ys and max(ys) >= top:
+            ore_bad.append(f'{n}@y={max(ys)}≥{top}')
+    order_ok = (ore_n['coal_ore'] > ore_n['iron_ore'] > ore_n['gold_ore']
+                >= ore_n['diamond_ore'])
+    # ④ 自然洞口：登记在册 + 地表那一格真的是空气 + 下面能走进去
+    hole_ok = 0
+    for (x, z), h in list(holes.items()):
+        if w.get(x, h, z) != B.AIR or w.get(x, h - 1, z) != B.AIR:
+            continue
+        hole_ok += 1
+    hole_reach = 0
+    h_cache: dict = {}
+
+    def _h(x: int, z: int) -> int:
+        if (x, z) not in h_cache:
+            h_cache[(x, z)] = w.surface_at(x, z)
+        return h_cache[(x, z)]
+
+    for (x, z), _hh in list(holes.items())[:40]:
+        h = w.surface_at(x, z)
+        start = (x, h - 2, z)
+        while start[1] > 1 and w.get(*start) != B.AIR:
+            start = (start[0], start[1] - 1, start[2])
+        if w.get(*start) != B.AIR:
+            continue
+        seen = {start}
+        stack = [start]
+        while stack:
+            cx, cy, cz = stack.pop()
+            for d in ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0),
+                      (0, 0, 1), (0, 0, -1)):
+                n = (cx + d[0], cy + d[1], cz + d[2])
+                if n in seen or not (0 <= n[0] < SIZE and 1 < n[1] and 0 <= n[2] < SIZE):
+                    continue
+                # ⚠ 挡"天空"用**该列自己的地表高度**，不是全局海平面：
+                #   洞口在 y≈34 而海平面只有 30，用 sea 会把洞口那几层
+                #   一起挡掉 ⇒ 明明连通的隧道被判成"不可达"（实测踩过）。
+                if n[1] > _h(n[0], n[2]):
+                    continue
+                if w.get(*n) == B.AIR:
+                    seen.add(n)
+                    stack.append(n)
+        if len(seen) > 40:
+            hole_reach += 1
+    holes_ok = hole_ok > 0 and hole_reach > 0
+
+    # ⑤ 洞内天光 = 0（Phase 2-A 联动：洞里是黑的，火把才有意义）
+    le = LightEngine(w)
+    le.column_pass_all()
+    dark = lit = 0
+    for x in range(0, SIZE, 3):
+        for z in range(0, SIZE, 3):
+            h = w.surface_at(x, z)
+            if h <= sea + 1:
+                continue
+            for y in range(2, min(h - CV.SOIL_KEEP, sea), 3):
+                if w.get(x, y, z) != B.AIR:
+                    continue
+                if le.sky(x, y, z) == 0:
+                    dark += 1
+                else:
+                    lit += 1
+    dark_ok = dark > 0 and dark > lit
+
+    # ⑥ 生成耗时预算（基线 4.82s；洞穴 +1.1s、矿脉分层 +0.3s ⇒ 门槛 8s）
+    time_ok = t_gen < 8.0
+
+    ok = (ratio_ok and deep_ok and rock_ok and not surf_ore and not ore_bad
+          and order_ok and holes_ok and dark_ok and time_ok)
+    _report('caves', ok,
+            f'挖空 {ratio * 100:.1f}%={ratio_ok} 越深越密={deep_ok} '
+            f'基岩完好={rock_ok} 地表矿={surf_ore}(须0) 越界矿={ore_bad or "无"} '
+            f'矿量递减={order_ok}[煤{ore_n["coal_ore"]}/铁{ore_n["iron_ore"]}/'
+            f'金{ore_n["gold_ore"]}/钻{ore_n["diamond_ore"]}] '
+            f'洞口 通{hole_ok}/可达{hole_reach}={holes_ok} '
+            f'洞内黑{dark}/亮{lit}={dark_ok} 生成 {t_gen:.2f}s={time_ok}')
 
 
 # ---------------------------------------------------------------- 主流程

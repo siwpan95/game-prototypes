@@ -260,6 +260,18 @@ def _paint_iron_ore(c):
     c.speckle((224, 186, 150), 10, 162)
 
 
+def _paint_gold_ore(c):
+    _paint_stone(c)
+    c.speckle((238, 198, 78), 20, 191)
+    c.speckle((252, 232, 150), 10, 192)
+
+
+def _paint_diamond_ore(c):
+    _paint_stone(c)
+    c.speckle((92, 222, 216), 18, 195)
+    c.speckle((204, 250, 250), 8, 196)
+
+
 def _paint_bedrock(c):
     c.noise((70, 70, 74), 26, 171)
     c.speckle((40, 40, 44), 34, 172)
@@ -308,6 +320,8 @@ PAINTERS = {
     'furnace_top': _paint_furnace_top,
     'coal_ore': _paint_coal_ore,
     'iron_ore': _paint_iron_ore,
+    'gold_ore': _paint_gold_ore,
+    'diamond_ore': _paint_diamond_ore,
     'bedrock': _paint_bedrock,
     'torch': _paint_torch,
     'wool': _paint_wool,
@@ -316,11 +330,13 @@ PAINTERS = {
 ATLAS_TILE_NAMES = tuple(sorted(PAINTERS))
 TILE_INDEX = {name: i for i, name in enumerate(ATLAS_TILE_NAMES)}
 
-#: 图集网格（列 × 行）。25 张 → 5×5；按需向上取整，改动时 UV 换算跟着走。
-#: ⚠ **不动这个数字**：`ATLAS_SIZE = ATLAS_COLS * TILE` 是**正方形**假设，
-#: 而 `mesh._atlas_uv` 的 v 方向按 `ATLAS_ROWS` 换算 —— 改列数会让 UV 与尺寸同时漂。
-#: 所以这里只按"加贴图就加行"的方式扩（多余格子空着即可）。
-ATLAS_COLS = 5
+#: 图集网格（列 × 行）。26 张 → 6×5=30 格（够放）；按需向上取整，改动时 UV 换算跟着走。
+#: ⚠ **列数只增不减**（Phase 2-C 从 5 提到 6）：`ATLAS_SIZE = ATLAS_COLS * TILE`
+#: 是**正方形**假设 —— 行数增加而列数不变的话，第 6 行会落到图集**外面**，
+#: 那两张新矿石贴图会采样到错的东西（`test_atlas_layout` 的
+#: "矩形必须落在图集内"就是盯着这条）。改列数会让**所有贴图的 UV 变**，
+#: 这是安全的：贴图是程序化重建的，存档里只存方块名。
+ATLAS_COLS = 6
 ATLAS_ROWS = (len(ATLAS_TILE_NAMES) + ATLAS_COLS - 1) // ATLAS_COLS
 ATLAS_SIZE = ATLAS_COLS * TILE           # 正方形图集边长（像素）
 
