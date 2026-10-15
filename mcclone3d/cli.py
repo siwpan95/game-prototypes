@@ -30,6 +30,7 @@ import argparse
 import json
 import math
 import sys
+import time
 import tempfile
 
 # stdio 编码兜底：本文件会打印中文与 ✔/⚠，GBK 控制台下 print 会抛
@@ -611,6 +612,106 @@ def c_daylight():
             f' 水面上={above} 水面格={at_water}(水列={water_top}) 水下3格={below}（{light_ok}）'
             f' 竖井天光={shaft}（{shaft_ok}） 护栏响亮失败={guard_ok}'
             f' 火把={torch_self}/邻格={torch_near}（{torch_ok}） halo默认={DEFAULT_HALO}')
+
+
+@check('mobs')
+def c_mobs():
+    """生物：状态机迁移 / 上台阶 / 追击与攻击 / 最小间距 / 掉落 / 刷怪判据 / 性能。
+
+    `mobs=False` 造世界（关掉自动刷怪），这样每条判据只测它自己那一件事。
+    """
+    from mcclone3d import ai as AI
+    from mcclone3d import mobs as MB
+    # ① 生物表契约
+    table_ok = (len(MB.MOBS) == len(MB.all_kinds())
+                and all(k.parts and k.health > 0 and k.speed > 0
+                        for k in MB.all_kinds()))
+    drops_ok = all(name in I.ITEMS_BY_NAME
+                   for k in MB.all_kinds() for (name, _lo, _hi) in k.drops)
+    # ② 刷怪的光判据：敌对在亮处刷不出、暗处能刷；被动恒可
+    zom = MB.mob_kind('zombie')
+    sheep = MB.mob_kind('sheep')
+    light_ok = (MB.spawn_allowed(zom, 15, 15, False) is False
+                and MB.spawn_allowed(zom, 3, 3, True) is True
+                and MB.spawn_allowed(sheep, 15, 15, False) is True)
+    # ③ 游荡：idle 生物 5 秒内要动起来（**这条踩过"状态机没有出口"的坑**）
+    k = make_offline({'seed': 4242, 'size': 64, 'height': 32, 'mobs': False})
+    m = k.spawn_mob('sheep', 32.5, None, 32.5)
+    p0 = (m.pos[0], m.pos[2])
+    ys = []
+    for _ in range(300):
+        k.update_mobs(1 / 60)
+        ys.append(round(m.pos[1], 3))
+    wandered = (((m.pos[0] - p0[0]) ** 2 + (m.pos[2] - p0[1]) ** 2) ** 0.5)
+    wander_ok = wandered > 1.0 and m.state == MB.AI_WANDER
+    stand_ok = abs(sum(1 for y in ys if abs(y - round(y)) < 1e-6) / len(ys) - 1.0) < 0.05
+    # ④ 上 1 格台阶能上、2 格上不去
+    def _step_test(rise: int) -> tuple:
+        # ⚠ 冻结在夜里：否则僵尸走到一半被晒死，"上台阶"判据会因为生物没了而假红
+        kk = make_offline({'seed': 77, 'size': 48, 'height': 32, 'mobs': False,
+                           'time_phase': 0.75, 'time_paused': True})
+        mb = kk.spawn_mob('zombie', 19.5, None, 20.5)
+        y0 = int(mb.pos[1])
+        # 矮墙修在 `y0` **起**（`y0` 是脚底所在的空气格，方块要占这一格）
+        for dy in range(rise):
+            kk.world.set(22, y0 + dy, 20, B.STONE)
+        kk.pos = [26.5, float(y0), 20.5]             # 玩家在对侧 ⇒ 僵尸朝它走
+        peak_y = y0
+        max_x = mb.pos[0]
+        for _ in range(int(6 / (1 / 60))):
+            kk.update_mobs(1 / 60)
+            peak_y = max(peak_y, mb.pos[1])
+            max_x = max(max_x, mb.pos[0])
+        # ⚠ 判据看**过程峰值**而不是终点：僵尸上了台阶后会继续朝玩家走、走下坡回到原位，
+        #    只看终点的断言会把"真的上去了"判成失败（实测踩过）。
+        return peak_y >= y0 + 1 - 0.01, peak_y, round(max_x, 2)
+    up1, peak1, x1 = _step_test(1)
+    up2, peak2, x2 = _step_test(2)
+    step_ok = up1 and not up2
+    # ⑤ 追击 + 攻击 + 最小间距 + 冷却
+    #    ⚠ 必须**冻结在夜里**：第一天 600 秒，而"上午"的天光已足以晒死僵尸 ——
+    #      时间在走的话，这条判据实际测的是"它能不能在 2 秒内追上"（第一版就假绿过）。
+    k2 = make_offline({'seed': 4242, 'size': 64, 'height': 32, 'mobs': False,
+                       'time_phase': 0.75, 'time_paused': True})
+    z = k2.spawn_mob('zombie', k2.pos[0] + 6.0, None, k2.pos[2])
+    hp0 = k2.health
+    dmin = 99.0
+    hit_times = []
+    for i in range(900):
+        k2.update_mobs(1 / 60)
+        dmin = min(dmin, z.dist_to(k2.pos[0], k2.pos[2]))
+        if k2.mob_stats['player_hits'] > len(hit_times):
+            hit_times.append(i / 60)
+    chase_ok = (z.state == MB.AI_CHASE and dmin <= z.kind.reach + 0.1
+                and k2.health < hp0 and len(hit_times) > 0)
+    # 攻击冷却：相邻两次命中至少隔 `attack_cd` 秒（先前根本没测冷却）
+    cd_ok = all(hit_times[i + 1] - hit_times[i] >= z.kind.attack_cd - 0.02
+                for i in range(len(hit_times) - 1))
+    gap_ok = dmin >= AI.MIN_PLAYER_GAP - 1e-6
+    # ⑥ 死亡掉落：打死一只 ⇒ 掉落物出现它表里的东西
+    k3 = make_offline({'seed': 4242, 'size': 64, 'height': 32, 'mobs': False})
+    s3 = k3.spawn_mob('sheep', 32.5, None, 32.5)
+    n_before = len(k3.drops)
+    for _ in range(6):
+        k3.hit_mob(s3, 4.0)
+    drop_ok = len(k3.drops) > n_before and s3 not in k3.mobs
+    # ⑦ 性能：300 个生物每帧的开销（**这是生物能不能上桌的硬判据**）
+    k4 = make_offline({'seed': 4242, 'size': 64, 'height': 32, 'mobs': False})
+    for i in range(300):
+        k4.spawn_mob('sheep' if i % 3 else 'zombie', 10.0 + (i % 40), None,
+                     10.0 + (i // 40))
+    t0 = time.perf_counter()
+    for _ in range(60):
+        k4.update_mobs(1 / 60)
+    per_frame_ms = (time.perf_counter() - t0) / 60 * 1000
+    perf_ok = per_frame_ms < 8.0
+    _report('mobs', table_ok and drops_ok and light_ok and wander_ok and stand_ok
+            and step_ok and chase_ok and cd_ok and gap_ok and drop_ok and perf_ok,
+            f'表={table_ok} 掉落名有效={drops_ok} 刷怪光判据={light_ok} '
+            f'游荡 {wandered:.1f}格={wander_ok} 整数站立={stand_ok} 上1格峰值{peak1}/挡2格峰值{peak2}={step_ok} '
+            f'追击最近 {dmin:.2f}={chase_ok} 命中 {len(hit_times)} 次冷却={cd_ok} '
+            f'间距>={AI.MIN_PLAYER_GAP}={gap_ok} '
+            f'死亡掉落={drop_ok} 300只每帧 {per_frame_ms:.2f}ms={perf_ok}')
 
 
 # ---------------------------------------------------------------- 主流程

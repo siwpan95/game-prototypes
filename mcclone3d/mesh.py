@@ -42,7 +42,7 @@ from .light import MAX_LIGHT
 from .world import CHUNK
 
 __all__ = ['M3D_ATLAS', 'uv_projection_for', 'face_uv_quad', 'box_faces',
-           'build_chunk_mesh', 'FACE_BASIS', 'UV_DEBUG',
+           'build_chunk_mesh', 'build_mob_mesh', 'FACE_BASIS', 'UV_DEBUG',
            'light_scale', 'light_color', 'LIGHT_FLOOR']
 
 #: 图集映射表（名字 → 归一化矩形）。列/行与 `textures` 的图集几何一致。
@@ -317,6 +317,62 @@ class _MeshBuilder:
     def stats(self) -> dict:
         return {'faces': self.faces, 'verts': len(self.positions) // 3,
                 'tris': len(self.indices) // 3}
+
+
+def build_mob_mesh(kind, *, tile: str = 'wool'):
+    """按生物的盒模型建一份**局部坐标**网格（脚底中心为原点）。
+
+    返回 `(_MeshBuilder, stats)`。渲染端把它按每个生物实例平移/旋转即可
+    （所以"生物长什么样"完全由 `mobs.MobKind.parts` 这份**数据**决定，
+    加一种生物不用碰渲染代码）。
+
+    ⚠ 顶点色只烘 **部件色 × 面亮度**，**不烘光照**：光照是逐实例的
+    （同一只羊在洞口和屋顶下亮度不同），而网格按种类只建一份 ——
+    烘进去就等于"第一只生物在哪被看到，这一辈子就按那个亮度画"。
+    正确做法是渲染端把 `light_color((1,1,1), 该生物所在格的光, night)`
+    作为逐实例 uniform 乘上来（见 `examples/mcclone3d.py` 的 `u_light`）。
+
+    ⚠ 每个部件是一个**实心盒子**（六面全画，不做邻面剔除）：
+    部件之间本来就会互相遮挡一部分，剔除它们的接触面需要知道"哪个部件挨着哪个"，
+    而那对 3~5 个部件的模型没有收益。
+    """
+    mb = _MeshBuilder()
+    base_tile = tile if tile in textures.ATLAS_TILE_NAMES else textures.ATLAS_TILE_NAMES[0]
+    for (origin, size, rgb) in kind.parts:
+        ox, oy, oz = origin
+        sx, sy, sz = size
+        # 用"整数化的角落"生成几何：这样 UV 投影的跨格连续性仍然成立
+        x0, y0, z0 = int(round(ox - sx / 2)), int(round(oy)), int(round(oz - sz / 2))
+        for face in ('+x', '-x', '+y', '-y', '+z', '-z'):
+            corners = _CORNERS[face]
+            bright = FACE_BRIGHT[face]
+            uvs = face_uv_quad(face, x0, y0, z0, 1.0)
+            n = NORMALS[face]
+            base = len(mb.positions) // 3
+            for (cx, cy, cz), (u, v) in zip(corners, uvs):
+                mb.positions.append(x0 + cx * max(1, int(round(sx))))
+                mb.positions.append(y0 + cy * max(1, int(round(sy))))
+                mb.positions.append(z0 + cz * max(1, int(round(sz))))
+                mb.normals.append(n[0])
+                mb.normals.append(n[1])
+                mb.normals.append(n[2])
+                au, av = _atlas_uv(u, v, base_tile)
+                mb.uvs.append(au)
+                mb.uvs.append(av)
+                # 顶点色 = 部件自己的颜色 × 面亮度（颜色表达"这是羊还是猪"；
+                # 光照不在这里 —— 见 docstring 的 ⚠）
+                mb.colors.append(rgb[0] * bright)
+                mb.colors.append(rgb[1] * bright)
+                mb.colors.append(rgb[2] * bright)
+                mb.colors.append(1.0)
+            mb.indices.append(base)
+            mb.indices.append(base + 1)
+            mb.indices.append(base + 2)
+            mb.indices.append(base)
+            mb.indices.append(base + 2)
+            mb.indices.append(base + 3)
+            mb.faces += 1
+    return mb, mb.stats()
 
 
 def build_chunk_mesh(world, cx: int, cy: int, cz: int, *, debug: bool = False,

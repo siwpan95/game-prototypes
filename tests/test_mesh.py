@@ -247,5 +247,68 @@ def t_brightness():
         assert 0.4 < v <= 1.0, f'{face} 的明暗系数不合法：{v}'
 
 
+# ==================================================================== 生物网格（Phase 2-B）
+_FACE_ORDER = ('+x', '-x', '+y', '-y', '+z', '-z')
+
+
+@test('生物网格：每种生物 = parts×6 面，整数格几何，UV 都落在图集矩形内')
+def t_mob_mesh_structure():
+    from mcclone3d import mobs as MB
+    from mcclone3d.mesh import atlas_rect, build_mob_mesh
+    u0, v0, u1, v1 = atlas_rect('wool')
+    for kind in MB.all_kinds():
+        mb, st = build_mob_mesh(kind)
+        assert st['faces'] == len(kind.parts) * 6, f'{kind.name}: {st}'
+        assert st['verts'] == len(kind.parts) * 24 and st['tris'] == len(kind.parts) * 12, st
+        # 整数格几何：UV 投影的跨格连续性以它为前提（0.6 格会被 round 成 0 厚度）
+        assert all(float(v).is_integer() for v in mb.positions), \
+            f'{kind.name}: 几何不是整数格'
+        for i in range(0, len(mb.uvs), 2):
+            assert u0 - 1e-6 <= mb.uvs[i] <= u1 + 1e-6, f'{kind.name}: u 越界'
+            assert v0 - 1e-6 <= mb.uvs[i + 1] <= v1 + 1e-6, f'{kind.name}: v 越界'
+
+
+@test('生物网格：顶点色 = 部件色 × 面亮度（**不烘光照**）')
+def t_mob_mesh_color_bakes_no_light():
+    """光照烘进顶点色 = "第一只生物在哪被看到，这一辈子按那个亮度画"
+    —— 夜里和洞里的生物会全亮，截图一眼穿邦（Phase 2-A 修过同类的
+    "天空色写死"）。所以顶点色里只许有部件色与面亮度，
+    光照由渲染端走逐实例 uniform（`u_light`）乘上来。"""
+    from mcclone3d import mobs as MB
+    from mcclone3d.mesh import build_mob_mesh
+    for kind in MB.all_kinds():
+        mb, _st = build_mob_mesh(kind)
+        for pi, (_origin, _size, rgb) in enumerate(kind.parts):
+            for fi, face in enumerate(_FACE_ORDER):
+                bright = FACE_BRIGHT[face]
+                for vi in range(4):
+                    idx = (pi * 6 + fi) * 4 + vi
+                    r, g, b, a = mb.colors[idx *4: idx *4 + 4]
+                    assert abs(r - rgb[0] * bright) < 1e-6, \
+                        f'{kind.name}.parts[{pi}] {face} 顶点{vi}: r={r}'
+                    assert abs(g - rgb[1] * bright) < 1e-6 and abs(b - rgb[2] * bright) < 1e-6
+                    assert a == 1.0, f'{kind.name}: alpha 该是 1.0：{a}'
+
+
+@test('生物网格：模型总高与 MobKind.height 一致（否则碰撞与渲染对不上）')
+def t_mob_mesh_height_matches_kind():
+    from mcclone3d import mobs as MB
+    from mcclone3d.mesh import build_mob_mesh
+    for kind in MB.all_kinds():
+        mb, _st = build_mob_mesh(kind)
+        top = max(mb.positions[i] for i in range(1, len(mb.positions), 3))
+        assert abs(top - kind.height) < 1e-6, \
+            f'{kind.name}: 模型高 {top} ≠ kind.height {kind.height}'
+
+
+@test('生物网格：未知贴图名回落到默认（不抛 KeyError）')
+def t_mob_mesh_bad_tile_falls_back():
+    from mcclone3d import mobs as MB
+    from mcclone3d.mesh import build_mob_mesh
+    mb, st = build_mob_mesh(MB.mob_kind('sheep'), tile='no_such_tile')
+    assert st['faces'] == 18, st                       # 3 parts × 6 面
+    assert mb.uvs, '回落之后一个顶点都没有'
+
+
 if __name__ == '__main__':
     sys.exit(main())

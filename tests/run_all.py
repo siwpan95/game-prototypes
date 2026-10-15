@@ -36,6 +36,9 @@ MODULES = [
     ('tests.test_drops', 'ALL_DROPS_TESTS_PASSED', '掉落规则与确定性'),
     ('tests.test_recipes', 'ALL_RECIPES_TESTS_PASSED', '合成 / 烧炼配方'),
     ('tests.test_survival', 'ALL_SURVIVAL_TESTS_PASSED', '生存循环 / 耐久 / 熔炉'),
+    # --- Phase 2-B 新增（生物）---
+    ('tests.test_mobs', 'ALL_MOBS_TESTS_PASSED', '生物表与实体'),
+    ('tests.test_ai', 'ALL_AI_TESTS_PASSED', '生物 AI / 刷怪 / 攻击'),
 ]
 
 

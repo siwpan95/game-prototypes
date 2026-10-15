@@ -265,6 +265,17 @@ def _paint_bedrock(c):
     c.speckle((40, 40, 44), 34, 172)
 
 
+def _paint_wool(c):
+    """羊毛：**生物部件的默认贴图**。
+
+    为什么要一张"没有花纹"的贴图：生物的颜色是**顶点色**给的
+    （羊白、猪粉、僵尸绿），如果底下还压着一层草地/木头花纹，
+    远看就是一团杂色。羊毛的细密绒面正好——近看有材质、远看是纯色。
+    """
+    c.noise((236, 236, 232), 10, 181)
+    c.speckle((214, 214, 210), 22, 182)
+
+
 def _paint_torch(c):
     c.fill((0, 0, 0), 0)
     for y in range(7, TILE):                  # 木杆
@@ -299,13 +310,16 @@ PAINTERS = {
     'iron_ore': _paint_iron_ore,
     'bedrock': _paint_bedrock,
     'torch': _paint_torch,
+    'wool': _paint_wool,
 }
-
 #: 图集里的贴图顺序（**顺序即格号**，改顺序会让 UV 全变 ⇒ 有单测钉住）
 ATLAS_TILE_NAMES = tuple(sorted(PAINTERS))
 TILE_INDEX = {name: i for i, name in enumerate(ATLAS_TILE_NAMES)}
 
 #: 图集网格（列 × 行）。25 张 → 5×5；按需向上取整，改动时 UV 换算跟着走。
+#: ⚠ **不动这个数字**：`ATLAS_SIZE = ATLAS_COLS * TILE` 是**正方形**假设，
+#: 而 `mesh._atlas_uv` 的 v 方向按 `ATLAS_ROWS` 换算 —— 改列数会让 UV 与尺寸同时漂。
+#: 所以这里只按"加贴图就加行"的方式扩（多余格子空着即可）。
 ATLAS_COLS = 5
 ATLAS_ROWS = (len(ATLAS_TILE_NAMES) + ATLAS_COLS - 1) // ATLAS_COLS
 ATLAS_SIZE = ATLAS_COLS * TILE           # 正方形图集边长（像素）

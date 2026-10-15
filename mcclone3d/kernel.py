@@ -34,6 +34,8 @@ from . import blocks as B
 from . import items as I
 from . import recipes as R
 from ._engine import Service
+from . import ai as AI
+from . import mobs as MB
 from .light import DEFAULT_HALO, MAX_LIGHT, LightEngine
 from .sun import DAY_LENGTH, DayCycle
 from .world import CHUNK, SEA_LEVEL, ChunkedWorld
@@ -42,7 +44,8 @@ __all__ = ['McCloneKernel', 'make_offline', 'DEFAULT_SEED', 'REACH', 'PLAYER_HAL
            'PLAYER_HEIGHT', 'GRAVITY', 'JUMP_V', 'WALK_SPEED', 'FLY_SPEED', 'SCRIPT',
            'WORLD_SIZE', 'WORLD_HEIGHT', 'STEP_HZ', 'START_STOCK',
            'MAX_HEALTH', 'MAX_HUNGER', 'DROP_PICKUP_R', 'DROP_TTL',
-           'DAY_LENGTH', 'LIGHT_BUDGET_PER_FRAME', 'SAVE_VERSION']
+           'DAY_LENGTH', 'LIGHT_BUDGET_PER_FRAME', 'SAVE_VERSION',
+           'MOB_SPAWN_INTERVAL', 'MOB_CAP']
 
 #: 存档版本。**只增不改语义**：加字段就 +1，读档必须能吃所有老版本。
 #: v1 = Phase 0 ｜ v2 = Phase 1（工具/生存/掉落/熔炉）｜ v3 = Phase 2-A（世界时刻）
@@ -91,6 +94,14 @@ DROP_FALL_V = 6.0                 # 掉落物下落速度（格/秒，简单常�
 #: 每帧最多算几个区块的光照（**光照比网格贵**：实测 halo=4 时 ~36ms/区块）
 LIGHT_BUDGET_PER_FRAME = 2
 
+# ---------------------------------------------------------------- 生物（Phase 2-B）
+#: 每隔多少秒尝试刷一批生物（不是每帧都刷：刷怪本身要查方块与光照）
+MOB_SPAWN_INTERVAL = 4.0
+#: 同时存在的生物上限（性能护栏）
+MOB_CAP = AI.MAX_MOBS
+#: 每次尝试刷几只（成功一只就够，多试几次给失败的尝试留机会）
+MOB_SPAWN_TRIES = 24
+
 
 def _sign(x: float) -> int:
     return (x > 0) - (x < 0)
@@ -136,6 +147,10 @@ class McCloneKernel(Service):
                               float(cfg.get('day_length', DAY_LENGTH)))
         if cfg.get('time_phase') is not None:
             self.cycle.skip_to_phase(float(cfg['time_phase']))
+        #: 冻结昼夜（配置口）。**给"要固定在同一时刻"的判据用** ——
+        #: 例如测"僵尸会不会追上来打人"，如果时间在走，天亮时僵尸会被晒死，
+        #: 于是判据变成"能不能在 2 秒内追上"，与它想测的东西无关（实测踩过）。
+        self.cycle.paused = bool(cfg.get('time_paused', False))
         self.light = LightEngine(self.world)
         #: 全局天光列传播**默认做一次**（与高度成正比，很快）。
         #: `light=False` 可以跳过 —— 给"完全不关心光照"的体检/单测用
@@ -147,6 +162,18 @@ class McCloneKernel(Service):
         else:
             self.light.columns_done = True     # 声明"不用算"，避免按需路径又补一遍
             self._lit = set()
+        # --- Phase 2-B：生物 ---
+        #: 世界里的生物（`Mob` 列表）。**不是每个区块各一份** —— 生物会跨区块移动，
+        #: 按区块存反而要处理"迁移"，那是没有收益的复杂度。
+        self.mobs: list = []
+        self._mob_t = 0.0
+        #: 是否启用生物（`mobs=False` 给"纯建造"场景与不测生物的体检用）
+        self.mob_enabled = bool(cfg.get('mobs', True))
+        #: 刷新用确定性随机（`random.Random(seed)`：同种子同结果，可回放）
+        import random as _random
+        self._mob_rng = _random.Random(self.seed ^ 0x5EED)
+        self.mob_stats = {'spawned': 0, 'despawned': 0, 'killed': 0,
+                          'mob_hits': 0, 'player_hits': 0}
         self._init_player()
 
     # ============================================================== 玩家
@@ -886,10 +913,10 @@ class McCloneKernel(Service):
         self._post_step(dt, before)
 
     def _post_step(self, dt: float, before):
-        """一帧收尾：位移统计 → 生存结算 → 掉落物 → 拾取 → 熔炉。
+        """一帧收尾：位移统计 → 生存结算 → 掉落物 → 拾取 → 熔炉 → 生物。
 
         顺序有讲究：**先生存结算再拾取**（这一帧饿死就不该再捡东西），
-        熔炉放最后（它只跟时间有关，跟移动无关）。
+        生物放最后（它会通过 `hurt` 反过来影响玩家血量，所以要在玩家结算之后）。
         """
         moved = math.dist(self.pos, before) if hasattr(math, 'dist') else (
             sum((a - b) ** 2 for a, b in zip(self.pos, before)) ** 0.5)
@@ -897,6 +924,194 @@ class McCloneKernel(Service):
         self._update_drops(dt)
         self.pickup_nearby()
         self.furnace_step(dt)
+        self.update_mobs(dt)
+
+    # ============================================================== 生物
+    def mob_context(self) -> AI.MobContext:
+        """给 AI 的世界视图（**刻意收窄**，见 `ai.MobContext` 的说明）。"""
+        df = self.day_factor()
+        return AI.MobContext(
+            get=self.world.get,
+            is_solid=B.is_solid,
+            block_light=lambda x, y, z: self.light.block(x, y, z),
+            day_factor=df,
+            player_pos=lambda: (self.pos[0], self.pos[1], self.pos[2]),
+            # ⚠ 必须接 `damage_player_from_mob` 而**不是**裸 `self.hurt`：
+            # 早先接的是 hurt，于是"生物打玩家"这条路跳过了统计计数与**击退**，
+            # 症状是"玩家被打了但一点反馈都没有、`mob_stats['player_hits']` 恒为 0"
+            # （守卫判定看起来全绿，因为它只查了血量）。
+            hurt_player=self.damage_player_from_mob,
+            size=self.size,
+            height=self.height,
+        )
+
+    def update_mobs(self, dt: float):
+        """推进所有生物 + 清理 + 周期性刷怪。返回这次移除的数量。"""
+        if not self.mobs and not getattr(self, 'mob_enabled', True):
+            return 0                        # 没有生物且不开自动刷怪 ⇒ 没什么可做
+        ctx = self.mob_context()
+        keep = []
+        for mob in self.mobs:
+            AI.step_mob(ctx, mob, dt)
+            if not mob.alive or mob.pos[1] < -4.0:
+                self._kill_mob(mob, drops=True)
+                continue
+            if mob.dist_to(self.pos[0], self.pos[2]) > AI.DESPAWN_DIST:
+                self.mob_stats['despawned'] += 1
+                continue
+            # 敌对生物的"白天自燃"：**只在露天**（头顶有天光）时发生 ——
+            # 这与"洞里白天也安全"的直觉一致，也让玩家能用"挖洞躲"来应对
+            if mob.kind.hostile and not self.cycle.is_night() and mob.age > 1.0:
+                if self.light.sky(int(mob.pos[0]), min(self.height - 1,
+                                                       int(mob.pos[1]) + 1),
+                                  int(mob.pos[2])) >= 12:
+                    mob.health -= 6.0 * dt
+                    if not mob.alive:
+                        self._kill_mob(mob, drops=False)     # 烧死不掉落
+                        continue
+            keep.append(mob)
+        self.mobs = keep
+        self._mob_t += dt
+        if self._mob_t >= MOB_SPAWN_INTERVAL:
+            self._mob_t = 0.0
+            self._try_spawn_mobs()
+        return 0
+
+    def _kill_mob(self, mob, drops: bool = True):
+        """生物死亡：掉落走**与方块同一条路径**（`spawn_drop`）。"""
+        self.mob_stats['killed'] += 1
+        if drops:
+            for (name, lo, hi) in mob.kind.drops:
+                n = lo if hi <= lo else lo + int(self._mob_rng.random() * (hi - lo + 1))
+                if n > 0:
+                    self.spawn_drop(mob.pos[0], mob.pos[1] + 0.4, mob.pos[2],
+                                    I.item_by_name(name).id, n)
+
+    def hit_mob(self, mob, amount: float = 4.0) -> bool:
+        """玩家打生物（左键）。返回是否**致死**。"""
+        dead = mob.hurt(amount, 'player')
+        self.mob_stats['mob_hits'] += 1
+        if dead:
+            self._kill_mob(mob, drops=True)
+            if mob in self.mobs:
+                self.mobs.remove(mob)
+        return dead
+
+    def attack(self):
+        """朝准星方向上最近的生物挥一下（demo 的左键在没有方块可挖时调它）。
+
+        判据：生物中心到**视线**的距离 < 生物半宽 + 一点余量，
+        且**视线前方没有方块挡住**（与挖方块同一套路：`raycast` 先问到墙，
+        这一下就什么都不会发生 —— 墙后的生物打不到）。
+        """
+        eye = self.eye_pos()
+        dx, dy, dz = self.look_dir()
+        best, best_t = None, 4.0
+        for mob in self.mobs:
+            if not mob.alive:
+                continue
+            vx = mob.pos[0] - eye[0]
+            vy = mob.pos[1] + mob.kind.height * 0.5 - eye[1]
+            vz = mob.pos[2] - eye[2]
+            t = vx * dx + vy * dy + vz * dz                 # 投影到视线
+            if not (0.0 < t < best_t):
+                continue
+            py, pz = vx - dx * t, vz - dz * t
+            perp = math.sqrt(py * py + pz * pz + (vy - dy * t) ** 2)
+            if perp <= mob.kind.width * 0.75 + 0.25:
+                best, best_t = mob, t
+        if best is None:
+            return None
+        # 墙后打不到：在这个生物之前 `raycast` 就问到方块 ⇒ 当没发生
+        # （docstring 早就这么承诺，先前只写在文档里没实现 —— 隔墙抡人实测复现过）
+        if self.raycast(max_dist=best_t - 1e-6) is not None:
+            return None
+        dead = self.hit_mob(best, 4.0)
+        return (best.kind.name, dead)
+
+    def damage_player_from_mob(self, amount: float, cause: str):
+        """生物打玩家的入口（`ai.MobContext.hurt_player` 指向它）。
+
+        除了掉血，还做一件 MC 的手感：**击退**（否则玩家站着不动就永远不会被打死，
+        因为生物贴上来后一直打、玩家却毫无反馈）。
+        """
+        self.mob_stats['player_hits'] += 1
+        self.hurt(amount, cause)
+        # 击退：沿"生物 → 玩家"方向推一下
+        for mob in self.mobs[:8]:
+            if mob.dist_to(self.pos[0], self.pos[2]) < 1.6:
+                kx = self.pos[0] - mob.pos[0]
+                kz = self.pos[2] - mob.pos[2]
+                n = math.hypot(kx, kz) or 1.0
+                self.vel[0] += kx / n * 3.0
+                self.vel[2] += kz / n * 3.0
+                self.vel[1] = max(self.vel[1], 2.5)
+                break
+
+    def spawn_mob(self, kind_name: str, x: float | None = None,
+                  y: float | None = None, z: float | None = None):
+        """**显式**放一只生物（脚本/单测/demo 用）。
+
+        ⚠ 不受 `mobs=False` 限制：那个开关管的是**自动刷怪**（见 `_try_spawn_mobs`），
+        而"手动放一只"是显式意图 —— 早先两者共用一个开关，于是
+        `make_offline({'mobs': False})` 之后 `spawn_mob` 静默返回 None，
+        测试拿到 None 才在下一行炸 `AttributeError`（实测踩过，报错点离根因很远）。
+        """
+        if len(self.mobs) >= MOB_CAP:
+            return None
+        kind = MB.mob_kind(kind_name)
+        if x is None:
+            spot = AI.find_spawn_spot(self.mob_context(), self._mob_rng.random,
+                                     light_max=kind.spawn_light_max,
+                                     night=self.cycle.is_night())
+            if spot is None:
+                return None
+            x, y, z = spot
+        elif y is None:
+            # 只给了 x/z：用 `ground_below` 找"站得住"的脚底高度。
+            # **不能用 `surface_at + 1`** —— 实测那会把生物埋进沙/水里
+            # （`surface_at(38,32)` 返回 12 而沙堆到 y=13），症状是"生物一动不动"。
+            gy = AI.ground_below(self.mob_context(), int(math.floor(x)),
+                                 int(math.floor(z)), self.height - 1)
+            if gy is None:
+                return None
+            y = float(gy)
+        mob = MB.Mob(kind, x, y, z)
+        self.mobs.append(mob)
+        self.mob_stats['spawned'] += 1
+        return mob
+
+    def _try_spawn_mobs(self):
+        """周期刷怪：**敌对的看光与昼夜，被动的看白昼**（判据在 `mobs.spawn_allowed`）。
+
+        `mobs=False` 关掉的是**这一条**（自动刷怪），不是"能不能有生物"。
+        """
+        if not getattr(self, 'mob_enabled', True):
+            return 0
+        night = self.cycle.is_night()
+        spawned = 0
+        for kind in MB.all_kinds():
+            # 被动生物夜里少刷（`night` 时 1/3 概率）
+            if not kind.hostile and night and self._mob_rng.random() > 0.33:
+                continue
+            # 敌对生物白天只在暗处刷；夜里可以刷在露天
+            if kind.hostile and not night and self._mob_rng.random() > 0.25:
+                continue
+            spot = AI.find_spawn_spot(self.mob_context(), self._mob_rng.random,
+                                     light_max=kind.spawn_light_max, night=night)
+            if spot is None:
+                continue
+            ix, iy, iz = int(spot[0]), int(spot[1]), int(spot[2])
+            bl = self.light.block(ix, iy, iz)
+            sky = int(round(self.light.sky(ix, iy, iz) * self.day_factor()))
+            if not MB.spawn_allowed(kind, bl, sky, night):
+                continue
+            mob = self.spawn_mob(kind.name, *spot)
+            if mob is not None:
+                spawned += 1
+            if spawned >= 2:
+                break
+        return spawned
 
     def _clamp_bounds(self):
         """别掉出世界（掉出去就送回地表）。"""

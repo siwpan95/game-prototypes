@@ -7,7 +7,7 @@
 > **三仓关系**：`3dworld` 是**引擎与渲染能力本体**；`mcclone3d` 是**消费方**
 > （玩法 + 贴图规则）；`mc-clone` 是**旧版**（2D / 文字形态），**原样保留、不再改动**。
 
-## 状态：Phase 2-A 可用（昼夜 + 逐格光照）
+## 状态：Phase 2-B 可用（生物：被动游荡/逃离 + 敌对夜间刷新）
 
 | 能做 | 说明 |
 | --- | --- |
@@ -15,6 +15,7 @@
 | 面剔除 + 图集 UV | 只画可见面；UV 走引擎 **世界级投影**（`texproj`），跨方块花纹连续 |
 | **昼夜循环**（Phase 2-A） | 一昼夜 600s：太阳高度角决定天光强度；天空色 / 地平线色 / 星空来自引擎 `sky_state`；日落有真实渐变 |
 | **逐格光照**（Phase 2-A） | 天光（列传播）+ 方块光（点光源 BFS），0..15 两套场；水每格衰减 1；**改一格只重算附近** |
+| **生物**（Phase 2-B） | 羊/猪游荡（被打会逃）；僵尸**夜里/暗处才刷**、会追击、贴上来就打（有冷却有击退）；白天露天自燃、洞里不烧；打死掉落实测可捡；300 只每帧 2.56ms |
 | 第一人称 | WASD/空格/飞行、重力与跳跃（跳高 1.19 格，与解析解对拍）、贴墙滑行 |
 | **按住挖掘**（Phase 1） | 进度累积到 `dig_time()` 才破坏，换目标清零；`dig_time` = `硬度 × 工具惩罚 / 工具速度` |
 | **工具与耐久**（Phase 1） | 木/石/铁三档 × 镐斧铲剑；对路才挖得快、石类**不带镐挖了白挖**；耐久见底即断 |
@@ -22,11 +23,11 @@
 | **合成与熔炉**（Phase 1） | 21 条配方（16 合成 / 5 烧炼）；熔炉按时间烧、**与帧率无关** |
 | **血量与饥饿**（Phase 1） | 走路/挖掘消耗 → 归零掉血 → 死亡 → 重生；吃东西回饥饿/回血；摔落伤害 |
 | hotbar 与库存 | 1–9 换方块/工具；创造模式挖了直接进背包，生存模式走掉落物 |
-| 存档 | **种子 + 编辑增量 + 玩家 + 工具耐久 + 生存状态 + 掉落物 + 世界时刻**（v3，能读 v1/v2 旧档） |
+| 存档 | **种子 + 编辑增量 + 玩家 + 工具耐久 + 生存状态 + 掉落物 + 世界时刻**（v3，能读 v1/v2 旧档；生物不进档，读档后自然重刷，见设计稿 §七） |
 | 区块局部重建 | 改一块只重扫本块 + 贴边邻块；光照同范围失效后按需重算 |
-| headless 验收 | 自动机跑完整生存循环 + **12 条检查**，**零 GL** |
+| headless 验收 | 自动机跑完整生存循环 + **13 条检查**，**零 GL** |
 
-路线图见 [`docs/阶段计划.md`](docs/阶段计划.md)（Phase 2-B 生物 → 2-C 洞穴与矿脉分层 → 3 红石级机制）。
+路线图见 [`docs/阶段计划.md`](docs/阶段计划.md)（Phase 2-C 洞穴与矿脉分层 → 3 红石级机制）。
 
 ![Phase 2-A 正午](shots/phase2_noon.png)
 ![Phase 2-A 午夜](shots/phase2_midnight.png)
@@ -52,14 +53,15 @@ python -m pip install -e G:\repos\3dworld
 ## 运行
 
 ```bat
-python examples\mcclone3d.py                 :: 交互：漫步 / 挖 / 放 / 昼夜流动
+python examples\mcclone3d.py                 :: 交互：漫步 / 挖 / 放 / 昼夜流动 / 生物
 python examples\mcclone3d.py --phase 0.75    :: 直接跳到午夜（0=日出 0.25=正午 0.5=日落）
 python examples\mcclone3d.py --smoke 3       :: 3 秒后自动退出（冒烟）
 python examples\mcclone3d.py --flag auto,verbose   :: 自动机 + 每秒心跳（含光照读数）
 python examples\shot_vista.py                :: 截图到 shots/（地貌 / 材质 / 选中框）
 python examples\shot_hud.py --hurt           :: 截图（HUD：半血半饱，读数可对拍）
 python examples\shot_day.py                  :: 同一机位拍三张（正午 / 日落 / 午夜）
-python -m mcclone3d.cli                      :: headless 验收 12 条（不需要窗口）
+python examples\shot_mobs.py                :: 同一机位拍两张（白天羊猪 / 午夜僵尸）
+python -m mcclone3d.cli                      :: headless 验收 13 条（不需要窗口）
 python -m tests.run_all                      :: 全部单测（零 GL）
 ```
 
@@ -71,6 +73,11 @@ python -m tests.run_all                      :: 全部单测（零 GL）
 
 **光照要点**：天黑不是"调暗一个滤镜" —— 天光按列灌下来、水每格挡 1 级、
 洞里是黑的，所以**挖个竖井能把光引下来**（`cli --only daylight` 就是这么验的）。
+
+**生物要点**：羊猪白天到处走、**打了会逃**；僵尸只在**夜里或暗处**刷，
+看见了会追上来打（有攻击冷却，贴太近会被它保持间距）；**白天在露天会自燃烧死**
+（烧死不掉东西），**挖个洞躲着就没事**。左键瞄准生物即可挥击，
+隔墙打不到。`cli --only mobs` 一条命令覆盖全部判据（含 300 只性能口径）。
 
 ## 与引擎的接法（不改 3dworld 一行）
 
@@ -100,23 +107,26 @@ mcclone3d/
   blocks.py         方块表：id / 名称 / 固体 / 透明 / 自发光 / 贴图（按面）/ 面剔除规则
   items.py          物品表：方块物品 + 材料 + 工具（三档）+ 食物；挖掘耗时与收获门槛
   recipes.py        掉落表 + 合成/烧炼配方（**纯数据**，带反向自检）
+  mobs.py           生物表（MobKind：只有数据）+ 实体 Mob；盒模型 parts 决定长相
+  ai.py             生物 AI：状态机 + 贪心寻路（跳台阶）+ 碰撞；MobContext 刻意收窄
   sun.py            昼夜：世界时刻 → 相位 → day_factor（太阳高度角自算）+ 星空
   light.py          逐格光照：天光列传播 + 方块光 BFS + 增量失效（**带性能护栏**）
   textures.py       程序化 16×16 像素材质 + 图集几何（零 GL 生成）
   world.py          区块化体素世界（确定性生成 + 编辑增量 + 跨区块邻块查询）
-  mesh.py           区块网格：面剔除 + 逐面 UV 投影 → 图集 UV + 光照顶点色
+  mesh.py           区块网格：面剔除 + 逐面 UV 投影 → 图集 UV + 光照顶点色 + 生物盒模型
   kernel.py         玩法内核（Service）：物理 / 拾取 / 挖放 / 工具 / 掉落 / 合成 /
-                    熔炉 / 血量饥饿 / 昼夜 / 光照 / 存档 / 自动机
-  cli.py            headless 验收（12 条，零 GL）
+                    熔炉 / 血量饥饿 / 昼夜 / 光照 / 生物 / 存档 / 自动机
+  cli.py            headless 验收（13 条，零 GL）
 configs/
   cordis.mcclone.yml   配置树（demo 与验收共用）
 examples/
-  mcclone3d.py      交互 demo（第一人称 + 挖/放 + 选中框 + 准星 + HUD + 昼夜天穹/星空）
+  mcclone3d.py      交互 demo（第一人称 + 挖/放 + 选中框 + 准星 + HUD + 昼夜天穹/星空 + 生物）
   shot_vista.py     截图：地貌 / 材质 / 选中框
   shot_hud.py       截图：血条 / 饥饿条 / hotbar（`--hurt` 看半血读数）
   shot_day.py       截图：同一机位的正午 / 日落 / 午夜（看光照真的在变）
+  shot_mobs.py      截图：同一机位的白天（羊/猪）与午夜（僵尸），日志带生物所在格有效光
 tests/              纯逻辑单测（零 GL）
-docs/               阶段计划、Phase 1 设计稿、Phase 2-A 设计稿
+docs/               阶段计划、Phase 1 / 2-A / 2-B 设计稿
 shots/              截图（gitignore，可随时重生成）
 ```
 
@@ -124,18 +134,22 @@ shots/              截图（gitignore，可随时重生成）
 
 ```
 python -m tests.run_all     # 零 GL 单测：方块表/贴图/世界/网格/物理/拾取/内核
-                            #                + 物品/掉落/配方/生存
-python -m mcclone3d.cli     # 12 条：world / mesh / physics / raycast / digplace / save
-                            #        / auto / items / drops / recipes / survival / daylight
+                            #                + 物品/掉落/配方/生存/生物表/生物 AI
+python -m mcclone3d.cli     # 13 条：world / mesh / physics / raycast / digplace / save
+                            #        / auto / items / drops / recipes / survival / daylight / mobs
 ```
 
 判据是**可量化的比较**，不是"看起来对"：同种子逐格相同、面数与逐格统计相符、
 跳高与解析解对拍、挖掘耗时与公式对拍、配方反向自检、自动机三种帧率结果一致、
-存档往返逐字段相等、**水列的层次（15/14/0）与竖井天光衰减**、HUD 读数与内核状态一致。
+存档往返逐字段相等、**水列的层次（15/14/0）与竖井天光衰减**、HUD 读数与内核状态一致、
+**生物侧**：上 1 格台阶的过程峰值、追击最近距离 = 攻击间距 0.75、攻击冷却 ≥1s、
+白天只刷被动/夜里能刷敌对、300 只每帧 2.56ms。
 
 ## 已知边界
 
 * 世界是**有限箱体**（默认 256×256×64 ≈ 220 万方块）；无限地形要区块流式加载，属 Phase 2。
+* **生物不进存档**（v3）：读档后自然重刷；要"家畜圈养"需升 v4，见设计稿 §七。
+* 生物**不会游泳**（水不算固体，直接落过水）；不会绕迷宫（贪心 + 跳台阶，设计稿 §二）。
 * 不含任何 Minecraft 官方素材；本项目是**机制致敬**，与原作无隶属关系、不声称任何商标。
 * 引擎侧已知差异（`MeshData.triangle_count` 对索引网格按 `//9` 少算 3 倍）只在本仓
   **记录 + 断言 + 回避**，不就地改 3dworld。

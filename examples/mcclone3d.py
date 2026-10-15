@@ -51,7 +51,7 @@ from pyglet.gl import (GL_BLEND, GL_DEPTH_TEST, GL_FALSE, GL_LINES,  # noqa: E40
                        GL_TRUE, glBlendFunc, glDisable, glEnable)
 from pyglet.math import Mat4, Vec3                             # noqa: E402
 
-from mcclone3d import _engine, blocks as B, textures           # noqa: E402
+from mcclone3d import _engine, blocks as B, mesh, textures     # noqa: E402
 from mcclone3d.kernel import EYE_HEIGHT                        # noqa: E402
 
 #: 本 demo 需要配置树里的哪些服务（与 `cli.py` 同一份声明）
@@ -129,6 +129,46 @@ in vec3 position;
 uniform WindowBlock { mat4 projection; mat4 view; } window;
 uniform vec3 u_origin;
 void main() { gl_Position = window.projection * window.view * vec4(position + u_origin, 1.0); }'''
+
+# 生物：与方块同一套投影/图集，但**逐实例**给"脚底位置"与"受击染色"。
+# 之所以不复用 WORLD_VS：那套的 `u_origin` 只用于选中框（画线），
+# 而生物要的是"带贴图 + 顶点色 + 可染色"的实体着色 —— 混用会让方块的 uniform
+# 被生物的循环覆盖（实测踩过：方块整片变成生物的位置）。
+MOB_VS = '''#version 330 core
+in vec3 position;
+in vec4 colors;
+in vec2 tex_coords;
+out vec4 v_col;
+out vec2 v_uv;
+out float v_dist;
+uniform WindowBlock { mat4 projection; mat4 view; } window;
+uniform vec3 u_origin;                 // 生物的脚底中心（局部坐标 → 世界坐标）
+void main() {
+    vec4 vp = window.view * vec4(position + u_origin, 1.0);
+    v_dist = length(vp.xyz);
+    v_col = colors;
+    v_uv = tex_coords;
+    gl_Position = window.projection * vp;
+}'''
+
+MOB_FS = '''#version 330 core
+in vec4 v_col;
+in vec2 v_uv;
+in float v_dist;
+out vec4 out_color;
+uniform sampler2D u_atlas;
+uniform vec3  u_fog;
+uniform float u_fog_near;
+uniform float u_fog_far;
+uniform vec3  u_tint;                  // 受击闪红
+uniform vec3  u_light;                 // 该生物所在格的光照乘子（逐实例，见 _sync_mob_verts）
+void main() {
+    vec4 tex = texture(u_atlas, v_uv);
+    if (tex.a < 0.08) discard;
+    vec3 lit = tex.rgb * v_col.rgb * u_light * u_tint;
+    lit = mix(lit, u_fog, smoothstep(u_fog_near, u_fog_far, v_dist));
+    out_color = vec4(lit, tex.a);
+}'''
 
 #: 叠加层（准星）：顶点**已经是 NDC**，不乘任何矩阵
 UI_VS = '''#version 330 core
@@ -236,6 +276,9 @@ class McCloneApp:
                                       Shader(SKY_FS, 'fragment'))
         self.line_prog = ShaderProgram(Shader(LINE_VS, 'vertex'),
                                        Shader(LINE_FS, 'fragment'))
+        # 生物：**独立一套**（见 MOB_VS 的说明：与 WORLD 共用会让 uniform 互相覆盖）
+        self.mob_prog = ShaderProgram(Shader(MOB_VS, 'vertex'),
+                                      Shader(MOB_FS, 'fragment'))
 
         # 图集（程序化生成 → 上传）
         # ⚠ **必须 NEAREST**：像素材质放大要用硬边，线性过滤会把它糊成"毛玻璃"
@@ -477,6 +520,13 @@ class McCloneApp:
             ok, name = k.dig()
             if ok:
                 print(f'[mcclone3d] 挖掉 {name}', flush=True)
+            else:
+                # 没有方块可挖时这一下挥向生物（`attack()` 的文档承诺；
+                # 先前 demo 根本没接，玩家打不到生物）
+                r = k.attack()
+                if r is not None:
+                    print(f'[mcclone3d] 击中 {r[0]}' + ('（致死）' if r[1] else ''),
+                          flush=True)
         elif button == pyglet.window.MOUSE_RIGHT:
             ok, at = k.place()
             if ok:
@@ -556,12 +606,76 @@ class McCloneApp:
                   f'{"夜" if s["night"] else "昼"} 头顶光={lv[0]}(方块{lv[1]}/天{lv[2]}) '
                   f'已算光={s["lit_chunks"]}块', flush=True)
 
+    def _sync_mob_verts(self):
+        """每帧把生物画出来（**每种生物只上传一份网格**，实例靠 uniform 变换）。
+
+        生物网格是"局部坐标下的一份"（`mesh.build_mob_mesh`），所以：
+        * **新增一种生物不需要改渲染代码**（`MobKind.parts` 是数据）；
+        * 40 只羊只占一份网格的显存。
+
+        朝向不做旋转：本项目的生物是块状的（1×1 的部件），转不转肉眼看不出，
+        而加一套矩阵 uniform 会让"每个实例一次 draw call"变成"每次都要算矩阵"。
+        这条取舍是**故意的**，不是漏了。
+        """
+        from pyglet.gl import GL_TRIANGLES as _T
+        k = self.kernel
+        if not hasattr(self, '_mob_verts'):
+            self._mob_verts = {}
+        if not k.mobs:
+            if self._mob_verts:
+                for vl in self._mob_verts.values():
+                    vl.delete()
+                self._mob_verts = {}
+            return
+        # 新出现的生物种类：上传一份网格
+        for mob in k.mobs:
+            name = mob.kind.name
+            if name in self._mob_verts:
+                continue
+            mb, _st = mesh.build_mob_mesh(mob.kind)
+            if not mb.indices:
+                self._mob_verts[name] = None
+                continue
+            self._mob_verts[name] = self.mob_prog.vertex_list_indexed(
+                len(mb.positions) // 3, _T, mb.indices,
+                position=('f', mb.positions), colors=('f', mb.colors),
+                tex_coords=('f', mb.uvs))
+        st = k.cycle.sky()
+        night = 1.0 - max(0.0, min(1.0, k.day_factor()))   # 与区块网格同一口径
+        self.mob_prog.use()
+        self.mob_prog['u_atlas'] = 0
+        self.atlas.bind()
+        self.mob_prog['u_fog'] = tuple(st['horizon'])
+        self.mob_prog['u_fog_near'] = 110.0
+        self.mob_prog['u_fog_far'] = 260.0
+        for mob in k.mobs:
+            vl = self._mob_verts.get(mob.kind.name)
+            if vl is None:
+                continue
+            # 部件以**中心**为原点 ⇒ 平移到"脚底中心"要减半格
+            self.mob_prog['u_origin'] = (mob.pos[0] - 0.5, mob.pos[1], mob.pos[2] - 0.5)
+            # 受击闪烁：直接乘一层红（不引第二套材质）
+            self.mob_prog['u_tint'] = ((1.0, 0.30, 0.30) if mob.hurt_t > 0.0
+                                       else (1.0, 1.0, 1.0))
+            # 逐实例光照：取该生物**脚底那格**的有效光（方块光与天光折算取大），
+            # 与区块网格的 `face_light` 同口径。网格按种类只建一份，
+            # 所以光照必须走 uniform 而不是烘进顶点色（mesh.build_mob_mesh 的说明）。
+            # ⚠ `light_color` 第一参是**标量**亮度（面亮度），不是三元组 ——
+            # 传 (1,1,1) 会炸 "can't multiply sequence by non-int"。
+            mx, my, mz = int(mob.pos[0]), int(mob.pos[1]), int(mob.pos[2])
+            lvl = max(k.light.block(mx, my, mz),
+                      int(round(k.light.sky(mx, my, mz) * k.day_factor())))
+            self.mob_prog['u_light'] = mesh.light_color(1.0, lvl, night)
+            vl.draw(_T)
+
     def on_draw(self):
         self.window.clear()
         self.window.view = self._view_matrix()
         self.update(1 / 60.0)
         self._draw_sky()
         self._draw_world()
+        # 生物在方块**之后**画（它们有实心几何，得参与深度测试）
+        self._sync_mob_verts()
         self._draw_selection()
         self._draw_overlay()
         if self._shot_pending is not None:
