@@ -168,16 +168,50 @@ def face_uv_quad(face: str, wx: int, wy: int, wz: int, tile_size: float = 1.0):
     return tuple(out)
 
 
-def _atlas_uv(u: float, v: float, tile: str):
-    """世界 UV → 图集内的**归一化坐标** `(u', v')`。
+def _atlas_uv(u: float, v: float, tile: str, wrap: bool = True):
+    """**贴图内**坐标 → 图集内的归一化坐标 `(u', v')`。
 
     平铺语义 = `TexWrap.REPEAT`：先取小数（与引擎 `Atlas.remap` 的 `fract()` 同义），
     再映射进该贴图的矩形（矩形的 v 方向由 `atlas_rect` 按"第 0 行在上"给好）。
+
+    `wrap=False` ⇒ **不取小数、改成夹到 [0,1]**。这是给"一整面"用的（见
+    `_atlas_uv_quad`）：面正好跨满一格时末角落在 1.0，`frac(1.0)=0.0` 会把整面
+    折成一个纹素（贴图变成一块纯色）—— 那是个**必须避开**的边界。
     """
     au0, av0, au1, av1 = atlas_rect(tile)
-    fu = u - math.floor(u)
-    fv = v - math.floor(v)
+    if wrap:
+        fu, fv = u - math.floor(u), v - math.floor(v)
+    else:
+        fu = 0.0 if u < 0.0 else (1.0 if u > 1.0 else u)
+        fv = 0.0 if v < 0.0 else (1.0 if v > 1.0 else v)
     return (au0 + fu * (au1 - au0), av0 + fv * (av1 - av0))
+
+
+def _atlas_uv_quad(uvs, tile: str):
+    """**一整面**的四角 UV：图集空间（一格世界距离走 `1/cols`）→ 图集坐标。
+
+    ⚠⚠ 这个函数是 Phase 3-F 补上的，它修的是一个**从 Phase 0 就存在的静默错误**
+    （整个世界的贴图大了 8 倍，近看是一团团糊斑）：
+
+    * `uv_projection_for` 给的密度是 `1/(cols × tile_size)` ⇒ 跨过 1 格世界距离，
+      `u` 只走 **1/cols**。这本身没错 —— 图集有 `cols` 列，一格方块面在**图集空间**里
+      正好占一格宽（CLI 的 `mesh` 条盯的就是这条）；
+    * 但要对上"这一格贴图"的矩形，就必须先把 `u` 换算成**贴图内**坐标：
+      `u × cols − 这一面起点所在的格号`。**先前是每个角各自 `frac(u)`**，
+      于是面内只走完 `1/cols` ⇒ 一格方块只显示这张贴图的 1/8，
+      而相邻方块显示的是相邻的 1/8 切片（花纹跨格连续，远看"像那么回事"，极难发现）。
+
+    取 `uvs[0]` 的格号当基准（整面共用），四角于是落在 `[0,1]` 上、**首尾不重合**。
+
+    比一格还宽的面（生物盒模型的部件，最多 5 格）会被**夹到 [0,1]**：
+    即"一张贴图铺满整个部件"而不是平铺 5 次 —— 生物用的是无花纹的羊毛贴图，
+    两者视觉上一样，而夹住能避免接缝。这条是明写的取舍，不是疏忽。
+    """
+    cols = textures.ATLAS_COLS
+    bu = math.floor(uvs[0][0] * cols)
+    bv = math.floor(uvs[0][1] * cols)
+    return [_atlas_uv(u * cols - bu, v * cols - bv, tile, wrap=False)
+            for (u, v) in uvs]
 
 
 def atlas_rect(tile: str):
@@ -340,6 +374,7 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
     """
     corners = _CORNERS[face]
     uvs = face_uv_quad(face, x, y, z, tile_size)
+    atlas_uvs = _atlas_uv_quad(uvs, tile)          # 整面一次换算（见该函数的说明）
     bright = FACE_BRIGHT[face]
     n = NORMALS[face]
     level = MAX_LIGHT
@@ -357,7 +392,7 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
     if mb.smooth and mb.world is not None:
         ao = face_ao(mb.world, x, y, z, face)
     base = len(mb.positions) // 3
-    for _i, ((cx, cy, cz), (u, v)) in enumerate(zip(corners, uvs)):
+    for _i, ((cx, cy, cz), (au, av)) in enumerate(zip(corners, atlas_uvs)):
         # ⚠ `array.array` 的 `+=` 只吃 array，不吃 tuple（实测 TypeError）——
         # 用 `append` 逐个加，代价一样是 O(1)，但没有这层类型陷阱。
         mb.positions.append(x + cx)
@@ -366,7 +401,6 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
         mb.normals.append(n[0])
         mb.normals.append(n[1])
         mb.normals.append(n[2])
-        au, av = _atlas_uv(u, v, tile)
         mb.uvs.append(au)
         mb.uvs.append(av)
         # 每角再乘 AO（`ao is None` 时是 ×1.0 ⇒ 与旧行为逐位相同）
@@ -479,16 +513,16 @@ def build_mob_mesh(kind, *, tile: str = 'wool'):
             corners = _CORNERS[face]
             bright = FACE_BRIGHT[face]
             uvs = face_uv_quad(face, x0, y0, z0, 1.0)
+            atlas_uvs = _atlas_uv_quad(uvs, base_tile)
             n = NORMALS[face]
             base = len(mb.positions) // 3
-            for (cx, cy, cz), (u, v) in zip(corners, uvs):
+            for (cx, cy, cz), (au, av) in zip(corners, atlas_uvs):
                 mb.positions.append(x0 + cx * max(1, int(round(sx))))
                 mb.positions.append(y0 + cy * max(1, int(round(sy))))
                 mb.positions.append(z0 + cz * max(1, int(round(sz))))
                 mb.normals.append(n[0])
                 mb.normals.append(n[1])
                 mb.normals.append(n[2])
-                au, av = _atlas_uv(u, v, base_tile)
                 mb.uvs.append(au)
                 mb.uvs.append(av)
                 # 顶点色 = 部件自己的颜色 × 面亮度（颜色表达"这是羊还是猪"；

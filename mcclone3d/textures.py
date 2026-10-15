@@ -576,12 +576,53 @@ def _paint_enchant_top(c):
         c.set(x + 1, y, (78, 62, 140))
 
 
+# ---------------------------------------------------------------- Phase 3-F：酿造台
+def _paint_brewing_side(c):
+    """酿造台侧面：石座 + 中间一列玻璃缸 + 缸里的药液。
+
+    与附魔台同一套路（三向贴图不同）：**顶部看是台面、侧面看是缸**，
+    否则一个整方块远看只是"一块灰石头"。
+    """
+    base = (124, 124, 120)                        # 石座
+    c.noise(base, 14, 501)
+    for y in range(2, 15):                        # 中间的玻璃缸
+        c.set(6, y, (168, 176, 188))
+        c.set(9, y, (168, 176, 188))
+    for y in range(6, 15):                        # 缸里的药液（青绿）
+        for x in range(7, 9):
+            c.set(x, y, (86, 178, 150) if (x + y) % 3 else (110, 200, 172))
+    for x in range(7, 9):                         # 缸口
+        c.set(x, 2, (150, 158, 170))
+        c.set(x, 3, (150, 158, 170))
+    for (x, y) in ((3, 5), (3, 10), (12, 5), (12, 10)):   # 两侧的铆钉
+        c.set(x, y, (86, 86, 84))
+
+
+def _paint_brewing_top(c):
+    """酿造台顶面：台面 + 三个瓶位（三个浅色圆点）。"""
+    base = (134, 134, 130)
+    c.noise(base, 12, 511)
+    for i in range(TILE):                         # 台面外沿
+        c.set(i, 0, (96, 96, 94))
+        c.set(i, TILE - 1, (96, 96, 94))
+        c.set(0, i, (96, 96, 94))
+        c.set(TILE - 1, i, (96, 96, 94))
+    for (cx, cy) in ((5, 5), (10, 5), (7, 10)):   # 三个瓶位
+        for dy in (-1, 0, 1):
+            for dx in (-1, 0, 1):
+                if abs(dx) + abs(dy) <= 1:
+                    c.set(cx + dx, cy + dy, (196, 196, 190))
+        c.set(cx, cy, (86, 178, 150))
+
+
 PAINTERS = {
     'stone': _paint_stone,
     'cobble': _paint_cobble,
     'dirt': _paint_dirt,
     'enchant_table_side': _paint_enchant_side,
     'enchant_table_top': _paint_enchant_top,
+    'brewing_side': _paint_brewing_side,
+    'brewing_top': _paint_brewing_top,
     'grass_top': _paint_grass_top,
     'grass_side': _paint_grass_side,
     'sand': _paint_sand,
@@ -639,6 +680,16 @@ TILE_INDEX = {name: i for i, name in enumerate(ATLAS_TILE_NAMES)}
 ATLAS_COLS = 8
 ATLAS_ROWS = (len(ATLAS_TILE_NAMES) + ATLAS_COLS - 1) // ATLAS_COLS
 ATLAS_SIZE = ATLAS_COLS * TILE           # 正方形图集边长（像素）
+
+#: ⚠ **行数不许超过列数**：图集是**正方形**（`ATLAS_SIZE = COLS × TILE`），
+#: 所以第 `COLS + 1` 行会落到图集**外面**（`ATLAS_ROWS <= ATLAS_COLS` 是能放下的充要条件）。
+#: Phase 3-F 之后是 49 张 = 7 行（够放）；离上限还剩 15 张。
+#: `test_atlas_layout` 的"矩形必须落在图集内"盯着这条，这里再加一道 import 期断言
+#: —— 让"加贴图加过头"在**首次 import** 就爆，而不是等到某张图采样到乱码。
+assert ATLAS_ROWS <= ATLAS_COLS, (
+    f'图集放不下：{len(ATLAS_TILE_NAMES)} 张贴图要 {ATLAS_ROWS} 行，'
+    f'而正方形图集只有 {ATLAS_COLS} 行 ⇒ 要么提高 ATLAS_COLS（所有 UV 会变，安全）、'
+    f'要么别再加贴图')
 
 TILES = ATLAS_TILE_NAMES                 # 复数别名（对外更常见）
 

@@ -18,7 +18,8 @@ from . import items as I
 from .blocks import (BEDROCK, BLOCK_ITEM_ALIAS, BRICK, BUTTON_OFF, BUTTON_ON,
                      COAL_ORE, COBBLE, CRAFTING_TABLE, CROP, DIAMOND_ORE, DIRT,
                      DOOR_LOWER, DOOR_OPEN_LOWER, DOOR_OPEN_UPPER, DOOR_UPPER,
-                     ENCHANT_TABLE, FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL,
+                     BREWING_STAND, ENCHANT_TABLE, FURNACE, GLASS, GOLD_ORE,
+                     GRASS, GRAVEL,
                      IRON_ORE, LAMP_OFF, LAMP_ON, LEAVES, LEVER_OFF, LEVER_ON,
                      LOG, PISTON_ARM, PISTON_STATES, PLANKS, REDSTONE_TORCH,
                      REDSTONE_WIRE, REPEATER_OFF, REPEATER_ON, SAND, SNOW, STONE,
@@ -91,6 +92,8 @@ DROP_TABLE = {
     PISTON_ARM: ('piston', 1, 1),
     # Phase 3-E：附魔台挖掉掉回自己（它可以合成，回收是合理的）
     ENCHANT_TABLE: ('enchant_table', 1, 1),
+    # Phase 3-F：酿造台同理
+    BREWING_STAND: ('brewing_stand', 1, 1),
 }
 #: 活塞的 12 个状态也各掉一个活塞（表是生成的 —— 手写 12 行太容易漏）
 for _n, _off, _on in PISTON_STATES:
@@ -207,6 +210,18 @@ def _crafts():
     for kind, extra in (('pickaxe', 3), ('axe', 3), ('shovel', 1), ('sword', 2)):
         add(Recipe(f'iron_{kind}', 'craft',
                    {'iron_ingot': extra, 'stick': 2}, f'iron_{kind}', 1))
+    # Phase 3-F：酿造（见 `brewing`）——
+    # 玻璃瓶：3 玻璃 → 3 瓶（**不是 1:1**：一个玻璃能做出一个瓶子，但一次做 3 个
+    # 才配得上"熔炼一炉玻璃"的成本；写 1:1 的话玩家要为 5 瓶药水烧 5 次玻璃）
+    add(Recipe('glass_bottle', 'craft', {'glass': 3}, 'glass_bottle', 3,
+               note='一次出 3 个'))
+    # 糖：1 麦子 → 2 糖。⚠ 本仓**没有甘蔗**（没有那个维度的植物），
+    # 用麦子代 —— 如实写在这里，不假装材料表与 MC 一致。
+    add(Recipe('sugar', 'craft', {'wheat': 1}, 'sugar', 2,
+               note='本仓没有甘蔗，用麦子代'))
+    # 酿造台：圆石 6 + 煤 1（石架 + 热源）
+    add(Recipe('brewing_stand', 'craft', {'cobble': 6, 'coal': 1},
+               'brewing_stand', 1, note='石架 + 热源'))
     # Phase 3-E：附魔台 ← 圆石台座 + 木板 + 钻石 ×2
     # 与 MC 的"黑曜石 ×4 + 钻石 ×2 + 书"同量级：**必须下到 y<8 挖钻石**
     # （于是"附魔"与"矿脉分层/洞穴"这两套东西自然咬合，而不是凭空给一台）。

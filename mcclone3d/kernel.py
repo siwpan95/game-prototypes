@@ -34,6 +34,7 @@ from . import blocks as B
 from . import items as I
 from . import recipes as R
 from . import enchant as EN
+from . import brewing as BW
 from ._engine import Service
 from . import ai as AI
 from . import mobs as MB
@@ -52,7 +53,8 @@ __all__ = ['McCloneKernel', 'make_offline', 'DEFAULT_SEED', 'REACH', 'PLAYER_HAL
 #: 存档版本。**只增不改语义**：加字段就 +1，读档必须能吃所有老版本。
 #: v1 = Phase 0 ｜ v2 = Phase 1（工具/生存/掉落/熔炉）｜ v3 = Phase 2-A（世界时刻）
 #: v4 = Phase 3-E（经验 + 附魔 + 耐久累积计数）
-SAVE_VERSION = 4
+#: v5 = Phase 3-F（药水效果 + 酿造台的进行中一炉）
+SAVE_VERSION = 5
 
 # ---------------------------------------------------------------- 常量
 DEFAULT_SEED = 20261014
@@ -233,7 +235,7 @@ class McCloneKernel(Service):
         self.selected = 0
         self.stats = {'dug': 0, 'placed': 0, 'crafted': 0, 'smelted': 0,
                       'picked': 0, 'eaten': 0, 'deaths': 0, 'damage': 0.0,
-                      'enchanted': 0, 'xp_gained': 0}
+                      'enchanted': 0, 'xp_gained': 0, 'brewed': 0, 'drank': 0}
         # --- 生存状态 ---
         self.max_health = MAX_HEALTH
         self.health = float(MAX_HEALTH)
@@ -262,6 +264,13 @@ class McCloneKernel(Service):
         self.wear = {}
         #: 附魔台的当前档位（0/1/2）——纯 UI 游标，**不进存档**。
         self.enchant_slot = 0
+        # --- Phase 3-F：药水效果与酿造 ---
+        #: 生效中的药水效果：`{效果名: 剩余秒}`。**进存档**（剩余时长是状态，
+        #: 不是能重算出来的派生量 —— 与"光照/红石信号不进档"不是一回事）。
+        self.effects = {}
+        #: 酿造台里那**一炉**（本版只有一台"随身酿造台"的语义：谁右键都算同一台）。
+        #: `{'output': 药水名 | None, 'left': 剩余秒}`。**进存档**。
+        self.brewing = {'output': None, 'left': 0.0}
         #: 摔落结算用：离地那一刻的高度（落地时清零）
         self._fall_from = None
         #: 熔炉状态：`{'fuel_left':秒, 'cook_left':秒, 'recipe':id|None}`
@@ -453,6 +462,129 @@ class McCloneKernel(Service):
         self.enchants[iid] = merged
         self.stats['enchanted'] = int(self.stats.get('enchanted', 0)) + 1
         return True, EN.describe_levels(offer.enchants)
+
+    # ============================================================== 酿造
+    def effects_desc(self) -> str:
+        """生效中的药水效果一行中文（HUD / CLI 共用）。"""
+        return BW.describe_effects(self.effects)
+
+    def _potion_step(self, dt: float):
+        """药水效果计时：递减、到点消失。**与帧率无关**（纯按 dt 累减）。"""
+        if not self.effects:
+            return
+        dt = max(0.0, float(dt))
+        for name in list(self.effects):
+            left = float(self.effects[name]) - dt
+            if left <= 0.0:
+                del self.effects[name]             # 到点就**删掉**（不留 0 值）
+            else:
+                self.effects[name] = left
+
+    def brew_load(self, ingredient: str | None = None):
+        """把"水瓶 + 材料"放进酿造台。返回 `(ok, 说明)`。
+
+        `ingredient=None` ⇒ **自动挑背包里第一种能用的材料**。为什么这样设计：
+        本版没有酿造界面（没有槽位拖放），而"右键一次就把材料放进去"是唯一
+        不需要 UI 的形态；自动挑的规则**照 `brewing.BREWS` 的顺序**（确定性、
+        可在日志里核对），而不是"随便挑一个"。
+
+        材料与水瓶在**放进去的那一刻就扣掉**（产出等 `brew_step` 到点再给）——
+        与熔炉 `furnace_load` 同一条教训：**"扣"与"得"必须分开**，
+        否则装料那一刻产物就到手，到点又给一次（一炉发货两次）。
+        """
+        st = self.brewing
+        if st['output'] is not None:
+            return False, f'酿造台里还有东西（{I.name_of_item(I.item_by_name(st["output"]).id)}）'
+        wb = I.item_by_name('water_bottle')
+        if self.inventory.get(wb.id, 0) <= 0:
+            return False, '需要一瓶水瓶（用玻璃瓶对着水右键）'
+        if ingredient is None:
+            pick = None
+            for brew in BW.BREWS:
+                if self.inventory.get(I.item_by_name(brew.ingredient).id, 0) > 0:
+                    pick = brew.ingredient
+                    break
+            if pick is None:
+                names = ' / '.join(I.item_by_name(b.ingredient).title for b in BW.BREWS)
+                return False, f'没有可用的材料（{names}）'
+        else:
+            pick = str(ingredient)
+        brew = BW.brew_by_ingredient(pick)
+        if brew is None:
+            return False, f'{I.name_of_item(I.item_by_name(pick).id) if pick in I.ITEMS_BY_NAME else pick} 不能用来酿造'
+        ing = I.item_by_name(pick)
+        if self.creative and self.inventory.get(ing.id, 0) <= 0:
+            # 创造模式：库存应有尽有（`START_STOCK`），真缺了就当 0 处理即可
+            return False, f'没有 {ing.title}'
+        self.take(wb.id, 1)
+        self.take(ing.id, 1)
+        st['output'] = brew.output
+        st['left'] = brew.time
+        return True, (f'{ing.title} → {I.item_by_name(brew.output).title}'
+                      f'（{brew.time:.0f}s）')
+
+    def brew_step(self, dt: float):
+        """推进酿造台的那一炉（按累计时间，与帧率无关）。返回 `(状态, 产出名)`。
+
+        到点后**直接进背包**（与熔炉同口径）：本版没有"从台子里取出来"这一步，
+        而"酿好了要再点一次才拿到"在没有 UI 的情况下只会让人以为没生效。
+        """
+        st = self.brewing
+        if st['output'] is None:
+            return 'idle', None
+        st['left'] = float(st['left']) - max(0.0, float(dt))
+        if st['left'] <= 0.0:
+            out = st['output']
+            st['output'] = None
+            st['left'] = 0.0
+            self.give_item(out, 1)
+            self.stats['brewed'] = int(self.stats.get('brewed', 0)) + 1
+            return 'done', out
+        return 'brewing', None
+
+    def fill_bottle(self):
+        """把**手持的玻璃瓶**对着水变成水瓶。返回 `(ok, 说明)`。
+
+        判据是"准星指到的那一格是水"（`raycast` 会把水也算作命中 ——
+        它只跳过空气，所以这里能直接看到水）。
+        """
+        held = I.ITEMS.get(self.selected_item())
+        if held is None or held.name != 'glass_bottle':
+            return False, '手里要拿一个玻璃瓶'
+        hit = self.raycast()
+        if hit is None or self.world.get(*hit[0]) != B.WATER:
+            return False, '要对着水'
+        if not self.take(held.id, 1):
+            return False, '没有玻璃瓶了'
+        self.give_item('water_bottle', 1)
+        return True, '玻璃瓶 → 水瓶'
+
+    def drink(self, slot_index: int | None = None):
+        """喝手持（或指定格）的药水。返回 `(ok, 名字或原因)`。
+
+        与 `eat()` 分开：判据不同（吃饱了还能喝药，但吃饱了不能吃饭），
+        而且药水不是 `KIND_FOOD` —— 混在一起会让 `eat()` 的"回饥饿"分支
+        对药水做无意义的事。
+        """
+        iid = (self.selected_item() if slot_index is None
+               else (self.hotbar[slot_index] if self.hotbar else 0))
+        it = I.ITEMS.get(iid)
+        if it is None or it.kind != I.KIND_POTION:
+            return False, None
+        effect = BW.POTION_OF.get(it.name)
+        if effect is None:
+            return False, 'unknown_potion'
+        if not self.take(it.id, 1):
+            return False, 'none_left'
+        e = BW.EFFECTS[effect]
+        if e.kind == 'instant':
+            self.health = min(self.max_health, self.health + e.heal)
+        else:
+            # 同类效果**取较长的那个**（不叠加时长 —— 叠加会让"喝两瓶 = 60 秒"
+            # 变成刷时长的手段，而且 HUD 上没法表达）
+            self.effects[effect] = max(float(self.effects.get(effect, 0.0)), e.duration)
+        self.stats['drank'] = int(self.stats.get('drank', 0)) + 1
+        return True, it.name
 
     # ============================================================== 视线
     def look_dir(self):
@@ -840,6 +972,16 @@ class McCloneKernel(Service):
                 return True, (name, '手里要拿一件工具')
             txt = ' ｜ '.join(o.label() for o in offers)
             return True, (name, f'{txt} ｜ 当前 {self.xp_report()}')
+        elif b == B.BREWING_STAND:
+            # Phase 3-F：酿造台 —— 右键把"水瓶 + 材料"放进去（自动挑第一种可用的材料）
+            _ok, why = self.brew_load()
+            return True, (name, f'{why} ｜ 效果 {self.effects_desc()}')
+        elif b == B.WATER:
+            # Phase 3-F：对着水右键 = 用玻璃瓶装水。**必须放在最后一条**：
+            # 水里不可能有别的可交互方块，但顺序上先排具体方块更省心。
+            ok, why = self.fill_bottle()
+            if ok:
+                return True, ('水', why)
         return False, None
 
     # ---------------------------------------------------------------- 背包
@@ -1011,12 +1153,26 @@ class McCloneKernel(Service):
         return 'cooking', None
 
     # ---------------------------------------------------------------- 生存
-    def hurt(self, amount: float, cause: str = ''):
-        """掉血（Phase 2 的生物也走这个入口 —— '受伤来源'只有这一处）。"""
+    def hurt(self, amount: float, cause: str = '', floor: float = 0.0):
+        """掉血（Phase 2 的生物也走这个入口 —— '受伤来源'只有这一处）。
+
+        Phase 3-F 给了它两个参数，都是为了**保住"唯一入口"这条性质**：
+
+        * `floor`：血量下限。剧毒药水用它停在 1 HP（MC 同款）——
+          如果让剧毒绕开 `hurt()` 自己减血，那"受伤"就有了第二个入口，
+          `stats['damage']` / 死亡判定迟早会漏掉其中一条；
+        * 抗性药水把伤害乘 `BW.damage_scale`。⚠ **`cause='starve'` 不乘**：
+          否则"饿死"变成"饿不死"，那是个比"抗性太强"难查得多的 bug
+          （玩家会一直停在 1 HP，看着像卡住了）。毒伤**照乘**（MC 同款）。
+        """
         if self.state != 'playing' or amount <= 0:
             return self.health
-        self.health = max(0.0, self.health - float(amount))
-        self.stats['damage'] += float(amount)
+        dmg = float(amount)
+        if cause != 'starve':
+            dmg *= BW.damage_scale(self.effects)
+        floor = max(0.0, min(float(floor), self.max_health))
+        self.health = max(floor, self.health - dmg)
+        self.stats['damage'] += dmg
         if self.health <= 0.0:
             self.state = 'dead'
             self.death_cause = cause or 'unknown'
@@ -1070,6 +1226,11 @@ class McCloneKernel(Service):
         # 饿死
         if self.hunger <= 0.0:
             self.hurt(STARVE_RATE * dt, 'starve')
+        # Phase 3-F：持续伤害（剧毒）。**下限 1 HP**：毒不致死，
+        # 否则"喝毒药自杀"会变成一个玩家会去用的技巧（MC 同款处理）。
+        rate = BW.dot_rate(self.effects)
+        if rate > 0.0:
+            self.hurt(rate * dt, 'poison', floor=1.0)
         # 摔落：落地那一刻按落差结算（只在"刚落地"这一帧触发）
         if self.grounded and self._fall_from is not None:
             fall = self._fall_from - self.pos[1]
@@ -1233,7 +1394,10 @@ class McCloneKernel(Service):
         if n > 1e-6:
             wish_x, wish_z = wish_x / n, wish_z / n
 
-        speed = FLY_SPEED if self.flying else WALK_SPEED
+        # Phase 3-F：迅捷药水只加**步行**速度 —— 飞行不吃它。
+        # 理由：飞是"调试/建造"的手段（`F` 一按就能飞），让它也吃速度药水只会
+        # 让"迅捷到底加了多少"变得说不清；而且 MC 里迅捷也不影响创造飞行。
+        speed = FLY_SPEED if self.flying else WALK_SPEED * BW.speed_mult(self.effects)
         if self.flying:
             self.vel[0] = wish_x * speed
             self.vel[2] = wish_z * speed
@@ -1288,6 +1452,8 @@ class McCloneKernel(Service):
         self._update_drops(dt)
         self.pickup_nearby()
         self.furnace_step(dt)
+        self.brew_step(dt)                         # Phase 3-F：酿造台那一炉
+        self._potion_step(dt)                      # Phase 3-F：药水效果计时
         self.update_mobs(dt)
         self.fluid_step(dt)
         # Phase 3：红石（按钮回弹 + 脏网络重算；预算与光照同思路，防掉帧）
@@ -1413,7 +1579,9 @@ class McCloneKernel(Service):
         # （docstring 早就这么承诺，先前只写在文档里没实现 —— 隔墙抡人实测复现过）
         if self.raycast(max_dist=best_t - 1e-6) is not None:
             return None
-        dead = self.hit_mob(best, 4.0 + EN.damage_bonus(self._held_enchant_levels()))
+        dmg = (4.0 + EN.damage_bonus(self._held_enchant_levels())
+               + BW.damage_bonus(self.effects))
+        dead = self.hit_mob(best, dmg)
         return (best.kind.name, dead)
 
     def damage_player_from_mob(self, amount: float, cause: str):
@@ -1744,6 +1912,12 @@ class McCloneKernel(Service):
                 'enchant': {I.name_of(k): {n: int(v) for n, v in sorted(lv.items())}
                             for k, lv in sorted(self.enchants.items()) if lv},
                 'wear': {I.name_of(k): int(v) for k, v in sorted(self.wear.items()) if v},
+                # --- Phase 3-F（v5）：药水效果与酿造台那一炉 ---
+                # 两者都是**状态**（剩余秒不是能重算出来的派生量）⇒ 进档。
+                'effects': {n: round(float(v), 3)
+                            for n, v in sorted(self.effects.items()) if v > 0},
+                'brewing': {'output': self.brewing['output'],
+                            'left': round(float(self.brewing['left']), 3)},
             },
             'drops': [{'pos': [float(c) for c in d['pos']], 'item': I.name_of(d['item']),
                        'n': int(d['n']), 't': float(d['t'])} for d in self.drops],
@@ -1756,7 +1930,7 @@ class McCloneKernel(Service):
     def load(self, data: dict):
         """读档（世界按存档的种子/尺寸重建，再重放增量与玩家状态）。"""
         ver = int(data.get('version', 0))
-        if ver not in (1, 2, 3, 4):
+        if ver not in (1, 2, 3, 4, 5):
             raise ValueError(f'不支持的存档版本：{data.get("version")!r}')
         wd = data['world']
         # ⚠ 校验必须在**覆盖字段之前**（实测踩过：先 `self.size = wd['size']` 再比对，
@@ -1861,8 +2035,29 @@ class McCloneKernel(Service):
             if iid not in self.inventory:
                 self.enchants.pop(iid, None)
                 self.wear.pop(iid, None)
-        for key in ('enchanted', 'xp_gained'):
+        for key in ('enchanted', 'xp_gained', 'brewed', 'drank'):
             self.stats.setdefault(key, 0)
+        # --- Phase 3-F（v5）：药水效果与酿造台 ---
+        # ⚠ 老档（v1~v4）没有这两项 ⇒ 给默认值。未知效果名**响亮报错**
+        # （不静默丢一条正在生效的药水 —— 那会让"我的迅捷怎么没了"无从查起）。
+        self.effects = {}
+        for n, sec in (p.get('effects') or {}).items():
+            if n not in BW.EFFECTS:
+                raise ValueError(f'存档里有未知药水效果：{n!r}')
+            if float(sec) > 0:
+                self.effects[str(n)] = float(sec)
+        br = dict(p.get('brewing') or {})
+        out = br.get('output')
+        if out is not None and out not in I.ITEMS_BY_NAME:
+            raise ValueError(f'存档里酿造台的产出是未知物品：{out!r}')
+        self.brewing = {'output': out,
+                        'left': max(0.0, float(br.get('left') or 0.0))}
+        if out is not None and self.brewing['left'] <= 0.0:
+            # 存档里"酿好了但还没发"的那一炉：读档后**立刻发货**，
+            # 而不是留一个 left=0 的僵尸状态在那儿（下一帧 `brew_step` 也会发货，
+            # 但那样"读档后多一帧才到手"会让对拍多一个时间依赖）。
+            self.give_item(out, 1)
+            self.brewing = {'output': None, 'left': 0.0}
         # Phase 2-A：世界时刻按存档恢复；光照缓存整体作废（方块变了 ⇒ 光照必须重算）
         self.cycle.load(data.get('day') or {})
         self._lit = set()
@@ -1903,6 +2098,9 @@ class McCloneKernel(Service):
             # Phase 3-E：经验与附魔读数（HUD 与 CLI 共用同一份口径）
             'xp': int(self.xp), 'level': self.level,
             'enchant': EN.describe_levels(self.enchants.get(self.selected_item())),
+            # Phase 3-F
+            'effects': BW.describe_effects(self.effects),
+            'brewing': self.brewing['output'],
             'state': self.state,
             'drops': len(self.drops),
             'furnace': self.furnace['recipe'],

@@ -149,9 +149,22 @@ def c_mesh():
     # ④ 连续：相邻两格的同一面，UV 起点差恰好一个格宽（贴图接得上）
     uv2 = face_uv_quad('+z', 1, 0, 0)
     cont_ok = abs((uv2[0][0] - uv[0][0]) - span) < 1e-6
-    _report('mesh', faces_buried == 6 and wind_ok and uv_ok and cont_ok and st['faces'] > 0,
+    # ⑤ **密度**：一格方块面必须**铺满**它那张贴图的矩形（Phase 3-F 修掉的静默错误）。
+    # 这条以前没有 —— 于是"面内只走完 1/cols"这个错误从 Phase 0 活到了 Phase 3-F：
+    # 近看是一团团糊斑（整个世界的贴图大了 8 倍）。判据是**比例**：
+    # 面内 UV 跨度 ÷ 贴图矩形宽度，必须 = 1.0（用 `atlas_rect` 的两端当分母）。
+    from mcclone3d.mesh import _atlas_uv_quad, atlas_rect
+    tile = 'stone'
+    tu0, tv0, tu1, tv1 = atlas_rect(tile)
+    mp = _atlas_uv_quad(face_uv_quad('+z', 0, 0, 0), tile)
+    dens_u = (max(p[0] for p in mp) - min(p[0] for p in mp)) / (tu1 - tu0)
+    dens_v = (max(p[1] for p in mp) - min(p[1] for p in mp)) / (tv1 - tv0)
+    dens_ok = abs(dens_u - 1.0) < 1e-6 and abs(dens_v - 1.0) < 1e-6
+    _report('mesh', faces_buried == 6 and wind_ok and uv_ok and cont_ok and dens_ok
+            and st['faces'] > 0,
             f'埋块可见面={6 - faces_buried}/0 绕序={wind_ok} UV跨度={du:.4f}(期望{span:.4f}) '
-            f'跨格连续={cont_ok} 区块面数={st["faces"]}')
+            f'跨格连续={cont_ok} 密度(铺满一格 {dens_u:.3f}×{dens_v:.3f})={dens_ok} '
+            f'区块面数={st["faces"]}')
 
 
 @check('physics')
@@ -1751,6 +1764,210 @@ def c_enchant():
             f'精准采集玻璃掉玻璃={silk_ok} 锋利+2.5={dmg_ok} '
             f'附魔扣{EN.OFFER_COSTS[slot]}级={apply_ok} 非台前拒绝={far_ok} '
             f'存档v4={save_ok} 读v3老档={backward_ok}')
+
+
+@check('brewing')
+def c_brewing():
+    """酿造与药水（Phase 3-F）：装水 → 酿造 → 喝 → 效果**真的改玩法** → 存档 v5。
+
+    这条验收的重点和附魔那条一样：**每条效果都要有可观测的后果**，
+    而不是"表里有这条效果"：迅捷要真的走得更远、力量要真的加伤害、
+    抗性要真的减伤（精确倍率）、剧毒要真的掉血**且停在 1 HP**。
+    """
+    from mcclone3d import brewing as BW
+
+    # ① 配方/物品表自检（纯逻辑）
+    brew_ok = (len(BW.BREWS) == len(BW.POTION_NAMES) == len(BW.EFFECTS)
+               and all(BW.brew_by_ingredient(b.ingredient) is b for b in BW.BREWS)
+               and all(BW.brew_by_output(b.output) is b for b in BW.BREWS))
+    # 每条酿造配方都能在 `recipes` 的合成表里找到它的材料来源（防"死材料"）
+    mats = {b.ingredient for b in BW.BREWS}
+    src = set()
+    for r in R.craft_recipes():
+        src.add(r.output)
+    for row in R.DROP_TABLE.values():
+        if row[0]:
+            src.add(row[0])
+    src |= {'wheat', 'rotten_flesh', 'coal', 'iron_ingot', 'gold_ingot', 'sugar'}
+    mat_ok = mats <= src
+
+    k = make_offline({'seed': 61, 'size': 64, 'height': 32, 'light': False,
+                      'mobs': False, 'creative': False})
+    x, z = 12, 12
+    y = k.world.surface_at(x, z) + 1
+    for dx in range(-1, 2):
+        for dz in range(-1, 2):
+            k.world.set(x + dx, y, z + dz, B.WATER)
+    k.fluid.mark_sources(k.world)
+    gb = I.item_by_name('glass_bottle')
+    k.give(gb.id, 4)
+    k.hotbar[0] = gb.id
+    k.select(0)
+    k.flying = True
+    k.pos = [x + 0.5, y + 2.0, z + 0.5]
+    k.yaw, k.pitch = 0.0, -90.0
+
+    # ② 装水：对着水右键（不是水就拒绝）
+    k.pitch = 90.0
+    dry_ok = k.fill_bottle() == (False, '要对着水')
+    k.pitch = -90.0
+    ok_fill, _why = k.fill_bottle()
+    wb = I.item_by_name('water_bottle')
+    fill_ok = ok_fill and k.inventory.get(wb.id, 0) == 1
+
+    # ③ 酿造：一条配方全流程（材料扣掉 → 到点给药水 → 中途不能重复装）
+    k.give_item('sugar', 2)
+    ok_load, why = k.brew_load('sugar')
+    # 一炉没完不许再装（否则第二次装料会把第一次的料白白吃掉）
+    busy_ok = k.brew_load('sugar')[0] is False
+    early = k.brew_step(BW.BREW_TIME - 0.1)
+    late = k.brew_step(0.2)
+    sp = I.item_by_name('swiftness_potion')
+    brew_ok2 = (ok_load and busy_ok and early[0] == 'brewing'
+                and late == ('done', 'swiftness_potion')
+                and k.inventory.get(sp.id, 0) == 1
+                and k.stats['brewed'] == 1)
+    # 原料不能凭空变出来：水瓶与糖各扣 1
+    cost_ok = k.inventory.get(wb.id, 0) == 0 and k.inventory.get(
+        I.item_by_name('sugar').id, 0) == 1
+
+    # ④ 迅捷：**走得更远**（实测位移，不是"看倍率字段"）
+    def _walk(effects):
+        k2 = make_offline({'seed': 61, 'size': 64, 'height': 32, 'light': False,
+                           'mobs': False, 'creative': False})
+        k2.flying = False
+        k2.pos = [x + 0.5, float(k2.world.surface_at(x, z) + 1), z + 0.5]
+        k2.vel = [0.0, 0.0, 0.0]
+        k2.effects = dict(effects)
+        k2.grounded = True
+        p0 = list(k2.pos)
+        for _ in range(30):
+            k2.step(1 / 60.0, move=(1.0, 0.0))
+        return ((k2.pos[0] - p0[0]) ** 2 + (k2.pos[2] - p0[2]) ** 2) ** 0.5
+
+    d_normal = _walk({})
+    d_swift = _walk({'swiftness': 30.0})
+    # 只有在**直线且无阻挡**时才严格等于倍率；这里地面起伏 + 起步加速，
+    # 所以判据是"明显更远"，并额外用纯函数核对倍率本身
+    swift_ok = d_swift > d_normal * 1.15 and abs(BW.speed_mult({'swiftness': 30.0}) - 1.4) < 1e-9
+    # 飞行不吃迅捷（设计如此）
+    k.flying = True
+    k.effects = {}
+    k.vel = [0.0, 0.0, 0.0]
+    p0 = list(k.pos)
+    for _ in range(30):
+        k.step(1 / 60.0, move=(1.0, 0.0))
+    fly_normal = abs(k.pos[0] - p0[0]) + abs(k.pos[2] - p0[2])
+    k.effects = {'swiftness': 30.0}
+    k.vel = [0.0, 0.0, 0.0]
+    p0 = list(k.pos)
+    for _ in range(30):
+        k.step(1 / 60.0, move=(1.0, 0.0))
+    fly_swift = abs(k.pos[0] - p0[0]) + abs(k.pos[2] - p0[2])
+    fly_ok = abs(fly_swift - fly_normal) < 1e-6
+    k.flying = False
+    k.effects = {}
+
+    # ⑤ 抗性：受伤按倍率缩（精确），**但饿死不受影响**
+    k.health = 20.0
+    k.effects = {'resistance': 30.0}
+    k.hurt(10.0, 'mob')
+    resist_ok = abs(k.health - 14.0) < 1e-9
+    k.effects = {}
+    k.health = 20.0
+    k.hurt(10.0, 'mob')
+    plain_ok = abs(k.health - 10.0) < 1e-9
+    k.health = 5.0
+    k.effects = {'resistance': 30.0}
+    k.hurt(2.0, 'starve')
+    starve_ok = abs(k.health - 3.0) < 1e-9
+    k.effects = {}
+    k.health = 20.0
+
+    # ⑥ 力量：攻击伤害 +2。用**血量差**量伤害（`Mob` 有 `__slots__`，
+    # 打不了桩；而"掉了多少血"本来就是这件事唯一有意义的判据）。
+    # 用僵尸（14 血）而不是猪（8 血）：要挨两下都不死才量得到对比值。
+    st = I.item_by_name('stone')
+    k.hotbar[1] = st.id
+    k.select(1)
+    mob = k.spawn_mob('zombie', x + 0.5, y + 2.0, z - 0.5)
+    if mob is None:
+        dmg_ok = '刷不出僵尸（测试前提不成立）'
+    else:
+        hp0 = mob.health
+        k.hit_mob(mob, 4.0 + BW.damage_bonus({'strength': 30.0}))
+        dmg_with = hp0 - mob.health
+        hp1 = mob.health
+        k.hit_mob(mob, 4.0)
+        dmg_plain = hp1 - mob.health
+        dmg_ok = (abs(dmg_with - 6.0) < 1e-9 and abs(dmg_plain - 4.0) < 1e-9)
+
+    # ⑦ 治疗：瞬回 +6（精确），且**不留在效果表里**
+    hb = I.item_by_name('healing_potion')
+    k.give(hb.id, 1)
+    k.hotbar[0] = hb.id
+    k.select(0)
+    k.health = 5.0
+    ok_heal, _n = k.drink()
+    heal_ok = (ok_heal and abs(k.health - 11.0) < 1e-9 and 'healing' not in k.effects
+               and k.stats['drank'] == 1)
+
+    # ⑧ 剧毒：按秒掉血 + **停在 1 HP**（不致死）
+    pb = I.item_by_name('poison_potion')
+    k.give(pb.id, 1)
+    k.select(0)
+    k.hotbar[0] = pb.id
+    k.health = 20.0
+    k.drink()
+    k._survival_step(1.0, 0.0)
+    poison_ok = abs(k.health - (20.0 - BW.dot_rate({'poison': 10.0}))) < 1e-9
+    k.health = 1.2
+    k._survival_step(1.0, 0.0)
+    floor_ok = (k.health == 1.0 and k.state == 'playing')
+    # 到点自动消失
+    k.effects = {'poison': 0.5}
+    k._potion_step(0.6)
+    expire_ok = k.effects == {}
+
+    # ⑨ 存档 v5：效果与"进行中的那一炉"都往返；**老档（v4）**能读
+    k.health = 20.0
+    k.effects = {'swiftness': 12.5, 'resistance': 3.0}
+    k.give_item('sugar', 1)
+    k.give_item('water_bottle', 1)
+    k.brew_load('sugar')
+    blob = json.loads(json.dumps(k.dump()))
+    ver_ok = blob['version'] == SAVE_VERSION == 5
+    k2 = make_offline({'seed': 61, 'size': 64, 'height': 32, 'light': False,
+                       'mobs': False, 'creative': False})
+    k2.load(blob)
+    save_ok = (k2.effects == k.effects and k2.brewing == k.brewing
+               and k2.stats['brewed'] == k.stats['brewed'])
+    old = json.loads(json.dumps(blob))
+    old['version'] = 4
+    for key in ('effects', 'brewing'):
+        old['player'].pop(key, None)
+    for key in ('brewed', 'drank'):
+        old['player']['stats'].pop(key, None)
+    k3 = make_offline({'seed': 61, 'size': 64, 'height': 32, 'light': False,
+                       'mobs': False, 'creative': False})
+    try:
+        k3.load(old)
+        backward_ok = (k3.effects == {} and k3.brewing['output'] is None)
+    except Exception as exc:                    # noqa: BLE001
+        backward_ok = f'{type(exc).__name__}: {exc}'
+
+    ok = (brew_ok and mat_ok and dry_ok and fill_ok and brew_ok2 and cost_ok
+          and swift_ok and fly_ok and resist_ok and plain_ok and starve_ok
+          and dmg_ok and heal_ok and poison_ok and floor_ok and expire_ok
+          and ver_ok and save_ok and backward_ok is True)
+    _report('brewing', ok,
+            f'配方表={brew_ok} 材料可得={mat_ok} 非水拒绝={dry_ok} 装水={fill_ok} '
+            f'一炉({why})={brew_ok2} 扣料={cost_ok} '
+            f'迅捷走 {d_normal:.2f}→{d_swift:.2f}格={swift_ok} 飞行不吃={fly_ok} '
+            f'抗性 10→{20 - 14:.0f}伤={resist_ok} 无抗性={plain_ok} 饿死不受抗性={starve_ok} '
+            f'力量 4→6={dmg_ok} 治疗+6且瞬时={heal_ok} '
+            f'剧毒 1点/秒={poison_ok} 停在1HP={floor_ok} 到点消失={expire_ok} '
+            f'存档v5={ver_ok and save_ok} 读v4老档={backward_ok}')
 
 
 # ---------------------------------------------------------------- 主流程

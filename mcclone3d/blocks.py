@@ -20,7 +20,7 @@ __all__ = [
     'AIR', 'STONE', 'DIRT', 'GRASS', 'SAND', 'WATER', 'LOG', 'LEAVES',
     'PLANKS', 'GLASS', 'COBBLE', 'BRICK', 'SNOW', 'GRAVEL',
     'CRAFTING_TABLE', 'FURNACE', 'COAL_ORE', 'IRON_ORE', 'GOLD_ORE',
-    'DIAMOND_ORE', 'CROP', 'BEDROCK', 'TORCH', 'ENCHANT_TABLE',
+    'DIAMOND_ORE', 'CROP', 'BEDROCK', 'TORCH', 'ENCHANT_TABLE', 'BREWING_STAND',
     'REDSTONE_WIRE', 'LEVER_OFF', 'LEVER_ON', 'BUTTON_OFF', 'BUTTON_ON',
     'REDSTONE_TORCH', 'REDSTONE_TORCH_OFF',
     'REPEATER_OFF', 'REPEATER_ON', 'LAMP_OFF', 'LAMP_ON',
@@ -134,12 +134,15 @@ PISTON_DOWN_ON = 48
 PISTON_ARM = 49
 #: 附魔台（Phase 3-E）：右键给**手持工具**附魔。只有一种状态（附魔结果不体现在方块上）。
 ENCHANT_TABLE = 81
+#: 酿造台（Phase 3-F）：右键把"水瓶 + 材料"放进去酿。同样只有一种状态
+#: （酿的是什么由材料决定，不体现在方块上 —— 与 MC 同款）。
+BREWING_STAND = 82
 
 #: 本项目用到的 id 上界（校验 / 数组尺寸用）。Phase 3-B 因中继器调档从 63 提到 80；
-#: Phase 3-E 的附魔台排到 81。
+#: Phase 3-E 的附魔台排到 81；Phase 3-F 的酿造台排到 82。
 #: —— ⚠ 有单测钉着"id 必须**连续无空洞**"（`sorted(BLOCKS) == 1..N`），
 #: 所以这个数**必须等于当前最大 id**，不能为了"留余量"写大。
-MAX_ID = 81
+MAX_ID = 82
 
 #: 活塞状态表：`(方块名前缀, 关 id, 开 id)` —— 顺序 = north / south / east / west / up / down。
 #: 方向名与 `mesh.NORMALS` 同一套：**north = -z、south = +z、east = +x、west = -x**。
@@ -376,6 +379,13 @@ def _defs():
     add(Block(ENCHANT_TABLE, 'enchant_table', '附魔台',
               {'top': 'enchant_table_top', 'side': 'enchant_table_side',
                'bottom': 'enchant_table_side'}, hardness=2.0))
+
+    # ---- Phase 3-F：酿造台 ----
+    # 整方块（**不做**扁平盒）：扁平盒会牵动 `mesh.THIN_BLOCKS` 的几何分支，
+    # 而酿造台"站在地上的一台设备"用整方块贴图就够读了（附魔台同一取舍）。
+    add(Block(BREWING_STAND, 'brewing_stand', '酿造台',
+              {'top': 'brewing_top', 'side': 'brewing_side',
+               'bottom': 'cobble'}, hardness=1.6))
     return out
 
 

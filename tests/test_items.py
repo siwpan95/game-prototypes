@@ -188,8 +188,13 @@ def t_name_of_item():
     assert I.name_of is I.name_of_item, 'name_of 该是 name_of_item 的别名（口径只有一处）'
 
 
-@test('堆叠上限：工具 max_stack == 1，方块物品 == 64')
+@test('堆叠上限：工具与容器 max_stack == 1，方块物品 == 64')
 def t_stacking():
+    """⚠ Phase 3-F 起"不是工具就一定是 64"不再成立：**容器**（玻璃瓶/水瓶/药水）
+    显式写成 `stack=1` —— 瓶子有"16 瓶一组"的写法会让"喝一瓶少一瓶"的记账与
+    hotbar 那一格的表现不一致（`selected_item()` 只看 id、不看数量），
+    一叠瓶子喝到最后会变成"明明还有却显示空了"。所以判据改成
+    "**要么是工具、要么显式声明了 stack=1，要么是 64**"。"""
     tools = [it for it in I.all_items() if it.is_tool]
     blocks = [it for it in I.all_items() if it.is_block]
     assert tools and blocks, '测试前提：物品表里要有工具与方块物品'
@@ -199,10 +204,17 @@ def t_stacking():
         assert it.max_stack == 64, f'{it.name} 的 max_stack={it.max_stack}，方块物品该是 64'
         assert it.stack == 64, f'{it.name} 的 stack={it.stack}'
     # 材料默认 64，不能有 0 或负数（会让 take/give 直接算错）
+    containers = []
     for it in I.all_items():
         assert it.max_stack >= 1, f'{it.name} 的 max_stack={it.max_stack}'
-        if not it.is_tool:
-            assert it.max_stack == 64, f'{it.name} 不是工具，max_stack 该是 64'
+        assert it.max_stack in (1, 64), \
+            f'{it.name} 的 max_stack={it.max_stack}：本项目只允许 1（工具/容器）或 64'
+        if not it.is_tool and it.max_stack == 1:
+            containers.append(it.name)
+            assert it.stack == 1, f'{it.name} 的 stack={it.stack}（容器要显式写 1）'
+    # 容器必须是"喝/装"类的东西，别悄悄把普通材料写成不可堆叠
+    assert set(containers) <= {'glass_bottle', 'water_bottle'} | set(
+        __import__('mcclone3d.brewing', fromlist=['x']).POTION_NAMES), containers
 
 
 @test('工具档位与速度表对得上（tier/durability/mines 三个字段不许漂）')

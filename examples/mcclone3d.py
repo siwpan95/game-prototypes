@@ -53,6 +53,7 @@ from pyglet.math import Mat4, Vec3                             # noqa: E402
 
 from mcclone3d import _engine, blocks as B, mesh, textures     # noqa: E402
 from mcclone3d import enchant as EN                             # noqa: E402
+from mcclone3d import brewing as BW                             # noqa: E402
 from mcclone3d.kernel import EYE_HEIGHT                        # noqa: E402
 
 #: 本 demo 需要配置树里的哪些服务（与 `cli.py` 同一份声明）
@@ -354,8 +355,9 @@ class McCloneApp:
                                                GL_TRIANGLES,
                                                position=('f', flat), colors=('f', cols))
         # 动态条的最大条数：血 10 + 饥饿 10 + hotbar 选中框 1 + 死亡遮罩 1
-        # + 经验条 1（Phase 3-E）= 23，留到 26 给后续批次（药水效果图标之类）余量。
-        self._hud_dyn_max = 26
+        # + 经验条 1（Phase 3-E）= 23，再加药水效果 5 × 2 个矩形（底 + 余量）
+        # = 33（Phase 3-F），留到 36 余量。
+        self._hud_dyn_max = 36
         self.hud_fg = self.ui_prog.vertex_list(
             self._hud_dyn_max * 6, GL_TRIANGLES,
             position=('f', [0.0] * (self._hud_dyn_max * 18)),
@@ -413,6 +415,13 @@ class McCloneApp:
         # 为什么不画成 MC 那样的绿色进度条加等级数字 —— 本 HUD 没有字体渲染
         # （`UI_FS` 只画纯色矩形），等级数字只能靠 `sanity_report` 打到日志里。
         q.append((-0.30, -0.845, 0.30, -0.822, (0.0, 0.0, 0.0, 0.45)))
+        # 药水效果槽（Phase 3-F）：经验条再上一条，最多 5 个格子。
+        # 同样没有字体 ⇒ 用**颜色**区分效果（`brewing.EFFECTS` 里每个效果带 color），
+        # 格内填充宽度 = 剩余时长比例（一眼看得出还剩多久）。
+        cw, cgap = 0.05, 0.008
+        for i in range(len(BW.EFFECT_ORDER)):
+            x0 = -0.30 + i * (cw + cgap)
+            q.append((x0, -0.818, x0 + cw, -0.799, (0.0, 0.0, 0.0, 0.40)))
         return q
 
     def _hud_dynamic_quads(self):
@@ -446,6 +455,16 @@ class McCloneApp:
         if frac > 0:
             q.append((-0.30, -0.845, -0.30 + 0.60 * frac, -0.822,
                       (0.42, 0.86, 0.30, 0.95)))
+        # 药水效果的剩余量（Phase 3-F）：一格 = 一个效果，宽度 = 剩余/总时长
+        cw, cgap = 0.05, 0.008
+        for i, name in enumerate(BW.EFFECT_ORDER):
+            left = float(k.effects.get(name, 0.0))
+            if left <= 0.0:
+                continue
+            e = BW.EFFECTS[name]
+            frac = 1.0 if e.duration <= 0 else max(0.0, min(1.0, left / e.duration))
+            x0 = -0.30 + i * (cw + cgap)
+            q.append((x0, -0.818, x0 + cw * frac, -0.799, tuple(e.color) + (0.95,)))
         # 死亡遮罩（整屏偏红）
         if k.state == 'dead':
             q.append((-1.0, -1.0, 1.0, 1.0, (0.55, 0.05, 0.05, 0.45)))
@@ -537,7 +556,12 @@ class McCloneApp:
               # Phase 3-E：经验/附魔读数（"看着像附魔了"不算判据，得让等级与
               # 附魔名与手持对得上）
               f'{k.xp_report()} '
-              f'手持={k.held_enchant_desc()}', flush=True)
+              f'手持={k.held_enchant_desc()} '
+              # Phase 3-F：药水效果与酿造台读数（"看着像加速了"不算判据）
+              f'效果={k.effects_desc()} '
+              f'酿造={k.brewing["output"] or "空"}'
+              f'{"(剩%.1fs)" % k.brewing["left"] if k.brewing["output"] else ""}',
+              flush=True)
         return eye, d
 
     # ------------------------------------------------------------ 输入
@@ -565,6 +589,20 @@ class McCloneApp:
             offers = k.enchant_offers()
             txt = offers[slot].label() if offers else '（先对着附魔台、手里拿工具）'
             print(f'[mcclone3d] 附魔档位 → {txt}', flush=True)
+            return
+        if symbol == pyglet.window.key.Q:
+            # Phase 3-F：`Q` = 喝/吃（**先试药水再试食物**）。
+            # 先前 `eat()` 根本没接到按键上（Phase 1 的疏漏），这条顺手补上。
+            ok, name = k.drink()
+            verb = '喝下'
+            if not ok:
+                ok, name = k.eat()
+                verb = '吃掉'
+            if ok:
+                print(f'[mcclone3d] {verb} {name}'
+                      f' ｜ 效果 {k.effects_desc()} ｜ 血 {k.health:.1f}', flush=True)
+            else:
+                print(f'[mcclone3d] 手上没有能喝/能吃的东西（{name}）', flush=True)
             return
         if symbol == pyglet.window.key.E:
             # Phase 3-E：对着附魔台按 E = 按当前档位附魔

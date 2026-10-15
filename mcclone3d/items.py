@@ -34,15 +34,17 @@ t = hardness × (5 if 需要工具且手上没有对路工具 else 1) / 工具�
 """
 from __future__ import annotations
 
-from .blocks import (AIR, BEDROCK, BLOCKS, BRICK, BUTTON_OFF, COAL_ORE, COBBLE,
-                     CRAFTING_TABLE, DIAMOND_ORE, DIRT, DOOR_LOWER, ENCHANT_TABLE,
-                     FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE, LAMP_OFF,
-                     LEAVES, LEVER_OFF, LOG, PISTON_N_OFF, PLANKS,
-                     REDSTONE_TORCH, REDSTONE_WIRE, REPEATER_OFF, SAND, SNOW,
-                     STONE, TORCH, WATER, by_id, by_name, name_of)
+from .blocks import (AIR, BEDROCK, BLOCKS, BREWING_STAND, BRICK, BUTTON_OFF,
+                     COAL_ORE, COBBLE, CRAFTING_TABLE, DIAMOND_ORE, DIRT,
+                     DOOR_LOWER, ENCHANT_TABLE, FURNACE, GLASS, GOLD_ORE, GRASS,
+                     GRAVEL, IRON_ORE, LAMP_OFF, LEAVES, LEVER_OFF, LOG,
+                     PISTON_N_OFF, PLANKS, REDSTONE_TORCH, REDSTONE_WIRE,
+                     REPEATER_OFF, SAND, SNOW, STONE, TORCH, WATER, by_id, by_name,
+                     name_of)
 
 __all__ = [
     'ITEM_BASE', 'KIND_BLOCK', 'KIND_MATERIAL', 'KIND_TOOL', 'KIND_FOOD',
+    'KIND_POTION',
     'TOOL_SPEED', 'TOOL_TIER_NAME', 'TOOL_KINDS',
     'Item', 'ITEMS', 'ITEMS_BY_NAME', 'item', 'item_by_name', 'name_of_item',
     'name_of', 'is_item_id', 'is_block_id', 'all_items', 'blocks_as_items',
@@ -57,6 +59,9 @@ KIND_BLOCK = 'block'
 KIND_MATERIAL = 'material'
 KIND_TOOL = 'tool'
 KIND_FOOD = 'food'
+#: Phase 3-F：药水。**不是食物** —— 喝药水走 `kernel.drink()`，与 `eat()` 分开：
+#: 两者"什么时候能用"的判据不同（吃饱了还能喝药，但吃饱了不能吃饭）。
+KIND_POTION = 'potion'
 
 #: 工具种类（对路的方块类型见 `Item.mines`）
 TOOL_KINDS = ('pickaxe', 'axe', 'shovel', 'sword')
@@ -191,6 +196,22 @@ def _defs():
     add('diamond', '钻石')
     # --- Phase 3-E：附魔台（可合成、可放置；见 `recipes` 与 `enchant`）---
     add('enchant_table', '附魔台', KIND_BLOCK, block_id=ENCHANT_TABLE, stack=64)
+    # --- Phase 3-F：酿造（见 `brewing`）---
+    # 玻璃瓶 / 水瓶 / 药水都是**不可堆叠的容器**（MC 同款：瓶子类 stack=1）。
+    # 理由不只是"照抄 MC"：瓶子有 16 瓶一组的写法会让"喝一瓶少一瓶"的记账
+    # 与 hotbar 那一格的表现不一致（`selected_item()` 只看 id、不看数量），
+    # 一叠瓶子喝到最后会变成"明明还有却显示空了"。stack=1 直接把这类歧义掐掉。
+    add('brewing_stand', '酿造台', KIND_BLOCK, block_id=BREWING_STAND, stack=64)
+    add('glass_bottle', '玻璃瓶', stack=1)
+    add('water_bottle', '水瓶', stack=1)
+    add('sugar', '糖')
+    for _name, _title in (('healing_potion', '治疗药水'),
+                          ('swiftness_potion', '迅捷药水'),
+                          ('strength_potion', '力量药水'),
+                          ('resistance_potion', '抗性药水'),
+                          ('poison_potion', '剧毒药水')):
+        add(_name, _title, KIND_POTION, stack=1)
+    del _name, _title
     return out
 
 

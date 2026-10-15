@@ -592,7 +592,7 @@ def t_reset():
     # 统计键**集合**要完整、且每个都归零（比旧断言更严：旧断言只看了 2 个键）
     assert set(k.stats) == {'dug', 'placed', 'crafted', 'smelted', 'picked',
                             'eaten', 'deaths', 'damage',
-                            'enchanted', 'xp_gained'}, \
+                            'enchanted', 'xp_gained', 'brewed', 'drank'}, \
         f'统计键集合变了：{sorted(k.stats)}'
     assert k.xp == 0 and k.enchants == {} and k.wear == {}, 'reset 该清掉经验与附魔'
     assert all(v == 0 for v in k.stats.values()), f'reset 没清统计：{k.stats}'
