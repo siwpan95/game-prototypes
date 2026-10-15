@@ -9,7 +9,7 @@ from data import ConfigLoader, SaveManager
 from model import (
     Character, Enemy, Item, Vehicle, NPC, Skill,
     GameState, GameData, Direction, QuestTrack,
-    BattleEngine, MapManager,
+    BattleEngine, MapManager, InfiniteTerrain,
 )
 
 
@@ -344,18 +344,59 @@ class GameViewModel:
     def command_interact(self):
         d = self.data
         if d.state == GameState.WORLD:
-            if MapManager.is_at_town(d):
-                self.command_enter_town()
+            entrance_id = MapManager.entrance_at(d)
+            if entrance_id is not None:
+                self._enter_map(entrance_id)
+            elif MapManager.is_at_leave_point(d):
+                self._leave_map()
+            elif (MapManager.is_bounded(d) and d.config is not None
+                  and d.config.maps[d.current_map_id].is_town):
+                # 城镇内闲逛时，空格打开城镇菜单
+                d.state = GameState.TOWN
+                self._notify_state()
             else:
                 d.add_log("这里什么都没有。")
         elif d.state == GameState.DIALOG:
             d.state = GameState.WORLD
             self._notify_state()
 
-    def command_enter_town(self):
-        self.data.state = GameState.TOWN
-        self.data.add_log("进入了城镇。")
+    def _enter_map(self, map_id: int):
+        """从荒野进入有限地图（城镇/遗迹）"""
+        d = self.data
+        map_data = self.config.maps.get(map_id)
+        if map_data is None:
+            d.add_log("目标地图不存在。")
+            return
+        d.return_x, d.return_y = d.player_x, d.player_y
+        d.current_map_id = map_id
+        MapManager.generate_map(d, map_data, self.config.npcs)
+        d.player_x, d.player_y = MapManager.entrance_cell(map_data)
+        if map_data.is_town:
+            d.state = GameState.TOWN
+            d.add_log(f"进入了{map_data.name}。")
+        else:
+            d.state = GameState.WORLD
+            d.add_log(f"来到了{map_data.name}。")
         self._notify_state()
+
+    def _leave_map(self):
+        """从有限地图返回荒野"""
+        d = self.data
+        d.current_map_id = 1
+        # 避免刚出镇就站在入口上、再次交互时立刻被弹回，优先向上偏移一格
+        if InfiniteTerrain.is_passable(d.return_x, d.return_y - 1):
+            d.player_x, d.player_y = d.return_x, d.return_y - 1
+        else:
+            d.player_x, d.player_y = d.return_x, d.return_y
+        d.state = GameState.WORLD
+        d.add_log("回到了荒野。")
+        self._notify_state()
+
+    def command_leave_town(self):
+        """离开城镇（城镇菜单选项 4）"""
+        d = self.data
+        if d.state == GameState.TOWN:
+            self._leave_map()
 
     def command_enter_shop(self):
         d = self.data
@@ -565,6 +606,8 @@ class GameViewModel:
             return False
         self.data = new_data
         self.data.add_log(f"已读取槽位 {slot} 的存档。")
+        # 重建地图入口与有限地图网格（网格不持久化，读档后按配置重新生成）
+        MapManager.create_map(self.data, self.config.maps, self.config.npcs)
         self._notify_state()
         self._refresh_all()
         return True

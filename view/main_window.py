@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 from typing import TYPE_CHECKING
 
-from model import GameState, Direction
+from model import GameState, Direction, MapManager, VIEWPORT_H, VIEWPORT_W
 from .components import TaggedTextDisplay, InfoPanel, ButtonBar, show_messagebox
 
 if TYPE_CHECKING:
@@ -248,7 +248,10 @@ class MainWindow:
     def _on_escape(self, event):
         d = self.vm.data
         if d.state == GameState.MENU:
-            self.root.quit()
+            if d.player is not None:
+                d.state = GameState.WORLD  # 有进度时 ESC 返回游戏（暂停菜单）
+            else:
+                self.root.quit()
         elif d.state == GameState.BATTLE:
             d.add_log("战斗中不能退出！")
         elif d.state == GameState.WORLD:
@@ -293,8 +296,7 @@ class MainWindow:
             elif event.char == '3':
                 self.vm.command_repair_vehicle()
             elif event.char == '4':
-                d.state = GameState.WORLD
-                d.add_log("离开了城镇。")
+                self.vm.command_leave_town()
         elif d.state == GameState.SHOP:
             if event.char.isdigit():
                 self.vm.command_buy_item(int(event.char) - 1)
@@ -310,12 +312,11 @@ class MainWindow:
             index = self.game_display.index(f"@{event.x},{event.y}")
             line, char = map(int, index.split('.'))
             d = self.vm.data
-            # 视口偏移：字符坐标 + 视口左上角 = 世界坐标
-            half_w = 20  # VIEWPORT_W / 2
-            half_h = 11  # VIEWPORT_H / 2
-            world_x = char + d.player_x - half_w
-            world_y = (line - 1) + d.player_y - half_h
-            if line - 1 >= 0 and line - 1 < 22 and char >= 0 and char < 40:
+            # 视口原点换算：与 MapManager.get_viewport_origin 保持一致
+            origin_x, origin_y, pad_x, pad_y = MapManager.get_viewport_origin(d)
+            world_x = origin_x + (char - pad_x)
+            world_y = origin_y + ((line - 1) - pad_y)
+            if 0 <= line - 1 < VIEWPORT_H and 0 <= char < VIEWPORT_W:
                 d.add_log(f"点击了位置({world_x}, {world_y})")
 
     # ═══════════════════════════════════════════════════

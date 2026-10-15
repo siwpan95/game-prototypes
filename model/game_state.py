@@ -129,9 +129,12 @@ class GameData:
         self.current_vehicle = None  # Vehicle
         self.config = None  # ConfigLoader 引用（由外部注入）
 
-        # 当前地图（二维列表）
-        self.current_map = []
-        self.town_positions = []
+        # 地图系统
+        self.town_positions = []    # 荒野中的地图入口坐标列表 [(x, y), ...]
+        self.map_entrances = {}     # 荒野入口坐标 → map_id
+        self.map_grids = {}         # 有限地图网格缓存 map_id -> list[list[str]]
+        self.return_x = 10          # 从有限地图返回荒野时的落脚点
+        self.return_y = 10
 
         # 集合数据
         self.inventory = []  # list[Item]
@@ -175,6 +178,8 @@ class GameData:
             "current_map_id": self.current_map_id,
             "player_x": self.player_x,
             "player_y": self.player_y,
+            "return_x": self.return_x,
+            "return_y": self.return_y,
             "game_time": self.game_time,
             "gold": self.gold,
             "player": self.player.to_dict() if self.player else None,
@@ -194,6 +199,8 @@ class GameData:
         gd.current_map_id = d.get("current_map_id", 1)
         gd.player_x = d.get("player_x", 10)
         gd.player_y = d.get("player_y", 10)
+        gd.return_x = d.get("return_x", 10)
+        gd.return_y = d.get("return_y", 10)
         gd.game_time = d.get("game_time", 0.0)
         gd.gold = d.get("gold", 0)
 

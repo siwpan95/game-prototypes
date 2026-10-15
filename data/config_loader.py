@@ -1,12 +1,36 @@
-"""
-Excel配置加载器
+"""Excel配置加载器
 用于从Excel文件中加载游戏配置数据
 """
+import math
+
 import pandas as pd
 import os
 import random
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
+
+
+def _col(row, key: str, default):
+    """安全读取行字段：列不存在或值为 NaN 时返回默认值"""
+    if key not in row:
+        return default
+    value = row[key]
+    if isinstance(value, float) and math.isnan(value):
+        return default
+    if value is None:
+        return default
+    return value
+
+
+def _to_bool(value, default: bool = False) -> bool:
+    """把 Excel 单元格转成布尔：是/真/true/1/yes → True"""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        return value.strip().lower() in ("是", "真", "true", "1", "yes", "y", "t")
+    return default
 
 @dataclass
 class EnemyData:
@@ -53,6 +77,10 @@ class MapData:
     terrain_types: str
     encounter_rate: float
     music: str
+    infinite: bool = True      # 无限地图（荒野） vs 有限地图（城镇/遗迹）
+    is_town: bool = False      # 是否城镇地图
+    entrance_x: int = -1       # 荒野入口坐标（-1 = 无）
+    entrance_y: int = -1
 
 @dataclass
 class NPCData:
@@ -203,7 +231,11 @@ class ConfigLoader:
                     height=int(row['高度']),
                     terrain_types=str(row['地形类型']),
                     encounter_rate=float(row['遭遇率']),
-                    music=str(row['音乐'])
+                    music=str(row['音乐']),
+                    infinite=_to_bool(_col(row, '无限地图', True), True),
+                    is_town=_to_bool(_col(row, '是否城镇', False), False),
+                    entrance_x=int(_col(row, '入口X', -1)),
+                    entrance_y=int(_col(row, '入口Y', -1)),
                 )
                 self.maps[map_data.id] = map_data
             print(f"加载了 {len(self.maps)} 个地图配置")
