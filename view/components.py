@@ -10,6 +10,7 @@ class TaggedTextDisplay(tk.Text):
     TAG_STYLES = {
         "player": {"foreground": "#f1c40f", "font": ("Courier New", 12, "bold")},
         "npc": {"foreground": "#9b59b6", "font": ("Courier New", 12, "bold")},
+        "bounty": {"foreground": "#e74c3c", "font": ("Courier New", 12, "bold")},
         "town": {"foreground": "#3498db"},
         "mountain": {"foreground": "#95a5a6"},
         "water": {"foreground": "#2980b9"},
@@ -50,10 +51,10 @@ class TaggedTextDisplay(tk.Text):
         self.config(state=tk.DISABLED)
 
     def _looks_like_map_line(self, line: str) -> bool:
-        """判断是否像是地图行（由 .P N □ ^ ~ T 等字符组成）"""
+        """判断是否像是地图行（由 .P N B □ ^ ~ T 等字符组成）"""
         if len(line) < 5:
             return False
-        map_chars = set('.PN□^~T')
+        map_chars = set('.PNB□^~T')
         return all(c in map_chars or c == ' ' for c in line.strip())
 
     def _insert_map_line(self, line: str):
@@ -70,6 +71,8 @@ class TaggedTextDisplay(tk.Text):
             return "player"
         elif ch == 'N':
             return "npc"
+        elif ch == 'B':
+            return "bounty"
         elif ch == '□':
             return "town"
         elif ch == '^':

@@ -15,6 +15,7 @@ class GameState(Enum):
     DIALOG = 4
     SHOP = 5
     TOWN = 6
+    BOUNTY = 7
 
 
 class Direction(Enum):
@@ -146,6 +147,12 @@ class GameData:
         self.completed_quests = []  # list[QuestData]
         self.quest_progress = []  # list[QuestTrack]
 
+        # 赏金首运行时状态（不持久化 current_bounty_id：战斗中禁止保存）
+        self.bounty_accepted = set()   # 已接取
+        self.bounty_defeated = set()   # 已击杀待领
+        self.bounty_claimed = set()    # 赏金已入账
+        self.current_bounty_id = None  # 当前赏金首战斗（临时）
+
         # 日志
         self.log_messages = []  # list[str]
 
@@ -192,6 +199,9 @@ class GameData:
             "active_quests": [q.id for q in self.active_quests],
             "completed_quests": [q.id for q in self.completed_quests],
             "quest_progress": [t.to_dict() for t in self.quest_progress],
+            "bounty_accepted": sorted(self.bounty_accepted),
+            "bounty_defeated": sorted(self.bounty_defeated),
+            "bounty_claimed": sorted(self.bounty_claimed),
         }
 
     @classmethod
@@ -230,6 +240,10 @@ class GameData:
                 gd.completed_quests.append(quest)
         for track_d in d.get("quest_progress", []):
             gd.quest_progress.append(QuestTrack.from_dict(track_d, config))
+
+        gd.bounty_accepted = set(d.get("bounty_accepted", []))
+        gd.bounty_defeated = set(d.get("bounty_defeated", []))
+        gd.bounty_claimed = set(d.get("bounty_claimed", []))
 
         # 状态校正：依赖未持久化临时对象的状态一律回退到 WORLD
         try:

@@ -7,6 +7,7 @@ from .npc import NPC
 from .skill import Skill
 from .game_state import GameState, GameData, Direction, QuestTrack, QuestManager
 from .battle import BattleEngine
+from .bounty import BountyManager, BountyStatus
 from .map_manager import MapManager, VIEWPORT_W, VIEWPORT_H
 from .infinite_map import InfiniteTerrain
 
@@ -19,6 +20,7 @@ __all__ = [
     "GameState", "GameData", "Direction",
     "QuestTrack", "QuestManager",
     "BattleEngine",
+    "BountyManager", "BountyStatus",
     "MapManager", "VIEWPORT_W", "VIEWPORT_H",
     "InfiniteTerrain",
 ]

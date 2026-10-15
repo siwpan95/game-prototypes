@@ -9,7 +9,7 @@ from data import ConfigLoader, SaveManager
 from model import (
     Character, Enemy, Item, Vehicle, NPC, Skill,
     GameState, GameData, Direction, QuestTrack, QuestManager,
-    BattleEngine, MapManager, InfiniteTerrain,
+    BattleEngine, MapManager, InfiniteTerrain, BountyManager,
 )
 
 
@@ -46,6 +46,8 @@ class GameViewModel:
 
         self._last_update = time.time()
         self._running = False
+        # 强制人战时的临时收车备份（战斗结束后恢复）
+        self._vehicle_backup = None
 
     # ═══════════════════════════════════════════════════
     # 初始化
@@ -53,6 +55,9 @@ class GameViewModel:
 
     def init_new_game(self):
         """初始化新游戏"""
+        self._vehicle_backup = None
+        self.data = GameData()
+        self.data.config = self.config
         self.data.player = Character("雷班纳", 100, 100, 15, 8, 12)
         self.data.gold = 500
         self.data.player_x = 10
@@ -197,6 +202,7 @@ class GameViewModel:
             GameState.TOWN: self._render_town,
             GameState.SHOP: self._render_shop,
             GameState.DIALOG: self._render_dialog,
+            GameState.BOUNTY: self._render_bounty_board,
         }
         renderer = renderers.get(d.state, lambda: "")
         self.display_text.set(renderer())
@@ -286,9 +292,23 @@ class GameViewModel:
             "1. 商店\n"
             "2. 旅馆\n"
             "3. 修理店\n"
-            "4. 离开城镇\n\n"
+            "4. 悬赏榜\n"
+            "5. 离开城镇\n\n"
             "请选择选项..."
         )
+
+    def _render_bounty_board(self) -> str:
+        """悬赏榜：列表 + 状态 + 操作提示"""
+        d = self.data
+        lines = ["=== 悬赏榜 ===\n\n", "墙上的通缉令层层叠叠。\n\n"]
+        for i, bounty_id in enumerate(sorted(self.config.bounties.keys())):
+            bounty = self.config.bounties[bounty_id]
+            status = BountyManager.status(d, bounty_id)
+            label = BountyManager.status_label(status)
+            lines.append(f"{i+1}. {bounty.name:<8} 悬赏 {bounty.reward:>7}G  [{label}]\n")
+            lines.append(f"   {bounty.description}\n\n")
+        lines.append("按数字键接取/领赏，按ESC返回城镇。")
+        return "".join(lines)
 
     def _render_shop(self) -> str:
         shop = self.data.current_shop
@@ -378,6 +398,11 @@ class GameViewModel:
         # 探索任务追踪（移动成功后）
         if moved:
             QuestManager.track_explore_map(self.data, self.data.current_map_id)
+            # 赏金首明雷遭遇（走到坐标即触发）
+            bounty = BountyManager.check_encounter(self.data)
+            if bounty is not None:
+                self._start_bounty_battle(bounty)
+                return
 
         if npc:
             self.command_start_dialog(npc)
@@ -488,7 +513,7 @@ class GameViewModel:
         result = BattleEngine.try_escape(self.data)
         if result.escaped:
             self.battle_text.set("成功逃跑了！")
-            BattleEngine.end_battle(self.data)
+            self._end_battle()
             self._notify_state()
             return
         self._apply_battle_result(result)
@@ -628,6 +653,9 @@ class GameViewModel:
                         GameState.SHOP, GameState.DIALOG):
             d.state = GameState.WORLD
             self._notify_state()
+        elif d.state == GameState.BOUNTY:
+            d.state = GameState.TOWN  # 悬赏榜返回城镇菜单
+            self._notify_state()
 
     def command_show_quests(self):
         """显示任务日志"""
@@ -639,6 +667,42 @@ class GameViewModel:
                 'dialog': self._render_quests()
             })()
             self._notify_state()
+
+    # ═══════════════════════════════════════════════════
+    # 命令 — 悬赏榜（城镇设施）
+    # ═══════════════════════════════════════════════════
+
+    def command_open_bounty_board(self):
+        """打开悬赏榜（城镇菜单进入）"""
+        d = self.data
+        if not self.config.bounties:
+            d.add_log("悬赏榜空着，没有通缉犯。")
+            return
+        d.state = GameState.BOUNTY
+        d.add_log("浏览悬赏榜...")
+        self._notify_state()
+
+    def command_bounty_interact(self, index: int):
+        """悬赏榜交互：接取 / 领赏（按编号）"""
+        d = self.data
+        bounty_ids = sorted(self.config.bounties.keys())
+        if index < 0 or index >= len(bounty_ids):
+            return
+        bounty_id = bounty_ids[index]
+        bounty = self.config.bounties[bounty_id]
+        status = BountyManager.status(d, bounty_id)
+
+        if status == "locked":
+            if BountyManager.accept(d, bounty_id):
+                d.add_log(f"接取了悬赏: {bounty.name}（悬赏 {bounty.reward} 金币）。")
+        elif status == "defeated":
+            payout = BountyManager.claim(d, bounty_id)
+            if payout > 0:
+                d.add_log(f"领取了{bounty.name}的悬赏，获得 {payout} 金币！")
+        elif status == "active":
+            d.add_log(f"悬赏进行中: {bounty.name}，目标在荒野中（地图标记 B）。")
+        else:
+            d.add_log(f"{bounty.name}的悬赏已领取。")
 
     def command_new_game(self):
         self.init_new_game()
@@ -712,6 +776,38 @@ class GameViewModel:
         self.battle_text.set(f"遭遇了{enemy.name}！")
         self._notify_state()
 
+    def _start_bounty_battle(self, bounty):
+        """赏金首明雷战斗：记录 bounty、强制人战则临时下车"""
+        d = self.data
+        enemy_data = self.config.enemies.get(bounty.enemy_id)
+        if enemy_data is None:
+            d.add_log(f"{bounty.name}的战斗数据缺失（敌人ID {bounty.enemy_id}）！")
+            return
+        d.current_bounty_id = bounty.id
+        self._vehicle_backup = None
+        if bounty.on_foot and d.player.vehicle is not None:
+            # 强制人战：临时收车，战斗结束后恢复
+            self._vehicle_backup = d.player.vehicle
+            d.player.vehicle = None
+        enemy = Enemy(enemy_data)
+        d.state = GameState.BATTLE
+        d.current_enemy = enemy
+        self.battle_text.set(f"遭遇了赏金首{bounty.name}！悬赏 {bounty.reward} 金币！")
+        if bounty.on_foot:
+            self.battle_text.set(
+                self.battle_text.get()
+                + f"\n{bounty.name}拦住了去路：“下车吧，这不是钢铁该管的事。”"
+            )
+        d.add_log(f"遭遇了赏金首{bounty.name}！")
+        self._notify_state()
+
+    def _end_battle(self):
+        """结束战斗并恢复临时下车的战车"""
+        if self._vehicle_backup is not None:
+            self.data.player.vehicle = self._vehicle_backup
+            self._vehicle_backup = None
+        BattleEngine.end_battle(self.data)
+
     def _apply_battle_result(self, result):
         """应用战斗回合结果"""
         for msg in result.messages:
@@ -740,7 +836,24 @@ class GameViewModel:
                     )
                     # 掉落计入收集任务
                     QuestManager.track_collect(self.data, vr.item_dropped.id)
-            BattleEngine.end_battle(self.data)
+                # 赏金首结算（接取状态下击杀即时入账）
+                bounty_id = self.data.current_bounty_id
+                if bounty_id is not None:
+                    payout = BountyManager.on_defeated(self.data, bounty_id)
+                    bounty = self.config.bounties.get(bounty_id)
+                    if bounty is not None:
+                        if payout > 0:
+                            self.battle_text.set(
+                                self.battle_text.get()
+                                + f"\n悬赏到账：{bounty.name}，{payout} 金币！"
+                            )
+                        else:
+                            self.battle_text.set(
+                                self.battle_text.get()
+                                + f"\n{bounty.name}已被击败，回城镇悬赏榜可领取悬赏。"
+                            )
+                    self.data.current_bounty_id = None
+            self._end_battle()
             self._notify_state()
 
     def _notify_state(self):

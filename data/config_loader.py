@@ -47,6 +47,7 @@ class EnemyData:
     region_id: int = 1  # 出现区域（对应 Maps 表 ID，1=荒野）
     drop_item_id: int = 0  # 掉落物品ID（0=不掉落）
     drop_rate: float = 0.0  # 掉落率（0-1）
+    is_bounty: bool = False  # 是否赏金首专用战斗数据（不随机遭遇）
 
 @dataclass
 class ItemData:
@@ -131,6 +132,20 @@ class QuestData:
     reward_item_id: int
     target_count: int = 1  # 目标数量（击杀数/收集数/到访次数）
 
+
+@dataclass
+class BountyData:
+    """赏金首配置：固定位置的明雷 Boss，悬赏金在悬赏榜结算"""
+    id: int
+    name: str
+    reward: int            # 悬赏金额
+    map_id: int            # 所在地图
+    x: int                 # 位置坐标
+    y: int
+    enemy_id: int          # 引用的敌人战斗数据（Enemies 表）
+    on_foot: bool = False  # 强制人战（必须下车步行应战）
+    description: str = ""
+
 class ConfigLoader:
     def __init__(self, excel_path: str = "config.xlsx"):
         self.excel_path = excel_path
@@ -142,14 +157,15 @@ class ConfigLoader:
         self.skills: Dict[int, SkillData] = {}
         self.shops: Dict[int, ShopData] = {}
         self.quests: Dict[int, QuestData] = {}
-        
+        self.bounties: Dict[int, BountyData] = {}
+
     def load_all(self) -> bool:
         """加载所有配置数据"""
         try:
             if not os.path.exists(self.excel_path):
                 print(f"配置文件不存在: {self.excel_path}")
                 return False
-            
+
             # 加载各个工作表
             self._load_enemies()
             self._load_items()
@@ -159,7 +175,8 @@ class ConfigLoader:
             self._load_skills()
             self._load_shops()
             self._load_quests()
-            
+            self._load_bounties()
+
             print("配置加载完成!")
             return True
         except Exception as e:
@@ -185,6 +202,7 @@ class ConfigLoader:
                     region_id=int(_col(row, '区域ID', 1)),
                     drop_item_id=int(_col(row, '掉落物品ID', 0)),
                     drop_rate=float(_col(row, '掉落率', 0.0)),
+                    is_bounty=_to_bool(_col(row, '是否赏金首', False), False),
                 )
                 self.enemies[enemy.id] = enemy
             print(f"加载了 {len(self.enemies)} 个敌人配置")
@@ -376,31 +394,59 @@ class ConfigLoader:
         """按地图ID抽取敌人：只在该区域敌人中按遭遇率加权随机
 
         该区域没有配置敌人时，回退为区域 1（荒野通用怪），避免空图。
+        遭遇率为 0 的敌人（如赏金首）不参与随机遭遇。
         """
         if not self.enemies:
             return None
 
-        enemies = [e for e in self.enemies.values() if e.region_id == map_id]
-        if not enemies:
-            enemies = [e for e in self.enemies.values() if e.region_id == 1]
-        if not enemies:
-            enemies = list(self.enemies.values())
+        candidates = [e for e in self.enemies.values()
+                      if e.region_id == map_id and e.encounter_rate > 0]
+        if not candidates:
+            candidates = [e for e in self.enemies.values()
+                          if e.region_id == 1 and e.encounter_rate > 0]
+        if not candidates:
+            return None
 
-        weights = [e.encounter_rate for e in enemies]
-
-        # 加权随机选择
+        weights = [e.encounter_rate for e in candidates]
         total = sum(weights)
         if total <= 0:
-            return random.choice(enemies)
+            return random.choice(candidates)
 
         roll = random.uniform(0, total)
         acc = 0.0
-        for enemy in enemies:
+        for enemy in candidates:
             acc += enemy.encounter_rate
             if roll <= acc:
                 return enemy
 
-        return enemies[-1]
+        return candidates[-1]
+
+    def _load_bounties(self):
+        """加载赏金首配置（缺表时跳过，保持向后兼容）"""
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='Bounties')
+            for _, row in df.iterrows():
+                bounty = BountyData(
+                    id=int(row['ID']),
+                    name=str(row['名称']),
+                    reward=int(row['悬赏金额']),
+                    map_id=int(row['所在地图ID']),
+                    x=int(row['坐标X']),
+                    y=int(row['坐标Y']),
+                    enemy_id=int(row['敌人ID']),
+                    on_foot=_to_bool(_col(row, '强制人战', False), False),
+                    description=str(_col(row, '描述', '') or ''),
+                )
+                self.bounties[bounty.id] = bounty
+            print(f"加载了 {len(self.bounties)} 个赏金首配置")
+        except Exception as e:
+            # 没有 Bounties 表属正常（旧配置），静默跳过
+            if "No sheet named" in str(e) or "Worksheet" in str(e):
+                return
+            print(f"加载赏金首配置失败: {e}")
+
+    def get_bounty_by_id(self, bounty_id: int) -> Optional[BountyData]:
+        return self.bounties.get(bounty_id)
     
     def get_starting_items(self) -> List[ItemData]:
         """获取初始物品"""
