@@ -44,7 +44,62 @@
 迭代到固定点：每轮"清空 → 传播 → 切输出"，输出有变化就再来一轮。
 状态是有限的（每个元件只有开/关），所以必然收敛；`MAX_ITER` 只是护栏。
 
-## 五、状态切换走 `set_generated`（不记存档增量）
+## 五、元件 tick 队列：把"延迟"从迭代里挪到时间轴上（Phase 3-B）
+
+初版所有元件都是**瞬时**的：一次 `recompute_from` 内迭代到固定点，输出立刻变。
+于是**做不出任何带时间的东西** —— 最短的脉冲也被拉平，更别说时钟。
+
+现在多了一层**元件 tick 队列**（`PowerGrid.events`，最小堆）：
+
+* 中继器**不再立刻翻转**：输入与输出不一致时 `_schedule(cell, delay)` 排一个事件，
+  `delay` 由**档位**决定（`blocks.REPEATER_DELAYS` = 0.1/0.2/0.3/0.4 秒，MC 的四档）；
+* `step(dt)` 推进 `self.now`，把到期事件**逐个触发**；
+* 于是"固定点迭代"只需处理**瞬时**元件（灯/门/活塞/火把），中继器的翻转发生在**时间轴**上。
+
+### 触发时**重新读世界**，而不是把结果存进队列
+
+队列里只存 `(到期时刻, 格子)`，**不存"该变成什么"**。触发时按**当前**输入重新判断：
+
+```python
+want = 背面有电吗       # 现在读
+if want != 当前状态: 翻转
+```
+
+为什么：延迟期间输入可能已经变回去（短脉冲）。存"目标状态"的话，队列会忠实执行一个
+**现实中不存在的脉冲**（"按下又松开，0.4 秒后灯还是闪了一下"）。惰性求值天然把这种
+短脉冲吃掉 —— 这正是"脉冲整形"的物理来源。
+
+### 性能护栏
+
+环形结构（时钟）会**源源不断**产生事件 ⇒ `TICK_EVENTS_CAP` 限制一次 `step` 内触发的事件数，
+超了抛 `RedstoneOverflow`（同光照/网络的思路：**绝不静默截断**）。
+另外"同刻事件按**入队序号**处理"（堆元素带自增序号）⇒ 不依赖 dict 迭代顺序，可重放。
+
+## 六、红石火把是**反相器**（Phase 3-B）
+
+初版火把只是个"常亮电源"。真实的 MC 火把是**反相器**：脚下那块被强充能时自己熄灭
+（`redstone_torch` ↔ `redstone_torch_off` 两个状态 id）。
+
+**什么算"强充能"**（`strongly_powered`）：只有**元件**能强充能，红石线不行：
+
+* 六邻里有 `LEVER_ON` / `BUTTON_ON` ⇒ 本格被强充能；
+* 六邻里有 `REPEATER_ON` 且**本格就是它的正面那一格** ⇒ 被强充能。
+
+⚠ **火把自己不强充能任何东西** —— 这一条是反相器不会自锁的全部原因：
+
+```
+错误做法（会自锁）：火把"六邻有电就熄灭"
+  火把亮 → 自己邻居的线有电 → 判定"有电" → 熄灭 → 没电 → 亮 → …（固定点迭代永不收敛）
+
+现在的做法：火把只看**脚下**是否被元件强充能
+  火把的输出只能进红石线（弱充能）⇒ 永远改不动自己的睡眠条件 ⇒ 不会自锁
+```
+
+**于是时钟才成立**：反相器（瞬时）+ 中继器（延迟）= 环形振荡器。
+`t_clock` 就是"中继器 → 前方实心块 → 块上的火把 → 线绕回中继器背面"的环，
+周期 = `2 × 档位延迟`（0.1s 档 ⇒ 5Hz），灯一闪一闪。
+
+## 七、状态切换走 `set_generated`（不记存档增量）
 
 红石驱动的变化（灯亮、门开、活塞推）是**派生状态**，不写进存档增量：
 
@@ -59,12 +114,15 @@
 
 from __future__ import annotations
 
+import heapq
+
 from . import blocks as B
 
 __all__ = ['MAX_POWER', 'NETWORK_CAP', 'MAX_ITER', 'PUSH_LIMIT', 'BUTTON_TTL',
+           'TICK_EVENTS_CAP',
            'PowerGrid', 'RedstoneOverflow',
-           'is_source', 'is_conductor', 'is_output', 'is_piston', 'is_lamp',
-           'is_door', 'is_pushable', 'piston_input_on',
+           'is_source', 'is_component', 'is_conductor', 'is_output', 'is_piston',
+           'is_lamp', 'is_door', 'is_pushable', 'piston_input_on',
            'is_repeater', 'repeater_dir', 'repeater_face', 'repeater_front']
 
 #: 信号最大值（与 MC 同为 15）
@@ -77,6 +135,15 @@ MAX_ITER = 8
 PUSH_LIMIT = 12
 #: 按钮按下后多久自动回弹（秒）。MC 是 1 秒（石按钮）/0.5 秒（木按钮），取 1.0
 BUTTON_TTL = 1.0
+#: 一次 `step` 里最多触发多少个元件事件（护栏）。环形结构（时钟）会**源源不断**产生事件，
+#: 没有这个上限的话"一个环里套了 0 延迟事件"会让 `step` 永远出不来。
+TICK_EVENTS_CAP = 512
+#: 时间比较容差（秒）。**必须留**：`self.now` 是逐帧累加出来的浮点数，
+#: 累到几百帧后会比重排的时刻**略小**（`0.05 × 6` 累加得到 `0.30000000000000004`，
+#: 而另一条路径算出 `0.29999999999999993`）⇒ 严格的 `due <= now` 会让事件**晚一帧**触发。
+#: 而晚一帧不是"抖一下"：它把后续所有事件都推后一帧 ⇒ **相位永久滑移**
+#: （实测：1 档时钟的翻转间隔从 2 帧漂到 3 帧，周期 0.2s → 0.3s）。
+_T_TIME_EPS = 1e-6
 
 #: 六邻（红石传播用）
 _NEIGHBORS = ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))
@@ -85,11 +152,15 @@ _NEIGHBORS = ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1
 _UNPUSHABLE = frozenset({
     B.AIR, B.BEDROCK, B.WATER, B.CROP, B.TORCH,
     B.REDSTONE_WIRE, B.LEVER_OFF, B.LEVER_ON, B.BUTTON_OFF, B.BUTTON_ON,
-    B.REDSTONE_TORCH, B.REPEATER_OFF, B.REPEATER_ON, B.LAMP_OFF, B.LAMP_ON,
+    B.REDSTONE_TORCH, B.REDSTONE_TORCH_OFF,
+    B.REPEATER_OFF, B.REPEATER_ON, B.LAMP_OFF, B.LAMP_ON,
     B.DOOR_LOWER, B.DOOR_UPPER, B.DOOR_OPEN_LOWER, B.DOOR_OPEN_UPPER,
     B.PISTON_ARM,
 } | {off for (_n, off, _on) in B.PISTON_STATES}
-      | {on for (_n, _off, on) in B.PISTON_STATES})
+      | {on for (_n, _off, on) in B.PISTON_STATES}
+      # 中继器现在有 32 个状态 id（4 方向 × 4 档 × 开/关）⇒ 由表生成，手写必漏
+      | {off for (_d, _n, off, _on) in B.REPEATER_STATES}
+      | {on for (_d, _n, _off, on) in B.REPEATER_STATES})
 
 
 class RedstoneOverflow(RuntimeError):
@@ -98,8 +169,24 @@ class RedstoneOverflow(RuntimeError):
 
 # ---------------------------------------------------------------- 元件分类
 def is_source(bid: int) -> bool:
-    """是不是电源（拉杆开 / 按钮按下 / 红石火把）。"""
+    """**此刻在供电**的电源（拉杆开 / 按钮按下 / 亮着的红石火把）。
+
+    ⚠ 熄灭的火把（`REDSTONE_TORCH_OFF`）不算 —— 但它仍然属于网络，
+    见 `is_component`。
+    """
     return int(bid) in (B.LEVER_ON, B.BUTTON_ON, B.REDSTONE_TORCH)
+
+
+def is_component(bid: int) -> bool:
+    """是不是"红石元件"（网络成员，含**熄灭的火把**与关着的拉杆）。
+
+    与 `is_source` 的区别很实在：`mark()` / `_collect_network()` 关心的是
+    "这一格改了要不要重算"，而**灭掉的火把**正是最需要重算的那种格
+    （它的睡眠条件是算出来的，脚下被充能时它必须醒过来）。
+    """
+    b = int(bid)
+    return (is_source(b) or b == B.REDSTONE_TORCH_OFF
+            or is_conductor(b) or is_output(b))
 
 
 def is_conductor(bid: int) -> bool:
@@ -153,9 +240,14 @@ def is_door(bid: int) -> bool:
 
 
 def is_output(bid: int) -> bool:
-    """是不是"被信号驱动的东西"（灯 / 门 / 活塞 / 中继器）。"""
+    """是不是"被信号驱动的东西"（灯 / 门 / 活塞 / 中继器 / **红石火把**）。
+
+    火把也算：它是**反相器** —— 亮/灭由"脚下是否被强充能"决定（见模块 docstring §六）。
+    不放进这里的话它永远不会被重算，反相就无从发生。
+    """
     b = int(bid)
-    return (is_lamp(b) or is_door(b) or is_piston(b) or is_repeater(b))
+    return (is_lamp(b) or is_door(b) or is_piston(b) or is_repeater(b)
+            or b in (B.REDSTONE_TORCH, B.REDSTONE_TORCH_OFF))
 
 
 def is_pushable(bid: int) -> bool:
@@ -172,7 +264,8 @@ def piston_input_on(bid: int) -> bool:
 class PowerGrid:
     """红石网络：信号强度（dict，只存非零）+ 脏格 + 按钮回弹计时。"""
 
-    __slots__ = ('world', 'power', 'dirty', 'pending', 'on_change', 'stats')
+    __slots__ = ('world', 'power', 'dirty', 'pending', 'on_change', 'stats',
+                 'now', 'events', 'sched', '_seq')
 
     def __init__(self, world, on_change=None):
         self.world = world
@@ -184,7 +277,17 @@ class PowerGrid:
         self.pending: dict[tuple, float] = {}
         #: 方块被红石改动后的回调（内核用它标脏网格 + 让光照失效）
         self.on_change = on_change
-        self.stats = {'recompute': 0, 'cells': 0, 'switched': 0, 'buttons': 0}
+        # --- Phase 3-B：元件 tick 队列（见模块 docstring §五）---
+        #: 元件时间轴（秒），由 `step(dt)` 推进。**不进存档**（派生状态）
+        self.now = 0.0
+        #: 事件堆：`(到期时刻, 入队序号, 格子)`。用**自增序号**打破同刻并列
+        #: ⇒ 处理顺序不依赖 dict/set 的迭代顺序，可重放
+        self.events: list = []
+        #: `格子 -> 到期时刻`（去重：同一格同时只挂一个待触发事件）
+        self.sched: dict[tuple, float] = {}
+        self._seq = 0
+        self.stats = {'recompute': 0, 'cells': 0, 'switched': 0, 'buttons': 0,
+                      'scheduled': 0, 'fired': 0}
 
     # ------------------------------------------------------------ 查询
     def power_at(self, x: int, y: int, z: int) -> int:
@@ -214,8 +317,18 @@ class PowerGrid:
         for (dx, dy, dz) in _NEIGHBORS:
             n = (p[0] + dx, p[1] + dy, p[2] + dz)
             b = self.world.get(*n)
-            if is_conductor(b) or is_source(b) or is_output(b):
+            if is_component(b):          # ⚠ 用 is_component：**灭的火把**也必须能被重算到
                 self.dirty.add(n)
+        # ⚠ 还要多看一层：**红石火把的睡眠条件看的是"脚下那格是否被强充能"**，
+        #   而强充能又取决于脚下那格的六邻 —— 于是"变化点自己 + 它的六邻"
+        #   这 7 格的**上方**若有火把，那个火把也可能要翻状态。
+        #   漏掉这一层的话反相器永远不翻（实测：中继器亮了，块上的火把还是亮的）。
+        world_get = self.world.get
+        for (sx, sy, sz) in (p,) + tuple((p[0] + dx, p[1] + dy, p[2] + dz)
+                                         for (dx, dy, dz) in _NEIGHBORS):
+            t = (sx, sy + 1, sz)
+            if world_get(*t) in (B.REDSTONE_TORCH, B.REDSTONE_TORCH_OFF):
+                self.dirty.add(t)
 
     # ------------------------------------------------------------ 交互
     def toggle_lever(self, x: int, y: int, z: int):
@@ -246,31 +359,151 @@ class PowerGrid:
         return None
 
     def toggle_repeater(self, x: int, y: int, z: int):
-        """中继器手动切换（demo 里方便铺线时先手动点亮看效果）。"""
+        """中继器手动切亮/灭（**只给测试与调试用**）。
+
+        ⚠ 游戏里不给玩家这个入口：亮灭是信号算出来的，手动切会在下一帧被信号纠正
+        （`_apply_outputs` 看到"输入与状态不一致"就排事件）⇒ 玩家会觉得"点了没反应"。
+        玩家能改的是**档位**（`cycle_repeater_delay`）。
+        """
         b = self.world.get(x, y, z)
-        if b == B.REPEATER_OFF:
-            new = B.REPEATER_ON
-        elif b == B.REPEATER_ON:
-            new = B.REPEATER_OFF
-        else:
+        if b not in B.REPEATER_DIR_OF:
             return None
+        new = (B.repeater_on_id(b) if b == B.repeater_off_id(b)
+               else B.repeater_off_id(b))
         self._write(x, y, z, new)
         self.mark(x, y, z)
         return new
 
+    def cycle_repeater_delay(self, x: int, y: int, z: int):
+        """中继器**调档**（1→2→3→4→1 档）。返回新的方块 id（不是中继器 ⇒ None）。
+
+        调档**不改开/关**：如果它正被信号驱动，改完档位状态保持不变，
+        但下一次翻转会按新档位的延迟发生（正在排队的那个事件**不重排** ——
+        否则"改档位"会把已过的延迟清零，等于偷跑一个瞬发）。
+        """
+        b = self.world.get(x, y, z)
+        if b not in B.REPEATER_DIR_OF:
+            return None
+        new = B.repeater_cycle_delay(b)
+        if new == b:
+            return b
+        cell = (int(x), int(y), int(z))
+        # 旧 id 的排队事件作废（格子没变，但档位变了 ⇒ 重新按新档位排）
+        if cell in self.sched:
+            del self.sched[cell]
+        self._write(x, y, z, new)
+        self.mark(x, y, z)
+        return new
+
+    @staticmethod
+    def delay_label(bid: int) -> str:
+        """中继器档位的可读标签（HUD / 日志用）。"""
+        n = B.REPEATER_DELAY_OF.get(int(bid))
+        return '非中继器' if n is None else f'中继器·{n + 1}档'
+
     # ------------------------------------------------------------ 每帧
     def step(self, dt: float, budget: int = 2) -> int:
-        """推进一步：按钮回弹 + 处理 `budget` 个脏网络。返回被改动的方块数。
+        """推进一步：**推进时间轴** → 按钮回弹 → 触发到期事件 → 处理 `budget` 个脏网络。
+
+        返回被改动的方块数。
 
         `budget` 是**性能护栏**（同内核的 `LIGHT_BUDGET_PER_FRAME`）：
         一个网络的重算是几十毫秒级，一帧做太多会掉帧。
+
+        顺序有讲究：**先推进时间、再触发事件、最后结算脏网络**
+        （触发事件会 `mark()` 出新脏点，必须让它们在**同一帧**里被结算完，
+        否则"中继器刚翻转"会晚一帧才传导出去，时钟周期会随帧率漂）。
         """
+        self.now += max(0.0, float(dt))
         changed = self._tick_buttons(dt)
+        changed += self._fire_due()
         done = 0
         while self.dirty and done < max(1, int(budget)):
             seed = self.dirty.pop()
             changed += self.recompute_from(seed)
             done += 1
+        return changed
+
+    # ------------------------------------------------------------ 元件 tick 队列
+    def _schedule(self, cell, delay: float) -> bool:
+        """把 `cell` 排进 tick 队列（`delay` 秒后触发）。已在队列里 ⇒ 不重复排。
+
+        **去重是必须的**：固定点迭代每轮都会看到"输入与输出不一致"，
+        不去重的话会排一堆同刻事件（`MAX_ITER` 轮 × 每轮一个）。
+        """
+        if cell in self.sched:
+            return False
+        due = self.now + max(0.0, float(delay))
+        self._seq += 1
+        heapq.heappush(self.events, (due, self._seq, cell))
+        self.sched[cell] = due
+        self.stats['scheduled'] += 1
+        return True
+
+    def _fire_due(self) -> int:
+        """触发所有**到期**事件。返回被改动的方块数。
+
+        ⚠ 循环条件是"堆顶到期"，所以**本轮新排的 0 延迟事件也会被触发** ——
+        这是刻意的（延迟可以小到 0），靠 `TICK_EVENTS_CAP` 兜住死循环。
+        """
+        if not self.events:
+            return 0
+        changed = 0
+        fired = 0
+        while self.events and self.events[0][0] <= self.now + _T_TIME_EPS:
+            due, _seq, cell = heapq.heappop(self.events)
+            if self.sched.get(cell) != due:
+                continue                     # 过期条目（这一格被重新排过）
+            del self.sched[cell]
+            fired += 1
+            if fired > TICK_EVENTS_CAP:
+                raise RedstoneOverflow(
+                    f'一次 step 内触发了超过 {TICK_EVENTS_CAP} 个元件事件 ——'
+                    f' 这通常意味着出现了"0 延迟的环"（时钟接在 0 延迟元件上）。'
+                    f' 给环里的中继器调一档延迟即可。')
+            changed += self._fire_one(cell)
+        self.stats['fired'] += fired
+        return changed
+
+    def _fire_one(self, cell) -> int:
+        """触发一个元件事件：**按当前世界重新判断**要不要翻转（惰性求值）。
+
+        惰性求值是"脉冲整形"的物理来源：延迟期间输入变回去 ⇒ 这里算出 `want == 现值`
+        ⇒ 什么都不做。存"目标状态"的做法会凭空造出一个脉冲。
+        """
+        b = self.world.get(*cell)
+        if not is_repeater(b):
+            return 0                         # 延迟期间被挖掉 / 换成别的方块
+        want_on = self._repeater_input_on(cell, b)
+        on = (b == B.REPEATER_ON_OF[int(b)])
+        if want_on == on:
+            return 0
+        self._write(cell[0], cell[1], cell[2],
+                    B.repeater_on_id(b) if want_on else B.repeater_off_id(b))
+        self.mark(*cell)                     # 新状态要重新传播（同一帧内结算）
+        return 1
+
+    def _repeater_input_on(self, cell, bid) -> bool:
+        """中继器的**背面**有没有电（有向：背面吃、正面吐）。"""
+        back = repeater_face(cell, bid)
+        return back is not None and self.power.get(back, 0) >= 1
+
+    def pending_count(self) -> int:
+        """队列里还有多少个待触发事件（判据 / HUD 用）。"""
+        return len(self.events)
+
+    def run_until_stable(self, *, dt: float = 0.05, max_ticks: int = 200,
+                         budget: int = 999) -> int:
+        """反复 `step` 直到**没有脏网络也没有待触发事件**（测试与验收用）。
+
+        ⚠ 时钟（环形振荡器）**永远不静止** ⇒ 对它用这个函数会跑满 `max_ticks`。
+        这是刻意的：判据里"停下来"和"一直在动"都是要看的事实，函数不替调用方判。
+        """
+        changed = 0
+        for _ in range(max(1, int(max_ticks))):
+            if not self.dirty and not self.events:
+                break
+            changed += self.step(dt, budget=budget)
         return changed
 
     def _tick_buttons(self, dt: float) -> int:
@@ -330,7 +563,7 @@ class PowerGrid:
             if cell in seen:
                 continue
             b = world.get(*cell)
-            if not (is_conductor(b) or is_source(b) or is_output(b)):
+            if not is_component(b):      # 同上：灭的火把是网络成员
                 continue
             seen.add(cell)
             if len(seen) > NETWORK_CAP:
@@ -343,6 +576,13 @@ class PowerGrid:
         return seen
 
     def _clear(self, net):
+        # 顺手**清理过期条目**：`power` 里只允许留"当前还是元件"的格子。
+        # 没有这一条，"通电的线被挖掉""关着的拉杆"会在原地留下**幽灵信号**
+        # （实测：松开按钮后中继器背面仍读到 15 ⇒ 短脉冲被当成常亮）。
+        # 代价 O(|power|)，而 `power` 只存非零格 ⇒ 稀疏、很便宜。
+        for cell in [c for c in self.power
+                     if not is_component(self.world.get(*c))]:
+            del self.power[cell]
         for cell in net:
             self.power.pop(cell, None)
 
@@ -357,7 +597,9 @@ class PowerGrid:
         queue = []
         for cell in net:
             b = world.get(*cell)
-            if is_source(b):
+            # ⚠ `_source_live` 而不是 `is_source`：**灭掉的火把**是一个 id
+            #   （`REDSTONE_TORCH_OFF`），但它不是电源 —— 它此刻一个格都不供电
+            if self._source_live(cell, b):
                 self.power[cell] = MAX_POWER
                 queue.append(cell)
             elif is_repeater(b) and b == B.repeater_on_id(b):
@@ -378,7 +620,7 @@ class PowerGrid:
             x, y, z = cell
             b = world.get(*cell)
             # 电源往外**满格**供（拉杆像"强充能"了挨着它的那一格），线自己往外 −1
-            feed = MAX_POWER if is_source(b) else lv - 1
+            feed = MAX_POWER if self._source_live(cell, b) else lv - 1
             if feed <= 0:
                 continue
             for (dx, dy, dz) in _NEIGHBORS:
@@ -392,7 +634,13 @@ class PowerGrid:
                     queue.append(n)
 
     def _apply_outputs(self, net) -> int:
-        """按"六邻最大信号 ≥1"切换输出元件的状态。返回切换次数。"""
+        """按"六邻最大信号 ≥1"切换**瞬时**输出元件；中继器改为**排队**。返回切换次数。
+
+        瞬时元件 = 灯 / 门 / 活塞 / 红石火把（火把是反相器）。
+        中继器**不在**这里翻转 —— 它排进 tick 队列，由 `_fire_due` 在延迟之后处理
+        （见模块 docstring §五）。所以这个函数的返回值里**永远没有中继器**，
+        固定点迭代才能在"中继器等着翻转"时就收敛。
+        """
         changed = 0
         for cell in net:
             b = self.world.get(*cell)
@@ -401,14 +649,15 @@ class PowerGrid:
             x, y, z = cell
             on = self.input_at(x, y, z) >= 1
             if is_repeater(b):
-                # 中继器是**有向**的：只看**背面**有没有信号（六邻都看会自锁）
-                back = repeater_face(cell, b)
-                live = back is not None and self.power.get(back, 0) >= 1
-                if live and b == B.repeater_off_id(b):
-                    self._write(x, y, z, B.repeater_on_id(b))
-                    changed += 1
-                elif not live and b == B.repeater_on_id(b):
-                    self._write(x, y, z, B.repeater_off_id(b))
+                # 中继器：**不立刻翻转**，排一个延迟事件（同一格只挂一个）
+                if self._repeater_input_on(cell, b) != (b == B.REPEATER_ON_OF[int(b)]):
+                    self._schedule(cell, B.repeater_delay(b))
+            elif b in (B.REDSTONE_TORCH, B.REDSTONE_TORCH_OFF):
+                # 火把是**反相器**：脚下被强充能 ⇒ 熄灭（瞬时，不排队 —— MC 同款）
+                want_on = not self.torch_asleep(x, y, z)
+                if want_on != (b == B.REDSTONE_TORCH):
+                    self._write(x, y, z,
+                                B.REDSTONE_TORCH if want_on else B.REDSTONE_TORCH_OFF)
                     changed += 1
             elif is_lamp(b) and on != (b == B.LAMP_ON):
                 self._write(x, y, z, B.LAMP_ON if on else B.LAMP_OFF)
@@ -422,6 +671,51 @@ class PowerGrid:
                 changed += self._set_piston(x, y, z, b, on)
         self.stats['switched'] += changed
         return changed
+
+    # ------------------------------------------------------------ 强充能 / 反相
+    def strongly_powered(self, x: int, y: int, z: int) -> bool:
+        """这一格是否被**强充能**（红石火把反相的依据）。
+
+        **只有元件能强充能**（MC 同款：拉杆 / 按钮 / 中继器的正面；红石线只能弱充能，
+        而弱充能不足以让火把熄灭 —— 这一条正是反相器不会自锁的原因）：
+
+        * 六邻里有 `LEVER_ON` / `BUTTON_ON` ⇒ 本格被强充能
+          （⚠ 简化：真实 MC 里拉杆只充能它**附着**的那一块，我们没有"附着"概念，
+          所以按"六邻"算。这个放宽只会让火把更容易熄灭，不会自锁）；
+        * 六邻里有 `REPEATER_ON` 且**本格就是它的正面那一格** ⇒ 被强充能。
+        """
+        world = self.world
+        for (dx, dy, dz) in _NEIGHBORS:
+            nb = (x + dx, y + dy, z + dz)
+            b = world.get(*nb)
+            if b in (B.LEVER_ON, B.BUTTON_ON):
+                return True
+            if is_repeater(b) and b == B.REPEATER_ON_OF[int(b)]:
+                if repeater_front(nb, b) == (x, y, z):
+                    return True
+        return False
+
+    def torch_asleep(self, x: int, y: int, z: int) -> bool:
+        """红石火把是否**熄灭**：它**脚下那一格**被强充能（或脚下本身就是通电的元件）。
+
+        ⚠ 只看脚下：火把的输出只能进红石线（弱充能）⇒ 永远改不动自己的睡眠条件。
+        这一条是整个反相器**不自锁**的全部代价与保障。
+        """
+        by = y - 1
+        if by < 0:
+            return False
+        below = self.world.get(x, by, z)
+        if below in (B.LEVER_ON, B.BUTTON_ON):
+            return True                          # 直接坐在通电的拉杆/按钮上
+        if is_repeater(below) and below == B.REPEATER_ON_OF[int(below)]:
+            return True                          # 直接坐在通电的中继器上
+        return self.strongly_powered(x, by, z)
+
+    def _source_live(self, cell, bid: int) -> bool:
+        """这一格的电源**此刻**是否在供电（灭掉的火把不算）。"""
+        if int(bid) == B.REDSTONE_TORCH:
+            return not self.torch_asleep(*cell)
+        return is_source(bid)
 
     # ------------------------------------------------------------ 门 / 活塞
     def _door_powered(self, x: int, y: int, z: int, bid: int) -> bool:
@@ -515,7 +809,15 @@ class PowerGrid:
 
     # ------------------------------------------------------------ 写
     def _write(self, x: int, y: int, z: int, bid: int):
-        """红石驱动的写入：**走 `set_generated`（不记存档增量）**，并通知外部标脏。"""
+        """红石驱动的写入：**走 `set_generated`（不记存档增量）**，并通知外部标脏。
+
+        ⚠ 顺手**作废这一格的旧信号**：新方块如果不是元件（按钮松开、线被挖掉、
+        活塞臂…），它**立刻**不配再持有信号。不能等 `_clear` 来清 ——
+        `_fire_due` 在 `_clear` **之前**跑，读到幽灵信号就会把短脉冲当成常亮
+        （实测踩过：按钮 0.1s 回弹，中继器却按"背面有电"点了灯）。
+        """
         self.world.set_generated(x, y, z, bid)
+        if not is_component(bid):
+            self.power.pop((int(x), int(y), int(z)), None)
         if self.on_change is not None:
             self.on_change(x, y, z)

@@ -22,11 +22,15 @@ __all__ = [
     'CRAFTING_TABLE', 'FURNACE', 'COAL_ORE', 'IRON_ORE', 'GOLD_ORE',
     'DIAMOND_ORE', 'CROP', 'BEDROCK', 'TORCH',
     'REDSTONE_WIRE', 'LEVER_OFF', 'LEVER_ON', 'BUTTON_OFF', 'BUTTON_ON',
-    'REDSTONE_TORCH', 'REPEATER_OFF', 'REPEATER_ON', 'LAMP_OFF', 'LAMP_ON',
+    'REDSTONE_TORCH', 'REDSTONE_TORCH_OFF',
+    'REPEATER_OFF', 'REPEATER_ON', 'LAMP_OFF', 'LAMP_ON',
     'DOOR_LOWER', 'DOOR_UPPER', 'DOOR_OPEN_LOWER', 'DOOR_OPEN_UPPER',
     'PISTON_ARM', 'PISTON_STATES', 'PISTON_BY_DIR', 'PISTON_DIR_VEC',
     'PISTON_DIR_OF', 'PISTON_TITLES', 'BLOCK_ITEM_ALIAS',
     'REPEATER_STATES', 'REPEATER_BY_DIR', 'REPEATER_DIR_OF',
+    'REPEATER_DELAYS', 'REPEATER_EXTRA', 'REPEATER_BY_DIR_DELAY',
+    'REPEATER_DELAY_OF', 'REPEATER_ON_OF', 'REPEATER_OFF_OF',
+    'repeater_delay', 'repeater_cycle_delay',
     'dir_from_look', 'place_cells', 'piston_on_id', 'piston_off_id',
     'repeater_on_id', 'repeater_off_id',
     'door_other_half', 'door_opened', 'door_closed',
@@ -74,6 +78,9 @@ BUTTON_OFF = 26
 BUTTON_ON = 27
 #: 红石火把：常亮电源（与火把同款，"信号源"而非"照明源"）
 REDSTONE_TORCH = 28
+#: 红石火把的**熄灭**态（Phase 3-B 引入）：火把是**反相器** —— 它脚下的方块被
+#: 强充能时自己熄灭。id = 28 是"亮着"，这一条是"灭"。见 `redstone.strongly_powered`。
+REDSTONE_TORCH_OFF = 56
 #: 中继器：把信号续满 15（红石线 15 格就衰减到 0，长线路靠它）。
 #: ⚠ **有向**：背面吃信号、正面吐信号（MC 同款）。
 #: 初版做成"无向的放大器"（六邻都吃、六邻都吐）⇒ 它**自己给自己供电**，
@@ -88,6 +95,19 @@ REPEATER_E_OFF = 52
 REPEATER_E_ON = 53
 REPEATER_W_OFF = 54
 REPEATER_W_ON = 55
+#: 中继器的**延迟档位**（秒）：MC 的中继器可选 1~4 红石刻（1 红石刻 = 0.1s），
+#: 这里同款四档。**档位必须落在 id 里** —— 方块只有 id、没有额外的元数据字段，
+#: 而"延迟多久"是玩法本身（不同档位串起来才是时钟/脉冲整形）。
+#: ⚠ 代价是 4 方向 × 4 档 × 2 态 = **32 个 id**（档 0 复用上面那 8 个历史 id）。
+REPEATER_DELAYS = (0.1, 0.2, 0.3, 0.4)
+#: 档 1~3 的 id：**按 `(方向, 档)` 顺序连续排**（id 是契约，显式写出来便于一眼核对）。
+#: 档 0 的 id 就是上面那 8 个历史 id，**名字不许改**（存档按名字存）。
+REPEATER_EXTRA = {
+    ('north', 1): (57, 58), ('north', 2): (59, 60), ('north', 3): (61, 62),
+    ('south', 1): (63, 64), ('south', 2): (65, 66), ('south', 3): (67, 68),
+    ('east', 1): (69, 70), ('east', 2): (71, 72), ('east', 3): (73, 74),
+    ('west', 1): (75, 76), ('west', 2): (77, 78), ('west', 3): (79, 80),
+}
 #: 红石灯：输出。`LAMP_ON` 的自发光让它同时是**光源** ⇒ 与 Phase 2-A 光照联动
 LAMP_OFF = 31
 LAMP_ON = 32
@@ -113,8 +133,10 @@ PISTON_DOWN_ON = 48
 #: 活塞臂（伸出时占据前方那一格）；收回时**只删臂**，被推的方块留在新位置（普通活塞不拉回）
 PISTON_ARM = 49
 
-#: 本项目用到的 id 上界（校验 / 数组尺寸用）
-MAX_ID = 63
+#: 本项目用到的 id 上界（校验 / 数组尺寸用）。Phase 3-B 因中继器调档从 63 提到 80
+#: —— ⚠ 有单测钉着"id 必须**连续无空洞**"（`sorted(BLOCKS) == 1..N`），
+#: 所以这个数**必须等于当前最大 id**，不能为了"留余量"写大。
+MAX_ID = 80
 
 #: 活塞状态表：`(方块名前缀, 关 id, 开 id)` —— 顺序 = north / south / east / west / up / down。
 #: 方向名与 `mesh.NORMALS` 同一套：**north = -z、south = +z、east = +x、west = -x**。
@@ -132,20 +154,69 @@ PISTON_TITLES = {'north': '朝北', 'south': '朝南', 'east': '朝东',
 #: 方向 → `(关 id, 开 id)`（`redstone` 与放置逻辑都按这个查）
 PISTON_BY_DIR = {n[len('piston_'):]: (off, on) for (n, off, on) in PISTON_STATES}
 
-#: 中继器的四个朝向：`(方向, 关 id, 开 id)`。方向 = **输出方向**（正面）。
-#: 只做水平的四向（与 MC 的中继器一致），上下视线退化成 north。
+#: 中继器的状态表：`(方向, 档位, 关 id, 开 id)` —— **4 方向 × 4 档 = 16 条**。
+#: 方向 = **输出方向**（正面）。只做水平四向（与 MC 的中继器一致），上下视线退化成 north。
 REPEATER_STATES = (
-    ('north', REPEATER_OFF, REPEATER_ON),
-    ('south', REPEATER_S_OFF, REPEATER_S_ON),
-    ('east', REPEATER_E_OFF, REPEATER_E_ON),
-    ('west', REPEATER_W_OFF, REPEATER_W_ON),
-)
-REPEATER_BY_DIR = {d: (off, on) for (d, off, on) in REPEATER_STATES}
+    ('north', 0, REPEATER_OFF, REPEATER_ON),
+    ('south', 0, REPEATER_S_OFF, REPEATER_S_ON),
+    ('east', 0, REPEATER_E_OFF, REPEATER_E_ON),
+    ('west', 0, REPEATER_W_OFF, REPEATER_W_ON),
+) + tuple(('north', n, REPEATER_EXTRA[('north', n)][0], REPEATER_EXTRA[('north', n)][1])
+          for n in (1, 2, 3)) + tuple(
+    (d, n, REPEATER_EXTRA[(d, n)][0], REPEATER_EXTRA[(d, n)][1])
+    for d in ('south', 'east', 'west') for n in (1, 2, 3))
+
+
+def _repeater_name(d: str, n: int, on: bool) -> str:
+    """中继器的方块名：档 0 是 `repeater_<方向>_<态>`（**沿用历史名**，不许改 ——
+    存档按名字存，改名会让老档里的中继器变成未知方块），档 1~3 中间多一段 `_d<n>`。
+
+    ⚠ 别"顺手简化"档 0 的名字：id 29/30 的老名字就是
+    `repeater_north_off` / `repeater_north_on`（**不是** `repeater_off`）。
+    实测把它简写之后，"别名表里的每个名字都必须是方块名"那条断言当场变红 ——
+    它守的正是**存档契约**（老档里的中继器会变成未知方块）。
+    """
+    suffix = '_on' if on else '_off'
+    if n == 0:
+        return f'repeater_{d}{suffix}'
+    return f'repeater_{d}_d{n}{suffix}'
+
+
+#: `(方向, 档) -> (关 id, 开 id)`
+REPEATER_BY_DIR_DELAY = {(d, n): (off, on) for (d, n, off, on) in REPEATER_STATES}
+#: 方向 → 档 0 的 `(关 id, 开 id)`（放置时用；调档由 `use()` 逐个切）
+REPEATER_BY_DIR = {d: REPEATER_BY_DIR_DELAY[(d, 0)] for d in ('north', 'south', 'east', 'west')}
+#: 状态 id → 方向 / 档位 / 开关
 REPEATER_DIR_OF = {}
-for _d, _off, _on in REPEATER_STATES:
-    REPEATER_DIR_OF[_off] = _d
-    REPEATER_DIR_OF[_on] = _d
-del _d, _off, _on
+REPEATER_DELAY_OF = {}
+REPEATER_ON_OF = {}
+REPEATER_OFF_OF = {}
+for _d, _n, _off, _on in REPEATER_STATES:
+    for _bid, _is_on in ((_off, False), (_on, True)):
+        REPEATER_DIR_OF[_bid] = _d
+        REPEATER_DELAY_OF[_bid] = _n
+        REPEATER_ON_OF[_bid] = _on
+        REPEATER_OFF_OF[_bid] = _off
+del _d, _n, _off, _on, _bid, _is_on
+
+
+def repeater_delay(bid: int) -> float:
+    """中继器的延迟（秒）；不是中继器 ⇒ 0.0。"""
+    n = REPEATER_DELAY_OF.get(int(bid))
+    return 0.0 if n is None else REPEATER_DELAYS[n]
+
+
+def repeater_cycle_delay(bid: int) -> int:
+    """中继器**调档**：返回下一档的"关"状态 id（不是中继器 ⇒ 原样返回）。
+
+    只切档位、**保持开/关不变** —— 玩家右键是"调延迟"，亮/灭由信号决定。
+    """
+    d = REPEATER_DIR_OF.get(int(bid))
+    if d is None:
+        return int(bid)
+    n = (REPEATER_DELAY_OF[int(bid)] + 1) % len(REPEATER_DELAYS)
+    off, on = REPEATER_BY_DIR_DELAY[(d, n)]
+    return on if REPEATER_ON_OF[int(bid)] == int(bid) else off
 #: 方向 → 单位向量（与 `mesh.NORMALS` 的 +x/-x/+y/-y/+z/-z 同一个坐标系）
 PISTON_DIR_VEC = {'north': (0, 0, -1), 'south': (0, 0, 1), 'east': (1, 0, 0),
                   'west': (-1, 0, 0), 'up': (0, 1, 0), 'down': (0, -1, 0)}
@@ -170,6 +241,15 @@ BLOCK_ITEM_ALIAS = {
     'door_open_lower': 'door', 'door_open_upper': 'door',
     'piston_arm': 'piston',
 }
+#: Phase 3-B：中继器的 32 个状态名（4 方向 × 4 档 × 开/关）全归到 `repeater`，
+#: 火把的"灭"态归到 `redstone_torch`。**由表生成**：手写 32 行必然漏
+#: （漏了不会报错，只会让"挖掉一个 3 档中继器"什么都不掉 —— 最难发现的那种）。
+for _d in ('north', 'south', 'east', 'west'):
+    for _n in range(len(REPEATER_DELAYS)):
+        for _on in (False, True):
+            BLOCK_ITEM_ALIAS[_repeater_name(_d, _n, _on)] = 'repeater'
+BLOCK_ITEM_ALIAS['redstone_torch_off'] = 'redstone_torch'
+del _d, _n, _on
 for _n, _off, _on in PISTON_STATES:
     BLOCK_ITEM_ALIAS[f'{_n}_off'] = 'piston'
     BLOCK_ITEM_ALIAS[f'{_n}_on'] = 'piston'
@@ -255,12 +335,15 @@ def _defs():
               solid=False, opaque=False, hardness=0.3, emissive=0.12))
     add(Block(REDSTONE_TORCH, 'redstone_torch', '红石火把', 'redstone_torch',
               solid=False, opaque=False, hardness=0.2, emissive=0.35))
-    # 中继器：四个朝向共用两张贴图（朝向的正确性在**功能**里，不靠贴图区分 ——
+    add(Block(REDSTONE_TORCH_OFF, 'redstone_torch_off', '红石火把（灭）',
+              'redstone_torch_off', solid=False, opaque=False, hardness=0.2))
+    # 中继器：四个朝向共用两张贴图（朝向与档位的正确性在**功能**里，不靠贴图区分 ——
     # 这一点写进了设计稿的"已知取舍"）
-    for (d, off_id, on_id) in REPEATER_STATES:
-        add(Block(off_id, f'repeater_{d}_off', f'中继器·朝{PISTON_TITLES[d][1:]}',
+    for (d, n, off_id, on_id) in REPEATER_STATES:
+        tag = f'{PISTON_TITLES[d][1:]}·{n + 1}档'
+        add(Block(off_id, _repeater_name(d, n, False), f'中继器·{tag}',
                   'repeater', solid=False, opaque=False, hardness=0.3))
-        add(Block(on_id, f'repeater_{d}_on', f'中继器·朝{PISTON_TITLES[d][1:]}（亮）',
+        add(Block(on_id, _repeater_name(d, n, True), f'中继器·{tag}（亮）',
                   'repeater_on', solid=False, opaque=False, hardness=0.3,
                   emissive=0.12))
     # 红石灯：**亮的时候是真光源**（emissive=1.0）⇒ 走 Phase 2-A 的光照重算
@@ -428,15 +511,19 @@ def piston_off_id(bid: int) -> int:
 
 
 def repeater_on_id(bid: int) -> int:
-    """这个中继器的"亮"状态 id（不是中继器 ⇒ 原样返回）。"""
-    d = REPEATER_DIR_OF.get(int(bid))
-    return REPEATER_BY_DIR[d][1] if d else int(bid)
+    """这个中继器的"亮"状态 id（**保持同一档位**；不是中继器 ⇒ 原样返回）。
+
+    ⚠ 初版返回的是 `REPEATER_BY_DIR[dir][1]` —— 那是**档 0** 的 id。
+    没有档位时看不出问题，加了调档之后就成了真 bug：
+    **中继器每翻转一次就掉回 1 档**（实测：3 档时钟第一次延迟 0.3s、
+    之后就变成 0.1s，周期从 0.6s 缩到 0.2s）。
+    """
+    return REPEATER_ON_OF.get(int(bid), int(bid))
 
 
 def repeater_off_id(bid: int) -> int:
-    """这个中继器的"灭"状态 id（不是中继器 ⇒ 原样返回）。"""
-    d = REPEATER_DIR_OF.get(int(bid))
-    return REPEATER_BY_DIR[d][0] if d else int(bid)
+    """这个中继器的"灭"状态 id（**保持同一档位**；不是中继器 ⇒ 原样返回）。"""
+    return REPEATER_OFF_OF.get(int(bid), int(bid))
 
 
 def place_cells(block_id: int, x: int, y: int, z: int, look=(0.0, 0.0, -1.0)):

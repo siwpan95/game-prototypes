@@ -395,6 +395,21 @@ def _paint_redstone_torch(c):
             c.set(x, y, (216, 48, 40) if (x + y) % 2 else (250, 96, 72))
 
 
+def _paint_redstone_torch_off(c):
+    """红石火把（灭）：同款木杆，但**头部是暗灰**（一眼看出它被反相了）。
+
+    反相器是这一批的核心新语义（火把脚下被强充能 ⇒ 自己熄灭），
+    所以"灭"必须有独立的贴图：状态 id 不同、贴图相同的话，玩家只能靠猜。
+    """
+    c.fill((0, 0, 0), 0)
+    for y in range(7, TILE):
+        c.set(7, y, (104, 78, 48))
+        c.set(8, y, (124, 96, 60))
+    for y in range(4, 7):
+        for x in range(6, 10):
+            c.set(x, y, (86, 74, 70) if (x + y) % 2 else (62, 54, 52))
+
+
 def _paint_repeater(c):
     """中继器（未通电）：透明背景 + 石台 + 中央暗红点。"""
     c.fill((0, 0, 0), 0)
@@ -540,6 +555,7 @@ PAINTERS = {
     'button': _paint_button,
     'button_on': _paint_button_on,
     'redstone_torch': _paint_redstone_torch,
+    'redstone_torch_off': _paint_redstone_torch_off,
     'repeater': _paint_repeater,
     'repeater_on': _paint_repeater_on,
     'lamp_off': _paint_lamp_off,

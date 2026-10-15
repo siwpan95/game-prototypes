@@ -3,14 +3,24 @@
 
 ## 为什么需要这一层（而不是直接 `import world3d`）
 
-引擎 `world3d` 是**另一个仓**（[`siwpan/3dworld`](https://gitee.com/siwpan/3dworld) 的检出），
-不是 PyPI 包。所以"引擎在哪"是**运行期事实**，不能像本仓内模块那样直接 import。
+引擎 `world3d` 来自**另一个仓**（[`siwpan/3dworld`](https://gitee.com/siwpan/3dworld)，发行名 `3dworld`）。
+它现在**是** PyPI 包（`pip install 3dworld`），但开发时也常常要用**本地检出**
+（改引擎源码、跑未发布的改动）—— 所以"引擎在哪"仍是**运行期事实**。
 
-三条通路，按优先级：
+两条通路，按优先级（⚠ Phase 3-B 起把顺序倒过来了，理由见下）：
 
-1. 已经在 `sys.path` 上（`PYTHONPATH` 指了 3dworld 检出，或装了 editable）→ 直接用；
-2. 环境变量 `MC3D_ENGINE_ROOT` 指到 3dworld 检出 → 加进 `sys.path`；
+1. **`MC3D_ENGINE_ROOT` 指向本地检出** ⇒ 用它（插到 `sys.path[0]`，**盖住已安装的包**）；
+2. 已安装的 PyPI 包 `3dworld`（`requirements.txt` 里那一行）；
 3. 都没有 → **抛一条点名说清怎么办的错误**（`EngineNotFound`）。
+
+⚠ **为什么本地检出要优先**：早先的顺序是"先 `import world3d`，失败才看环境变量"。
+引擎没上 PyPI 时这没问题（本地没装就 import 不到）；**上了 PyPI 之后就危险了** ——
+只要 `pip install -r requirements.txt` 装过包，"先 import"那条**永远成功**，
+`MC3D_ENGINE_ROOT` 变成一句被静默忽略的摆设：开发者以为在测本地改动，
+实际测的是发布快照（"测量的代码 ≠ 提交的代码"，这一条在本仓的调试铁律里专门记过）。
+
+所以现在：**设了环境变量就认它**，并且加载到的模块若**不在**那个目录下，直接
+**响亮抛错**（说明多半是 `world3d` 已被 import 过、包抢先了），而不是默默用别的引擎。
 
 **不做的事**：不在本仓里塞引擎副本、不瞎猜盘符路径（`铁律 5`）、失败时**不静默降级**
 （`调试铁律 39 / g17`：SKIP 不是通过，找不到引擎就得响亮地失败）。
@@ -79,12 +89,11 @@ def _try_import_world3d():
 def ensure_importable(verbose: bool = False):
     """确保 `world3d` 可 import，返回该模块；找不到就**响亮失败**。
 
-    查找顺序：已在 sys.path → `MC3D_ENGINE_ROOT` 环境变量。
+    查找顺序（⚠ 详见模块 docstring：本地检出**优先**）：
+    ① `MC3D_ENGINE_ROOT` 指到 3dworld 检出 → 插到 `sys.path[0]`，盖住已安装的包；
+    ② 已安装的 PyPI 包 `3dworld`；
+    ③ 都没有 → `EngineNotFound`。
     """
-    mod = _try_import_world3d()
-    if mod is not None:
-        return mod
-
     root = os.environ.get('MC3D_ENGINE_ROOT')
     if root:
         cand = os.path.abspath(root)
@@ -94,20 +103,40 @@ def ensure_importable(verbose: bool = False):
                 f'  期望结构：<3dworld 检出>/world3d/__init__.py')
         if cand not in sys.path:
             sys.path.insert(0, cand)
-        if verbose:
-            print(f'[engine] 由 MC3D_ENGINE_ROOT 挂载引擎：{cand}', flush=True)
         mod = _try_import_world3d()
-        if mod is not None:
-            return mod
+        if mod is None:
+            raise EngineNotFound(
+                f'MC3D_ENGINE_ROOT={cand} 里找到了 world3d/ 目录，但 import 仍然失败。\n'
+                f'  多半是那个检出本身有语法错误 / 缺依赖 —— 直接跑一遍：\n'
+                f'    cd /d {cand} && python -c "import world3d; print(world3d.__version__)"')
+        got = os.path.normcase(os.path.abspath(getattr(mod, '__file__', '') or ''))
+        want = os.path.normcase(cand)
+        if got and not got.startswith(want):
+            # 设了本地检出、却加载到别处 ⇒ 必须**响亮失败**。
+            # 静默用别的引擎 = 开发者以为在测本地改动，其实在测发布快照（最坏的一类坑）。
+            raise EngineNotFound(
+                f'MC3D_ENGINE_ROOT={cand} 没有生效：实际加载到 {got}。\n'
+                f'  原因通常是 **world3d 在本进程里已经被 import 过**（已安装的 PyPI 包抢先），\n'
+                f'  再插 sys.path 也换不掉（Python 的模块缓存）。怎么修：\n'
+                f'    ① 先设环境变量、再启动进程（别在进程里事后设）；或\n'
+                f'    ② python -m pip uninstall 3dworld（只用本地检出时）')
+        if verbose:
+            print(f'[engine] 由 MC3D_ENGINE_ROOT 挂载本地检出：{cand}', flush=True)
+        return mod
+
+    mod = _try_import_world3d()
+    if mod is not None:
+        if verbose:
+            print(f'[engine] 用已安装的 3dworld 包：'
+                  f'{os.path.abspath(getattr(mod, "__file__", "") or "")}', flush=True)
+        return mod
 
     raise EngineNotFound(
-        '找不到 3dworld 引擎（import world3d 失败）。三选一：\n'
-        '  ① 把 3dworld 检出加进 PYTHONPATH：\n'
-        '       set PYTHONPATH=<你的 3dworld 检出>\n'
-        '  ② 设 MC3D_ENGINE_ROOT 环境变量指向 3dworld 检出：\n'
+        '找不到 3dworld 引擎（import world3d 失败）。二选一：\n'
+        '  ① 装 PyPI 包（推荐，requirements 里已有）：\n'
+        '       python -m pip install -r requirements.txt\n'
+        '  ② 用本地检出（开发引擎本身时）：设 MC3D_ENGINE_ROOT 指向它\n'
         '       set MC3D_ENGINE_ROOT=<你的 3dworld 检出>\n'
-        '  ③ 装成可编辑包（一次性）：\n'
-        '       python -m pip install -e <你的 3dworld 检出>\n'
         '本项目**不自带引擎副本**，所以这一步无法省略。')
 
 

@@ -1056,10 +1056,9 @@ def c_redstone():
     Y, Z = 50, 4            # 空气层：活塞的测试必须在这里做（地形里会"推不动"）
 
     def settle(rounds=8):
-        for _ in range(rounds):
-            if not g.dirty:
-                break
-            g.step(0.0, budget=999)
+        """把信号算稳定。⚠ Phase 3-B 起中继器**有延迟**（走元件 tick 队列）
+        ⇒ 只 `step(0.0)` 会让它永远停在"排队待翻转"，必须先推进时间。"""
+        g.run_until_stable(max_ticks=max(8, rounds), budget=999)
 
     # ① 衰减：紧贴电源 15、逐格 −1、第 16 格 0
     w.set_generated(4, Y, Z, B.LEVER_ON)
@@ -1209,6 +1208,162 @@ def c_redstone():
             f'推1格={push_ok} 连锁12={chain_ok} 13格不动={limit_ok} 六方向={dirs_ok} '
             f'按钮按/弹={btn_on}/{btn_off} 存档(状态进/信号不进)={save_ok} '
             f'200格网络重算 {dt * 1000:.1f}ms={perf_ok}')
+
+
+@check('tickqueue')
+def c_tickqueue():
+    """Phase 3-B：元件 tick 队列 —— 延迟 / 惰性求值 / 档位 / 反相器 / 时钟 / 确定性。"""
+    import time as _t
+    from mcclone3d import redstone as RS
+    from mcclone3d.world import ChunkedWorld
+
+    Y = 50
+
+    def fresh():
+        w = ChunkedWorld(2026, 64, 64).generate()
+        for x in range(0, 26):                 # 清一片空气层（不去清的话地形会挡道）
+            for z in range(0, 26):
+                for y in range(Y, Y + 4):
+                    w.set_generated(x, y, z, B.AIR)
+                w.set_generated(x, Y - 1, z, B.STONE)
+        return w, RS.PowerGrid(w)
+
+    def put(w, g, x, y, z, bid):
+        w.set_generated(x, y, z, bid)
+        g.mark(x, y, z)
+
+    def blink(g, w, lamp, seconds, dt=0.05):
+        out = []
+        for _ in range(int(round(seconds / dt))):
+            g.step(dt, budget=999)
+            out.append(1 if w.get(*lamp) == B.LAMP_ON else 0)
+        return out
+
+    def trans(series):
+        return sum(1 for i in range(1, len(series)) if series[i] != series[i - 1])
+
+    # ① 延迟：3 档（0.3s）—— 0.2s 不翻、累计 0.35s 才翻
+    w, g = fresh()
+    off, on = B.REPEATER_BY_DIR_DELAY[('east', 2)]
+    put(w, g, 4, Y, 0, B.LEVER_OFF)
+    put(w, g, 5, Y, 0, B.REDSTONE_WIRE)
+    put(w, g, 6, Y, 0, off)
+    put(w, g, 7, Y, 0, B.REDSTONE_WIRE)
+    put(w, g, 8, Y, 0, B.LAMP_OFF)
+    g.run_until_stable()
+    g.toggle_lever(4, Y, 0)
+    g.step(0.0, budget=999)
+    wait_ok = (w.get(6, Y, 0) == off and g.pending_count() == 1)
+    g.step(0.2, budget=999)
+    mid_ok = w.get(6, Y, 0) == off
+    g.step(0.15, budget=999)
+    g.run_until_stable()
+    delay_ok = (w.get(6, Y, 0) == on and w.get(8, Y, 0) == B.LAMP_ON)
+
+    # ② 惰性求值：短脉冲（0.1s）不点亮；长脉冲（0.6s）照常点亮
+    def pulse_rig():
+        ww, gg = fresh()
+        put(ww, gg, 4, Y, 0, B.BUTTON_OFF)
+        put(ww, gg, 5, Y, 0, B.REPEATER_BY_DIR_DELAY[('east', 2)][0])
+        put(ww, gg, 6, Y, 0, B.REDSTONE_WIRE)
+        put(ww, gg, 7, Y, 0, B.LAMP_OFF)
+        gg.run_until_stable()
+        return ww, gg
+    ws, gs = pulse_rig()
+    gs.press_button(4, Y, 0, ttl=0.1)
+    gs.run_until_stable(max_ticks=40, dt=0.05)
+    short_ok = ws.get(7, Y, 0) == B.LAMP_OFF and ws.get(5, Y, 0) == off
+    wl, gl = pulse_rig()
+    gl.press_button(4, Y, 0, ttl=0.6)
+    for _ in range(8):
+        gl.step(0.05, budget=999)
+    long_ok = wl.get(7, Y, 0) == B.LAMP_ON
+
+    # ③ 档位：4 档数值 / 32 个 id / 调档循环 / 非中继器返回 0
+    tiers_ok = (B.REPEATER_DELAYS == (0.1, 0.2, 0.3, 0.4)
+                and len(B.REPEATER_STATES) == 16
+                and all(B.repeater_delay(B.REPEATER_BY_DIR_DELAY[(d, n)][1]) == B.REPEATER_DELAYS[n]
+                        for d in ('north', 'south', 'east', 'west') for n in range(4))
+                and B.repeater_delay(B.STONE) == 0.0)
+    wt, gt = fresh()
+    put(wt, gt, 4, Y, 0, B.REPEATER_BY_DIR_DELAY[('north', 3)][0])
+    cyc = []
+    for _ in range(4):
+        cyc.append(B.REPEATER_DELAY_OF[gt.cycle_repeater_delay(4, Y, 0)])
+    cycle_ok = cyc == [0, 1, 2, 3]
+
+    # ④ 反相器：脚下块被强充能 ⇒ 火把灭；松开 ⇒ 复亮（不自锁）
+    wi, gi = fresh()
+    put(wi, gi, 4, Y, 0, B.LEVER_OFF)
+    put(wi, gi, 5, Y, 0, B.REDSTONE_WIRE)
+    put(wi, gi, 6, Y, 0, B.REPEATER_E_OFF)
+    put(wi, gi, 7, Y, 0, B.STONE)
+    put(wi, gi, 7, Y + 1, 0, B.REDSTONE_TORCH)
+    put(wi, gi, 8, Y + 1, 0, B.REDSTONE_WIRE)
+    put(wi, gi, 9, Y + 1, 0, B.LAMP_OFF)
+    gi.run_until_stable()
+    inv_on = wi.get(7, Y + 1, 0) == B.REDSTONE_TORCH and wi.get(9, Y + 1, 0) == B.LAMP_ON
+    gi.toggle_lever(4, Y, 0)
+    gi.run_until_stable()
+    inv_flip = (wi.get(7, Y + 1, 0) == B.REDSTONE_TORCH_OFF
+                and wi.get(9, Y + 1, 0) == B.LAMP_OFF)
+    gi.toggle_lever(4, Y, 0)
+    gi.run_until_stable()
+    inv_back = wi.get(7, Y + 1, 0) == B.REDSTONE_TORCH
+    # 结构不变量：红石线只能弱充能 ⇒ 火把不吃自己的输出（不自锁的根因）
+    wv, gv = fresh()
+    put(wv, gv, 4, Y, 0, B.REDSTONE_TORCH)
+    put(wv, gv, 5, Y, 0, B.REDSTONE_WIRE)
+    put(wv, gv, 6, Y, 0, B.STONE)
+    gv.run_until_stable()
+    weak_ok = (gv.power_at(5, Y, 0) == 15 and not gv.strongly_powered(6, Y, 0)
+               and wv.get(4, Y, 0) == B.REDSTONE_TORCH)
+
+    # ⑤ 时钟：1 档 ≈30 次/3s、3 档 ≈10 次/3s、两次跑波形一致、长跑不漂相位
+    def clock_rig(tier):
+        wc, gc = fresh()
+        put(wc, gc, 0, Y, 8, B.REDSTONE_WIRE)                      # 中继器背面
+        put(wc, gc, 0, Y, 9, B.REPEATER_BY_DIR_DELAY[('south', tier)][0])
+        put(wc, gc, 0, Y, 10, B.STONE)                             # 正面实心块
+        put(wc, gc, 0, Y + 1, 10, B.REDSTONE_TORCH)                # 块上火把
+        put(wc, gc, 0, Y + 1, 9, B.REDSTONE_WIRE)                  # 绕回
+        put(wc, gc, 0, Y + 1, 8, B.REDSTONE_WIRE)
+        put(wc, gc, 1, Y, 8, B.LAMP_OFF)
+        gc.run_until_stable(max_ticks=8)
+        return wc, gc, (1, Y, 8)
+
+    wc1, gc1, lamp1 = clock_rig(0)
+    s1 = blink(gc1, wc1, lamp1, 3.0)
+    t1 = trans(s1)
+    clock1_ok = 28 <= t1 <= 32
+    wc2, gc2, lamp2 = clock_rig(0)
+    s2 = blink(gc2, wc2, lamp2, 3.0)
+    det_ok = s1 == s2
+    wc3, gc3, lamp3 = clock_rig(2)
+    t3 = trans(blink(gc3, wc3, lamp3, 3.0))
+    clock3_ok = 8 <= t3 <= 12
+    wc4, gc4, lamp4 = clock_rig(0)
+    t8 = trans(blink(gc4, wc4, lamp4, 8.0))
+    drift_ok = 76 <= t8 <= 84
+    alive_ok = gc1.pending_count() > 0
+
+    # ⑥ 性能：时钟跑 1 秒（20 帧）的耗时
+    t0 = _t.perf_counter()
+    blink(gc1, wc1, lamp1, 1.0)
+    dt = _t.perf_counter() - t0
+    perf_ok = dt < 0.2
+
+    ok = (wait_ok and mid_ok and delay_ok and short_ok and long_ok and tiers_ok
+          and cycle_ok and inv_on and inv_flip and inv_back and weak_ok
+          and clock1_ok and det_ok and clock3_ok and drift_ok and alive_ok and perf_ok)
+    _report('tickqueue', ok,
+            f'延迟(排队/0.2s不翻/0.35s翻)={wait_ok}/{mid_ok}/{delay_ok} '
+            f'短脉冲被吃={short_ok} 长脉冲照常={long_ok} 四档={tiers_ok} '
+            f'调档循环={cyc}{cycle_ok} '
+            f'反相器(亮/灭/复亮)={inv_on}/{inv_flip}/{inv_back} 线只弱充能={weak_ok} '
+            f'时钟1档{t1}次/3s={clock1_ok} 3档{t3}次={clock3_ok} '
+            f'逐帧确定性={det_ok} 8s不漂({t8}次)={drift_ok} 一直挂着事件={alive_ok} '
+            f'1s时钟耗时 {dt * 1000:.1f}ms={perf_ok}')
 
 
 # ---------------------------------------------------------------- 主流程

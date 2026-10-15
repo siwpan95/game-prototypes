@@ -602,10 +602,14 @@ class McCloneKernel(Service):
         elif b in (B.BUTTON_OFF, B.BUTTON_ON):
             if self.redstone.press_button(x, y, z) is not None:
                 return True, (name, '按下')
-        elif b in (B.REPEATER_OFF, B.REPEATER_ON):
-            new = self.redstone.toggle_repeater(x, y, z)
+        elif b in B.REPEATER_DIR_OF:
+            # 中继器右键 = **调档**（1~4 档 = 0.1/0.2/0.3/0.4 秒）。
+            # 不提供"手动点亮"：亮灭是信号算出来的，手动切会和信号打架
+            # （下一帧就被信号纠正回来，看着像"点了没反应"）。
+            new = self.redstone.cycle_repeater_delay(x, y, z)
             if new is not None:
-                return True, (name, '亮' if new == B.REPEATER_ON else '灭')
+                return True, (name, f'{self.redstone.delay_label(new)}（延迟 '
+                                    f'{B.repeater_delay(new):.1f}s）')
         elif B.door_other_half(b) is not None:
             opened = b in (B.DOOR_OPEN_LOWER, B.DOOR_OPEN_UPPER)
             if self.redstone.set_door(x, y, z, not opened):
@@ -1422,7 +1426,7 @@ class McCloneKernel(Service):
             return
         x0, y0, z0 = cx * CHUNK, cy * CHUNK, cz * CHUNK
         for i, b in enumerate(buf):
-            if RS.is_source(b) or RS.is_conductor(b) or RS.is_output(b):
+            if RS.is_component(b):       # 含**灭的火把**（反相器）与关着的拉杆所属网络
                 ly, lz, lx = i // 256, (i // 16) % 16, i % 16
                 yield (x0 + lx, y0 + ly, z0 + lz)
 
