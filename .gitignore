@@ -22,3 +22,7 @@ shots/
 recordings/
 saves/
 *.mc3d
+
+# 资源包（Phase 3-D）：演示包由 `examples/make_pack.py` 当场算出来
+# （与 `textures.py` 的"磁盘上只有生成规则"同一条纪律：仓里不带二进制素材）
+packs/

@@ -7,7 +7,7 @@
 > **三仓关系**：`3dworld` 是**引擎与渲染能力本体**；`mcclone3d` 是**消费方**
 > （玩法 + 贴图规则）；`mc-clone` 是**旧版**（2D / 文字形态），**原样保留、不再改动**。
 
-## 状态：Phase 3-C 可用（顶点级 AO：平滑光照）
+## 状态：Phase 3-D 可用（资源包式材质）
 
 | 能做 | 说明 |
 | --- | --- |
@@ -23,6 +23,7 @@
 | **元件 tick 队列**（Phase 3-B） | 中继器**延迟 4 档**（0.1/0.2/0.3/0.4s，右键**调档**）；比延迟短的脉冲**不产生输出**（脉冲整形）；时钟**永远在跑** |
 | **红石火把 = 反相器**（Phase 3-B） | 脚下那块被元件**强充能**时自己熄灭（红石线只弱充能 ⇒ 结构上不会自锁）；反相器 + 中继器延迟 = **环形时钟**（周期 = 2×档位） |
 | **顶点级 AO**（Phase 3-C） | 每个面四个角按邻格遮挡各自调暗（内角变暗、棱保持亮）+ **quad 翻转**；几何/面数**完全不变**，代价 +17%（`smooth: false` 可关） |
+| **资源包式材质**（Phase 3-D） | 外部 PNG 覆盖程序化贴图（`packs/<id>/tiles/*.png`），**可换分辨率**（16/32/64px）；`--pack <id>` 或配置树 `pack:`；**UV/几何一个字节都不变**；包**不进存档** |
 | 面剔除 + 图集 UV | 只画可见面；UV 走引擎 **世界级投影**（`texproj`），跨方块花纹连续 |
 | **昼夜循环**（Phase 2-A） | 一昼夜 600s：太阳高度角决定天光强度；天空色 / 地平线色 / 星空来自引擎 `sky_state`；日落有真实渐变 |
 | **逐格光照**（Phase 2-A） | 天光（列传播）+ 方块光（点光源 BFS），0..15 两套场；水每格衰减 1；**改一格只重算附近**（扩散限制在区块盒内） |
@@ -36,9 +37,9 @@
 | hotbar 与库存 | 1–9 换方块/工具；创造模式挖了直接进背包，生存模式走掉落物 |
 | 存档 | **种子 + 编辑增量 + 玩家 + 工具耐久 + 生存状态 + 掉落物 + 世界时刻**（v3，能读 v1/v2 旧档；生物不进档，读档后自然重刷，见设计稿 §七） |
 | 区块局部重建 | 改一块只重扫本块 + 贴边邻块；光照同范围失效后按需重算 |
-| headless 验收 | 自动机跑完整生存循环 + **20 条检查**，**零 GL** |
+| headless 验收 | 自动机跑完整生存循环 + **21 条检查**，**零 GL** |
 
-路线图见 [`docs/阶段计划.md`](docs/阶段计划.md)（3 红石级机制 ✅ → 附魔/酿造、平滑光照、多人存档）。
+路线图见 [`docs/阶段计划.md`](docs/阶段计划.md)（3 红石级机制 ✅ → 附魔/酿造待做、多人存档不做）。
 
 ![Phase 2-A 正午](shots/phase2_noon.png)
 ![Phase 2-A 午夜](shots/phase2_midnight.png)
@@ -82,8 +83,11 @@ python examples\shot_village.py             :: 村庄：白天俯视整村 / 夜
 python examples\shot_redstone.py            :: 红石装置：通电前 / 通电后（亮线+灯+门+活塞）
 python examples\shot_inverter.py            :: 反相器：通电前 / 通电后（灯亮黄 ↔ 暗棕）
 python examples\shot_ao.py                  :: 顶点级 AO：开 / 关（同机位，看内角）
-python -m mcclone3d.cli                      :: headless 验收 20 条（不需要窗口）
-python -m tests.run_all                      :: 全部单测（零 GL）
+python examples\make_pack.py                :: 生成演示资源包（秋色 32px / 复古四档 16px）
+python examples\shot_pack.py                :: 换资源包：无包 / 秋色 / 复古 三张（同机位）
+python examples\mcclone3d.py --pack autumn  :: 用某个资源包跑（分辨率随之变成 256px 图集）
+python -m mcclone3d.cli                      :: headless 验收 21 条（不需要窗口）
+python -m tests.run_all                      :: 全部单测（20 模块 316 项，零 GL）
 ```
 
 **操作**：`WASD` 移动 ｜ `Space` 跳 ｜ 鼠标左键拖动转向 ｜ **按住左键挖 / 右键放** ｜
@@ -123,6 +127,13 @@ python -m tests.run_all                      :: 全部单测（零 GL）
 矿脉按深度分层：**煤 y<40 / 铁 y<28 / 金 y<16 / 钻石 y<8**（随世界高度缩放），
 越深越稀有，簇也越小。`cli --only caves` 一条命令覆盖全部判据。
 
+**资源包要点**：贴图的**基线**永远是程序化生成的（仓里不带任何二进制），
+资源包只是在上面"按名字覆盖"一层。放一个 `packs/我的包/tiles/stone.png` 就能只换石头，
+没放的自动落回基线；`pack.json` 里写 `"resolution": 32` 就是高清包（图集随之变大）。
+`make_pack.py` 生成的 `autumn` 演示包会用**色相窗口**把"绿的东西"统一染成秋色
+（草变橙红、土和砖一动不动 —— 整张图一起转会把木料和砖转到洋红，一眼假）。
+`cli --only pack` 一条命令覆盖全部判据（含"UV/几何不受影响"与"坏包必须报错"）。
+
 ## 与引擎的接法（不改 3dworld 一行）
 
 只用引擎的三个**公开扩展点**（见 [`docs/阶段计划.md` §二](docs/阶段计划.md)）：
@@ -133,15 +144,31 @@ python -m tests.run_all                      :: 全部单测（零 GL）
 | `WORLD3D_CONFIGS` 环境变量 | 让引擎来**本项目**的 `configs/` 读配置树 |
 | `world3d.host.tree.mount_tree(path, want=...)` | 挂载配置树（demo 与 headless 验收**共用同一份接线**） |
 
-## 贴图：走引擎的 UV 投影与贴图规则
+## 贴图：程序化基线 + 资源包覆盖
 
 * 像素材质**程序化生成**（16×16，逐字节确定性）⇒ 仓里没有二进制素材、无授权问题；
 * 每个面的 UV 由 `u = (p · u_dir) * scale + offset` 算出（与 Source `texinfo` 同构），
   密度 `1/(图集列数 × tile_size)` ⇒ **一格方块面恰好跨一格图集格**，且跨方块连续；
 * 图集映射、平铺回绕（`TexWrap.REPEAT`）、密度体检（`texproj.density_report`）都用引擎那一套。
 
-三个实测踩过的坑（面的手性 / 图集 v 轴翻转 / 绕序）都写在
-[`mcclone3d/mesh.py`](mcclone3d/mesh.py) 的模块说明里，并各有单测钉住。
+**资源包（Phase 3-D）**：`packs/<id>/tiles/*.png` 按名字覆盖上面那些程序化贴图，
+没覆盖的自动落回基线 —— 与 MC 同范式，但是本项目自己的最小格式（`pack.json` + PNG）：
+
+```bat
+python examples\make_pack.py                    :: 生成两个演示包（仓里不带二进制）
+python examples\mcclone3d.py --pack autumn      :: 32px 秋色包：图集 128px → 256px
+python examples\mcclone3d.py --pack retro       :: 16px 复古包：只换像素、分辨率不变
+```
+
+三条硬约束（都在 `packs.py` 里**响亮报错**，不静默兜底）：
+① 只能**覆盖**已存在的贴图名，不能新增/删除（新增会改格号 ⇒ 全部 UV 错位）；
+② 一个包内**所有贴图必须同分辨率**；③ 分辨率必须是 2 的幂。
+**UV 与分辨率无关**（归一化后 `tile` 被约掉）⇒ 换分辨率不动 `mesh.py` 一行。
+PNG 编解码是自写的（只用 stdlib `zlib`，不引 Pillow）：`mcpng.py`。
+
+四个实测踩过的坑（面的手性 / 图集 v 轴翻转 / 绕序 / 图集尺寸与数据必须同源）都写在
+[`mcclone3d/mesh.py`](mcclone3d/mesh.py) 与 [`docs/phase3d_设计.md`](docs/phase3d_设计.md)，
+并各有单测钉住。
 
 ## 目录
 
@@ -161,12 +188,14 @@ mcclone3d/
   ai.py             生物 AI：状态机 + 贪心寻路（跳台阶）+ 碰撞；MobContext 刻意收窄
   sun.py            昼夜：世界时刻 → 相位 → day_factor（太阳高度角自算）+ 星空
   light.py          逐格光照：天光列传播 + 方块光 BFS + 增量失效（**带性能护栏**）
-  textures.py       程序化 16×16 像素材质 + 图集几何（零 GL 生成）
+  textures.py       程序化 16×16 像素材质 + 图集几何（零 GL 生成）+ **资源包覆盖层**
+  mcpng.py          **最小 PNG 编解码**（只用 stdlib zlib，不引 Pillow）
+  packs.py          资源包：清单/加载/校验/解析 + 演示包生成（**不进版本库**）
   world.py          区块化体素世界（确定性生成 + 编辑增量 + 跨区块邻块查询）
   mesh.py           区块网格：面剔除 + 逐面 UV 投影 → 图集 UV + 光照/信号/**AO** 顶点色 + 生物盒模型
   kernel.py         玩法内核（Service）：物理 / 拾取 / 挖放 / 工具 / 掉落 / 合成 /
-                    熔炉 / 血量饥饿 / 昼夜 / 光照 / 生物 / 存档 / 自动机
-  cli.py            headless 验收（18 条，零 GL）
+                    熔炉 / 血量饥饿 / 昼夜 / 光照 / 生物 / **资源包** / 存档 / 自动机
+  cli.py            headless 验收（21 条，零 GL）
 configs/
   cordis.mcclone.yml   配置树（demo 与验收共用）
 examples/
@@ -181,19 +210,23 @@ examples/
   shot_redstone.py  截图：红石装置（通电前 / 通电后同机位）
   shot_inverter.py  截图：反相器（同机位垂直俯视；灯亮黄 ↔ 灯暗棕）
   shot_ao.py        截图：顶点级 AO（开/关同机位；配差异图看亮带落在内角上）
+  make_pack.py      生成演示资源包（程序化，确定性；写进 gitignore 的 `packs/`）
+  shot_pack.py      截图：换资源包（无包 / 秋色 32px / 复古 16px，同机位三张）
 tests/              纯逻辑单测（零 GL）
-docs/               阶段计划、Phase 1 / 2-A / 2-B / 2-C / 3 设计稿
+docs/               阶段计划、Phase 1 / 2-A / 2-B / 2-C / 3 / 3-B / 3-C / 3-D 设计稿
 shots/              截图（gitignore，可随时重生成）
 ```
 
 ## 测试与验收
 
 ```
-python -m tests.run_all     # 零 GL 单测：方块表/贴图/世界/网格/物理/拾取/内核
-                            #                + 物品/掉落/配方/生存/生物表/生物 AI/洞穴
-python -m mcclone3d.cli     # 18 条：world / mesh / physics / raycast / digplace / save
+python -m tests.run_all     # 零 GL 单测 20 模块 316 项：
+                            #   方块表/贴图/PNG/资源包/世界/网格/物理/拾取/内核
+                            #   + 物品/掉落/配方/生存/生物表/生物 AI/洞穴/水/天气/村庄/红石
+python -m mcclone3d.cli     # 21 条：world / mesh / physics / raycast / digplace / save
                             #        / auto / items / drops / recipes / survival / daylight
                             #        / mobs / caves / water / weather / village / redstone
+                            #        / tickqueue / ao / pack
 ```
 
 判据是**可量化的比较**，不是"看起来对"：同种子逐格相同、面数与逐格统计相符、
@@ -208,19 +241,26 @@ python -m mcclone3d.cli     # 18 条：world / mesh / physics / raycast / digpla
 **村中心无暗格（僵尸刷不出来）**、村民只在村里刷且有人口上限；
 **红石侧**：紧邻电源 15 → 每格 −1 → 第 16 格 0、中继器背面吃正面吐且**断电不自锁**、
 灯亮是光源、门通电开（能穿过）、活塞推 1 格 / 连锁 12 / 13 格整体不动 / 六方向、
-按钮 TTL 回弹、**状态进档而信号不进档**、200 格网络重算 1ms。
+按钮 TTL 回弹、**状态进档而信号不进档**、200 格网络重算 1ms；
+**资源包侧**：PNG 编解码**往返逐字节一致**且 5 种 filter 全对拍、诊断式坏输入全都报错、
+覆盖生效而**未覆盖的落回基线**、带包与不带包的网格 `positions/uvs/colors` **逐字节相同**、
+UV 与分辨率无关、图集尺寸与数据不同源时报错、挂包前后 `dump()` 的字节完全相同
+（**包不进存档**）、坏包/拼错的贴图名/混分辨率/16 位/隔行一律**响亮报错**。
 
 ## 已知边界
 
 * 世界是**有限箱体**（默认 256×256×64 ≈ 220 万方块）；无限地形要区块流式加载，属 Phase 2。
+* **资源包不能新增贴图**（只能覆盖已有名字）、**不能混分辨率**、不支持 16 位 PNG /
+  隔行（Adam7）/ 动画 PNG / 贴图叠加层；换包要在启动时给（`--pack`），不做运行期热重载。
+  见 [`docs/phase3d_设计.md` §二/§九](docs/phase3d_设计.md)。
 * **生物不进存档**（v3）：读档后自然重刷；要"家畜圈养"需升 v4，见设计稿 §七。
 * **村庄也不进存档**（走 `set_generated`）：老档不用升级，但**改了村庄摆放规则，
   老档里的村庄会跟着移位**（与树/洞穴/矿脉同一性质，见设计稿 §十四）。
 * **村民不交易**、房屋里没有箱子（要物品栏 GUI，属后续批次）；
   结构只有村庄一种，且每村布局共用同一套模板（只按哈希变材质）。
-* **红石**：中继器**没有延迟**（一个 tick 内算到固定点 ⇒ 做不了时钟/脉冲）；
-  没有比较器/侦测器；红石线不做"爬墙"与"按连接变形"（统一十字贴图）；
-  中继器四个朝向共用同一张贴图（朝向只体现在功能上）。见设计稿 §十一。
+* **红石**：中继器有延迟（4 档），但**没有比较器/侦测器**；红石线不爬墙、
+  也不按连接变形（统一十字贴图）；中继器四个朝向共用同一张贴图（朝向只体现在功能上）。
+  见设计稿 §十一。
 * **被活塞推走的方块不进存档**（派生状态）：读档后按布局重算，
   若活塞被拆则方块回到存档记录的位置（设计稿 §二）。
 * 生物**不会游泳**（水不算固体，直接落过水）；不会绕迷宫（贪心 + 跳台阶，设计稿 §二）。
@@ -233,4 +273,5 @@ python -m mcclone3d.cli     # 18 条：world / mesh / physics / raycast / digpla
 
 ## 许可
 
-MIT（见 [LICENSE](LICENSE)）。方块贴图为程序化生成。
+MIT（见 [LICENSE](LICENSE)）。方块贴图为程序化生成；资源包是**外部**素材，
+仓里不带任何图（演示包由 `make_pack.py` 当场算出来）。

@@ -7,6 +7,12 @@
 2. `build_atlas()`     —— 把全部贴图排成一张网格图集（`AtlasLayout`）；
 3. `atlas_texture()`   —— 上传成 pyglet 纹理（**需要 GL 上下文**，单测不碰）。
 
+第 0 层（**Phase 3-D 新增**）：`tile_pixels(name, pack=…)` 的 `pack` 参数是
+可选的资源包覆盖（`packs.Pack`）。基线永远是这里的 `PAINTERS`（程序化、逐字节确定），
+资源包只是"名字对上的就换掉"，而且**可以换分辨率**（16/32/64px）。
+`layout_for(pack)` 给对应的图集几何：**UV 与分辨率无关**（归一化后 `tile` 被约掉），
+所以换分辨率的代价只有"上传的那张纹理变大"。
+
 为什么全部现算而不是带 PNG：与 .kkrieger 同一条路子 —— 磁盘上只存**生成规则**，
 首次用到才出像素。好处是仓里没有二进制素材、没有授权问题（MIT 干净），
 而且"同一张图在任何机器上逐字节相同"这件事**可以被单测钉死**。
@@ -19,8 +25,8 @@ from __future__ import annotations
 
 __all__ = [
     'TILE', 'TILES', 'ATLAS_COLS', 'ATLAS_ROWS', 'ATLAS_SIZE',
-    'TILE_INDEX', 'tile_pixels', 'build_atlas', 'AtlasLayout',
-    'tile_uv_rect', 'ATLAS_TILE_NAMES',
+    'TILE_INDEX', 'tile_pixels', 'build_atlas', 'AtlasLayout', 'scale_rgba',
+    'tile_uv_rect', 'ATLAS_TILE_NAMES', 'layout_for',
 ]
 
 #: 单张贴图边长（像素）
@@ -586,15 +592,62 @@ ATLAS_SIZE = ATLAS_COLS * TILE           # 正方形图集边长（像素）
 TILES = ATLAS_TILE_NAMES                 # 复数别名（对外更常见）
 
 
-def tile_pixels(name: str) -> bytes:
-    """单张贴图的 16×16 RGBA 字节（确定性）。未知名字抛 KeyError。"""
+def scale_rgba(px: bytes, src: int, dst: int) -> bytes:
+    """最近邻放大/缩小 `src×src → dst×dst`（纯字节、确定性）。
+
+    **最近邻是有意的**：双线性会造出基线里没有的新颜色、把像素质感的硬边磨掉
+    ——那正是"资源包高清化"最容易被吐槽的地方。着色器那边也配 `GL_NEAREST`，
+    两处口径一致。
+
+    什么时候用它：资源包声明了更高分辨率（如 32px），但只覆盖了一部分贴图 ——
+    没覆盖的那些必须**补到同一个分辨率**才能进同一张均匀网格图集
+    （见 `packs` 模块"为什么不能混分辨率"）。这条如果不做，
+    16px 的回落贴图会被塞进 32px 的格子里，图集静默错位。
+    """
+    src, dst = int(src), int(dst)
+    if src == dst:
+        return px
+    if len(px) != src * src * 4:
+        raise ValueError(f'scale_rgba：字节数 {len(px)} 与源尺寸 {src} 不符')
+    if dst < 1 or src < 1:
+        raise ValueError(f'scale_rgba：尺寸非法 {src}→{dst}')
+    out = bytearray(dst * dst * 4)
+    for y in range(dst):
+        sy = y * src // dst
+        base_s = sy * src
+        base_d = y * dst
+        for x in range(dst):
+            sx = x * src // dst
+            s = (base_s + sx) * 4
+            d = (base_d + x) * 4
+            out[d:d + 4] = px[s:s + 4]
+    return bytes(out)
+
+
+def tile_pixels(name: str, pack=None) -> bytes:
+    """单张贴图的 RGBA 字节（确定性）。未知名字抛 `KeyError`。
+
+    `pack` 是**可选**的资源包（`packs.Pack`，鸭子类型：只要有 `has/get/tile`
+    就行 —— 所以本模块**不需要** import `packs`，也就没有循环依赖）：
+
+    * 包里有这个名字 ⇒ **用包的像素**（分辨率 = `pack.tile`）；
+    * 包里没有 ⇒ 落回程序化基线；**若包的分辨率与基线不同，就按最近邻补到同分辨率**
+      （否则图集里会混着两种尺寸的格子 ⇒ 静默错位，见 `scale_rgba`）。
+    """
+    if pack is not None and pack.has(name):
+        return pack.get(name)
     try:
         painter = PAINTERS[name]
     except KeyError:
         raise KeyError(f'未知贴图 {name!r}；合法：{sorted(PAINTERS)}') from None
     c = _Canvas()
     painter(c)
-    return c.bytes()
+    px = c.bytes()
+    if pack is not None:
+        ptile = int(getattr(pack, 'tile', TILE) or TILE)
+        if ptile != TILE:
+            px = scale_rgba(px, TILE, ptile)
+    return px
 
 
 class AtlasLayout:
@@ -637,37 +690,73 @@ class AtlasLayout:
 LAYOUT = AtlasLayout()
 
 
-def tile_uv_rect(name: str):
-    """便捷函数：默认图集里某张贴图的 UV 矩形。"""
-    return LAYOUT.uv_rect(name)
+def layout_for(pack=None) -> AtlasLayout:
+    """按资源包取图集几何。`pack=None` 或分辨率就是基线 ⇒ 直接返回 `LAYOUT`。
+
+    ⚠ **为什么必须走这个函数、不能到处写 `textures.LAYOUT.size`**：
+    带了高分辨率包之后，图集边长是 `ATLAS_COLS × pack.tile`（例如 8×32=256），
+    而 `LAYOUT.size` 恒为 8×16=128。上传纹理时用了后者的尺寸、却喂了前者的字节
+    ⇒ GL 会按 128×128 去读一份 256×256 的数据（每行读一半、行数也少一半），
+    结果是**图集被打乱成一团**（看着像"整个世界的贴图都错位了"）。
+    这是"常量与数据必须同源"那条纪律的又一例（Phase 3 踩过同款）。
+    """
+    if pack is None:
+        return LAYOUT
+    tile = int(getattr(pack, 'tile', TILE) or TILE)
+    return LAYOUT if tile == TILE else AtlasLayout(tile=tile)
 
 
-def build_atlas(layout: AtlasLayout | None = None) -> bytes:
+def tile_uv_rect(name: str, layout=None):
+    """便捷函数：某张贴图在给定图集里的 UV 矩形（缺省用基线图集）。
+
+    注意返回值**与分辨率无关**（UV 是归一化的，`tile` 会被约掉）——
+    16px 的包和 64px 的包拿到的是同一个矩形（见 `packs` 模块说明）。
+    """
+    return (layout or LAYOUT).uv_rect(name)
+
+
+def build_atlas(pack=None, layout: AtlasLayout | None = None) -> bytes:
     """把全部贴图排成一张 RGBA 图集（行优先，逐张贴上去）。
 
     返回 `layout.size × layout.size × 4` 字节。**格号顺序即 `ATLAS_TILE_NAMES`**，
     所以本函数的输出对"顺序"极其敏感 —— 有单测逐像素核对任意两张贴图的位置。
+
+    `pack` 给了就用它的覆盖像素（并按其分辨率出图）；`layout` 显式给了就以它为准
+    （单测造非默认几何用）。两个都不给 = 与 Phase 3 之前逐字节相同。
     """
-    lay = layout or LAYOUT
+    lay = layout or layout_for(pack)
     size = lay.size
     out = bytearray(size * size * 4)
     for name in lay.names:
-        px = tile_pixels(name)
+        px = tile_pixels(name, pack)
         x0, y0, w, h = lay.pixel_rect(name)
+        # ⚠ 必须核对**实际像素字节数**，不能核对几何自己给的 w/h（那是一回事，
+        # 核对自己等于没核）。这里漏了会出**静默缩短**：见下面的注释。
+        if len(px) != w * h * 4:
+            raise ValueError(
+                f'贴图 {name!r} 的像素是 {len(px)} 字节，图集格子要 {w * h * 4} 字节'
+                f'（{w}px）—— 资源包的 tile 必须与 layout.tile 一致')
+        stride = w * 4
         for ty in range(h):
             row_dst = ((y0 + ty) * size + x0) * 4
-            row_src = ty * w * 4
-            out[row_dst:row_dst + w * 4] = px[row_src:row_src + w * 4]
+            row_src = ty * stride
+            # ⚠ `bytearray[a:b] = 更短的 bytes` 会**把 bytearray 缩短**，不报错！
+            # （本批实测踩到：32px 的包配 16px 的几何，图集从 262144 字节缩成
+            #  157056，然后 GL 拿到一张"尺寸对不上数据"的纹理 —— 整片花屏。
+            #  正是上面的长度核对把它变成了硬错误。）
+            out[row_dst:row_dst + stride] = px[row_src:row_src + stride]
+    if len(out) != size * size * 4:                # 兜底：缩短了就当场爆，不进 GL
+        raise AssertionError(f'图集被意外改短了：{len(out)} != {size * size * 4}')
     return bytes(out)
 
 
-def atlas_texture(layout: AtlasLayout | None = None):
+def atlas_texture(pack=None, layout: AtlasLayout | None = None):
     """上传成 pyglet 纹理（**需要 GL 上下文**；单测不碰这一层）。
 
     NEAREST 过滤是有意的：像素材质放大后要保住硬边（线性过滤会糊成一团）。
     """
-    lay = layout or LAYOUT
+    lay = layout or layout_for(pack)
     from pyglet import image
-    blob = build_atlas(lay)
+    blob = build_atlas(pack, lay)
     img = image.ImageData(lay.size, lay.size, 'RGBA', blob)
     return img.get_texture()

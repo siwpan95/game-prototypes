@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import sys
 import tempfile
 
@@ -631,6 +632,49 @@ def t_config_passthrough():
     k.select(1)
     assert k.selected_block() == B.GLASS, 'hotbar 第 2 格该放下玻璃'
     assert k.creative is False and k.inventory == {}
+
+
+def t_pack_layer():
+    """Phase 3-D：资源包**只改贴图像素**，不许动玩法、也不许进存档。
+
+    为什么这条必须在**内核**层钉：`pack` 很容易被顺手写进 `dump()`（"反正都是
+    世界设置"），一旦进档就出大问题 —— 换包读同一份档会得到"不同的世界"，
+    而方块其实一个都没变。判据用"dump 的字节前后完全相同"这种**功能**判据，
+    不用"看着对不对"。
+    """
+    from mcclone3d import packs as PK
+
+    tmp = tempfile.mkdtemp(prefix='mc3d_kpack_')
+    try:
+        k = make_offline({'seed': 4242, 'size': 32, 'height': 32})
+        assert k.pack is None, '默认必须是纯程序化（不带包）'
+        assert '程序化' in k.pack_report(), k.pack_report()
+        dump_before = json.dumps(k.dump(), ensure_ascii=False, sort_keys=True)
+        # 挂一个包：世界与存档**一个字节都不该变**
+        PK.write_demo_pack(os.path.join(tmp, 'autumn'), 'autumn')
+        k.use_pack(os.path.join(tmp, 'autumn'))
+        assert k.pack is not None and k.pack.tile == 32
+        assert json.dumps(k.dump(), ensure_ascii=False, sort_keys=True) == dump_before, \
+            '挂包改变了存档内容（包不该进档）'
+        rep = k.pack_report()
+        assert 'autumn' in rep and '32px' in rep, rep
+        # 坏包必须**响亮报错**，而且不该把已经挂好的包顺手清掉
+        try:
+            k.use_pack(os.path.join(tmp, 'no_such_pack_dir'))
+        except PK.PackError:
+            pass
+        else:
+            raise AssertionError('挂不存在的包应当抛 PackError')
+        assert k.pack is not None and k.pack.id == 'autumn', '失败时不该弄丢已挂的包'
+        # 配置树里给了 pack ⇒ 装配时就挂上
+        k2 = make_offline({'seed': 7, 'size': 32, 'height': 32,
+                           'pack': os.path.join(tmp, 'autumn')})
+        assert k2.pack is not None and k2.pack.tile == 32
+        # 摘掉
+        k.use_pack(None)
+        assert k.pack is None and k.pack_report().startswith('资源包：无')
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
 
 
 if __name__ == '__main__':

@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import sys
 import time
 import tempfile
@@ -1445,6 +1446,76 @@ def c_ao():
             f'几何不变={geom_ok} 只变暗({darker}/{n_vert} 顶点)={color_ok} '
             f'quad 翻转生效={flip_ok} '
             f'代价 {t_off:.2f}s→{t_on:.2f}s (+{cost * 100:.1f}%, 预算<35%)={perf_ok}')
+
+
+@check('pack')
+def c_pack():
+    """资源包（Phase 3-D）：覆盖生效、分辨率可变而 **UV 不变**、不合规响亮报错。
+
+    这条验收的核心是**"换贴图不许动几何"**：资源包是纯外观层，
+    图集里格号/UV/面数一个字节都不该变 —— 只有上传的那张纹理变了。
+    """
+    from mcclone3d import mcpng, packs as PK
+
+    base_atlas = textures.build_atlas()
+    baseline_ok = (len(base_atlas) == textures.LAYOUT.size ** 2 * 4
+                   and textures.layout_for(None) is textures.LAYOUT)
+
+    tmp = tempfile.mkdtemp(prefix='mc3d_cli_pack_')
+    # ① 高分辨率演示包（32px = 基线的 2 倍）
+    hi = PK.write_demo_pack(os.path.join(tmp, 'autumn'), 'autumn')
+    lay = textures.layout_for(hi)
+    atlas = textures.build_atlas(hi, lay)
+    res_ok = (hi.tile == 32 and lay.size == textures.ATLAS_COLS * 32
+              and len(atlas) == lay.size ** 2 * 4)
+    # ② UV 与分辨率无关（16px 包 / 32px 包 / 无包，同一张贴图给同一个矩形）
+    uv_ok = all(textures.tile_uv_rect(n, lay) == textures.tile_uv_rect(n)
+                for n in textures.ATLAS_TILE_NAMES)
+    # ③ 覆盖真的生效：包里石头那一格不再是基线像素
+    x, y, _w, _h = lay.pixel_rect('stone')
+    off = ((y + 1) * lay.size + x + 1) * 4
+    pack_px = atlas[off:off + 4]
+    base_off = ((y + 1) * textures.LAYOUT.size + x + 1) * 4
+    cover_ok = pack_px != base_atlas[base_off:base_off + 4]
+    # ④ 未覆盖的贴图补到 32px（不许混分辨率进同一张均匀网格）
+    fallback_ok = len(textures.tile_pixels('dirt', hi)) == 32 * 32 * 4
+    # ⑤ 几何不受影响：同一区块、带包/不带包，网格顶点与 UV 逐字节相同
+    k = make_offline({'seed': 909, 'size': 64, 'height': 32, 'light': False,
+                      'mobs': False})
+    mb, st = build_chunk_mesh(k.world, 1, 0, 1)
+    k.use_pack(os.path.join(tmp, 'autumn'))
+    k.dirty_chunks = set(k.world.chunks)
+    mb2, st2 = build_chunk_mesh(k.world, 1, 0, 1)
+    geom_ok = (st == st2 and list(mb.positions) == list(mb2.positions)
+               and list(mb.uvs) == list(mb2.uvs)
+               and list(mb.colors) == list(mb2.colors))
+    report_ok = ('autumn' in k.pack_report() and '32px' in k.pack_report())
+    # ⑥ 不合规必须**响亮报错**（静默兜底 = "改了包怎么没生效"，最难查）
+    loud = 0
+    bad = os.path.join(tmp, 'badname')
+    os.makedirs(os.path.join(bad, PK.TILE_DIR), exist_ok=True)
+    with open(os.path.join(bad, PK.TILE_DIR, 'stoen.png'), 'wb') as fh:
+        fh.write(mcpng.encode(16, 16, bytes(16 * 16 * 4)))     # 拼错的名字
+    try:
+        PK.load(bad)
+    except PK.PackError:
+        loud += 1
+    try:
+        PK.resolve('definitely_not_a_pack', root=tmp)
+    except PK.PackError:
+        loud += 1
+    try:
+        k.use_pack(os.path.join(tmp, 'nope'))
+    except PK.PackError:
+        loud += 1
+    loud_ok = loud == 3
+
+    ok = (baseline_ok and res_ok and uv_ok and cover_ok and fallback_ok
+          and geom_ok and report_ok and loud_ok)
+    _report('pack', ok,
+            f'基线不变={baseline_ok} 32px图集={lay.size}px={res_ok} UV不变={uv_ok} '
+            f'覆盖生效={cover_ok} 未覆盖补分辨率={fallback_ok} 几何/顶点色不变={geom_ok} '
+            f'报告={report_ok} 坏包报错={loud}/3={loud_ok}')
 
 
 # ---------------------------------------------------------------- 主流程

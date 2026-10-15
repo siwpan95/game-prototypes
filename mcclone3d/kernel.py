@@ -204,6 +204,13 @@ class McCloneKernel(Service):
         self._mob_rng = _random.Random(self.seed ^ 0x5EED)
         self.mob_stats = {'spawned': 0, 'despawned': 0, 'killed': 0,
                           'mob_hits': 0, 'player_hits': 0}
+        # --- Phase 3-D：资源包（只改贴图像素，**不碰玩法/存档**）---
+        #: 当前资源包（`packs.Pack` | None）。`None` = 纯程序化基线（默认玩法）。
+        #: **不进存档**：与 MC 同口径 —— 资源包是客户端外观设置，不是世界数据；
+        #: 换个包读同一份档，必须还是同一个世界（有单测钉住"进档的字节里没有包"）。
+        self.pack = None
+        if cfg.get('pack'):
+            self.use_pack(cfg['pack'])
         self._init_player()
 
     # ============================================================== 玩家
@@ -290,6 +297,26 @@ class McCloneKernel(Service):
     def status(self) -> str:
         """引擎约定的状态串（`cli/config_boot` 会读它）。"""
         return 'playing'
+
+    # ============================================================== 资源包
+    def use_pack(self, spec):
+        """切换资源包：`spec` = 包 id（`packs/<id>`）/ 目录路径 / `None`。
+
+        返回 `Pack` 或 `None`。**不合规直接抛 `packs.PackError`** —— 静默退回基线的
+        后果是"我改了包怎么看着没生效"，比当场报错难查得多（本仓一贯口径）。
+
+        注意它**不改任何玩法状态**：世界、背包、红石全按 id 走，与贴图无关。
+        """
+        from . import packs as _packs
+        self.pack = _packs.load(_packs.resolve(spec)) if spec else None
+        return self.pack
+
+    def pack_report(self) -> str:
+        """一行说清当前贴图来源（体检/日志用；截图时与画面一起看）。"""
+        if self.pack is None:
+            from . import textures as _tex
+            return f'资源包：无（程序化基线 {_tex.TILE}px）'
+        return self.pack.report()
 
     # ============================================================== 视线
     def look_dir(self):

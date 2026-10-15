@@ -103,5 +103,97 @@ def t_not_flat():
         assert len(colors) >= 2, f'{name} 是纯色（画法没生效？）'
 
 
+# ==================================================== Phase 3-D：资源包接入
+class _FakePack:
+    """最小资源包（鸭子类型）—— 只用来验 `textures` 侧的接入，不碰文件。"""
+
+    def __init__(self, tiles, tile=T.TILE):
+        self.tiles = dict(tiles)
+        self.tile = int(tile)
+
+    def has(self, name):
+        return name in self.tiles
+
+    def get(self, name):
+        return self.tiles[name]
+
+
+def _solid(n, rgba):
+    return bytes(rgba) * (n * n)
+
+
+@test('scale_rgba：最近邻（每块同源像素）且逐像素确定')
+def t_scale_rgba():
+    src = bytes((i * 7) % 256 for i in range(4 * 4 * 4))     # 4×4 RGB 随机-ish
+    up = T.scale_rgba(src, 4, 8)
+    assert len(up) == 8 * 8 * 4
+    for y in range(8):
+        for x in range(8):
+            si = ((y // 2) * 4 + (x // 2)) * 4
+            di = (y * 8 + x) * 4
+            assert up[di:di + 4] == src[si:si + 4], f'({x},{y}) 不是最近邻'
+    assert T.scale_rgba(src, 4, 8) == up, '放大必须确定'
+    assert T.scale_rgba(src, 4, 4) == src, '同尺寸应当原样返回'
+    for bad in ((src, 5, 8), (src, 4, 0)):
+        try:
+            T.scale_rgba(*bad)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f'scale_rgba{bad[1:]} 应当报错')
+
+
+@test('layout_for：无包 = 基线 LAYOUT；分辨率不同才建新几何（2 的幂）')
+def t_layout_for():
+    assert T.layout_for(None) is T.LAYOUT
+    base = _FakePack({}, tile=T.TILE)
+    assert T.layout_for(base) is T.LAYOUT, '分辨率等于基线时应复用 LAYOUT'
+    for k in (2, 4):
+        lay = T.layout_for(_FakePack({}, tile=T.TILE * k))
+        assert lay.size == T.ATLAS_COLS * T.TILE * k
+        assert lay.rows == T.ATLAS_ROWS and lay.names == T.ATLAS_TILE_NAMES
+
+
+@test('带包出图集：覆盖的用包像素、未覆盖的落回基线，且 UV 与分辨率无关')
+def t_atlas_pack():
+    pack = _FakePack({'stone': _solid(16, (1, 2, 3, 255))}, tile=16)
+    blob = T.build_atlas(pack, T.LAYOUT)
+    assert len(blob) == T.LAYOUT.size ** 2 * 4
+    x, y, w, h = T.LAYOUT.pixel_rect('stone')
+    off = ((y + 1) * T.LAYOUT.size + x + 1) * 4
+    assert blob[off:off + 4] == bytes((1, 2, 3, 255)), blob[off:off + 4]
+    # 未覆盖的贴图 = 基线像素
+    x2, y2, _w, _h = T.LAYOUT.pixel_rect('dirt')
+    o2 = ((y2 + 1) * T.LAYOUT.size + x2 + 1) * 4
+    base = T.build_atlas()
+    assert blob[o2:o2 + 4] == base[o2:o2 + 4], '未覆盖的贴图应当落回基线'
+    # 高分辨率：UV 不变（归一化后 tile 被约掉）
+    hi = _FakePack({'stone': _solid(32, (1, 2, 3, 255))}, tile=32)
+    hlay = T.layout_for(hi)
+    for name in T.ATLAS_TILE_NAMES:
+        assert T.tile_uv_rect(name, hlay) == T.tile_uv_rect(name)
+
+
+@test('带包出图集：未覆盖的贴图会**补到包的分辨率**（否则图集会静默错位）')
+def t_atlas_upscale_fallback():
+    hi = _FakePack({}, tile=32)
+    px = T.tile_pixels('dirt', hi)
+    assert len(px) == 32 * 32 * 4, '未覆盖的贴图必须补到包的分辨率'
+    assert px == T.scale_rgba(T.tile_pixels('dirt'), 16, 32)
+    blob = T.build_atlas(hi, T.layout_for(hi))
+    assert len(blob) == (T.ATLAS_COLS * 32) ** 2 * 4
+
+
+@test('图集尺寸与数据不同源时**响亮报错**（bytearray 会静默缩短，必须挡住）')
+def t_atlas_size_guard():
+    hi = _FakePack({'stone': _solid(32, (1, 2, 3, 255))}, tile=32)
+    try:
+        T.build_atlas(hi, T.LAYOUT)             # 32px 的像素塞 16px 的格子
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('尺寸不符应当抛 ValueError（否则图集被静默缩短）')
+
+
 if __name__ == '__main__':
     sys.exit(main())

@@ -14,6 +14,8 @@
 #   creative —— True = 创造模式（无限方块、可飞；Phase 0 的默认玩法）
 #   reach    —— 准星够得着的距离（格）
 #   hotbar   —— hotbar 里的方块名（顺序即 1-9 键的顺序）
+#   smooth   —— 顶点级 AO（平滑光照）；false = 关（截图拍对照用）
+#   pack     —— 资源包（Phase 3-D）：包 id（packs/<id>）或目录路径；不写 = 纯程序化
 - name: mcclone
   id: mcclone                 # 与 name 一致：服务按 name 注册，id 只是本 entry 的标识
   config:
@@ -22,6 +24,7 @@
     height: 64
     creative: true
     reach: 5.0
+    # pack: autumn            # 想固定用某个包就把这行放开；也可以命令行 `--pack <id>`
     hotbar:
       - grass
       - dirt

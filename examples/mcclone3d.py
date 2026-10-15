@@ -234,8 +234,12 @@ class McCloneApp:
     Z_NEAR, Z_FAR = 0.08, 400.0
 
     def __init__(self, width=1280, height=720, kernel=None, auto=False,
-                 verbose=False):
+                 verbose=False, pack=None):
         self.kernel = kernel if kernel is not None else _mount_kernel()
+        # 资源包（Phase 3-D）：**必须在 `_setup_gl()` 之前设** —— 图集是在那里按包
+        # 的分辨率上传的。`pack=None` = 不改动（配置树里给了就沿用配置树那个）。
+        if pack is not None:
+            self.kernel.use_pack(pack)
         self.window = pyglet.window.Window(width, height, caption=self.TITLE,
                                            resizable=True)
         # ⚠ 投影要按**窗口实际尺寸**算（窗口可能被系统 DPI 缩放）：先前按构造参数算，
@@ -283,8 +287,15 @@ class McCloneApp:
         # 图集（程序化生成 → 上传）
         # ⚠ **必须 NEAREST**：像素材质放大要用硬边，线性过滤会把它糊成"毛玻璃"
         # （实测第一版就是糊的：远看草地像水彩）。mipmap 只用于缩小时防闪烁。
-        size = textures.LAYOUT.size
-        img = pyglet.image.ImageData(size, size, 'RGBA', textures.build_atlas())
+        # ⚠ 尺寸与数据必须**同源**（Phase 3-D）：带了高分辨率资源包时图集边长是
+        # `ATLAS_COLS × pack.tile`，而 `textures.LAYOUT.size` 恒为 8×16=128。
+        # 用后者配前者的字节 ⇒ GL 按 128×128 去读 256×256 的数据，图集被打乱成一团。
+        # 所以尺寸与字节都从同一个 `layout_for(pack)` 来。
+        pack = getattr(self.kernel, 'pack', None)
+        self.atlas_layout = textures.layout_for(pack)
+        size = self.atlas_layout.size
+        img = pyglet.image.ImageData(size, size, 'RGBA',
+                                     textures.build_atlas(pack, self.atlas_layout))
         try:
             img = img.get_mipmapped_text()
             mip = True
@@ -494,7 +505,11 @@ class McCloneApp:
               f'天光×{w["light_scale"]:.2f}) '
               f'水={k.fluid.flowing_count()}格 '
               # Phase 3：红石读数（通电格数 / 待重算数）—— 截图与日志一起看
-              f'红石={len(k.redstone.power)}格通电/待算{len(k.redstone.dirty)}', flush=True)
+              f'红石={len(k.redstone.power)}格通电/待算{len(k.redstone.dirty)} '
+              # Phase 3-D：资源包读数（图集边长随包的分辨率变）——
+              # "看着像个高清包"不算判据，得让尺寸与包名对上
+              f'资源包={self.atlas_layout.size}px'
+              f'({k.pack.id if k.pack else "程序化"})', flush=True)
         return eye, d
 
     # ------------------------------------------------------------ 输入
@@ -863,11 +878,14 @@ def main(argv=None):
                     help='世界时刻（秒，一昼夜 600s：0=日出 150=正午 300=日落 450=午夜）')
     ap.add_argument('--phase', type=float, default=None,
                     help='直接给相位 0..1（截图常用：0.25 正午 / 0.52 日落 / 0.75 午夜）')
+    ap.add_argument('--pack', default=None,
+                    help='资源包：包 id（packs/<id>）或目录路径（Phase 3-D）')
     args = ap.parse_args(argv)
 
     flags = set(x.strip() for x in args.flag.split(',') if x.strip())
     app = McCloneApp(args.width, args.height, auto='auto' in flags,
-                     verbose='verbose' in flags)
+                     verbose='verbose' in flags, pack=args.pack)
+    print(f'[mcclone3d] {app.kernel.pack_report()}', flush=True)
     # 时刻在**内核装配之后**设（内核是引擎服务，demo 只调它的接口）
     if args.phase is not None:
         app.kernel.cycle.skip_to_phase(args.phase)
