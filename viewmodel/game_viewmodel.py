@@ -8,7 +8,7 @@ from typing import Optional, Callable
 from data import ConfigLoader, SaveManager
 from model import (
     Character, Enemy, Item, Vehicle, NPC, Skill,
-    GameState, GameData, Direction, QuestTrack,
+    GameState, GameData, Direction, QuestTrack, QuestManager,
     BattleEngine, MapManager, InfiniteTerrain,
 )
 
@@ -92,6 +92,7 @@ class GameViewModel:
             self.data.add_log(f"接到任务: {quest.name}")
 
         self.data.state = GameState.WORLD
+        QuestManager.track_explore_map(self.data, self.data.current_map_id)
         self._notify_state()
 
     def start_game_loop(self, root: tk.Tk, interval_ms: int = 100):
@@ -292,7 +293,11 @@ class GameViewModel:
                 q = track.quest_data
                 progress = ""
                 if q.type == "kill":
-                    progress = f" (击杀: {track.kill_count})"
+                    progress = f" (击杀: {track.kill_count}/{q.target_count})"
+                elif q.type == "collect":
+                    progress = f" (收集: {track.collect_count}/{q.target_count})"
+                elif q.type == "explore":
+                    progress = f" (到访: {track.collect_count}/{q.target_count})"
                 lines.append(f"  * {q.name}{progress}\n")
                 lines.append(f"    {q.description}\n\n")
         else:
@@ -326,17 +331,18 @@ class GameViewModel:
         elif direction == Direction.RIGHT:
             dx = 1
 
+        old_x, old_y = self.data.player_x, self.data.player_y
         npc = MapManager.try_move(self.data, dx, dy, self.config.npcs)
+        moved = (self.data.player_x, self.data.player_y) != (old_x, old_y)
 
-        # 燃料消耗
-        if npc is None and self.data.current_vehicle and self.data.current_vehicle.is_alive():
+        # 燃料消耗（成功移动且乘坐战车时）
+        if moved and self.data.current_vehicle and self.data.current_vehicle.is_alive():
             if not self.data.current_vehicle.consume_fuel():
                 self.data.add_log("战车燃料耗尽！")
 
-        # 探索追踪
-        if self.data.player_x != self.data.player_x - dx or self.data.player_y != self.data.player_y - dy:
-            from model import QuestManager
-            QuestManager.track_explore(self.data, self.data.player_x, self.data.player_y)
+        # 探索任务追踪（移动成功后）
+        if moved:
+            QuestManager.track_explore_map(self.data, self.data.current_map_id)
 
         if npc:
             self.command_start_dialog(npc)
@@ -377,6 +383,7 @@ class GameViewModel:
         else:
             d.state = GameState.WORLD
             d.add_log(f"来到了{map_data.name}。")
+        QuestManager.track_explore_map(d, map_id)
         self._notify_state()
 
     def _leave_map(self):
@@ -473,9 +480,10 @@ class GameViewModel:
             else:
                 d.add_log("没有战车可以使用燃料！")
 
-        # 收集任务追踪
-        from model import QuestManager
-        QuestManager.track_collect(d, item.data.id)
+    def _gain_item(self, item: Item):
+        """获得物品的统一入口：入包 + 收集任务追踪（购买/掉落走这里）"""
+        self.data.inventory.append(item)
+        QuestManager.track_collect(self.data, item.id)
 
     def command_buy_item(self, item_num: int):
         d = self.data
@@ -488,7 +496,7 @@ class GameViewModel:
                     price = int(item_data.price * shop.price_multiplier)
                     if d.gold >= price:
                         d.gold -= price
-                        d.inventory.append(Item(item_data))
+                        self._gain_item(Item(item_data))
                         d.add_log(f"购买了{item_data.name}！")
                     else:
                         d.add_log(f"金币不足！需要{price}金币。")
@@ -500,7 +508,7 @@ class GameViewModel:
                 if item_data:
                     if d.gold >= item_data.price:
                         d.gold -= item_data.price
-                        d.inventory.append(Item(item_data))
+                        self._gain_item(Item(item_data))
                         d.add_log(f"购买了{item_data.name}！")
                     else:
                         d.add_log("金币不足！")
@@ -606,7 +614,9 @@ class GameViewModel:
             return False
         self.data = new_data
         self.data.add_log(f"已读取槽位 {slot} 的存档。")
-        # 重建地图入口与有限地图网格（网格不持久化，读档后按配置重新生成）
+        # 重建地图入口与有限地图网格（网格不持久化，读档后按配置重新生成）。
+        # 注意：不在此处触发探索任务追踪——进度已随存档保存，
+        # 重复触发会在"站在目标地图里读档"时误判新任务完成。
         MapManager.create_map(self.data, self.config.maps, self.config.npcs)
         self._notify_state()
         self._refresh_all()
@@ -655,6 +665,8 @@ class GameViewModel:
                     self.battle_text.set(
                         self.battle_text.get() + f"\n获得了{vr.item_dropped.name}！"
                     )
+                    # 掉落计入收集任务
+                    QuestManager.track_collect(self.data, vr.item_dropped.id)
             BattleEngine.end_battle(self.data)
             self._notify_state()
 

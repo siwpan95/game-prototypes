@@ -57,39 +57,42 @@ class QuestTrack:
 
 
 class QuestManager:
-    """任务管理器 — 静态方法，负责任务进度和完成检测"""
+    """任务管理器 — 静态方法，负责任务进度和完成检测
+
+    任务类型与判定语义：
+    - kill    ：target_id=敌人ID，击杀 target_count 只后完成
+    - collect ：target_id=物品ID，获得 target_count 个后完成（购买/掉落均计入）
+    - explore ：target_id=地图ID，进入该地图后完成（target_count>1 需重复到访）
+    """
 
     @staticmethod
     def track_kill(data: "GameData", enemy_id: int):
-        """追踪击杀（killed enemy）"""
-        for track in data.quest_progress:
+        """追踪击杀"""
+        for track in list(data.quest_progress):
             q = track.quest_data
             if q.type == "kill" and q.target_id == enemy_id:
                 track.kill_count += 1
-                if track.kill_count >= q.target_id:
+                if track.kill_count >= q.target_count:
                     QuestManager._complete(data, track)
 
     @staticmethod
-    def track_explore(data: "GameData", world_x: int, world_y: int):
-        """追踪探索（到达指定坐标区域）"""
-        for track in data.quest_progress:
-            q = track.quest_data
-            if q.type == "explore" and not track.explored:
-                # target_id 编码为坐标: target_id = x * 10000 + y
-                tx = q.target_id // 10000
-                ty = q.target_id % 10000
-                if abs(world_x - tx) <= 3 and abs(world_y - ty) <= 3:
-                    track.explored = True
-                    QuestManager._complete(data, track)
-
-    @staticmethod
-    def track_collect(data: "GameData", item_id: int):
-        """追踪收集（获得指定物品）"""
-        for track in data.quest_progress:
+    def track_collect(data: "GameData", item_id: int, count: int = 1):
+        """追踪收集（获得物品时调用）"""
+        for track in list(data.quest_progress):
             q = track.quest_data
             if q.type == "collect" and q.target_id == item_id:
+                track.collect_count += count
+                if track.collect_count >= q.target_count:
+                    QuestManager._complete(data, track)
+
+    @staticmethod
+    def track_explore_map(data: "GameData", map_id: int):
+        """追踪地图到访（进入某地图时调用；collect_count 复用到访计数）"""
+        for track in list(data.quest_progress):
+            q = track.quest_data
+            if q.type == "explore" and q.target_id == map_id:
                 track.collect_count += 1
-                if track.collect_count >= 1:
+                if track.collect_count >= q.target_count:
                     QuestManager._complete(data, track)
 
     @staticmethod

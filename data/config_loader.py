@@ -121,6 +121,7 @@ class QuestData:
     reward_exp: int
     reward_gold: int
     reward_item_id: int
+    target_count: int = 1  # 目标数量（击杀数/收集数/到访次数）
 
 class ConfigLoader:
     def __init__(self, excel_path: str = "config.xlsx"):
@@ -319,7 +320,8 @@ class ConfigLoader:
                     target_id=int(row['目标ID']),
                     reward_exp=int(row['奖励经验']),
                     reward_gold=int(row['奖励金币']),
-                    reward_item_id=int(row['奖励物品'])
+                    reward_item_id=int(row['奖励物品']),
+                    target_count=max(1, int(_col(row, '目标数量', 1))),
                 )
                 self.quests[quest.id] = quest
             print(f"加载了 {len(self.quests)} 个任务配置")
