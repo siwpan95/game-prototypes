@@ -35,11 +35,11 @@ t = hardness × (5 if 需要工具且手上没有对路工具 else 1) / 工具�
 from __future__ import annotations
 
 from .blocks import (AIR, BEDROCK, BLOCKS, BRICK, BUTTON_OFF, COAL_ORE, COBBLE,
-                     CRAFTING_TABLE, DIAMOND_ORE, DIRT, DOOR_LOWER, FURNACE,
-                     GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE, LAMP_OFF, LEAVES,
-                     LEVER_OFF, LOG, PISTON_N_OFF, PLANKS, REDSTONE_TORCH,
-                     REDSTONE_WIRE, REPEATER_OFF, SAND, SNOW, STONE, TORCH,
-                     WATER, by_id, by_name, name_of)
+                     CRAFTING_TABLE, DIAMOND_ORE, DIRT, DOOR_LOWER, ENCHANT_TABLE,
+                     FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE, LAMP_OFF,
+                     LEAVES, LEVER_OFF, LOG, PISTON_N_OFF, PLANKS,
+                     REDSTONE_TORCH, REDSTONE_WIRE, REPEATER_OFF, SAND, SNOW,
+                     STONE, TORCH, WATER, by_id, by_name, name_of)
 
 __all__ = [
     'ITEM_BASE', 'KIND_BLOCK', 'KIND_MATERIAL', 'KIND_TOOL', 'KIND_FOOD',
@@ -189,6 +189,8 @@ def _defs():
     add('raw_gold', '粗金')
     add('gold_ingot', '金锭')
     add('diamond', '钻石')
+    # --- Phase 3-E：附魔台（可合成、可放置；见 `recipes` 与 `enchant`）---
+    add('enchant_table', '附魔台', KIND_BLOCK, block_id=ENCHANT_TABLE, stack=64)
     return out
 
 
@@ -291,12 +293,16 @@ def can_break(block_id: int) -> bool:
 
 
 def break_time(block_id: int, tool: Item | None = None,
-               hardness: float | None = None) -> float:
+               hardness: float | None = None, speed_mult: float = 1.0) -> float:
     """挖掉这个方块要多少秒（**纯函数**，单测按公式逐条对拍）。
 
     ```
-    t = hardness × (5 if 需要工具且手上没有对路工具 else 1) / 工具速度
+    t = hardness × (5 if 需要工具且手上没有对路工具 else 1) / (工具速度 × speed_mult)
     ```
+
+    `speed_mult` 是**附魔给的额外倍率**（效率；Phase 3-E）。为什么不把附魔判断塞进来：
+    本模块只认"物品"，而附魔是**挂在某一把具体工具上**的状态（在 `kernel` 里）——
+    让 `items` 反查附魔会形成"物品 → 附魔 → 物品"的循环，而这里只需要一个数。
     """
     b = int(block_id)
     if b in (AIR, WATER):
@@ -311,4 +317,5 @@ def break_time(block_id: int, tool: Item | None = None,
     elif b in (STONE, COBBLE, COAL_ORE, IRON_ORE, BRICK, FURNACE, GLASS):
         # 石类：没有对路工具 ⇒ 慢 5 倍（MC 的"徒手挖石头几乎没戏"）
         speed = 1.0 / NEEDS_TOOL_PENALTY
-    return max(0.0, h / max(1e-6, speed))
+    # 倍率必须**夹住下界**：`speed_mult <= 0` 会让耗时变成 inf/负，那是"工具坏了"而不是"附魔了"
+    return max(0.0, h / max(1e-6, speed * max(1e-6, float(speed_mult))))

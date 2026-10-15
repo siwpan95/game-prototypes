@@ -20,7 +20,7 @@ __all__ = [
     'AIR', 'STONE', 'DIRT', 'GRASS', 'SAND', 'WATER', 'LOG', 'LEAVES',
     'PLANKS', 'GLASS', 'COBBLE', 'BRICK', 'SNOW', 'GRAVEL',
     'CRAFTING_TABLE', 'FURNACE', 'COAL_ORE', 'IRON_ORE', 'GOLD_ORE',
-    'DIAMOND_ORE', 'CROP', 'BEDROCK', 'TORCH',
+    'DIAMOND_ORE', 'CROP', 'BEDROCK', 'TORCH', 'ENCHANT_TABLE',
     'REDSTONE_WIRE', 'LEVER_OFF', 'LEVER_ON', 'BUTTON_OFF', 'BUTTON_ON',
     'REDSTONE_TORCH', 'REDSTONE_TORCH_OFF',
     'REPEATER_OFF', 'REPEATER_ON', 'LAMP_OFF', 'LAMP_ON',
@@ -132,11 +132,14 @@ PISTON_DOWN_OFF = 47
 PISTON_DOWN_ON = 48
 #: 活塞臂（伸出时占据前方那一格）；收回时**只删臂**，被推的方块留在新位置（普通活塞不拉回）
 PISTON_ARM = 49
+#: 附魔台（Phase 3-E）：右键给**手持工具**附魔。只有一种状态（附魔结果不体现在方块上）。
+ENCHANT_TABLE = 81
 
-#: 本项目用到的 id 上界（校验 / 数组尺寸用）。Phase 3-B 因中继器调档从 63 提到 80
+#: 本项目用到的 id 上界（校验 / 数组尺寸用）。Phase 3-B 因中继器调档从 63 提到 80；
+#: Phase 3-E 的附魔台排到 81。
 #: —— ⚠ 有单测钉着"id 必须**连续无空洞**"（`sorted(BLOCKS) == 1..N`），
 #: 所以这个数**必须等于当前最大 id**，不能为了"留余量"写大。
-MAX_ID = 80
+MAX_ID = 81
 
 #: 活塞状态表：`(方块名前缀, 关 id, 开 id)` —— 顺序 = north / south / east / west / up / down。
 #: 方向名与 `mesh.NORMALS` 同一套：**north = -z、south = +z、east = +x、west = -x**。
@@ -365,6 +368,14 @@ def _defs():
         add(Block(on_id, f'{name}_on', f'活塞·{PISTON_TITLES[d]}（推出）',
                   'piston_top', hardness=1.0))
     add(Block(PISTON_ARM, 'piston_arm', '活塞臂', 'piston_arm', hardness=1.0))
+
+    # ---- Phase 3-E：附魔台 ----
+    # 顶面是"摊开的书"、侧面是书脊纹样（贴图三向不同 ⇒ 从上面看得出这是个台子）。
+    # **不是光源**：MC 的附魔台会发光，但那属于装饰；本版不加 emissive，
+    # 免得"亮度"与光照引擎的判据混在一起。
+    add(Block(ENCHANT_TABLE, 'enchant_table', '附魔台',
+              {'top': 'enchant_table_top', 'side': 'enchant_table_side',
+               'bottom': 'enchant_table_side'}, hardness=2.0))
     return out
 
 

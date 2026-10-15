@@ -52,6 +52,7 @@ from pyglet.gl import (GL_BLEND, GL_DEPTH_TEST, GL_FALSE, GL_LINES,  # noqa: E40
 from pyglet.math import Mat4, Vec3                             # noqa: E402
 
 from mcclone3d import _engine, blocks as B, mesh, textures     # noqa: E402
+from mcclone3d import enchant as EN                             # noqa: E402
 from mcclone3d.kernel import EYE_HEIGHT                        # noqa: E402
 
 #: 本 demo 需要配置树里的哪些服务（与 `cli.py` 同一份声明）
@@ -296,16 +297,28 @@ class McCloneApp:
         size = self.atlas_layout.size
         img = pyglet.image.ImageData(size, size, 'RGBA',
                                      textures.build_atlas(pack, self.atlas_layout))
-        try:
-            img = img.get_mipmapped_text()
-            mip = True
-        except Exception:                              # 老驱动/尺寸不支持就退回单级
-            img = img.get_texture()
-            mip = False
+        # ⚠ **不做 mipmap**（实测结论，不是偷懒）：pyglet 2.1 里那个方法叫
+        # `get_mipmapped_texture`（`_text` 那个名字不存在 ⇒ 早先的 `try` 一直在静默走
+        # "无 mipmap"分支）。改名之后 mip 链**确实建起来了**，但用它渲染是**整屏全黑**
+        # —— 采样一张 mip 链不完整的纹理，GL 会直接返回 0（实测：GL
+        # `GL_TEXTURE_MIN_FILTER` 设成 `GL_NEAREST_MIPMAP_LINEAR` 后画面全黑，
+        # 改回 `GL_NEAREST` 即恢复）。所以这里**显式**选"无 mipmap"，
+        # 代价是远处的贴图会有轻微摩尔纹（像素风的常见取舍），换来的是"不会黑屏"。
+        img = img.get_texture()
         self.atlas = img
-        from pyglet.gl import GL_NEAREST_MIPMAP_LINEAR
-        self.atlas.min_filter = GL_NEAREST_MIPMAP_LINEAR if mip else GL_NEAREST
-        self.atlas.mag_filter = GL_NEAREST
+        # ⚠⚠ **必须走 GL，不能改属性**（Phase 3-E 实测踩到，是一个从 Phase 0 就存在的
+        # 静默失效）：pyglet 2.1 的 `Texture.min_filter` / `mag_filter` 是**普通属性**，
+        # 不是 property —— `self.atlas.mag_filter = GL_NEAREST` 只改了 Python 那边的值，
+        # **不会碰 GL 状态**。于是"必须 NEAREST"这句注释写了几周，实际一直是
+        # `GL_LINEAR`（创建时的默认值）：近看像毛玻璃、斜看糊成水彩，而
+        # `atlas.mag_filter` 读出来还是 9728(=GL_NEAREST) —— 属性说一套、GL 做一套。
+        # 现场用 `glGetTexParameteriv` 量过：mag/min 都是 9729(GL_LINEAR)。
+        # 修法是**先 bind、再直接设 GL 参数**。
+        from pyglet.gl import (GL_NEAREST, GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                               GL_TEXTURE_MIN_FILTER, glTexParameteri)
+        self.atlas.bind()
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
 
         # 天空：全屏四边形（顶点着色器直接吐 NDC）
         quad = (-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0,
@@ -341,7 +354,8 @@ class McCloneApp:
                                                GL_TRIANGLES,
                                                position=('f', flat), colors=('f', cols))
         # 动态条的最大条数：血 10 + 饥饿 10 + hotbar 选中框 1 + 死亡遮罩 1
-        self._hud_dyn_max = 22
+        # + 经验条 1（Phase 3-E）= 23，留到 26 给后续批次（药水效果图标之类）余量。
+        self._hud_dyn_max = 26
         self.hud_fg = self.ui_prog.vertex_list(
             self._hud_dyn_max * 6, GL_TRIANGLES,
             position=('f', [0.0] * (self._hud_dyn_max * 18)),
@@ -395,6 +409,10 @@ class McCloneApp:
         for _ in range(10):
             q.append((hx, -0.80, hx + seg_w, -0.755, (0.0, 0.0, 0.0, 0.42)))
             hx += seg_w + seg_gap
+        # 经验条（Phase 3-E）：hotbar 正上方一条细槽。
+        # 为什么不画成 MC 那样的绿色进度条加等级数字 —— 本 HUD 没有字体渲染
+        # （`UI_FS` 只画纯色矩形），等级数字只能靠 `sanity_report` 打到日志里。
+        q.append((-0.30, -0.845, 0.30, -0.822, (0.0, 0.0, 0.0, 0.45)))
         return q
 
     def _hud_dynamic_quads(self):
@@ -422,6 +440,12 @@ class McCloneApp:
         total = 9 * slot_w + 8 * gap
         x = -total / 2 + k.selected * (slot_w + gap)
         q.append((x, -0.94, x + slot_w, -0.86, (1.0, 1.0, 1.0, 0.35)))
+        # 经验条填充（Phase 3-E）：本级进度。等级数字没有字体可画，走日志。
+        _lv, got, need = EN.level_progress(k.xp)
+        frac = 0.0 if need <= 0 else max(0.0, min(1.0, got / need))
+        if frac > 0:
+            q.append((-0.30, -0.845, -0.30 + 0.60 * frac, -0.822,
+                      (0.42, 0.86, 0.30, 0.95)))
         # 死亡遮罩（整屏偏红）
         if k.state == 'dead':
             q.append((-1.0, -1.0, 1.0, 1.0, (0.55, 0.05, 0.05, 0.45)))
@@ -509,7 +533,11 @@ class McCloneApp:
               # Phase 3-D：资源包读数（图集边长随包的分辨率变）——
               # "看着像个高清包"不算判据，得让尺寸与包名对上
               f'资源包={self.atlas_layout.size}px'
-              f'({k.pack.id if k.pack else "程序化"})', flush=True)
+              f'({k.pack.id if k.pack else "程序化"}) '
+              # Phase 3-E：经验/附魔读数（"看着像附魔了"不算判据，得让等级与
+              # 附魔名与手持对得上）
+              f'{k.xp_report()} '
+              f'手持={k.held_enchant_desc()}', flush=True)
         return eye, d
 
     # ------------------------------------------------------------ 输入
@@ -530,6 +558,19 @@ class McCloneApp:
             k.reset()
             self._drop_meshes()
             print('[mcclone3d] 重生', flush=True)
+            return
+        if symbol == pyglet.window.key.TAB:
+            # Phase 3-E：换附魔档位（1/2/3）
+            slot = k.cycle_enchant_slot()
+            offers = k.enchant_offers()
+            txt = offers[slot].label() if offers else '（先对着附魔台、手里拿工具）'
+            print(f'[mcclone3d] 附魔档位 → {txt}', flush=True)
+            return
+        if symbol == pyglet.window.key.E:
+            # Phase 3-E：对着附魔台按 E = 按当前档位附魔
+            ok, why = k.enchant_apply()
+            print(f'[mcclone3d] 附魔{"成功" if ok else "未成"}：{why}'
+                  f' ｜ {k.xp_report()} ｜ 手持 {k.held_enchant_desc()}', flush=True)
             return
         digit = getattr(pyglet.window.key, '_%d' % 0, None)
         for i in range(1, 10):

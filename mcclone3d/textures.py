@@ -527,10 +527,61 @@ def _paint_piston_arm(c):
         c.set(x, 13, (166, 126, 76))
 
 
+# ---------------------------------------------------------------- Phase 3-E：附魔台
+def _paint_enchant_side(c):
+    """附魔台侧面：深色基座 + 一圈金属包边 + 中间一列"书脊"。
+
+    为什么侧面与顶面**必须不同图**：附魔台在镜头上常常只露出一条侧边，
+    如果六面同图（像多数方块那样），玩家根本认不出它是什么 —— 三向贴图是
+    "这个方块长得像它自己"的最低成本做法（草方块/熔炉/工作台已经是这个套路）。
+    """
+    base = (44, 34, 66)                           # 深紫黑（黑曜石调）
+    c.noise(base, 13, 401)
+    edge = (96, 88, 128)                          # 金属包边
+    for i in range(TILE):
+        c.set(i, 0, edge)
+        c.set(i, TILE - 1, edge)
+        c.set(0, i, edge)
+        c.set(TILE - 1, i, edge)
+    for y in range(2, 14):                        # 书脊
+        c.set(7, y, (150, 120, 72))
+        c.set(8, y, (176, 144, 92))
+    for y in (3, 7, 11):                          # 书脊上的横线（像装订）
+        c.set(7, y, (110, 86, 50))
+        c.set(8, y, (110, 86, 50))
+    for x in range(3, 6):                         # 两侧的"符文"点
+        for y in range(4, 13, 3):
+            c.set(x, y, (120, 96, 190))
+            c.set(TILE - 1 - x, y, (120, 96, 190))
+
+
+def _paint_enchant_top(c):
+    """附魔台顶面：深色台面 + 一本摊开的书（浅色书页 + 中间书脊）。"""
+    base = (52, 40, 78)
+    c.noise(base, 12, 411)
+    for i in range(TILE):                         # 台面外沿
+        c.set(i, 0, (92, 84, 124))
+        c.set(i, TILE - 1, (92, 84, 124))
+        c.set(0, i, (92, 84, 124))
+        c.set(TILE - 1, i, (92, 84, 124))
+    page = (228, 222, 200)                        # 摊开的两页（略微不对称，看着像在翻）
+    for x in range(3, 13):
+        for y in range(4, 12):
+            c.set(x, y, page if (x + y) % 5 else (204, 198, 176))
+    for y in range(4, 12):                        # 中缝
+        c.set(7, y, (150, 120, 72))
+        c.set(8, y, (150, 120, 72))
+    for (x, y) in ((5, 6), (6, 9), (10, 7), (11, 5)):   # 书页上的字迹
+        c.set(x, y, (78, 62, 140))
+        c.set(x + 1, y, (78, 62, 140))
+
+
 PAINTERS = {
     'stone': _paint_stone,
     'cobble': _paint_cobble,
     'dirt': _paint_dirt,
+    'enchant_table_side': _paint_enchant_side,
+    'enchant_table_top': _paint_enchant_top,
     'grass_top': _paint_grass_top,
     'grass_side': _paint_grass_side,
     'sand': _paint_sand,
@@ -754,6 +805,12 @@ def atlas_texture(pack=None, layout: AtlasLayout | None = None):
     """上传成 pyglet 纹理（**需要 GL 上下文**；单测不碰这一层）。
 
     NEAREST 过滤是有意的：像素材质放大后要保住硬边（线性过滤会糊成一团）。
+
+    ⚠ **过滤必须由调用方在 GL 层设**：`pyglet 2.1` 的 `Texture.min_filter` /
+    `mag_filter` 是**普通属性**，事后赋值**不会调 `glTexParameteri`**（实测：
+    属性读出来是 NEAREST，`glGetTexParameteriv` 问 GL 却是 LINEAR）。
+    正确做法见 `examples/mcclone3d.py` 的 `_setup_gl()`：**先 `bind()` 再
+    `glTexParameteri`**。这个函数只负责"把字节传上去"。
     """
     lay = layout or layout_for(pack)
     from pyglet import image

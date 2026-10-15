@@ -18,15 +18,15 @@ from . import items as I
 from .blocks import (BEDROCK, BLOCK_ITEM_ALIAS, BRICK, BUTTON_OFF, BUTTON_ON,
                      COAL_ORE, COBBLE, CRAFTING_TABLE, CROP, DIAMOND_ORE, DIRT,
                      DOOR_LOWER, DOOR_OPEN_LOWER, DOOR_OPEN_UPPER, DOOR_UPPER,
-                     FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE, LAMP_OFF,
-                     LAMP_ON, LEAVES, LEVER_OFF, LEVER_ON, LOG, PISTON_ARM,
-                     PISTON_STATES, PLANKS, REDSTONE_TORCH, REDSTONE_WIRE,
-                     REPEATER_OFF, REPEATER_ON, SAND, SNOW, STONE, TORCH, WATER,
-                     name_of)
+                     ENCHANT_TABLE, FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL,
+                     IRON_ORE, LAMP_OFF, LAMP_ON, LEAVES, LEVER_OFF, LEVER_ON,
+                     LOG, PISTON_ARM, PISTON_STATES, PLANKS, REDSTONE_TORCH,
+                     REDSTONE_WIRE, REPEATER_OFF, REPEATER_ON, SAND, SNOW, STONE,
+                     TORCH, WATER, name_of)
 
 __all__ = ['drops_for', 'Recipe', 'RECIPES', 'recipe_by_id', 'recipes_for',
            'craftable', 'craft', 'consume', 'smelt_recipes', 'craft_recipes',
-           'as_item', 'output_item']
+           'as_item', 'output_item', 'rand01']
 
 # ---------------------------------------------------------------- id 解析
 #: 方块名 → 物品（同名规则：`grass` 既是方块名也是物品名）
@@ -89,6 +89,8 @@ DROP_TABLE = {
     DOOR_LOWER: ('door', 1, 1), DOOR_UPPER: ('door', 1, 1),
     DOOR_OPEN_LOWER: ('door', 1, 1), DOOR_OPEN_UPPER: ('door', 1, 1),
     PISTON_ARM: ('piston', 1, 1),
+    # Phase 3-E：附魔台挖掉掉回自己（它可以合成，回收是合理的）
+    ENCHANT_TABLE: ('enchant_table', 1, 1),
 }
 #: 活塞的 12 个状态也各掉一个活塞（表是生成的 —— 手写 12 行太容易漏）
 for _n, _off, _on in PISTON_STATES:
@@ -101,7 +103,7 @@ LEAVES_RARE = ('apple', 1, 1, 0.25)     # (物品名, 下限, 上限, 概率)
 
 
 def _rand01(seed_parts):
-    """确定性 [0,1)：用**方块坐标 + 世界种子**做哈希，不用 `random`。
+    """确定性 [0,1)：用**坐标 + 世界种子**做哈希，不用 `random`。
 
     为什么：掉落数量与概率必须**可复现**（录制/回放/对拍都靠这条），
     `random` 的全局状态会让"同一次挖掘"在不同运行里给出不同结果。
@@ -111,6 +113,11 @@ def _rand01(seed_parts):
         h = (h * 131 + int(a) * (7 + i * 13)) & 0x7FFFFFFF
     import math
     return (math.sin(h * 0.0001 + 12.9898) * 43758.5453) % 1.0
+
+
+#: 公开别名。`enchant.offers()` 也要用**同一套**确定性哈希 ——
+#: 各写一份的后果是"掉落可复现、附魔报价不可复现"，而且两份迟早会漂开。
+rand01 = _rand01
 
 
 def drops_for(block_id: int, tool=None, *, seed_parts=(0, 0, 0)):
@@ -200,6 +207,12 @@ def _crafts():
     for kind, extra in (('pickaxe', 3), ('axe', 3), ('shovel', 1), ('sword', 2)):
         add(Recipe(f'iron_{kind}', 'craft',
                    {'iron_ingot': extra, 'stick': 2}, f'iron_{kind}', 1))
+    # Phase 3-E：附魔台 ← 圆石台座 + 木板 + 钻石 ×2
+    # 与 MC 的"黑曜石 ×4 + 钻石 ×2 + 书"同量级：**必须下到 y<8 挖钻石**
+    # （于是"附魔"与"矿脉分层/洞穴"这两套东西自然咬合，而不是凭空给一台）。
+    add(Recipe('enchant_table', 'craft',
+               {'cobble': 4, 'planks': 4, 'diamond': 2}, 'enchant_table', 1,
+               note='钻石在 y<8（洞底）才有'))
     return R
 
 

@@ -33,6 +33,7 @@ import os
 from . import blocks as B
 from . import items as I
 from . import recipes as R
+from . import enchant as EN
 from ._engine import Service
 from . import ai as AI
 from . import mobs as MB
@@ -50,7 +51,8 @@ __all__ = ['McCloneKernel', 'make_offline', 'DEFAULT_SEED', 'REACH', 'PLAYER_HAL
 
 #: 存档版本。**只增不改语义**：加字段就 +1，读档必须能吃所有老版本。
 #: v1 = Phase 0 ｜ v2 = Phase 1（工具/生存/掉落/熔炉）｜ v3 = Phase 2-A（世界时刻）
-SAVE_VERSION = 3
+#: v4 = Phase 3-E（经验 + 附魔 + 耐久累积计数）
+SAVE_VERSION = 4
 
 # ---------------------------------------------------------------- 常量
 DEFAULT_SEED = 20261014
@@ -230,7 +232,8 @@ class McCloneKernel(Service):
         self.tool_durability = {}
         self.selected = 0
         self.stats = {'dug': 0, 'placed': 0, 'crafted': 0, 'smelted': 0,
-                      'picked': 0, 'eaten': 0, 'deaths': 0, 'damage': 0.0}
+                      'picked': 0, 'eaten': 0, 'deaths': 0, 'damage': 0.0,
+                      'enchanted': 0, 'xp_gained': 0}
         # --- 生存状态 ---
         self.max_health = MAX_HEALTH
         self.health = float(MAX_HEALTH)
@@ -244,6 +247,21 @@ class McCloneKernel(Service):
         #: 当前挖掘进度（秒）；换目标就清零
         self.dig_target = None
         self.dig_progress = 0.0
+        # --- Phase 3-E：经验与附魔 ---
+        #: 经验**点数**（等级是派生的：`level` 属性 = `enchant.level_for(xp)`）。
+        #: 只存点数不存等级，与"光照/信号不进档"同一条口径 —— 等级完全由点数决定。
+        #: ⚠ **创造模式也给药**（见 `add_xp` 的说明）。
+        self.xp = 0
+        #: 附魔：`{物品 id: {附魔名: 等级}}`。
+        #: 为什么可以按**物品 id** 存（而不是给每把镐一个实例 id）：本仓的工具本来就
+        #: "一个 id 只能有一把"（`tool_durability` 也是按 id 存的，两把石镐会共用耐久）。
+        #: 沿用同一套假设，附魔才不会与耐久的口径打架。
+        self.enchants = {}
+        #: 耐久累积计数：`{物品 id: 已用次数}`（耐久附魔"每 N 次磨损 1 点"的余数）。
+        #: ⚠ 这是**状态**不是派生量（丢掉它会改变下一次磨损的时机）⇒ 进存档。
+        self.wear = {}
+        #: 附魔台的当前档位（0/1/2）——纯 UI 游标，**不进存档**。
+        self.enchant_slot = 0
         #: 摔落结算用：离地那一刻的高度（落地时清零）
         self._fall_from = None
         #: 熔炉状态：`{'fuel_left':秒, 'cook_left':秒, 'recipe':id|None}`
@@ -317,6 +335,124 @@ class McCloneKernel(Service):
             from . import textures as _tex
             return f'资源包：无（程序化基线 {_tex.TILE}px）'
         return self.pack.report()
+
+    # ============================================================== 经验
+    @property
+    def level(self) -> int:
+        """当前等级（**派生量**：由 `xp` 算出来，不进存档）。"""
+        return EN.level_for(self.xp)
+
+    def add_xp(self, n: int) -> int:
+        """加经验，返回新等级。
+
+        ⚠ **创造模式也给**（与 MC 不同，这条是有意的）：demo 默认就是创造模式，
+        若创造模式不给经验，"附魔"整条链路在默认玩法下**完全看不见**
+        （没法试、没法截图、没法目视验收）。本版没有等级排行榜之类的东西，
+        代价可以接受 —— 如实写在这里，不假装与 MC 一致。
+        """
+        n = int(n)
+        if n <= 0:
+            return self.level
+        n = min(n, EN.XP_GAIN_CAP)             # 护栏：单次给的经验封顶
+        self.xp += n
+        self.stats['xp_gained'] = int(self.stats.get('xp_gained', 0)) + n
+        return self.level
+
+    def xp_report(self) -> str:
+        """一行经验读数（HUD / CLI / 截图日志共用）。"""
+        lv, got, need = EN.level_progress(self.xp)
+        return f'等级 {lv}（{got}/{need} 点，累计 {self.xp}）'
+
+    # ============================================================== 附魔
+    def enchant_levels(self, item_id: int | None = None) -> dict:
+        """某个物品上的附魔 `{附魔名: 等级}`（缺省看手持；没有 ⇒ `{}`）。
+
+        返回**副本** —— 调用方改它不该影响内核（附魔只能在附魔台上改）。
+        """
+        iid = self.selected_item() if item_id is None else int(item_id)
+        return dict(self.enchants.get(iid) or {})
+
+    def held_enchant_desc(self) -> str:
+        """手持物品：`'铁镐｜效率 III · 耐久 I'`（HUD 一句话）。"""
+        iid = self.selected_item()
+        it = I.ITEMS.get(iid)
+        name = it.title if it is not None else '空手'
+        lv = self.enchants.get(iid)
+        return f'{name}｜' + (EN.describe_levels(lv) if lv else '无附魔')
+
+    def _enchant_table_pos(self):
+        """玩家正对着的附魔台坐标；没对着 ⇒ None。
+
+        **附魔必须在台子前进行**（与 MC 同款）：没有这条，"附魔"就成了一个
+        飘在空中的菜单 —— 玩家会问"那台子是干嘛的"。
+        """
+        hit = self.raycast()
+        if hit is None:
+            return None
+        (x, y, z), _n = hit
+        return (x, y, z) if self.world.get(x, y, z) == B.ENCHANT_TABLE else None
+
+    def enchant_offers(self, item_id: int | None = None, pos=None):
+        """附魔台给**手持物品**的三档报价（不在台子前 ⇒ 空元组）。
+
+        报价是**确定性**的：同种子 + 同台子坐标 + 同物品 + 同玩家等级 ⇒ 同一批
+        （见 `enchant.offers`）。所以"反复打开同一张台子"看到的是同一批，
+        而"换个位置再点"才可能不同 —— 这是报价，不是抽奖机。
+        """
+        if pos is None:
+            pos = self._enchant_table_pos()
+            if pos is None:
+                return ()
+        iid = self.selected_item() if item_id is None else int(item_id)
+        it = I.ITEMS.get(iid)
+        if it is None or not it.is_tool:
+            return ()
+        return EN.offers(self.seed, pos[0], pos[1], pos[2], it.name,
+                         it.tool, self.level)
+
+    def cycle_enchant_slot(self) -> int:
+        """换一档报价（0/1/2 循环）。返回新档位。"""
+        self.enchant_slot = (int(self.enchant_slot) + 1) % len(EN.OFFER_COSTS)
+        return self.enchant_slot
+
+    def enchant_apply(self, slot: int | None = None):
+        """在附魔台上给**手持工具**附魔。返回 `(ok, 说明)`。
+
+        扣的是**经验等级**（`enchant.spend_xp` 保证等级恰好降 n 级），
+        附魔结果**累加**到已有的附魔上（同一附魔取较高等级；精准采集/时运互斥时拒绝）。
+        """
+        where = self._enchant_table_pos()
+        if where is None:
+            return False, '要先对着附魔台'
+        iid = self.selected_item()
+        it = I.ITEMS.get(iid)
+        if it is None or not it.is_tool:
+            return False, '手里要拿一件工具'
+        slot = self.enchant_slot if slot is None else int(slot)
+        if not (0 <= slot < len(EN.OFFER_COSTS)):
+            return False, f'没有第 {slot + 1} 档'
+        offers = self.enchant_offers(item_id=iid, pos=where)
+        if not offers:
+            return False, '这件工具没有可附的属性'
+        offer = offers[slot]
+        if not offer.enchants:
+            return False, '这一档没有属性'
+        if not offer.affordable:
+            return False, f'等级不够（要 {offer.cost} 级，当前 {self.level} 级）'
+        have = self.enchants.get(iid) or {}
+        merged = dict(have)
+        for name, lv in offer.enchants.items():
+            if not EN.mutex_ok(list(merged) + [name]):
+                return False, (f'{EN.ENCHANTS[name].title} 与已有的'
+                               f'{EN.describe_levels(merged)} 互斥')
+            merged[name] = max(int(merged.get(name, 0)), int(lv))
+        left = EN.spend_xp(self.xp, offer.cost)
+        if left is None:                        # 双保险：affordable 已经判过一次
+            return False, f'等级不够（要 {offer.cost} 级）'
+        self.xp = left
+        self.enchants[iid] = merged
+        self.stats['enchanted'] = int(self.stats.get('enchanted', 0)) + 1
+        return True, EN.describe_levels(offer.enchants)
 
     # ============================================================== 视线
     def look_dir(self):
@@ -443,16 +579,29 @@ class McCloneKernel(Service):
         it = self.held_tool()
         return None if it is None else int(self.tool_durability.get(it.id, it.durability))
 
+    def _held_enchant_levels(self) -> dict:
+        """手持物品上的附魔（不是工具 ⇒ 空）。三处效果路径共用这一个入口。"""
+        iid = self.selected_item()
+        it = I.ITEMS.get(iid)
+        if it is None or not it.is_tool:
+            return {}
+        return self.enchants.get(iid) or {}
+
     # ---------------------------------------------------------------- 挖
     def dig_time(self) -> float:
-        """挖"准星正指的那一格"需要多少秒（没瞄到返回 0）。"""
+        """挖"准星正指的那一格"需要多少秒（没瞄到返回 0）。
+
+        Phase 3-E：效率附魔把速度乘上去（`items.break_time` 只认一个倍率，
+        附魔的判断留在内核 —— 理由见 `items.break_time` 的说明）。
+        """
         hit = self.raycast()
         if hit is None:
             return 0.0
         b = self.world.get(*hit[0])
         if not I.can_break(b):
             return float('inf')                    # 基岩：永远挖不完
-        return I.break_time(b, self.held_tool())
+        return I.break_time(b, self.held_tool(),
+                            speed_mult=EN.speed_factor(self._held_enchant_levels()))
 
     def dig_dt(self, dt: float):
         """**按住左键**推进挖掘：累积到 `dig_time()` 才真正挖掉。
@@ -531,7 +680,26 @@ class McCloneKernel(Service):
         self.dig_target, self.dig_progress = None, 0.0
 
         tool = self.held_tool()
-        dropped = R.drops_for(old, tool, seed_parts=(x, y, z, self.seed))
+        lv = self._held_enchant_levels()
+        # --- Phase 3-E：附魔改掉落 ---
+        # 精准采集：挖什么掉什么（玻璃→玻璃、石头→石头、树叶→树叶）。
+        # ⚠ 它与时运**互斥**（见 `enchant.MUTEX`），所以这里 if/else 不会两边都吃。
+        if EN.has_silk(lv) and B.name_of(old) in EN.SILK_BLOCKS:
+            it_self = R.as_item(old)
+            dropped = [(it_self.id, 1)] if it_self is not None else []
+        else:
+            dropped = R.drops_for(old, tool, seed_parts=(x, y, z, self.seed))
+            # 时运：多掉几个。roll 由**方块坐标**决定（与掉落数量同一套哈希）——
+            # 于是"同一格挖两次结果相同"，且抖动的只是数量、不是种类。
+            if EN.lv_of(lv, 'fortune') > 0 and B.name_of(old) in EN.FORTUNE_BLOCKS \
+                    and dropped:
+                roll = R.rand01([x, y, z, self.seed, 0xF0])
+                extra = EN.fortune_extra(lv, roll)
+                if extra:
+                    iid, n = dropped[0]
+                    dropped = [(iid, n + extra)] + list(dropped[1:])
+        # 经验：只给矿石（挖土也给的话，"经验"就变成"挖土刷级"）
+        self.add_xp(EN.XP_FOR_BLOCK.get(B.name_of(old), 0))
         label = I.name_of(dropped[0][0]) if dropped else B.name_of(old)
         if self.creative:
             # 创造模式：方块**本身**直接进背包（搭房子要的是方块，不是它的生存掉落物）。
@@ -549,15 +717,33 @@ class McCloneKernel(Service):
         return True, label
 
     def _use_tool(self, tool, n: int = 1):
-        """扣工具耐久；扣到 0 就**断掉**（从背包移除）。返回是否断了。"""
+        """扣工具耐久；扣到 0 就**断掉**（从背包移除）。返回是否断了。
+
+        Phase 3-E：耐久附魔走**累积计数**（`enchant.wear_every`）——
+        每 `1 + 等级` 次使用才真的磨损 1 点。选累积计数而不是"按概率跳过"是因为
+        前者**完全确定**，于是"耐久 III 的 251 耐久镐恰好能挖 1004 下"可以精确断言
+        （见 `enchant.wear_every` 的说明）。
+        """
         if tool is None:
             return False
-        left = int(self.tool_durability.get(tool.id, tool.durability)) - int(n)
+        iid = int(tool.id)
+        every = EN.wear_every(self.enchants.get(iid))
+        acc = int(self.wear.get(iid, 0)) + int(n)
+        if acc < every:
+            self.wear[iid] = acc                    # 还没到该磨损的时候
+            return False
+        steps = acc // every
+        self.wear[iid] = acc % every
+        left = int(self.tool_durability.get(iid, tool.durability)) - steps
         if left <= 0:
-            self.tool_durability.pop(tool.id, None)
-            self.inventory.pop(tool.id, None)
+            # 断掉 ⇒ 工具实例消失 ⇒ 附魔与累积计数**一起作废**
+            # （留着的话下一把同 id 的镐会"继承"上一把的附魔）
+            self.tool_durability.pop(iid, None)
+            self.inventory.pop(iid, None)
+            self.enchants.pop(iid, None)
+            self.wear.pop(iid, None)
             return True
-        self.tool_durability[tool.id] = left
+        self.tool_durability[iid] = left
         return False
 
     # ---------------------------------------------------------------- 放
@@ -644,6 +830,16 @@ class McCloneKernel(Service):
             opened = b in (B.DOOR_OPEN_LOWER, B.DOOR_OPEN_UPPER)
             if self.redstone.set_door(x, y, z, not opened):
                 return True, (name, '关' if opened else '开')
+        elif b == B.ENCHANT_TABLE:
+            # Phase 3-E：附魔台 —— 右键**只报报价**（不消耗）。
+            # 为什么不是"右键直接附魔"：报价有三档，直接附就等于替玩家选了；
+            # 而"点一下看看有什么"是这个方块最基本的用法。真正动手走 `E` 键
+            # （`kernel.enchant_apply`），这样 demo 与 headless 验收是同一条路径。
+            offers = self.enchant_offers(pos=(x, y, z))
+            if not offers:
+                return True, (name, '手里要拿一件工具')
+            txt = ' ｜ '.join(o.label() for o in offers)
+            return True, (name, f'{txt} ｜ 当前 {self.xp_report()}')
         return False, None
 
     # ---------------------------------------------------------------- 背包
@@ -809,6 +1005,7 @@ class McCloneKernel(Service):
             rec = R.recipe_by_id(st['recipe'])
             self.give_item(rec.output, rec.count)
             self.stats['smelted'] += 1
+            self.add_xp(EN.XP_SMELT)               # Phase 3-E：烧成一炉给经验
             st['recipe'] = None
             return 'done', rec.output
         return 'cooking', None
@@ -1169,6 +1366,7 @@ class McCloneKernel(Service):
     def _kill_mob(self, mob, drops: bool = True):
         """生物死亡：掉落走**与方块同一条路径**（`spawn_drop`）。"""
         self.mob_stats['killed'] += 1
+        self.add_xp(EN.XP_FOR_MOB.get(mob.kind.name, 0))   # Phase 3-E：击杀给经验
         if drops:
             for (name, lo, hi) in mob.kind.drops:
                 n = lo if hi <= lo else lo + int(self._mob_rng.random() * (hi - lo + 1))
@@ -1215,7 +1413,7 @@ class McCloneKernel(Service):
         # （docstring 早就这么承诺，先前只写在文档里没实现 —— 隔墙抡人实测复现过）
         if self.raycast(max_dist=best_t - 1e-6) is not None:
             return None
-        dead = self.hit_mob(best, 4.0)
+        dead = self.hit_mob(best, 4.0 + EN.damage_bonus(self._held_enchant_levels()))
         return (best.kind.name, dead)
 
     def damage_player_from_mob(self, amount: float, cause: str):
@@ -1538,6 +1736,14 @@ class McCloneKernel(Service):
                 'state': self.state,
                 'death_cause': self.death_cause,
                 'stats': dict(self.stats),
+                # --- Phase 3-E（v4）---
+                # 经验**只存点数**：等级是 `enchant.level_for(xp)` 算出来的派生量，
+                # 存了反而会出现"档里的等级与点数对不上"这种不可自愈的脏数据。
+                'xp': int(self.xp),
+                # 附魔与耐久累积计数：按**物品名**存（与背包同一口径）
+                'enchant': {I.name_of(k): {n: int(v) for n, v in sorted(lv.items())}
+                            for k, lv in sorted(self.enchants.items()) if lv},
+                'wear': {I.name_of(k): int(v) for k, v in sorted(self.wear.items()) if v},
             },
             'drops': [{'pos': [float(c) for c in d['pos']], 'item': I.name_of(d['item']),
                        'n': int(d['n']), 't': float(d['t'])} for d in self.drops],
@@ -1550,7 +1756,7 @@ class McCloneKernel(Service):
     def load(self, data: dict):
         """读档（世界按存档的种子/尺寸重建，再重放增量与玩家状态）。"""
         ver = int(data.get('version', 0))
-        if ver not in (1, 2, 3):
+        if ver not in (1, 2, 3, 4):
             raise ValueError(f'不支持的存档版本：{data.get("version")!r}')
         wd = data['world']
         # ⚠ 校验必须在**覆盖字段之前**（实测踩过：先 `self.size = wd['size']` 再比对，
@@ -1621,7 +1827,7 @@ class McCloneKernel(Service):
         self.death_cause = str(p.get('death_cause', ''))
         self.stats = dict(p.get('stats') or {})
         for key in ('dug', 'placed', 'crafted', 'smelted', 'picked', 'eaten',
-                    'deaths'):
+                    'deaths', 'enchanted', 'xp_gained'):
             self.stats.setdefault(key, 0)
         self.stats.setdefault('damage', 0.0)
         self.drops = [{'pos': [float(c) for c in d['pos']],
@@ -1632,6 +1838,31 @@ class McCloneKernel(Service):
                             {'fuel_left': 0.0, 'cook_left': 0.0, 'recipe': None})
         self.dig_target, self.dig_progress = None, 0.0
         self._fall_from = None
+        # --- Phase 3-E（v4）：经验 / 附魔 / 耐久累积计数 ---
+        # ⚠ 老档（v1~v3）没有这些字段 ⇒ 必须**给默认值**而不是 KeyError。
+        # 附魔按物品名读回；名字认不出来就**响亮报错**（与背包同一口径，
+        # 不静默丢掉一条附魔 —— 那会让玩家的镐子"悄悄变回普通的"）。
+        self.xp = int(p.get('xp', 0) or 0)
+        self.enchants = {}
+        for iname, lv in (p.get('enchant') or {}).items():
+            iid = _item_id(iname)
+            got = {str(n): int(v) for n, v in dict(lv).items() if int(v) > 0}
+            for n in got:
+                if n not in EN.ENCHANTS:
+                    raise ValueError(f'存档里有未知附魔名：{n!r}')
+            if got:
+                self.enchants[iid] = got
+        self.wear = {}
+        for iname, n in (p.get('wear') or {}).items():
+            if int(n) > 0:
+                self.wear[_item_id(iname)] = int(n)
+        # 附魔只挂在**还在背包里**的工具上（工具没了 ⇒ 附魔跟着作废）
+        for iid in list(self.enchants):
+            if iid not in self.inventory:
+                self.enchants.pop(iid, None)
+                self.wear.pop(iid, None)
+        for key in ('enchanted', 'xp_gained'):
+            self.stats.setdefault(key, 0)
         # Phase 2-A：世界时刻按存档恢复；光照缓存整体作废（方块变了 ⇒ 光照必须重算）
         self.cycle.load(data.get('day') or {})
         self._lit = set()
@@ -1669,6 +1900,9 @@ class McCloneKernel(Service):
             'durability': self.held_durability(),
             'health': round(float(self.health), 2),
             'hunger': round(float(self.hunger), 2),
+            # Phase 3-E：经验与附魔读数（HUD 与 CLI 共用同一份口径）
+            'xp': int(self.xp), 'level': self.level,
+            'enchant': EN.describe_levels(self.enchants.get(self.selected_item())),
             'state': self.state,
             'drops': len(self.drops),
             'furnace': self.furnace['recipe'],

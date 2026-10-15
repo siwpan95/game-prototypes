@@ -591,7 +591,10 @@ def t_reset():
     assert k.world.edits == {}, 'reset 没清增量'
     # 统计键**集合**要完整、且每个都归零（比旧断言更严：旧断言只看了 2 个键）
     assert set(k.stats) == {'dug', 'placed', 'crafted', 'smelted', 'picked',
-                            'eaten', 'deaths', 'damage'}, f'统计键集合变了：{sorted(k.stats)}'
+                            'eaten', 'deaths', 'damage',
+                            'enchanted', 'xp_gained'}, \
+        f'统计键集合变了：{sorted(k.stats)}'
+    assert k.xp == 0 and k.enchants == {} and k.wear == {}, 'reset 该清掉经验与附魔'
     assert all(v == 0 for v in k.stats.values()), f'reset 没清统计：{k.stats}'
     # 生存状态归位
     assert k.state == 'playing' and k.health == k.max_health
@@ -675,6 +678,93 @@ def t_pack_layer():
         assert k.pack is None and k.pack_report().startswith('资源包：无')
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def t_enchant_layer():
+    """Phase 3-E：经验/附魔**真的改了玩法**，且存档 v4 往返一致（含读 v3 老档）。
+
+    为什么这条必须在**内核**层钉（而不是只在 `test_enchant` 里测纯函数）：
+    附魔的效果分散在 `dig_time` / `_use_tool` / `_finish_dig` / `attack` 四处，
+    任何一处忘了接，纯函数全过、玩法却没变 —— 那是最难发现的一类漏接。
+    """
+    from mcclone3d import enchant as EN
+    from mcclone3d import items as _I
+
+    k = make_offline({'seed': 77, 'size': 48, 'height': 32, 'light': False,
+                      'mobs': False, 'creative': False})
+    assert k.xp == 0 and k.level == 0 and k.enchants == {} and k.wear == {}
+
+    # 经验：挖矿给经验（只给矿石）
+    assert k.add_xp(27) == 3 and k.xp == 27
+    assert EN.level_progress(k.xp)[0] == 3
+
+    pick = _I.item_by_name('iron_pickaxe')
+    k.give(pick.id, 1)
+    k.hotbar[0] = pick.id
+    k.select(0)
+    # 找一格朝下的目标
+    x, z = 10, 10
+    y = k.world.surface_at(x, z) - 1
+    for dy in (1, 2, 3):
+        k.world.set_generated(x, y + dy, z, B.AIR)
+    k.flying = True
+    k.pos = [x + 0.5, y + 2.0, z + 0.5]
+    k.yaw, k.pitch = 0.0, -90.0
+    t_off = k.dig_time()
+    k.enchants[pick.id] = {'efficiency': 5}
+    t_on = k.dig_time()
+    assert abs(t_on - t_off / (1 + 0.30 * 5)) < 1e-9, '效率没接上 dig_time'
+
+    # 耐久：10 点耐久 + 耐久 III ⇒ **恰好** 40 次使用才断
+    k.tool_durability[pick.id] = 10
+    k.enchants[pick.id] = {'unbreaking': 3}
+    k.wear[pick.id] = 0
+    uses = 0
+    while not k._use_tool(pick):
+        uses += 1
+        assert uses < 500, '耐久附魔没生效（一直不断）'
+    assert uses + 1 == 40, f'应当是 10×4=40 次，实际 {uses + 1}'
+    assert pick.id not in k.enchants and pick.id not in k.wear, '断了要连附魔一起清'
+
+    # 存档 v4 往返：经验/附魔/磨损逐字段相等
+    k.give(pick.id, 1)
+    k.enchants[pick.id] = {'fortune': 2}
+    k.wear[pick.id] = 3
+    k.xp = EN.xp_total(6) + 4
+    blob = json.loads(json.dumps(k.dump()))
+    assert blob['version'] == 4 == SAVE_VERSION
+    k2 = make_offline({'seed': 77, 'size': 48, 'height': 32, 'light': False,
+                       'mobs': False, 'creative': False})
+    k2.load(blob)
+    assert k2.xp == k.xp and k2.level == k.level == 6
+    assert k2.enchant_levels(pick.id) == {'fortune': 2}
+    assert k2.wear.get(pick.id) == 3
+    assert 'xp' in k2.dump()['player'] and 'enchant' in k2.dump()['player']
+
+    # 老档（v3，没有这三个字段）必须能读 —— 给默认值，不是 KeyError
+    old = json.loads(json.dumps(blob))
+    old['version'] = 3
+    for key in ('xp', 'enchant', 'wear'):
+        old['player'].pop(key, None)
+    for key in ('enchanted', 'xp_gained'):
+        old['player']['stats'].pop(key, None)
+    k3 = make_offline({'seed': 77, 'size': 48, 'height': 32, 'light': False,
+                       'mobs': False, 'creative': False})
+    k3.load(old)
+    assert k3.xp == 0 and k3.enchants == {} and k3.wear == {}
+    assert k3.stats['enchanted'] == 0 and k3.stats['xp_gained'] == 0
+
+    # 存档里有未知附魔名 ⇒ **响亮报错**（不静默丢一条附魔）
+    bad = json.loads(json.dumps(blob))
+    bad['player']['enchant'] = {'iron_pickaxe': {'no_such_enchant': 1}}
+    k4 = make_offline({'seed': 77, 'size': 48, 'height': 32, 'light': False,
+                       'mobs': False, 'creative': False})
+    try:
+        k4.load(bad)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('未知附魔名应当响亮报错')
 
 
 if __name__ == '__main__':

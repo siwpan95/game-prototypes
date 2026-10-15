@@ -1518,6 +1518,241 @@ def c_pack():
             f'报告={report_ok} 坏包报错={loud}/3={loud_ok}')
 
 
+@check('enchant')
+def c_enchant():
+    """附魔与经验（Phase 3-E）：经验/等级互逆、报价确定、**五条附魔逐条生效**、存档 v4。
+
+    这条验收的重点是**每一条附魔都有可观测的效果**，而不是"表里有这个附魔"：
+    效率 → `dig_time` 变短（与公式对拍）；耐久 → 恰好 4 倍次数（精确，不是"大约"）；
+    时运 → 额外掉落（确定性 + 落在期望带内 + 单调）；精准采集 → 玻璃掉玻璃；
+    锋利 → 攻击伤害 +2.5。
+    """
+    from mcclone3d import enchant as EN
+
+    # ① 纯函数：经验↔等级互逆（穷举）；花等级后等级**恰好**降 n
+    inv_ok = all(EN.level_for(EN.xp_total(L)) == L for L in range(0, 80))
+    edge_ok = all(EN.level_for(EN.xp_total(L) - 1) == L - 1 for L in range(1, 80))
+    spend_ok = True
+    for xp in (0, 5, 7, 20, 26, 40, 55, 56, 100, 12345):
+        lv = EN.level_for(xp)
+        for n in (1, 2, 3):
+            got = EN.spend_xp(xp, n)
+            if got is None:
+                spend_ok = spend_ok and (lv < n)
+            else:
+                spend_ok = spend_ok and EN.level_for(got) == lv - n and got <= xp
+
+    # ② 挖矿给经验（煤 1 / 钻石 5），烧炼 +2
+    k = make_offline({'seed': 31, 'size': 64, 'height': 32, 'light': False,
+                      'mobs': False, 'creative': False})
+    pick = I.item_by_name('iron_pickaxe')
+    k.give(pick.id, 1)
+    k.hotbar[0] = pick.id
+    k.select(0)
+    x, z = 20, 20
+    y = k.world.surface_at(x, z) - 1
+
+    def _dig_here(block_id):
+        for dy in (1, 2, 3):
+            k.world.set_generated(x, y + dy, z, B.AIR)
+        k.world.set_generated(x, y, z, block_id)
+        k.flying = True
+        k.pos = [x + 0.5, y + 2.0, z + 0.5]
+        k.yaw, k.pitch = 0.0, -90.0
+        return k.dig()
+
+    xp0 = k.xp
+    _dig_here(B.DIRT)
+    dirt_xp = k.xp - xp0
+    _dig_here(B.COAL_ORE)
+    coal_xp = k.xp - xp0 - dirt_xp
+    _dig_here(B.DIAMOND_ORE)
+    dia_xp = k.xp - xp0 - dirt_xp - coal_xp
+    k.add_xp(0)
+    xp_ok = (dirt_xp == 0 and coal_xp == EN.XP_FOR_BLOCK['coal_ore']
+             and dia_xp == EN.XP_FOR_BLOCK['diamond_ore'])
+    k.give_item('raw_iron', 2)
+    k.give_item('coal', 2)                      # 燃料也算输入（`coal|charcoal`）
+    k.furnace_load('iron_ingot')
+    xp_before = k.xp
+    # ⚠ 一次给足 dt 会**先把燃料烧完**（`furnace_step` 先扣燃料、燃料见底就停机），
+    # 于是"烧完了"变成"没柴了" —— 这里按一炉的时间 +1s 给。
+    k.furnace_step(11.0)
+    smelt_ok = (k.xp - xp_before) == EN.XP_SMELT
+
+    # ③ 报价：3 档、成本 1/2/3、**确定性**、合法（附魔名字/等级/适用性/互斥）
+    ty = k.world.surface_at(x, z) + 1
+    tbl = (x + 2, ty, z)
+    # ⚠ 必须**清出视线**（含 ty 那一层）：地形不是平的，台子正前方那一列的台阶
+    # （比脚下高一格）会先被射线打中 ⇒ `_enchant_table_pos()` 返回 None
+    # ⇒ 报价与附魔**全部静默失败**（实测：射线打到 (x+1, ty, z) 那块高地，
+    #    报的却是"要先对着附魔台" —— 症状离原因很远）。
+    for dx in (1, 2):
+        for dy in (0, 1, 2):
+            k.world.set_generated(x + dx, ty + dy, z, B.AIR)
+    k.world.set(tbl[0], tbl[1], tbl[2], B.ENCHANT_TABLE)
+    k.flying = True
+    k.pos = [x + 0.5, ty + 1.0, z + 0.5]
+
+    def _aim_at(target):
+        """把视线对准某格中心 —— **别手写 yaw/pitch**（角度算错的话，下面所有
+        "对着附魔台"的判据都会静默退化成"没对着 ⇒ 空报价"，看着像功能坏了）。"""
+        ex, ey, ez = k.eye_pos()
+        dx, dy, dz = target[0] + 0.5 - ex, target[1] + 0.5 - ey, target[2] + 0.5 - ez
+        k.yaw = math.degrees(math.atan2(-dx, -dz))
+        k.pitch = math.degrees(math.atan2(dy, math.hypot(dx, dz)))
+
+    _aim_at(tbl)
+    hit = k.raycast()
+    aim_ok = hit is not None and tuple(hit[0]) == tbl
+    assert aim_ok, f'测试前提不成立：准星没指到附魔台（{k.raycast()}）'
+    k.add_xp(200)
+    o1 = k.enchant_offers()
+    o2 = k.enchant_offers()
+    same = [o.enchants for o in o1] == [o.enchants for o in o2] and len(o1) == 3
+    costs_ok = [o.cost for o in o1] == [1, 2, 3]
+    legal = 0
+    for o in o1:
+        if not EN.mutex_ok(list(o.enchants)):
+            legal += 1
+        for n, lv in o.enchants.items():
+            if not EN.applies_to(n, 'pickaxe') or not (1 <= lv <= EN.ENCHANTS[n].max_level):
+                legal += 1
+    # 剑只有锋利/耐久（**不会**报出效率）
+    sword_ok = set(EN.candidates('sword')) == {'sharpness', 'unbreaking'}
+
+    # ④ 效率：dig_time 变短，且与公式对拍（对着台子也行 —— 台子也是"一个方块"）
+    k.enchants.pop(pick.id, None)
+    t0 = k.dig_time()
+    k.enchants[pick.id] = {'efficiency': 5}
+    t1 = k.dig_time()
+    eff_ok = t1 < t0 and abs(t1 - t0 / (1 + 0.30 * 5)) < 1e-9
+
+    # ⑤ 耐久：unbreaking III ⇒ **恰好 4 倍**（10 点耐久 = 40 次使用）
+    k.tool_durability[pick.id] = 10
+    k.enchants[pick.id] = {'unbreaking': 3}
+    k.wear[pick.id] = 0
+    uses = 0
+    while not k._use_tool(pick) and uses < 999:
+        uses += 1
+    dur_ok = (uses + 1) == 10 * 4
+    clear_ok = (pick.id not in k.enchants and pick.id not in k.wear
+                and pick.id not in k.tool_durability)
+    # ⚠ 上面那把镐已经**断了**（从 `inventory` 里消失）。后面还要用它做时运/精准采集，
+    # 所以得重新发一把 —— 否则 dump/load 会把"不在背包里的工具的附魔"当作陈旧数据清掉
+    # （那是**有意的**清理规则，见 `load`），存档往返判据就会红在一个与它无关的原因上。
+    k.give(pick.id, 1)
+
+    # ⑥ 时运：额外掉落（确定性 + 期望带内 + 单调）
+    def _fortune_total(level, blocks=240):
+        k.drops = []
+        k.tool_durability[pick.id] = 9999
+        k.enchants[pick.id] = {'fortune': level} if level else {}
+        base = 0
+        for i in range(blocks):
+            bx, bz = 30 + (i % 12), 30 + (i // 12)
+            by = k.world.surface_at(bx, bz) - 1
+            for dy in (1, 2, 3):
+                k.world.set_generated(bx, by + dy, bz, B.AIR)
+            k.world.set_generated(bx, by, bz, B.COAL_ORE)
+            k.flying = True
+            k.pos = [bx + 0.5, by + 2.0, bz + 0.5]
+            k.yaw, k.pitch = 0.0, -90.0
+            k.dig()
+        got = sum(d['n'] for d in k.drops)
+        base = len(k.drops)
+        return got, base
+
+    f0 = _fortune_total(0)
+    f3 = _fortune_total(3)
+    f3b = _fortune_total(3)
+    # 时运 III 的期望额外量是 1.5/格 ⇒ 240 格期望 +360；带子给得很宽（判据是"确实多了"，
+    # 不是"正好是 1.5"，因为"正好"要取决于哈希流，那是脆判据）
+    fortune_ok = (f3[0] > f0[0] + 200 and f3[0] == f3b[0] and f3[0] > f0[0])
+    determinism_ok = f3 == f3b
+
+    # ⑦ 精准采集：玻璃掉玻璃（无附魔时玻璃什么都不掉）
+    k.drops = []
+    k.enchants[pick.id] = {}
+    _dig_here(B.GLASS)
+    no_silk = [d for d in k.drops if I.name_of(d['item']) == 'glass']
+    k.drops = []
+    k.enchants[pick.id] = {'silk_touch': 1}
+    _dig_here(B.GLASS)
+    with_silk = [d for d in k.drops if I.name_of(d['item']) == 'glass']
+    silk_ok = (not no_silk) and len(with_silk) == 1
+
+    # ⑧ 锋利：攻击伤害 +2.5（L5）
+    sword = I.item_by_name('iron_sword')
+    k.give(sword.id, 1)
+    k.hotbar[1] = sword.id
+    k.enchants[sword.id] = {'sharpness': 5}
+    k.select(1)
+    dmg_ok = abs(EN.damage_bonus(k.enchant_levels()) - 2.5) < 1e-9
+
+    # ⑨ 附魔的代价：扣的是**等级**，且等级恰好降 cost
+    k.hotbar[0] = pick.id
+    k.select(0)
+    _aim_at(tbl)                                # ⚠ ⑦/⑧ 挖过方块 ⇒ 视线被改成了朝下
+    k.enchants.pop(pick.id, None)
+    k.xp = EN.xp_total(10)                      # 满 10 级
+    lv_before = k.level
+    slot = 0
+    ok_apply, why = k.enchant_apply(slot)
+    cost_ok = k.level == lv_before - EN.OFFER_COSTS[slot]
+    got_levels = k.enchant_levels()
+    apply_ok = ok_apply and cost_ok and bool(got_levels) and k.stats['enchanted'] == 1
+    if not ok_apply:
+        # 失败时把现场打出来：这条链路的失败症状（"要先对着附魔台"）离真正的原因
+        # （射线被地形挡住 / 手里的东西不是工具）很远，不打现场就得重跑一遍才知道。
+        print(f'    （附魔失败：{why}；pos={[round(v, 2) for v in k.pos]} '
+              f'yaw={k.yaw:.1f} pitch={k.pitch:.1f} ray={k.raycast()} '
+              f'台子={B.name_of(k.world.get(*tbl))} '
+              f'手持={I.name_of(k.hotbar[0])}）')
+
+    # ⑩ 不在附魔台前不许附魔（"飘在空中的菜单"是这类功能的通病）
+    k.pitch = 90.0                              # 抬头看天
+    far_ok = k.enchant_apply(0) == (False, '要先对着附魔台')
+
+    # ⑪ 存档 v4：经验/附魔/磨损往返一致；**v3 老档**也能读（给默认值）
+    k.pitch = -35.0
+    k.wear[pick.id] = 2
+    blob = k.dump()
+    k2 = make_offline({'seed': 31, 'size': 64, 'height': 32, 'light': False,
+                       'mobs': False, 'creative': False})
+    k2.load(json.loads(json.dumps(blob)))
+    save_ok = (k2.xp == k.xp and k2.level == k.level
+               and k2.enchant_levels(pick.id) == k.enchant_levels(pick.id)
+               and k2.wear.get(pick.id) == 2)
+    old = json.loads(json.dumps(blob))
+    old['version'] = 3
+    for key in ('xp', 'enchant', 'wear'):
+        old['player'].pop(key, None)
+    for key in ('enchanted', 'xp_gained'):
+        old['player']['stats'].pop(key, None)
+    k3 = make_offline({'seed': 31, 'size': 64, 'height': 32, 'light': False,
+                       'mobs': False, 'creative': False})
+    try:
+        k3.load(old)
+        backward_ok = (k3.xp == 0 and k3.enchants == {} and k3.wear == {})
+    except Exception as exc:                    # noqa: BLE001
+        backward_ok = f'{type(exc).__name__}: {exc}'
+
+    ok = (inv_ok and edge_ok and spend_ok and xp_ok and smelt_ok and same
+          and costs_ok and legal == 0 and sword_ok and eff_ok and dur_ok
+          and clear_ok and fortune_ok and determinism_ok and silk_ok and dmg_ok
+          and apply_ok and far_ok and save_ok and backward_ok is True)
+    _report('enchant', ok,
+            f'经验互逆={inv_ok}/{edge_ok} 花等级降级={spend_ok} '
+            f'挖矿给经验(土{dirt_xp}/煤{coal_xp}/钻{dia_xp})={xp_ok} 烧炼+{EN.XP_SMELT}={smelt_ok} '
+            f'报价确定={same} 三档={costs_ok} 非法组合={legal} 剑候选={sword_ok} '
+            f'效率{t0:.3f}→{t1:.3f}s={eff_ok} 耐久III={uses + 1}次(期望40)={dur_ok} '
+            f'断后清理={clear_ok} 时运III {f0[0]}→{f3[0]}={fortune_ok}/{determinism_ok} '
+            f'精准采集玻璃掉玻璃={silk_ok} 锋利+2.5={dmg_ok} '
+            f'附魔扣{EN.OFFER_COSTS[slot]}级={apply_ok} 非台前拒绝={far_ok} '
+            f'存档v4={save_ok} 读v3老档={backward_ok}')
+
+
 # ---------------------------------------------------------------- 主流程
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description='mcclone3d headless 验收（零 GL）')

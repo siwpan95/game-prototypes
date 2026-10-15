@@ -26,6 +26,7 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODULES = [
     ('tests.test_blocks', 'ALL_BLOCKS_TESTS_PASSED', '方块表与面剔除规则'),
     ('tests.test_textures', 'ALL_TEXTURES_TESTS_PASSED', '程序化贴图与图集几何'),
+    ('tests.test_enchant', 'ALL_ENCHANT_TESTS_PASSED', '附魔与经验（XP/报价/效果）'),
     ('tests.test_mcpng', 'ALL_MCPNG_TESTS_PASSED', 'PNG 编解码（零依赖）'),
     ('tests.test_packs', 'ALL_PACKS_TESTS_PASSED', '资源包（覆盖/分辨率/图集）'),
     ('tests.test_world', 'ALL_WORLD_TESTS_PASSED', '世界生成确定性与地层'),
