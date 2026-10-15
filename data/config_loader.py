@@ -101,6 +101,7 @@ class SkillData:
     cost: int
     effect: str
     description: str
+    unlock_level: int = 1  # 解锁等级（玩家达到该等级才学会）
 
 @dataclass
 class ShopData:
@@ -275,7 +276,8 @@ class ConfigLoader:
                     type=str(row['类型']),
                     cost=int(row['消耗']),
                     effect=str(row['效果']),
-                    description=str(row['描述'])
+                    description=str(row['描述']),
+                    unlock_level=max(1, int(_col(row, '解锁等级', 1))),
                 )
                 self.skills[skill.id] = skill
             print(f"加载了 {len(self.skills)} 个技能配置")

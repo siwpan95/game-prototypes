@@ -64,9 +64,10 @@ class GameViewModel:
         self.data.quest_progress = []
         self.data.game_time = 0.0
 
-        # 初始技能
+        # 初始技能（只送解锁等级 ≤ 1 的）
         for skill_data in self.config.skills.values():
-            self.data.player.learn_skill(Skill(skill_data))
+            if skill_data.unlock_level <= 1:
+                self.data.player.learn_skill(Skill(skill_data))
 
         # 初始物品
         for item_data in self.config.get_starting_items():
@@ -130,9 +131,23 @@ class GameViewModel:
     # 显示刷新
     # ═══════════════════════════════════════════════════
 
+    def _check_skill_unlocks(self):
+        """按等级解锁技能（幂等：已学会的不会重复学/重复提示）"""
+        player = self.data.player
+        if not player:
+            return
+        known_ids = [s.id for s in player.skills]
+        for skill_data in self.config.skills.values():
+            if skill_data.unlock_level <= player.level and skill_data.id not in known_ids:
+                player.learn_skill(Skill(skill_data))
+                self.data.add_log(f"学会了新技能: {skill_data.name}！")
+
     def _refresh_all(self):
         """刷新所有 Observable 属性"""
         d = self.data
+
+        # 技能解锁检查（升级后自动学会新技能）
+        self._check_skill_unlocks()
 
         # 玩家信息
         self.player_name_text.set(f"{d.player.name} Lv.{d.player.level}" if d.player else "")
