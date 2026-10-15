@@ -230,9 +230,11 @@ def create_config_excel(filename="config.xlsx"):
     
     return filename
 
-def create_default_game_files():
-    """创建完整的游戏文件结构"""
-    
+def create_default_game_files(output="config.xlsx"):
+    """创建完整的游戏文件结构（目录 + 配置文件）
+
+    注意：README.md 为手写维护文档，此处不再生成，避免覆盖。
+    """
     # 创建目录结构
     directories = [
         "assets",
@@ -242,61 +244,14 @@ def create_default_game_files():
         "assets/fonts",
         "saves"
     ]
-    
+
     print("\n📁 创建目录结构...")
     for directory in directories:
         os.makedirs(directory, exist_ok=True)
         print(f"   ✓ {directory}")
-    
+
     # 创建配置文件
-    config_file = create_config_excel()
-    
-    # 创建README文件
-    readme_content = """# 重装机兵同人游戏
-
-## 文件说明
-
-### 核心文件
-- `main.py` - 主游戏程序
-- `loader.py` - Excel配置加载器
-- `create.py` - 配置文件生成器
-
-### 配置文件
-- `config.xlsx` - 游戏配置数据（用Excel编辑）
-
-### 目录结构
-- `assets/` - 游戏资源文件
-- `saves/` - 游戏存档
-
-## 使用方法
-
-1. 运行 `create.py` 生成初始配置文件
-2. 用Excel编辑 `config.xlsx` 自定义游戏内容
-3. 运行 `main.py` 启动游戏
-
-## 配置说明
-
-### 编辑Excel文件
-- **Enemies**: 敌人配置
-- **Items**: 物品配置
-- **Vehicles**: 战车配置
-- **Maps**: 地图配置
-- **NPCs**: NPC配置
-- **Skills**: 技能配置
-- **Shops**: 商店配置
-- **Quests**: 任务配置
-
-## 注意事项
-- 不要修改Excel的列名
-- ID必须唯一
-- 数值类型要正确
-"""
-    
-    with open("README.md", "w", encoding="utf-8") as f:
-        f.write(readme_content)
-    
-    print(f"\n📝 README.md 文件已创建")
-    
+    config_file = create_config_excel(output)
     return config_file
 
 def check_dependencies():
@@ -322,24 +277,36 @@ def check_dependencies():
 
 def main():
     """主函数"""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="重装机兵同人游戏 - 配置生成器",
+        epilog="示例: python create.py --force  (免确认重置 config.xlsx)",
+    )
+    parser.add_argument("--force", action="store_true",
+                        help="config.xlsx 已存在时免确认直接覆盖")
+    parser.add_argument("--output", default="config.xlsx",
+                        help="配置文件输出路径（默认 config.xlsx）")
+    args = parser.parse_args()
+
     print("=" * 60)
     print("重装机兵同人游戏 - 配置生成器")
     print("=" * 60)
-    
+
     # 检查依赖
     if not check_dependencies():
         sys.exit(1)
-    
+
     # 检查是否已存在配置文件
-    if os.path.exists("config.xlsx"):
-        response = input("\n⚠️  config.xlsx 已存在，是否覆盖？(y/n): ")
+    if os.path.exists(args.output) and not args.force:
+        response = input(f"\n⚠️  {args.output} 已存在，是否覆盖？(y/n): ")
         if response.lower() != 'y':
             print("操作取消。")
             return
-    
+
     # 创建完整文件结构
-    config_file = create_default_game_files()
-    
+    config_file = create_default_game_files(args.output)
+
     print("\n" + "=" * 60)
     print("✨ 配置生成完成！")
     print("=" * 60)
@@ -347,7 +314,7 @@ def main():
     print("1. 用Excel打开 config.xlsx 编辑游戏配置")
     print("2. 运行 python main.py 启动游戏")
     print("3. 修改配置后重启游戏生效")
-    print("\n提示: 可以随时重新运行 create.py 重置配置")
+    print("\n提示: 可以随时重新运行 create.py --force 重置配置")
 
 if __name__ == "__main__":
     main()
