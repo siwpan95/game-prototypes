@@ -285,14 +285,17 @@ class BattleEngine:
         if result.leveled_up:
             result.messages.append(f"升级了！现在等级 {data.player.level}！")
 
-        # 可能掉落物品
-        if random.random() < 0.3 and items_map:
+        # 按敌人配置掉落（替换原来的全物品随机）
+        drop_item_id = getattr(enemy.data, "drop_item_id", 0)
+        drop_rate = getattr(enemy.data, "drop_rate", 0.0)
+        if drop_item_id > 0 and drop_rate > 0 and random.random() < drop_rate and items_map:
             from .item import Item
-            item_data = random.choice(list(items_map.values()))
-            dropped = Item(item_data)
-            data.inventory.append(dropped)
-            result.item_dropped = dropped
-            result.messages.append(f"获得了{dropped.name}！")
+            item_data = items_map.get(drop_item_id)
+            if item_data is not None:
+                dropped = Item(item_data)
+                data.inventory.append(dropped)
+                result.item_dropped = dropped
+                result.messages.append(f"获得了{dropped.name}！")
 
         # 任务进度追踪
         from .game_state import QuestManager

@@ -45,6 +45,8 @@ class EnemyData:
     encounter_rate: float
     description: str
     region_id: int = 1  # 出现区域（对应 Maps 表 ID，1=荒野）
+    drop_item_id: int = 0  # 掉落物品ID（0=不掉落）
+    drop_rate: float = 0.0  # 掉落率（0-1）
 
 @dataclass
 class ItemData:
@@ -181,6 +183,8 @@ class ConfigLoader:
                     encounter_rate=float(row['遭遇率']),
                     description=str(row['描述']),
                     region_id=int(_col(row, '区域ID', 1)),
+                    drop_item_id=int(_col(row, '掉落物品ID', 0)),
+                    drop_rate=float(_col(row, '掉落率', 0.0)),
                 )
                 self.enemies[enemy.id] = enemy
             print(f"加载了 {len(self.enemies)} 个敌人配置")
