@@ -45,7 +45,8 @@ __all__ = ['McCloneKernel', 'make_offline', 'DEFAULT_SEED', 'REACH', 'PLAYER_HAL
            'WORLD_SIZE', 'WORLD_HEIGHT', 'STEP_HZ', 'START_STOCK',
            'MAX_HEALTH', 'MAX_HUNGER', 'DROP_PICKUP_R', 'DROP_TTL',
            'DAY_LENGTH', 'LIGHT_BUDGET_PER_FRAME', 'SAVE_VERSION',
-           'MOB_SPAWN_INTERVAL', 'MOB_CAP', 'VILLAGE_SPAWN_SPAN', 'VILLAGE_POP']
+           'MOB_SPAWN_INTERVAL', 'MOB_CAP', 'VILLAGE_SPAWN_SPAN', 'VILLAGE_POP',
+           'REDSTONE_BUDGET_PER_FRAME']
 
 #: 存档版本。**只增不改语义**：加字段就 +1，读档必须能吃所有老版本。
 #: v1 = Phase 0 ｜ v2 = Phase 1（工具/生存/掉落/熔炉）｜ v3 = Phase 2-A（世界时刻）
@@ -103,6 +104,8 @@ MOB_CAP = AI.MAX_MOBS
 MOB_SPAWN_TRIES = 24
 #: 村庄刷村民的搜索半径（格）—— 村庄半径 13，取 10 让村民待在村里
 VILLAGE_SPAWN_SPAN = 10
+#: 每帧最多重算几个红石网络（护栏：一个网络的重算是几十毫秒级）
+REDSTONE_BUDGET_PER_FRAME = 2
 #: 每个村庄的村民上限（见 `_try_spawn_villager` 的说明）
 VILLAGE_POP = 4
 
@@ -171,6 +174,11 @@ class McCloneKernel(Service):
         self.fluid.mark_sources(self.world)
         #: 水流计时器（累加到 `FLUID_INTERVAL` 才跑一步）
         self._fluid_t = 0.0
+        # --- Phase 3：红石（信号是**派生状态**，不进存档；见 redstone 模块说明）---
+        from .redstone import PowerGrid
+        #: `on_change` 直接接 `_mark_dirty`：红石改了方块 ⇒ 网格重建 + 光照失效
+        #: （红石灯点亮时正是靠这条让光照引擎知道"这里多了个光源"）
+        self.redstone = PowerGrid(self.world, on_change=self._mark_dirty)
         #: 全局天光列传播**默认做一次**（与高度成正比，很快）。
         #: `light=False` 可以跳过 —— 给"完全不关心光照"的体检/单测用
         #: （否则每个 `make_offline` 都要付一次全图列传播；CLI 一次跑十几个内核，
@@ -266,6 +274,9 @@ class McCloneKernel(Service):
         from . import fluid as FL
         self.fluid = FL.FluidSystem()
         self.fluid.mark_sources(self.world)
+        # 同理：红石的信号场也是**按坐标存**的 ⇒ 必须重建（否则拿着旧世界的信号）
+        from .redstone import PowerGrid
+        self.redstone = PowerGrid(self.world, on_change=self._mark_dirty)
         #: 水流计时器（累加到 `FLUID_INTERVAL` 才跑一步）
         self._fluid_t = 0.0
         self._init_player()
@@ -468,6 +479,24 @@ class McCloneKernel(Service):
         # Phase 2-C：挖穿池底/洞顶时**邻域的水要重新演化**（`disturb` 只加活跃格，
         # 演化在 `fluid_step`）。这是"挖开 ⇒ 排水 / 灌水"的触发点。
         self.fluid.disturb(self.world, x, y, z)
+        # Phase 3：门是**两格一体**的（挖一半、另一半跟着掉），
+        # 推出的活塞要**连臂一起**收掉，红石元件被挖掉则网络要重算。
+        from . import redstone as RS
+        other = B.door_other_half(old)
+        if other is not None:
+            up = old in (B.DOOR_UPPER, B.DOOR_OPEN_UPPER)
+            y2 = y - 1 if up else y + 1
+            if B.door_other_half(self.world.get(x, y2, z)) is not None \
+                    and self.world.set(x, y2, z, B.AIR):
+                self._mark_dirty(x, y2, z)
+                self.redstone.mark(x, y2, z)
+        elif RS.is_piston(old) and RS.piston_input_on(old):
+            d = B.PISTON_DIR_OF[old]
+            dx, dy, dz = B.PISTON_DIR_VEC[d]
+            if self.world.get(x + dx, y + dy, z + dz) == B.PISTON_ARM \
+                    and self.world.set(x + dx, y + dy, z + dz, B.AIR):
+                self._mark_dirty(x + dx, y + dy, z + dz)
+        self.redstone.mark(x, y, z)
         self.stats['dug'] += 1
         self.dig_target, self.dig_progress = None, 0.0
 
@@ -523,14 +552,64 @@ class McCloneKernel(Service):
             return False, None
         if not self.creative and self.inventory.get(it.id, 0) <= 0:
             return False, None
-        if self.world.set(tx, ty, tz, bid):
-            self._mark_dirty(tx, ty, tz)
-            # Phase 2-C：在水里筑坝 ⇒ 挡住的水要重新演化（往上积水或干涸）
-            self.fluid.disturb(self.world, tx, ty, tz)
+        # Phase 3：**多格方块与朝向在这里展开**（门占两格、活塞按视线定向）——
+        # 空位 / "不许把自己封死"这两条判据对**每一格**都要过。
+        cells = B.place_cells(bid, tx, ty, tz, self.look_dir())
+        for (cx, cy, cz, _cb) in cells:
+            if not (0 <= cx < self.size and 0 <= cy < self.height
+                    and 0 <= cz < self.size):
+                return False, None
+            if self.world.get(cx, cy, cz) != B.AIR:
+                return False, None                 # 门的上半格被挡住 ⇒ 整体不放下
+            if self._would_trap_player(cx, cy, cz):
+                return False, None
+        placed = False
+        for (cx, cy, cz, cb) in cells:
+            if self.world.set(cx, cy, cz, cb):
+                self._mark_dirty(cx, cy, cz)
+                # Phase 2-C：在水里筑坝 ⇒ 挡住的水要重新演化（往上积水或干涸）
+                self.fluid.disturb(self.world, cx, cy, cz)
+                # Phase 3：放下红石元件 ⇒ 网络要重算（拉杆/中继器会立刻改状态）
+                self.redstone.mark(cx, cy, cz)
+                placed = True
+        if placed:
             self.stats['placed'] += 1
             if not self.creative:
-                self.take(it.id, 1)
+                self.take(it.id, 1)                # 门占两格，但**只消耗一件**
             return True, (tx, ty, tz)
+        return False, None
+
+    # ---------------------------------------------------------------- 交互
+    def use(self):
+        """右键对着**可交互方块**用一下。返回 `(ok, (方块名, 说明))`。
+
+        交互对象（Phase 3）：拉杆（切换开/关）、按钮（按下，1 秒后自动回弹）、
+        中继器（手动切换）、铁门（手动开关 —— 若门同时被红石控制，下一帧会被信号纠正）。
+
+        没打到可交互方块 ⇒ 返回 `(False, None)`，调用方接着走 `place()`
+        （demo 的右键就是"先试 use，不行再放方块"，与 MC 同手感）。
+        """
+        hit = self.raycast()
+        if hit is None:
+            return False, None
+        (x, y, z), _n = hit
+        b = self.world.get(x, y, z)
+        name = B.name_of(b)
+        if b in (B.LEVER_OFF, B.LEVER_ON):
+            new = self.redstone.toggle_lever(x, y, z)
+            if new is not None:
+                return True, (name, '开' if new == B.LEVER_ON else '关')
+        elif b in (B.BUTTON_OFF, B.BUTTON_ON):
+            if self.redstone.press_button(x, y, z) is not None:
+                return True, (name, '按下')
+        elif b in (B.REPEATER_OFF, B.REPEATER_ON):
+            new = self.redstone.toggle_repeater(x, y, z)
+            if new is not None:
+                return True, (name, '亮' if new == B.REPEATER_ON else '灭')
+        elif B.door_other_half(b) is not None:
+            opened = b in (B.DOOR_OPEN_LOWER, B.DOOR_OPEN_UPPER)
+            if self.redstone.set_door(x, y, z, not opened):
+                return True, (name, '关' if opened else '开')
         return False, None
 
     # ---------------------------------------------------------------- 背包
@@ -980,6 +1059,8 @@ class McCloneKernel(Service):
         self.furnace_step(dt)
         self.update_mobs(dt)
         self.fluid_step(dt)
+        # Phase 3：红石（按钮回弹 + 脏网络重算；预算与光照同思路，防掉帧）
+        self.redstone.step(dt, budget=REDSTONE_BUDGET_PER_FRAME)
 
     # ============================================================== 水流
     #: 每帧最多处理多少水格（**防卡顿的硬预算**：挖开一个湖可能瞬间激活上万格）
@@ -1322,6 +1403,29 @@ class McCloneKernel(Service):
             self._auto_log.append(('respawn', self.respawn(), None))
 
     # ============================================================== 网格
+    def _redstone_power_for_mesh(self, x: int, y: int, z: int):
+        """给网格用：**红石线**返回它的信号强度（0..15），其他方块返回 None。
+
+        只对红石线返回 —— 别的方块就算邻居有电也不该被染色
+        （`_append_face` 里 None = 保持原色）。这样信号强度就成了**看得见的东西**：
+        一条线的亮度会顺着衰减下去，一眼看出"通到哪一格为止"。
+        """
+        if self.world.get(x, y, z) != B.REDSTONE_WIRE:
+            return None
+        return self.redstone.power_at(x, y, z)
+
+    def _redstone_cells_in(self, cx: int, cy: int, cz: int):
+        """列出一个区块里的红石元件坐标（读档后要把它们排进重算队列）。"""
+        from . import redstone as RS
+        buf = self.world.chunks.get((cx, cy, cz))
+        if buf is None:
+            return
+        x0, y0, z0 = cx * CHUNK, cy * CHUNK, cz * CHUNK
+        for i, b in enumerate(buf):
+            if RS.is_source(b) or RS.is_conductor(b) or RS.is_output(b):
+                ly, lz, lx = i // 256, (i // 16) % 16, i % 16
+                yield (x0 + lx, y0 + ly, z0 + lz)
+
     def chunk_meshes(self, *, only_dirty: bool = True, limit: int = 8,
                      ensure_light: bool = True):
         """建（或重建）区块网格 —— **纯数据，不碰 GL**，demo 负责上传。
@@ -1353,7 +1457,8 @@ class McCloneKernel(Service):
         night = 1.0 - max(0.0, min(1.0, self.day_factor()))
         for key in todo[:max(1, limit)]:
             mb, st = build_chunk_mesh(self.world, *key,
-                                      light_of=self.face_light, night=night)
+                                      light_of=self.face_light, night=night,
+                                      power_of=self._redstone_power_for_mesh)
             self._meshes[key] = (mb, st)
             self._built.add(key)
             self.dirty_chunks.discard(key)
@@ -1436,6 +1541,13 @@ class McCloneKernel(Service):
         # 水本身不进存档（可由源重算），但**洞还在增量里** ⇒ 必须重灌一遍，
         # 否则读档回来洞是干的（实测：读档后水量 0）。
         self.fluid.repour_all(self.world)
+        # Phase 3：红石同理 —— 信号不进存档 ⇒ 重建后必须把**每个元件排进重算队列**，
+        # 否则读档回来"灯看着是亮的、信号场却是空的"，下一帧又把它算灭。
+        from .redstone import PowerGrid
+        self.redstone = PowerGrid(self.world, on_change=self._mark_dirty)
+        for (cx, cy, cz) in list(self.world.chunks):
+            for (ex, ey, ez) in self._redstone_cells_in(cx, cy, cz):
+                self.redstone.mark(ex, ey, ez)
         p = data['player']
         self.pos = [float(v) for v in p['pos']]
         self.vel = [float(v) for v in p.get('vel', (0, 0, 0))]

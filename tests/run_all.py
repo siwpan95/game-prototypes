@@ -44,6 +44,7 @@ MODULES = [
     ('tests.test_fluid', 'ALL_FLUID_TESTS_PASSED', '水流灌注与洞内进水'),
     ('tests.test_weather', 'ALL_WEATHER_TESTS_PASSED', '天气状态机与天光影响'),
     ('tests.test_structures', 'ALL_STRUCTURES_TESTS_PASSED', '村庄选址 / 建筑 / 刷怪联动'),
+    ('tests.test_redstone', 'ALL_REDSTONE_TESTS_PASSED', '红石信号 / 元件 / 门 / 活塞'),
 ]
 
 

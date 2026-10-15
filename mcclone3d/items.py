@@ -34,9 +34,11 @@ t = hardness × (5 if 需要工具且手上没有对路工具 else 1) / 工具�
 """
 from __future__ import annotations
 
-from .blocks import (AIR, BEDROCK, BLOCKS, BRICK, COAL_ORE, COBBLE, CRAFTING_TABLE,
-                     DIAMOND_ORE, DIRT, FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL,
-                     IRON_ORE, LEAVES, LOG, PLANKS, SAND, SNOW, STONE, TORCH,
+from .blocks import (AIR, BEDROCK, BLOCKS, BRICK, BUTTON_OFF, COAL_ORE, COBBLE,
+                     CRAFTING_TABLE, DIAMOND_ORE, DIRT, DOOR_LOWER, FURNACE,
+                     GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE, LAMP_OFF, LEAVES,
+                     LEVER_OFF, LOG, PISTON_N_OFF, PLANKS, REDSTONE_TORCH,
+                     REDSTONE_WIRE, REPEATER_OFF, SAND, SNOW, STONE, TORCH,
                      WATER, by_id, by_name, name_of)
 
 __all__ = [
@@ -136,6 +138,21 @@ def _defs():
               SNOW, GRAVEL, LEAVES, CRAFTING_TABLE, FURNACE, TORCH):
         blk = by_id(b)
         add(blk.name, blk.title, KIND_BLOCK, block_id=b, stack=64)
+
+    # --- Phase 3：红石元件 ---
+    # ⚠ 这里**物品名 ≠ 方块名**（状态 id 有多个、玩家手里只有一件东西）：
+    # `lever` 指向"关"的 id，放置/切换时由 `blocks.place_cells` 与 `redstone` 换状态；
+    # `as_item()` 靠 `blocks.BLOCK_ITEM_ALIAS` 把 `lever_on` 这类名字映射回来。
+    # 名字必须与 `DEFAULT_HOTBAR` / `BLOCK_ITEM_ALIAS` 一致（有单测钉住）。
+    for (name, title, bid) in (('redstone_wire', '红石线', REDSTONE_WIRE),
+                               ('lever', '拉杆', LEVER_OFF),
+                               ('button', '按钮', BUTTON_OFF),
+                               ('redstone_torch', '红石火把', REDSTONE_TORCH),
+                               ('repeater', '中继器', REPEATER_OFF),
+                               ('lamp', '红石灯', LAMP_OFF),
+                               ('door', '铁门', DOOR_LOWER),
+                               ('piston', '活塞', PISTON_N_OFF)):
+        add(name, title, KIND_BLOCK, block_id=bid, stack=64)
 
     # --- 材料（挖出来/烧出来的中间物） ---
     add('stick', '木棍')

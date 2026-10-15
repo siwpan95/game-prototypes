@@ -74,8 +74,15 @@ def t_block_items():
         if it is None:
             continue
         assert it.is_block, f'{b.name} 对应的物品 kind={it.kind}，不是方块物品'
-        assert it.block_id == b.id, f'{b.name} 的物品 block_id={it.block_id} 对不上'
-        assert it.name == b.name, f'方块名与物品名不同名：{b.name} vs {it.name}（hotbar/存档靠同名）'
+        # Phase 3：别名登记的格子（`lever_on`）指向"关"那件物品 ⇒ block_id 不同，
+        # 判据改成"要么同 id，要么别名表显式登记了这条对应关系"
+        assert it.block_id == b.id or B.BLOCK_ITEM_ALIAS.get(b.name) == it.name, \
+            f'{b.name} 的物品 block_id={it.block_id} 对不上，且别名表没登记'
+        # Phase 3：**状态 id 允许不同名**，但必须在别名表里显式登记
+        # （`lever_on` → `lever`：一个物品对应多个方块状态，见 `BLOCK_ITEM_ALIAS`）
+        if it.name != b.name:
+            assert B.BLOCK_ITEM_ALIAS.get(b.name) == it.name, \
+                f'方块名与物品名不同名，且别名表没登记：{b.name} vs {it.name}'
     # 明确登记"暂时没有物品的方块"：它们不是能拿在手里的东西（水/矿脉/基岩）。
     # 这条断言的作用是**防静默新增**：将来给某个方块加了物品却忘了配，或反过来，
     # 这里会响 —— 而不是等到"挖了掉空气"才发现。

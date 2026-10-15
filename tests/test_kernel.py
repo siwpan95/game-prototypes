@@ -130,9 +130,13 @@ def t_place():
     for y in (ey - 1, ey, ey + 1):
         for z in range(18, 23):
             k.world.set(24, y, z, B.STONE)          # 墙
-    k.select(2)                                     # 第 3 格 = 石头
+    # ⚠ **显式**把石头塞进当前格，别假设"默认 hotbar 第 3 格是石头"：
+    # Phase 3 起 hotbar 里还有红石元件，那个假设会随 hotbar 内容变化而碎（实测碎过）。
+    from mcclone3d import items as _I                    # 局部导入：_I 在别的测试里也是这么拿的
+    _stone = _I.item_by_name('stone')
+    k.hotbar[k.selected] = _stone.id
     want = k.selected_block()
-    assert want == B.STONE, f'测试前提：第 3 格应是石头，实际 {B.name_of(want)}'
+    assert want == B.STONE, f'测试前提：当前格该是石头，实际 {B.name_of(want)}'
     hit = k.raycast()
     assert hit is not None and hit[0] == (24, ey, 20), f'测试前提：射线该命中墙，实际 {hit}'
     ok, at = k.place()
@@ -245,10 +249,11 @@ def t_survival_stock():
     k.world.set(20, 23, 20, B.AIR)
     hit2 = k.raycast()
     assert hit2 is not None and hit2[0] == (20, 25, 20), f'测试前提：抬头该命中天花板，实际 {hit2}'
-    # ⚠ 放置用的是 **hotbar 当前格**，不是"刚捡到的那种" —— 必须选到石头那一格，
-    # 否则会拿手里的草去放，测出来的是"草不够"而不是"石头被消耗"（实测踩过一次）。
-    # 而且 hotbar 现在存的是**物品 id** ⇒ 必须用物品 id 去 index（拿方块 id 会 ValueError）。
-    k.select(k.hotbar.index(stone_item.id))
+    # ⚠ 放置用的是 **hotbar 当前格**，不是"刚捡到的那种" —— 必须把石头塞进当前格，
+    # 否则会拿手里的东西去放，测出来的是"那样东西不够"而不是"石头被消耗"（实测踩过）。
+    # hotbar 存的是**物品 id**（所以这里塞物品 id，不是方块 id）。
+    k.hotbar[k.selected] = stone_item.id
+    k.select(k.selected)
     assert k.selected_block() == B.STONE
     # 库存里只有圆石、没有石头 ⇒ 放石头必须被拒（库存判定用的是物品 id）
     ok1, at1 = k.place()
@@ -290,7 +295,8 @@ def t_creative_stock():
     # 放置不消耗：库存不减
     k.world.set(20, 15, 20, B.STONE)
     k.world.set(20, 14, 20, B.AIR)
-    k.select(k.hotbar.index(stone_item.id))
+    k.hotbar[k.selected] = stone_item.id          # 同上：显式塞进当前格
+    k.select(k.selected)
     before = dict(k.inventory)
     ok2, at = k.place()
     assert ok2, f'创造模式放不了：{at}'

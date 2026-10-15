@@ -79,10 +79,18 @@ def t_flags():
     assert B.by_id(B.BEDROCK).hardness > 100, '基岩要挖不动'
 
 
-@test('hotbar 默认项都是合法方块名')
+@test('hotbar 默认项都是合法名字（方块名，或别名表登记的物品名）')
 def t_hotbar():
+    """⚠ Phase 3 起 hotbar 的名字**不一定是方块名**：`lever` 是物品名，
+    它对应 `lever_off`/`lever_on` 两个方块状态（见 `BLOCK_ITEM_ALIAS`）。
+    这里不引 items（方块表模块不该依赖物品表），而是拿别名表的值当第二套合法名。
+    """
+    alias_names = set(B.BLOCK_ITEM_ALIAS.values())
     for name in B.DEFAULT_HOTBAR:
-        assert B.by_name(name) is not None
+        # ⚠ 不能写 `by_name(name) is not None`：那个函数查不到会**抛 KeyError**
+        #   （"配置里写错名字要当场爆"是它的设计），所以用名字表查。
+        assert name in B.BLOCK_NAMES or name in alias_names, \
+            f'hotbar 里的 {name!r} 既不是方块名，也不在别名表里'
     assert len(B.DEFAULT_HOTBAR) >= 9, 'hotbar 至少 9 格（对应 1-9 键）'
 
 

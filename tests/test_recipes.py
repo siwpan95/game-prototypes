@@ -169,11 +169,16 @@ def t_alternatives():
         assert trial.get('iron_ingot') == 1, f'烧铁产出不对：{trial}'
 
 
-@test('hotbar 默认项在两套号段里都能查到（配置树写名字，两边都得认）')
+@test('hotbar 默认项都是合法**物品**名（配置树写名字 ⇒ 物品表是权威）')
 def t_hotbar_names():
+    """hotbar 放的是**物品**（`kernel.__init__` 用 `item_by_name` 解析），
+    所以权威判据是"物品表里查得到"。Phase 3 起 `lever`/`door`/`piston` 这类名字
+    **不是方块名**（它们各对应多个方块状态）⇒ 不能再要求 `B.by_name` 也认。"""
     for name in B.DEFAULT_HOTBAR:
         assert name in I.ITEMS_BY_NAME, f'默认 hotbar 的 {name!r} 不在物品表里'
-        assert B.by_name(name) is not None, f'默认 hotbar 的 {name!r} 不是合法方块名'
+        it = I.ITEMS_BY_NAME[name]
+        assert it.is_block and it.block_id is not None, \
+            f'默认 hotbar 的 {name!r} 不是方块物品（放不下去）'
 
 
 if __name__ == '__main__':

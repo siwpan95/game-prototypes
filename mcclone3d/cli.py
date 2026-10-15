@@ -1045,6 +1045,172 @@ def c_village():
             f'村庄 {len(w.villages)} 个（首个 @{vx},{vy},{vz}）装修 {dt:.2f}s '            f'地基空洞 {hole} 残留树 {trunk} 门 {doors}/4 屋顶 {roofs}/4 火把 {torches}/4 '            f'村内暗格 {dark}(中心光照 {lit}>{limit}) 村民 {len(vs)}/{cap} '            f'在村内 {in_village} 村外无村only {wild} 农田 {len(crops)}株 {farm_ok} '            f'不进存档 {no_edit}')
 
 
+@check('redstone')
+def c_redstone():
+    """Phase 3：红石 —— 衰减 / 中继器 / 灯 / 门 / 活塞 / 按钮 / 存档 / 性能。"""
+    import time as _t
+    from mcclone3d import redstone as RS
+    from mcclone3d.world import ChunkedWorld
+    w = ChunkedWorld(2026, 64, 64).generate()
+    g = RS.PowerGrid(w)
+    Y, Z = 50, 4            # 空气层：活塞的测试必须在这里做（地形里会"推不动"）
+
+    def settle(rounds=8):
+        for _ in range(rounds):
+            if not g.dirty:
+                break
+            g.step(0.0, budget=999)
+
+    # ① 衰减：紧贴电源 15、逐格 −1、第 16 格 0
+    w.set_generated(4, Y, Z, B.LEVER_ON)
+    for i in range(1, 17):
+        w.set_generated(4 + i, Y, Z, B.REDSTONE_WIRE)
+    g.mark(4, Y, Z)
+    settle()
+    lv = [g.power_at(4 + i, Y, Z) for i in range(1, 17)]
+    decay_ok = lv[0] == 15 and lv[:15] == list(range(15, 0, -1)) and lv[15] == 0
+
+    # ② 中继器：背面吃、正面吐 15；断电后不自锁
+    w.set_generated(30, Y, Z, B.LEVER_ON)
+    for i in range(1, 15):
+        w.set_generated(30 + i, Y, Z, B.REDSTONE_WIRE)
+    w.set_generated(45, Y, Z, B.REPEATER_E_OFF)
+    w.set_generated(46, Y, Z, B.REDSTONE_WIRE)
+    w.set_generated(47, Y, Z, B.LAMP_OFF)
+    g.mark(30, Y, Z)
+    settle()
+    rep_on = w.get(45, Y, Z) == B.REPEATER_E_ON and g.power_at(46, Y, Z) == 15
+    g.toggle_lever(30, Y, Z)
+    settle()
+    rep_off = (w.get(45, Y, Z) == B.REPEATER_E_OFF
+               and w.get(47, Y, Z) == B.LAMP_OFF)
+
+    # ③ 灯亮 ⇒ 是光源（与 Phase 2-A 光照联动）
+    lamp_ok = B.BLOCKS[B.LAMP_ON].emissive > 0 and B.BLOCKS[B.LAMP_OFF].emissive == 0
+
+    # ④ 门：通电开（solid=False ⇒ 能穿过）、断电关
+    w.set_generated(4, Y, 12, B.LEVER_ON)
+    w.set_generated(5, Y, 12, B.REDSTONE_WIRE)
+    w.set_generated(6, Y, 12, B.DOOR_LOWER)
+    w.set_generated(6, Y + 1, 12, B.DOOR_UPPER)
+    g.mark(4, Y, 12)
+    settle()
+    door_open = (w.get(6, Y, 12) == B.DOOR_OPEN_LOWER
+                 and w.get(6, Y + 1, 12) == B.DOOR_OPEN_UPPER
+                 and not B.is_solid(B.DOOR_OPEN_LOWER))
+    g.toggle_lever(4, Y, 12)
+    settle()
+    door_closed = w.get(6, Y, 12) == B.DOOR_LOWER and B.is_solid(B.DOOR_LOWER)
+
+    # ⑤ 活塞：推 1 格 / 连锁 12 / 13 格不动 / 六方向
+    def piston_run(blocks_n, away=20):
+        ww = ChunkedWorld(2026, 64, 64).generate()
+        gg = RS.PowerGrid(ww)
+        ww.set_generated(4, Y, away, B.LEVER_ON)
+        ww.set_generated(5, Y, away, B.REDSTONE_WIRE)
+        ww.set_generated(6, Y, away, B.BLOCK_IDS['piston_east_off'])
+        for i in range(7, 7 + blocks_n):
+            ww.set_generated(i, Y, away, B.STONE)
+        gg.mark(4, Y, away)
+        for _ in range(8):
+            if not gg.dirty:
+                break
+            gg.step(0.0, budget=999)
+        return ww
+    w1 = piston_run(1)
+    push_ok = (w1.get(6, Y, 20) == B.BLOCK_IDS['piston_east_on']
+               and w1.get(7, Y, 20) == B.PISTON_ARM
+               and w1.get(8, Y, 20) == B.STONE)
+    w12 = piston_run(12)
+    chain_ok = (w12.get(7, Y, 20) == B.PISTON_ARM
+                and w12.get(7 + 12, Y, 20) == B.STONE)
+    w13 = piston_run(13)
+    limit_ok = (w13.get(6, Y, 20) == B.BLOCK_IDS['piston_east_off']
+                and all(w13.get(i, Y, 20) == B.STONE for i in range(7, 20)))
+    dirs_ok = True
+    for d, (vx, vy, vz) in B.PISTON_DIR_VEC.items():
+        off, on = B.PISTON_BY_DIR[d]
+        wd = ChunkedWorld(2026, 64, 64).generate()
+        gd = RS.PowerGrid(wd)
+        px, py, pz = 20, Y, 20
+        wd.set_generated(px, py, pz, off)
+        wd.set_generated(px - vx, py - vy, pz - vz, B.LEVER_ON)
+        wd.set_generated(px + vx, py + vy, pz + vz, B.STONE)
+        gd.mark(px - vx, py - vy, pz - vz)
+        for _ in range(8):
+            if not gd.dirty:
+                break
+            gd.step(0.0, budget=999)
+        if not (wd.get(px, py, pz) == on
+                and wd.get(px + vx, py + vy, pz + vz) == B.PISTON_ARM):
+            dirs_ok = False
+
+    # ⑥ 按钮：按下供电 + TTL 后回弹
+    wb = ChunkedWorld(2026, 64, 64).generate()
+    gb = RS.PowerGrid(wb)
+    wb.set_generated(4, Y, 20, B.BUTTON_OFF)
+    wb.set_generated(5, Y, 20, B.REDSTONE_WIRE)
+    wb.set_generated(6, Y, 20, B.LAMP_OFF)
+    gb.mark(4, Y, 20)
+    for _ in range(8):
+        if not gb.dirty:
+            break
+        gb.step(0.0, budget=999)
+    gb.press_button(4, Y, 20)
+    for _ in range(8):
+        if not gb.dirty:
+            break
+        gb.step(0.0, budget=999)
+    btn_on = wb.get(6, Y, 20) == B.LAMP_ON
+    gb.step(RS.BUTTON_TTL * 1.2, budget=999)
+    for _ in range(8):
+        if not gb.dirty:
+            break
+        gb.step(0.0, budget=999)
+    btn_off = (wb.get(4, Y, 20) == B.BUTTON_OFF and wb.get(6, Y, 20) == B.LAMP_OFF)
+
+    # ⑦ 存档：**状态进档、信号不进档**
+    ws = ChunkedWorld(2026, 64, 64).generate()
+    gs = RS.PowerGrid(ws)
+    ws.set(4, Y, 30, B.LEVER_OFF)
+    ws.set(5, Y, 30, B.REDSTONE_WIRE)
+    ws.set(6, Y, 30, B.LAMP_OFF)
+    gs.mark(4, Y, 30)
+    for _ in range(8):
+        if not gs.dirty:
+            break
+        gs.step(0.0, budget=999)
+    gs.toggle_lever(4, Y, 30)
+    for _ in range(8):
+        if not gs.dirty:
+            break
+        gs.step(0.0, budget=999)
+    names = {row[3] for row in ws.dump()['edits']}
+    save_ok = (ws.get(6, Y, 30) == B.LAMP_ON and 'lamp_on' not in names
+               and 'lever_off' in names)
+
+    # ⑧ 性能：200 格网络的**一次重算**耗时
+    wp = ChunkedWorld(2026, 64, 64).generate()
+    gp = RS.PowerGrid(wp)
+    for i in range(200):
+        wp.set_generated(4 + (i % 20), Y, 4 + (i // 20), B.REDSTONE_WIRE)
+    gp.mark(4, Y, 4)
+    t0 = _t.perf_counter()
+    gp.step(0.0, budget=999)
+    dt = _t.perf_counter() - t0
+    perf_ok = dt < 0.5
+
+    ok = (decay_ok and rep_on and rep_off and lamp_ok and door_open and door_closed
+          and push_ok and chain_ok and limit_ok and dirs_ok and btn_on and btn_off
+          and save_ok and perf_ok)
+    _report('redstone', ok,
+            f'衰减={lv[:4]}…{decay_ok} 中继器(背面吃/正面吐15/断电灭)={rep_on}/{rep_off} '
+            f'灯是光源={lamp_ok} 门开(能穿过)={door_open} 门关(挡人)={door_closed} '
+            f'推1格={push_ok} 连锁12={chain_ok} 13格不动={limit_ok} 六方向={dirs_ok} '
+            f'按钮按/弹={btn_on}/{btn_off} 存档(状态进/信号不进)={save_ok} '
+            f'200格网络重算 {dt * 1000:.1f}ms={perf_ok}')
+
+
 # ---------------------------------------------------------------- 主流程
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description='mcclone3d headless 验收（零 GL）')

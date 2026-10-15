@@ -315,6 +315,197 @@ def _paint_crop(c):
             c.set(x + 1, y, (224, 196, 84))
 
 
+
+# ---------------------------------------------------------------- Phase 3：红石
+#: 红石元件的贴图（17 张）。**默认透明背景**（`fill(..., 0)`）：
+#: 拉杆/按钮/火把/中继器都是"立在地面上的小物件"，不透明的话会变成一整块方砖。
+def _paint_redstone_wire(c):
+    """红石线：透明背景 + 居中十字红线（**未通电是暗红**：亮度靠顶点色随信号变）。
+
+    ⚠ 十字要画**粗**（4 格像素 ≈ 1/4 格宽）：红石线本体只有 1/16 格高，
+    贴图再细到 2px 的话，从 9 格外的正常视角看只有一两个像素 ——
+    截图里"整条线看不见"（实测踩过）。MC 的红石线也细，但它的方块尺度更大。
+    """
+    c.fill((0, 0, 0), 0)
+    dark, mid, hot = (96, 22, 20), (152, 34, 28), (198, 56, 38)
+    arms = (6, 7, 8, 9)
+    for i in range(TILE):
+        for w in arms:
+            col = hot if i % 5 == 0 else mid
+            c.set(i, w, col)
+            c.set(w, i, col)
+    for y in range(6, 10):                    # 中心亮块（"这里有个结点"）
+        for x in range(6, 10):
+            c.set(x, y, hot if (x + y) % 2 else dark)
+
+
+def _paint_lever(c):
+    """拉杆（关）：透明背景 + 石座 + 竖直的木杆。"""
+    c.fill((0, 0, 0), 0)
+    for x in range(5, 11):
+        for y in range(12, TILE):
+            c.set(x, y, (128, 128, 124) if (x + y) % 2 else (108, 108, 104))
+    for y in range(5, 13):
+        c.set(7, y, (146, 110, 64))
+        c.set(8, y, (166, 126, 74))
+    for x in range(6, 10):
+        c.set(x, 4, (120, 88, 52))
+
+
+def _paint_lever_on(c):
+    """拉杆（开）：杆压向一侧且偏亮红 —— 一眼看出状态变了。"""
+    c.fill((0, 0, 0), 0)
+    for x in range(5, 11):
+        for y in range(12, TILE):
+            c.set(x, y, (128, 128, 124) if (x + y) % 2 else (108, 108, 104))
+    for i in range(9):
+        c.set(4 + i, 11 - i // 3, (198, 62, 44))
+        c.set(5 + i, 11 - i // 3, (222, 84, 58))
+
+
+def _paint_button(c):
+    """按钮（未按）：透明背景 + 石座 + 凸出的一块。"""
+    c.fill((0, 0, 0), 0)
+    for x in range(5, 11):
+        for y in range(9, TILE):
+            c.set(x, y, (138, 138, 132) if (x + y) % 2 else (118, 118, 112))
+    for x in range(6, 10):
+        for y in range(7, 10):
+            c.set(x, y, (172, 172, 164))
+
+
+def _paint_button_on(c):
+    """按钮（按下）：凸出那块被压回去，中心偏红。"""
+    c.fill((0, 0, 0), 0)
+    for x in range(5, 11):
+        for y in range(9, TILE):
+            c.set(x, y, (138, 138, 132) if (x + y) % 2 else (118, 118, 112))
+    for x in range(6, 10):
+        c.set(x, 10, (196, 82, 60))
+
+
+def _paint_redstone_torch(c):
+    """红石火把：木杆 + **暗红发光头**（结构与火把同款，颜色区分"信号源"）。"""
+    c.fill((0, 0, 0), 0)
+    for y in range(7, TILE):
+        c.set(7, y, (104, 78, 48))
+        c.set(8, y, (124, 96, 60))
+    for y in range(4, 7):
+        for x in range(6, 10):
+            c.set(x, y, (216, 48, 40) if (x + y) % 2 else (250, 96, 72))
+
+
+def _paint_repeater(c):
+    """中继器（未通电）：透明背景 + 石台 + 中央暗红点。"""
+    c.fill((0, 0, 0), 0)
+    for x in range(2, 14):
+        for y in range(9, TILE):
+            c.set(x, y, (146, 146, 140) if (x + y) % 3 else (126, 126, 120))
+    for x in (4, 11):
+        for y in range(6, 10):
+            c.set(x, y, (86, 60, 44))
+    for x in range(6, 10):
+        for y in range(6, 10):
+            c.set(x, y, (108, 30, 24))
+
+
+def _paint_repeater_on(c):
+    """中继器（通电）：中央红点变亮橙红。"""
+    c.fill((0, 0, 0), 0)
+    for x in range(2, 14):
+        for y in range(9, TILE):
+            c.set(x, y, (146, 146, 140) if (x + y) % 3 else (126, 126, 120))
+    for x in (4, 11):
+        for y in range(6, 10):
+            c.set(x, y, (86, 60, 44))
+    for x in range(6, 10):
+        for y in range(6, 10):
+            c.set(x, y, (236, 92, 52))
+
+
+def _paint_lamp_off(c):
+    """红石灯（灭）：暗棕红的不透光块。"""
+    c.noise((92, 40, 34), 12, 301)
+    c.speckle((72, 30, 26), 20, 302)
+
+
+def _paint_lamp_on(c):
+    """红石灯（亮）：暖橙黄亮面（与 `emissive=1.0` 配套）。"""
+    c.noise((228, 176, 96), 12, 303)
+    c.speckle((252, 226, 150), 26, 304)
+
+
+def _paint_door_lower(c):
+    """铁门下半（关）：木框 + 金属门板。"""
+    for x in range(TILE):
+        for y in range(TILE):
+            frame = x < 2 or x > 13 or y < 2 or y > 13
+            c.set(x, y, (128, 96, 62) if frame else (166, 130, 88))
+    for x in range(4, 12):
+        for y in range(4, 12):
+            c.set(x, y, (188, 168, 132) if (x + y) % 4 else (168, 148, 112))
+
+
+def _paint_door_upper(c):
+    """铁门上半（关）：下部同木框，上部留一块**铁窗格**。"""
+    for x in range(TILE):
+        for y in range(TILE):
+            frame = x < 2 or x > 13 or y < 2 or y > 13
+            c.set(x, y, (128, 96, 62) if frame else (166, 130, 88))
+    for x in range(4, 12):
+        for y in range(3, 9):
+            c.set(x, y, (152, 152, 158) if (x % 3 and y % 3) else (116, 116, 122))
+
+
+def _paint_door_open_lower(c):
+    """铁门下半（开）：**只在左右两侧留门框**，中间镂空 ⇒ 能看见对面。"""
+    c.fill((0, 0, 0), 0)
+    for x in list(range(0, 3)) + list(range(13, TILE)):
+        for y in range(TILE):
+            c.set(x, y, (128, 96, 62) if y % 4 else (150, 116, 76))
+
+
+def _paint_door_open_upper(c):
+    """铁门上半（开）：两侧门框 + 顶部横梁。"""
+    c.fill((0, 0, 0), 0)
+    for x in list(range(0, 3)) + list(range(13, TILE)):
+        for y in range(TILE):
+            c.set(x, y, (128, 96, 62) if y % 4 else (150, 116, 76))
+    for x in range(TILE):
+        for y in range(0, 3):
+            c.set(x, y, (128, 96, 62))
+
+
+def _paint_piston_side(c):
+    """活塞侧面：木板主体 + 下缘一圈铁边。"""
+    for x in range(TILE):
+        for y in range(TILE):
+            c.set(x, y, (196, 152, 96) if (x // 4 + y // 4) % 2 else (176, 134, 82))
+    for y in range(11, TILE):
+        for x in range(TILE):
+            c.set(x, y, (168, 168, 172) if x % 4 else (140, 140, 146))
+
+
+def _paint_piston_top(c):
+    """活塞顶面（推出时朝外那面）：整块铁面。"""
+    for x in range(TILE):
+        for y in range(TILE):
+            c.set(x, y, (172, 172, 176) if (x + y) % 5 else (150, 150, 156))
+    for x in range(2, 14):
+        c.set(x, 2, (198, 198, 202))
+        c.set(x, 13, (126, 126, 132))
+
+
+def _paint_piston_arm(c):
+    """活塞臂：木色长条（伸出时占据前方那一格）。"""
+    for x in range(3, 13):
+        for y in range(2, 14):
+            c.set(x, y, (198, 154, 98) if (x + y) % 6 else (178, 136, 84))
+    for x in range(3, 13):
+        c.set(x, 2, (166, 126, 76))
+        c.set(x, 13, (166, 126, 76))
+
+
 PAINTERS = {
     'stone': _paint_stone,
     'cobble': _paint_cobble,
@@ -343,18 +534,36 @@ PAINTERS = {
     'torch': _paint_torch,
     'crop': _paint_crop,
     'wool': _paint_wool,
+    'redstone_wire': _paint_redstone_wire,
+    'lever': _paint_lever,
+    'lever_on': _paint_lever_on,
+    'button': _paint_button,
+    'button_on': _paint_button_on,
+    'redstone_torch': _paint_redstone_torch,
+    'repeater': _paint_repeater,
+    'repeater_on': _paint_repeater_on,
+    'lamp_off': _paint_lamp_off,
+    'lamp_on': _paint_lamp_on,
+    'door_lower': _paint_door_lower,
+    'door_upper': _paint_door_upper,
+    'door_open_lower': _paint_door_open_lower,
+    'door_open_upper': _paint_door_open_upper,
+    'piston_side': _paint_piston_side,
+    'piston_top': _paint_piston_top,
+    'piston_arm': _paint_piston_arm,
 }
 #: 图集里的贴图顺序（**顺序即格号**，改顺序会让 UV 全变 ⇒ 有单测钉住）
 ATLAS_TILE_NAMES = tuple(sorted(PAINTERS))
 TILE_INDEX = {name: i for i, name in enumerate(ATLAS_TILE_NAMES)}
 
 #: 图集网格（列 × 行）。26 张 → 6×5=30 格（够放）；按需向上取整，改动时 UV 换算跟着走。
-#: ⚠ **列数只增不减**（Phase 2-C 从 5 提到 6）：`ATLAS_SIZE = ATLAS_COLS * TILE`
+#: ⚠ **列数只增不减**（Phase 2-C 从 5 提到 6；Phase 3 因红石元件从 6 提到 8 ——
+#:   边长 = `COLS × TILE` 是正方形假设，44 张要 6 行，列数 6 时第 7 行会溢出到图集外）：`ATLAS_SIZE = ATLAS_COLS * TILE`
 #: 是**正方形**假设 —— 行数增加而列数不变的话，第 6 行会落到图集**外面**，
 #: 那两张新矿石贴图会采样到错的东西（`test_atlas_layout` 的
 #: "矩形必须落在图集内"就是盯着这条）。改列数会让**所有贴图的 UV 变**，
 #: 这是安全的：贴图是程序化重建的，存档里只存方块名。
-ATLAS_COLS = 6
+ATLAS_COLS = 8
 ATLAS_ROWS = (len(ATLAS_TILE_NAMES) + ATLAS_COLS - 1) // ATLAS_COLS
 ATLAS_SIZE = ATLAS_COLS * TILE           # 正方形图集边长（像素）
 

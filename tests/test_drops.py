@@ -148,7 +148,10 @@ def t_as_item():
         it = R.as_item(b.id)
         if it is None:
             continue
-        assert it.id >= I.ITEM_BASE and it.block_id == b.id
+        # 别名登记的格子（如 `lever_on`）指向"关"的那件物品 ⇒ block_id 与它不同
+        assert it.id >= I.ITEM_BASE
+        assert it.block_id == b.id or B.BLOCK_ITEM_ALIAS.get(b.name) == it.name, \
+            f'{b.name} 与物品 {it.name} 的对应关系不合法'
     for bid in (B.WATER, B.BEDROCK, B.COAL_ORE, B.IRON_ORE):
         assert R.as_item(bid) is None, f'{B.name_of(bid)} 不该有对应物品'
     assert R.as_item(B.AIR) is None, '空气不该有对应物品'

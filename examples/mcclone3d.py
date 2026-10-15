@@ -492,7 +492,9 @@ class McCloneApp:
               # Phase 2-C：天气读数与截图/日志一起看（"看着像下雨"不算判据）
               f'天气={w["name"]}({w["kind"]}, 强度{w["intensity"]:.2f}, '
               f'天光×{w["light_scale"]:.2f}) '
-              f'水={k.fluid.flowing_count()}格', flush=True)
+              f'水={k.fluid.flowing_count()}格 '
+              # Phase 3：红石读数（通电格数 / 待重算数）—— 截图与日志一起看
+              f'红石={len(k.redstone.power)}格通电/待算{len(k.redstone.dirty)}', flush=True)
         return eye, d
 
     # ------------------------------------------------------------ 输入
@@ -542,9 +544,16 @@ class McCloneApp:
                     print(f'[mcclone3d] 击中 {r[0]}' + ('（致死）' if r[1] else ''),
                           flush=True)
         elif button == pyglet.window.MOUSE_RIGHT:
-            ok, at = k.place()
-            if ok:
-                print(f'[mcclone3d] 放下 {B.name_of(k.selected_block())} @ {at}', flush=True)
+            # Phase 3：右键**先试交互**（拉杆/按钮/中继器/门），没打到元件才放方块
+            # —— MC 就是这个手感，红石装置靠它操作。
+            used, info = k.use()
+            if used:
+                print(f'[mcclone3d] {info[0]} → {info[1]}', flush=True)
+            else:
+                ok, at = k.place()
+                if ok:
+                    print(f'[mcclone3d] 放下 {B.name_of(k.selected_block())} @ {at}',
+                          flush=True)
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         self.kernel.yaw += dx * 0.26

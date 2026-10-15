@@ -21,6 +21,15 @@ __all__ = [
     'PLANKS', 'GLASS', 'COBBLE', 'BRICK', 'SNOW', 'GRAVEL',
     'CRAFTING_TABLE', 'FURNACE', 'COAL_ORE', 'IRON_ORE', 'GOLD_ORE',
     'DIAMOND_ORE', 'CROP', 'BEDROCK', 'TORCH',
+    'REDSTONE_WIRE', 'LEVER_OFF', 'LEVER_ON', 'BUTTON_OFF', 'BUTTON_ON',
+    'REDSTONE_TORCH', 'REPEATER_OFF', 'REPEATER_ON', 'LAMP_OFF', 'LAMP_ON',
+    'DOOR_LOWER', 'DOOR_UPPER', 'DOOR_OPEN_LOWER', 'DOOR_OPEN_UPPER',
+    'PISTON_ARM', 'PISTON_STATES', 'PISTON_BY_DIR', 'PISTON_DIR_VEC',
+    'PISTON_DIR_OF', 'PISTON_TITLES', 'BLOCK_ITEM_ALIAS',
+    'REPEATER_STATES', 'REPEATER_BY_DIR', 'REPEATER_DIR_OF',
+    'dir_from_look', 'place_cells', 'piston_on_id', 'piston_off_id',
+    'repeater_on_id', 'repeater_off_id',
+    'door_other_half', 'door_opened', 'door_closed',
     'BLOCKS', 'BLOCK_NAMES', 'BLOCK_IDS', 'by_id', 'by_name', 'name_of', 'all_blocks',
     'is_solid', 'is_liquid', 'is_transparent', 'tile_for_face',
     'faces_of', 'face_visible', 'DEFAULT_HOTBAR', 'MAX_ID',
@@ -54,9 +63,117 @@ TORCH = 19
 GOLD_ORE = 20
 DIAMOND_ORE = 21
 CROP = 22
+# ---- Phase 3：红石（同样只追加）----
+#: 红石线：**信号强度不进 id**（不存在 16 个 id），强度由 `redstone.PowerGrid` 重算
+REDSTONE_WIRE = 23
+#: 拉杆：电源，玩家切换 ⇒ **开/关各一套 id**（状态必须能进存档）
+LEVER_OFF = 24
+LEVER_ON = 25
+#: 按钮：电源，按下后自动回弹（回弹由 `redstone` 的计时器驱动）
+BUTTON_OFF = 26
+BUTTON_ON = 27
+#: 红石火把：常亮电源（与火把同款，"信号源"而非"照明源"）
+REDSTONE_TORCH = 28
+#: 中继器：把信号续满 15（红石线 15 格就衰减到 0，长线路靠它）。
+#: ⚠ **有向**：背面吃信号、正面吐信号（MC 同款）。
+#: 初版做成"无向的放大器"（六邻都吃、六邻都吐）⇒ 它**自己给自己供电**，
+#: 一旦点亮就再也灭不掉（断电也亮，实测：拉杆关掉后中继器仍是 `_on`）。
+REPEATER_OFF = 29
+REPEATER_ON = 30
+#: 中继器的其余三个朝向（**id 必须接着 49 往下排**：这条 id 契约有单测钉着
+#: "只追加不改号、且不许断号"）。
+REPEATER_S_OFF = 50
+REPEATER_S_ON = 51
+REPEATER_E_OFF = 52
+REPEATER_E_ON = 53
+REPEATER_W_OFF = 54
+REPEATER_W_ON = 55
+#: 红石灯：输出。`LAMP_ON` 的自发光让它同时是**光源** ⇒ 与 Phase 2-A 光照联动
+LAMP_OFF = 31
+LAMP_ON = 32
+#: 铁门（1 格宽 2 格高）：关 / 开各占两格（下半 + 上半）
+DOOR_LOWER = 33
+DOOR_UPPER = 34
+DOOR_OPEN_LOWER = 35
+DOOR_OPEN_UPPER = 36
+#: 活塞：**6 个方向 × 开/关两种状态 = 12 个 id**。
+#: 为什么朝向要进 id：方块只有 id、没有额外的朝向字段，而"朝哪推"是玩法核心。
+PISTON_N_OFF = 37
+PISTON_N_ON = 38
+PISTON_S_OFF = 39
+PISTON_S_ON = 40
+PISTON_E_OFF = 41
+PISTON_E_ON = 42
+PISTON_W_OFF = 43
+PISTON_W_ON = 44
+PISTON_UP_OFF = 45
+PISTON_UP_ON = 46
+PISTON_DOWN_OFF = 47
+PISTON_DOWN_ON = 48
+#: 活塞臂（伸出时占据前方那一格）；收回时**只删臂**，被推的方块留在新位置（普通活塞不拉回）
+PISTON_ARM = 49
 
 #: 本项目用到的 id 上界（校验 / 数组尺寸用）
-MAX_ID = 31
+MAX_ID = 63
+
+#: 活塞状态表：`(方块名前缀, 关 id, 开 id)` —— 顺序 = north / south / east / west / up / down。
+#: 方向名与 `mesh.NORMALS` 同一套：**north = -z、south = +z、east = +x、west = -x**。
+PISTON_STATES = (
+    ('piston_north', PISTON_N_OFF, PISTON_N_ON),
+    ('piston_south', PISTON_S_OFF, PISTON_S_ON),
+    ('piston_east', PISTON_E_OFF, PISTON_E_ON),
+    ('piston_west', PISTON_W_OFF, PISTON_W_ON),
+    ('piston_up', PISTON_UP_OFF, PISTON_UP_ON),
+    ('piston_down', PISTON_DOWN_OFF, PISTON_DOWN_ON),
+)
+#: 方向中文名（HUD / 提示用）
+PISTON_TITLES = {'north': '朝北', 'south': '朝南', 'east': '朝东',
+                 'west': '朝西', 'up': '朝上', 'down': '朝下'}
+#: 方向 → `(关 id, 开 id)`（`redstone` 与放置逻辑都按这个查）
+PISTON_BY_DIR = {n[len('piston_'):]: (off, on) for (n, off, on) in PISTON_STATES}
+
+#: 中继器的四个朝向：`(方向, 关 id, 开 id)`。方向 = **输出方向**（正面）。
+#: 只做水平的四向（与 MC 的中继器一致），上下视线退化成 north。
+REPEATER_STATES = (
+    ('north', REPEATER_OFF, REPEATER_ON),
+    ('south', REPEATER_S_OFF, REPEATER_S_ON),
+    ('east', REPEATER_E_OFF, REPEATER_E_ON),
+    ('west', REPEATER_W_OFF, REPEATER_W_ON),
+)
+REPEATER_BY_DIR = {d: (off, on) for (d, off, on) in REPEATER_STATES}
+REPEATER_DIR_OF = {}
+for _d, _off, _on in REPEATER_STATES:
+    REPEATER_DIR_OF[_off] = _d
+    REPEATER_DIR_OF[_on] = _d
+del _d, _off, _on
+#: 方向 → 单位向量（与 `mesh.NORMALS` 的 +x/-x/+y/-y/+z/-z 同一个坐标系）
+PISTON_DIR_VEC = {'north': (0, 0, -1), 'south': (0, 0, 1), 'east': (1, 0, 0),
+                  'west': (-1, 0, 0), 'up': (0, 1, 0), 'down': (0, -1, 0)}
+#: 反向查：`(关 id, 开 id)` → 方向
+PISTON_DIR_OF = {}
+for _d, (_off, _on) in PISTON_BY_DIR.items():
+    PISTON_DIR_OF[_off] = _d
+    PISTON_DIR_OF[_on] = _d
+del _d, _off, _on
+
+#: 方块名 → **物品名**（多个状态 id 共用一个物品；`recipes.as_item` 查不到同名物品时查它）。
+#: 为什么需要：拉杆有 `lever_off`/`lever_on` 两个方块，而玩家手里只有"拉杆"一件东西。
+BLOCK_ITEM_ALIAS = {
+    'lever_off': 'lever', 'lever_on': 'lever',
+    'button_off': 'button', 'button_on': 'button',
+    'repeater_north_off': 'repeater', 'repeater_north_on': 'repeater',
+    'repeater_south_off': 'repeater', 'repeater_south_on': 'repeater',
+    'repeater_east_off': 'repeater', 'repeater_east_on': 'repeater',
+    'repeater_west_off': 'repeater', 'repeater_west_on': 'repeater',
+    'lamp_off': 'lamp', 'lamp_on': 'lamp',
+    'door_lower': 'door', 'door_upper': 'door',
+    'door_open_lower': 'door', 'door_open_upper': 'door',
+    'piston_arm': 'piston',
+}
+for _n, _off, _on in PISTON_STATES:
+    BLOCK_ITEM_ALIAS[f'{_n}_off'] = 'piston'
+    BLOCK_ITEM_ALIAS[f'{_n}_on'] = 'piston'
+del _n, _off, _on
 
 
 class Block:
@@ -122,6 +239,49 @@ def _defs():
     add(Block(BEDROCK, 'bedrock', '基岩', 'bedrock', hardness=999.0))
     add(Block(TORCH, 'torch', '火把', 'torch',
               solid=False, opaque=False, emissive=0.9))
+
+    # ---- Phase 3：红石元件 ----
+    # 红石线只有 1/16 格高：`solid=False`（能走过去）+ `opaque=False`（不挡邻面），
+    # 而**几何**由 `mesh.THIN_BLOCKS` 压扁（画成贴地的线，不是一个整方块）。
+    add(Block(REDSTONE_WIRE, 'redstone_wire', '红石线', 'redstone_wire',
+              solid=False, opaque=False, hardness=0.2))
+    add(Block(LEVER_OFF, 'lever_off', '拉杆', 'lever',
+              solid=False, opaque=False, hardness=0.3))
+    add(Block(LEVER_ON, 'lever_on', '拉杆（开）', 'lever_on',
+              solid=False, opaque=False, hardness=0.3, emissive=0.12))
+    add(Block(BUTTON_OFF, 'button_off', '按钮', 'button',
+              solid=False, opaque=False, hardness=0.3))
+    add(Block(BUTTON_ON, 'button_on', '按钮（按下）', 'button_on',
+              solid=False, opaque=False, hardness=0.3, emissive=0.12))
+    add(Block(REDSTONE_TORCH, 'redstone_torch', '红石火把', 'redstone_torch',
+              solid=False, opaque=False, hardness=0.2, emissive=0.35))
+    # 中继器：四个朝向共用两张贴图（朝向的正确性在**功能**里，不靠贴图区分 ——
+    # 这一点写进了设计稿的"已知取舍"）
+    for (d, off_id, on_id) in REPEATER_STATES:
+        add(Block(off_id, f'repeater_{d}_off', f'中继器·朝{PISTON_TITLES[d][1:]}',
+                  'repeater', solid=False, opaque=False, hardness=0.3))
+        add(Block(on_id, f'repeater_{d}_on', f'中继器·朝{PISTON_TITLES[d][1:]}（亮）',
+                  'repeater_on', solid=False, opaque=False, hardness=0.3,
+                  emissive=0.12))
+    # 红石灯：**亮的时候是真光源**（emissive=1.0）⇒ 走 Phase 2-A 的光照重算
+    add(Block(LAMP_OFF, 'lamp_off', '红石灯', 'lamp_off', hardness=0.6))
+    add(Block(LAMP_ON, 'lamp_on', '红石灯（亮）', 'lamp_on',
+              hardness=0.6, emissive=1.0))
+    # 铁门：关着 `solid=True`（挡人），开了 `solid=False`（能穿过去、看得见门框）
+    add(Block(DOOR_LOWER, 'door_lower', '铁门', 'door_lower', hardness=1.2))
+    add(Block(DOOR_UPPER, 'door_upper', '铁门（上）', 'door_upper', hardness=1.2))
+    add(Block(DOOR_OPEN_LOWER, 'door_open_lower', '铁门（开）', 'door_open_lower',
+              solid=False, opaque=False, hardness=1.2))
+    add(Block(DOOR_OPEN_UPPER, 'door_open_upper', '铁门（开·上）', 'door_open_upper',
+              solid=False, opaque=False, hardness=1.2))
+    # 活塞：本体（6 方向 × 开/关）+ 臂
+    for (name, off_id, on_id) in PISTON_STATES:
+        d = name[len('piston_'):]
+        add(Block(off_id, f'{name}_off', f'活塞·{PISTON_TITLES[d]}',
+                  'piston_side', hardness=1.0))
+        add(Block(on_id, f'{name}_on', f'活塞·{PISTON_TITLES[d]}（推出）',
+                  'piston_top', hardness=1.0))
+    add(Block(PISTON_ARM, 'piston_arm', '活塞臂', 'piston_arm', hardness=1.0))
     return out
 
 
@@ -234,7 +394,87 @@ def face_visible(block_id: int, neighbor_id: int) -> bool:
     return n != int(block_id)
 
 
-#: 默认 hotbar（名字形态，配置树与 demo 共用）
+#: 默认 hotbar（名字形态，配置树与 demo 共用）。
+#: Phase 3 起把红石元件放进来（demo 的 9 格 hotbar 因此 = 建造 + 红石各占一半）——
+#: 活塞/门/中继器**各占一个格子**：它们在放置时按视线或占格自动展开成具体状态 id。
 DEFAULT_HOTBAR = (
-    'grass', 'dirt', 'stone', 'sand', 'log', 'planks', 'glass', 'cobble', 'brick',
+    'grass', 'planks', 'redstone_wire', 'lever', 'redstone_torch',
+    'repeater', 'lamp', 'door', 'piston',
 )
+
+
+# ---------------------------------------------------------------- 放置变体
+def dir_from_look(look) -> str:
+    """视线向量 → 6 方向名（取**主导分量**，与 MC 的"朝你看的方向"一致）。"""
+    dx, dy, dz = (float(v) for v in look[:3])
+    ax, ay, az = abs(dx), abs(dy), abs(dz)
+    if ay >= ax and ay >= az:
+        return 'up' if dy >= 0 else 'down'
+    if ax >= az:
+        return 'east' if dx >= 0 else 'west'
+    return 'south' if dz >= 0 else 'north'
+
+
+def piston_on_id(bid: int) -> int:
+    """这个活塞的"推出"状态 id（不是活塞 ⇒ 原样返回）。"""
+    d = PISTON_DIR_OF.get(int(bid))
+    return PISTON_BY_DIR[d][1] if d else int(bid)
+
+
+def piston_off_id(bid: int) -> int:
+    """这个活塞的"收回"状态 id（不是活塞 ⇒ 原样返回）。"""
+    d = PISTON_DIR_OF.get(int(bid))
+    return PISTON_BY_DIR[d][0] if d else int(bid)
+
+
+def repeater_on_id(bid: int) -> int:
+    """这个中继器的"亮"状态 id（不是中继器 ⇒ 原样返回）。"""
+    d = REPEATER_DIR_OF.get(int(bid))
+    return REPEATER_BY_DIR[d][1] if d else int(bid)
+
+
+def repeater_off_id(bid: int) -> int:
+    """这个中继器的"灭"状态 id（不是中继器 ⇒ 原样返回）。"""
+    d = REPEATER_DIR_OF.get(int(bid))
+    return REPEATER_BY_DIR[d][0] if d else int(bid)
+
+
+def place_cells(block_id: int, x: int, y: int, z: int, look=(0.0, 0.0, -1.0)):
+    """放下这个方块时**实际要写的格子** `[(x, y, z, id), ...]`。
+
+    把"多格方块"与"朝向"这两件麻烦事**收口在一处**（调用方只管逐格检查空位）：
+    * 普通方块 ⇒ 一格；
+    * 铁门 ⇒ 竖着两格（下半 + 上半）；
+    * 活塞 ⇒ 按 `look`（视线）选方向的 `*_off` 状态（⚠ 存的是**关**的状态：
+      通电才推出，否则放下就伸出来了）。
+    """
+    b = int(block_id)
+    if b in (DOOR_LOWER, DOOR_UPPER, DOOR_OPEN_LOWER, DOOR_OPEN_UPPER):
+        return [(x, y, z, DOOR_LOWER), (x, y + 1, z, DOOR_UPPER)]
+    if b in PISTON_DIR_OF:
+        off, _on = PISTON_BY_DIR[dir_from_look(look)]
+        return [(x, y, z, off)]
+    if b in REPEATER_DIR_OF:
+        d = dir_from_look(look)
+        if d in ('up', 'down'):          # 中继器只做水平四向（与 MC 一致）
+            d = 'north'
+        off, _on = REPEATER_BY_DIR[d]
+        return [(x, y, z, off)]
+    return [(x, y, z, b)]
+
+
+def door_other_half(bid: int):
+    """门的那一半（下 ↔ 上）；不是门 ⇒ None。挖门/开关门都要成对处理。"""
+    return {DOOR_LOWER: DOOR_UPPER, DOOR_UPPER: DOOR_LOWER,
+            DOOR_OPEN_LOWER: DOOR_OPEN_UPPER,
+            DOOR_OPEN_UPPER: DOOR_OPEN_LOWER}.get(int(bid))
+
+
+def door_opened(bid: int) -> int:
+    """这扇门的"开"状态 id；不是门 ⇒ 原样返回。"""
+    return {DOOR_LOWER: DOOR_OPEN_LOWER, DOOR_UPPER: DOOR_OPEN_UPPER}.get(int(bid), int(bid))
+
+
+def door_closed(bid: int) -> int:
+    """这扇门的"关"状态 id；不是门 ⇒ 原样返回。"""
+    return {DOOR_OPEN_LOWER: DOOR_LOWER, DOOR_OPEN_UPPER: DOOR_UPPER}.get(int(bid), int(bid))

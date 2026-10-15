@@ -37,7 +37,7 @@ import math
 from . import textures
 from ._engine import geometry as _geo
 from ._engine import texproj as _texproj
-from .blocks import AIR, faces_of, face_visible, tile_for_face
+from .blocks import AIR, REDSTONE_WIRE, faces_of, face_visible, tile_for_face
 from .light import MAX_LIGHT
 from .world import CHUNK
 
@@ -134,6 +134,15 @@ NORMALS = {
 #: 面向光方向时的明暗系数（纯几何光照，不接光源）：顶最亮、底最暗、东西次之
 FACE_BRIGHT = {'+y': 1.00, '-y': 0.55, '+z': 0.86, '-z': 0.80, '+x': 0.72, '-x': 0.66}
 
+#: Phase 3：**画成扁平盒**的方块（高度 `THIN_H`）—— 只有红石线：
+#: 它是一个整方块高的红砖的话，既挡路又完全不像"地上的线"。
+THIN_BLOCKS = frozenset({REDSTONE_WIRE})
+#: 扁平盒的高度。**取 1/8 格**（不是 1/16）：1/16 时实测在 9 格开外会被地面顶面
+#: 的深度精度吃掉（顶面只高 0.0625 格，远处两个面抢同一段深度缓冲）⇒
+#: 截图里"主线整条看不见、只有近处的支线偶尔露出"。1/8 格既躲开这个问题，
+#: 在观感上也更像 MC 的红石线。
+THIN_H = 1.0 / 8.0
+
 
 def face_uv_quad(face: str, wx: int, wy: int, wz: int, tile_size: float = 1.0):
     """一个方块面的四个角 UV（世界坐标投影的真身，纯数学 ⇒ 可单测）。
@@ -173,23 +182,26 @@ def _atlas_uv(u: float, v: float, tile: str):
 def atlas_rect(tile: str):
     """某张贴图在图集里的**内缩后**矩形 `(u0, v0, u1, v1)`（归一化）。
 
-    ⚠ **v 要按行翻转**：引擎的实测口径是「数据第 0 行在 GL 的 v 小侧」
-    （见 `proctex.make_atlas` 的说明），而 `textures.build_atlas()` 是**第 0 行写在上边**。
-    两者相反 ⇒ 必须把"行号"翻过来（`rows-1-row`），否则整张图上下颠倒
-    （草方块会长在天上）。
+    ## 为什么用 `textures.LAYOUT` 而不是引擎的 `M3D_ATLAS.rect`
 
-    ⚠ 踩过的错法：先前是**把面上的 v 取反**（`fv = 1 - fv`）。那会让同一张贴图
-    在面的上下边取到同一行 —— 实测 `v=0` 与 `v=0.999` 落在矩形的同一侧（0.5996 / 0.4006），
-    贴图看着"对折"了。**该翻的是图集的行，不是面上的参数**。
+    2026-10-15 实测踩到：原先拿 `M3D_ATLAS.rect(tile)` 给的 v0 反推行号
+    （`int(round(v0 * rows))`），在图集**不是正方形**时才暴露 ——
+    引擎按"每格 1/cols"归一化 v，而反推用的是 `rows`，两者不相等就取到错的行。
+    Phase 3 把 `ATLAS_COLS` 从 6 提到 8（44 张贴图 ⇒ 6 行）之后，**整个世界都采样到了
+    红石线/红石灯的贴图**（截图里地形一片暗红）—— 排查了半天才发现是这里。
+
+    现在改成"**行号自己算**"：`TILE_INDEX` + `ATLAS_COLS` 是数据源，
+    `LAYOUT.uv_rect` 与 `build_atlas()` 的像素布局严格对应（`test_atlas_layout` 钉着它）。
+
+    ⚠ 只保留**一次 v 翻转**：引擎的图集把"数据第 0 行"放在 GL 的 **v 小侧**
+    （见 `proctex.make_atlas`），而 `LAYOUT.uv_rect` 给的是"第 0 行在 v 大侧"
+    ⇒ 两者相反，必须翻一次，否则整张贴图上下颠倒（草会长在天上）。
     """
-    u0, v0, u1, v1 = M3D_ATLAS.rect(tile)
-    rows = max(1, M3D_ATLAS.rows)
-    row = int(round(v0 * rows))                    # 该格的行号（0 = 数据最前 = v 小侧）
-    flip_row = rows - 1 - row                      # 换算到"第 0 行在上"的行号
-    fv0, fv1 = flip_row / rows, (flip_row + 1) / rows
-    w, h = u1 - u0, fv1 - fv0
-    return (u0 + ATLAS_PADDING * w, fv0 + ATLAS_PADDING * h,
-            u1 - ATLAS_PADDING * w, fv1 - ATLAS_PADDING * h)
+    u0, v0, u1, v1 = textures.LAYOUT.uv_rect(tile)
+    v0, v1 = 1.0 - v1, 1.0 - v0                   # 唯一的一次翻转（见 docstring）
+    w, h = u1 - u0, v1 - v0
+    return (u0 + ATLAS_PADDING * w, v0 + ATLAS_PADDING * h,
+            u1 - ATLAS_PADDING * w, v1 - ATLAS_PADDING * h)
 
 
 def light_scale(level: int) -> float:
@@ -227,7 +239,7 @@ def light_color(rgb, level: int, night: float = 0.0):
 
 
 def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
-                 tile_size: float = 1.0):
+                 tile_size: float = 1.0, height: float = 1.0):
     """追加一个面：几何 + 法向 + **投影 UV → 图集 UV**。
 
     `build_chunk_mesh`（区块批量）与 `box_faces`（单块）**都走这里** ——
@@ -236,6 +248,10 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
     顶点色（`v_col.rgb`）在 Phase 2-A 起 = **面亮度 × 光照系数**（见 `light_color`）：
     `mb.light_of` 是调用方给的"查光函数"，默认 None ⇒ 系数 1（**不传就保持旧行为**，
     这样单测/无光照路径拿到的顶点色与 Phase 1 逐字节相同）。
+    Phase 3 又乘一层**红石信号系数**（`mb.power_of`，同样默认 None ⇒ 不影响旧行为）。
+
+    `height` 是**方块高度缩放**（1.0 = 整方块）：红石线要贴地画成 1/16 的扁盒
+    （`THIN_BLOCKS`）。只缩放 y 偏移，UV/法向不变 ⇒ 顶面仍是完整的"十字"贴图。
     """
     corners = _CORNERS[face]
     uvs = face_uv_quad(face, x, y, z, tile_size)
@@ -245,12 +261,18 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
     if mb.light_of is not None:
         level = mb.light_of(x, y, z, n[0], n[1], n[2])
     col = light_color(bright, level, mb.night)
+    if mb.power_of is not None:
+        pw = mb.power_of(x, y, z)
+        if pw is not None:
+            # 信号越弱越暗（0 → 35% 亮度）：一眼看出"这条线通到哪里为止"
+            k = 0.35 + 0.65 * (max(0, min(15, int(pw))) / 15.0)
+            col = (col[0] * k, col[1] * k, col[2] * k)
     base = len(mb.positions) // 3
     for (cx, cy, cz), (u, v) in zip(corners, uvs):
         # ⚠ `array.array` 的 `+=` 只吃 array，不吃 tuple（实测 TypeError）——
         # 用 `append` 逐个加，代价一样是 O(1)，但没有这层类型陷阱。
         mb.positions.append(x + cx)
-        mb.positions.append(y + cy)
+        mb.positions.append(y + cy * height)
         mb.positions.append(z + cz)
         mb.normals.append(n[0])
         mb.normals.append(n[1])
@@ -291,9 +313,9 @@ class _MeshBuilder:
     """在 `array.array('f')` 上累积网格（与引擎 `blocks.mesh_world` 同一套做法）。"""
 
     __slots__ = ('positions', 'normals', 'uvs', 'colors', 'indices', 'faces',
-                 'light_of', 'night')
+                 'light_of', 'night', 'power_of')
 
-    def __init__(self, light_of=None, night: float = 0.0):
+    def __init__(self, light_of=None, night: float = 0.0, power_of=None):
         self.positions = array.array('f')
         self.normals = array.array('f')
         self.uvs = array.array('f')
@@ -304,6 +326,9 @@ class _MeshBuilder:
         self.light_of = light_of
         #: 夜色强度 0..1（只影响顶点色的偏蓝，不影响几何）
         self.night = float(night)
+        #: Phase 3：查**红石信号**的函数 `(x,y,z) -> 0..15 或 None`。
+        #: 返回 None = "这个方块跟红石无关"（保持原色）；红石线按强度调暗到 35%。
+        self.power_of = power_of
 
     def empty(self) -> bool:
         return not self.indices
@@ -376,7 +401,8 @@ def build_mob_mesh(kind, *, tile: str = 'wool'):
 
 
 def build_chunk_mesh(world, cx: int, cy: int, cz: int, *, debug: bool = False,
-                     tile_size: float = 1.0, light_of=None, night: float = 0.0):
+                     tile_size: float = 1.0, light_of=None, night: float = 0.0,
+                     power_of=None):
     """建一个区块的网格（只出可见面）。
 
     返回 `(_MeshBuilder, stats)`；`stats` 含面数/顶点数/三角形数 —— 单测用它
@@ -390,7 +416,7 @@ def build_chunk_mesh(world, cx: int, cy: int, cz: int, *, debug: bool = False,
     if debug:
         _DEBUG_ON = True
         UV_DEBUG.clear()
-    mb = _MeshBuilder(light_of=light_of, night=night)
+    mb = _MeshBuilder(light_of=light_of, night=night, power_of=power_of)
     x0, y0, z0 = cx * CHUNK, cy * CHUNK, cz * CHUNK
     get = world.get
     for lx in range(CHUNK):
@@ -416,7 +442,9 @@ def build_chunk_mesh(world, cx: int, cy: int, cz: int, *, debug: bool = False,
                     tile = tile_for_face(b, face)
                     if not tile:
                         continue
-                    _append_face(mb, face, x, y, z, tile, tile_size)
+                    # Phase 3：红石线画成贴地的扁盒（`THIN_H` 高），其余方块整格
+                    h = THIN_H if b in THIN_BLOCKS else 1.0
+                    _append_face(mb, face, x, y, z, tile, tile_size, height=h)
     if debug:
         _DEBUG_ON = False
     stats = mb.stats()

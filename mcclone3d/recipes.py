@@ -15,10 +15,14 @@ Phase 0 的"挖了就进背包"是简化；Phase 1 起"挖"与"得到"分开（�
 from __future__ import annotations
 
 from . import items as I
-from .blocks import (BEDROCK, BRICK, COAL_ORE, COBBLE, CRAFTING_TABLE, CROP,
-                     DIAMOND_ORE, DIRT, FURNACE, GLASS, GOLD_ORE, GRASS,
-                     GRAVEL, IRON_ORE, LEAVES, LOG, PLANKS, SAND, SNOW, STONE,
-                     TORCH, WATER)
+from .blocks import (BEDROCK, BLOCK_ITEM_ALIAS, BRICK, BUTTON_OFF, BUTTON_ON,
+                     COAL_ORE, COBBLE, CRAFTING_TABLE, CROP, DIAMOND_ORE, DIRT,
+                     DOOR_LOWER, DOOR_OPEN_LOWER, DOOR_OPEN_UPPER, DOOR_UPPER,
+                     FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE, LAMP_OFF,
+                     LAMP_ON, LEAVES, LEVER_OFF, LEVER_ON, LOG, PISTON_ARM,
+                     PISTON_STATES, PLANKS, REDSTONE_TORCH, REDSTONE_WIRE,
+                     REPEATER_OFF, REPEATER_ON, SAND, SNOW, STONE, TORCH, WATER,
+                     name_of)
 
 __all__ = ['drops_for', 'Recipe', 'RECIPES', 'recipe_by_id', 'recipes_for',
            'craftable', 'craft', 'consume', 'smelt_recipes', 'craft_recipes',
@@ -30,8 +34,17 @@ _BLOCK_ITEM = {it.block_id: it for it in I.all_items() if it.is_block}
 
 
 def as_item(block_id: int):
-    """方块 id → 对应的物品（放下来是方块的那个）。没有对应物品时返回 None。"""
-    return _BLOCK_ITEM.get(int(block_id))
+    """方块 id → 对应的物品（放下来是方块的那个）。没有对应物品时返回 None。
+
+    Phase 3：**状态 id 会回退到别名**（`lever_on` → `lever`）——
+    否则"挖掉开着的拉杆"会什么都不掉（`_BLOCK_ITEM` 里只有关状态的 id）。
+    """
+    i = int(block_id)
+    it = _BLOCK_ITEM.get(i)
+    if it is not None:
+        return it
+    alias = BLOCK_ITEM_ALIAS.get(name_of(i))
+    return I.ITEMS_BY_NAME.get(alias) if alias else None
 
 
 def output_item(block_id: int, fallback_name: str):
@@ -66,7 +79,22 @@ DROP_TABLE = {
     TORCH: ('torch', 1, 1),
     # 作物：打掉掉小麦（村庄农田的**玩法闭环** —— 收麦 → 3 麦烤 1 面包）
     CROP: ('wheat', 1, 2),
+    # ---- Phase 3：红石元件（每种状态都掉回**同一件东西**）----
+    REDSTONE_WIRE: ('redstone_wire', 1, 1),
+    LEVER_OFF: ('lever', 1, 1), LEVER_ON: ('lever', 1, 1),
+    BUTTON_OFF: ('button', 1, 1), BUTTON_ON: ('button', 1, 1),
+    REDSTONE_TORCH: ('redstone_torch', 1, 1),
+    REPEATER_OFF: ('repeater', 1, 1), REPEATER_ON: ('repeater', 1, 1),
+    LAMP_OFF: ('lamp', 1, 1), LAMP_ON: ('lamp', 1, 1),
+    DOOR_LOWER: ('door', 1, 1), DOOR_UPPER: ('door', 1, 1),
+    DOOR_OPEN_LOWER: ('door', 1, 1), DOOR_OPEN_UPPER: ('door', 1, 1),
+    PISTON_ARM: ('piston', 1, 1),
 }
+#: 活塞的 12 个状态也各掉一个活塞（表是生成的 —— 手写 12 行太容易漏）
+for _n, _off, _on in PISTON_STATES:
+    DROP_TABLE[_off] = ('piston', 1, 1)
+    DROP_TABLE[_on] = ('piston', 1, 1)
+del _n, _off, _on
 
 #: 树叶的"偶发掉落"（树叶本身不掉，但有小概率掉苹果 —— 这里当"树苗/果子"用）
 LEAVES_RARE = ('apple', 1, 1, 0.25)     # (物品名, 下限, 上限, 概率)
