@@ -339,6 +339,15 @@ class McCloneApp:
         self._hud_pos = [0.0] * (self._hud_dyn_max * 18)
         self._hud_col = [1.0] * (self._hud_dyn_max * 24)
         self._hud_used_quads = 0
+        # --- Phase 2-C 天气：屏幕空间降水（雨=竖线，雪=短线+摆动）---
+        # 复用 `ui_prog`（NDC 顶点表 + uniform 颜色），不引第二套着色器。
+        self._rain_max = 320
+        self._rain = self.ui_prog.vertex_list(self._rain_max * 2, GL_LINES,
+                                              position=('f', [0.0] * (self._rain_max * 6)),
+                                              colors=('f', [1.0] * (self._rain_max * 8)))
+        self._rain_pos = [0.0] * (self._rain_max * 6)
+        self._rain_col = [1.0] * (self._rain_max * 8)
+        self._rain_t = 0.0
         print(f'[mcclone3d] 图集 {size}x{size} / {len(textures.ATLAS_TILE_NAMES)} 张贴图，'
               f'着色器 3 套 + HUD 就绪', flush=True)
 
@@ -462,6 +471,7 @@ class McCloneApp:
         """
         k = self.kernel
         eye, target = self._camera()
+        w = k.weather_state()                # Phase 2-C：天气快照（打印与截图对拍用）
         d = k.look_dir()
         inside = 0
         total = 0
@@ -478,7 +488,11 @@ class McCloneApp:
               f'块表={len(self._verts)}（近处 {inside}）'
               f' 面总数={k.mesh_stats()["faces"]} '
               f'proj[0]={self.window.projection[0]:.3f} '
-              f'定值面={k.world.get(128, 32, 128)}', flush=True)
+              f'定值面={k.world.get(128, 32, 128)} '
+              # Phase 2-C：天气读数与截图/日志一起看（"看着像下雨"不算判据）
+              f'天气={w["name"]}({w["kind"]}, 强度{w["intensity"]:.2f}, '
+              f'天光×{w["light_scale"]:.2f}) '
+              f'水={k.fluid.flowing_count()}格', flush=True)
         return eye, d
 
     # ------------------------------------------------------------ 输入
@@ -677,6 +691,8 @@ class McCloneApp:
         # 生物在方块**之后**画（它们有实心几何，得参与深度测试）
         self._sync_mob_verts()
         self._draw_selection()
+        self._update_precip(1 / 60.0)
+        self._draw_precip()
         self._draw_overlay()
         if self._shot_pending is not None:
             self._capture(self._shot_pending)
@@ -738,6 +754,76 @@ class McCloneApp:
         self.line_prog['u_origin'] = (x - 0.002, y - 0.002, z - 0.002)
         self.line_prog['u_color'] = (0.05, 0.05, 0.05, 0.9)
         self.box.draw(GL_LINES)
+
+    # ------------------------------------------------------------ 天气粒子
+    #: 降水粒子的确定性伪随机（不用 random —— 回放要对得上）
+    @staticmethod
+    def _rnd(i: int, salt: int) -> float:
+        return ((i * 2654435761 + salt * 40503) & 0x7FFFFFFF) / 2147483647.0
+
+    def _update_precip(self, dt: float):
+        """屏幕空间降水（**纯表现层**：不参与任何玩法判定）。
+
+        雨是竖直短线、雪是慢速短线 + 横向摆动；到底部即回到顶部循环。
+        用屏幕 NDC 坐标，不做深度测试 ⇒ 永远画在最前（雨雪在镜头前）。
+        """
+        k = self.kernel
+        st = k.weather_state()
+        kind, inten = st['kind'], st['intensity']
+        self._rain_t += dt
+        if kind == 'clear' or inten <= 0.02:
+            # ⚠ **不要**在这里 resize + 写空数据：`resize(2)` 之后
+            # `set_attribute_data` 收到的是整表长度的数组 ⇒ ValueError
+            # （"Expected 6, got 1920"，实测踩过）。晴天压根不画，直接返回。
+            return
+        snow = (kind == 'snow')
+        speed = 1.35 if snow else 3.2
+        n = int(self._rain_max * min(1.0, inten))
+        n += n % 2
+        pos, col = self._rain_pos, self._rain_col
+        t = self._rain_t
+        for i in range(n):
+            sx = self._rnd(i, 1) * 2.0 - 1.0                  # 起始 x（NDC）
+            phase = self._rnd(i, 2)
+            # ⚠ y 的初相位必须**按序号均匀铺满整个周期**（`i / n * SPAN`），
+            #   不能只靠 `phase * 常数`：那样 320 条线会挤成几团"锯齿粗线"
+            #   （实测截图里只看得见 2~3 条）。速度只做 ±20% 微差，保持自然。
+            fall = (t * speed * (0.8 + 0.4 * phase) + (i / max(1.0, n)) * 2.6) % 2.6
+            sy = 1.0 - fall / 1.3                            # 1 → -1 循环
+            x = sx + (0.03 * math.sin(t * 1.7 + i) if snow else 0.0)
+            ln = 0.028 if snow else 0.075
+            j = i * 6
+            pos[j] = x; pos[j + 1] = sy; pos[j + 2] = 0.0
+            pos[j + 3] = x + (0.012 if snow else 0.004)
+            pos[j + 4] = sy - ln; pos[j + 5] = 0.0
+            c = i * 8
+            a = 0.55 + 0.35 * inten
+            for q in range(2):
+                col[c + q * 4] = 1.0
+                col[c + q * 4 + 1] = 1.0
+                col[c + q * 4 + 2] = 1.0
+                col[c + q * 4 + 3] = a
+        # ⚠ `resize` 收的是**顶点数**，而 n 是**线段数** ⇒ 必须 ×2
+        #   （漏了会报 "Expected 960, got 1920"，实测踩过）
+        self._rain.resize(max(2, n * 2))
+        self._rain.set_attribute_data('position', pos[:n * 6])
+        self._rain.set_attribute_data('colors', col[:n * 8])
+
+    def _draw_precip(self):
+        st = self.kernel.weather_state()
+        if st['kind'] == 'clear' or st['intensity'] <= 0.02:
+            return
+        # ⚠ **必须关深度测试**（同 `_draw_overlay`）：粒子在 NDC 的 z=0，
+        #   而世界几何的深度更小 ⇒ 开着深度测试时**只有天空区域的雨线可见**，
+        #   地面上的全被地形遮住（实测：满屏只看得见 2~3 条）。
+        glDisable(GL_DEPTH_TEST)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        self.ui_prog.use()
+        self.ui_prog['u_color'] = (1.0, 1.0, 1.0, 0.75)
+        self._rain.draw(GL_LINES)
+        glDisable(GL_BLEND)
+        glEnable(GL_DEPTH_TEST)
 
     def _draw_overlay(self):
         """准星 + HUD（血条 / 饥饿条 / hotbar / 死亡遮罩）。顶点已是 NDC。"""

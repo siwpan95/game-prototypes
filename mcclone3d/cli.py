@@ -862,6 +862,105 @@ def c_caves():
             f'洞内黑{dark}/亮{lit}={dark_ok} 生成 {t_gen:.2f}s={time_ok}')
 
 
+@check('water')
+def c_water():
+    """Phase 2-C 第二批：挖穿海床 ⇒ 水沿垂直灌进洞；一次性收敛；不进存档。"""
+    from mcclone3d import blocks as BB
+    k = make_offline({'seed': 2026, 'size': 128, 'height': 64, 'light': False})
+    w = k.world
+    sea = w.sea_level
+    # 找一处海底地形
+    spot = None
+    for x in range(10, w.size - 10):
+        for z in range(10, w.size - 10):
+            h = w.surface_at(x, z)
+            if h < sea:
+                spot = (x, z, h)
+                break
+        if spot:
+            break
+    if spot is None:
+        _report('water', False, '世界里没有海底地形（海平面算错了）')
+        return
+    x, z, h = spot
+    edits0 = len(w.edits)
+    # 模拟玩家挖穿海床下方 6 格（逐格 disturb，模拟 dig 的触发）
+    for dy in range(0, 7):
+        w.set_generated(x, h - dy, z, BB.AIR)
+        k.fluid.disturb(w, x, h - dy, z)
+    for _ in range(4):
+        k.fluid_step(0.05)
+    poured = k.fluid.flowing_count()
+    # ① 水柱连续（不能一格水一格空）
+    column = [B.name_of(w.get(x, y, z)) for y in range(h - 6, h + 1)]
+    filled = poured >= 7 and column[0] == 'water' \
+        and column[-1] in ('water', 'sand')
+    # ② 收敛：一个 tick 完成，之后完全静止
+    for _ in range(200):
+        k.fluid_step(0.05)
+    settled = (k.fluid.flowing_count() == poured and not k.fluid.active)
+    # ③ 不进存档
+    no_edit = len(w.edits) == edits0
+    names = {row[3] for row in k.dump()['world']['edits']}
+    # ④ 内陆洞不进水
+    dry = None
+    for ax in range(10, w.size - 10, 3):
+        for az in range(10, w.size - 10, 3):
+            ah = w.surface_at(ax, az)
+            if ah > sea + 6:
+                dry = (ax, az, ah)
+                break
+        if dry:
+            break
+    inland_ok = True
+    if dry:
+        ax, az, ah = dry
+        for dy in range(0, 5):
+            w.set_generated(ax, ah - dy, az, BB.AIR)
+            k.fluid.disturb(w, ax, ah - dy, az)
+        k.fluid_step(0.05)
+        inland_ok = w.get(ax, ah - 4, az) != BB.WATER
+    ok = filled and settled and no_edit and ('water' not in names) and inland_ok
+    _report('water', ok,
+            f'灌入={poured}格 水柱连续={filled} 静止收敛={settled} '
+            f'不进增量={no_edit}(存档含水={"water" in names}) 内陆不进水={inland_ok}')
+
+
+@check('weather')
+def c_weather():
+    """Phase 2-C 第二批：天气判据 / 天光乘子 / 确定性 / 粒子口径。"""
+    from mcclone3d import weather as WX
+    wc = WX.WeatherCycle(2026)
+    # ① 强度范围 + 晴雨雪都有
+    vals = [wc.intensity_at(i * 1.0) for i in range(3600)]
+    rng_ok = all(0.0 <= v <= 1.0 for v in vals)
+    clear_ratio = sum(1 for v in vals if v < 0.15) / len(vals)
+    # ② 找到一段下雨的时刻，验雨/雪分流与天光乘子
+    t_rain = next((i * 0.5 for i in range(4000)
+                   if wc.kind_at(i * 0.5, day_factor=1.0) == WX.RAIN), None)
+    split_ok = t_rain is not None and wc.kind_at(t_rain, day_factor=0.2) == WX.SNOW
+    scale = WX.weather_light_scale(WX.RAIN, 1.0)
+    scale_ok = 0.7 < scale < 1.0 and scale < WX.weather_light_scale(WX.SNOW, 1.0)
+    # ③ 确定性：同种子同时刻一致；换种子不同
+    det = all(wc.intensity_at(t) == WX.WeatherCycle(2026).intensity_at(t)
+              for t in (0.0, 90.0, 361.0))
+    other = WX.WeatherCycle(777)
+    seed_ok = any(other.kind_at(i * 90 + 45, day_factor=1.0)
+                  != wc.kind_at(i * 90 + 45, day_factor=1.0) for i in range(1, 30))
+    # ④ 内核：固定天气口 + 天光真的被压暗
+    ks = [make_offline({'seed': 2026, 'size': 32, 'height': 32, 'light': False,
+                        'weather': kind}).day_factor()
+          for kind in (WX.CLEAR, WX.RAIN, WX.SNOW)]
+    kernel_ok = ks[1] < ks[2] < ks[0]
+    ok = rng_ok and 0.2 < clear_ratio < 0.85 and split_ok and scale_ok \
+        and det and seed_ok and kernel_ok
+    _report('weather', ok,
+            f'强度∈[0,1]={rng_ok} 晴天占比={clear_ratio:.0%} '
+            f'日雨夜雪={split_ok} 天光乘子={scale:.2f}(雨<雪)={scale_ok} '
+            f'确定性={det} 换种子不同={seed_ok} '
+            f'内核压暗 晴{ks[0]:.3f}/雪{ks[2]:.3f}/雨{ks[1]:.3f}={kernel_ok}')
+
+
 # ---------------------------------------------------------------- 主流程
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description='mcclone3d headless 验收（零 GL）')

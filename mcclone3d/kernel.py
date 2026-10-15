@@ -151,7 +151,22 @@ class McCloneKernel(Service):
         #: 例如测"僵尸会不会追上来打人"，如果时间在走，天亮时僵尸会被晒死，
         #: 于是判据变成"能不能在 2 秒内追上"，与它想测的东西无关（实测踩过）。
         self.cycle.paused = bool(cfg.get('time_paused', False))
+        # --- Phase 2-C：天气（**由时刻+种子决定**，与昼夜同口径；不进存档） ---
+        from .weather import WeatherCycle
+        self.weather = WeatherCycle(self.seed)
+        if cfg.get('weather') is not None:
+            self.weather_kind = str(cfg['weather'])       # 固定天气（判据/截图用）
+        else:
+            self.weather_kind = None
         self.light = LightEngine(self.world)
+        # --- Phase 2-C：水流（元状态**可由「源 + 方块」完全重算** ⇒ 不进存档） ---
+        #: 生成时的水全部标成源（海/湖是无限水源，MC 同款）；玩家挖出来的水
+        #: 才是"非源"，会 level 衰减并干涸。见 `fluid.FluidSystem` 的模型说明。
+        from . import fluid as FL
+        self.fluid = FL.FluidSystem()
+        self.fluid.mark_sources(self.world)
+        #: 水流计时器（累加到 `FLUID_INTERVAL` 才跑一步）
+        self._fluid_t = 0.0
         #: 全局天光列传播**默认做一次**（与高度成正比，很快）。
         #: `light=False` 可以跳过 —— 给"完全不关心光照"的体检/单测用
         #: （否则每个 `make_offline` 都要付一次全图列传播；CLI 一次跑十几个内核，
@@ -243,6 +258,12 @@ class McCloneKernel(Service):
         else:
             self.world.generate()
             self.world.plant_trees()
+        # 世界重建 ⇒ 源与水位全部作废，重新标记（否则会拿着旧世界的坐标去演化）
+        from . import fluid as FL
+        self.fluid = FL.FluidSystem()
+        self.fluid.mark_sources(self.world)
+        #: 水流计时器（累加到 `FLUID_INTERVAL` 才跑一步）
+        self._fluid_t = 0.0
         self._init_player()
         self.revision += 1
         self.dirty_chunks = set(self.world.chunks)
@@ -440,6 +461,9 @@ class McCloneKernel(Service):
         if not self.world.set(x, y, z, B.AIR):
             return False, None
         self._mark_dirty(x, y, z)
+        # Phase 2-C：挖穿池底/洞顶时**邻域的水要重新演化**（`disturb` 只加活跃格，
+        # 演化在 `fluid_step`）。这是"挖开 ⇒ 排水 / 灌水"的触发点。
+        self.fluid.disturb(self.world, x, y, z)
         self.stats['dug'] += 1
         self.dig_target, self.dig_progress = None, 0.0
 
@@ -497,6 +521,8 @@ class McCloneKernel(Service):
             return False, None
         if self.world.set(tx, ty, tz, bid):
             self._mark_dirty(tx, ty, tz)
+            # Phase 2-C：在水里筑坝 ⇒ 挡住的水要重新演化（往上积水或干涸）
+            self.fluid.disturb(self.world, tx, ty, tz)
             self.stats['placed'] += 1
             if not self.creative:
                 self.take(it.id, 1)
@@ -797,9 +823,31 @@ class McCloneKernel(Service):
         sk = self.light.sky(x, y, z)
         return (int(round(max(blk, sk * df))), blk, sk)
 
+    def weather_state(self) -> dict:
+        """当前天气一行快照（`kind/name/intensity/light_scale`）。
+
+        `weather='rain'` 配置口会**固定**天气（截图与判据要可复现，
+        而自然天气是"每 90s 一段"的）。
+        """
+        if getattr(self, 'weather_kind', None):
+            from .weather import describe_weather, weather_light_scale
+            return {'kind': self.weather_kind,
+                    'name': describe_weather(self.weather_kind),
+                    'intensity': 1.0,
+                    'light_scale': weather_light_scale(self.weather_kind, 1.0)}
+        return self.weather.state_at(self.cycle.time,
+                                     day_factor=self.cycle.sky()['day_factor'])
+
     def day_factor(self) -> float:
-        """当前"天有多亮"（0..1）—— 光照与天空配色同源（见 `sun.py`）。"""
-        return self.cycle.sky()['day_factor']
+        """当前"天有多亮"（0..1）—— 光照与天空配色同源（见 `sun.py`）。
+
+        Phase 2-C：**再乘一层天气**（雨天 ×0.72 / 雪天 ×0.80）。
+        口径只有这一处，所以光照、天空色、生物自燃判据看到的都是同一个值
+        —— 不会出现"天还亮着但地面已经按雨天暗下来了"这种分裂。
+        """
+        base = self.cycle.sky()['day_factor']
+        w = self.weather_state()
+        return base * w['light_scale']
 
     def face_light(self, x: int, y: int, z: int, nx: int, ny: int, nz: int) -> int:
         """某个面外侧那格的亮度（网格顶点色用它上色）。"""
@@ -913,10 +961,12 @@ class McCloneKernel(Service):
         self._post_step(dt, before)
 
     def _post_step(self, dt: float, before):
-        """一帧收尾：位移统计 → 生存结算 → 掉落物 → 拾取 → 熔炉 → 生物。
+        """一帧收尾：位移统计 → 生存结算 → 掉落物 → 拾取 → 熔炉 → 生物 → 水流。
 
         顺序有讲究：**先生存结算再拾取**（这一帧饿死就不该再捡东西），
-        生物放最后（它会通过 `hurt` 反过来影响玩家血量，所以要在玩家结算之后）。
+        生物放最后（它会通过 `hurt` 反过来影响玩家血量，所以要在玩家结算之后），
+        **水流放最后**：它改的是方块，而 `_mark_dirty` 必须在网格重建之前发生
+        （否则水会"改了但网格不更新"，看着像渲染丢了水）。
         """
         moved = math.dist(self.pos, before) if hasattr(math, 'dist') else (
             sum((a - b) ** 2 for a, b in zip(self.pos, before)) ** 0.5)
@@ -925,6 +975,26 @@ class McCloneKernel(Service):
         self.pickup_nearby()
         self.furnace_step(dt)
         self.update_mobs(dt)
+        self.fluid_step(dt)
+
+    # ============================================================== 水流
+    #: 每帧最多处理多少水格（**防卡顿的硬预算**：挖开一个湖可能瞬间激活上万格）
+    FLUID_BUDGET = 2048
+    #: 水流 tick 的间隔（秒）。水不需要每帧都算 —— 0.05s 一次足够，
+    #: 而且**与帧率无关**（30/60/120Hz 在同一 dt 下走过同样次数）。
+    FLUID_INTERVAL = 0.05
+
+    def fluid_step(self, dt: float = 1.0 / 60.0) -> int:
+        """按固定间隔推进一步水流（dt 只用于累加计时）。返回本 tick 灌注的格数。
+
+        ⚠ 间隔到点就把累加器**清零**（不补齐余数）—— 灌注是幂等的，
+        漏掉一帧不会留下"永远差一点"的半格状态。
+        """
+        self._fluid_t = self._fluid_t + float(dt)
+        if self._fluid_t < self.FLUID_INTERVAL:
+            return 0
+        self._fluid_t = 0.0
+        return self.fluid.step(self.world, budget=self.FLUID_BUDGET)
 
     # ============================================================== 生物
     def mob_context(self) -> AI.MobContext:
@@ -1314,6 +1384,16 @@ class McCloneKernel(Service):
         self.height = int(wd['height'])
         self.world = ChunkedWorld(self.seed, self.size, self.height)
         self.world.load(wd)
+        # Phase 2-C：世界是**重建**的 ⇒ 水的源/水位全部作废，重新标记。
+        # 读档后水会自己再流一遍收敛到同样状态（与"光源不进存档"同口径）。
+        from . import fluid as FL
+        self.fluid = FL.FluidSystem()
+        self.fluid.mark_sources(self.world)
+        #: 水流计时器（累加到 `FLUID_INTERVAL` 才跑一步）
+        self._fluid_t = 0.0
+        # 水本身不进存档（可由源重算），但**洞还在增量里** ⇒ 必须重灌一遍，
+        # 否则读档回来洞是干的（实测：读档后水量 0）。
+        self.fluid.repour_all(self.world)
         p = data['player']
         self.pos = [float(v) for v in p['pos']]
         self.vel = [float(v) for v in p.get('vel', (0, 0, 0))]

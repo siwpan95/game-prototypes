@@ -41,6 +41,8 @@ MODULES = [
     ('tests.test_ai', 'ALL_AI_TESTS_PASSED', '生物 AI / 刷怪 / 攻击'),
     # --- Phase 2-C 新增（洞穴与矿脉分层）---
     ('tests.test_caves', 'ALL_CAVES_TESTS_PASSED', '洞穴生成与护栏'),
+    ('tests.test_fluid', 'ALL_FLUID_TESTS_PASSED', '水流灌注与洞内进水'),
+    ('tests.test_weather', 'ALL_WEATHER_TESTS_PASSED', '天气状态机与天光影响'),
 ]
 
 
