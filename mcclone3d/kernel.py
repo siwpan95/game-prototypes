@@ -136,6 +136,9 @@ class McCloneKernel(Service):
         self.height = int(cfg.get('height', WORLD_HEIGHT))
         self.creative = bool(cfg.get('creative', True))
         self.reach = float(cfg.get('reach', REACH))
+        #: Phase 3-C：顶点级 AO（平滑光照）。默认**开**（纯观感，不影响任何玩法判据）；
+        #: `smooth: false` 可关 —— 截图脚本靠它拍"开/关对照"。
+        self.smooth = bool(cfg.get('smooth', True))
         hotbar_names = cfg.get('hotbar') or list(DEFAULT_HOTBAR)
         # hotbar 里放的是**物品 id**（方块物品同名），这样手持工具/食物也能进 hotbar
         self.hotbar = [I.item_by_name(n).id for n in hotbar_names]
@@ -1462,7 +1465,8 @@ class McCloneKernel(Service):
         for key in todo[:max(1, limit)]:
             mb, st = build_chunk_mesh(self.world, *key,
                                       light_of=self.face_light, night=night,
-                                      power_of=self._redstone_power_for_mesh)
+                                      power_of=self._redstone_power_for_mesh,
+                                      smooth=self.smooth)
             self._meshes[key] = (mb, st)
             self._built.add(key)
             self.dirty_chunks.discard(key)

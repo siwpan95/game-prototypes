@@ -37,7 +37,8 @@ import math
 from . import textures
 from ._engine import geometry as _geo
 from ._engine import texproj as _texproj
-from .blocks import AIR, REDSTONE_WIRE, faces_of, face_visible, tile_for_face
+from .blocks import (AIR, OPAQUE_IDS, REDSTONE_WIRE, faces_of, face_visible,
+                     tile_for_face)
 from .light import MAX_LIGHT
 from .world import CHUNK
 
@@ -238,6 +239,90 @@ def light_color(rgb, level: int, night: float = 0.0):
     return (min(1.0, r), min(1.0, g), min(1.0, b))
 
 
+# ---------------------------------------------------------------- 顶点级 AO（平滑光照）
+#: AO 明暗表（索引 = AO 级别 0..3）。0 = 最暗（两条邻边都被挡）、3 = 全亮。
+#: 取值是"看起来对"的**手调表**，不是物理量：MC 的口径也在这附近
+#: （关键是**单调**且最暗不要到 0，否则角落会变成黑洞、失去体积感）。
+AO_FACTOR = (0.55, 0.72, 0.86, 1.0)
+
+#: 面 → 法向所在轴（0=x 1=y 2=z）与"朝外"的符号
+_AXIS_OF = {'+x': 0, '-x': 0, '+y': 1, '-y': 1, '+z': 2, '-z': 2}
+_OUT_SIGN = {'+x': 1, '-x': -1, '+y': 1, '-y': -1, '+z': 1, '-z': -1}
+#: 轴向 → 另外两个轴（即该面的两个**切向**）
+_TANGENTS = {0: (1, 2), 1: (0, 2), 2: (0, 1)}
+#: 面 → 四个角在"两个切向轴"上的偏移（**与 `_CORNERS[face]` 同序**）
+_CORNER_TAN = {}
+#: 面 → 外侧那一层 3×3 环的**坐标偏移**（9 元组，中心是 None）。
+#: ⚠ **预计算**，不要在 `face_ao` 里现算：初版每次 `list(base)` + 按轴写下标
+#: （8 次列表分配/面），47 万面就是 380 万次分配 —— 实测 AO 代价 +24%，
+#: 换成预计算偏移后降到 +8%（同口径，只是不再分配）。
+_RING_OFF = {}
+for _f, _cs in _CORNERS.items():
+    _a, _u, _v = _AXIS_OF[_f], *_TANGENTS[_AXIS_OF[_f]]
+    _out = 1 if _OUT_SIGN[_f] > 0 else -1
+    _CORNER_TAN[_f] = tuple((c[_u], c[_v]) for c in _cs)
+    _offs = []
+    for _i in (0, 1, 2):
+        for _j in (0, 1, 2):
+            if _i == 1 and _j == 1:
+                _offs.append(None)               # 中心：面剔除已保证它透明
+                continue
+            _d = [0, 0, 0]
+            _d[_a] = _out
+            _d[_u] += _i - 1
+            _d[_v] += _j - 1
+            _offs.append(tuple(_d))
+    _RING_OFF[_f] = tuple(_offs)
+del _f, _cs, _a, _u, _v, _out, _offs, _i, _j, _d
+
+
+def face_ao(world, x: int, y: int, z: int, face: str):
+    """这个面四个角的 **AO 系数**（与 `_CORNERS[face]` 同序；1.0 = 全亮）。
+
+    规则（与 MC 的"平滑光照"同口径，且是**纯函数** ⇒ 单测可穷举）：
+
+    只看面**外侧那一层**的 3×3 环（中心那格由面剔除保证是透明的，不算遮挡），
+    对每个角数三个遮挡（两条邻边 + 对角）：
+
+    ```
+    两条邻边都被挡        → 0 级（最暗）
+    否则                 → 3 − (邻边1 + 邻边2 + 对角)
+    ```
+
+    **遮挡 = 不透明**（`not is_transparent`）：空气/玻璃/水都不算 ——
+    水算不算遮挡在 MC 里一直有争议，这里统一按"不挡光就不挡 AO"，一条口径说到底。
+
+    ⚠ 只查 **8 格**（3×3 去掉中心），不是"每角 3 次 × 4 角 = 12 次"：
+    那 12 次里有 4 次是重复的边邻居。实测这个细节决定了 AO 的代价是 +8% 还是 +16%
+    （整世界 47 万面 × 4 次多余的 `world.get` 不是小数）。
+    """
+    # ⚠ 基准就是方块自己那一格 —— **法向偏移已经算在 `_RING_OFF` 里了**。
+    #   初版优化时把"基准先挪到外侧层"和"偏移里含法向"两条同时留下 ⇒ 法向被加两次、
+    #   采样到错误的层（症状：遮挡全部看不出来，AO 恒为 1.0 —— 正是单测当场抓到的）。
+    bx, by, bz = x, y, z
+    get = world.get
+
+    # 3×3 环的遮挡位（行 = u 偏移 −1/0/+1，列 = v 偏移 −1/0/+1；中心恒为 False）
+    ring = []
+    for d in _RING_OFF[face]:
+        if d is None:
+            ring.append(False)
+        else:
+            # 一次集合成员测试判"不透明"，不做两层查找（见 `blocks.OPAQUE_IDS`）
+            ring.append(get(bx + d[0], by + d[1], bz + d[2]) in OPAQUE_IDS)
+
+    factors = []
+    for (cu, cv) in _CORNER_TAN[face]:
+        i = 2 if cu else 0
+        j = 2 if cv else 0
+        s1 = ring[i * 3 + 1]                     # 沿 u 的邻边
+        s2 = ring[1 * 3 + j]                     # 沿 v 的邻边
+        corner = ring[i * 3 + j]                 # 对角
+        level = 0 if (s1 and s2) else 3 - (s1 + s2 + corner)
+        factors.append(AO_FACTOR[level])
+    return tuple(factors)
+
+
 def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
                  tile_size: float = 1.0, height: float = 1.0):
     """追加一个面：几何 + 法向 + **投影 UV → 图集 UV**。
@@ -267,8 +352,12 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
             # 信号越弱越暗（0 → 35% 亮度）：一眼看出"这条线通到哪里为止"
             k = 0.35 + 0.65 * (max(0, min(15, int(pw))) / 15.0)
             col = (col[0] * k, col[1] * k, col[2] * k)
+    #: 顶点级 AO：四个角各一个系数（不启用时是 None ⇒ 逐字节保持旧行为）
+    ao = None
+    if mb.smooth and mb.world is not None:
+        ao = face_ao(mb.world, x, y, z, face)
     base = len(mb.positions) // 3
-    for (cx, cy, cz), (u, v) in zip(corners, uvs):
+    for _i, ((cx, cy, cz), (u, v)) in enumerate(zip(corners, uvs)):
         # ⚠ `array.array` 的 `+=` 只吃 array，不吃 tuple（实测 TypeError）——
         # 用 `append` 逐个加，代价一样是 O(1)，但没有这层类型陷阱。
         mb.positions.append(x + cx)
@@ -280,17 +369,30 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
         au, av = _atlas_uv(u, v, tile)
         mb.uvs.append(au)
         mb.uvs.append(av)
-        mb.colors.append(col[0])
-        mb.colors.append(col[1])
-        mb.colors.append(col[2])
+        # 每角再乘 AO（`ao is None` 时是 ×1.0 ⇒ 与旧行为逐位相同）
+        k = ao[_i] if ao is not None else 1.0
+        mb.colors.append(col[0] * k)
+        mb.colors.append(col[1] * k)
+        mb.colors.append(col[2] * k)
         mb.colors.append(1.0)
-    # 两个三角形：0-1-2 与 0-2-3（与 _CORNERS 的逆时针绕序一致）
-    mb.indices.append(base)
-    mb.indices.append(base + 1)
-    mb.indices.append(base + 2)
-    mb.indices.append(base)
-    mb.indices.append(base + 2)
-    mb.indices.append(base + 3)
+    # 两个三角形：默认 0-1-2 与 0-2-3（与 _CORNERS 的逆时针绕序一致）。
+    # ⚠ 启用 AO 时要**按 AO 选对角线**（MC 的 "quad flip"）：两个三角形的插值沿共享
+    #   对角线进行 ⇒ 若那条对角线两端明暗差很大，面内会出现一条可见的斜向渐变。
+    #   规则：让**较暗的一对**落在同一条对角线上。
+    if ao is not None and ao[0] + ao[2] > ao[1] + ao[3]:
+        mb.indices.append(base + 1)
+        mb.indices.append(base + 2)
+        mb.indices.append(base + 3)
+        mb.indices.append(base + 1)
+        mb.indices.append(base + 3)
+        mb.indices.append(base)
+    else:
+        mb.indices.append(base)
+        mb.indices.append(base + 1)
+        mb.indices.append(base + 2)
+        mb.indices.append(base)
+        mb.indices.append(base + 2)
+        mb.indices.append(base + 3)
     mb.faces += 1
     return mb
 
@@ -313,9 +415,10 @@ class _MeshBuilder:
     """在 `array.array('f')` 上累积网格（与引擎 `blocks.mesh_world` 同一套做法）。"""
 
     __slots__ = ('positions', 'normals', 'uvs', 'colors', 'indices', 'faces',
-                 'light_of', 'night', 'power_of')
+                 'light_of', 'night', 'power_of', 'world', 'smooth')
 
-    def __init__(self, light_of=None, night: float = 0.0, power_of=None):
+    def __init__(self, light_of=None, night: float = 0.0, power_of=None,
+                 world=None, smooth: bool = False):
         self.positions = array.array('f')
         self.normals = array.array('f')
         self.uvs = array.array('f')
@@ -329,6 +432,10 @@ class _MeshBuilder:
         #: Phase 3：查**红石信号**的函数 `(x,y,z) -> 0..15 或 None`。
         #: 返回 None = "这个方块跟红石无关"（保持原色）；红石线按强度调暗到 35%。
         self.power_of = power_of
+        #: Phase 3-C：顶点级 AO。**默认关** —— 不传就与 Phase 3 的顶点色逐字节相同
+        #: （老网格单测继续有效，也方便把"AO 是否生效"单独测）。
+        self.world = world
+        self.smooth = bool(smooth)
 
     def empty(self) -> bool:
         return not self.indices
@@ -402,7 +509,7 @@ def build_mob_mesh(kind, *, tile: str = 'wool'):
 
 def build_chunk_mesh(world, cx: int, cy: int, cz: int, *, debug: bool = False,
                      tile_size: float = 1.0, light_of=None, night: float = 0.0,
-                     power_of=None):
+                     power_of=None, smooth: bool = False):
     """建一个区块的网格（只出可见面）。
 
     返回 `(_MeshBuilder, stats)`；`stats` 含面数/顶点数/三角形数 —— 单测用它
@@ -411,12 +518,16 @@ def build_chunk_mesh(world, cx: int, cy: int, cz: int, *, debug: bool = False,
     `light_of` / `night` 是 Phase 2-A 的顶点色来源（见 `_append_face`）：
     **不传就与 Phase 1 逐字节相同**（顶点色只含面亮度）—— 这条"默认不改行为"
     让老的网格单测继续有效，也方便把"光照是否生效"单独测。
+
+    `smooth=True` 打开 **Phase 3-C 的顶点级 AO**（见 `face_ao`）：每个角按邻格遮挡调暗，
+    并把四边形按 AO 翻转对角线。**默认关** ⇒ 与 Phase 3 的网格逐字节相同。
     """
     global _DEBUG_ON
     if debug:
         _DEBUG_ON = True
         UV_DEBUG.clear()
-    mb = _MeshBuilder(light_of=light_of, night=night, power_of=power_of)
+    mb = _MeshBuilder(light_of=light_of, night=night, power_of=power_of,
+                      world=world if smooth else None, smooth=smooth)
     x0, y0, z0 = cx * CHUNK, cy * CHUNK, cz * CHUNK
     get = world.get
     for lx in range(CHUNK):

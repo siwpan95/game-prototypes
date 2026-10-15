@@ -12,9 +12,9 @@ from tests._util import make_suite
 
 from mcclone3d import blocks as B
 from mcclone3d import textures as T
-from mcclone3d.mesh import (FACE_BRIGHT, NORMALS, _CORNERS, _atlas_uv, box_faces,
-                            build_chunk_mesh, face_uv_quad, uv_projection_for,
-                            _MeshBuilder)
+from mcclone3d.mesh import (AO_FACTOR, FACE_BRIGHT, NORMALS, _CORNERS, _append_face,
+                            _atlas_uv, box_faces, build_chunk_mesh, face_ao,
+                            face_uv_quad, uv_projection_for, _MeshBuilder)
 from mcclone3d.world import CHUNK, ChunkedWorld
 
 test, main = make_suite('ALL_MESH_TESTS_PASSED', '网格与 UV')
@@ -308,6 +308,184 @@ def t_mob_mesh_bad_tile_falls_back():
     mb, st = build_mob_mesh(MB.mob_kind('sheep'), tile='no_such_tile')
     assert st['faces'] == 18, st                       # 3 parts × 6 面
     assert mb.uvs, '回落之后一个顶点都没有'
+
+
+
+# ==================================================================== 顶点级 AO（Phase 3-C）
+def _ao_rig(block_id=B.STONE):
+    """搭一块孤立方块（周围 5³ 全是空气），返回 `(world, x, y, z)`。
+
+    ⚠ 必须**清空**周围再测：`ChunkedWorld.generate()` 出来的地形到处是石头，
+    不清空的话"没有遮挡"这种前提根本不存在（测出来全是暗的，看不出对错）。
+    """
+    # ⚠ 世界的 size/height **必须是 16 的整数倍**（`ChunkedWorld` 的硬契约，
+    #   写 24 会当场 ValueError）—— 所以这里用 32，不是"随便一个小世界"。
+    w = ChunkedWorld(7, 32, 32).generate()
+    x, y, z = 12, 14, 12
+    for dx in (-2, -1, 0, 1, 2):
+        for dy in (-2, -1, 0, 1, 2):
+            for dz in (-2, -1, 0, 1, 2):
+                w.set_generated(x + dx, y + dy, z + dz, B.AIR)
+    w.set_generated(x, y, z, block_id)
+    return w, x, y, z
+
+
+@test('AO 表：单调递增、最暗不为 0（角变全黑就没有体积感了）')
+def t_ao_table():
+    assert len(AO_FACTOR) == 4, AO_FACTOR
+    assert all(0.0 < v < 1.0 for v in AO_FACTOR[:-1]), AO_FACTOR
+    assert AO_FACTOR[-1] == 1.0, '最高一级必须是"不调暗"'
+    assert list(AO_FACTOR) == sorted(AO_FACTOR), 'AO 表必须单调递增'
+
+
+@test('AO：没有遮挡时四角全亮')
+def t_ao_open():
+    w, x, y, z = _ao_rig()
+    for face in _CORNERS:
+        assert face_ao(w, x, y, z, face) == (1.0,) * 4, f'{face} 无遮挡却变暗了'
+
+
+@test('AO：一条邻边挡住 ⇒ 该侧**两个角**变暗，另一侧不受影响')
+def t_ao_one_edge():
+    w, x, y, z = _ao_rig()
+    w.set_generated(x + 1, y + 1, z, B.STONE)      # +y 面外侧层的 +x 邻边
+    got = face_ao(w, x, y, z, '+y')
+    # `+y` 的角序 = ((0,1,1),(1,1,1),(1,1,0),(0,1,0)) ⇒ 角 1/2 的 x 偏移是 1
+    assert got[0] == 1.0 and got[3] == 1.0, f'另一侧不该变暗：{got}'
+    assert got[1] == got[2] == AO_FACTOR[2], f'被挡侧的两个角该同亮：{got}'
+
+
+@test('AO：两条邻边都挡 ⇒ 最暗（对角挡不挡都一样）')
+def t_ao_two_edges():
+    w, x, y, z = _ao_rig()
+    w.set_generated(x + 1, y + 1, z, B.STONE)
+    w.set_generated(x, y + 1, z + 1, B.STONE)
+    got = face_ao(w, x, y, z, '+y')
+    assert got[1] == AO_FACTOR[0], f'两条邻边都挡该最暗：{got}'
+    # 再把对角也放上 ⇒ 结果**不变**（这条是"两邻边优先"的口径）
+    w.set_generated(x + 1, y + 1, z + 1, B.STONE)
+    assert face_ao(w, x, y, z, '+y')[1] == AO_FACTOR[0]
+
+
+@test('AO：只有对角被挡 ⇒ 比"两条邻边"轻（0.86 vs 0.55）')
+def t_ao_corner_only():
+    w, x, y, z = _ao_rig()
+    w.set_generated(x + 1, y + 1, z + 1, B.STONE)
+    got = face_ao(w, x, y, z, '+y')
+    assert got[1] == AO_FACTOR[2], f'只挡对角该是次亮级：{got}'
+    assert AO_FACTOR[2] > AO_FACTOR[0]
+
+
+@test('AO：**同层**的邻块不该影响该面（只看面外侧那一层）')
+def t_ao_same_layer():
+    w, x, y, z = _ao_rig()
+    before = face_ao(w, x, y, z, '+y')
+    # ⚠ 用**同层对角**而不是正对面那格：正对面那格会让 +x 面整个被剔除，
+    #   那种情况下 AO 本来就不参与（恒 1.0），测不出"层"对不对。
+    w.set_generated(x + 1, y, z + 1, B.STONE)
+    assert face_ao(w, x, y, z, '+y') == before, '同层邻块不该影响 +y 面'
+    # 但它**该**影响 +x 面（那个格子落在 +x 面的外圈里）
+    assert face_ao(w, x, y, z, '+x') != (1.0,) * 4, '+x 面的外圈上有它，该变暗'
+
+
+@test('AO：玻璃/水不算遮挡（不挡光就不挡 AO）')
+def t_ao_transparent():
+    w, x, y, z = _ao_rig()
+    w.set_generated(x + 1, y + 1, z, B.GLASS)
+    w.set_generated(x, y + 1, z + 1, B.WATER)
+    got = face_ao(w, x, y, z, '+y')
+    assert got == (1.0,) * 4, f'透明方块不该产生遮挡：{got}'
+
+
+@test('AO：六个面各自看自己法向那一层（外圈 8 格独立算，且**对面**不受影响）')
+def t_ao_all_faces():
+    """对每个面，把"外侧那一圈"8 格全铺上石头 ⇒ 该面四角**必须**全暗。
+
+    外圈在这里**独立算**（法向走一步、另外两个轴各走 −1/0/+1，去掉中心），
+    不借用实现里的 `_RING_OFF` —— 否则是"用实现测实现"，轴配错了也测不出来。
+    顺带钉一条：**对面**（−n）的外圈在另一侧，必须完全不受影响。
+    """
+    normals = {'+x': (1, 0, 0), '-x': (-1, 0, 0), '+y': (0, 1, 0),
+               '-y': (0, -1, 0), '+z': (0, 0, 1), '-z': (0, 0, -1)}
+    for face, n in normals.items():
+        w, x, y, z = _ao_rig()
+        axis = [i for i in range(3) if n[i]][0]
+        others = [i for i in range(3) if not n[i]]
+        for du in (-1, 0, 1):
+            for dv in (-1, 0, 1):
+                if du == 0 and dv == 0:
+                    continue
+                c = [x, y, z]
+                c[axis] += n[axis]
+                c[others[0]] += du
+                c[others[1]] += dv
+                assert w.set_generated(c[0], c[1], c[2], B.STONE), f'放不下 {c}'
+        got = face_ao(w, x, y, z, face)
+        assert all(v < 1.0 for v in got), \
+            f'{face}：外圈 8 格全是石头，四角居然还有亮的 {got}'
+        opposite = {v: k for k, v in normals.items()}[(-n[0], -n[1], -n[2])]
+        assert face_ao(w, x, y, z, opposite) == (1.0,) * 4, \
+            f'{face} 的外圈不该影响对面 {opposite}'
+
+
+@test('AO 接进网格：只改顶点色、不改几何；默认关时四角色**相同**（旧行为）')
+def t_ao_in_mesh():
+    w, x, y, z = _ao_rig()
+    w.set_generated(x + 1, y + 1, z, B.STONE)
+    mb_on = _MeshBuilder(world=w, smooth=True)
+    mb_off = _MeshBuilder(world=w, smooth=False)
+    for mb in (mb_on, mb_off):
+        _append_face(mb, '+y', x, y, z, 'stone')
+    # 几何逐位相同（AO 不该动位置/法向/UV）
+    assert list(mb_on.positions) == list(mb_off.positions), 'AO 改了几何（位置）'
+    assert list(mb_on.normals) == list(mb_off.normals), 'AO 改了法向'
+    assert list(mb_on.uvs) == list(mb_off.uvs), 'AO 改了 UV'
+    # 关 AO：四个角颜色相同（这是"旧行为"的签名）
+    off = [mb_off.colors[i * 4] for i in range(4)]
+    assert len(set(off)) == 1, f'关掉 AO 时四角该同色：{off}'
+    # 开 AO：至少有一个角更暗，且不亮于关闭时
+    on = [mb_on.colors[i * 4] for i in range(4)]
+    assert any(a < b - 1e-6 for a, b in zip(on, off)), f'AO 没生效：{on} vs {off}'
+    assert all(a <= b + 1e-6 for a, b in zip(on, off)), f'AO 把某个角调亮了：{on} vs {off}'
+
+
+@test('AO 的 quad 翻转：较暗的一对落在同一条对角线上（否则面内有斜向渐变）')
+def t_ao_quad_flip():
+    w, x, y, z = _ao_rig()
+    # 让角 1 与角 3 变暗、角 0 与角 2 保持亮 ⇒ 触发翻转。
+    # ⚠ 只放**两条对角**的遮挡：放"边块"会连带压暗相邻的角（同一格同时是
+    #   两个角的边邻居），四个角一起变暗就看不出翻转了（实测踩过）。
+    for (dx, dy, dz) in ((1, 1, 1),        # 角 1 的对角
+                         (-1, 1, -1)):     # 角 3 的对角
+        w.set_generated(x + dx, y + dy, z + dz, B.STONE)
+    ao = face_ao(w, x, y, z, '+y')
+    assert ao[1] < 1.0 and ao[3] < 1.0 and ao[0] == ao[2] == 1.0, ao
+    assert ao[0] + ao[2] > ao[1] + ao[3], f'这组 AO 该触发翻转：{ao}'
+    mb = _MeshBuilder(world=w, smooth=True)
+    _append_face(mb, '+y', x, y, z, 'stone')
+    assert list(mb.indices) == [1, 2, 3, 1, 3, 0], \
+        f'该走翻转的对角线（1-3），实际 {list(mb.indices)}'
+    # 反过来：不触发翻转时用默认对角线（0-2）
+    w2, x2, y2, z2 = _ao_rig()
+    w2.set_generated(x2 + 1, y2 + 1, z2, B.STONE)     # 只挡角 1/2
+    mb2 = _MeshBuilder(world=w2, smooth=True)
+    _append_face(mb2, '+y', x2, y2, z2, 'stone')
+    assert list(mb2.indices) == [0, 1, 2, 0, 2, 3], list(mb2.indices)
+
+
+@test('AO 走区块网格：smooth=True 时几何与面数**完全不变**（只改颜色）')
+def t_ao_chunk_mesh():
+    w = ChunkedWorld(7, 32, 32).generate()
+    mb_off, st_off = build_chunk_mesh(w, 0, 1, 0, smooth=False)
+    mb_on, st_on = build_chunk_mesh(w, 0, 1, 0, smooth=True)
+    assert st_on == st_off, f'面数/顶点数变了：{st_on} vs {st_off}'
+    assert list(mb_on.positions) == list(mb_off.positions)
+    assert list(mb_on.indices) != list(mb_off.indices), \
+        '这块地形里应该有需要翻转的四边形（否则这条测不到翻转）'
+    darker = sum(1 for i in range(len(mb_off.colors) // 4)
+                 if mb_on.colors[i * 4] < mb_off.colors[i * 4] - 1e-6)
+    assert darker > 0, '整块地形没有一个顶点被 AO 调暗（AO 没接上？）'
+
 
 
 if __name__ == '__main__':

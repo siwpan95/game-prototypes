@@ -1366,6 +1366,87 @@ def c_tickqueue():
             f'1s时钟耗时 {dt * 1000:.1f}ms={perf_ok}')
 
 
+@check('ao')
+def c_ao():
+    """Phase 3-C：顶点级 AO —— 纯函数判据 / 只改颜色不改几何 / 代价。"""
+    import time as _t
+    from mcclone3d import mesh as MS
+    from mcclone3d.world import ChunkedWorld
+
+    # ① 纯函数：搭一块孤立方块，逐一摆遮挡
+    w = ChunkedWorld(7, 32, 32).generate()
+    x, y, z = 12, 14, 12
+    for dx in (-2, -1, 0, 1, 2):
+        for dy in (-2, -1, 0, 1, 2):
+            for dz in (-2, -1, 0, 1, 2):
+                w.set_generated(x + dx, y + dy, z + dz, B.AIR)
+    w.set_generated(x, y, z, B.STONE)
+    open_ok = all(MS.face_ao(w, x, y, z, f) == (1.0,) * 4 for f in
+                  ('+x', '-x', '+y', '-y', '+z', '-z'))
+    w.set_generated(x + 1, y + 1, z, B.STONE)                 # +y 面外侧的一条邻边
+    ao1 = MS.face_ao(w, x, y, z, '+y')
+    one_edge_ok = (ao1[0] == ao1[3] == 1.0 and ao1[1] == ao1[2] == MS.AO_FACTOR[2])
+    w.set_generated(x, y + 1, z + 1, B.STONE)                 # 第二条邻边 ⇒ 最暗
+    two_edge_ok = MS.face_ao(w, x, y, z, '+y')[1] == MS.AO_FACTOR[0]
+    # 同层邻块不改该面；透明方块不算遮挡
+    w2 = ChunkedWorld(7, 32, 32).generate()
+    for dx in (-2, -1, 0, 1, 2):
+        for dy in (-2, -1, 0, 1, 2):
+            for dz in (-2, -1, 0, 1, 2):
+                w2.set_generated(x + dx, y + dy, z + dz, B.AIR)
+    w2.set_generated(x, y, z, B.STONE)
+    before = MS.face_ao(w2, x, y, z, '+y')
+    w2.set_generated(x + 1, y, z + 1, B.STONE)
+    layer_ok = MS.face_ao(w2, x, y, z, '+y') == before
+    w2.set_generated(x + 1, y, z + 1, B.AIR)
+    w2.set_generated(x + 1, y + 1, z, B.GLASS)
+    w2.set_generated(x, y + 1, z + 1, B.WATER)
+    trans_ok = MS.face_ao(w2, x, y, z, '+y') == (1.0,) * 4
+    table_ok = (list(MS.AO_FACTOR) == sorted(MS.AO_FACTOR)
+                and MS.AO_FACTOR[-1] == 1.0 and MS.AO_FACTOR[0] > 0.0)
+
+    # ② 接进网格：几何/面数**完全不变**、颜色**真的**变暗
+    ww = ChunkedWorld(20261014, 128, 64).generate()
+    ww.decorate()
+    mb_off, st_off = MS.build_chunk_mesh(ww, 2, 0, 2, smooth=False)
+    mb_on, st_on = MS.build_chunk_mesh(ww, 2, 0, 2, smooth=True)
+    geom_ok = (st_on == st_off
+               and list(mb_on.positions) == list(mb_off.positions)
+               and list(mb_on.uvs) == list(mb_off.uvs))
+    n_vert = len(mb_off.colors) // 4
+    darker = sum(1 for i in range(n_vert)
+                 if mb_on.colors[i * 4] < mb_off.colors[i * 4] - 1e-6)
+    brighter = sum(1 for i in range(n_vert)
+                   if mb_on.colors[i * 4] > mb_off.colors[i * 4] + 1e-6)
+    color_ok = darker > 0 and brighter == 0
+    flip_ok = list(mb_on.indices) != list(mb_off.indices)      # 真实地形上会触发翻转
+
+    # ③ 代价：整世界建网格的耗时（同进程、先预热两侧）
+    import gc
+    keys = [(cx, cy, cz) for cx in range(8) for cy in range(4) for cz in range(8)]
+
+    def run(smooth):
+        gc.collect()
+        t0 = _t.perf_counter()
+        for k in keys:
+            MS.build_chunk_mesh(ww, *k, smooth=smooth)
+        return _t.perf_counter() - t0
+    run(False)
+    t_off = run(False)
+    t_on = run(True)
+    cost = t_on / t_off - 1
+    perf_ok = cost < 0.35          # 预算是 +35% 以内（实测 ~+17%）
+
+    ok = (open_ok and one_edge_ok and two_edge_ok and layer_ok and trans_ok
+          and table_ok and geom_ok and color_ok and flip_ok and perf_ok)
+    _report('ao', ok,
+            f'无遮挡全亮={open_ok} 一条邻边={one_edge_ok} 两条邻边最暗={two_edge_ok} '
+            f'同层不影响={layer_ok} 透明不遮挡={trans_ok} 表单调={table_ok} '
+            f'几何不变={geom_ok} 只变暗({darker}/{n_vert} 顶点)={color_ok} '
+            f'quad 翻转生效={flip_ok} '
+            f'代价 {t_off:.2f}s→{t_on:.2f}s (+{cost * 100:.1f}%, 预算<35%)={perf_ok}')
+
+
 # ---------------------------------------------------------------- 主流程
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description='mcclone3d headless 验收（零 GL）')

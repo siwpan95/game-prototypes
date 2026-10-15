@@ -94,5 +94,18 @@ def t_hotbar():
     assert len(B.DEFAULT_HOTBAR) >= 9, 'hotbar 至少 9 格（对应 1-9 键）'
 
 
+
+@test('OPAQUE_IDS 与 is_transparent **逐 id 一致**（热路径的集合不能和口径漂）')
+def t_opaque_ids():
+    """网格热路径用集合成员测试代替 `is_transparent()`（少两层查找）。
+    两个口径一旦漂了，AO/剔除就会静默按错的表工作 —— 所以钉在这里。
+    """
+    for b in B.all_blocks():
+        assert (b.id in B.OPAQUE_IDS) == (not B.is_transparent(b.id)), \
+            f'{b.name}: 集合与 is_transparent 不一致'
+    assert B.AIR not in B.OPAQUE_IDS, '空气不该算不透明'
+
+
+
 if __name__ == '__main__':
     sys.exit(main())

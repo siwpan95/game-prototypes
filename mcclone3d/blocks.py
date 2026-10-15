@@ -35,7 +35,7 @@ __all__ = [
     'repeater_on_id', 'repeater_off_id',
     'door_other_half', 'door_opened', 'door_closed',
     'BLOCKS', 'BLOCK_NAMES', 'BLOCK_IDS', 'by_id', 'by_name', 'name_of', 'all_blocks',
-    'is_solid', 'is_liquid', 'is_transparent', 'tile_for_face',
+    'is_solid', 'is_liquid', 'is_transparent', 'OPAQUE_IDS', 'tile_for_face',
     'faces_of', 'face_visible', 'DEFAULT_HOTBAR', 'MAX_ID',
 ]
 
@@ -422,6 +422,13 @@ def is_solid(block_id: int) -> bool:
 def is_liquid(block_id: int) -> bool:
     b = BLOCKS.get(int(block_id))
     return bool(b and b.liquid)
+
+
+#: **不透明方块的 id 集合**（由定义表派生，与 `is_transparent` 同一口径）。
+#: 网格热路径（面剔除 + 顶点级 AO）用它做集合成员测试：比 `is_transparent()`
+#: 少一层字典查找 + 属性访问。这条路径一整世界要跑几百万次，值得单列一个集合。
+#: ⚠ 有单测钉着它和 `is_transparent` **逐 id 一致**（两个口径不能漂）。
+OPAQUE_IDS = frozenset(b.id for b in BLOCKS.values() if b.opaque)
 
 
 def is_transparent(block_id: int) -> bool:
