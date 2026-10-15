@@ -34,12 +34,19 @@ from . import blocks as B
 from . import items as I
 from . import recipes as R
 from ._engine import Service
+from .light import DEFAULT_HALO, MAX_LIGHT, LightEngine
+from .sun import DAY_LENGTH, DayCycle
 from .world import CHUNK, SEA_LEVEL, ChunkedWorld
 
 __all__ = ['McCloneKernel', 'make_offline', 'DEFAULT_SEED', 'REACH', 'PLAYER_HALF',
            'PLAYER_HEIGHT', 'GRAVITY', 'JUMP_V', 'WALK_SPEED', 'FLY_SPEED', 'SCRIPT',
            'WORLD_SIZE', 'WORLD_HEIGHT', 'STEP_HZ', 'START_STOCK',
-           'MAX_HEALTH', 'MAX_HUNGER', 'DROP_PICKUP_R', 'DROP_TTL']
+           'MAX_HEALTH', 'MAX_HUNGER', 'DROP_PICKUP_R', 'DROP_TTL',
+           'DAY_LENGTH', 'LIGHT_BUDGET_PER_FRAME', 'SAVE_VERSION']
+
+#: 存档版本。**只增不改语义**：加字段就 +1，读档必须能吃所有老版本。
+#: v1 = Phase 0 ｜ v2 = Phase 1（工具/生存/掉落/熔炉）｜ v3 = Phase 2-A（世界时刻）
+SAVE_VERSION = 3
 
 # ---------------------------------------------------------------- 常量
 DEFAULT_SEED = 20261014
@@ -79,6 +86,10 @@ FALL_DAMAGE_PER = 1.0             # 每多摔一格掉多少血
 DROP_PICKUP_R = 1.4               # 拾取半径（格）
 DROP_TTL = 300.0                  # 掉落物存在时长（秒）；太长会拖慢存档
 DROP_FALL_V = 6.0                 # 掉落物下落速度（格/秒，简单常量不走重力积分）
+
+# ---------------------------------------------------------------- 光照（Phase 2-A）
+#: 每帧最多算几个区块的光照（**光照比网格贵**：实测 halo=4 时 ~36ms/区块）
+LIGHT_BUDGET_PER_FRAME = 2
 
 
 def _sign(x: float) -> int:
@@ -120,6 +131,22 @@ class McCloneKernel(Service):
         self.dirty_chunks: set = set(self.world.chunks)
         self._meshes: dict = {}
         self._built: set = set()
+        # --- Phase 2-A：昼夜 + 逐格光照 ---
+        self.cycle = DayCycle(float(cfg.get('time', 0.0)),
+                              float(cfg.get('day_length', DAY_LENGTH)))
+        if cfg.get('time_phase') is not None:
+            self.cycle.skip_to_phase(float(cfg['time_phase']))
+        self.light = LightEngine(self.world)
+        #: 全局天光列传播**默认做一次**（与高度成正比，很快）。
+        #: `light=False` 可以跳过 —— 给"完全不关心光照"的体检/单测用
+        #: （否则每个 `make_offline` 都要付一次全图列传播；CLI 一次跑十几个内核，
+        #   实测这一条能把整个验收从 20 多秒压回几秒）。
+        if cfg.get('light', True):
+            self.light.column_pass_all()
+            self._lit: set = set()
+        else:
+            self.light.columns_done = True     # 声明"不用算"，避免按需路径又补一遍
+            self._lit = set()
         self._init_player()
 
     # ============================================================== 玩家
@@ -688,6 +715,9 @@ class McCloneKernel(Service):
 
         （Phase 1 重构时被误删过一次 —— 症状是"一挖就 AttributeError"。
         它是网格重建的唯一入口，所以有单测直接盯着它。）
+
+        Phase 2-A 起它**同时负责让光照失效**：改了方块 ⇒ 相关区块的光照缓存作废，
+        下一次渲染按需重算（不在这里同步重算，避免"挖一下卡半秒"）。
         """
         self.revision += 1
         cx, cy, cz = x // CHUNK, y // CHUNK, z // CHUNK
@@ -697,6 +727,56 @@ class McCloneKernel(Service):
             nx, ny, nz = x + dx, y + dy, z + dz
             if (nx // CHUNK, ny // CHUNK, nz // CHUNK) != (cx, cy, cz):
                 self.dirty_chunks.add((nx // CHUNK, ny // CHUNK, nz // CHUNK))
+        # 光照：受影响的是"光可能走到的地方"（半径 MAX_LIGHT 的邻域），比网格范围大
+        self.invalidate_light_near(x, y, z)
+
+    def invalidate_light_near(self, x: int, y: int, z: int, radius: int = MAX_LIGHT):
+        """把 (x,y,z) 附近的光照缓存标记为失效（不重算，只记账）。"""
+        if not hasattr(self, '_lit'):
+            return 0
+        n = 0
+        r = int(radius)
+        for cx in range((x - r) >> 4, ((x + r) >> 4) + 1):
+            for cy in range(max(0, (y - r) >> 4), ((y + r) >> 4) + 1):
+                for cz in range((z - r) >> 4, ((z + r) >> 4) + 1):
+                    if (cx, cy, cz) in self._lit:
+                        self._lit.discard((cx, cy, cz))
+                        n += 1
+        return n
+
+    def ensure_light(self, keys, budget: int | None = None, halo: int | None = None):
+        """按需算光照（每帧最多 `budget` 个区块，避免掉帧）。返回这次算了几个。
+
+        **为什么要缓存**：`relight_chunk` 实测 ~36ms（halo=4），一帧算 16 个就是半秒。
+        所以只在渲染真正要建网格时才补算，且限流。
+        """
+        if budget is None:
+            budget = LIGHT_BUDGET_PER_FRAME
+        done = 0
+        for key in keys:
+            if done >= budget:
+                break
+            if key in self._lit:
+                continue
+            self.light.relight_chunk(key[0], key[1], key[2], halo=halo)
+            self._lit.add(key)
+            done += 1
+        return done
+
+    def light_at(self, x: int, y: int, z: int):
+        """某格的最终亮度 `(组合值, 方块光, 天光)` —— 全按当前昼夜折算。"""
+        df = self.day_factor()
+        blk = self.light.block(x, y, z)
+        sk = self.light.sky(x, y, z)
+        return (int(round(max(blk, sk * df))), blk, sk)
+
+    def day_factor(self) -> float:
+        """当前"天有多亮"（0..1）—— 光照与天空配色同源（见 `sun.py`）。"""
+        return self.cycle.sky()['day_factor']
+
+    def face_light(self, x: int, y: int, z: int, nx: int, ny: int, nz: int) -> int:
+        """某个面外侧那格的亮度（网格顶点色用它上色）。"""
+        return self.light.face_light(x, y, z, nx, ny, nz, self.day_factor())
 
     # ============================================================== 物理
     def _player_boxes(self, x: float, y: float, z: float):
@@ -751,6 +831,8 @@ class McCloneKernel(Service):
         `move` 是**玩家坐标系的输入**（前后, 左右），会被 `yaw` 转到世界坐标系。
         """
         dt = max(0.0, min(0.1, float(dt)))         # 卡帧保护（掉帧时不穿墙）
+        # ⚠ 昼夜只在这里推进（内核**不读系统时钟**）⇒ 同一条时间线可回放、可对拍
+        self.cycle.advance(dt)
         fwd, side = move
         yaw = math.radians(self.yaw)
         # 前方 = 视线在水平面的投影；右方 = 前方逆时针 90°
@@ -913,11 +995,15 @@ class McCloneKernel(Service):
             self._auto_log.append(('respawn', self.respawn(), None))
 
     # ============================================================== 网格
-    def chunk_meshes(self, *, only_dirty: bool = True, limit: int = 8):
+    def chunk_meshes(self, *, only_dirty: bool = True, limit: int = 8,
+                     ensure_light: bool = True):
         """建（或重建）区块网格 —— **纯数据，不碰 GL**，demo 负责上传。
 
         `only_dirty=True` 时只建"脏"区块（改动过或还没建过），每次最多 `limit` 个 ——
         交互时一帧建太多会卡顿，所以摊到多帧（与引擎侧 blockworld 的做法同源）。
+
+        `ensure_light=True` 时**先补光照再建网格**（光照是顶点色的来源，
+        没算就建网格会得到一片全亮或全黑 —— 这正是"看着差不多但其实是错的"那种 bug）。
         """
         from .mesh import build_chunk_mesh
         if not hasattr(self, '_meshes'):
@@ -929,9 +1015,18 @@ class McCloneKernel(Service):
                 continue
             todo.append(key)
         todo.sort()
+        if ensure_light:
+            # ⚠ 预算必须**跟这一帧要建的区块数一致**，否则会出现
+            #    "网格建好了、光还没算" ⇒ 那些区块按"没算 = 0"渲染成**全黑**。
+            #    实测踩过：光照预算 2/帧、网格预算 16/帧 ⇒ 只有 1/8 的区块有光，
+            #    整片地形看着像夜里（而昼夜其实是正午）。
+            #    现在按同一批 key 同步补算 —— 代价是这一帧贵一点，但**不会出错**。
+            self.ensure_light([k for k in todo[:max(1, limit)]], budget=limit)
         built = []
+        night = 1.0 - max(0.0, min(1.0, self.day_factor()))
         for key in todo[:max(1, limit)]:
-            mb, st = build_chunk_mesh(self.world, *key)
+            mb, st = build_chunk_mesh(self.world, *key,
+                                      light_of=self.face_light, night=night)
             self._meshes[key] = (mb, st)
             self._built.add(key)
             self.dirty_chunks.discard(key)
@@ -948,13 +1043,14 @@ class McCloneKernel(Service):
 
     # ============================================================== 存档
     def dump(self) -> dict:
-        """完整存档：世界（种子 + 编辑增量）+ 玩家 + 背包/工具 + 生存状态 + 掉落物。
+        """完整存档：世界（种子 + 编辑增量）+ 玩家 + 背包/工具 + 生存状态 + 掉落物
+        + 世界时刻。
 
         **一律按名字存**（方块名与物品名），这样将来重排编号不会读坏旧档；
         未知名字在读档时**响亮报错**（不静默丢格/丢物品）。
         """
         return {
-            'version': 2,
+            'version': SAVE_VERSION,
             'world': self.world.dump(),
             'player': {
                 'pos': [float(v) for v in self.pos],
@@ -979,12 +1075,15 @@ class McCloneKernel(Service):
             'drops': [{'pos': [float(c) for c in d['pos']], 'item': I.name_of(d['item']),
                        'n': int(d['n']), 't': float(d['t'])} for d in self.drops],
             'furnace': dict(self.furnace),
+            # Phase 2-A：世界时刻（**光照本身不存** —— 它由方块与世界时钟完全决定，
+            # 存了反而会出现"存档里的光照与方块不一致"这种不可自愈的脏数据）
+            'day': self.cycle.dump(),
         }
 
     def load(self, data: dict):
         """读档（世界按存档的种子/尺寸重建，再重放增量与玩家状态）。"""
         ver = int(data.get('version', 0))
-        if ver not in (1, 2):
+        if ver not in (1, 2, 3):
             raise ValueError(f'不支持的存档版本：{data.get("version")!r}')
         wd = data['world']
         # ⚠ 校验必须在**覆盖字段之前**（实测踩过：先 `self.size = wd['size']` 再比对，
@@ -1049,6 +1148,9 @@ class McCloneKernel(Service):
                             {'fuel_left': 0.0, 'cook_left': 0.0, 'recipe': None})
         self.dig_target, self.dig_progress = None, 0.0
         self._fall_from = None
+        # Phase 2-A：世界时刻按存档恢复；光照缓存整体作废（方块变了 ⇒ 光照必须重算）
+        self.cycle.load(data.get('day') or {})
+        self._lit = set()
         self.revision += 1
         self.dirty_chunks = set(self.world.chunks)
         self._meshes = {}
@@ -1092,6 +1194,12 @@ class McCloneKernel(Service):
             'picked': self.stats.get('picked', 0),
             'blocks': w['blocks'], 'edits': w['edits'],
             'mesh_chunks': m['chunks'], 'faces': m['faces'],
+            # --- Phase 2-A：时间与光照 ---
+            'day': round(self.cycle.time, 1),
+            'phase': round(self.cycle.sky()['phase'], 3),
+            'day_factor': round(self.day_factor(), 3),
+            'night': self.cycle.is_night(),
+            'lit_chunks': len(getattr(self, '_lit', ())),
         }
 
 

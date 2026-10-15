@@ -38,10 +38,12 @@ from . import textures
 from ._engine import geometry as _geo
 from ._engine import texproj as _texproj
 from .blocks import AIR, faces_of, face_visible, tile_for_face
+from .light import MAX_LIGHT
 from .world import CHUNK
 
 __all__ = ['M3D_ATLAS', 'uv_projection_for', 'face_uv_quad', 'box_faces',
-           'build_chunk_mesh', 'FACE_BASIS', 'UV_DEBUG']
+           'build_chunk_mesh', 'FACE_BASIS', 'UV_DEBUG',
+           'light_scale', 'light_color', 'LIGHT_FLOOR']
 
 #: 图集映射表（名字 → 归一化矩形）。列/行与 `textures` 的图集几何一致。
 M3D_ATLAS = _texproj.Atlas(textures.ATLAS_TILE_NAMES,
@@ -190,17 +192,59 @@ def atlas_rect(tile: str):
             u1 - ATLAS_PADDING * w, fv1 - ATLAS_PADDING * h)
 
 
+def light_scale(level: int) -> float:
+    """光照等级（0..15）→ 顶点色系数。
+
+    **为什么地板是 0.10 而不是 0**：全黑等于"看不见路"，那不是夜晚是黑屏。
+    0.10 相当于"月光下的轮廓" —— 这也是 MC 的做法（夜里有可见度但看不清细节）。
+
+    曲线用 `0.10 + 0.90 × (level/15)^1.35`：指数略大于 1 ⇒ 中间档偏暗，
+    于是"火把周围一圈"的过渡更明显（线性映射会让 7 和 15 看着差不多）。
+    """
+    t = max(0.0, min(1.0, float(level) / MAX_LIGHT))
+    return LIGHT_FLOOR + (1.0 - LIGHT_FLOOR) * (t ** 1.35)
+
+
+#: 光照等级为 0 时的顶点色系数（见 `light_scale` 的说明）
+LIGHT_FLOOR = 0.10
+
+
+def light_color(rgb, level: int, night: float = 0.0):
+    """把"面亮度"与"光照等级"合成顶点色。
+
+    `night` ∈ [0,1]（0 = 白天、1 = 深夜）用来给暗处**加一点蓝**：
+    纯粹降低亮度会让夜里看着像"褪色的白天"，而偏蓝才像月夜
+    （这是表现层的手感参数，与光照数值无关，所以放在 mesh 而不放在 light 里）。
+    """
+    k = light_scale(level)
+    r, g, b = rgb * k, rgb * k, rgb * k
+    if night > 0.0:
+        # 暗处往蓝偏：`(1-k)` 越暗偏得越多，乘以夜色强度
+        t = night * (1.0 - k) * 0.45
+        r *= (1.0 - t)
+        b *= (1.0 + t * 0.35)
+    return (min(1.0, r), min(1.0, g), min(1.0, b))
+
+
 def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
                  tile_size: float = 1.0):
     """追加一个面：几何 + 法向 + **投影 UV → 图集 UV**。
 
     `build_chunk_mesh`（区块批量）与 `box_faces`（单块）**都走这里** ——
     同一套 UV 规则只写一遍，写两遍必然漂。
+
+    顶点色（`v_col.rgb`）在 Phase 2-A 起 = **面亮度 × 光照系数**（见 `light_color`）：
+    `mb.light_of` 是调用方给的"查光函数"，默认 None ⇒ 系数 1（**不传就保持旧行为**，
+    这样单测/无光照路径拿到的顶点色与 Phase 1 逐字节相同）。
     """
     corners = _CORNERS[face]
     uvs = face_uv_quad(face, x, y, z, tile_size)
     bright = FACE_BRIGHT[face]
     n = NORMALS[face]
+    level = MAX_LIGHT
+    if mb.light_of is not None:
+        level = mb.light_of(x, y, z, n[0], n[1], n[2])
+    col = light_color(bright, level, mb.night)
     base = len(mb.positions) // 3
     for (cx, cy, cz), (u, v) in zip(corners, uvs):
         # ⚠ `array.array` 的 `+=` 只吃 array，不吃 tuple（实测 TypeError）——
@@ -214,9 +258,9 @@ def _append_face(mb, face: str, x: int, y: int, z: int, tile: str,
         au, av = _atlas_uv(u, v, tile)
         mb.uvs.append(au)
         mb.uvs.append(av)
-        mb.colors.append(bright)
-        mb.colors.append(bright)
-        mb.colors.append(bright)
+        mb.colors.append(col[0])
+        mb.colors.append(col[1])
+        mb.colors.append(col[2])
         mb.colors.append(1.0)
     # 两个三角形：0-1-2 与 0-2-3（与 _CORNERS 的逆时针绕序一致）
     mb.indices.append(base)
@@ -246,15 +290,20 @@ def box_faces(mesh, x: int, y: int, z: int, block_id: int, tile_size: float = 1.
 class _MeshBuilder:
     """在 `array.array('f')` 上累积网格（与引擎 `blocks.mesh_world` 同一套做法）。"""
 
-    __slots__ = ('positions', 'normals', 'uvs', 'colors', 'indices', 'faces')
+    __slots__ = ('positions', 'normals', 'uvs', 'colors', 'indices', 'faces',
+                 'light_of', 'night')
 
-    def __init__(self):
+    def __init__(self, light_of=None, night: float = 0.0):
         self.positions = array.array('f')
         self.normals = array.array('f')
         self.uvs = array.array('f')
         self.colors = array.array('f')
         self.indices = array.array('i')
         self.faces = 0
+        #: 查光函数 `(x,y,z,nx,ny,nz) -> 0..15`；None = 不打光（顶点色 = 面亮度）
+        self.light_of = light_of
+        #: 夜色强度 0..1（只影响顶点色的偏蓝，不影响几何）
+        self.night = float(night)
 
     def empty(self) -> bool:
         return not self.indices
@@ -271,17 +320,21 @@ class _MeshBuilder:
 
 
 def build_chunk_mesh(world, cx: int, cy: int, cz: int, *, debug: bool = False,
-                     tile_size: float = 1.0):
+                     tile_size: float = 1.0, light_of=None, night: float = 0.0):
     """建一个区块的网格（只出可见面）。
 
     返回 `(_MeshBuilder, stats)`；`stats` 含面数/顶点数/三角形数 —— 单测用它
     断言"邻块剔除真的起作用了"（把相邻两块的接触面数算成 0）。
+
+    `light_of` / `night` 是 Phase 2-A 的顶点色来源（见 `_append_face`）：
+    **不传就与 Phase 1 逐字节相同**（顶点色只含面亮度）—— 这条"默认不改行为"
+    让老的网格单测继续有效，也方便把"光照是否生效"单独测。
     """
     global _DEBUG_ON
     if debug:
         _DEBUG_ON = True
         UV_DEBUG.clear()
-    mb = _MeshBuilder()
+    mb = _MeshBuilder(light_of=light_of, night=night)
     x0, y0, z0 = cx * CHUNK, cy * CHUNK, cz * CHUNK
     get = world.get
     for lx in range(CHUNK):

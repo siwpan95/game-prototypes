@@ -7,12 +7,14 @@
 > **三仓关系**：`3dworld` 是**引擎与渲染能力本体**；`mcclone3d` 是**消费方**
 > （玩法 + 贴图规则）；`mc-clone` 是**旧版**（2D / 文字形态），**原样保留、不再改动**。
 
-## 状态：Phase 1 可用（生存循环）
+## 状态：Phase 2-A 可用（昼夜 + 逐格光照）
 
 | 能做 | 说明 |
 | --- | --- |
 | 确定性体素世界 | 种子决定地形/水/沙岸/雪线/矿脉/树；同种子两次生成**逐格相同** |
 | 面剔除 + 图集 UV | 只画可见面；UV 走引擎 **世界级投影**（`texproj`），跨方块花纹连续 |
+| **昼夜循环**（Phase 2-A） | 一昼夜 600s：太阳高度角决定天光强度；天空色 / 地平线色 / 星空来自引擎 `sky_state`；日落有真实渐变 |
+| **逐格光照**（Phase 2-A） | 天光（列传播）+ 方块光（点光源 BFS），0..15 两套场；水每格衰减 1；**改一格只重算附近** |
 | 第一人称 | WASD/空格/飞行、重力与跳跃（跳高 1.19 格，与解析解对拍）、贴墙滑行 |
 | **按住挖掘**（Phase 1） | 进度累积到 `dig_time()` 才破坏，换目标清零；`dig_time` = `硬度 × 工具惩罚 / 工具速度` |
 | **工具与耐久**（Phase 1） | 木/石/铁三档 × 镐斧铲剑；对路才挖得快、石类**不带镐挖了白挖**；耐久见底即断 |
@@ -20,14 +22,14 @@
 | **合成与熔炉**（Phase 1） | 21 条配方（16 合成 / 5 烧炼）；熔炉按时间烧、**与帧率无关** |
 | **血量与饥饿**（Phase 1） | 走路/挖掘消耗 → 归零掉血 → 死亡 → 重生；吃东西回饥饿/回血；摔落伤害 |
 | hotbar 与库存 | 1–9 换方块/工具；创造模式挖了直接进背包，生存模式走掉落物 |
-| 存档 | **种子 + 编辑增量 + 玩家 + 工具耐久 + 生存状态 + 掉落物**（JSON，UTF-8）；参数不符**响亮报错** |
-| 区块局部重建 | 改一块只重扫本块 + 贴边邻块 |
-| headless 验收 | 自动机跑完整生存循环（合成→挖→烧→吃）+ **11 条检查**，**零 GL** |
+| 存档 | **种子 + 编辑增量 + 玩家 + 工具耐久 + 生存状态 + 掉落物 + 世界时刻**（v3，能读 v1/v2 旧档） |
+| 区块局部重建 | 改一块只重扫本块 + 贴边邻块；光照同范围失效后按需重算 |
+| headless 验收 | 自动机跑完整生存循环 + **12 条检查**，**零 GL** |
 
-路线图见 [`docs/阶段计划.md`](docs/阶段计划.md)（Phase 2 生物与昼夜 → Phase 3 红石级机制）。
+路线图见 [`docs/阶段计划.md`](docs/阶段计划.md)（Phase 2-B 生物 → 2-C 洞穴与矿脉分层 → 3 红石级机制）。
 
-![Phase 0 地貌](shots/phase0_vista.png)
-![Phase 1 HUD（半血半饱）](shots/phase1_hud_hurt.png)
+![Phase 2-A 正午](shots/phase2_noon.png)
+![Phase 2-A 午夜](shots/phase2_midnight.png)
 
 ## 引擎从哪来（**必读**）
 
@@ -50,12 +52,14 @@ python -m pip install -e G:\repos\3dworld
 ## 运行
 
 ```bat
-python examples\mcclone3d.py                 :: 交互：漫步 / 挖 / 放
+python examples\mcclone3d.py                 :: 交互：漫步 / 挖 / 放 / 昼夜流动
+python examples\mcclone3d.py --phase 0.75    :: 直接跳到午夜（0=日出 0.25=正午 0.5=日落）
 python examples\mcclone3d.py --smoke 3       :: 3 秒后自动退出（冒烟）
-python examples\mcclone3d.py --flag auto,verbose   :: 自动机 + 每秒心跳
+python examples\mcclone3d.py --flag auto,verbose   :: 自动机 + 每秒心跳（含光照读数）
 python examples\shot_vista.py                :: 截图到 shots/（地貌 / 材质 / 选中框）
 python examples\shot_hud.py --hurt           :: 截图（HUD：半血半饱，读数可对拍）
-python -m mcclone3d.cli                      :: headless 验收 11 条（不需要窗口）
+python examples\shot_day.py                  :: 同一机位拍三张（正午 / 日落 / 午夜）
+python -m mcclone3d.cli                      :: headless 验收 12 条（不需要窗口）
 python -m tests.run_all                      :: 全部单测（零 GL）
 ```
 
@@ -64,6 +68,9 @@ python -m tests.run_all                      :: 全部单测（零 GL）
 
 **生存要点**：石类**必须带镐**才挖得动（徒手挖了白挖，且慢 5 倍）；工具会磨损断裂；
 挖到的东西掉在地上，**走近才捡得起来**；饿了会掉血，吃面包（`9` 格后可合成）回血。
+
+**光照要点**：天黑不是"调暗一个滤镜" —— 天光按列灌下来、水每格挡 1 级、
+洞里是黑的，所以**挖个竖井能把光引下来**（`cli --only daylight` 就是这么验的）。
 
 ## 与引擎的接法（不改 3dworld 一行）
 
@@ -90,23 +97,26 @@ python -m tests.run_all                      :: 全部单测（零 GL）
 ```
 mcclone3d/
   _engine.py        引擎接入层（定位 world3d / 登记服务 / 指配置目录）
-  blocks.py         方块表：id / 名称 / 固体 / 贴图（按面）/ 面剔除规则
+  blocks.py         方块表：id / 名称 / 固体 / 透明 / 自发光 / 贴图（按面）/ 面剔除规则
   items.py          物品表：方块物品 + 材料 + 工具（三档）+ 食物；挖掘耗时与收获门槛
   recipes.py        掉落表 + 合成/烧炼配方（**纯数据**，带反向自检）
+  sun.py            昼夜：世界时刻 → 相位 → day_factor（太阳高度角自算）+ 星空
+  light.py          逐格光照：天光列传播 + 方块光 BFS + 增量失效（**带性能护栏**）
   textures.py       程序化 16×16 像素材质 + 图集几何（零 GL 生成）
   world.py          区块化体素世界（确定性生成 + 编辑增量 + 跨区块邻块查询）
-  mesh.py           区块网格：面剔除 + 逐面 UV 投影 → 图集 UV
+  mesh.py           区块网格：面剔除 + 逐面 UV 投影 → 图集 UV + 光照顶点色
   kernel.py         玩法内核（Service）：物理 / 拾取 / 挖放 / 工具 / 掉落 / 合成 /
-                    熔炉 / 血量饥饿 / 存档 / 自动机
-  cli.py            headless 验收（11 条，零 GL）
+                    熔炉 / 血量饥饿 / 昼夜 / 光照 / 存档 / 自动机
+  cli.py            headless 验收（12 条，零 GL）
 configs/
   cordis.mcclone.yml   配置树（demo 与验收共用）
 examples/
-  mcclone3d.py      交互 demo（第一人称 + 挖/放 + 选中框 + 准星 + HUD）
+  mcclone3d.py      交互 demo（第一人称 + 挖/放 + 选中框 + 准星 + HUD + 昼夜天穹/星空）
   shot_vista.py     截图：地貌 / 材质 / 选中框
   shot_hud.py       截图：血条 / 饥饿条 / hotbar（`--hurt` 看半血读数）
+  shot_day.py       截图：同一机位的正午 / 日落 / 午夜（看光照真的在变）
 tests/              纯逻辑单测（零 GL）
-docs/               阶段计划、Phase 1 设计稿
+docs/               阶段计划、Phase 1 设计稿、Phase 2-A 设计稿
 shots/              截图（gitignore，可随时重生成）
 ```
 
@@ -115,13 +125,13 @@ shots/              截图（gitignore，可随时重生成）
 ```
 python -m tests.run_all     # 零 GL 单测：方块表/贴图/世界/网格/物理/拾取/内核
                             #                + 物品/掉落/配方/生存
-python -m mcclone3d.cli     # 11 条：world / mesh / physics / raycast / digplace / save
-                            #        / auto / items / drops / recipes / survival
+python -m mcclone3d.cli     # 12 条：world / mesh / physics / raycast / digplace / save
+                            #        / auto / items / drops / recipes / survival / daylight
 ```
 
 判据是**可量化的比较**，不是"看起来对"：同种子逐格相同、面数与逐格统计相符、
 跳高与解析解对拍、挖掘耗时与公式对拍、配方反向自检、自动机三种帧率结果一致、
-存档往返逐字段相等、HUD 读数与内核状态一致。
+存档往返逐字段相等、**水列的层次（15/14/0）与竖井天光衰减**、HUD 读数与内核状态一致。
 
 ## 已知边界
 

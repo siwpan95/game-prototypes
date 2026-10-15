@@ -103,9 +103,25 @@ in vec2 v_uv;
 out vec4 out_color;
 uniform vec3 u_top;
 uniform vec3 u_bottom;
+uniform float u_stars;                 // 0 = 白天无星、1 = 深夜满天
+// 星空：**不用噪声贴图**，直接把屏幕像素当格子做哈希 ——
+// 这样不引资源、不占显存，且"星星位置"在每台机器上完全一致（可截图对拍）。
+float hash21(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
 void main() {
     float t = pow(clamp(v_uv.y, 0.0, 1.0), 0.7);
-    out_color = vec4(mix(u_bottom, u_top, t), 1.0);
+    vec3 col = mix(u_bottom, u_top, t);
+    if (u_stars > 0.001) {
+        vec2 cell = floor(v_uv * vec2(320.0, 180.0));
+        float h = hash21(cell);
+        // 只有极少数格子亮：阈值 0.994 ⇒ 约 0.6% 的格子，且越靠天顶越密
+        float star = step(0.994, h) * u_stars * smoothstep(0.25, 0.95, v_uv.y);
+        col += vec3(star) * (0.5 + 0.5 * hash21(cell + 7.1));
+    }
+    out_color = vec4(col, 1.0);
 }'''
 
 LINE_VS = '''#version 330 core
@@ -528,9 +544,17 @@ class McCloneApp:
         if self.verbose and self.time - self._last_beat > 1.0:
             self._last_beat = self.time
             s = self.kernel.summary()
+            # 手上那格的光照也打出来：**"看着暗"与"光照数值低"要能对上**，
+            # 否则目视结论没有依据（说不出是材质暗还是没光）
+            lv = self.kernel.light_at(int(self.kernel.pos[0]),
+                                      int(self.kernel.pos[1]) + 1,
+                                      int(self.kernel.pos[2]))
             print(f'[mcclone3d] t={self.time:5.1f}s pos={s["pos"]} '
                   f'grounded={s["grounded"]} fly={s["flying"]} '
-                  f'faces={s["faces"]} 挖={s["dig"]} 放={s["placed"]}', flush=True)
+                  f'faces={s["faces"]} 挖={s["dig"]} 放={s["placed"]} | '
+                  f'{s["day"]:.0f}s day={s["day_factor"]:.2f} '
+                  f'{"夜" if s["night"] else "昼"} 头顶光={lv[0]}(方块{lv[1]}/天{lv[2]}) '
+                  f'已算光={s["lit_chunks"]}块', flush=True)
 
     def on_draw(self):
         self.window.clear()
@@ -561,18 +585,29 @@ class McCloneApp:
         return Mat4.look_at(Vec3(*eye), Vec3(*target), Vec3(0.0, 1.0, 0.0))
 
     def _draw_sky(self):
+        """天穹：色带**全部来自内核的昼夜状态**（`sun.sky_at`）。
+
+        ⚠ Phase 2-A 之前这里是写死的正午色（`u_top`/`u_bottom` 两个常量）——
+        于是"地面按昼夜变暗、天空纹丝不动"，截图一眼就能看出是假的。
+        现在顶色取 `sky`、地平线色取 `horizon`，两者都由引擎的 `sky_state` 给出，
+        与光照**同源同相位**（`day_factor` 就是从同一个 sun 高度角算的）。
+        """
+        st = self.kernel.cycle.sky()
         glDisable(GL_DEPTH_TEST)
         self.sky_prog.use()
-        self.sky_prog['u_top'] = (0.42, 0.62, 0.92)
-        self.sky_prog['u_bottom'] = (0.82, 0.88, 0.95)
+        self.sky_prog['u_top'] = tuple(st['sky'])
+        self.sky_prog['u_bottom'] = tuple(st['horizon'])
+        self.sky_prog['u_stars'] = float(st.get('stars', 0.0))
         self.sky_quad.draw(GL_TRIANGLES)
         glEnable(GL_DEPTH_TEST)
 
     def _draw_world(self):
+        st = self.kernel.cycle.sky()
         self.world_prog.use()
         self.world_prog['u_atlas'] = 0
         self.atlas.bind()
-        self.world_prog['u_fog'] = (0.82, 0.88, 0.95)
+        # 雾色跟地平线色一致：否则夜里会出现"远处一片白雾"这种穿帮
+        self.world_prog['u_fog'] = tuple(st['horizon'])
         # 雾的起止距离按"可玩视距"调：太近会把 70 格外的地形全洗成天空色
         # （实测踩过：飞到 14 格高空俯视时，整个远景被雾吃掉，看着像"世界是空的"）
         self.world_prog['u_fog_near'] = 110.0
@@ -615,11 +650,26 @@ def main(argv=None):
     ap.add_argument('--flag', default='', help='逗号分隔：auto = 跑自动机, verbose = 每秒打印状态')
     ap.add_argument('--width', type=int, default=1280)
     ap.add_argument('--height', type=int, default=720)
+    ap.add_argument('--time', type=float, default=None,
+                    help='世界时刻（秒，一昼夜 600s：0=日出 150=正午 300=日落 450=午夜）')
+    ap.add_argument('--phase', type=float, default=None,
+                    help='直接给相位 0..1（截图常用：0.25 正午 / 0.52 日落 / 0.75 午夜）')
     args = ap.parse_args(argv)
 
     flags = set(x.strip() for x in args.flag.split(',') if x.strip())
     app = McCloneApp(args.width, args.height, auto='auto' in flags,
                      verbose='verbose' in flags)
+    # 时刻在**内核装配之后**设（内核是引擎服务，demo 只调它的接口）
+    if args.phase is not None:
+        app.kernel.cycle.skip_to_phase(args.phase)
+    elif args.time is not None:
+        app.kernel.cycle.time = float(args.time)
+    if args.phase is not None or args.time is not None:
+        from mcclone3d import sun as _sun
+        print(f'[mcclone3d] 时刻：{_sun.describe(app.kernel.cycle.time)} '
+              f'day_factor={app.kernel.day_factor():.3f}', flush=True)
+        # 时刻变了 ⇒ 顶点色里的光照要重刷（几何不用重建）
+        app.kernel.dirty_chunks |= set(app.kernel._meshes or ())
     if args.shot:
         # `--shot <路径>`：N 秒（默认 2.0）后设一个"待抓"标记 —— 真正的抓帧发生在
         # `on_draw` 里（后台缓冲才有效），抓完自己关窗。

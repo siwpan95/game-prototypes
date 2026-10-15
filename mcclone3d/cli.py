@@ -47,7 +47,8 @@ from mcclone3d import blocks as B                       # noqa: E402
 from mcclone3d import items as I                         # noqa: E402
 from mcclone3d import recipes as R                       # noqa: E402
 from mcclone3d import textures                          # noqa: E402
-from mcclone3d.kernel import (SCRIPT, STEP_HZ, McCloneKernel, make_offline)  # noqa: E402
+from mcclone3d.kernel import (SAVE_VERSION, SCRIPT, STEP_HZ, McCloneKernel,
+                              make_offline)  # noqa: E402
 from mcclone3d.mesh import (_CORNERS, FACE_BRIGHT, NORMALS, build_chunk_mesh,  # noqa: E402
                             face_uv_quad, uv_projection_for)
 from mcclone3d.world import CHUNK, SEA_LEVEL, ChunkedWorld  # noqa: E402
@@ -143,7 +144,7 @@ def c_mesh():
 
 @check('physics')
 def c_physics():
-    k = make_offline({'seed': 555, 'size': 64, 'height': 32})
+    k = make_offline({'seed': 555, 'size': 64, 'height': 32, 'light': False})
     # 高空落下 → 必须落到地表站住（而不是穿过地面）
     k.flying = True
     k.pos = [8.5, 26.0, 8.5]
@@ -171,7 +172,7 @@ def c_physics():
     # 玩家会正面撞上台阶的侧面（那正是"没有自动上台阶"的正常表现），
     # 而 `_blocked` 判的是 AABB 与固体是否相交 —— 贴着台阶站着会被判 True。
     # 所以这里改测**平坦平台**上的行走（与单测同口径），不再拿自然地形当跑道。
-    k2 = make_offline({'seed': 555, 'size': 48, 'height': 32})
+    k2 = make_offline({'seed': 555, 'size': 48, 'height': 32, 'light': False})
     for x in range(48):
         for z in range(48):
             for y in range(32):
@@ -193,7 +194,7 @@ def c_physics():
 @check('raycast')
 def c_raycast():
     w = ChunkedWorld(99, 48, 32).generate()
-    k = make_offline({'seed': 99, 'size': 48, 'height': 32})
+    k = make_offline({'seed': 99, 'size': 48, 'height': 32, 'light': False})
     # 正下方：必定命中脚下方块，且法向朝上
     k.pitch, k.yaw = -89.9, 0.0
     hit = k.raycast()
@@ -203,7 +204,7 @@ def c_raycast():
     up = k.raycast()
     up_ok = up is None or k.world.get(*up[0]) != B.AIR
     # 薄墙：人工垒一面 1 格厚的墙，正对着它必须被挡住（DDA 不该穿过去）
-    k3 = make_offline({'seed': 99, 'size': 48, 'height': 32})
+    k3 = make_offline({'seed': 99, 'size': 48, 'height': 32, 'light': False})
     px, py, pz = int(k3.pos[0]), int(k3.pos[1]), int(k3.pos[2])
     wx = px + 3
     for y in range(py, py + 3):
@@ -222,7 +223,7 @@ def c_raycast():
 
 @check('digplace')
 def c_digplace():
-    k = make_offline({'seed': 2026, 'size': 48, 'height': 32})
+    k = make_offline({'seed': 2026, 'size': 48, 'height': 32, 'light': False})
     k.pitch = -89.9
     hit = k.raycast()
     assert hit is not None, '测试前提：脚下应有方块'
@@ -246,7 +247,7 @@ def c_digplace():
         okb, _ = k.dig()
         bedrock_ok = not okb
     # 不许把自己封死：站在空地上朝脚下放置 → 必须被拒
-    k2 = make_offline({'seed': 2026, 'size': 48, 'height': 32})
+    k2 = make_offline({'seed': 2026, 'size': 48, 'height': 32, 'light': False})
     k2.flying = True
     k2.pos = [8.5, 24.0, 8.5]
     for dx in (-1, 0, 1):
@@ -264,7 +265,7 @@ def c_digplace():
 
 @check('save')
 def c_save():
-    k = make_offline({'seed': 31337, 'size': 48, 'height': 32})
+    k = make_offline({'seed': 31337, 'size': 48, 'height': 32, 'light': False})
     k.pitch = -89.9
     k.dig()
     k.select(3)
@@ -314,7 +315,7 @@ def c_auto():
     """自动机跑到底，且**三种帧率结果一致**（时间量化 ⇒ 与帧率无关）。"""
     results = []
     for hz in (30, 60, 120):
-        k = make_offline({'seed': 8080, 'size': 48, 'height': 32})
+        k = make_offline({'seed': 8080, 'size': 48, 'height': 32, 'light': False})
         t = 0.0
         end = SCRIPT[-1][0] + 1.0
         while t < end:
@@ -424,7 +425,7 @@ def c_recipes():
 @check('survival')
 def c_survival():
     """按住挖掘 / 工具耐久边界 / 熔炉与帧率无关 / 掉落拾取 / 饿死与重生。"""
-    k = make_offline({'seed': 4242, 'size': 48, 'height': 32})
+    k = make_offline({'seed': 4242, 'size': 48, 'height': 32, 'light': False})
     k.creative = False
     k.inventory.clear()
     k.tool_durability.clear()
@@ -446,7 +447,7 @@ def c_survival():
     k.dig_dt(0.0)
     reset_ok = k.dig_progress < prog_before or k.dig_target is None
     # ② 工具耐久：连挖 N 下后恰好断在第 N+1 下之前
-    k2 = make_offline({'seed': 4242, 'size': 48, 'height': 32})
+    k2 = make_offline({'seed': 4242, 'size': 48, 'height': 32, 'light': False})
     k2.creative = False
     k2.inventory.clear()
     k2.tool_durability.clear()
@@ -470,7 +471,7 @@ def c_survival():
         k2._use_tool(tool)
     wear_ok = (broken_at == dur and k2.inventory.get(tool.id) in (0, None))
     # ③ 掉落 → 拾取
-    k3 = make_offline({'seed': 4242, 'size': 48, 'height': 32})
+    k3 = make_offline({'seed': 4242, 'size': 48, 'height': 32, 'light': False})
     k3.creative = False
     k3.inventory.clear()
     k3.spawn_drop(k3.pos[0], k3.pos[1] + 0.2, k3.pos[2], I.item_by_name('coal').id, 2)
@@ -481,7 +482,7 @@ def c_survival():
     # ④ 熔炉：按 dt 累积，且三种帧率同一结果
     res = []
     for hz in (30, 60, 120):
-        kf = make_offline({'seed': 1, 'size': 32, 'height': 32})
+        kf = make_offline({'seed': 1, 'size': 32, 'height': 32, 'light': False})
         kf.creative = False
         kf.inventory.clear()
         kf.give_item('raw_iron', 1)
@@ -498,7 +499,7 @@ def c_survival():
     # 燃料给 1.5 倍时间 ⇒ 一炉可能烧出 >1 个（这是设计，不是 bug）：断言"至少 1 个且各帧率相同"
     smelt_ok = res[0] is not None and len(set(res)) == 1 and res[0] >= 1
     # ⑤ 饿死 → 死亡 → 重生
-    ke = make_offline({'seed': 1, 'size': 32, 'height': 32})
+    ke = make_offline({'seed': 1, 'size': 32, 'height': 32, 'light': False})
     ke.creative = False
     ke.hunger = 0.0
     ke.saturation = 0.0
@@ -515,6 +516,101 @@ def c_survival():
             f'耐久断在第{broken_at}下（应={dur}）={wear_ok} 拾取={pick_ok} 远处不拾={far_kept} '
             f'熔炉30/60/120Hz={res} 一致且出铁={smelt_ok} 饿死={dead_ok}({cause}) '
             f'重生={respawn_ok}')
+
+
+@check('daylight')
+def c_daylight():
+    """昼夜：相位区间**全覆盖**、夜间地板、天光随昼夜折算、光照随方块变化。"""
+    from mcclone3d import sun as S
+    from mcclone3d.light import DEFAULT_HALO, LightEngine, LightOverflow, MAX_LIGHT
+    # ① 相位 → 时段名：**逐格扫一遍相位轴**，任何输入都要有名字（全定义）
+    names = [S.phase_name(p / 100.0) for p in range(100)]
+    covered = all(n for n in names) and len(set(names)) >= 5
+    # ② day_factor：正午最亮、午夜压到地板、且**永不为 0**（全黑 = 看不见路）
+    #    ⚠ 地板值取自**引擎**的 ambient 曲线（实测午夜 0.26），不是本模块的
+    #    `NIGHT_FLOOR` 常量 —— 那个常量只是"下限兜底"。所以判据写成"不低于下限"，
+    #    而不是"等于下限"（先前写成等于，直接被现实打红，这是好事）。
+    noon = S.day_factor(0.25 * S.DAY_LENGTH)
+    mid = S.day_factor(0.75 * S.DAY_LENGTH)
+    floor_ok = (abs(noon - 1.0) < 1e-6 and mid >= S.NIGHT_FLOOR and mid > 0.0)
+    # ③ 昼夜曲线：**量趋势而不是逐步单调** —— 引擎的 ambient 是 smoothstep 拼的，
+    #    早晚会有极小的反向台阶（合成亮度不是严格单调函数）。逐步断言会误报。
+    seq = [S.day_factor(t / 40.0 * S.DAY_LENGTH) for t in range(41)]
+    trend_ok = (max(seq) - min(seq) > 0.5
+                and abs(max(seq) - 1.0) < 1e-6
+                and seq[10] > seq[30])                 # 上午明显亮于深夜
+    # ④ 光照：地表上方满亮、地下为 0
+    #    ⚠ 水列的层次关系（实测，先前我把格子取错了）：
+    #      y=16 空气 → **15** ｜ y=15 水面 → **14** ｜ y=14 沙（地表）→ 0
+    #    也就是说"水面那一格"就是 `surface_at` **上面**一格。
+    #    ⚠ 另一个坑：**只能查已算过的区块**（halo 覆盖范围），查没算过的会拿到 0，
+    #    那是"没算"不是"黑"。
+    k = make_offline({'seed': 4242, 'size': 48, 'height': 32, 'time_phase': 0.25})
+    k.ensure_light([(1, 0, 1)], budget=1)
+    x, z = 20, 20                                      # 区块 (1,0,1)
+    surf = k.world.surface_at(x, z)
+    water_top = k.world.get(x, surf + 1, z) == B.WATER
+    above = k.light.sky(x, min(31, surf + 2), z)       # 水面之上
+    at_water = k.light.sky(x, min(31, surf + 1), z)    # 水面那一格
+    below = k.light.sky(x, max(0, surf - 3), z)
+    light_ok = (above == MAX_LIGHT
+                and (at_water == MAX_LIGHT - 1 if water_top else True)
+                and below == 0)
+    # ⑤ 挖一个竖井：**从"露天实心地表"往下**挖 6 格，井内天光必须 >0 且随深度递减
+    #    ⚠ 三条踩过的坑，缺一条这个断言就是假的：
+    #      1. 先前从 `s2+dy` **往上**挖 ⇒ 挖的全是空气，断言恒真（等于没测）；
+    #      2. `surface_at` 返回的可能是**水下**的沙（这一列水面在它上面），
+    #         从那里往下挖天光本来就是 0 —— 那是"水下"，不是"露天洞"；
+    #      3. 所以要**先找一个"地表上方是空气"的列**再挖。
+    k2 = make_offline({'seed': 4242, 'size': 48, 'height': 32, 'time_phase': 0.25})
+    x2, z2, s2 = None, None, None
+    for cand_x in range(18, 28):
+        for cand_z in range(18, 28):
+            top = k2.world.surface_at(cand_x, cand_z)
+            if B.is_solid(k2.world.get(cand_x, top, cand_z)) \
+                    and k2.world.get(cand_x, top + 1, cand_z) == B.AIR:
+                x2, z2, s2 = cand_x, cand_z, top
+                break
+        if x2 is not None:
+            break
+    assert x2 is not None, '找不到"露天实心地表"的列 —— 换个种子重跑'
+    for dy in range(0, 6):
+        k2.world.set(x2, s2 - dy, z2, B.AIR)          # 从地表**往下**挖
+    k2.invalidate_light_near(x2, s2, z2)
+    k2.ensure_light([(x2 >> 4, s2 >> 4, z2 >> 4)], budget=1)
+    shaft = [k2.light.sky(x2, s2 - dy, z2) for dy in range(0, 6)]
+    # ⚠ 判据写成"**整体在衰减**"，而不是"逐格单调不增"：实测洞口是 `[12, 13, 12, …]`
+    # —— 第 2 格比第 1 格亮是**对的**（第 1 格四周是实心、只能从正上方进光；
+    # 第 2 格还能吃到侧面漏进来的光）。逐格单调的断言会把正确的物理判成失败。
+    # 也不断言首格 == 15：那是"光照系数有没有被人改过"，不是"光照有没有在工作"。
+    shaft_ok = (all(v > 0 for v in shaft)
+                and shaft[-1] < shaft[0]
+                and all(shaft[i] >= shaft[i + 1] for i in range(1, len(shaft) - 1)))
+    # ⑥ 光照护栏：护栏必须**响亮抛错**，不许静默截断
+    guard_ok = False
+    try:
+        le = LightEngine(k2.world)
+        le._spread_from('sky', [(x2, s2, z2, MAX_LIGHT)] * 10, max_visits=1)
+    except LightOverflow:
+        guard_ok = True
+    # ⑦ 火把：放一个自发光方块，它自己与旁边一格应该亮起来
+    k3 = make_offline({'seed': 4242, 'size': 48, 'height': 32, 'time_phase': 0.75})
+    x3, z3 = 30, 30
+    s3 = k3.world.surface_at(x3, z3)
+    k3.world.set(x3, s3 + 1, z3, B.TORCH)
+    k3._mark_dirty(x3, s3 + 1, z3)
+    k3.ensure_light([(1, 0, 1)], budget=1)
+    torch_self = k3.light.block(x3, s3 + 1, z3)
+    torch_near = k3.light.block(x3, s3 + 1, z3 + 1)
+    torch_ok = torch_self > 0 and torch_near < torch_self
+    _report('daylight', covered and floor_ok and trend_ok and light_ok and shaft_ok
+            and guard_ok and torch_ok,
+            f'时段名全覆盖={covered}（{len(set(names))} 种） 正午={noon:.2f} 午夜={mid:.2f}'
+            f'（不低于地板={floor_ok}） 昼夜趋势={trend_ok}'
+            f' 地表({x},{surf},{z})={B.name_of(k.world.get(x, surf, z))}'
+            f' 水面上={above} 水面格={at_water}(水列={water_top}) 水下3格={below}（{light_ok}）'
+            f' 竖井天光={shaft}（{shaft_ok}） 护栏响亮失败={guard_ok}'
+            f' 火把={torch_self}/邻格={torch_near}（{torch_ok}） halo默认={DEFAULT_HALO}')
 
 
 # ---------------------------------------------------------------- 主流程

@@ -323,9 +323,17 @@ def t_mesh_scheduling():
 
 @test('存档往返：世界增量 + 玩家状态 + hotbar/工具/生存/掉落物 全部一致')
 def t_save_roundtrip():
-    """⚠ Phase 1 起存档是 **version 2**：除 Phase 0 的字段外还多出
-    `tools`（工具耐久）/`health`/`hunger`/`saturation`/`state`/`death_cause`/`drops`/`furnace`。
-    先前这里只断言了 Phase 0 的那几项 —— 新字段一个都没覆盖，等于"加了字段没人验证"。
+    """⚠ 存档版本演进（断言**不写死**版本号，而是断言"当前版本"+"能读旧版"）：
+
+    * v1 = Phase 0（方块名 + 玩家位姿 + edits）
+    * v2 = Phase 1（+ `tools`/`health`/`hunger`/`saturation`/`state`/`death_cause`
+      /`drops`/`furnace`）
+    * v3 = Phase 2-A（+ `day` 世界时刻）
+
+    先前这里写死 `blob['version'] == 2`，Phase 2-A 升到 v3 时它**正确地红了** ——
+    这是好事（说明断言真的在盯版本）。但"写死当前版本"每升一版都要改一次，
+    所以改成：① 断言等于 `SAVE_VERSION` 常量；② **额外断言 v1/v2 的老档仍能读**
+    （向后兼容才是版本号真正的意义，只盯数字是没用的）。
     """
     from mcclone3d import items as _I
     k = make_offline({'seed': 31337, 'size': 48, 'height': 32})
@@ -346,11 +354,24 @@ def t_save_roundtrip():
     k.furnace = {'fuel_left': 3.5, 'cook_left': 4.25, 'recipe': 'iron_ingot'}
     k.state, k.death_cause = 'playing', ''
     blob = json.loads(json.dumps(k.dump()))        # 过一遍 JSON，模拟真实落盘
-    # 存档格式本身：版本 + 新字段都要在
-    assert blob['version'] == 2, f'Phase 1 的存档版本该是 2，实际 {blob["version"]!r}'
+    # 存档格式本身：版本 + 新字段都要在（版本断言用常量，不写死数字）
+    from mcclone3d.kernel import SAVE_VERSION
+    assert blob['version'] == SAVE_VERSION, \
+        f'存档版本该是 SAVE_VERSION={SAVE_VERSION}，实际 {blob["version"]!r}'
     for key in ('tools', 'health', 'hunger', 'saturation', 'state', 'death_cause'):
         assert key in blob['player'], f'v2 存档的 player 里缺字段 {key}'
     assert 'drops' in blob and 'furnace' in blob, 'v2 存档缺 drops / furnace 段'
+    assert 'day' in blob, 'v3 存档缺世界时刻（day）段'
+    # **向后兼容**：更老的档（没 day 段、version 更小）也必须能读 —— 版本号的意义在这
+    for old_ver in (1, 2):
+        old = json.loads(json.dumps(blob))
+        old['version'] = old_ver
+        old.pop('day', None)
+        k_old = McCloneKernel.__new__(McCloneKernel)
+        k_old.ctx = None
+        k_old._init({'seed': 31337, 'size': 48, 'height': 32})
+        k_old.load(old)                            # 不该抛
+        assert k_old.health == k.health, f'v{old_ver} 老档读出的血量该一致'
     assert blob['player']['tools'] == {'iron_pickaxe': 77}, \
         f'磨损过的工具耐久该进存档：{blob["player"]["tools"]}'
     assert blob['drops'] and blob['drops'][0]['item'] == 'coal', \
