@@ -20,7 +20,7 @@ __all__ = [
     'AIR', 'STONE', 'DIRT', 'GRASS', 'SAND', 'WATER', 'LOG', 'LEAVES',
     'PLANKS', 'GLASS', 'COBBLE', 'BRICK', 'SNOW', 'GRAVEL',
     'CRAFTING_TABLE', 'FURNACE', 'COAL_ORE', 'IRON_ORE', 'GOLD_ORE',
-    'DIAMOND_ORE', 'BEDROCK', 'TORCH',
+    'DIAMOND_ORE', 'CROP', 'BEDROCK', 'TORCH',
     'BLOCKS', 'BLOCK_NAMES', 'BLOCK_IDS', 'by_id', 'by_name', 'name_of', 'all_blocks',
     'is_solid', 'is_liquid', 'is_transparent', 'tile_for_face',
     'faces_of', 'face_visible', 'DEFAULT_HOTBAR', 'MAX_ID',
@@ -53,6 +53,7 @@ TORCH = 19
 # Phase 2-C 新增（**id 只追加不改号** —— 存档按方块名存，重排 id 会读坏老档）
 GOLD_ORE = 20
 DIAMOND_ORE = 21
+CROP = 22
 
 #: 本项目用到的 id 上界（校验 / 数组尺寸用）
 MAX_ID = 31
@@ -116,6 +117,8 @@ def _defs():
     add(Block(IRON_ORE, 'iron_ore', '铁矿石', 'iron_ore'))
     add(Block(GOLD_ORE, 'gold_ore', '金矿石', 'gold_ore', hardness=1.6))
     add(Block(DIAMOND_ORE, 'diamond_ore', '钻石矿石', 'diamond_ore', hardness=2.2))
+    add(Block(CROP, 'crop', '作物', 'crop',
+              solid=False, opaque=False, hardness=0.3))
     add(Block(BEDROCK, 'bedrock', '基岩', 'bedrock', hardness=999.0))
     add(Block(TORCH, 'torch', '火把', 'torch',
               solid=False, opaque=False, emissive=0.9))

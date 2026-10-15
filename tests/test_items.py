@@ -82,7 +82,8 @@ def t_block_items():
     no_item = sorted(b.name for b in B.all_blocks() if R.as_item(b.id) is None)
     # Phase 2-C：金/钻石矿石与煤/铁同款 —— 挖了掉**材料**、不可放置，
     # 所以也不给方块物品（真需求确认过）。
-    assert no_item == ['bedrock', 'coal_ore', 'diamond_ore', 'gold_ore',
+    # 作物同理：打掉掉**小麦**（`wheat`），而"一株麦子"不是能拿在手里的方块。
+    assert no_item == ['bedrock', 'coal_ore', 'crop', 'diamond_ore', 'gold_ore',
                        'iron_ore', 'water'], \
         f'没有对应物品的方块集合变了：{no_item}（改这条要先确认是真需求）'
 

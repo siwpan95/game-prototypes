@@ -179,6 +179,9 @@ class ChunkedWorld:
         self.edits: dict[tuple, int] = {}
         #: 本世界被生成过（`generate()` 调过）的区块集合，供网格缓存判断
         self.generated: set[tuple] = set()
+        #: Phase 2-C：村庄中心与地基高度 `[(vx, vy, vz), ...]`（`decorate()` 填）。
+        #: 刷怪（村民通道）与验收要读它 —— 空列表表示"还没装修"或"这个世界没有村"。
+        self.villages: list[tuple[int, int, int]] = []
 
     # -------------------------------------------------------------- 生成
     def generate(self) -> 'ChunkedWorld':
@@ -379,6 +382,25 @@ class ChunkedWorld:
         lx, ly, lz = _local(x, y, z)
         return buf[_idx(lx, ly, lz)]
 
+    # ---------------------------------------------------------- 装修（树/村庄）
+    def decorate(self) -> dict:
+        """生成之后的**装修**：种树 + 盖村庄，返回统计。
+
+        ⚠ **所有"生成后内容"都必须走这一个入口**（2026-10-15）：加村庄时如果只在
+        `kernel.__init__` 里补一句 `plant_villages()`，`reset()` / `load()` 那两条
+        重建路径就会漏掉它 —— 表现是"换种子/读档后村庄消失"，而那种 bug 只在
+        特定操作顺序下出现。单一入口让"重建世界"这件事只有一种写法。
+        """
+        return {'trees': self.plant_trees(), 'villages': self.plant_villages()}
+
+    def plant_villages(self) -> int:
+        """盖村庄（位置由种子决定，走 `set_generated` ⇒ 不进存档增量）。
+
+        返回村庄数；同时把位置记进 `self.villages`（刷怪与验收要读）。
+        """
+        from . import structures                      # 局部导入：避开环
+        return structures.plant_villages(self)
+
     def set(self, x: int, y: int, z: int, block_id: int) -> bool:
         """写一个方块；**同时记进增量**。返回是否真的改变了。
 
@@ -483,7 +505,7 @@ class ChunkedWorld:
                 f'  ⇒ 要用这个存档，请按存档参数新建世界再读。')
         self.generate()
         if replant:
-            self.plant_trees()
+            self.decorate()
         self.edits.clear()
         unknown = []
         for x, y, z, name in data.get('edits', []):

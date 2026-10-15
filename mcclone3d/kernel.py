@@ -45,7 +45,7 @@ __all__ = ['McCloneKernel', 'make_offline', 'DEFAULT_SEED', 'REACH', 'PLAYER_HAL
            'WORLD_SIZE', 'WORLD_HEIGHT', 'STEP_HZ', 'START_STOCK',
            'MAX_HEALTH', 'MAX_HUNGER', 'DROP_PICKUP_R', 'DROP_TTL',
            'DAY_LENGTH', 'LIGHT_BUDGET_PER_FRAME', 'SAVE_VERSION',
-           'MOB_SPAWN_INTERVAL', 'MOB_CAP']
+           'MOB_SPAWN_INTERVAL', 'MOB_CAP', 'VILLAGE_SPAWN_SPAN', 'VILLAGE_POP']
 
 #: 存档版本。**只增不改语义**：加字段就 +1，读档必须能吃所有老版本。
 #: v1 = Phase 0 ｜ v2 = Phase 1（工具/生存/掉落/熔炉）｜ v3 = Phase 2-A（世界时刻）
@@ -101,6 +101,10 @@ MOB_SPAWN_INTERVAL = 4.0
 MOB_CAP = AI.MAX_MOBS
 #: 每次尝试刷几只（成功一只就够，多试几次给失败的尝试留机会）
 MOB_SPAWN_TRIES = 24
+#: 村庄刷村民的搜索半径（格）—— 村庄半径 13，取 10 让村民待在村里
+VILLAGE_SPAWN_SPAN = 10
+#: 每个村庄的村民上限（见 `_try_spawn_villager` 的说明）
+VILLAGE_POP = 4
 
 
 def _sign(x: float) -> int:
@@ -134,7 +138,7 @@ class McCloneKernel(Service):
         self.hotbar = [I.item_by_name(n).id for n in hotbar_names]
         self.world = ChunkedWorld(self.seed, self.size, self.height)
         self.world.generate()
-        self.world.plant_trees()
+        self.world.decorate()
         #: 世界被改动的次数 —— demo 用它判断"哪些区块的网格要重建"
         self.revision = 0
         #: 哪些区块的网格需要（重）建。**开局 = 全部区块**：否则第一次渲染
@@ -254,10 +258,10 @@ class McCloneKernel(Service):
             self.seed = int(seed)
             self.world = ChunkedWorld(self.seed, self.size, self.height)
             self.world.generate()
-            self.world.plant_trees()
+            self.world.decorate()
         else:
             self.world.generate()
-            self.world.plant_trees()
+            self.world.decorate()
         # 世界重建 ⇒ 源与水位全部作废，重新标记（否则会拿着旧世界的坐标去演化）
         from . import fluid as FL
         self.fluid = FL.FluidSystem()
@@ -1161,6 +1165,8 @@ class McCloneKernel(Service):
         night = self.cycle.is_night()
         spawned = 0
         for kind in MB.all_kinds():
+            if kind.village_only:
+                continue        # 村民走**村庄通道**（下面那条），不在荒野随机刷
             # 被动生物夜里少刷（`night` 时 1/3 概率）
             if not kind.hostile and night and self._mob_rng.random() > 0.33:
                 continue
@@ -1181,7 +1187,43 @@ class McCloneKernel(Service):
                 spawned += 1
             if spawned >= 2:
                 break
+        # Phase 2-C：**村庄通道**（每次都试一次；村里没人就补一个）
+        spawned += self._try_spawn_villager()
         return spawned
+
+    def _try_spawn_villager(self) -> int:
+        """在村庄范围内刷一个村民（返回 0/1）。
+
+        为什么村民要独立通道：**"村庄有人住"这件事不该由荒野刷怪规则决定** ——
+        它不看光照、不看昼夜（村里白天夜里都有人），只看"这里是不是村庄"。
+        村外永远不会刷出村民（`MobKind.village_only` 让荒野那条路跳过它）。
+
+        落脚判据：站在**村庄地基高度附近**（±3 格，避免刷进村下面的洞）且
+        **头顶 3 格净空**（人形高 5 体素，2 格净空会卡进屋顶/树冠）。
+        """
+        villages = self.world.villages
+        if not villages or len(self.mobs) >= MOB_CAP:
+            return 0
+        # 人口上限（**每村**）：不设限的话村民会以"每 4 秒一只"的速度刷满 MOB_CAP，
+        # 把其他生物的名额全占了，而且村里挤成一片（实测 30 次刷怪 ⇒ 30 只村民）。
+        pop_cap = len(villages) * VILLAGE_POP
+        if sum(1 for m in self.mobs if m.kind.name == 'villager') >= pop_cap:
+            return 0
+        ctx = self.mob_context()
+        vx, vy, vz = villages[int(self._mob_rng.random() * len(villages)) % len(villages)]
+        span = VILLAGE_SPAWN_SPAN
+        for _ in range(10):
+            x = vx + int((self._mob_rng.random() * 2 - 1) * span)
+            z = vz + int((self._mob_rng.random() * 2 - 1) * span)
+            if not (1 <= x < self.size - 1 and 1 <= z < self.size - 1):
+                continue
+            gy = AI.ground_below(ctx, x, z, min(self.height - 2, vy + 5))
+            if gy is None or not (vy - 3 <= gy <= vy + 3):
+                continue
+            if any(self.world.get(x, gy + dy, z) != B.AIR for dy in (1, 2, 3)):
+                continue
+            return 1 if self.spawn_mob('villager', x + 0.5, float(gy), z + 0.5) else 0
+        return 0
 
     def _clamp_bounds(self):
         """别掉出世界（掉出去就送回地表）。"""

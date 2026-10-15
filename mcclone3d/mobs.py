@@ -46,12 +46,13 @@ class MobKind:
     __slots__ = ('name', 'title', 'hostile', 'health', 'speed', 'chase_speed',
                  'sight', 'reach', 'attack', 'attack_cd', 'fall_safe',
                  'drops', 'parts', 'width', 'height', 'spawn_light_max',
-                 'spawn_weight')
+                 'spawn_weight', 'village_only')
 
     def __init__(self, name, title, *, hostile=False, health=10.0, speed=1.6,
                  chase_speed=None, sight=12.0, reach=1.2, attack=0.0,
                  attack_cd=1.0, fall_safe=3.5, drops=(), parts=(),
-                 width=0.6, height=0.9, spawn_light_max=15, spawn_weight=1.0):
+                 width=0.6, height=0.9, spawn_light_max=15, spawn_weight=1.0,
+                 village_only=False):
         self.name = name
         self.title = title
         self.hostile = bool(hostile)
@@ -73,6 +74,9 @@ class MobKind:
         #: 刷新时"这一格的方块光不超过多少" —— 敌对生物靠它做到"只在暗处出现"
         self.spawn_light_max = int(spawn_light_max)
         self.spawn_weight = float(spawn_weight)
+        #: **只在村庄里刷**（村民）。走的是独立通道（`kernel._try_spawn_villager`），
+        #: 所以"荒野随机刷怪"那条路必须把它跳过去 —— 否则村外也会冒村民。
+        self.village_only = bool(village_only)
 
     def __repr__(self):
         return f'<MobKind {self.name}>'
@@ -125,6 +129,13 @@ def _defs():
         parts=_quadruped((0.88, 0.58, 0.58), (0.94, 0.64, 0.62), (0.58, 0.36, 0.36),
                          body_len=3.0),
         width=1.0, height=3.0, spawn_light_max=15, spawn_weight=1.0))
+    # --- 被动：村民（Phase 2-C —— **只在村庄里刷**，见 `kernel._try_spawn_villager`） ---
+    out.append(MobKind(
+        'villager', '村民', health=10.0, speed=0.9, sight=7.0,
+        drops=(('bread', 1, 1),),
+        parts=_humanoid((0.52, 0.36, 0.24), (0.82, 0.64, 0.48)),
+        width=1.0, height=5.0, spawn_light_max=15, spawn_weight=1.0,
+        village_only=True))
     # --- 敌对：僵尸（只在暗处刷、会追、贴上来就打） ---
     out.append(MobKind(
         'zombie', '僵尸', hostile=True, health=14.0, speed=1.3, chase_speed=1.9,

@@ -15,9 +15,10 @@ Phase 0 的"挖了就进背包"是简化；Phase 1 起"挖"与"得到"分开（�
 from __future__ import annotations
 
 from . import items as I
-from .blocks import (BEDROCK, BRICK, COAL_ORE, COBBLE, CRAFTING_TABLE, DIAMOND_ORE,
-                     DIRT, FURNACE, GLASS, GOLD_ORE, GRASS, GRAVEL, IRON_ORE,
-                     LEAVES, LOG, PLANKS, SAND, SNOW, STONE, TORCH, WATER)
+from .blocks import (BEDROCK, BRICK, COAL_ORE, COBBLE, CRAFTING_TABLE, CROP,
+                     DIAMOND_ORE, DIRT, FURNACE, GLASS, GOLD_ORE, GRASS,
+                     GRAVEL, IRON_ORE, LEAVES, LOG, PLANKS, SAND, SNOW, STONE,
+                     TORCH, WATER)
 
 __all__ = ['drops_for', 'Recipe', 'RECIPES', 'recipe_by_id', 'recipes_for',
            'craftable', 'craft', 'consume', 'smelt_recipes', 'craft_recipes',
@@ -63,6 +64,8 @@ DROP_TABLE = {
     FURNACE: ('furnace', 1, 1),
     # 火把：挖掉掉回自己（它是"放下去的光源"，回收是合理的）
     TORCH: ('torch', 1, 1),
+    # 作物：打掉掉小麦（村庄农田的**玩法闭环** —— 收麦 → 3 麦烤 1 面包）
+    CROP: ('wheat', 1, 2),
 }
 
 #: 树叶的"偶发掉落"（树叶本身不掉，但有小概率掉苹果 —— 这里当"树苗/果子"用）

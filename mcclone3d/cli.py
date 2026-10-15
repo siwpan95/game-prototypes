@@ -961,6 +961,90 @@ def c_weather():
             f'内核压暗 晴{ks[0]:.3f}/雪{ks[2]:.3f}/雨{ks[1]:.3f}={kernel_ok}')
 
 
+@check('village')
+def c_village():
+    """Phase 2-C 第三批：村庄选址 / 整平 / 建筑 / **灯火即安全区** / 村民。"""
+    import time as _t
+    from mcclone3d import blocks as BB
+    from mcclone3d import mobs as MB
+    from mcclone3d import structures as ST
+    from mcclone3d.kernel import VILLAGE_POP
+    k = make_offline({'seed': 20261014, 'size': 128, 'height': 64, 'light': True})
+    w = k.world
+    t0 = _t.perf_counter()
+    w.decorate()
+    dt = _t.perf_counter() - t0
+    if not w.villages:
+        _report('village', False, '这个世界一个村庄都没有（选址判据太严？）')
+        return
+    vx, vy, vz = w.villages[0]
+    pr = ST.VILLAGE_R
+
+    # ① 整平：地基那层没有空气、上方 3 格没有残留的树
+    hole = sum(1 for x in range(vx - pr, vx + pr + 1)
+               for z in range(vz - pr, vz + pr + 1) if w.get(x, vy, z) == BB.AIR)
+    trunk = sum(1 for x in range(vx - pr, vx + pr + 1)
+                for z in range(vz - pr, vz + pr + 1)
+                for dy in (1, 2, 3)
+                if w.get(x, vy + dy, z) in (BB.LOG, BB.LEAVES))
+
+    # ② 四栋房：门洞通 + 屋顶不透 + 屋里有火把
+    doors = roofs = torches = 0
+    for (sx, sz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
+        hx, hz = vx + sx * ST.HOUSE_OFF, vz + sz * ST.HOUSE_OFF
+        ddx, ddz = -sx, -sz
+        if ddx:
+            cells = [(hx + ddx * ST.HOUSE_HW, vy + dy, hz) for dy in (1, 2)]
+        else:
+            cells = [(hx, vy + dy, hz + ddz * ST.HOUSE_HW) for dy in (1, 2)]
+        doors += all(w.get(*c) == BB.AIR for c in cells)
+        top = vy + ST.HOUSE_WALL + 2
+        roofs += all(w.get(x, top, z) != BB.AIR
+                     for x in range(hx - ST.HOUSE_HW, hx + ST.HOUSE_HW + 1)
+                     for z in range(hz - ST.HOUSE_HW, hz + ST.HOUSE_HW + 1))
+        torches += any(w.get(x, y, z) == BB.TORCH
+                       for x in range(hx - ST.HOUSE_HW, hx + ST.HOUSE_HW + 1)
+                       for y in range(vy + 1, vy + ST.HOUSE_WALL + 1)
+                       for z in range(hz - ST.HOUSE_HW, hz + ST.HOUSE_HW + 1))
+
+    # ③ **灯火即安全区**：村中心 5×5 的方块光全部高于僵尸阈值
+    k.light.column_pass_all()
+    for cx in range(k.size // 16):
+        for cy in range(k.height // 16):
+            for cz in range(k.size // 16):
+                k.light.relight_chunk(cx, cy, cz)
+    limit = MB.mob_kind('zombie').spawn_light_max
+    dark = sum(1 for dx in range(-2, 3) for dz in range(-2, 3)
+               if k.light.block(vx + dx, vy + 1, vz + dz) <= limit)
+    lit = k.light.block(vx, vy + 1, vz)
+
+    # ④ 村民：村里刷得出、村外刷不出、有人口上限
+    k.pos = [vx + 0.5, float(vy + 1), vz + 0.5]
+    for _ in range(30):
+        k._try_spawn_villager()
+    vs = [m for m in k.mobs if m.kind.name == 'villager']
+    cap = len(w.villages) * VILLAGE_POP
+    in_village = all(abs(m.pos[0] - vx) <= ST.VILLAGE_R + 4
+                     and abs(m.pos[2] - vz) <= ST.VILLAGE_R + 4 for m in vs)
+    wild = all(not mb.kind.village_only for mb in k.mobs if mb.kind.name != 'villager')
+
+    # ⑤ 农田：有作物，且作物下面必须是土
+    crops = [(x, z) for x in range(vx - 3, vx + 4)
+             for z in range(vz - ST.HOUSE_OFF - 4, vz + ST.HOUSE_OFF + 5)
+             if w.get(x, vy + 1, z) == BB.CROP]
+    farm_ok = bool(crops) and all(w.get(x, vy, z) == BB.DIRT for (x, z) in crops)
+
+    # ⑥ 结构不进存档增量
+    names = {row[3] for row in w.dump()['edits']}
+    no_edit = not names
+
+    ok = (hole == 0 and trunk == 0 and doors == 4 and roofs == 4 and torches == 4
+          and dark == 0 and bool(vs) and len(vs) <= cap and in_village and wild
+          and farm_ok and no_edit and dt < 1.0)
+    _report('village', ok,
+            f'村庄 {len(w.villages)} 个（首个 @{vx},{vy},{vz}）装修 {dt:.2f}s '            f'地基空洞 {hole} 残留树 {trunk} 门 {doors}/4 屋顶 {roofs}/4 火把 {torches}/4 '            f'村内暗格 {dark}(中心光照 {lit}>{limit}) 村民 {len(vs)}/{cap} '            f'在村内 {in_village} 村外无村only {wild} 农田 {len(crops)}株 {farm_ok} '            f'不进存档 {no_edit}')
+
+
 # ---------------------------------------------------------------- 主流程
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description='mcclone3d headless 验收（零 GL）')

@@ -298,6 +298,23 @@ def _paint_torch(c):
             c.set(x, y, (240, 176, 60) if (x + y) % 2 else (252, 226, 120))
 
 
+def _paint_crop(c):
+    """作物（麦子）：**透空**背景 + 三根竖直麦秆与金黄穗头。
+
+    为什么必须透空：麦子是"长在地面上的细秆"，画成不透明的板会在田里
+    立起一块方块状的东西。`opaque=False` 同理（它不该挡住邻块的面）。
+    """
+    c.fill((0, 0, 0), 0)
+    for x in (3, 7, 11):                       # 三根麦秆（错开高度，看着不像栅栏）
+        for y in range(4 + (x % 3), TILE):
+            col = (96, 138, 62) if y % 3 else (120, 162, 76)
+            c.set(x, y, col)
+            c.set(x + 1, y, (108, 150, 68))
+        for y in range(3, 8):                  # 穗头
+            c.set(x, y, (214, 186, 74) if y % 2 else (234, 208, 98))
+            c.set(x + 1, y, (224, 196, 84))
+
+
 PAINTERS = {
     'stone': _paint_stone,
     'cobble': _paint_cobble,
@@ -324,6 +341,7 @@ PAINTERS = {
     'diamond_ore': _paint_diamond_ore,
     'bedrock': _paint_bedrock,
     'torch': _paint_torch,
+    'crop': _paint_crop,
     'wool': _paint_wool,
 }
 #: 图集里的贴图顺序（**顺序即格号**，改顺序会让 UV 全变 ⇒ 有单测钉住）
