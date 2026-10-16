@@ -86,8 +86,11 @@ class PuzzleService:
         # Content is loaded once per service: a pack read failure is reported here
         # (loudly) rather than swallowed per puzzle, and the game still runs on the
         # banks embedded in the puzzle modules.
-        self.content = _load_content()
-        if autodiscover and not all_kinds():
+        self.content = _load_content(language)
+        # Register this language's kinds if they are not registered *for it* yet.
+        # The check is per language: two PuzzleService instances in one process may
+        # speak different languages and must not share registrations.
+        if autodiscover and not all_kinds(language):
             discover(language, content=self.content)
         self._sessions: dict[str, Session] = {}
         self._counter = 0
@@ -150,7 +153,7 @@ class PuzzleService:
     # --- kinds ---------------------------------------------------------------
 
     def list_kinds(self) -> list[dict[str, Any]]:
-        return [kind.public() for kind in all_kinds()]
+        return [kind.public() for kind in all_kinds(self.language)]
 
     # --- sessions ------------------------------------------------------------
 
@@ -185,12 +188,12 @@ class PuzzleService:
         session = self._session(session_id)
         if kind is None:
             chooser = rng or random
-            pool = all_kinds()
+            pool = all_kinds(self.language)
             if not pool:
                 raise InvalidAction("no puzzle kinds are registered; call discover() first")
             chosen = chooser.choice(pool)
         else:
-            chosen = get(kind)
+            chosen = get(kind, self.language)
 
         session.kind = chosen
         session.puzzle = chosen.create(difficulty=_normalise_difficulty(difficulty), rng=rng)
@@ -449,8 +452,8 @@ def _is_iso_date(value: str) -> bool:
     return parsed.strftime("%Y-%m-%d") == value
 
 
-def _load_content():
-    """Load the shipped content pack, announcing a failure instead of hiding it.
+def _load_content(language: str = "zh"):
+    """Load the shipped content pack for *language*, announcing a failure loudly.
 
     A broken pack must not stop the game — the puzzle modules still carry their own
     banks — but it must not be silent either: a pack that fails validation while
@@ -460,7 +463,7 @@ def _load_content():
     from puzzle_service.content import ContentPackError, load_pack
 
     try:
-        return load_pack()
+        return load_pack(language=language)
     except ContentPackError as exc:
         print(f"[puzzle-service] content pack unusable, using built-in banks: {exc}", file=sys.stderr)
         return None

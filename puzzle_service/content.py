@@ -134,17 +134,26 @@ class ContentPack:
 # ---------------------------------------------------------------------------
 
 
-def default_pack_path() -> Path:
-    """Where the shipped pack lives, unless overridden by the environment."""
+def default_pack_path(language: str = "zh") -> Path:
+    """Where a language's shipped pack lives, unless overridden by the environment.
+
+    One pack per language, because puzzle content *is* language data: an English
+    build showing Chinese riddles is the gap this layout closes. The environment
+    variable overrides both, which is what a pack author wants while editing.
+    """
     override = os.environ.get(PACK_ENV_VAR)
     if override:
         return Path(override)
-    return Path(__file__).resolve().parents[1] / "content" / "packs" / "core-zh"
+    root = Path(__file__).resolve().parents[1] / "content" / "packs"
+    candidate = root / f"core-{language}"
+    # Fall back to the Chinese pack for a language that has no pack yet, so a new
+    # language still runs (with the wrong-language content) instead of failing.
+    return candidate if candidate.is_dir() else root / "core-zh"
 
 
 def load_pack(path: Path | str | None = None, *, language: str | None = None) -> ContentPack:
     """Load and validate a pack, raising :class:`ContentPackError` when unusable."""
-    root = Path(path) if path is not None else default_pack_path()
+    root = Path(path) if path is not None else default_pack_path(language or "zh")
     if not root.is_dir():
         raise ContentPackError(f"content pack directory not found: {root}")
 

@@ -1,11 +1,13 @@
 """GuessNumberPuzzle: guess a randomly generated number with hints."""
 
-import random
+from typing import Any
+
 from .base_puzzle import BasePuzzle
 
 
 class GuessNumberPuzzle(BasePuzzle):
-    puzzle_name = "Guess the Number"
+    kind = "guess_number"
+    puzzle_name = "猜数字"
     puzzle_type = "generated"
 
     def _generate(self) -> None:
@@ -35,19 +37,18 @@ class GuessNumberPuzzle(BasePuzzle):
         if guess == self.data["target"]:
             return True
         elif guess < self.data["target"]:
-            self.data["last_hint"] = "Higher!"
+            self.data["last_hint"] = self.word("higher")
             self.data["low"] = max(self.data["low"], guess + 1)
         else:
-            self.data["last_hint"] = "Lower!"
+            self.data["last_hint"] = self.word("lower")
             self.data["high"] = min(self.data["high"], guess - 1)
 
         if self.data["attempts"] >= self.data["max_attempts"]:
-            self.data["last_hint"] = f"Out of attempts! The answer was {self.data['target']}"
+            self.data["last_hint"] = self.msg(
+                "guess_out_of_attempts", target=self.data["target"]
+            )
 
         return False
 
     def get_hint(self) -> str:
-        target = self.data["target"]
-        if target % 2 == 0:
-            return "The number is even"
-        return "The number is odd"
+        return self.word("guess_even" if self.data["target"] % 2 == 0 else "guess_odd")

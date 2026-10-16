@@ -11,7 +11,8 @@ SYMBOLS: list[str] = [
 
 
 class MemoryPuzzle(BasePuzzle):
-    puzzle_name = "Memory Match"
+    kind = "memory"
+    puzzle_name = "记忆翻牌"  # default language; overridden per instance
     puzzle_type = "generated"
 
     def _generate(self) -> None:
@@ -67,8 +68,11 @@ class MemoryPuzzle(BasePuzzle):
                         if self.data["matched"][r2][c2]:
                             continue
                         if self.data["grid"][r1][c1] == self.data["grid"][r2][c2]:
-                            return f"Match at row {r1 + 1} col {c1 + 1} and row {r2 + 1} col {c2 + 1}"
-        return "No more pairs to find!"
+                            return self.msg(
+                                "memory_hint",
+                                r1=r1 + 1, c1=c1 + 1, r2=r2 + 1, c2=c2 + 1,
+                            )
+        return self.word("no_more_pairs")
 
     def flip_card(self, row: int, col: int) -> dict:
         """Flip a card and return action info."""

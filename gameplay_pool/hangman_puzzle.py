@@ -33,9 +33,10 @@ WORD_BANK = {
 
 
 class HangmanPuzzle(BasePuzzle):
-    puzzle_name = "猜单词"
-    puzzle_type = "content"
+    kind = "hangman"
     content_kind = "hangman_words"
+    puzzle_name = "猜单词"  # default language; overridden per instance
+    puzzle_type = "content"
 
     def _generate(self) -> None:
         item = self.pick_content()
@@ -86,5 +87,5 @@ class HangmanPuzzle(BasePuzzle):
             # Reveal the first unrevealed letter
             for ch in self.data["word"]:
                 if ch not in self.data["guessed"]:
-                    return f"单词包含'{ch.upper()}'"
-        return f"单词有{len(self.data['word'])}个字母: {self.get_display()}"
+                    return self.msg("hangman_contains", letter=ch.upper())
+        return self.msg("hangman_length", count=len(self.data["word"]), display=self.get_display())

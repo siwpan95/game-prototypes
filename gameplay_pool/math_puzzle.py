@@ -1,11 +1,13 @@
 """MathPuzzle: arithmetic problems at varying difficulties."""
 
-import random
+from typing import Any
+
 from .base_puzzle import BasePuzzle
 
 
 class MathPuzzle(BasePuzzle):
-    puzzle_name = "数学题"
+    kind = "math"
+    puzzle_name = "数学题"  # default language; instance attribute picks the real one
     puzzle_type = "content"
 
     def _generate(self) -> None:
@@ -42,5 +44,4 @@ class MathPuzzle(BasePuzzle):
 
     def get_hint(self) -> str:
         ans = self.data["answer"]
-        length = len(str(ans))
-        return f"答案有{length}位数，以{str(ans)[0]}开头"
+        return self.msg("math_hint", length=len(str(ans)), first=str(ans)[0])

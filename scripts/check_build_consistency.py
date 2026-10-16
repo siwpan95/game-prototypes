@@ -1,15 +1,13 @@
-"""Consistency check between the two builds' puzzle classes.
+"""Consistency check between the two pygame clients.
 
-`text_adventure/` and `text_adventure_zh/` are parallel implementations of the
-same 14 kinds. Nothing structurally enforces that, so they drift — and the drift
-is silent until a feature is exercised in one build only. That happened while
-adding the daily puzzle: the `_rng()` helper was added to the Chinese base class
-and the English one kept using the module-level `random`, which only failed when
-the English build was actually played.
+`text_adventure/` and `text_adventure_zh/` are legacy front ends of the same game.
+Their puzzle pools were removed in M5 (one implementation now lives in the top-level
+``gameplay_pool``), so what is left to keep in step is the *client* surface: the same
+set of modules, and flat imports that still resolve.
 
-This is a **smoke test**, not a unit test: it imports each build in its own child
-process (the two builds export identically named top-level modules, so they cannot
-share an interpreter) and compares the class-level structure.
+This is a **smoke test**, not a unit test: it imports each client in its own child
+process (they export identically named top-level modules, so they cannot share an
+interpreter) and compares their structure.
 """
 
 from __future__ import annotations
@@ -19,35 +17,30 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+BUILDS = {"zh": "text_adventure_zh", "en": "text_adventure"}
 
-#: Class attributes that must *agree*, because features depend on their values.
-#: ``puzzle_name`` is deliberately absent: it is the display name and differs by
-#: language ("数独" vs "Sudoku") — the check only requires that both builds have it.
-ATTRIBUTES = ["puzzle_type", "content_kind"]
-
-#: Attributes that must merely exist in both builds.
-PRESENT_ATTRIBUTES = ["puzzle_name"]
-
-#: Methods every puzzle class must provide, in addition to its own.
-BASELINE_METHODS = ["_generate", "check_answer", "get_hint", "pick_content", "pick_from", "_rng", "reset"]
+#: Modules every pygame client must provide.
+CLIENT_MODULES = ["engine.py", "ui.py", "events.py", "domain.py", "main.py"]
 
 
 def _introspect(build: str) -> dict:
-    """Return {class name: {"attrs": {...}, "methods": [...]}} for one build."""
+    """Return what one client exposes: its modules and the class it defines."""
     code = (
         "import json, sys\n"
         f"sys.path.insert(0, r'{ROOT}')\n"
         "from shared.paths import bootstrap_import_path\n"
         f"bootstrap_import_path('{build}')\n"
+        "import gameplay_pool, engine, ui, events, domain\n"
         "from gameplay_pool import PUZZLE_CLASSES\n"
-        f"attrs = {ATTRIBUTES!r} + {PRESENT_ATTRIBUTES!r}\n"
-        "out = {}\n"
-        "for cls in PUZZLE_CLASSES:\n"
-        "    out[cls.__name__] = {\n"
-        "        'attrs': {a: getattr(cls, a, None) for a in attrs},\n"
-        "        'methods': sorted(m for m in dir(cls) if not m.startswith('__')),\n"
-        "    }\n"
-        "print(json.dumps(out, ensure_ascii=False, default=str))\n"
+        "out = {\n"
+        "    'pool_file': gameplay_pool.__file__.replace('\\\\', '/'),\n"
+        "    'engine_module': engine.__file__.replace('\\\\', '/'),\n"
+        "    'kinds': sorted(c.__name__ for c in PUZZLE_CLASSES),\n"
+        "    'engine_attrs': sorted(a for a in dir(engine.Engine) if not a.startswith('__')),\n"
+        "    'ui_attrs': sorted(a for a in dir(ui.UI) if not a.startswith('__')),\n"
+        "    'spawns': hasattr(ui.UI, 'run'),\n"
+        "}\n"
+        "print(json.dumps(out, ensure_ascii=False))\n"
     )
     result = subprocess.run(
         [sys.executable, "-c", code],
@@ -59,7 +52,7 @@ def _introspect(build: str) -> dict:
         timeout=180,
     )
     if result.returncode != 0:
-        print(f"FAIL  could not introspect the {build} build:\n{result.stderr}", file=sys.stderr)
+        print(f"FAIL  could not introspect the {build} client:\n{result.stderr}", file=sys.stderr)
         raise SystemExit(1)
     import json
 
@@ -68,57 +61,60 @@ def _introspect(build: str) -> dict:
 
 def main() -> int:
     failures: list[str] = []
-    zh = _introspect("zh")
-    en = _introspect("en")
+    data = {name: _introspect(name) for name in BUILDS}
 
-    if set(zh) != set(en):
-        failures.append(
-            f"class sets differ: en-only {sorted(set(en) - set(zh))}, "
-            f"zh-only {sorted(set(zh) - set(en))}"
-        )
+    # 1. Every client ships the same modules.
+    for name, directory in BUILDS.items():
+        present = {path.name for path in (ROOT / directory).glob("*.py")}
+        missing = [module for module in CLIENT_MODULES if module not in present]
+        if missing:
+            failures.append(f"{directory}: missing {missing}")
+        else:
+            print(f"OK    {directory} provides {len(CLIENT_MODULES)} client modules")
+
+    # 2. No client carries its own puzzle pool any more (M5: one implementation).
+    for name, directory in BUILDS.items():
+        legacy = ROOT / directory / "gameplay_pool"
+        if legacy.exists():
+            files = sorted(path.name for path in legacy.glob("*.py"))
+            failures.append(
+                f"{directory}/gameplay_pool still exists ({len(files)} files): "
+                "the unified pool at the project root is the only implementation"
+            )
+    if not failures:
+        print("OK    neither client carries a duplicate puzzle pool")
+
+    # 3. Both clients resolve the *same* unified pool.
+    pool_files = {name: data[name]["pool_file"] for name in BUILDS}
+    if len(set(pool_files.values())) != 1:
+        failures.append(f"clients resolve different pools: {pool_files}")
+    elif "gameplay_pool" not in pool_files["zh"]:
+        failures.append(f"unexpected pool path: {pool_files['zh']}")
     else:
-        print(f"OK    both builds define the same {len(zh)} classes")
+        print(f"OK    both clients use the same pool — {Path(pool_files['zh']).name}")
 
-    for name in sorted(set(zh) & set(en)):
-        for attribute in ATTRIBUTES:
-            mine, theirs = zh[name]["attrs"][attribute], en[name]["attrs"][attribute]
-            if mine != theirs:
-                failures.append(f"{name}.{attribute}: zh={mine!r} en={theirs!r}")
-        for attribute in PRESENT_ATTRIBUTES:
-            if not zh[name]["attrs"].get(attribute) or not en[name]["attrs"].get(attribute):
-                failures.append(f"{name}.{attribute}: missing in one of the builds")
+    # 4. Same kinds, same engine surface.
+    if data["zh"]["kinds"] != data["en"]["kinds"]:
+        failures.append(f"kind lists differ: {data['zh']['kinds']} vs {data['en']['kinds']}")
+    else:
+        print(f"OK    both clients expose the same {len(data['zh']['kinds'])} kinds")
 
-        missing = [m for m in BASELINE_METHODS if m not in en[name]["methods"]]
-        if missing:
-            failures.append(f"{name}: English build lacks {missing}")
-        missing = [m for m in BASELINE_METHODS if m not in zh[name]["methods"]]
-        if missing:
-            failures.append(f"{name}: Chinese build lacks {missing}")
-
-        # Methods the two builds share must be the same set, or a feature added to
-        # one build has nowhere to live in the other.
-        only_zh = {
-            m for m in set(zh[name]["methods"]) - set(en[name]["methods"])
-            if not m.startswith("_")
-        }
-        only_en = {
-            m for m in set(en[name]["methods"]) - set(zh[name]["methods"])
-            if not m.startswith("_")
-        }
+    for attribute in ("engine_attrs", "ui_attrs"):
+        only_zh = set(data["zh"][attribute]) - set(data["en"][attribute])
+        only_en = set(data["en"][attribute]) - set(data["zh"][attribute])
         if only_zh or only_en:
-            failures.append(f"{name}: public methods differ (zh-only {sorted(only_zh)}, en-only {sorted(only_en)})")
+            failures.append(
+                f"{attribute} differ (zh-only {sorted(only_zh)}, en-only {sorted(only_en)})"
+            )
+    if not any("engine_attrs" in line or "ui_attrs" in line for line in failures):
+        print("OK    engine and UI surfaces match")
 
-    print(f"OK    checked {len(BASELINE_METHODS)} baseline methods per class")
     if failures:
-        print("\nBUILD CONSISTENCY FAILED:", file=sys.stderr)
+        print("\nCLIENT CONSISTENCY FAILED:", file=sys.stderr)
         for line in failures:
             print(f"  {line}", file=sys.stderr)
-        print(
-            "\nThe two builds must stay structurally equal; fix the build named above.",
-            file=sys.stderr,
-        )
         return 1
-    print("\nBUILD CONSISTENCY PASSED")
+    print("\nCLIENT CONSISTENCY PASSED")
     return 0
 
 

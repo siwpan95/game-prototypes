@@ -5,7 +5,8 @@ from .base_puzzle import BasePuzzle
 
 
 class SudokuPuzzle(BasePuzzle):
-    puzzle_name = "数独"
+    kind = "sudoku"
+    puzzle_name = "数独"  # default language; overridden per instance
     puzzle_type = "generated"
 
     def _generate(self) -> None:
@@ -103,8 +104,8 @@ class SudokuPuzzle(BasePuzzle):
                 if self.data["player_grid"][r][c] == 0:
                     val = self.data["solution"][r][c]
                     self.data["player_grid"][r][c] = val
-                    return f"第{r + 1}行，第{c + 1}列是{val}"
-        return "棋盘已填满！"
+                    return self.msg("sudoku_hint", row=r + 1, col=c + 1, value=val)
+        return self.word("grid_filled")
 
     def set_cell(self, row: int, col: int, num: int) -> None:
         size = self.data["size"]

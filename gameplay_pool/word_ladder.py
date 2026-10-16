@@ -41,9 +41,10 @@ START_END_PAIRS: list[tuple[int, str, str]] = [
 
 
 class WordLadderPuzzle(BasePuzzle):
-    puzzle_name = "Word Ladder"
-    puzzle_type = "mixed"
+    kind = "word_ladder"
     content_kind = "word_ladders"
+    puzzle_name = "单词接龙"  # default language; overridden per instance
+    puzzle_type = "mixed"
 
     def _generate(self) -> None:
         item = self.pick_content()
@@ -112,8 +113,8 @@ class WordLadderPuzzle(BasePuzzle):
             next_word = path[idx + 1]
             for i, (a, b) in enumerate(zip(self.data["player_path"][-1], next_word)):
                 if a != b:
-                    return f"Change position {i + 1} to '{b}'"
-        return "You're almost there!"
+                    return self.msg("word_ladder_position", position=i + 1, letter=b)
+        return self.word("almost_there")
 
     def set_step(self, word: str) -> bool:
         """Add a word to the player's ladder path if it's a valid single-letter change."""

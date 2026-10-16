@@ -21,14 +21,15 @@ __all__ = ["find_project_root", "bootstrap_import_path", "PROJECT_ROOT"]
 _ROOT_MARKERS = ("pyproject.toml", "requirements.txt")
 _ROOT_SIGNATURES = ("shared",)
 
-# Import roots that must be reachable for `from engine import Engine` style
-# imports inside text_adventure/ and text_adventure_zh/ to resolve.
+# Import roots for the pygame front ends. `engine`/`ui`/`events`/`domain` are flat
+# modules inside each client directory, so that directory has to be on sys.path when
+# one of those clients runs.
 #
-# WARNING - these two directories each contain a module named `gameplay_pool`
-# (and `engine`, `events`, `domain`). Whichever directory comes first on
-# sys.path wins, so the two builds must never be booted in the same process.
-# Entry points therefore pass a single build name, and anything that needs both
-# runs them in separate processes.
+# NOTE (M5): the puzzle pool is unified at the project root
+# (``gameplay_pool/``), and the per-client copies were deleted for exactly the
+# reason this comment used to warn about — two copies of ``gameplay_pool`` made the
+# import depend on sys.path order. Passing a build name here now selects the
+# *client* to run; the pool is the same for both.
 _IMPORT_ROOTS: dict[str, str] = {
     "en": "text_adventure",
     "zh": "text_adventure_zh",

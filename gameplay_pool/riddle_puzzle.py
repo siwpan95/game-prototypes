@@ -68,9 +68,10 @@ RIDDLES: list[dict] = [
 
 
 class RiddlePuzzle(BasePuzzle):
-    puzzle_name = "谜语"
-    puzzle_type = "content"
+    kind = "riddle"
     content_kind = "riddles"
+    puzzle_name = "谜语"  # default language; overridden per instance
+    puzzle_type = "content"
 
     def _generate(self) -> None:
         # Prefer the content pack (data, editable without touching code); the
@@ -89,4 +90,4 @@ class RiddlePuzzle(BasePuzzle):
     def get_hint(self) -> str:
         answer_idx = self.data["answer"]
         first_char = self.data["options"][answer_idx][0]
-        return f"正确答案以'{first_char}'开头"
+        return self.msg("riddle_hint", first=first_char)

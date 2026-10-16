@@ -14,9 +14,10 @@ WORDS: list[str] = [
 
 
 class AnagramPuzzle(BasePuzzle):
-    puzzle_name = "Anagram"
-    puzzle_type = "content"
+    kind = "anagram"
     content_kind = "anagram_words"
+    puzzle_name = "字谜"  # default language; overridden per instance
+    puzzle_type = "content"
 
     def _generate(self) -> None:
         item = self.pick_content()
@@ -34,7 +35,6 @@ class AnagramPuzzle(BasePuzzle):
                 pool = WORDS
 
             word = self._rng().choice(pool)
-
         letters = list(word)
         shuffled = letters[:]
         attempts = 0
@@ -55,7 +55,7 @@ class AnagramPuzzle(BasePuzzle):
 
     def get_hint(self) -> str:
         word = self.data["word"]
-        return f"The first letter is '{word[0].upper()}'"
+        return self.msg("anagram_hint", letter=word[0].upper())
 
     def swap_letters(self, idx1: int, idx2: int) -> None:
         letters = self.data["player_letters"]

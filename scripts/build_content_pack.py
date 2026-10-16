@@ -185,16 +185,19 @@ def _riddle_difficulty(riddle: dict) -> str:
     return "hard"
 
 
-def manifest(content: dict[str, list[dict]]) -> dict:
+def manifest(content: dict[str, list[dict]], language: str = "zh") -> dict:
     from puzzle_service.content import PACK_FORMAT_VERSION, ENGINE_VERSION
 
+    label = {"zh": "中文", "en": "English"}.get(language, language)
     return {
-        "name": "core-zh",
+        "name": f"core-{language}",
         "version": "1.0.0",
         "format_version": PACK_FORMAT_VERSION,
         "min_engine_version": ENGINE_VERSION,
-        "languages": ["zh"],
-        "description": "中文核心内容包：由谜题模块内的题库导出（scripts/build_content_pack.py）",
+        "languages": [language],
+        "description": (
+            f"{label}核心内容包：由谜题模块内的题库导出（scripts/build_content_pack.py）"
+        ),
         "content": {
             kind: {"file": f"{kind}.json", "count": len(items)}
             for kind, items in sorted(content.items())
@@ -202,9 +205,14 @@ def manifest(content: dict[str, list[dict]]) -> dict:
     }
 
 
-def render(content: dict[str, list[dict]]) -> dict[str, str]:
+def render(content: dict[str, list[dict]], language: str = "zh") -> dict[str, str]:
     """Return the pack as ``{relative path: file text}`` without touching disk."""
-    files = {"manifest.json": json.dumps(manifest(content), ensure_ascii=False, indent=2) + "\n"}
+    files = {
+        "manifest.json": json.dumps(
+            manifest(content, language), ensure_ascii=False, indent=2
+        )
+        + "\n"
+    }
     for kind, items in sorted(content.items()):
         payload = {"kind": kind, "items": items}
         files[f"{kind}.json"] = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
@@ -215,11 +223,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build or verify the shipped content pack")
     parser.add_argument("--language", default="zh", choices=["zh", "en"])
     parser.add_argument("--check", action="store_true", help="verify the pack is up to date")
-    parser.add_argument("--out", default=str(PACK_DIR), help="pack directory")
+    parser.add_argument(
+        "--out", default=None,
+        help="pack directory (default: content/packs/core-<language>)",
+    )
     args = parser.parse_args(argv)
 
-    out_dir = Path(args.out)
-    files = render(build(args.language))
+    out_dir = Path(args.out) if args.out else PACK_DIR.parent / f"core-{args.language}"
+    files = render(build(args.language), args.language)
 
     if args.check:
         stale: list[str] = []

@@ -1,0 +1,149 @@
+{
+  "kind": "riddles",
+  "items": [
+    {
+      "id": "riddle-001",
+      "difficulty": "hard",
+      "question": "我有键却没有锁，我有空间却没有房间。你可以进入却不能走进去。我是什么？",
+      "options": [
+        "键盘",
+        "房子",
+        "汽车",
+        "书"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "riddle-002",
+      "difficulty": "easy",
+      "question": "什么东西有手却不能拍手？",
+      "options": [
+        "钟表",
+        "机器人",
+        "猴子",
+        "手套"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "riddle-003",
+      "difficulty": "easy",
+      "question": "什么东西有头有尾却没有身体？",
+      "options": [
+        "蛇",
+        "硬币",
+        "狗",
+        "钉子"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "riddle-004",
+      "difficulty": "hard",
+      "question": "我没有嘴却能说话，没有耳朵却能听见。我没有身体，却随风而生。我是什么？",
+      "options": [
+        "鬼魂",
+        "树",
+        "回声",
+        "旗帜"
+      ],
+      "answer": 2
+    },
+    {
+      "id": "riddle-005",
+      "difficulty": "easy",
+      "question": "什么东西越擦越湿？",
+      "options": [
+        "海绵",
+        "毛巾",
+        "雨",
+        "太阳"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "riddle-006",
+      "difficulty": "medium",
+      "question": "我可以被敲碎、编造、讲述和演奏。我是什么？",
+      "options": [
+        "笑话",
+        "玻璃",
+        "唱片",
+        "鸡蛋"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "riddle-007",
+      "difficulty": "easy",
+      "question": "什么东西有很多牙齿却不能咬？",
+      "options": [
+        "狗",
+        "锯子",
+        "梳子",
+        "齿轮"
+      ],
+      "answer": 2
+    },
+    {
+      "id": "riddle-008",
+      "difficulty": "easy",
+      "question": "什么东西只升不降？",
+      "options": [
+        "气球",
+        "年龄",
+        "温度",
+        "鸟"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "riddle-009",
+      "difficulty": "easy",
+      "question": "什么东西有一只眼却看不见？",
+      "options": [
+        "针",
+        "海盗",
+        "风暴",
+        "相机"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "riddle-010",
+      "difficulty": "hard",
+      "question": "我不是活的，却会生长；我没有肺，却需要空气。我是什么？",
+      "options": [
+        "植物",
+        "火",
+        "水",
+        "气球"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "riddle-011",
+      "difficulty": "medium",
+      "question": "什么东西可以环游世界却待在角落里？",
+      "options": [
+        "飞机",
+        "邮票",
+        "互联网",
+        "卫星"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "riddle-012",
+      "difficulty": "easy",
+      "question": "什么东西有环却没有手指？",
+      "options": [
+        "电话",
+        "星球",
+        "钟",
+        "树"
+      ],
+      "answer": 0
+    }
+  ]
+}

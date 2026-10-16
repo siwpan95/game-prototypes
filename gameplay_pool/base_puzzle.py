@@ -1,8 +1,27 @@
-"""Base class for all puzzles."""
+"""Base class for every puzzle, with the language handled once.
+
+This is the M5 convergence point: one implementation of the puzzle logic, with the
+language as a parameter instead of a second copy of the package.
+
+What stays compatible with both old builds, on purpose:
+
+* ``puzzle_name`` remains a **class attribute** (the default language's name), so
+  anything that reads it off the class still works — and, because the pygame client
+  does ``self._puzzle.puzzle_name``, an *instance* attribute of the same name
+  shadows it with the right language. That is why no client code had to change.
+* ``content_kind`` / ``pick_content`` / ``pick_from`` / ``_rng`` behave exactly as
+  before, including the seeded-generator rule for the daily puzzle.
+"""
+
+from __future__ import annotations
 
 import random
 from abc import ABC, abstractmethod
 from typing import Any
+
+from . import messages
+
+__all__ = ["BasePuzzle"]
 
 
 class BasePuzzle(ABC):
@@ -16,13 +35,23 @@ class BasePuzzle(ABC):
     #: ``None`` means the puzzle is generated rather than drawn from content.
     content_kind: str | None = None
 
-    def __init__(self, difficulty: str = "medium", content: Any = None):
+    #: Registry id of this kind (used to look the display name up per language).
+    kind: str = ""
+
+    def __init__(self, difficulty: str = "medium", content: Any = None,
+                 lang: str | None = None, rng: Any = None):
         self.difficulty: str = difficulty
+        self.lang: str = messages.normalise_language(lang)
         self.solved: bool = False
         self.data: dict[str, Any] = {}
         # A content pack when one is available; subclasses fall back to the bank
         # embedded in their own module when it is None (see ``pick_content``).
         self.content = content
+        self.rng = rng
+        if self.kind:
+            # Instance attribute shadows the class attribute, so a client that reads
+            # `puzzle.puzzle_name` gets this language's name.
+            self.puzzle_name = messages.puzzle_name(self.kind, self.lang)
         self._generate()
 
     @abstractmethod
@@ -36,6 +65,16 @@ class BasePuzzle(ABC):
     @abstractmethod
     def get_hint(self) -> str:
         """Return a hint string for the current puzzle."""
+
+    # --- language helpers ----------------------------------------------------
+
+    def msg(self, key: str, **kwargs: Any) -> str:
+        """A parameterised message in this puzzle's language."""
+        return messages.text(key, self.lang, **kwargs)
+
+    def word(self, key: str) -> str:
+        """A static label in this puzzle's language."""
+        return messages.label(key, self.lang)
 
     # --- content-pack access -------------------------------------------------
 
@@ -53,25 +92,20 @@ class BasePuzzle(ABC):
         pack = getattr(self, "content", None)
         if not kind or pack is None:
             return None
-        return pack.choose(kind, self.difficulty, rng=getattr(self, "rng", None))
+        return pack.choose(kind, self.difficulty, rng=self.rng)
 
     def pick_from(self, options: Any) -> Any:
-        """Choose from a built-in bank, honouring a seeded ``self.rng``.
-
-        Built-in banks use the module-level ``random`` directly. Routing the choice
-        through here keeps a seeded run deterministic **without** reseeding global
-        state, which would leak into every other session in the process.
-        """
+        """Choose from a built-in bank, honouring a seeded ``self.rng``."""
         return self._rng().choice(options)
 
     def _rng(self) -> Any:
         """The random source this puzzle draws from: seeded when one was supplied.
 
-        Every built-in bank in the puzzle modules calls ``self._rng()`` instead of
-        the module-level ``random``, so "puzzle of the day" can reproduce a puzzle
-        exactly without touching process-global state.
+        Every built-in bank calls ``self._rng()`` instead of the module-level
+        ``random``, so "puzzle of the day" can reproduce a puzzle exactly without
+        touching process-global state.
         """
-        return getattr(self, "rng", None) or random
+        return self.rng or random
 
     def reset(self) -> None:
         """Reset the puzzle to a fresh state."""

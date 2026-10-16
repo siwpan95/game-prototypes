@@ -6,7 +6,8 @@ from .base_puzzle import BasePuzzle
 
 
 class Puzzle2048(BasePuzzle):
-    puzzle_name = "2048"
+    kind = "2048"
+    puzzle_name = "2048"  # default language; overridden per instance
     puzzle_type = "generated"
 
     def _generate(self) -> None:
@@ -141,4 +142,4 @@ class Puzzle2048(BasePuzzle):
         return self.data["win"]
 
     def get_hint(self) -> str:
-        return "Merge tiles by swiping in the same direction. Try corners!"
+        return self.word("2048_advice")

@@ -5,7 +5,8 @@ from .base_puzzle import BasePuzzle
 
 
 class MinesweeperPuzzle(BasePuzzle):
-    puzzle_name = "Minesweeper"
+    kind = "minesweeper"
+    puzzle_name = "扫雷"  # default language; overridden per instance
     puzzle_type = "generated"
 
     def _generate(self) -> None:
@@ -73,8 +74,8 @@ class MinesweeperPuzzle(BasePuzzle):
         for r in range(rows):
             for c in range(cols):
                 if self.data["grid"][r][c] == -1 and not self.data["flagged"][r][c]:
-                    return f"Try flagging row {r + 1}, col {c + 1}"
-        return "All mines are flagged!"
+                    return self.msg("minesweeper_hint", row=r + 1, col=c + 1)
+        return self.word("all_mines_flagged")
 
     def ensure_safe_first_click(self, row: int, col: int) -> None:
         """Regenerate the board so (row, col) and its neighbors are mine-free."""

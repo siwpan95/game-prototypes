@@ -35,9 +35,10 @@ CROSSWORDS: list[dict] = [
 
 
 class CrosswordPuzzle(BasePuzzle):
-    puzzle_name = "填字游戏"
-    puzzle_type = "mixed"
+    kind = "crossword"
     content_kind = "crosswords"
+    puzzle_name = "填字游戏"  # default language; overridden per instance
+    puzzle_type = "mixed"
 
     def _generate(self) -> None:
         item = self.pick_content()
@@ -69,7 +70,10 @@ class CrosswordPuzzle(BasePuzzle):
         for entry in template["words"]:
             key = (entry["row"], entry["col"])
             num = numbers[key]
-            clue_text = f"{num}. {entry['clue']} ({len(entry['word'])}个字母)"
+            clue_text = self.msg(
+                "crossword_clue", number=num, clue=entry["clue"],
+                length=len(entry["word"]),
+            )
             if entry["dir"] == "across":
                 clues_across.append(clue_text)
             else:
@@ -100,7 +104,7 @@ class CrosswordPuzzle(BasePuzzle):
     def get_hint(self) -> str:
         for entry in self.data["words"]:
             word = entry["word"]
-            dir_label = "横向" if entry["dir"] == "across" else "纵向"
+            dir_label = self.word("across" if entry["dir"] == "across" else "down")
             # 检查该单词是否已全部正确填写
             all_correct = True
             for i, ch in enumerate(word):
@@ -110,8 +114,11 @@ class CrosswordPuzzle(BasePuzzle):
                     all_correct = False
                     break
             if not all_correct:
-                return f"{dir_label}: {entry['clue']}（{len(word)}个字母）"
-        return "所有单词已正确填写！"
+                return self.msg(
+                    "crossword_entry", direction=dir_label,
+                    clue=entry["clue"], length=len(word),
+                )
+        return self.word("crossword_done")
 
     def set_cell(self, row: int, col: int, letter: str) -> None:
         size = self.data["size"]

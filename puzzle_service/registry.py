@@ -19,6 +19,8 @@ from typing import Any, Callable, Iterable
 
 from shared.paths import bootstrap_import_path
 
+from gameplay_pool import messages
+
 __all__ = [
     "PuzzleKind",
     "LANGUAGES",
@@ -26,6 +28,7 @@ __all__ = [
     "register_kind",
     "discover",
     "all_kinds",
+    "languages",
     "get",
     "clear",
     "UnknownKind",
@@ -36,13 +39,15 @@ __all__ = [
 # Language selection
 # ---------------------------------------------------------------------------
 
-#: Language code -> import root that provides ``gameplay_pool``.
+#: Language code -> package that provides ``gameplay_pool``.
 #:
-#: One process may only load one language: both builds export a top-level
-#: ``gameplay_pool`` package, so the first one on ``sys.path`` shadows the other.
+#: Since the M5 merge both languages share one implementation
+#: (``gameplay_pool``), and the language is a constructor argument; the mapping is
+#: kept because a checkout may still carry a legacy build directory, and because it
+#: documents which languages are *expected* to be available.
 LANGUAGES: dict[str, str] = {
-    "zh": "text_adventure_zh",
-    "en": "text_adventure",
+    "zh": "gameplay_pool",
+    "en": "gameplay_pool",
 }
 
 
@@ -81,29 +86,29 @@ class PuzzleKind:
     content: Any = None
     meta: dict[str, Any] = field(default_factory=dict)
 
-    def create(self, difficulty: str = "medium", rng: Any = None, **kwargs: Any):
-        """Instantiate one puzzle of this kind, handing it the content pack.
+    def create(self, difficulty: str = "medium", rng: Any = None, lang: str | None = None,
+               **kwargs: Any):
+        """Instantiate one puzzle of this kind, handing it its language and content pack.
 
-        Content injection happens here rather than in the puzzle constructor so a
-        puzzle can still be built on its own (tests, tooling) without knowing that
-        content packs exist.
+        The language defaults to the kind's own, so a caller that looked the kind up
+        for a language gets a puzzle that speaks it without repeating itself.
 
         Args:
             rng: seeded random source. Setting ``puzzle.rng`` makes selection
                 reproducible; puzzles route their choices through
                 ``pick_content``/``pick_from`` so no global ``random`` state is
                 touched (a global reseed would leak into other sessions).
+            lang: override the kind's language (rarely needed; tests use it).
         """
-        puzzle = self.cls(difficulty=difficulty, **kwargs)
+        puzzle = self.cls(difficulty=difficulty, lang=lang or self.language, **kwargs)
         if self.content is not None:
             setattr(puzzle, "content", self.content)
         if rng is not None:
             setattr(puzzle, "rng", rng)
         if self.content is not None or rng is not None:
-            if getattr(puzzle, "content_kind", None) or rng is not None:
-                # _generate() already ran in the constructor, before the pack and
-                # the rng existed; run it again so both actually take effect.
-                puzzle._generate()
+            # _generate() already ran in the constructor, before the pack and the
+            # rng existed; run it again so both actually take effect.
+            puzzle._generate()
         return puzzle
 
     def public(self) -> dict[str, Any]:
@@ -125,20 +130,28 @@ class PuzzleKind:
 # Registry storage
 # ---------------------------------------------------------------------------
 
-_REGISTRY: dict[str, PuzzleKind] = {}
+# Keyed by (language, kind name). It used to be keyed by name alone, which made the
+# first language discovered in a process win for every later request — harmless while
+# one language existed, and a real defect once the merged package could speak two
+# (found 2026-10-16 by the parity audit).
+_REGISTRY: dict[tuple[str, str], PuzzleKind] = {}
 
 
 def register_kind(kind: PuzzleKind) -> PuzzleKind:
-    """Register an already-built description (first registration wins per name)."""
-    if kind.name in _REGISTRY:
-        existing = _REGISTRY[kind.name]
+    """Register an already-built description (first registration wins per language)."""
+    key = (kind.language, kind.name)
+    if key in _REGISTRY:
+        existing = _REGISTRY[key]
         if existing.cls is not kind.cls:
             raise ValueError(
-                f"puzzle kind {kind.name!r} already registered by {existing.cls!r}; "
-                f"refusing to shadow it with {kind.cls!r}"
+                f"puzzle kind {kind.name!r} already registered for {kind.language!r} "
+                f"by {existing.cls!r}; refusing to shadow it with {kind.cls!r}"
             )
-        return existing
-    _REGISTRY[kind.name] = kind
+        # Same class re-registered: refresh the pack, which may have been reloaded.
+        if kind.content is not None and existing.content is None:
+            _REGISTRY[key] = kind
+        return _REGISTRY[key]
+    _REGISTRY[key] = kind
     return kind
 
 
@@ -179,23 +192,47 @@ def register(
     return decorate
 
 
-def clear() -> None:
-    """Drop every registration (tests, or re-discovering a different language)."""
-    _REGISTRY.clear()
+def clear(language: str | None = None) -> None:
+    """Drop registrations: one language's, or every language's."""
+    if language is None:
+        _REGISTRY.clear()
+        return
+    for key in [key for key in _REGISTRY if key[0] == language]:
+        del _REGISTRY[key]
 
 
-def all_kinds() -> list[PuzzleKind]:
-    """Registered kinds, ordered by name for a stable API surface."""
-    return [_REGISTRY[name] for name in sorted(_REGISTRY)]
+def all_kinds(language: str | None = None) -> list[PuzzleKind]:
+    """Registered kinds for *language*, ordered by name for a stable API surface.
+
+    With no language, every registered kind is returned (used by tooling and tests
+    that want to see the whole picture).
+    """
+    if language is None:
+        return [_REGISTRY[key] for key in sorted(_REGISTRY)]
+    return [
+        _REGISTRY[key] for key in sorted(_REGISTRY) if key[0] == language
+    ]
 
 
-def get(name: str) -> PuzzleKind:
-    """Look a kind up by name, raising :class:`UnknownKind` when absent."""
+def languages() -> list[str]:
+    """Languages that currently have registered kinds."""
+    return sorted({language for language, _ in _REGISTRY})
+
+
+def get(name: str, language: str = "zh") -> PuzzleKind:
+    """Look a kind up by name **in a language**, raising :class:`UnknownKind`.
+
+    The language is required in spirit (it defaults only for convenience): asking
+    for a kind in a language that was never discovered must fail loudly rather than
+    return another language's puzzle.
+    """
     try:
-        return _REGISTRY[name]
+        return _REGISTRY[(language, name)]
     except KeyError:
+        available = sorted(kind for lang, kind in _REGISTRY if lang == language)
         raise UnknownKind(
-            f"unknown puzzle kind {name!r}; registered: {sorted(_REGISTRY)}"
+            f"unknown puzzle kind {name!r} for language {language!r}; "
+            f"registered in {language!r}: {available}"
         ) from None
 
 
@@ -244,13 +281,16 @@ def _kind_name(cls: type) -> str:
 
 
 def discover(language: str = "zh", content: Any = None) -> list[PuzzleKind]:
-    """Import *language*'s ``gameplay_pool`` and register every kind it exports.
+    """Register every kind the unified ``gameplay_pool`` exports, for *language*.
 
     Idempotent: registering the same class twice is a no-op, while a *different*
-    class claiming a taken name raises instead of silently shadowing.
+    class claiming a taken (language, name) raises instead of silently shadowing.
 
     Args:
-        language: ``"zh"`` or ``"en"``.
+        language: ``"zh"`` or ``"en"`` — the language the puzzles are *spoken* in.
+            Both languages share one implementation, so this no longer selects a
+            package; it selects the column of :mod:`gameplay_pool.messages` and the
+            content pack.
         content: content pack handed to content kinds (``None`` = built-in banks).
             Passing it here keeps ``PuzzleKind`` immutable: the pack is fixed at
             registration time instead of being patched afterwards.
@@ -259,9 +299,12 @@ def discover(language: str = "zh", content: Any = None) -> list[PuzzleKind]:
         raise UnknownLanguage(
             f"unknown language {language!r}; known: {sorted(LANGUAGES)}"
         )
+    try:
+        messages.normalise_language(language)
+    except ValueError as exc:
+        raise UnknownLanguage(str(exc)) from exc
 
-    root = bootstrap_import_path(language)
-    if root is None:
+    if bootstrap_import_path() is None:
         raise RuntimeError(
             "project root not found (no pyproject.toml next to a shared/ directory)"
         )
@@ -275,9 +318,16 @@ def discover(language: str = "zh", content: Any = None) -> list[PuzzleKind]:
 
     for cls in classes:
         name = _kind_name(cls)
-        title, interaction, actions, answer_type, answered_by = _MANIFEST.get(
+        _title, interaction, actions, answer_type, answered_by = _MANIFEST.get(
             name, (cls.__name__, "text", (), "str", "check")
         )
+        # The display title comes from the language layer, not the manifest: the
+        # manifest carries structural metadata (interaction, actions, answer type),
+        # which is language-independent.
+        try:
+            title = messages.puzzle_name(getattr(cls, "kind", name), language)
+        except KeyError:
+            title = _title or cls.__name__
         register_kind(
             PuzzleKind(
                 name=name,

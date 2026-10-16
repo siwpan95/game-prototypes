@@ -5,7 +5,8 @@ from .base_puzzle import BasePuzzle
 
 
 class NonogramPuzzle(BasePuzzle):
-    puzzle_name = "数织"
+    kind = "nonogram"
+    puzzle_name = "数织"  # default language; overridden per instance
     puzzle_type = "generated"
 
     def _generate(self) -> None:
@@ -72,8 +73,8 @@ class NonogramPuzzle(BasePuzzle):
         for r in range(size):
             for c in range(size):
                 if self.data["solution"][r][c] == 1 and self.data["player_grid"][r][c] != 1:
-                    return f"第{r + 1}行，第{c + 1}列应该填充"
-        return "网格看起来不错！"
+                    return self.msg("nonogram_hint", row=r + 1, col=c + 1)
+        return self.word("grid_looks_good")
 
     def toggle_cell(self, row: int, col: int) -> None:
         size = self.data["size"]

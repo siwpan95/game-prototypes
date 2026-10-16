@@ -1,0 +1,32 @@
+{
+  "name": "core-en",
+  "version": "1.0.0",
+  "format_version": 1,
+  "min_engine_version": "0.2.0",
+  "languages": [
+    "en"
+  ],
+  "description": "English核心内容包：由谜题模块内的题库导出（scripts/build_content_pack.py）",
+  "content": {
+    "anagram_words": {
+      "file": "anagram_words.json",
+      "count": 40
+    },
+    "crosswords": {
+      "file": "crosswords.json",
+      "count": 3
+    },
+    "hangman_words": {
+      "file": "hangman_words.json",
+      "count": 90
+    },
+    "riddles": {
+      "file": "riddles.json",
+      "count": 12
+    },
+    "word_ladders": {
+      "file": "word_ladders.json",
+      "count": 9
+    }
+  }
+}

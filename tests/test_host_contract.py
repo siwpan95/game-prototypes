@@ -79,13 +79,14 @@ def test_web_plugin_declares_its_injection():
     assert "static inject = ['puzzles']" in text, "web.mjs lost its inject declaration"
 
 
-def test_the_two_builds_stay_structurally_equal():
-    """Catches drift between text_adventure/ and text_adventure_zh/.
+def test_the_two_clients_stay_structurally_equal():
+    """Catches drift between the two pygame clients (and any duplicate puzzle pool).
 
-    Both builds implement the same 14 kinds, and nothing else enforces that they
-    keep the same shape. The daily-puzzle work is the concrete cost of ignoring it:
-    a helper added to the Chinese base class only was missing in English, which
-    failed the first time the English build was actually played.
+    The clients implement the same game, and nothing else enforces that they keep the
+    same shape. The concrete cost of ignoring it: a helper added to the Chinese build
+    only was missing in English, which failed the first time the English build was
+    played. Since M5 the check also asserts that neither client carries its own
+    puzzle pool — one implementation lives at the project root.
     """
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "check_build_consistency.py")],
@@ -97,4 +98,4 @@ def test_the_two_builds_stay_structurally_equal():
         timeout=300,
     )
     assert result.returncode == 0, f"{result.stdout}\n{result.stderr}"
-    assert "BUILD CONSISTENCY PASSED" in result.stdout
+    assert "CLIENT CONSISTENCY PASSED" in result.stdout
