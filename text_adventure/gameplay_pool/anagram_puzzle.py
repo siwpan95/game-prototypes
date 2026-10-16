@@ -33,13 +33,13 @@ class AnagramPuzzle(BasePuzzle):
             if not pool:
                 pool = WORDS
 
-            word = random.choice(pool)
+            word = self._rng().choice(pool)
 
         letters = list(word)
         shuffled = letters[:]
         attempts = 0
         while shuffled == letters and attempts < 50:
-            random.shuffle(shuffled)
+            self._rng().shuffle(shuffled)
             attempts += 1
 
         self.data = {

@@ -63,7 +63,7 @@ class WordLadderPuzzle(BasePuzzle):
             if not candidates:
                 candidates = START_END_PAIRS
 
-            _, start, end = random.choice(candidates)
+            _, start, end = self._rng().choice(candidates)
             word_len = len(start)
             pool = WORD_POOLS.get(word_len, WORD_POOLS[3])
 

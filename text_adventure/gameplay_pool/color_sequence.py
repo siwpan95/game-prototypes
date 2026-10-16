@@ -31,7 +31,7 @@ class ColorSequencePuzzle(BasePuzzle):
         else:
             length, show_time = 7, 0.4
 
-        sequence = [random.choice(COLORS) for _ in range(length)]
+        sequence = [self._rng().choice(COLORS) for _ in range(length)]
         self.data = {
             "sequence": sequence,
             "player_index": 0,

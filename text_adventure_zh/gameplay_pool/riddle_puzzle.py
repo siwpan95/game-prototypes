@@ -76,7 +76,7 @@ class RiddlePuzzle(BasePuzzle):
         # Prefer the content pack (data, editable without touching code); the
         # RIDDLES list above stays as the fallback for a pack-less checkout.
         item = self.pick_content()
-        riddle = item if item is not None else random.choice(RIDDLES)
+        riddle = item if item is not None else self._rng().choice(RIDDLES)
         self.data = {
             "question": riddle["question"],
             "options": list(riddle["options"]),

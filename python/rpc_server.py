@@ -66,6 +66,7 @@ class RpcServer:
         self._methods: dict[str, Callable[..., Any]] = {
             "puzzle.list": self._list,
             "puzzle.new": self._new,
+            "puzzle.daily": self._daily,
             "puzzle.submit": self._submit,
             "puzzle.action": self._action,
             "puzzle.hint": self._hint,
@@ -88,6 +89,12 @@ class RpcServer:
              difficulty: str = "medium") -> dict[str, Any]:
         return self.service.new_puzzle(
             session_id=session_id, kind=kind, difficulty=difficulty
+        )
+
+    def _daily(self, session_id: str = "default", day: str | None = None,
+               difficulty: str = "medium") -> dict[str, Any]:
+        return self.service.new_daily(
+            session_id=session_id, day=day, difficulty=difficulty
         )
 
     def _submit(self, session_id: str = "default", answer: Any = None) -> dict[str, Any]:
@@ -213,6 +220,7 @@ def _error_response(request_id: Any, code: int, message: str, data: Any = None) 
 METHODS = (
     "puzzle.list",
     "puzzle.new",
+    "puzzle.daily",
     "puzzle.submit",
     "puzzle.action",
     "puzzle.hint",

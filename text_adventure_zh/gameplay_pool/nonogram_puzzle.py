@@ -20,17 +20,17 @@ class NonogramPuzzle(BasePuzzle):
             fill_rate = 0.45
 
         solution = [
-            [1 if random.random() < fill_rate else 0 for _ in range(size)]
+            [1 if self._rng().random() < fill_rate else 0 for _ in range(size)]
             for _ in range(size)
         ]
 
         # Ensure at least one filled cell per row/col (re-roll empty)
         for r in range(size):
             if all(solution[r][c] == 0 for c in range(size)):
-                solution[r][random.randint(0, size - 1)] = 1
+                solution[r][self._rng().randint(0, size - 1)] = 1
         for c in range(size):
             if all(solution[r][c] == 0 for r in range(size)):
-                solution[random.randint(0, size - 1)][c] = 1
+                solution[self._rng().randint(0, size - 1)][c] = 1
 
         row_clues = [self._calc_clues(solution[r]) for r in range(size)]
         col_clues = [self._calc_clues([solution[r][c] for r in range(size)]) for c in range(size)]

@@ -11,6 +11,7 @@ Commands::
     kinds                      list the puzzle kinds this service offers
     content                    report which content pack is loaded
     new [kind] [difficulty]    start a puzzle (kind omitted = service picks)
+    daily [YYYY-MM-DD] [diff]  the puzzle of the day (same date = same puzzle)
     submit <answer>            answer the current puzzle
     act <action> [k=v ...]     run a kind action (reveal row=0 col=1, move direction=left, ...)
     hint                       show the current puzzle's hint
@@ -189,6 +190,8 @@ class TerminalSession:
                 )
             if verb == "new":
                 return True, True, self._new(args)
+            if verb == "daily":
+                return True, True, self._daily(args)
             if verb == "submit":
                 return True, True, self._submit(args)
             if verb == "act":
@@ -238,6 +241,19 @@ class TerminalSession:
             raise InvalidAction(f"没有叫 {kind!r} 的谜题；可选：{known}") from exc
         self.last_kind = snapshot.get("kind")
         return render_snapshot(snapshot)
+
+    def _daily(self, args: list[str]) -> str:
+        """Start the puzzle of the day (optionally for a named date)."""
+        day = args[0] if args else None
+        difficulty = args[1] if len(args) > 1 else "medium"
+        try:
+            snapshot = self.service.new_daily(
+                session_id=self.session_id, day=day, difficulty=difficulty
+            )
+        except InvalidAction as exc:
+            raise InvalidAction(str(exc)) from exc
+        header = f"=== 每日一题（{snapshot['daily']['day']}）"
+        return header + "\n" + render_snapshot(snapshot)
 
     def _submit(self, args: list[str]) -> str:
         if not args:

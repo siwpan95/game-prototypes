@@ -76,7 +76,7 @@ class RiddlePuzzle(BasePuzzle):
         # Prefer a content pack when one is present; the RIDDLES list above stays
         # as the fallback so a pack-less checkout keeps working.
         item = self.pick_content()
-        riddle = item if item is not None else random.choice(RIDDLES)
+        riddle = item if item is not None else self._rng().choice(RIDDLES)
         self.data = {
             "question": riddle["question"],
             "options": list(riddle["options"]),

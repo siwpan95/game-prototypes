@@ -25,9 +25,9 @@ class MemoryPuzzle(BasePuzzle):
             pairs = 12
             cols = 6
 
-        chosen = random.sample(SYMBOLS, pairs)
+        chosen = self._rng().sample(SYMBOLS, pairs)
         cards = chosen * 2
-        random.shuffle(cards)
+        self._rng().shuffle(cards)
 
         rows = len(cards) // cols
         grid = []

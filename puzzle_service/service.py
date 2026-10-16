@@ -15,11 +15,13 @@ becomes a structured error instead of a traceback on the wire.
 
 from __future__ import annotations
 
+import hashlib
+import random
+import sys
 import time
 from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any
-
-import sys
 
 from puzzle_service import views
 from puzzle_service.registry import PuzzleKind, all_kinds, discover, get
@@ -55,6 +57,8 @@ class Session:
     started_at: float = 0.0
     last_result: dict[str, Any] = field(default_factory=dict)
     auto_scored: dict[str, Any] | None = None
+    #: Set by :meth:`PuzzleService.new_daily` so a client can show which day is in play.
+    day: str | None = None
 
     @property
     def elapsed(self) -> float:
@@ -120,24 +124,60 @@ class PuzzleService:
         session_id: str = "default",
         kind: str | None = None,
         difficulty: str = "medium",
+        rng: Any = None,
     ) -> dict[str, Any]:
-        """Start a puzzle, either of a named *kind* or chosen from the registry."""
+        """Start a puzzle, either of a named *kind* or chosen from the registry.
+
+        Args:
+            rng: seeded random source. Passing one makes the whole start
+                reproducible — which kind is picked *and* its content — because
+                both draws go through the same generator.
+        """
         session = self._session(session_id)
         if kind is None:
-            chosen = all_kinds()[self._counter % len(all_kinds())] if all_kinds() else None
-            if chosen is None:
+            chooser = rng or random
+            pool = all_kinds()
+            if not pool:
                 raise InvalidAction("no puzzle kinds are registered; call discover() first")
+            chosen = chooser.choice(pool)
         else:
             chosen = get(kind)
 
         session.kind = chosen
-        session.puzzle = chosen.create(difficulty=_normalise_difficulty(difficulty))
+        session.puzzle = chosen.create(difficulty=_normalise_difficulty(difficulty), rng=rng)
         session.puzzle_id = self._next_id("p")
         session.started += 1
         session.started_at = time.time()
         session.last_result = {}
         session.auto_scored = None
         return self.snapshot(session_id)
+
+    def new_daily(
+        self,
+        session_id: str = "default",
+        day: str | None = None,
+        difficulty: str = "medium",
+    ) -> dict[str, Any]:
+        """Start the puzzle of the day: same date in, same puzzle out.
+
+        Deterministic by construction (a date-derived seed drives both the kind and
+        the content), so no server-side schedule or pre-generated list is needed
+        and two players on the same day get the same puzzle.
+        """
+        key = day or datetime.now().strftime("%Y-%m-%d")
+        if not _is_iso_date(key):
+            raise InvalidAction(f"日期要写成 YYYY-MM-DD，收到 {key!r}")
+        rng = random.Random(_seed_from(key))
+        # The day is recorded before starting, so the snapshot returned by this
+        # call already carries it (setting it afterwards left the first snapshot
+        # reporting day=None).
+        session = self._session(session_id)
+        session.day = key
+        snapshot = self.new_puzzle(
+            session_id=session_id, kind=None, difficulty=difficulty, rng=rng
+        )
+        snapshot["daily"] = {"day": key, "kind": snapshot["kind"]}
+        return snapshot
 
     def submit(self, session_id: str, answer: Any) -> dict[str, Any]:
         """Check *answer* against the active puzzle and apply the scoring rules.
@@ -246,6 +286,7 @@ class PuzzleService:
             "puzzle_id": session.puzzle_id,
             "kind": session.kind.name if session.kind else None,
             "last_result": session.last_result,
+            "day": session.day,
         }
         if session.puzzle is not None and session.kind is not None:
             payload["view"] = views.build(session.kind, session.puzzle)
@@ -300,6 +341,30 @@ class PuzzleService:
 
 def _normalise_difficulty(difficulty: str) -> str:
     return difficulty if difficulty in {"easy", "medium", "hard"} else "medium"
+
+
+def _seed_from(day: str) -> int:
+    """A stable integer seed for an ISO date (independent of process and platform).
+
+    ``hash()`` is deliberately not used: it is salted per process, so the "puzzle
+    of the day" would differ between runs and between machines.
+    """
+    digest = hashlib.sha256(f"text-adventure:{day}".encode("utf-8")).hexdigest()
+    return int(digest[:16], 16)
+
+
+def _is_iso_date(value: str) -> bool:
+    """Strict ``YYYY-MM-DD`` check.
+
+    ``strptime`` alone is too permissive: it happily accepts ``2026-2-3``, which
+    would make two spellings of the same day produce two different daily puzzles.
+    The round trip rejects anything that is not zero-padded.
+    """
+    try:
+        parsed = datetime.strptime(value, "%Y-%m-%d")
+    except (TypeError, ValueError):
+        return False
+    return parsed.strftime("%Y-%m-%d") == value
 
 
 def _load_content():

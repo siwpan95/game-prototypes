@@ -42,7 +42,7 @@ class HangmanPuzzle(BasePuzzle):
         if item is not None:
             word = str(item["word"])
         else:
-            word = random.choice(WORD_BANK.get(self.difficulty, WORD_BANK["medium"]))
+            word = self._rng().choice(WORD_BANK.get(self.difficulty, WORD_BANK["medium"]))
         self.data = {
             "word": word,
             "guessed": set[str](),

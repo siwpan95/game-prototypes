@@ -1,5 +1,6 @@
 """Base class for all puzzles."""
 
+import random
 from abc import ABC, abstractmethod
 from typing import Any
 
@@ -44,12 +45,33 @@ class BasePuzzle(ABC):
         Puzzles call this first and fall back to their module-level bank, so the
         game keeps working with no pack present — content migration is therefore
         incremental instead of a big-bang switch.
+
+        A seeded ``self.rng`` makes the draw reproducible (used by the daily
+        puzzle); without one the module-level ``random`` is used as before.
         """
         kind = getattr(type(self), "content_kind", None)
         pack = getattr(self, "content", None)
         if not kind or pack is None:
             return None
-        return pack.choose(kind, self.difficulty)
+        return pack.choose(kind, self.difficulty, rng=getattr(self, "rng", None))
+
+    def pick_from(self, options: Any) -> Any:
+        """Choose from a built-in bank, honouring a seeded ``self.rng``.
+
+        Built-in banks use the module-level ``random`` directly. Routing the choice
+        through here keeps a seeded run deterministic **without** reseeding global
+        state, which would leak into every other session in the process.
+        """
+        return self._rng().choice(options)
+
+    def _rng(self) -> Any:
+        """The random source this puzzle draws from: seeded when one was supplied.
+
+        Every built-in bank in the puzzle modules calls ``self._rng()`` instead of
+        the module-level ``random``, so "puzzle of the day" can reproduce a puzzle
+        exactly without touching process-global state.
+        """
+        return getattr(self, "rng", None) or random
 
     def reset(self) -> None:
         """Reset the puzzle to a fresh state."""

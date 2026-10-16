@@ -16,7 +16,7 @@ class GuessNumberPuzzle(BasePuzzle):
         else:
             low, high = 1, 500
 
-        target = random.randint(low, high)
+        target = self._rng().randint(low, high)
         self.data = {
             "target": target,
             "low": low,

@@ -10,21 +10,21 @@ class MathPuzzle(BasePuzzle):
 
     def _generate(self) -> None:
         if self.difficulty == "easy":
-            a = random.randint(1, 20)
-            b = random.randint(1, 20)
-            op = random.choice(["+", "-"])
+            a = self._rng().randint(1, 20)
+            b = self._rng().randint(1, 20)
+            op = self._rng().choice(["+", "-"])
             if op == "-" and a < b:
                 a, b = b, a
         elif self.difficulty == "medium":
-            a = random.randint(2, 12)
-            b = random.randint(2, 12)
-            op = random.choice(["+", "-", "*"])
+            a = self._rng().randint(2, 12)
+            b = self._rng().randint(2, 12)
+            op = self._rng().choice(["+", "-", "*"])
             if op == "-" and a < b:
                 a, b = b, a
         else:  # hard
-            a = random.randint(2, 15)
-            b = random.randint(2, 15)
-            op = random.choice(["+", "-", "*", "/"])
+            a = self._rng().randint(2, 15)
+            b = self._rng().randint(2, 15)
+            op = self._rng().choice(["+", "-", "*", "/"])
             if op == "/":
                 a = a * b  # ensure clean division
             elif op == "-" and a < b:

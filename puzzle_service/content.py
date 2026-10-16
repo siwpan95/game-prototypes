@@ -91,20 +91,27 @@ class ContentPack:
         """Every item of *kind* (``[]`` when the pack does not provide that kind)."""
         return list(self.content.get(kind, ()))
 
-    def choose(self, kind: str, difficulty: str) -> dict[str, Any] | None:
+    def choose(
+        self, kind: str, difficulty: str, rng: Any = None
+    ) -> dict[str, Any] | None:
         """One random item of *kind* at *difficulty*, or ``None`` if unavailable.
 
         ``None`` is the signal for "this pack does not supply that content", which
         the puzzle classes answer by falling back to their embedded bank. It is
         deliberately not an exception: a pack may legitimately cover only part of
         the content while it is being authored.
+
+        Args:
+            rng: random source to draw from. A seeded generator makes selection
+                reproducible, which is what a "puzzle of the day" needs.
         """
         candidates = self.by_difficulty(kind, difficulty)
         if not candidates:
             return None
         import random
 
-        return random.choice(candidates)
+        chooser = rng or random
+        return chooser.choice(candidates)
 
     def by_difficulty(self, kind: str, difficulty: str) -> list[dict[str, Any]]:
         """Items whose difficulty matches, falling back to all items of that kind."""

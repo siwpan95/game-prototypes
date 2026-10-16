@@ -20,11 +20,15 @@ class SudokuPuzzle(BasePuzzle):
             reveal_count = 25
 
         box_h, box_w = self._box_dims(size)
-        solution = self._generate_solution(size, box_h, box_w)
+        # The generator must be passed explicitly: _generate_solution is a static
+        # method, so it has no `self` to read the seeded rng from. Without this the
+        # solution came out different every run and the daily puzzle was not
+        # reproducible for sudoku (measured 2026-10-16).
+        solution = self._generate_solution(size, box_h, box_w, rng=self._rng())
         puzzle = [row[:] for row in solution]
 
         cells = [(r, c) for r in range(size) for c in range(size)]
-        random.shuffle(cells)
+        self._rng().shuffle(cells)
         hidden = cells[: len(cells) - reveal_count]
         for r, c in hidden:
             puzzle[r][c] = 0
@@ -48,9 +52,11 @@ class SudokuPuzzle(BasePuzzle):
             return 3, 3
 
     @staticmethod
-    def _generate_solution(size: int, box_h: int, box_w: int) -> list[list[int]]:
+    def _generate_solution(size: int, box_h: int, box_w: int, rng=None) -> list[list[int]]:
+        if rng is None:
+            rng = random
         base = list(range(1, size + 1))
-        random.shuffle(base)
+        rng.shuffle(base)
         solution = [[0] * size for _ in range(size)]
 
         def valid(r: int, c: int, n: int) -> bool:
@@ -70,7 +76,7 @@ class SudokuPuzzle(BasePuzzle):
                 return True
             r, c = pos // size, pos % size
             nums = base[:]
-            random.shuffle(nums)
+            rng.shuffle(nums)
             for n in nums:
                 if valid(r, c, n):
                     solution[r][c] = n

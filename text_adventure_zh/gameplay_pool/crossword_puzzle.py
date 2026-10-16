@@ -41,7 +41,7 @@ class CrosswordPuzzle(BasePuzzle):
 
     def _generate(self) -> None:
         item = self.pick_content()
-        template = item if item is not None else random.choice(CROSSWORDS)
+        template = item if item is not None else self._rng().choice(CROSSWORDS)
         size = template["size"]
         # Cells no word touches stay None: check_answer skips them, which is why a
         # template may legitimately have holes. A pack states them explicitly as

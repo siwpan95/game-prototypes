@@ -236,11 +236,33 @@ def test_every_kind_renders_in_the_terminal(registered):
 
 
 def test_terminal_rendering_does_not_leak_the_solution(registered):
-    """The same rule the web client is held to: the answer is not in the payload."""
+    """The same rule the web client is held to: the answer is not in the payload.
+
+    Asserting "the solution string does not appear" is not enough — an unfilled
+    sudoku grid is mostly zeros, so the solution is unlikely to appear even when
+    it *is* being sent. This asserts the actual property: the solution never
+    crosses the service boundary, and the renderer shows the player's grid as-is.
+    """
     service = PuzzleService(language="zh")
     snapshot = service.new_puzzle(session_id="leak", kind="sudoku", difficulty="easy")
-    solution = service._session("leak").puzzle.data["solution"]
-    rendered = render_snapshot(snapshot)
-    assert json.dumps(solution) not in rendered
-    for row in solution:
-        assert "".join(str(value) for value in row) not in rendered.replace(" ", "")
+    session = service._session("leak")
+    solution = session.puzzle.data["solution"]
+
+    payload = json.dumps(snapshot, ensure_ascii=False)
+    assert json.dumps(solution) not in payload, "the snapshot carries the solution"
+    assert '"solution"' not in payload, "a solution field reached the client"
+
+    # The renderer prints the player's grid, so a cell the client typed must be
+    # visible and the corresponding solution digit must not be silently shown.
+    grid_node = next(node for node in snapshot["view"]["nodes"] if node["type"] == "grid")
+    empty = next(
+        cell
+        for row in grid_node["cells"]
+        for cell in row
+        if not cell.get("fixed")
+    )
+    typed = 3 if solution[empty["row"]][empty["col"]] != 3 else 4
+    session.puzzle.set_cell(empty["row"], empty["col"], typed)
+    rendered = render_snapshot(service.snapshot("leak"))
+    assert str(typed) in rendered, "the value the player typed is not rendered"
+    assert str(solution[empty["row"]][empty["col"]]) != str(typed)

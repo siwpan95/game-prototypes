@@ -31,12 +31,24 @@ def test_starting_a_puzzle_returns_a_view(fresh):
     assert snapshot["view"]["nodes"]
 
 
-def test_choosing_a_kind_by_name_and_by_rotation(fresh):
+def test_choosing_a_kind_by_name_and_when_omitted(fresh):
+    """A named kind is honoured; without a name the service picks a valid one.
+
+    The service deliberately samples rather than rotating through its kinds (a
+    rotation makes the next kind predictable). So this asserts variety over many
+    draws instead of demanding every kind appear in exactly N draws — which is what
+    the previous rotation-based version could assert, and why it broke when the
+    selection became random.
+    """
     named = fresh.new_puzzle("s1", kind="sudoku")
     assert named["kind"] == "sudoku"
 
-    rotated = {fresh.new_puzzle("s1")["kind"] for _ in range(len(fresh.list_kinds()))}
-    assert len(rotated) == len(fresh.list_kinds()), "rotation should reach every kind"
+    kinds = fresh.list_kinds()
+    picks = [fresh.new_puzzle("s1")["kind"] for _ in range(len(kinds) * 4)]
+    assert set(picks) <= {item["name"] for item in kinds}
+    assert len(set(picks)) >= max(2, len(kinds) // 2), (
+        f"selection looks stuck: only {sorted(set(picks))} in {len(picks)} draws"
+    )
 
 
 def test_correct_answer_scores_and_extends_the_streak(fresh):

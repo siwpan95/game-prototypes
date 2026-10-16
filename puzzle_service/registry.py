@@ -81,19 +81,28 @@ class PuzzleKind:
     content: Any = None
     meta: dict[str, Any] = field(default_factory=dict)
 
-    def create(self, difficulty: str = "medium", **kwargs: Any):
+    def create(self, difficulty: str = "medium", rng: Any = None, **kwargs: Any):
         """Instantiate one puzzle of this kind, handing it the content pack.
 
         Content injection happens here rather than in the puzzle constructor so a
         puzzle can still be built on its own (tests, tooling) without knowing that
         content packs exist.
+
+        Args:
+            rng: seeded random source. Setting ``puzzle.rng`` makes selection
+                reproducible; puzzles route their choices through
+                ``pick_content``/``pick_from`` so no global ``random`` state is
+                touched (a global reseed would leak into other sessions).
         """
         puzzle = self.cls(difficulty=difficulty, **kwargs)
         if self.content is not None:
             setattr(puzzle, "content", self.content)
-            # Some kinds cache their generated data during _generate(), which has
-            # already run; regenerate so the pack actually takes effect.
-            if getattr(puzzle, "content_kind", None):
+        if rng is not None:
+            setattr(puzzle, "rng", rng)
+        if self.content is not None or rng is not None:
+            if getattr(puzzle, "content_kind", None) or rng is not None:
+                # _generate() already ran in the constructor, before the pack and
+                # the rng existed; run it again so both actually take effect.
                 puzzle._generate()
         return puzzle
 

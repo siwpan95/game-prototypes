@@ -20,7 +20,7 @@ class MinesweeperPuzzle(BasePuzzle):
         mine_positions: set[tuple[int, int]] = set()
 
         positions = [(r, c) for r in range(rows) for c in range(cols)]
-        random.shuffle(positions)
+        self._rng().shuffle(positions)
         for r, c in positions[:mines]:
             grid[r][c] = -1
             mine_positions.add((r, c))
@@ -94,7 +94,7 @@ class MinesweeperPuzzle(BasePuzzle):
             extra = safe_zone - {(row, col)}
             positions = [(r, c) for r in range(rows) for c in range(cols) if (r, c) != (row, col)]
 
-        random.shuffle(positions)
+        self._rng().shuffle(positions)
 
         # Clear everything
         grid = [[0] * cols for _ in range(rows)]

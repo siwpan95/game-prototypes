@@ -31,8 +31,8 @@ class Puzzle2048(BasePuzzle):
         empty = [(r, c) for r in range(self.data["size"]) for c in range(self.data["size"])
                  if self.data["board"][r][c] == 0]
         if empty:
-            r, c = random.choice(empty)
-            self.data["board"][r][c] = 2 if random.random() < 0.9 else 4
+            r, c = self._rng().choice(empty)
+            self.data["board"][r][c] = 2 if self._rng().random() < 0.9 else 4
 
     def _move_left(self, row: list[int]) -> tuple[list[int], int]:
         """Merge and slide a row left. Returns (new_row, score_gained)."""
