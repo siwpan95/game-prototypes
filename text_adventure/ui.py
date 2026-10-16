@@ -633,16 +633,19 @@ class UI:
                 elif ev.unicode.isalpha() and len(ev.unicode) == 1:
                     puzzle.set_cell(self._sel_row, self._sel_col, ev.unicode.upper())
 
-        # Check button
-        for btn in self._puzzle_buttons:
-            if btn.clicked(ev) if ev.type == pygame.MOUSEBUTTONDOWN else False:
-                if btn.text == "Check":
-                    correct = puzzle.check_answer(None)
-                    if correct:
-                        result = self.engine.submit_answer(None)
-                        self._show_result(result)
-                    else:
-                        self._show_hint_inline("Not quite right yet!")
+            # Check button — must be handled inside the event loop: this block used
+            # to sit after it and read `ev`, which raised UnboundLocalError as soon
+            # as the crossword screen received any event (found 2026-10-16).
+            if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+                for btn in self._puzzle_buttons:
+                    if btn.clicked(ev):
+                        if btn.text == "Check":
+                            correct = puzzle.check_answer(None)
+                            if correct:
+                                result = self.engine.submit_answer(None)
+                                self._show_result(result)
+                            else:
+                                self._show_hint_inline("Not quite right yet!")
 
     def _draw_crossword(self, puzzle: CrosswordPuzzle) -> None:
         size = puzzle.data["size"]

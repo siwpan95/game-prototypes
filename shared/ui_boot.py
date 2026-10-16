@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import os
 import sys
+import time
 from pathlib import Path
 
 from shared.paths import bootstrap_import_path
@@ -19,6 +20,9 @@ __all__ = ["run_build", "draw_method"]
 
 TIME_STEP = 1.0 / 60.0
 MOUSE_POS = (0, 0)
+#: Middle of the play area (below the 50px header, above the 50px footer). Used to
+#: send a real click, because some handlers only fail once an event reaches them.
+CLICK_POS = (480, 360)
 
 
 def _ensure_headless() -> None:
@@ -27,10 +31,15 @@ def _ensure_headless() -> None:
 
 
 def run_build(build: str, frames: int = 2) -> str:
-    """Boot *build* (``"en"`` or ``"zh"``), paint every screen once, submit an answer.
+    """Boot *build* (``"en"`` or ``"zh"``) and drive every puzzle kind through the UI.
 
     Returns a one-line summary. Raises on any failure so a caller can report it
     loudly rather than treating a skipped screen as a pass.
+
+    Every kind is exercised on purpose. An earlier version played one random
+    puzzle, which meant a defect in a single kind's screen showed up only when the
+    random draw happened to hit it — a latent ``UnboundLocalError`` in the English
+    crossword handler survived that way until 2026-10-16.
     """
     _ensure_headless()
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -40,6 +49,7 @@ def run_build(build: str, frames: int = 2) -> str:
 
     from engine import Engine  # type: ignore[import-not-found]  # noqa: E402
     from events import EventBus  # type: ignore[import-not-found]  # noqa: E402
+    from gameplay_pool import PUZZLE_CLASSES  # type: ignore[import-not-found]  # noqa: E402
     from ui import UI  # type: ignore[import-not-found]  # noqa: E402
 
     pygame.init()
@@ -53,29 +63,53 @@ def run_build(build: str, frames: int = 2) -> str:
         ui._handle_menu([], MOUSE_POS)
         ui._draw_menu(MOUSE_POS)
 
-    # 2. playing screen, with a real generated puzzle
-    engine.configure("balanced", "easy")
-    puzzle = engine.start_new_puzzle()
-    ui._puzzle = puzzle
-    ui.screen_state = "playing"
-    for _ in range(max(1, frames)):
-        ui._handle_playing([], MOUSE_POS)
-        ui._draw_playing(MOUSE_POS, TIME_STEP)
+    failures: list[str] = []
+    for puzzle_cls in PUZZLE_CLASSES:
+        name = puzzle_cls.__name__
+        try:
+            # Ask the engine for exactly this kind. The engine's picker cannot do
+            # that by construction (it selects pools by mode), so the kind is
+            # instantiated here and handed to the engine — which also proves the
+            # engine accepts a puzzle supplied from outside its picker.
+            puzzle = puzzle_cls(difficulty="easy")
+            engine.configure("balanced", "easy")
+            engine._current_puzzle = puzzle
+            engine._puzzle_start_time = time.time()
+            ui._puzzle = puzzle
+            ui.screen_state = "playing"
+            # A click in the middle of the play area, so the kind's click handling
+            # actually runs (not just its drawing path).
+            click = pygame.event.Event(
+                pygame.MOUSEBUTTONDOWN, {"pos": CLICK_POS, "button": 1}
+            )
+            for _ in range(max(1, frames)):
+                ui._handle_playing([], MOUSE_POS)
+                ui._draw_playing(MOUSE_POS, TIME_STEP)
+                ui._handle_playing([click], CLICK_POS)
+                ui._draw_playing(MOUSE_POS, TIME_STEP)
+        except Exception as exc:  # noqa: BLE001 - collect, then report all of them
+            failures.append(f"{name}: {type(exc).__name__}: {exc}")
 
-    # 3. answer submission + result screen
-    result = engine.submit_answer(_answer_for(puzzle))
-    if not result["correct"] and result["score"] != 0:
-        raise AssertionError(
-            f"{type(puzzle).__name__}: a wrong answer scored {result['score']} points"
-        )
-    ui._show_result(result)
-    ui._handle_result([], MOUSE_POS)
-    ui._draw_result(MOUSE_POS)
+    # Result screen, driven by a real engine-scored outcome.
+    try:
+        engine.configure("balanced", "easy")
+        scored = engine.start_new_puzzle()
+        ui._puzzle = scored
+        result = engine.submit_answer(_answer_for(scored))
+        if not result["correct"] and result.get("score", 0) != 0:
+            failures.append(f"{type(scored).__name__}: a wrong answer scored {result['score']}")
+        ui._show_result(result)
+        ui._handle_result([], MOUSE_POS)
+        ui._draw_result(MOUSE_POS)
+    except Exception as exc:  # noqa: BLE001
+        failures.append(f"result screen: {type(exc).__name__}: {exc}")
 
     pygame.quit()
+    if failures:
+        raise AssertionError("; ".join(failures))
     return (
-        f"{type(puzzle).__name__}: menu+playing+result painted, "
-        f"correct={result['correct']} score={result['score']} streak={result['streak']}"
+        f"{len(PUZZLE_CLASSES)} kinds: menu + every playing screen + result painted, "
+        "each with a simulated click"
     )
 
 
