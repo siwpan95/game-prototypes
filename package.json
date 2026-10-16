@@ -9,7 +9,8 @@
     "start": "node src/boot.mjs",
     "dev": "node --watch src/boot.mjs",
     "smoke": "node src/smoke.mjs",
-    "test": "node src/smoke.mjs"
+    "check:client": "node src/check_client.mjs",
+    "test": "node src/check_client.mjs && node src/smoke.mjs"
   },
   "dependencies": {
     "@cordisjs/plugin-loader": "^1.0.0-rc.8",

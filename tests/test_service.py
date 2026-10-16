@@ -224,12 +224,29 @@ def _drive_to_win(name: str, puzzle) -> None:
 
 
 def test_2048_move_action_reaches_the_puzzle(fresh):
+    """A move that can change the board must come back changed.
+
+    The board is random, so a *fixed* direction can be a no-op (all tiles already
+    against that wall) and a single-attempt assertion would flake. Trying each
+    direction and requiring at least one change tests the same contract without
+    assuming a particular starting board.
+    """
     fresh.new_puzzle("s1", kind="2048")
-    before = fresh.snapshot("s1")["view"]
-    board_before = next(n for n in before["nodes"] if n["type"] == "board")["cells"]
-    after = fresh.perform("s1", "move", direction="left")
-    board_after = next(n for n in after["view"]["nodes"] if n["type"] == "board")["cells"]
-    assert board_before != board_after, "a move that changed nothing means the action was dropped"
+    board_before = _board(fresh.snapshot("s1"))
+
+    for direction in ("left", "up", "right", "down"):
+        after = fresh.perform("s1", "move", direction=direction)
+        if _board(after) != board_before:
+            return
+    raise AssertionError(
+        "no direction changed the board, so the action is being dropped: "
+        f"{board_before}"
+    )
+
+
+def _board(snapshot) -> list:
+    node = next(n for n in snapshot["view"]["nodes"] if n["type"] == "board")
+    return [[cell["value"] for cell in row] for row in node["cells"]]
 
 
 def test_action_driven_kinds_are_scored_by_acting_not_by_answering(fresh):
