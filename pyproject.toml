@@ -24,6 +24,7 @@ text-adventure-en = "shared.cli:main_en"
 # service actually use. Keeping it explicit stops setuptools from guessing.
 packages = [
   "shared",
+  "puzzle_service",
   "text_adventure",
   "text_adventure.gameplay_pool",
   "text_adventure_zh",

@@ -1,0 +1,10 @@
+# 统一换行：仓库内一律 LF。
+# 否则 Windows 上 core.autocrlf 会把工作副本改成 CRLF，并让「同一文件」在
+# diff / 校验里看起来被整体改写（见本轮提交时的 LF→CRLF 警告）。
+* text=auto eol=lf
+
+# 二进制/产物不必猜测编码
+*.png binary
+*.jpg binary
+*.ico binary
+*.whl binary
