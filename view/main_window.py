@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 
 from model import GameState, Direction, MapManager, VIEWPORT_H, VIEWPORT_W
 from .components import TaggedTextDisplay, InfoPanel, ButtonBar, show_messagebox
+from .audio import AudioManager
 
 if TYPE_CHECKING:
     from viewmodel import GameViewModel
@@ -16,6 +17,7 @@ class MainWindow:
     def __init__(self, root: tk.Tk, vm: "GameViewModel"):
         self.root = root
         self.vm = vm
+        self.audio = AudioManager()
 
         self._setup_window()
         self._create_widgets()
@@ -28,7 +30,7 @@ class MainWindow:
         vm.on_state_changed = self._on_state_changed
 
     def _setup_window(self):
-        self.root.title("重装机兵同人 - Metal Max Fan Game [MVVM]")
+        self.root.title("重装机兵同人·锈色黎明 - Metal Max Fan Game")
         self.root.geometry("1000x750")
         self.root.resizable(False, False)
 
@@ -224,9 +226,14 @@ class MainWindow:
         self.log_text.config(state=tk.DISABLED)
 
     def _on_state_changed(self, state: GameState):
-        """状态变更时更新战斗面板可见性"""
+        """状态变更时更新战斗面板可见性 + BGM"""
         # battle_visible 已通过 BooleanVar 自动处理
-        pass
+        # BGM：遗迹/神殿地图用 dungeon 曲，其余按状态映射
+        d = self.vm.data
+        bgm = self.audio.state_to_bgm(state)
+        if state == GameState.WORLD and d.current_map_id in (5, 12):
+            bgm = "dungeon"
+        self.audio.play(bgm)
 
     # ═══════════════════════════════════════════════════
     # 键盘绑定
@@ -244,6 +251,8 @@ class MainWindow:
         root.bind("<v>", lambda e: self._show_vehicles())
         root.bind("<q>", lambda e: self.vm.command_show_quests())
         root.bind("<k>", lambda e: self.vm.command_show_codex())
+        root.bind("<m>", lambda e: show_messagebox(
+            "静音", "已开启静音。" if self.audio.toggle_mute() else "已恢复声音。"))
         root.bind("<r>", lambda e: self.vm.command_rest())
         root.bind("<s>", lambda e: self._on_save())
         root.bind("<Key>", self._handle_key)
@@ -272,6 +281,8 @@ class MainWindow:
             elif event.char == '3':
                 self.vm.command_show_quests()
             elif event.char == '4':
+                self.vm.command_show_codex()
+            elif event.char == '5':
                 self.root.quit()
         elif d.state == GameState.INVENTORY:
             if event.char.isdigit():

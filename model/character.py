@@ -146,7 +146,7 @@ class Character:
     def level_up(self):
         self.level += 1
         self.exp -= self.exp_to_next
-        self.exp_to_next = int(self.exp_to_next * 1.5)
+        self.exp_to_next = int(self.exp_to_next * 1.35)
         # 成长率按职业（无职业数据时用默认值）
         cls = self.class_data
         hp_g = getattr(cls, "hp_growth", 10)

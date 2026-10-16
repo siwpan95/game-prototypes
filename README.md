@@ -16,10 +16,13 @@
 ## 快速开始
 
 ```bash
-# 1. 安装依赖（建议虚拟环境）
+# 1. 安装依赖（建议虚拟环境；BGM 需要 pygame/pygame-ce，可选）
 pip install -r requirements.txt
 
-# 2. 启动游戏
+# 2. 拉取 BGM 资源（CC0，SoundHelix；缺失时游戏静默跳过音乐）
+python scripts/fetch_music.py
+
+# 3. 启动游戏
 python main.py
 ```
 
@@ -28,6 +31,23 @@ python main.py
 ```bash
 python create.py --force     # 免确认重置 config.xlsx
 ```
+
+## 打包发行（Windows exe）
+
+用任意**带 tkinter 的 Python 3.12+**（标准 python.org 安装版即可）：
+
+```bash
+python -m venv .packaging/venv
+.packaging/venv/Scripts/pip install pandas openpyxl pyinstaller pygame-ce
+.packaging/venv/Scripts/pyinstaller --noconfirm --onefile --windowed ^
+    --name MetalMaxRustDawn --add-data "config.xlsx;." ^
+    --add-data "assets/music;assets/music" main.py
+```
+
+产物 `dist/MetalMaxRustDawn.exe`（约 75MB，单文件免安装），
+已通过 `MetalMaxRustDawn.exe --smoke` 自检（构建 UI + 开局后自动退出）。
+发行包运行 `--smoke` 参数可用于出货前快速自检；控制台乱码属 GBK
+编码显示问题，不影响 windowed 版本。
 
 ## 操作
 

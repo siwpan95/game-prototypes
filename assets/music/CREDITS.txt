@@ -1,0 +1,9 @@
+BGM 来源与许可
+==============
+全部曲目来自 SoundHelix (https://www.soundhelix.com)
+许可：CC0 (Public Domain Dedication)，可自由使用与再分发。
+曲目映射（原曲 → 游戏用途）：
+  SoundHelix-Song-1.mp3 -> title.mp3   (标题/菜单)
+  SoundHelix-Song-2.mp3 -> town.mp3    (城镇)
+  SoundHelix-Song-3.mp3 -> battle.mp3  (战斗)
+  SoundHelix-Song-4.mp3 -> dungeon.mp3 (遗迹/神殿)

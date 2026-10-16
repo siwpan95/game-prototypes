@@ -12,3 +12,12 @@ saves/
 save/
 archive/
 *.log
+
+# BGM 资源（CC0，scripts/fetch_music.py 一键拉取）
+assets/music/*.mp3
+
+# 打包产物与本地工具
+build/
+dist/
+.packaging/
+.sfx-repo/
