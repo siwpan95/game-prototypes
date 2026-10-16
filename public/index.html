@@ -16,7 +16,12 @@
     --line: #45455f;
     --ink: #ebebf5;
     --muted: #9a9ab8;
+    /* Two accent tokens on purpose: --accent draws borders (3:1 is enough for a
+       UI component), --accent-text is used for words and needs 4.5:1. The audit
+       measured #8964ea on the page background at 3.96, so status text now uses a
+       lighter purple that measures 6.03. */
     --accent: #8964ea;
+    --accent-text: #a78bfa;
     --ok: #50c878;
     --bad: #dc5050;
   }
@@ -28,14 +33,15 @@
   }
   h1 { font-size: 1.15rem; margin: 0 0 .75rem; }
   .toolbar { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: .75rem; }
-  .toolbar select, .toolbar button {
+  .toolbar select, .toolbar button, .toolbar .button-link {
     font: inherit; padding: .35rem .7rem; border-radius: 6px;
     border: 1px solid var(--line); background: var(--panel); color: var(--ink);
   }
-  .toolbar button { cursor: pointer; }
-  .toolbar button:hover { border-color: var(--accent); }
+  .toolbar button, .toolbar .button-link { cursor: pointer; }
+  .toolbar .button-link { text-decoration: none; display: inline-block; }
+  .toolbar button:hover, .toolbar .button-link:hover { border-color: var(--accent); }
   #scoreboard { color: var(--muted); margin: 0 0 .5rem; }
-  #status { min-height: 1.5em; margin: 0 0 1rem; color: var(--accent); }
+  #status { min-height: 1.5em; margin: 0 0 1rem; color: var(--accent-text); }
   .view { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; }
   .text { margin: 0 0 .75rem; font-size: 1.05rem; }
   .text.muted { color: var(--muted); font-size: .95rem; }
@@ -102,6 +108,8 @@
   <button id="daily" type="button">每日一题</button>
   <button id="hint" type="button">提示</button>
   <button id="share" type="button">分享卡片</button>
+  <a id="card" class="button-link" href="/api/share.svg" target="_blank" rel="noopener">卡片图</a>
+  <button id="history" type="button">历史</button>
   <button id="reset" type="button">重置</button>
 </div>
 

@@ -265,6 +265,92 @@ try {
     return text
   })
 
+  await check('the picture card is served as an image', async () => {
+    const response = await page.request.get(`${base}/api/share.svg`)
+    const type = response.headers()['content-type'] || ''
+    if (!type.includes('image/svg+xml')) throw new Error(`wrong content-type: ${type}`)
+    const body = await response.text()
+    if (!body.trimStart().startsWith('<svg')) throw new Error('not an SVG document')
+    if (!body.includes('不含谜底')) throw new Error('the card does not state it is spoiler-free')
+    return `${body.length} bytes of SVG`
+  })
+
+  await check('history is listed newest first', async () => {
+    const response = await page.request.get(`${base}/api/history?limit=5`)
+    const payload = await response.json()
+    if (!Array.isArray(payload.days)) throw new Error(`unexpected payload: ${JSON.stringify(payload)}`)
+    const days = payload.days.map((row) => row.day)
+    const sorted = [...days].sort().reverse()
+    if (JSON.stringify(days) !== JSON.stringify(sorted)) {
+      throw new Error(`history is not newest-first: ${days}`)
+    }
+    return days.length ? days.join(', ') : 'no records yet (acceptable on a fresh profile)'
+  })
+
+  await check('an automated accessibility audit finds nothing serious', async () => {
+    // axe-core is injected into the live page and run against several screens,
+    // because a single-screen audit would miss the puzzle-specific markup.
+    const { createRequire } = await import('node:module')
+    const require = createRequire(import.meta.url)
+    const axePath = require.resolve('axe-core/axe.min.js')
+
+    const screens = [
+      { label: 'menu', prepare: async () => {} },
+      {
+        label: 'grid puzzle (minesweeper)',
+        prepare: async () => {
+          await page.selectOption('#kind', 'minesweeper')
+          await page.click('#new')
+          await page.waitForSelector('.view[data-kind="minesweeper"] table.grid')
+        },
+      },
+      {
+        label: 'colour puzzle',
+        prepare: async () => {
+          await page.selectOption('#kind', 'color_sequence')
+          await page.click('#new')
+          await page.waitForSelector('.view[data-kind="color_sequence"] .swatch')
+        },
+      },
+      {
+        label: 'text input puzzle',
+        prepare: async () => {
+          await page.selectOption('#kind', 'math')
+          await page.click('#new')
+          await page.waitForSelector('.view[data-kind="math"] .field input')
+        },
+      },
+    ]
+
+    const problems = []
+    const counts = {}
+    for (const screen of screens) {
+      await screen.prepare()
+      await page.addScriptTag({ path: axePath })
+      const result = await page.evaluate(async () => {
+        // Only serious/critical: axe's minor findings are style opinions and would
+        // make this check noise that people learn to ignore.
+        return await window.axe.run(document, {
+          resultTypes: ['violations'],
+          runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag22aa'] },
+        })
+      })
+      const serious = result.violations.filter((v) =>
+        ['serious', 'critical'].includes(v.impact),
+      )
+      counts[screen.label] = result.violations.length
+      for (const violation of serious) {
+        problems.push(
+          `${screen.label}: ${violation.id} (${violation.impact}) — ${violation.help} ×${violation.nodes.length}`,
+        )
+      }
+    }
+    if (problems.length) throw new Error(problems.join(' | '))
+    return Object.entries(counts)
+      .map(([screen, count]) => `${screen}: ${count}`)
+      .join(', ')
+  })
+
   await check('no console errors were logged during the whole run', async () => {
     if (consoleErrors.length) throw new Error(consoleErrors.slice(0, 3).join(' | '))
     return 'console clean'

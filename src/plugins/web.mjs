@@ -124,6 +124,25 @@ export class WebService extends Service {
       const day = url.searchParams.get('day')
       return this.#json(res, 200, await this.puzzles.call('profile.share', { day }))
     }
+    if (route === 'GET /api/share.svg') {
+      const day = url.searchParams.get('day')
+      // Served as an image so it can be opened, saved, or embedded in a post.
+      const { svg } = await this.puzzles.call('profile.share.svg', { day })
+      res.writeHead(200, {
+        'content-type': 'image/svg+xml; charset=utf-8',
+        'cache-control': 'no-store',
+      })
+      return res.end(svg)
+    }
+    if (route === 'GET /api/history') {
+      const day = url.searchParams.get('day')
+      const limit = Number(url.searchParams.get('limit') || 14)
+      return this.#json(
+        res,
+        200,
+        await this.puzzles.call('profile.history', { limit, day }),
+      )
+    }
     if (route === 'GET /api/state') {
       return this.#json(res, 200, await this.#snapshot(this.#session(url)))
     }

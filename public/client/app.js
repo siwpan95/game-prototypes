@@ -151,6 +151,23 @@ async function showShare() {
   }
 }
 
+async function showHistory() {
+  try {
+    const { days } = await (await fetch('/api/history?limit=14')).json()
+    if (!days.length) {
+      announce('还没有记录：先玩一次每日一题')
+      return
+    }
+    const lines = days.map(
+      (row) => `${row.day} ${row.solved ? '✔' : '✘'} ${row.kind} ${row.score}分`,
+    )
+    announce(`最近 ${days.length} 天：${lines.join(' · ')}`)
+    window.__lastHistory = days
+  } catch (error) {
+    announce(`历史记录失败：${error.message}`)
+  }
+}
+
 async function refreshProgress() {
   try {
     const payload = await (await fetch('/api/profile')).json()
@@ -169,6 +186,7 @@ async function refreshProgress() {
 $('#new').addEventListener('click', newPuzzle)
 $('#daily').addEventListener('click', startDaily)
 $('#share').addEventListener('click', showShare)
+$('#history').addEventListener('click', showHistory)
 $('#hint').addEventListener('click', hint)
 $('#reset').addEventListener('click', async () => {
   paint(await api('/api/reset', {}))
