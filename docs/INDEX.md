@@ -48,4 +48,5 @@
 | REC-04 | 命令行客户端 | [records/cli-client_2026-10-16.md](records/cli-client_2026-10-16.md) | 生效 | 2026-10-16 | 终端客户端作为当前主力交互面；开发中被测试抓到的 6 个真实缺陷（缺 `__main__` 守卫、用文本当控制信号、跨进程状态、未接住查找失败、英文 label、夹具污染） |
 | REC-05 | 每日一题（种子驱动的确定性选题） | [records/daily-puzzle_2026-10-16.md](records/daily-puzzle_2026-10-16.md) | 生效 | 2026-10-16 | M4 第一步；三个让「确定性」名存实亡的陷阱（`hash()` 加盐、污染全局 random、静态方法读不到种子）与两版 base 类漂移 |
 | REC-06 | 浏览器端到端验证、进度/分享、label 键 | [records/browser-e2e-and-profile_2026-10-16.md](records/browser-e2e-and-profile_2026-10-16.md) | 生效 | 2026-10-16 | 用 Playwright 补上「浏览器没人验证过」；M4 收尾（推导式连续天数、原子存档、无剧透分享卡）；`field.label` 由临时翻译改为 label 键契约；含两次「断言写错而非产品有缺陷」的记录 |
+| REC-07 | 收尾：历史回看、图形卡片、可访问性审计 | [records/share-card-and-a11y_2026-10-16.md](records/share-card-and-a11y_2026-10-16.md) | 生效 | 2026-10-16 | 三个边角；axe-core 审计抓到真实的对比度违规（3.96 < 4.5）；SVG 卡片的 `aria-label` 未转义导致标记注入（测试先写、再修代码） |
 | REC-AU-02 | 平台化调研卷（2026-10） | [records/platform-research-2026-10/README.md](records/platform-research-2026-10/README.md) | 生效 | 2026-10-16 | 四份联网调研报告的索引入口：内核选型 / 平台化架构 / 竞品扫描 / Web 平台形态 |

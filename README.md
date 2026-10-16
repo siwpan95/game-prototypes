@@ -41,11 +41,15 @@ pwsh -NoProfile -File scripts\play.ps1 new sudoku ';' hint   # 多条命令共�
 pwsh -NoProfile -File scripts\play.ps1 daily            # 今天
 pwsh -NoProfile -File scripts\play.ps1 daily 2026-10-16 # 指定日期（可复现）
 pwsh -NoProfile -File scripts\play.ps1 profile          # 进度：玩过几天、连续天数
-pwsh -NoProfile -File scripts\play.ps1 share            # 无剧透分享卡片
+pwsh -NoProfile -File scripts\play.ps1 history          # 最近 14 天（新在前）
+pwsh -NoProfile -File scripts\play.ps1 share            # 无剧透分享卡片（文字）
+pwsh -NoProfile -File scripts\play.ps1 card 2026-10-16 out.svg   # 图形卡片
+node scripts/render-share-card.mjs out.svg out.png      # 想要位图就再转一层
 ```
 进度存在 `saves/profile.json`（**不入库**，且**不保存谜底与题目内容**）；
 连续天数是**从记录推导**的，不是计数器——漏一天会自动断，改存档也编不出没有证据的连续记录。
 用 `$env:TEXT_ADVENTURE_PROFILE` 可指定别的档案路径。
+网页端对应「每日一题 / 分享卡片 / 卡片图 / 历史」四个入口。
 
 > 注意：多条命令用 `;` 分隔只在直接传参数时成立；在 PowerShell 里 `;` 是语句分隔符，请分次调用。
 
@@ -132,12 +136,12 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - 收敛为「一份实现 + 语言资源」是后续计划（见 [SPEC-101](docs/spec/SPEC-101-platform-roadmap.md) §阶段 M5）。
 
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**143 passed**——注册表、视图（含「谜底不泄漏」与 **label 键契约**）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（含 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、**进度/连续天数/存档（含坏档案与原子写入）**、两版结构一致性。
-- `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）/ BROWSER E2E PASSED（16 项）**——最后一项是**真浏览器**（Playwright + Chromium）跑出来的：加载与控制台零错误、SSE、14 种可选、开局渲染中文标签、错答、提示、点击格子、键盘 `f` 插旗、右键插旗、方向键操作 2048、颜色不单独承载信息、答题结果、每日一题、分享卡片、进度显示。
+- `pytest tests -q`：**156 passed**——注册表、视图（含「谜底不泄漏」与 **label 键契约**）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（含 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/**历史回看/图形卡片（含注入防护）**、两版结构一致性。
+- `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）/ BROWSER E2E PASSED（18 项）**——最后一项是**真浏览器**（Playwright + Chromium）跑出来的：加载与控制台零错误、SSE、14 种可选、开局渲染中文标签、错答、提示、点击格子、键盘 `f` 插旗、右键插旗、方向键操作 2048、颜色不单独承载信息、答题结果、每日一题、分享卡片、进度显示、图形卡片以 `image/svg+xml` 提供、历史新在前、**axe-core 可访问性审计四个画面零 serious/critical**。
 - `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击）＋ 菜单 ＋ 结果画面，无头运行。
 - `python scripts/check_build_consistency.py`：**BUILD CONSISTENCY PASSED**——两版 14 个类结构一致（已用注入漂移验证它真的会红）。
 - `python scripts/build_content_pack.py --check`：**up to date（6 文件 / 154 条）**。
-- 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11 / playwright-core 1.64.1（复用本机已有的 Chromium，未下载）。
+- 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11 / playwright-core 1.64.1（复用本机已有的 Chromium，未下载）/ axe-core 4.14.0。
 - 修复前两个版本**都无法启动**（`ui.py` 从一个从未存在的模块 `shared.font_utils` 导入字体），
   详见 [记录](docs/records/text-adventure-boot-crash-fix_2026-10-16.md)。
 - 已知行为（既有，非本轮引入）：`MathPuzzle`、`RiddlePuzzle`、`GuessNumberPuzzle`、`PatternPuzzle` 的
