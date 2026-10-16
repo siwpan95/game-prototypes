@@ -37,14 +37,19 @@ def main():
         vm = GameViewModel(config)
         vm.command_new_game()
         player = vm.data.player
-        # 初始 attack/defense 已含战车加成（吉普车 +25/+15），以此为基线
+        # 初始 attack/defense 已含战车加成（15机关炮+野驴底盘+C装置），以此为基线
         base_attack, base_defense = player.attack, player.defense
-        assert base_attack == 15 + 25 and base_defense == 8 + 15, "初始应只有战车加成"
+        assert base_attack == 15 + 40 and base_defense == 8 + 150, \
+            "初始应只有战车加成（15机关炮+野驴底盘）"
 
         # ── 装备武器与防具 ──
+        # 注意：人类武器仅步行形态生效（T2.4 乘降语义），乘车时只看战车武器
         old = player.equip(Item(config.items[4]))  # 猎枪 +20
         assert old is None
-        assert player.attack == base_attack + 20, "武器加成未生效"
+        assert player.attack == base_attack, "乘车时人类武器不叠加"
+        player.combat_on_foot = True
+        assert player.attack == 15 + 20, f"步行时人类武器应生效: {player.attack}"
+        player.combat_on_foot = False
         player.equip(Item(config.items[7]))  # 钢盔 +10
         player.equip(Item(config.items[8]))  # 防弹衣 +25
         assert player.defense == base_defense + 35, f"防具加成未生效: {player.defense}"
@@ -52,7 +57,9 @@ def main():
         # ── 换装：旧装备回包 ──
         old_weapon = player.equip(Item(config.items[5]))  # 激光枪 +35
         assert old_weapon is not None and old_weapon.id == 4, "旧武器应被换下"
-        assert player.attack == base_attack + 35, "换枪后加成应更新"
+        player.combat_on_foot = True
+        assert player.attack == 15 + 35, f"换枪后步行攻击应更新: {player.attack}"
+        player.combat_on_foot = False
 
         # ── 卸下 ──
         removed = player.unequip("头")
