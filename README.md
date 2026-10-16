@@ -95,13 +95,15 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - **谜底不进视图模型**：数独只发题目网格、填字只发玩家网格与线索（有测试守着）。
 
 ## 目录要点
-- `text_adventure/`、`text_adventure_zh/`：英文版与中文版（`main.py` 入口、`ui.py` pygame 界面、`gameplay_pool/` 谜题库）
-- `puzzle_service/`：无头领域层——`registry.py`（kind 注册表）、`views.py`（视图模型）、`service.py`（会话/计分/动作）
+- `gameplay_pool/`：**统一的谜题实现**（14 种）+ `messages.py`（全部文案的分语言表）
+- `text_adventure/`、`text_adventure_zh/`：英文与中文 **pygame 客户端**（`main.py` 入口、`ui.py` 界面、`engine.py` 引擎）
+- `puzzle_service/`：无头领域层——`registry.py`（按语言建键的注册表）、`views.py`（视图模型）、`service.py`（会话/计分/动作）、`profile.py`（进度与分享卡片）、`content.py`（内容包）、`cli.py`（终端客户端）
 - `python/rpc_server.py`：JSON-RPC 2.0 stdio 服务端（仅标准库）
-- `src/`：Cordis 宿主——`boot.mjs`（唯一启动入口）、`core/bridge.mjs`（Node 侧桥）、`plugins/`（puzzle / web / render）、`smoke.mjs`（端到端冒烟）
+- `src/`：Cordis 宿主——`boot.mjs`（唯一启动入口）、`core/bridge.mjs`（Node 侧桥）、`plugins/`（puzzle / web / render）、`smoke.mjs`（端到端冒烟）、`browser_e2e.mjs`（真浏览器端到端）
 - `public/`：浏览器客户端（`index.html` + `client/`）
-- `shared/`：两版共用层——`font_utils.py`（跨平台 CJK 字体）、`paths.py`（项目根发现与导入引导）、`ui_boot.py`、`cli.py`
-- `scripts/`：`rebuild_venv.ps1`（重建并验证虚拟环境）、`smoke_headless.py`（无头端到端冒烟）
+- `content/packs/`：按语言分开的内容包（`core-zh`、`core-en`）
+- `shared/`：共用层——`font_utils.py`（跨平台 CJK 字体）、`paths.py`（项目根发现与导入引导）、`ui_boot.py`、`cli.py`
+- `scripts/`：环境重建、无头冒烟、内容包生成与校验、客户端一致性检查、卡片渲染
 - `tests/`：Python 测试（无显示器、不依赖 pygame 窗口）
 - `docs/`：文档枢纽——`spec/`（长期规范，如 [平台化路线图](docs/spec/SPEC-101-platform-roadmap.md)）、`records/`（实测记录与[调研卷](docs/records/platform-research-2026-10/README.md)）
 
@@ -126,21 +128,35 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - 换包目录：设环境变量 `TEXT_ADVENTURE_CONTENT_PACK` 指向你自己的包目录。
 - 语种变体：条目 id 加 `@<lang>` 后缀（如 `riddle-001@en`）表示该语言的专用版本，无后缀为共享条目。
 
-## 两个版本的隔离（重要）
-两个版本各自导出同名的顶层模块（`engine`、`events`、`domain`、`gameplay_pool`）。**同一进程里只能有一个版本生效**：
-谁先进入 `sys.path` 谁赢，另一个会被静默遮蔽。因此：
+## 一份实现，多种语言（M5 已完成）
+谜题逻辑**只有一份**：`gameplay_pool/`（项目根）。语言是构造参数，不是第二份副本：
 
-- 启动某一版时用 `shared.paths.bootstrap_import_path("zh" | "en")` 显式声明；
-- 需要同时验证两版时**必须分进程**（`scripts/smoke_headless.py` 就是这么做的）；
-- `puzzle_service` 只做包名导入（`text_adventure_zh.gameplay_pool`），因此可以在一个进程里切换语言；
-- 收敛为「一份实现 + 语言资源」是后续计划（见 [SPEC-101](docs/spec/SPEC-101-platform-roadmap.md) §阶段 M5）。
+```python
+MathPuzzle(difficulty="easy", lang="zh").puzzle_name   # '数学题'
+MathPuzzle(difficulty="easy", lang="en").puzzle_name   # 'Math Puzzle'
+```
+
+- 全部用户可见文案集中在 [`gameplay_pool/messages.py`](gameplay_pool/messages.py)（谜题名、提示、规则描述）；
+  缺一条翻译会**响亮报错**（`KeyError` 指出键与语言），不会静默退回另一种语言。
+- 内容（谜语/填字线索/词库）按语言分属不同内容包：`content/packs/core-zh`、`content/packs/core-en`。
+- 注册表按 `(语言, 种类)` 建键，所以同一个进程里可以同时存在两种语言的服务
+  （这正是合并时暴露的缺陷：原先按种类名建键，先注册的语言会赢下之后所有请求）。
+- `text_adventure/` 与 `text_adventure_zh/` 现在只剩 **pygame 客户端**
+  （`engine`/`ui`/`events`/`domain`/`main`），它们各自的 `gameplay_pool` 副本已删除——
+  两份同名包会让「导入到哪一份」取决于 `sys.path` 顺序，那正是 M5 要消除的东西。
+
+合并的正确性不是靠「看着差不多」，而是逐项比对：同一随机种子下，
+统一实现与两版旧实现在**数据、提示、种类元数据**上一致（差异只有两处，且都记录在案：
+填字的提示策略中英本来就不同，谜语提示把「answer」改成「option」）。
+证据见 [`docs/records/m5-unification_2026-10-16.md`](docs/records/m5-unification_2026-10-16.md)。
 
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**156 passed**——注册表、视图（含「谜底不泄漏」与 **label 键契约**）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（含 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/**历史回看/图形卡片（含注入防护）**、两版结构一致性。
+- `pytest tests -q`：**159 passed**——注册表（含**按语言建键**与「未注册语言不回退」）、视图（谜底不泄漏、label 键契约）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（双包 + 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/历史/图形卡片、客户端一致性。
 - `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）/ BROWSER E2E PASSED（18 项）**——最后一项是**真浏览器**（Playwright + Chromium）跑出来的：加载与控制台零错误、SSE、14 种可选、开局渲染中文标签、错答、提示、点击格子、键盘 `f` 插旗、右键插旗、方向键操作 2048、颜色不单独承载信息、答题结果、每日一题、分享卡片、进度显示、图形卡片以 `image/svg+xml` 提供、历史新在前、**axe-core 可访问性审计四个画面零 serious/critical**。
 - `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击）＋ 菜单 ＋ 结果画面，无头运行。
-- `python scripts/check_build_consistency.py`：**BUILD CONSISTENCY PASSED**——两版 14 个类结构一致（已用注入漂移验证它真的会红）。
-- `python scripts/build_content_pack.py --check`：**up to date（6 文件 / 154 条）**。
+- `python scripts/_audit_parity.py`：**两版各 0 problem**——统一实现与两版旧实现在数据、提示、种类元数据上逐项一致（只允许两类已登记差异）。
+- `python scripts/check_build_consistency.py`：**CLIENT CONSISTENCY PASSED**——两客户端解析到同一个谜题池、暴露同样的 14 种、引擎与界面接口一致（已用负向对照验证会红）。
+- `python scripts/build_content_pack.py [--language en] --check`：**up to date（两个包各 6 文件 / 154 条）**。
 - 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11 / playwright-core 1.64.1（复用本机已有的 Chromium，未下载）/ axe-core 4.14.0。
 - 修复前两个版本**都无法启动**（`ui.py` 从一个从未存在的模块 `shared.font_utils` 导入字体），
   详见 [记录](docs/records/text-adventure-boot-crash-fix_2026-10-16.md)。
