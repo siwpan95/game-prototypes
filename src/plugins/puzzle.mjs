@@ -65,6 +65,11 @@ export class PuzzleService extends Service {
     return this.bridge.hint(options)
   }
 
+  /** Raw passthrough for methods the host does not model (profile.info, ...). */
+  call(method, params = {}) {
+    return this.bridge.call(method, params)
+  }
+
   state(options) {
     return this.bridge.state(options)
   }

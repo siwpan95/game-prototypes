@@ -22,6 +22,17 @@ const COLOUR_SYMBOLS = {
   yellow: { symbol: '■', label: '黄 yellow' },
 }
 
+// The service sends a label *key* (it does not know which client renders the view
+// model); the wording lives here, in the language this client's user reads. A key
+// with no entry falls back to the default text the service also sends, so an
+// unhandled key shows readable English rather than a raw identifier.
+const LABELS_ZH = {
+  answer: '答案',
+  letter: '字母',
+  word: '单词',
+  next_word: '下一个单词（一次一步）',
+}
+
 const DIRECTIONS = [
   { direction: 'up', label: '↑ 上' },
   { direction: 'down', label: '↓ 下' },
@@ -92,12 +103,15 @@ function renderField(node, handlers) {
   const label = document.createElement('label')
   label.className = 'field'
   const caption = document.createElement('span')
-  caption.textContent = node.label || '答案'
+  caption.textContent =
+    LABELS_ZH[node.label_key] || node.label || node.label_key || '答案'
   const input = document.createElement('input')
   input.type = 'text'
   input.name = node.name || 'answer'
   input.autocomplete = 'off'
   input.dataset.answerType = node.answer_type || 'str'
+  input.dataset.labelKey = node.label_key || ''
+  input.setAttribute('aria-label', caption.textContent)
   input.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       event.preventDefault()

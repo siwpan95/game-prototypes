@@ -108,6 +108,22 @@ export class WebService extends Service {
     if (route === 'GET /api/kinds') {
       return this.#json(res, 200, { kinds: await this.puzzles.listKinds() })
     }
+    if (route === 'GET /api/profile') {
+      return this.#json(res, 200, await this.puzzles.call('profile.info', {}))
+    }
+    if (route === 'POST /api/daily') {
+      const body = await this.#body(req)
+      const snapshot = await this.puzzles.call('puzzle.daily', {
+        session_id: this.#session(url, body),
+        day: body.day ?? null,
+        difficulty: body.difficulty || 'medium',
+      })
+      return this.#replySnapshot(res, snapshot)
+    }
+    if (route === 'GET /api/share') {
+      const day = url.searchParams.get('day')
+      return this.#json(res, 200, await this.puzzles.call('profile.share', { day }))
+    }
     if (route === 'GET /api/state') {
       return this.#json(res, 200, await this.#snapshot(this.#session(url)))
     }

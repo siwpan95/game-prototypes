@@ -8,6 +8,7 @@ import { renderView } from './render.js'
 const $ = (selector) => document.querySelector(selector)
 const status = $('#status')
 const scoreboard = $('#scoreboard')
+const progress = $('#progress')
 const board = $('#board')
 
 let lastPuzzleId = null
@@ -32,6 +33,16 @@ function paint(snapshot) {
   if (!snapshot) return
   scoreboard.textContent =
     `得分 ${snapshot.score} · 连击 ${snapshot.streak} · 已完成 ${snapshot.solved} · 用时 ${snapshot.elapsed}s`
+  if (snapshot.profile) {
+    progress.textContent =
+      `进度：玩过 ${snapshot.profile.days_played} 天 · 累计完成 ${snapshot.profile.total_solved} · ` +
+      `连续 ${snapshot.profile.current_streak} 天（最佳 ${snapshot.profile.best_streak} 天）`
+  }
+  if (snapshot.daily) {
+    status.textContent =
+      `每日一题 ${snapshot.daily.day}（${snapshot.daily.kind}）` +
+      (snapshot.daily.played ? ' — 这一天已玩过，按最好成绩保留' : '')
+  }
   if (!snapshot.view) {
     board.replaceChildren(Object.assign(document.createElement('p'), {
       className: 'placeholder', textContent: '选择一种谜题开始。',
@@ -114,7 +125,50 @@ async function loadKinds() {
   }
 }
 
+async function startDaily() {
+  try {
+    lastPuzzleId = null
+    paint(await api('/api/daily', {}))
+  } catch (error) {
+    announce(`每日一题开局失败：${error.message}`)
+  }
+}
+
+async function showShare() {
+  try {
+    const { card } = await (await fetch('/api/share')).json()
+    announce('分享卡片已复制到剪贴板')
+    // Best effort: the clipboard needs a secure context and a user gesture, so a
+    // failure is shown rather than swallowed.
+    try {
+      await navigator.clipboard.writeText(card)
+    } catch {
+      announce(`无法自动复制，请手动复制：\n${card}`)
+    }
+    window.__lastShareCard = card
+  } catch (error) {
+    announce(`分享卡片失败：${error.message}`)
+  }
+}
+
+async function refreshProgress() {
+  try {
+    const payload = await (await fetch('/api/profile')).json()
+    if (payload.remember) {
+      progress.textContent =
+        `进度：玩过 ${payload.days_played} 天 · 累计完成 ${payload.total_solved} · ` +
+        `连续 ${payload.current_streak} 天（最佳 ${payload.best_streak} 天）`
+    } else {
+      progress.textContent = '进度记录未开启'
+    }
+  } catch {
+    progress.textContent = ''
+  }
+}
+
 $('#new').addEventListener('click', newPuzzle)
+$('#daily').addEventListener('click', startDaily)
+$('#share').addEventListener('click', showShare)
 $('#hint').addEventListener('click', hint)
 $('#reset').addEventListener('click', async () => {
   paint(await api('/api/reset', {}))
@@ -132,5 +186,6 @@ document.addEventListener('keydown', (event) => {
 })
 
 loadKinds()
+  .then(refreshProgress)
   .then(subscribe)
   .catch((error) => announce(`初始化失败：${error.message}`))
