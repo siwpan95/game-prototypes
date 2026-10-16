@@ -65,17 +65,74 @@ class ItemData:
         return self.equip_slot != ""
 
 @dataclass
-class VehicleData:
+class ChassisData:
+    """战车底盘"""
     id: int
     name: str
-    hp: int
-    attack: int
+    durability: int      # 耐久（战车 HP 上限）
+    defense: int         # 底盘防御
+    defense_max: int     # 改造防御上限
+    weight: float        # 自重（吨）
+    main_slots: int = 1  # 主炮孔
+    sub_slots: int = 1   # 副炮孔
+    se_slots: int = 0    # S-E 孔
+    description: str = ""
+
+
+@dataclass
+class EngineData:
+    """战车引擎（决定载重）"""
+    id: int
+    name: str
+    load: float          # 载重（吨）
+    defense: int         # 引擎防御
+    weight: float        # 自重（吨）
+    description: str = ""
+
+
+@dataclass
+class CUnitData:
+    """C 装置（火控，决定命中/回避）"""
+    id: int
+    name: str
+    hit: int
+    evade: int
     defense: int
-    speed: int
+    weight: float
+    description: str = ""
+
+
+@dataclass
+class WeaponData:
+    """战车武器（主炮/副炮/S-E）"""
+    id: int
+    name: str
+    type: str            # 主炮 / 副炮 / SE
+    attack: int
+    weight: float
+    description: str = ""
+
+
+@dataclass
+class VehicleData:
+    """战车配置：引用底盘/引擎/C装置/武器部件
+
+    旧版 Vehicles 表（扁平 HP/攻/防/速度 列）加载时会自动合成一套
+    部件数据，保证向后兼容。
+    """
+    id: int
+    name: str
+    chassis_id: int
+    engine_id: int
+    cunit_id: int
+    main_weapon_ids: list
+    sub_weapon_ids: list
+    se_weapon_ids: list
+    armor_plates: int
     fuel_capacity: int
     fuel_consumption: float
     repair_cost: int
-    description: str
+    description: str = ""
 
 @dataclass
 class MapData:
@@ -151,6 +208,10 @@ class ConfigLoader:
         self.excel_path = excel_path
         self.enemies: Dict[int, EnemyData] = {}
         self.items: Dict[int, ItemData] = {}
+        self.chassis: Dict[int, ChassisData] = {}
+        self.engines: Dict[int, EngineData] = {}
+        self.cunits: Dict[int, CUnitData] = {}
+        self.weapons: Dict[int, WeaponData] = {}
         self.vehicles: Dict[int, VehicleData] = {}
         self.maps: Dict[int, MapData] = {}
         self.npcs: Dict[int, NPCData] = {}
@@ -169,6 +230,10 @@ class ConfigLoader:
             # 加载各个工作表
             self._load_enemies()
             self._load_items()
+            self._load_chassis()
+            self._load_engines()
+            self._load_cunits()
+            self._load_weapons()
             self._load_vehicles()
             self._load_maps()
             self._load_npcs()
@@ -228,28 +293,6 @@ class ConfigLoader:
             print(f"加载了 {len(self.items)} 个物品配置")
         except Exception as e:
             print(f"加载物品配置失败: {e}")
-    
-    def _load_vehicles(self):
-        """加载战车配置"""
-        try:
-            df = pd.read_excel(self.excel_path, sheet_name='Vehicles')
-            for _, row in df.iterrows():
-                vehicle = VehicleData(
-                    id=int(row['ID']),
-                    name=str(row['名称']),
-                    hp=int(row['HP']),
-                    attack=int(row['攻击']),
-                    defense=int(row['防御']),
-                    speed=int(row['速度']),
-                    fuel_capacity=int(row['燃料容量']),
-                    fuel_consumption=float(row['燃料消耗']),
-                    repair_cost=int(row['修理费用']),
-                    description=str(row['描述'])
-                )
-                self.vehicles[vehicle.id] = vehicle
-            print(f"加载了 {len(self.vehicles)} 个战车配置")
-        except Exception as e:
-            print(f"加载战车配置失败: {e}")
     
     def _load_maps(self):
         """加载地图配置"""
@@ -317,19 +360,12 @@ class ConfigLoader:
         try:
             df = pd.read_excel(self.excel_path, sheet_name='Shops')
             for _, row in df.iterrows():
-                # 解析商品列表字符串为整数列表
-                items_str = str(row['商品列表']).strip()
-                if items_str:
-                    items_list = [int(x.strip()) for x in items_str.split(',') if x.strip()]
-                else:
-                    items_list = []
-                
                 shop = ShopData(
                     id=int(row['ID']),
                     name=str(row['名称']),
                     type=str(row['类型']),
                     map_id=int(row['地图ID']),
-                    items=items_list,
+                    items=self._parse_id_list(row['商品列表']),
                     price_multiplier=float(row['价格倍数'])
                 )
                 self.shops[shop.id] = shop
@@ -366,8 +402,207 @@ class ConfigLoader:
         """根据ID获取物品数据"""
         return self.items.get(item_id)
     
+    @staticmethod
+    def _parse_id_list(value) -> list:
+        """把单元格解析成 int 列表，兼容 "1,2,3" / "1, 2" / 数字 6 / 6.0"""
+        if value is None:
+            return []
+        if isinstance(value, float) and math.isnan(value):
+            return []
+        # 数字（含 numpy 数值类型）：单个 ID
+        try:
+            return [int(value)]
+        except (TypeError, ValueError):
+            pass
+        text = str(value).strip()
+        if not text or text.lower() == "nan":
+            return []
+        result = []
+        for part in text.split(','):
+            part = part.strip()
+            if part:
+                try:
+                    result.append(int(part))
+                except ValueError:
+                    continue
+        return result
+
+    def _load_chassis(self):
+        """加载底盘配置（缺表时静默跳过）"""
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='Chassis')
+            for _, row in df.iterrows():
+                chassis = ChassisData(
+                    id=int(row['ID']),
+                    name=str(row['名称']),
+                    durability=int(row['耐久']),
+                    defense=int(row['底盘防御']),
+                    defense_max=int(_col(row, '防御上限', row['底盘防御'] * 4)),
+                    weight=float(row['自重']),
+                    main_slots=int(_col(row, '主炮孔', 1)),
+                    sub_slots=int(_col(row, '副炮孔', 1)),
+                    se_slots=int(_col(row, 'SE孔', 0)),
+                    description=str(_col(row, '描述', '') or ''),
+                )
+                self.chassis[chassis.id] = chassis
+            print(f"加载了 {len(self.chassis)} 个底盘配置")
+        except Exception as e:
+            if "No sheet named" in str(e) or "Worksheet" in str(e):
+                return
+            print(f"加载底盘配置失败: {e}")
+
+    def _load_engines(self):
+        """加载引擎配置（缺表时静默跳过）"""
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='Engines')
+            for _, row in df.iterrows():
+                engine = EngineData(
+                    id=int(row['ID']),
+                    name=str(row['名称']),
+                    load=float(row['载重']),
+                    defense=int(_col(row, '防御', 0)),
+                    weight=float(row['自重']),
+                    description=str(_col(row, '描述', '') or ''),
+                )
+                self.engines[engine.id] = engine
+            print(f"加载了 {len(self.engines)} 个引擎配置")
+        except Exception as e:
+            if "No sheet named" in str(e) or "Worksheet" in str(e):
+                return
+            print(f"加载引擎配置失败: {e}")
+
+    def _load_cunits(self):
+        """加载 C 装置配置（缺表时静默跳过）"""
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='CUnits')
+            for _, row in df.iterrows():
+                cunit = CUnitData(
+                    id=int(row['ID']),
+                    name=str(row['名称']),
+                    hit=int(row['命中']),
+                    evade=int(row['回避']),
+                    defense=int(row['防御']),
+                    weight=float(row['自重']),
+                    description=str(_col(row, '描述', '') or ''),
+                )
+                self.cunits[cunit.id] = cunit
+            print(f"加载了 {len(self.cunits)} 个C装置配置")
+        except Exception as e:
+            if "No sheet named" in str(e) or "Worksheet" in str(e):
+                return
+            print(f"加载C装置配置失败: {e}")
+
+    def _load_weapons(self):
+        """加载战车武器配置（缺表时静默跳过）"""
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='Weapons')
+            for _, row in df.iterrows():
+                weapon = WeaponData(
+                    id=int(row['ID']),
+                    name=str(row['名称']),
+                    type=str(row['类型']),
+                    attack=int(row['攻击']),
+                    weight=float(row['自重']),
+                    description=str(_col(row, '描述', '') or ''),
+                )
+                self.weapons[weapon.id] = weapon
+            print(f"加载了 {len(self.weapons)} 个战车武器配置")
+        except Exception as e:
+            if "No sheet named" in str(e) or "Worksheet" in str(e):
+                return
+            print(f"加载战车武器配置失败: {e}")
+
+    def _load_vehicles(self):
+        """加载战车配置
+
+        新版：引用部件 ID 列。旧版（扁平 HP/攻/防 列）自动合成部件。
+        """
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='Vehicles')
+            legacy = '底盘ID' not in df.columns
+            for _, row in df.iterrows():
+                vid = int(row['ID'])
+                name = str(row['名称'])
+                if legacy:
+                    vehicle = self._synthesize_legacy_vehicle(vid, name, row)
+                else:
+                    vehicle = VehicleData(
+                        id=vid,
+                        name=name,
+                        chassis_id=int(row['底盘ID']),
+                        engine_id=int(row['引擎ID']),
+                        cunit_id=int(row['C装置ID']),
+                        main_weapon_ids=self._parse_id_list(row['主炮ID列表']),
+                        sub_weapon_ids=self._parse_id_list(row['副炮ID列表']),
+                        se_weapon_ids=self._parse_id_list(row['SE_ID列表']),
+                        armor_plates=int(_col(row, '装甲片', 20)),
+                        fuel_capacity=int(row['燃料容量']),
+                        fuel_consumption=float(row['燃料消耗']),
+                        repair_cost=int(row['修理费用']),
+                        description=str(_col(row, '描述', '') or ''),
+                    )
+                self.vehicles[vehicle.id] = vehicle
+            if legacy:
+                print(f"加载了 {len(self.vehicles)} 个战车配置（旧版扁平格式，已自动合成部件）")
+            else:
+                print(f"加载了 {len(self.vehicles)} 个战车配置")
+        except Exception as e:
+            print(f"加载战车配置失败: {e}")
+
+    def _synthesize_legacy_vehicle(self, vid: int, name: str, row) -> VehicleData:
+        """旧版扁平 Vehicles 行 → 合成一套部件（向后兼容）"""
+        hp = int(_col(row, 'HP', 300))
+        attack = int(_col(row, '攻击', 0))
+        defense = int(_col(row, '防御', 0))
+        chassis_id = -(vid * 10 + 1)
+        engine_id = -(vid * 10 + 2)
+        cunit_id = -(vid * 10 + 3)
+        weapon_id = -(vid * 10 + 4) if attack > 0 else 0
+        self.chassis[chassis_id] = ChassisData(
+            id=chassis_id, name=f"{name}·底盘", durability=hp,
+            defense=defense, defense_max=defense * 4, weight=10.0,
+            main_slots=1, sub_slots=1, se_slots=1,
+            description="旧版配置自动合成",
+        )
+        self.engines[engine_id] = EngineData(
+            id=engine_id, name=f"{name}·引擎", load=30.0,
+            defense=0, weight=1.0, description="旧版配置自动合成",
+        )
+        self.cunits[cunit_id] = CUnitData(
+            id=cunit_id, name=f"{name}·C装置", hit=10, evade=5,
+            defense=0, weight=1.0, description="旧版配置自动合成",
+        )
+        main_ids = []
+        if attack > 0:
+            self.weapons[weapon_id] = WeaponData(
+                id=weapon_id, name=f"{name}·主炮", type="主炮",
+                attack=attack, weight=1.0, description="旧版配置自动合成",
+            )
+            main_ids = [weapon_id]
+        return VehicleData(
+            id=vid, name=name,
+            chassis_id=chassis_id, engine_id=engine_id, cunit_id=cunit_id,
+            main_weapon_ids=main_ids, sub_weapon_ids=[], se_weapon_ids=[],
+            armor_plates=20,
+            fuel_capacity=int(_col(row, '燃料容量', 100)),
+            fuel_consumption=float(_col(row, '燃料消耗', 1.0)),
+            repair_cost=int(_col(row, '修理费用', 100)),
+            description=str(_col(row, '描述', '') or ''),
+        )
+
+    def get_chassis_by_id(self, chassis_id: int) -> Optional[ChassisData]:
+        return self.chassis.get(chassis_id)
+
+    def get_engine_by_id(self, engine_id: int) -> Optional[EngineData]:
+        return self.engines.get(engine_id)
+
+    def get_cunit_by_id(self, cunit_id: int) -> Optional[CUnitData]:
+        return self.cunits.get(cunit_id)
+
+    def get_weapon_by_id(self, weapon_id: int) -> Optional[WeaponData]:
+        return self.weapons.get(weapon_id)
+
     def get_vehicle_by_id(self, vehicle_id: int) -> Optional[VehicleData]:
-        """根据ID获取战车数据"""
         return self.vehicles.get(vehicle_id)
     
     def get_map_by_id(self, map_id: int) -> Optional[MapData]:

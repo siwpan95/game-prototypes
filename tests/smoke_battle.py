@@ -44,19 +44,22 @@ def main():
         vehicle = d.current_vehicle
         assert vehicle is not None and vehicle.is_alive(), "初始应有战车"
 
-        # ── 乘战车：敌人伤害全部由战车承担 ──
+        # ── 乘战车：敌人伤害由战车承担（先耗装甲片） ──
         player.hp = player.max_hp
         vehicle.hp = vehicle.max_hp
+        vehicle.armor_plates = vehicle.max_plates
         enemy = fresh_battle(vm, 4)  # 战车 100HP，扛得住一击
         vm.command_attack()
         assert enemy.hp < enemy.max_hp, "敌人应受伤"
         assert player.hp == player.max_hp, "乘战车时人不应掉血"
-        assert vehicle.hp < vehicle.max_hp, "战车应承伤"
+        assert (vehicle.armor_plates < vehicle.max_plates
+                or vehicle.hp < vehicle.max_hp), "战车应承伤（装甲片或耐久）"
 
         # ── 战车毁后，伤害转到人 ──
         vm.command_new_game()
         d = vm.data
         player, vehicle = d.player, d.current_vehicle
+        vehicle.armor_plates = 0  # 装甲片耗尽
         vehicle.hp = 1
         fresh_battle(vm, 4)
         vm.command_attack()

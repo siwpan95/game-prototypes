@@ -94,8 +94,8 @@ class BattleEngine:
         result.messages.append(f"{data.player.name}采取了防御姿态！")
         vehicle = data.player.vehicle
         if vehicle is not None and vehicle.is_alive():
-            original = vehicle.defense
-            vehicle.defense *= 2
+            original = vehicle.defense_multiplier
+            vehicle.defense_multiplier = 2.0
             vehicle_was_alive = True
         else:
             original = data.player._base_defense
@@ -108,7 +108,7 @@ class BattleEngine:
         )
 
         if vehicle_was_alive:
-            vehicle.defense = original
+            vehicle.defense_multiplier = original
         else:
             data.player._base_defense = original
         break_msg = BattleEngine._vehicle_break_message(data.player, vehicle_was_alive)
@@ -162,8 +162,8 @@ class BattleEngine:
             vehicle = player.vehicle
             vehicle_was_alive = vehicle is not None and vehicle.is_alive()
             if vehicle_was_alive:
-                original = vehicle.defense
-                vehicle.defense *= boost
+                original = vehicle.defense_multiplier
+                vehicle.defense_multiplier = float(boost)
             else:
                 original = player._base_defense
                 player._base_defense *= boost
@@ -174,7 +174,7 @@ class BattleEngine:
                 f"{enemy.name}攻击{BattleEngine._hit_target(player)}造成{dmg}点伤害！"
             )
             if vehicle_was_alive:
-                vehicle.defense = original
+                vehicle.defense_multiplier = original
             else:
                 player._base_defense = original
             break_msg = BattleEngine._vehicle_break_message(player, vehicle_was_alive)

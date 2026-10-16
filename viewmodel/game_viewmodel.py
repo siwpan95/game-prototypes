@@ -80,7 +80,7 @@ class GameViewModel:
 
         # 初始战车
         if 1 in self.config.vehicles:
-            v = Vehicle(self.config.vehicles[1])
+            v = Vehicle(self.config.vehicles[1], self.config)
             self.data.vehicles.append(v)
             self.data.current_vehicle = v
             self.data.player.vehicle = v
@@ -166,10 +166,13 @@ class GameViewModel:
         # 战车信息
         if d.current_vehicle:
             v = d.current_vehicle
+            overweight = " [超重!]" if v.is_overweight() else ""
             self.vehicle_text.set(
-                f"战车: {v.name}\n"
-                f"HP: {v.hp}/{v.max_hp}\n"
-                f"燃料: {int(v.fuel)}/{int(v.max_fuel)}"
+                f"战车: {v.name}{overweight}\n"
+                f"HP: {v.hp}/{v.max_hp}  装甲片: {v.armor_plates}/{v.max_plates}\n"
+                f"燃料: {int(v.fuel)}/{int(v.max_fuel)}  载重: {v.total_weight()}t/{int(v.load_capacity())}t\n"
+                f"底盘: {v.chassis.name}  引擎: {v.engine.name}\n"
+                f"{v.weapon_summary()}"
             )
         else:
             self.vehicle_text.set("战车: 无")
@@ -374,6 +377,14 @@ class GameViewModel:
 
     def command_move(self, direction: Direction):
         if self.data.state != GameState.WORLD:
+            return
+
+        # 超重拦截（载重由引擎决定）
+        vehicle = self.data.current_vehicle
+        if vehicle is not None and vehicle.is_alive() and vehicle.is_overweight():
+            self.data.add_log(
+                f"战车超重（{vehicle.total_weight()}t / 载重 {vehicle.load_capacity()}t），无法移动！"
+            )
             return
 
         dx, dy = 0, 0
@@ -613,20 +624,22 @@ class GameViewModel:
 
     def command_repair_vehicle(self):
         d = self.data
-        if d.current_vehicle and d.current_vehicle.hp < d.current_vehicle.max_hp:
-            cost = d.current_vehicle.repair_cost  # 使用 VehicleData 配置
-            if cost == 0:
-                cost = (d.current_vehicle.max_hp - d.current_vehicle.hp) * 2
-            if d.gold >= cost:
-                d.gold -= cost
-                d.current_vehicle.repair()
-                d.add_log(f"战车修复完成，花费{cost}金币！")
-            else:
-                d.add_log(f"金币不足！需要{cost}金币。")
-        elif d.current_vehicle:
-            d.add_log("战车状态完好，无需修理。")
-        else:
+        v = d.current_vehicle
+        if v is None:
             d.add_log("没有战车可以修理。")
+            return
+        if v.hp >= v.max_hp and v.missing_plates() == 0 and not v.broken:
+            d.add_log("战车状态完好，无需修理。")
+            return
+        # 费用 = 基础修理费 + 装甲片补充费（每片 50G）
+        plate_cost = v.missing_plates() * 50
+        cost = v.repair_cost + plate_cost
+        if d.gold >= cost:
+            d.gold -= cost
+            v.repair()
+            d.add_log(f"战车修复完成，花费{cost}金币！")
+        else:
+            d.add_log(f"金币不足！需要{cost}金币。")
 
     def command_rest(self):
         d = self.data
