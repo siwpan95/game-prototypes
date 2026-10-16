@@ -76,11 +76,26 @@ class PuzzleKind:
     #: for both, but never auto-detect completion.
     answered_by: str = "check"
     language: str = ""
+    #: Content pack supplying this kind's questions/words (``None`` = generated,
+    #: or the pack does not cover this kind and the built-in bank is used).
+    content: Any = None
     meta: dict[str, Any] = field(default_factory=dict)
 
     def create(self, difficulty: str = "medium", **kwargs: Any):
-        """Instantiate one puzzle of this kind."""
-        return self.cls(difficulty=difficulty, **kwargs)
+        """Instantiate one puzzle of this kind, handing it the content pack.
+
+        Content injection happens here rather than in the puzzle constructor so a
+        puzzle can still be built on its own (tests, tooling) without knowing that
+        content packs exist.
+        """
+        puzzle = self.cls(difficulty=difficulty, **kwargs)
+        if self.content is not None:
+            setattr(puzzle, "content", self.content)
+            # Some kinds cache their generated data during _generate(), which has
+            # already run; regenerate so the pack actually takes effect.
+            if getattr(puzzle, "content_kind", None):
+                puzzle._generate()
+        return puzzle
 
     def public(self) -> dict[str, Any]:
         """JSON-safe description (no class object, so it can cross the RPC bridge)."""
@@ -219,11 +234,17 @@ def _kind_name(cls: type) -> str:
     return lowered
 
 
-def discover(language: str = "zh") -> list[PuzzleKind]:
+def discover(language: str = "zh", content: Any = None) -> list[PuzzleKind]:
     """Import *language*'s ``gameplay_pool`` and register every kind it exports.
 
     Idempotent: registering the same class twice is a no-op, while a *different*
     class claiming a taken name raises instead of silently shadowing.
+
+    Args:
+        language: ``"zh"`` or ``"en"``.
+        content: content pack handed to content kinds (``None`` = built-in banks).
+            Passing it here keeps ``PuzzleKind`` immutable: the pack is fixed at
+            registration time instead of being patched afterwards.
     """
     if language not in LANGUAGES:
         raise UnknownLanguage(
@@ -259,6 +280,7 @@ def discover(language: str = "zh") -> list[PuzzleKind]:
                 answer_type=answer_type,
                 answered_by=answered_by,
                 language=language,
+                content=content,
                 meta={"manifest": name in _MANIFEST},
             )
         )

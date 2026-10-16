@@ -37,10 +37,15 @@ CROSSWORDS: list[dict] = [
 class CrosswordPuzzle(BasePuzzle):
     puzzle_name = "填字游戏"
     puzzle_type = "mixed"
+    content_kind = "crosswords"
 
     def _generate(self) -> None:
-        template = random.choice(CROSSWORDS)
+        item = self.pick_content()
+        template = item if item is not None else random.choice(CROSSWORDS)
         size = template["size"]
+        # Cells no word touches stay None: check_answer skips them, which is why a
+        # template may legitimately have holes. A pack states them explicitly as
+        # "blocks" so the validator can tell a hole from a coordinate typo.
         grid = [[None for _ in range(size)] for _ in range(size)]
         numbers: dict[tuple[int, int], int] = {}
         clue_number = 1

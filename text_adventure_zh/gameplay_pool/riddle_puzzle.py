@@ -70,9 +70,13 @@ RIDDLES: list[dict] = [
 class RiddlePuzzle(BasePuzzle):
     puzzle_name = "谜语"
     puzzle_type = "content"
+    content_kind = "riddles"
 
     def _generate(self) -> None:
-        riddle = random.choice(RIDDLES)
+        # Prefer the content pack (data, editable without touching code); the
+        # RIDDLES list above stays as the fallback for a pack-less checkout.
+        item = self.pick_content()
+        riddle = item if item is not None else random.choice(RIDDLES)
         self.data = {
             "question": riddle["question"],
             "options": list(riddle["options"]),

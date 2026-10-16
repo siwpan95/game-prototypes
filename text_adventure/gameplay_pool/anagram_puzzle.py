@@ -16,19 +16,25 @@ WORDS: list[str] = [
 class AnagramPuzzle(BasePuzzle):
     puzzle_name = "Anagram"
     puzzle_type = "content"
+    content_kind = "anagram_words"
 
     def _generate(self) -> None:
-        if self.difficulty == "easy":
-            pool = [w for w in WORDS if len(w) <= 4]
-        elif self.difficulty == "medium":
-            pool = [w for w in WORDS if 4 <= len(w) <= 6]
+        item = self.pick_content()
+        if item is not None:
+            word = str(item["word"])
         else:
-            pool = [w for w in WORDS if len(w) >= 5]
+            if self.difficulty == "easy":
+                pool = [w for w in WORDS if len(w) <= 4]
+            elif self.difficulty == "medium":
+                pool = [w for w in WORDS if 4 <= len(w) <= 6]
+            else:
+                pool = [w for w in WORDS if len(w) >= 5]
 
-        if not pool:
-            pool = WORDS
+            if not pool:
+                pool = WORDS
 
-        word = random.choice(pool)
+            word = random.choice(pool)
+
         letters = list(word)
         shuffled = letters[:]
         attempts = 0

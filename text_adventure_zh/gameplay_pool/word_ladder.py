@@ -43,21 +43,30 @@ START_END_PAIRS: list[tuple[int, str, str]] = [
 class WordLadderPuzzle(BasePuzzle):
     puzzle_name = "单词接龙"
     puzzle_type = "mixed"
+    content_kind = "word_ladders"
 
     def _generate(self) -> None:
-        if self.difficulty == "easy":
-            candidates = [(n, s, e) for n, s, e in START_END_PAIRS if n == 3]
-        elif self.difficulty == "medium":
-            candidates = [(n, s, e) for n, s, e in START_END_PAIRS if n == 4]
+        item = self.pick_content()
+        if item is not None:
+            start = str(item["start"])
+            end = str(item["end"])
+            pool = list(item["pool"])
+            word_len = len(start)
         else:
-            candidates = START_END_PAIRS
+            if self.difficulty == "easy":
+                candidates = [(n, s, e) for n, s, e in START_END_PAIRS if n == 3]
+            elif self.difficulty == "medium":
+                candidates = [(n, s, e) for n, s, e in START_END_PAIRS if n == 4]
+            else:
+                candidates = START_END_PAIRS
 
-        if not candidates:
-            candidates = START_END_PAIRS
+            if not candidates:
+                candidates = START_END_PAIRS
 
-        _, start, end = random.choice(candidates)
-        word_len = len(start)
-        pool = WORD_POOLS.get(word_len, WORD_POOLS[3])
+            _, start, end = random.choice(candidates)
+            word_len = len(start)
+            pool = WORD_POOLS.get(word_len, WORD_POOLS[3])
+
         path = self._bfs(start, end, pool)
         if not path:
             path = [start, end]

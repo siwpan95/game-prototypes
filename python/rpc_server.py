@@ -71,6 +71,7 @@ class RpcServer:
             "puzzle.hint": self._hint,
             "puzzle.state": self._state,
             "puzzle.reset": self._reset,
+            "content.info": self._content_info,
             "session.reset": self._reset,
             "server.ping": self._ping,
             "server.info": self._info,
@@ -107,6 +108,9 @@ class RpcServer:
     def _reset(self, session_id: str = "default") -> dict[str, Any]:
         return self.service.reset(session_id)
 
+    def _content_info(self) -> dict[str, Any]:
+        return self.service.content_summary()
+
     def _ping(self) -> dict[str, Any]:
         return {"pong": True}
 
@@ -115,6 +119,7 @@ class RpcServer:
             "language": self.service.language,
             "kinds": len(self.service.list_kinds()),
             "protocol": "jsonrpc-2.0/ndjson",
+            "content": self.service.content_summary(),
         }
 
     def _shutdown(self) -> dict[str, Any]:

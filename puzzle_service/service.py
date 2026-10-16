@@ -19,6 +19,8 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
+import sys
+
 from puzzle_service import views
 from puzzle_service.registry import PuzzleKind, all_kinds, discover, get
 
@@ -73,10 +75,24 @@ class PuzzleService:
 
     def __init__(self, language: str = "zh", autodiscover: bool = True):
         self.language = language
+        # Content is loaded once per service: a pack read failure is reported here
+        # (loudly) rather than swallowed per puzzle, and the game still runs on the
+        # banks embedded in the puzzle modules.
+        self.content = _load_content()
         if autodiscover and not all_kinds():
-            discover(language)
+            discover(language, content=self.content)
         self._sessions: dict[str, Session] = {}
         self._counter = 0
+
+    # --- content -------------------------------------------------------------
+
+    def content_summary(self) -> dict[str, Any]:
+        if self.content is None:
+            return {"source": "built-in banks", "counts": {}}
+        summary = self.content.describe()
+        summary["source"] = "content pack"
+        summary.pop("root", None)  # a machine path has no business crossing the wire
+        return summary
 
     # --- kinds ---------------------------------------------------------------
 
@@ -284,6 +300,23 @@ class PuzzleService:
 
 def _normalise_difficulty(difficulty: str) -> str:
     return difficulty if difficulty in {"easy", "medium", "hard"} else "medium"
+
+
+def _load_content():
+    """Load the shipped content pack, announcing a failure instead of hiding it.
+
+    A broken pack must not stop the game — the puzzle modules still carry their own
+    banks — but it must not be silent either: a pack that fails validation while
+    the game plays on the old content is exactly the "green but wrong" state the
+    governance rules forbid.
+    """
+    from puzzle_service.content import ContentPackError, load_pack
+
+    try:
+        return load_pack()
+    except ContentPackError as exc:
+        print(f"[puzzle-service] content pack unusable, using built-in banks: {exc}", file=sys.stderr)
+        return None
 
 
 def _coerce_action_kwargs(action: str, params: dict[str, Any]) -> dict[str, Any]:
