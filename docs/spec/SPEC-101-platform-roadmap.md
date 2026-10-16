@@ -51,15 +51,22 @@ Python 谜题进程 (puzzle_service/)    领域层：状态、规则、计分、
   每个鼠标操作都有键盘通路。来源：[What's New in WCAG 2.2](https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/)（检索 2026-10-16）。
   注：二手博客常把 2.4.13 Focus Appearance 误标为 AA，实为 AAA ——按 W3C 原文核对。
 
-### 阶段 M2 · 内容包（下一步）
+### 阶段 M2 · 内容包（进行中：加载与首个数据包已完成 2026-10-16）
 把谜题内容从代码里抽出来，才能谈「内容供给」和「难度标定」。
 - 数据格式：`manifest.json` 带**双版本字段**（`format_version` + `min_engine_version`），
   先例是 Minecraft 的 `pack.mcmeta`；正文用 JSON Schema（2020-12）校验，迁移用幂等注册表。
 - 内容包**不得包含可执行代码**（不引入 Python 表达式、不引入 `eval`），这与「进程边界才是唯一真边界」的
   调研结论一致：`node:vm` 官方明确不是安全机制，
   来源：[Node.js VM](https://nodejs.org/api/vm.html)、[Node.js Permissions](https://nodejs.org/api/permissions.html)（检索 2026-10-16）。
-- 首发范围建议：先把 5 种**纯内容型**谜题（谜语、填字、单词阶梯、字母重排、图案规律）数据化，
-  它们是「内容质量决定体验」的那一类，也是社区投稿最可能接得住的形态。
+- 首发范围：把 5 种**内容型**谜题（谜语、猜单词、单词接龙、字母重排、填字）从模块内置题库
+  迁移到 `content/packs/core-zh/`（154 条），由 `scripts/build_content_pack.py` 从模块派生，
+  `--check` 用于 CI 防漂移。
+- **不做**什么：`pattern`（数列规律）是**生成型**而非内容型（`puzzle_type = "generated"`），
+  它的"题目"由算式生成，不存在题库可迁移——需要的是难度参数化，不是内容包。
+  判断依据是各谜题类自己的 `puzzle_type` 与 `content_kind`，不是"看起来像有内容"。
+- 校验器按种类写规则（选项下标越界、重复条目、单词长度、填字格覆盖与坐标越界、
+  梯子池词长一致、**谜底字段不得出现代码**），并且**加载即校验**：坏包响亮报错并退回家底题库，
+  同时把原因写到 stderr——不许静默降级。
 
 ### 阶段 M3 · 网页编辑器
 编辑态用**只读开关**而不是第二套编辑器（可核查先例：Excalidraw 的 `viewModeEnabled`、
@@ -92,3 +99,4 @@ JSON Forms 的 `readonly`）；撤销重做用快照栈即可，协同编辑（Y
 | 日期 | 变更 | 依据 |
 | --- | --- | --- |
 | 2026-10-16 | 建立本规范：M0–M1 标为已完成，M2–M5 定方向与红线 | 用户三项指令（修复 / 引入 Cordis / 平台化调研）；四份联网调研报告 |
+| 2026-10-16 | M2 部分落地（内容包加载 + 首个数据包 154 条）；修正首发范围：`pattern` 是生成型，不在内容包内 | 实测各谜题类的 `puzzle_type`；用户选择「先把内容型谜题数据化」 |
