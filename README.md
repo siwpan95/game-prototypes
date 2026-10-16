@@ -62,6 +62,27 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - `tests/`：Python 测试（无显示器、不依赖 pygame 窗口）
 - `docs/`：文档枢纽——`spec/`（长期规范，如 [平台化路线图](docs/spec/SPEC-101-platform-roadmap.md)）、`records/`（实测记录与[调研卷](docs/records/platform-research-2026-10/README.md)）
 
+## 内容包（谜题内容与代码分离）
+
+谜题内容不再写死在 Python 模块里：5 种**内容型**谜题（谜语、猜单词、单词接龙、字母重排、填字）
+从 `content/packs/core-zh/` 读取，**没有包时自动回退到模块内置题库**，所以缺包也能玩。
+
+```powershell
+# 从谜题模块派生内容包（改了题库后重新生成）
+.\.venv\Scripts\python.exe scripts\build_content_pack.py
+
+# 校验包与题库是否一致（CI 用：改了题库却忘记重新生成，这里会红）
+.\.venv\Scripts\python.exe scripts\build_content_pack.py --check
+```
+
+- 包的 `manifest.json` 带**双版本字段**：`format_version`（包自身格式）与 `min_engine_version`
+  （能读它的最老引擎）。包比引擎新则**拒绝加载**而不是半读。
+- **加载即校验**：选项下标越界、重复条目、单词长度不符、填字格无人覆盖或坐标越界、
+  包内出现 `eval(`/`exec(`/`__import__`/`lambda` 等，都会带着**文件名与条目下标**报错。
+- 包是**纯数据**，不含可执行代码；坏包会**响亮报错**（写到 stderr）并退回内置题库——降级可以，静默降级不行。
+- 换包目录：设环境变量 `TEXT_ADVENTURE_CONTENT_PACK` 指向你自己的包目录。
+- 语种变体：条目 id 加 `@<lang>` 后缀（如 `riddle-001@en`）表示该语言的专用版本，无后缀为共享条目。
+
 ## 两个版本的隔离（重要）
 两个版本各自导出同名的顶层模块（`engine`、`events`、`domain`、`gameplay_pool`）。**同一进程里只能有一个版本生效**：
 谁先进入 `sys.path` 谁赢，另一个会被静默遮蔽。因此：
@@ -72,9 +93,10 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - 收敛为「一份实现 + 语言资源」是后续计划（见 [SPEC-101](docs/spec/SPEC-101-platform-roadmap.md) §阶段 M5）。
 
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**58 passed**——注册表契约、视图契约（含「谜底不泄漏」）、服务契约（含 14 种全部可解、动作驱动不重复计分）、桥契约（真子进程）、宿主跨语言契约。
-- `npm run smoke`：**SMOKE PASSED（11 项）**——真启动 Cordis 宿主、真发 HTTP、真连 SSE；14 种视图全部通过原语白名单校验。
-- `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端在无头环境走完 菜单→答题→结果。
+- `pytest tests -q`：**82 passed**——注册表契约、视图契约（含「谜底不泄漏」）、服务契约（含 14 种全部可解、动作驱动不重复计分）、桥契约（真子进程）、宿主跨语言契约、内容包契约（含 11 种坏包的失败路径）。
+- `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）**——真启动 Cordis 宿主、真发 HTTP、真连 SSE；14 种视图全部通过原语白名单校验。
+- `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击事件）＋ 菜单 ＋ 结果画面，无头运行。
+- `python scripts/build_content_pack.py --check`：**up to date（6 文件 / 154 条）**——内容包与题库一致。
 - 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11。
 - 修复前两个版本**都无法启动**（`ui.py` 从一个从未存在的模块 `shared.font_utils` 导入字体），
   详见 [记录](docs/records/text-adventure-boot-crash-fix_2026-10-16.md)。
