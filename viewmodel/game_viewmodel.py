@@ -77,12 +77,15 @@ class GameViewModel:
         for item_data in self.config.get_starting_items():
             self.data.inventory.append(Item(item_data))
 
-        # 初始战车
-        if 1 in self.config.vehicles:
-            v = Vehicle(self.config.vehicles[1], self.config)
-            self.data.vehicles.append(v)
-            self.data.current_vehicle = v
-            self.data.player.vehicle = v
+        # 初始战车：所有 default 型自动拥有，默认驾驶第一辆
+        for vehicle_data in self.config.vehicles.values():
+            if vehicle_data.acquire_type == "default":
+                self.data.owned_vehicle_ids.add(vehicle_data.id)
+                v = Vehicle(vehicle_data, self.config)
+                self.data.vehicles.append(v)
+                if self.data.current_vehicle is None:
+                    self.data.current_vehicle = v
+                    self.data.player.vehicle = v
 
         # 地图
         MapManager.create_map(self.data, self.config.maps, self.config.npcs)
@@ -519,6 +522,11 @@ class GameViewModel:
     def command_interact(self):
         d = self.data
         if d.state == GameState.WORLD:
+            # 战车获取点（荒野 V 标记，走到按空格）
+            vehicle_spot = self._vehicle_spot_at()
+            if vehicle_spot is not None:
+                self._acquire_vehicle(vehicle_spot)
+                return
             entrance_id = MapManager.entrance_at(d)
             if entrance_id is not None:
                 self._enter_map(entrance_id)
@@ -534,6 +542,64 @@ class GameViewModel:
         elif d.state == GameState.DIALOG:
             d.state = GameState.WORLD
             self._notify_state()
+
+    def _vehicle_spot_at(self):
+        """玩家脚下是否有未获得的战车获取点"""
+        d = self.data
+        if d.config is None or d.current_map_id != 1:
+            return None
+        for vd in d.config.vehicles.values():
+            if (vd.acquire_type == "site"
+                    and vd.id not in d.owned_vehicle_ids
+                    and (d.player_x, d.player_y) == (vd.acquire_x, vd.acquire_y)):
+                return vd
+        return None
+
+    def _acquire_vehicle(self, vehicle_data):
+        """获得战车（site 型：免费或付费购买）"""
+        d = self.data
+        if vehicle_data.id in d.owned_vehicle_ids:
+            d.add_log("这辆战车已经是你的了。")
+            return
+        price = vehicle_data.acquire_price
+        if price > 0:
+            if d.gold < price:
+                d.add_log(
+                    f"发现了{vehicle_data.name}！售价 {price} 金币，你的金币不足。"
+                )
+                return
+            d.gold -= price
+            d.add_log(f"支付了 {price} 金币，买下了{vehicle_data.name}！")
+        else:
+            d.add_log(f"发现了废弃的{vehicle_data.name}！修复后可以开走了。")
+        self._add_vehicle(vehicle_data)
+
+    def _add_vehicle(self, vehicle_data):
+        """把战车加入车库并自动切换驾驶"""
+        d = self.data
+        d.owned_vehicle_ids.add(vehicle_data.id)
+        v = Vehicle(vehicle_data, self.config)
+        d.vehicles.append(v)
+        d.current_vehicle = v
+        d.player.vehicle = v
+        d.add_log(f"获得战车：{v.name}！（{v.weapon_summary()}）")
+        # 剧情钩子：红狼战车
+        if vehicle_data.id == 6:
+            d.add_log("你继承了红狼的意志。")
+
+    def command_switch_vehicle(self, index: int):
+        """切换当前驾驶的战车（车库列表按序号）"""
+        d = self.data
+        if d.state == GameState.BATTLE:
+            d.add_log("战斗中不能换乘！")
+            return
+        if not (0 <= index < len(d.vehicles)):
+            d.add_log("没有这辆车。")
+            return
+        v = d.vehicles[index]
+        d.current_vehicle = v
+        d.player.vehicle = v
+        d.add_log(f"换乘了{v.name}。")
 
     def _enter_map(self, map_id: int):
         """从荒野进入有限地图（城镇/遗迹）"""
@@ -1214,6 +1280,15 @@ class GameViewModel:
                                 + f"\n{bounty.name}已被击败，回城镇悬赏榜可领取悬赏。"
                             )
                     self.data.current_bounty_id = None
+                    # 剧情战车：击败指定赏金首获得（红狼战车 ← 戈麦斯）
+                    for vd in self.config.vehicles.values():
+                        if (vd.acquire_type == "bounty"
+                                and vd.acquire_bounty_id == bounty_id
+                                and vd.id not in self.data.owned_vehicle_ids):
+                            self._add_vehicle(vd)
+                            self.battle_text.set(
+                                self.battle_text.get() + f"\n获得了{vd.name}！"
+                            )
             self._end_battle()
             self._notify_state()
 

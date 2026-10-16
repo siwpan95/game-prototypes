@@ -396,12 +396,25 @@ class MainWindow:
 
     def _show_vehicles(self):
         d = self.vm.data
-        d.add_log("打开战车管理...")
+        if not d.vehicles:
+            show_messagebox("战车", "你还没有战车。")
+            return
         lines = ["战车信息:"]
         for i, v in enumerate(d.vehicles):
-            status = "损坏" if v.broken else f"燃料:{v.fuel}/{v.max_fuel}"
-            lines.append(f"{i+1}. {v.name}: HP {v.hp}/{v.max_hp} {status}")
+            current = "（当前）" if v is d.current_vehicle else ""
+            status = "损坏" if v.broken else f"装甲片:{v.armor_plates}/{v.max_plates}"
+            lines.append(
+                f"{i+1}. {v.name}{current}: HP {v.hp}/{v.max_hp} "
+                f"燃料:{int(v.fuel)}/{int(v.max_fuel)} {status}"
+            )
         show_messagebox("战车", "\n".join(lines))
+        idx = simpledialog.askinteger(
+            "切换战车",
+            f"输入编号切换驾驶（1-{len(d.vehicles)}，取消不切换）：",
+            minvalue=1, maxvalue=len(d.vehicles), parent=self.root
+        )
+        if idx is not None:
+            self.vm.command_switch_vehicle(idx - 1)
 
     def _on_game_over(self):
         show_messagebox("游戏结束", "你战败了！游戏将重新开始。")

@@ -155,9 +155,15 @@ class GameData:
         self.bounty_accepted = set()   # 已接取
         self.bounty_defeated = set()   # 已击杀待领
         self.bounty_claimed = set()    # 赏金已入账
+        # 赏金首运行时状态（不持久化 current_bounty_id：战斗中禁止保存）
+        self.bounty_accepted = set()   # 已接取
+        self.bounty_defeated = set()   # 已击杀待领
+        self.bounty_claimed = set()    # 赏金已入账
         self.current_bounty_id = None  # 当前赏金首战斗（临时）
         # 迷彩条剩余隐身步数（0 = 未生效）
         self.camouflage_steps = 0
+        # 已拥有战车 ID 集合（车库）
+        self.owned_vehicle_ids = {1}
 
         # 日志
         self.log_messages = []  # list[str]
@@ -209,6 +215,7 @@ class GameData:
             "bounty_defeated": sorted(self.bounty_defeated),
             "bounty_claimed": sorted(self.bounty_claimed),
             "camouflage_steps": self.camouflage_steps,
+            "owned_vehicle_ids": sorted(self.owned_vehicle_ids),
         }
 
     @classmethod
@@ -252,6 +259,7 @@ class GameData:
         gd.bounty_defeated = set(d.get("bounty_defeated", []))
         gd.bounty_claimed = set(d.get("bounty_claimed", []))
         gd.camouflage_steps = d.get("camouflage_steps", 0)
+        gd.owned_vehicle_ids = set(d.get("owned_vehicle_ids", [1]))
 
         # 状态校正：依赖未持久化临时对象的状态一律回退到 WORLD
         try:

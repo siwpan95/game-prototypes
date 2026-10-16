@@ -138,6 +138,12 @@ class VehicleData:
     fuel_consumption: float
     repair_cost: int
     description: str = ""
+    # 获取方式：default=初始拥有；site=荒野坐标发现；bounty=击败赏金首获得
+    acquire_type: str = "default"
+    acquire_x: int = 0
+    acquire_y: int = 0
+    acquire_price: int = 0
+    acquire_bounty_id: int = 0
 
 @dataclass
 class MapData:
@@ -596,6 +602,11 @@ class ConfigLoader:
                         fuel_consumption=float(row['燃料消耗']),
                         repair_cost=int(row['修理费用']),
                         description=str(_col(row, '描述', '') or ''),
+                        acquire_type=str(_col(row, '获取方式', 'default') or 'default'),
+                        acquire_x=int(_col(row, '获取X', 0)),
+                        acquire_y=int(_col(row, '获取Y', 0)),
+                        acquire_price=int(_col(row, '获取价格', 0)),
+                        acquire_bounty_id=int(_col(row, '获取条件', 0)),
                     )
                 self.vehicles[vehicle.id] = vehicle
             if legacy:

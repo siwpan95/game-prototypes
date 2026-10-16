@@ -125,12 +125,17 @@ class MapManager:
         if m.infinite:
             if InfiniteTerrain.is_passable(x, y):
                 return True
-            # 入口与赏金首所在格强制可通行（视为空地），保证可达
+            # 入口/赏金首/战车获取点所在格强制可通行（视为空地），保证可达
             if data.config is not None:
                 if (x, y) in data.map_entrances:
                     return True
                 for bounty in data.config.bounties.values():
                     if (bounty.map_id == m.id and (x, y) == (bounty.x, bounty.y)):
+                        return True
+                for vd in data.config.vehicles.values():
+                    if (vd.acquire_type == "site"
+                            and vd.id not in data.owned_vehicle_ids
+                            and (x, y) == (vd.acquire_x, vd.acquire_y)):
                         return True
             return False
         if not (0 <= x < m.width and 0 <= y < m.height):
@@ -248,11 +253,17 @@ class MapManager:
 
         # 荒野中未领取的赏金首位置（显示 B 标记）
         bounty_positions = {}
+        # 荒野中未获得的战车获取点（显示 V 标记）
+        vehicle_positions = {}
         if not bounded and data.config is not None:
             for bounty in data.config.bounties.values():
                 if (bounty.map_id == data.current_map_id
                         and bounty.id not in data.bounty_claimed):
                     bounty_positions[(bounty.x, bounty.y)] = bounty
+            for vd in data.config.vehicles.values():
+                if (vd.acquire_type == "site"
+                        and vd.id not in data.owned_vehicle_ids):
+                    vehicle_positions[(vd.acquire_x, vd.acquire_y)] = vd
 
         lines = []
         for vy in range(VIEWPORT_H):
@@ -271,6 +282,8 @@ class MapManager:
                     row_chars.append('□')  # 荒野中的地图入口
                 elif not bounded and (wx, wy) in bounty_positions:
                     row_chars.append('B')  # 荒野中的赏金首
+                elif not bounded and (wx, wy) in vehicle_positions:
+                    row_chars.append('V')  # 荒野中的战车获取点
                 elif bounded:
                     row_chars.append(data.map_grids[m.id][wy][wx])
                 else:
