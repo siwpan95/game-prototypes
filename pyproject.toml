@@ -16,8 +16,12 @@ dependencies = ["pygame-ce>=2.5"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-text-adventure = "shared.cli:main_zh"
-text-adventure-en = "shared.cli:main_en"
+# Two different clients, two names: the pygame desktop build and the terminal
+# client. Giving the CLI the generic `text-adventure` name would hide that this
+# project has more than one front end.
+text-adventure-cli = "puzzle_service.cli:main_cli"
+text-adventure-pygame-zh = "shared.cli:main_zh"
+text-adventure-pygame-en = "shared.cli:main_en"
 
 [tool.setuptools]
 # Explicit package list: these are the import roots the game and the puzzle
