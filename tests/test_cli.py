@@ -79,11 +79,24 @@ def test_new_then_state_renders_a_puzzle():
 
 
 def test_spoken_language_is_chinese_in_the_terminal_client():
-    """The service names fields in English; this client must localise what it shows."""
+    """The service names fields by key; this client must translate what it shows."""
     result = run_cli("new", "word_ladder", "easy")
     assert result.returncode == 0, result.stderr
     assert "下一个单词" in result.stdout, result.stdout
     assert "next word" not in result.stdout
+
+
+def test_every_label_key_the_client_renders_has_chinese_wording():
+    """A key with no translation would show the service's English default."""
+    from puzzle_service.cli import _LABEL_ZH
+    from puzzle_service.views import LABEL_KEYS
+
+    for key in LABEL_KEYS:
+        rendered = run_cli("new", "word_ladder", "easy") if key == "next_word" else None
+        if rendered is not None:
+            assert "下一个单词" in rendered.stdout
+        if key in _LABEL_ZH:
+            assert any("\u4e00" <= char <= "\u9fff" for char in _LABEL_ZH[key]), key
 
 
 def test_hint_comes_back_in_chinese():

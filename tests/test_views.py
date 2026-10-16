@@ -52,6 +52,29 @@ def test_answer_fields_declare_their_type(service, kinds):
                 assert node["answer_type"] == kind["answer_type"], kind["name"]
 
 
+def test_every_field_node_carries_a_label_key(service, kinds):
+    """Clients pick their own wording, so the view model must send a key to look up.
+
+    A field with only a literal label forces every client to translate by matching
+    the service's English text, which is how the terminal client ended up showing
+    "Answer" inside a Chinese interface (found 2026-10-16).
+    """
+    from puzzle_service.views import LABEL_KEYS
+
+    seen: set[str] = set()
+    for kind in kinds:
+        view = _view_for(service, kind["name"])
+        for node in view["nodes"]:
+            if node["type"] != "field":
+                continue
+            key = node.get("label_key")
+            assert key, f"{kind['name']}: field node has no label_key"
+            assert key in LABEL_KEYS, f"{kind['name']}: undeclared label key {key!r}"
+            assert node.get("label"), f"{kind['name']}: field has no default label text"
+            seen.add(key)
+    assert seen, "no field nodes were produced at all"
+
+
 def test_grid_views_send_cells_that_carry_their_own_coordinates(service):
     for kind_name in ("crossword", "sudoku", "minesweeper", "nonogram", "memory"):
         view = _view_for(service, kind_name)

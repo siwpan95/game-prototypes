@@ -102,7 +102,13 @@ def test_the_view_of_a_daily_puzzle_is_reproducible_even_when_it_hides_state(ser
 
 def test_new_daily_sets_the_day_and_reports_it(service):
     snapshot = service.new_daily(session_id="s", day="2026-10-16")
-    assert snapshot["daily"] == {"day": "2026-10-16", "kind": snapshot["kind"]}
+    daily = snapshot["daily"]
+    # The exact shape of `daily` is the client contract; `played` says whether this
+    # date already has a record. Asserting the whole dict by equality broke when the
+    # field was added for a legitimate reason, so the required keys are named.
+    assert daily["day"] == "2026-10-16"
+    assert daily["kind"] == snapshot["kind"]
+    assert set(daily) == {"day", "kind", "played"}, f"unexpected daily payload: {daily}"
     assert snapshot["day"] == "2026-10-16"
     assert snapshot["view"] is not None
 

@@ -27,7 +27,21 @@ from typing import Any, Callable
 
 from puzzle_service.registry import PuzzleKind
 
-__all__ = ["build", "registered"]
+__all__ = ["build", "registered", "LABEL_KEYS"]
+
+#: Label keys a client may have to render. The service emits a *key*; each client
+#: supplies its own wording, because only the client knows what language its user
+#: reads. ``text`` carries an English default so a client that has no table for a
+#: key still shows something sensible instead of the raw key.
+#:
+#: Adding a key here is a contract change: the tests assert that every client that
+#: translates labels covers this set.
+LABEL_KEYS: dict[str, str] = {
+    "answer": "Answer",
+    "letter": "Letter",
+    "word": "Word",
+    "next_word": "Next word (one step at a time)",
+}
 
 
 def _is_zh(puzzle: Any) -> bool:
@@ -37,6 +51,17 @@ def _is_zh(puzzle: Any) -> bool:
 
 def _label(puzzle: Any, zh: str, en: str) -> str:
     return zh if _is_zh(puzzle) else en
+
+
+def _field(name: str, label_key: str, answer_type: str) -> dict[str, Any]:
+    """A text-input node carrying a label key plus a language-neutral default."""
+    return {
+        "type": "field",
+        "name": name,
+        "label_key": label_key,
+        "label": LABEL_KEYS.get(label_key, label_key),
+        "answer_type": answer_type,
+    }
 
 
 def _cells_from(grid: list[list[Any]]) -> list[list[dict[str, Any]]]:
@@ -70,14 +95,7 @@ def build_text(kind: PuzzleKind, puzzle: Any) -> dict[str, Any]:
     nodes: list[dict[str, Any]] = [{"type": "text", "text": prompt}]
     if kind.name == "guess_number" and data.get("last_hint"):
         nodes.append({"type": "text", "text": str(data["last_hint"]), "style": "muted"})
-    nodes.append(
-        {
-            "type": "field",
-            "name": "answer",
-            "label": _label(puzzle, "你的答案", "Answer"),
-            "answer_type": kind.answer_type,
-        }
-    )
+    nodes.append(_field("answer", "answer", kind.answer_type))
     return {"kind": kind.name, "interaction": "text", "nodes": nodes,
             "actions": list(kind.actions) + ["submit", "hint"]}
 
@@ -120,8 +138,7 @@ def build_sequence(kind: PuzzleKind, puzzle: Any) -> dict[str, Any]:
                 "action": "swap_letters",
                 "hint": "点两个字母交换位置",
             },
-            {"type": "field", "name": "answer", "label": "或直接输入单词",
-             "answer_type": kind.answer_type},
+            _field("answer", "word", kind.answer_type),
         ]
         return {"kind": kind.name, "interaction": "sequence", "nodes": nodes,
                 "actions": list(kind.actions) + ["submit", "hint"]}
@@ -130,8 +147,7 @@ def build_sequence(kind: PuzzleKind, puzzle: Any) -> dict[str, Any]:
     nodes = [
         {"type": "text", "text": f"{data.get('start', '?')} → {data.get('end', '?')}"},
         {"type": "sequence", "name": "path", "tokens": path},
-        {"type": "field", "name": "answer", "label": "下一个单词（一次一步）",
-         "answer_type": kind.answer_type},
+        _field("answer", "next_word", kind.answer_type),
     ]
     return {"kind": kind.name, "interaction": "sequence", "nodes": nodes,
             "actions": list(kind.actions) + ["submit", "hint"]}

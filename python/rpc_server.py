@@ -73,6 +73,8 @@ class RpcServer:
             "puzzle.state": self._state,
             "puzzle.reset": self._reset,
             "content.info": self._content_info,
+            "profile.info": self._profile_info,
+            "profile.share": self._profile_share,
             "session.reset": self._reset,
             "server.ping": self._ping,
             "server.info": self._info,
@@ -117,6 +119,12 @@ class RpcServer:
 
     def _content_info(self) -> dict[str, Any]:
         return self.service.content_summary()
+
+    def _profile_info(self, day: str | None = None) -> dict[str, Any]:
+        return self.service.profile_summary(day)
+
+    def _profile_share(self, day: str | None = None) -> dict[str, Any]:
+        return {"card": self.service.share_card(day)}
 
     def _ping(self) -> dict[str, Any]:
         return {"pong": True}
@@ -226,6 +234,9 @@ METHODS = (
     "puzzle.hint",
     "puzzle.state",
     "puzzle.reset",
+    "content.info",
+    "profile.info",
+    "profile.share",
     "server.info",
     "server.ping",
     "server.shutdown",

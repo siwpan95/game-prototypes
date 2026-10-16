@@ -24,6 +24,7 @@ from datetime import datetime
 from typing import Any
 
 from puzzle_service import views
+from puzzle_service.profile import DailyRecord, ProfileStore
 from puzzle_service.registry import PuzzleKind, all_kinds, discover, get
 
 __all__ = ["Session", "PuzzleService", "InvalidAction", "InvalidAnswer"]
@@ -59,6 +60,8 @@ class Session:
     auto_scored: dict[str, Any] | None = None
     #: Set by :meth:`PuzzleService.new_daily` so a client can show which day is in play.
     day: str | None = None
+    #: Answer attempts on the active puzzle, so the profile can report effort.
+    attempts: int = 0
 
     @property
     def elapsed(self) -> float:
@@ -77,7 +80,8 @@ class Session:
 class PuzzleService:
     """Headless puzzle service. One instance per process; sessions multiplexed by id."""
 
-    def __init__(self, language: str = "zh", autodiscover: bool = True):
+    def __init__(self, language: str = "zh", autodiscover: bool = True,
+                 profile_path: Any = None, remember: bool = True):
         self.language = language
         # Content is loaded once per service: a pack read failure is reported here
         # (loudly) rather than swallowed per puzzle, and the game still runs on the
@@ -87,6 +91,30 @@ class PuzzleService:
             discover(language, content=self.content)
         self._sessions: dict[str, Session] = {}
         self._counter = 0
+        # Progress is optional: an unreadable profile is reported and treated as
+        # empty rather than stopping the service (see ProfileStore.load).
+        self.store = ProfileStore(profile_path) if remember else None
+        if self.store is not None and self.store.warning:
+            print(f"[puzzle-service] {self.store.warning}", file=sys.stderr)
+
+    # --- profile -------------------------------------------------------------
+
+    @property
+    def profile(self):
+        return self.store.profile if self.store is not None else None
+
+    def profile_summary(self, day: str | None = None) -> dict[str, Any]:
+        if self.profile is None:
+            return {"remember": False, "days_played": 0, "total_solved": 0,
+                    "current_streak": 0, "best_streak": 0}
+        summary = self.profile.summary(day)
+        summary["remember"] = True
+        return summary
+
+    def share_card(self, day: str | None = None) -> str:
+        if self.profile is None:
+            return "（未开启进度记录）"
+        return self.profile.share_card(day)
 
     # --- content -------------------------------------------------------------
 
@@ -150,6 +178,10 @@ class PuzzleService:
         session.started_at = time.time()
         session.last_result = {}
         session.auto_scored = None
+        # A fresh puzzle starts a fresh attempt count; `new_daily` sets `session.day`
+        # *before* calling this, so a day's record keeps its identity while its
+        # attempt counter restarts.
+        session.attempts = 0
         return self.snapshot(session_id)
 
     def new_daily(
@@ -177,7 +209,29 @@ class PuzzleService:
             session_id=session_id, kind=None, difficulty=difficulty, rng=rng
         )
         snapshot["daily"] = {"day": key, "kind": snapshot["kind"]}
+        if self.profile is not None:
+            stored = self.profile.days.get(key)
+            snapshot["daily"]["played"] = bool(stored)
+            snapshot["profile"] = self.profile_summary(key)
         return snapshot
+
+    def _record_daily(self, session: "Session") -> None:
+        """Persist the active daily puzzle's outcome, if there is one to persist."""
+        if self.store is None or session.day is None or session.kind is None:
+            return
+        # `session.solved` counts solves in this session, which is exactly what the
+        # day's record wants: solving again on a later day is a different record.
+        self.store.profile.record(
+            DailyRecord(
+                day=session.day,
+                kind=session.kind.name,
+                solved=session.solved > 0,
+                score=session.score,
+                attempts=session.attempts,
+                seconds=round(session.elapsed, 3),
+            )
+        )
+        self.store.save()
 
     def submit(self, session_id: str, answer: Any) -> dict[str, Any]:
         """Check *answer* against the active puzzle and apply the scoring rules.
@@ -193,13 +247,16 @@ class PuzzleService:
             raise InvalidAction("no active puzzle in this session")
 
         time_used = session.elapsed
+        session.attempts += 1
         try:
             normalised = self._normalise_answer(session, answer)
             correct = bool(puzzle.check_answer(normalised))
         except (TypeError, ValueError) as exc:
             # Measured behaviour of math/riddle/guess_number/pattern: they coerce
             # with int() and raise instead of returning False. Surface it as a
-            # structured error rather than a traceback, and never score it.
+            # structured error rather than a traceback, and never score it — but the
+            # attempt still happened, so the day's record keeps it.
+            self._record_daily(session)
             raise InvalidAnswer(
                 f"{session.kind.name if session.kind else '?'} rejected the answer: {exc}"
             ) from exc
@@ -212,6 +269,10 @@ class PuzzleService:
         outcome: dict[str, Any] = {"correct": False, "points": 0}
         outcome.update(self._scoreboard(session, round(time_used, 3)))
         session.last_result = outcome
+        # A wrong answer is progress too: a day played and not solved must show up
+        # as such, otherwise "days played" and the attempt count only ever counted
+        # successes (found by a test, 2026-10-16).
+        self._record_daily(session)
         return outcome
 
     def perform(self, session_id: str, action: str, **params: Any) -> dict[str, Any]:
@@ -244,7 +305,6 @@ class PuzzleService:
         finished = _is_finished(puzzle)
         if finished and not session.completed_since_start:
             session.auto_scored = self._score(session, session.elapsed)
-
         snapshot = self.snapshot(session_id)
         if result is not None:
             snapshot["action_result"] = result
@@ -314,6 +374,7 @@ class PuzzleService:
         session.last_result = outcome
         if session.auto_scored is None:
             session.auto_scored = outcome
+        self._record_daily(session)
         return outcome
 
     @staticmethod

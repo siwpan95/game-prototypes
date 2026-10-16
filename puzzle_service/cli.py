@@ -12,6 +12,8 @@ Commands::
     content                    report which content pack is loaded
     new [kind] [difficulty]    start a puzzle (kind omitted = service picks)
     daily [YYYY-MM-DD] [diff]  the puzzle of the day (same date = same puzzle)
+    profile                    progress: days played, streak, best streak
+    share [YYYY-MM-DD]         spoiler-free share card for a day
     submit <answer>            answer the current puzzle
     act <action> [k=v ...]     run a kind action (reveal row=0 col=1, move direction=left, ...)
     hint                       show the current puzzle's hint
@@ -70,15 +72,14 @@ def _render_grid(node: dict[str, Any], out: list[str]) -> None:
         out.append("  " + labels.rstrip())
 
 
-#: Presentation-only translations for labels the view model carries. The service
-#: names fields in English because it does not know which client is rendering it;
-#: a client that speaks Chinese supplies its own wording. (The cleaner fix — the
-#: service emitting a label *key* instead of a label — is recorded in
-#: docs/spec/SPEC-101-platform-roadmap.md as an M2 follow-up.)
+#: Wording for the label *keys* the view model carries. The service emits keys
+#: because it does not know which client is rendering it; the wording belongs to
+#: the client, and this one speaks Chinese.
 _LABEL_ZH = {
-    "Answer": "答案",
-    "next word (one step at a time)": "下一个单词（一次一步）",
-    "or type the word": "或直接输入单词",
+    "answer": "答案",
+    "letter": "字母",
+    "word": "单词",
+    "next_word": "下一个单词（一次一步）",
 }
 
 
@@ -87,7 +88,8 @@ def _render_node(node: dict[str, Any], out: list[str]) -> None:
     if kind == "text":
         out.append(str(node.get("text", "")))
     elif kind == "field":
-        label = _LABEL_ZH.get(str(node.get("label", "")), node.get("label", "答案"))
+        key = node.get("label_key")
+        label = _LABEL_ZH.get(key) or node.get("label") or "答案"
         out.append(f"[输入] {label}（类型：{node.get('answer_type', 'str')}）")
     elif kind == "options":
         out.append("[选项]")
@@ -184,6 +186,12 @@ class TerminalSession:
                 return True, True, (__doc__ or "").split("Commands::")[-1].strip()
             if verb == "kinds":
                 return True, True, self._kinds()
+            if verb == "profile":
+                return True, True, json.dumps(
+                    self.service.profile_summary(), ensure_ascii=False, indent=2
+                )
+            if verb == "share":
+                return True, True, self.service.share_card(args[0] if args else None)
             if verb == "content":
                 return True, True, json.dumps(
                     self.service.content_summary(), ensure_ascii=False, indent=2
@@ -253,7 +261,10 @@ class TerminalSession:
         except InvalidAction as exc:
             raise InvalidAction(str(exc)) from exc
         header = f"=== 每日一题（{snapshot['daily']['day']}）"
-        return header + "\n" + render_snapshot(snapshot)
+        text = header + "\n" + render_snapshot(snapshot)
+        if snapshot["daily"].get("played"):
+            text = "（这一天已经玩过，进度按最好成绩保留）\n" + text
+        return text
 
     def _submit(self, args: list[str]) -> str:
         if not args:
