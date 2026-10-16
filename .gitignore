@@ -12,6 +12,16 @@ output/
 saves/
 *.log
 
-# 一次性迁移脚本的临时备份（scripts/migrate_rng_calls.py 的中间产物）。
-# 正常情况下迁移结束就 --clean 删掉；这条忽略是兜底，防止中途失败时被误提交。
+# 一次性脚本的临时备份（`.rng-bak` 来自已删除的 scripts/migrate_rng_calls.py）。
+# 迁移早已结束，这条忽略是兜底：万一旧工作副本里还有这样的文件，别被误提交。
 *.rng-bak
+
+# 在线内容包服务的运行目录：发布区与隔离区都是**数据**，不是源码。
+# 维护者本地的发布集不该被提交（不同部署有不同内容），提交它们会让
+# 「谁发布了什么」变成 git 历史而不是服务端的 provenance 记录。
+content/published/
+content/quarantine/
+
+# 手工截图/临时渲染（scripts/client_screens.py 的 --record 不写这里，但调试时会）
+_shot/
+_snap/

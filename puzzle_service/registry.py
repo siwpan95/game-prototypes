@@ -28,6 +28,7 @@ __all__ = [
     "register_kind",
     "discover",
     "all_kinds",
+    "daily_kind_names",
     "languages",
     "get",
     "clear",
@@ -200,6 +201,23 @@ def clear(language: str | None = None) -> None:
     for key in [key for key in _REGISTRY if key[0] == language]:
         del _REGISTRY[key]
 
+
+def daily_kind_names(language: str) -> list[str]:
+    """Names of the kinds the daily puzzle may draw from, in a fixed order.
+
+    The order is the *registry's* (alphabetical), not the order of the eligible-kind
+    list, so that changing that list's order cannot silently hand out a different
+    daily puzzle for a date. The seeded draw indexes into this list, so this order is
+    part of the format: every client must draw from it in the same order or two
+    clients disagree about "today's puzzle" while each looks correct alone.
+
+    Lives here because every client can reach the registry, and one shared function is
+    the only version of this that cannot drift.
+    """
+    from puzzle_service.daily import DAILY_KINDS
+
+    eligible = set(DAILY_KINDS)
+    return [kind.name for kind in all_kinds(language) if kind.name in eligible]
 
 def all_kinds(language: str | None = None) -> list[PuzzleKind]:
     """Registered kinds for *language*, ordered by name for a stable API surface.

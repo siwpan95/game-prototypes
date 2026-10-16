@@ -28,6 +28,7 @@ from typing import Any
 
 __all__ = [
     "DailyRecord",
+    "KindStats",
     "Profile",
     "ProfileStore",
     "default_profile_path",
@@ -79,14 +80,63 @@ class DailyRecord:
 
 
 @dataclass
+class KindStats:
+    """Totals for one puzzle kind across free play (non-daily puzzles).
+
+    Separate from the daily records on purpose. A day's record answers "did I do
+    today's puzzle"; these answer "how am I doing at crosswords". Mixing them would
+    make the streak depend on practice runs, which is not what a streak means.
+    """
+
+    kind: str
+    played: int = 0
+    solved: int = 0
+    best_score: int = 0
+    total_seconds: float = 0.0
+
+    @property
+    def solve_rate(self) -> float:
+        return self.solved / self.played if self.played else 0.0
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "KindStats":
+        return cls(
+            kind=str(payload.get("kind", "")),
+            played=int(payload.get("played", 0) or 0),
+            solved=int(payload.get("solved", 0) or 0),
+            best_score=int(payload.get("best_score", 0) or 0),
+            total_seconds=float(payload.get("total_seconds", 0.0) or 0.0),
+        )
+
+
+@dataclass
 class Profile:
     """Everything remembered about one player."""
 
     days: dict[str, DailyRecord] = field(default_factory=dict)
     total_solved: int = 0
     best_streak: int = 0
+    kinds: dict[str, KindStats] = field(default_factory=dict)
 
     # --- recording -----------------------------------------------------------
+
+    def record_kind(
+        self, kind: str, *, solved: bool, score: int = 0, seconds: float = 0.0
+    ) -> KindStats:
+        """Record one finished free-play puzzle of *kind*.
+
+        Only finished puzzles are recorded (a skipped puzzle is not evidence about
+        skill), and the best score is kept rather than the latest, so a bad run does
+        not erase a good one.
+        """
+        stats = self.kinds.get(kind) or KindStats(kind=kind)
+        stats.played += 1
+        if solved:
+            stats.solved += 1
+        stats.best_score = max(stats.best_score, int(score))
+        stats.total_seconds += max(0.0, float(seconds))
+        self.kinds[kind] = stats
+        return stats
 
     def record(self, outcome: DailyRecord) -> DailyRecord:
         """Store (or replace) a day's outcome, keeping the best result for that day."""
@@ -161,14 +211,34 @@ class Profile:
             "current_streak": self.current_streak(today),
             "best_streak": self.best_streak,
             "today": today or date.today().isoformat(),
+            "practice_played": sum(stats.played for stats in self.kinds.values()),
+            "practice_solved": sum(stats.solved for stats in self.kinds.values()),
         }
+
+    def kind_summary(self) -> list[dict[str, Any]]:
+        """Per-kind free-play totals, weakest first — the order a player needs."""
+        rows = [
+            {
+                "kind": stats.kind,
+                "played": stats.played,
+                "solved": stats.solved,
+                "best_score": stats.best_score,
+                "solve_rate": round(stats.solve_rate, 3),
+                "average_seconds": round(stats.total_seconds / stats.played, 1)
+                if stats.played
+                else 0.0,
+            }
+            for stats in self.kinds.values()
+        ]
+        return sorted(rows, key=lambda row: (row["solve_rate"], -row["played"], row["kind"]))
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "version": 1,
+            "version": 2,
             "days": {day: asdict(record) for day, record in sorted(self.days.items())},
             "total_solved": self.total_solved,
             "best_streak": self.best_streak,
+            "kinds": {kind: asdict(stats) for kind, stats in sorted(self.kinds.items())},
         }
 
     @classmethod
@@ -181,10 +251,21 @@ class Profile:
                     record = DailyRecord.from_dict(entry)
                     record.day = record.day or str(day)
                     records[str(day)] = record
+        # A version-1 file has no `kinds`; it loads with empty practice stats rather
+        # than being rejected, so an existing player keeps their streak.
+        kinds_payload = payload.get("kinds")
+        kinds: dict[str, KindStats] = {}
+        if isinstance(kinds_payload, dict):
+            for kind, entry in kinds_payload.items():
+                if isinstance(entry, dict):
+                    stats = KindStats.from_dict(entry)
+                    stats.kind = stats.kind or str(kind)
+                    kinds[str(kind)] = stats
         return cls(
             days=records,
             total_solved=int(payload.get("total_solved", 0) or 0),
             best_streak=int(payload.get("best_streak", 0) or 0),
+            kinds=kinds,
         )
 
 

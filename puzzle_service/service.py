@@ -25,6 +25,8 @@ from pathlib import Path
 from typing import Any
 
 from puzzle_service import views
+from puzzle_service import daily
+from puzzle_service.daily import is_iso_date, seed_from, today
 from puzzle_service.profile import DailyRecord, ProfileStore, share_card_svg
 from puzzle_service.registry import PuzzleKind, all_kinds, discover, get
 
@@ -236,6 +238,7 @@ class PuzzleService:
         kind: str | None = None,
         difficulty: str = "medium",
         rng: Any = None,
+        pool: list["PuzzleKind"] | None = None,
     ) -> dict[str, Any]:
         """Start a puzzle, either of a named *kind* or chosen from the registry.
 
@@ -243,14 +246,17 @@ class PuzzleService:
             rng: seeded random source. Passing one makes the whole start
                 reproducible — which kind is picked *and* its content — because
                 both draws go through the same generator.
+            pool: restrict the random choice to these kinds. The daily puzzle uses
+                this so that "today's puzzle" is drawn from a curated set; without
+                it, every registered kind is a candidate.
         """
         session = self._session(session_id)
         if kind is None:
             chooser = rng or random
-            pool = all_kinds(self.language)
-            if not pool:
+            candidates = pool if pool is not None else all_kinds(self.language)
+            if not candidates:
                 raise InvalidAction("no puzzle kinds are registered; call discover() first")
-            chosen = chooser.choice(pool)
+            chosen = chooser.choice(candidates)
         else:
             chosen = get(kind, self.language)
 
@@ -279,17 +285,21 @@ class PuzzleService:
         the content), so no server-side schedule or pre-generated list is needed
         and two players on the same day get the same puzzle.
         """
-        key = day or datetime.now().strftime("%Y-%m-%d")
+        key = day or today()
         if not _is_iso_date(key):
             raise InvalidAction(f"日期要写成 YYYY-MM-DD，收到 {key!r}")
-        rng = random.Random(_seed_from(key))
+        rng = random.Random(seed_from(key))
         # The day is recorded before starting, so the snapshot returned by this
         # call already carries it (setting it afterwards left the first snapshot
         # reporting day=None).
         session = self._session(session_id)
         session.day = key
         snapshot = self.new_puzzle(
-            session_id=session_id, kind=None, difficulty=difficulty, rng=rng
+            session_id=session_id,
+            kind=None,
+            difficulty=difficulty,
+            rng=rng,
+            pool=_daily_pool(self.language),
         )
         snapshot["daily"] = {"day": key, "kind": snapshot["kind"]}
         if self.profile is not None:
@@ -487,28 +497,38 @@ def _normalise_difficulty(difficulty: str) -> str:
     return difficulty if difficulty in {"easy", "medium", "hard"} else "medium"
 
 
-def _seed_from(day: str) -> int:
-    """A stable integer seed for an ISO date (independent of process and platform).
+def _daily_pool(language: str) -> list[PuzzleKind]:
+    """The kinds the daily puzzle may draw from, in registry order.
 
-    ``hash()`` is deliberately not used: it is salted per process, so the "puzzle
-    of the day" would differ between runs and between machines.
+    Registry order (not ``DAILY_KINDS`` order) is what the seeded draw must use, so
+    that the mapping from date to kind depends only on *which* kinds are eligible —
+    reordering the name list must not silently hand out a different puzzle. Kinds not
+    registered for this language are dropped rather than assumed present.
     """
-    digest = hashlib.sha256(f"text-adventure:{day}".encode("utf-8")).hexdigest()
-    return int(digest[:16], 16)
+    eligible = set(daily.DAILY_KINDS)
+    pool = [kind for kind in all_kinds(language) if kind.name in eligible]
+    if not pool:
+        raise InvalidAction(
+            f"no daily-eligible kinds are registered for {language!r}; "
+            f"expected some of {sorted(eligible)}"
+        )
+    return pool
+
+
+def _seed_from(day: str) -> int:
+    """Deprecated alias of :func:`puzzle_service.daily.seed_from`.
+
+    Kept because the terminal client and the tests import it from here, and because
+    removing a documented name to prove a point is not worth breaking callers. New
+    code should import from ``puzzle_service.daily``, which is the single
+    implementation that keeps every client's daily puzzle identical.
+    """
+    return seed_from(day)
 
 
 def _is_iso_date(value: str) -> bool:
-    """Strict ``YYYY-MM-DD`` check.
-
-    ``strptime`` alone is too permissive: it happily accepts ``2026-2-3``, which
-    would make two spellings of the same day produce two different daily puzzles.
-    The round trip rejects anything that is not zero-padded.
-    """
-    try:
-        parsed = datetime.strptime(value, "%Y-%m-%d")
-    except (TypeError, ValueError):
-        return False
-    return parsed.strftime("%Y-%m-%d") == value
+    """Deprecated alias of :func:`puzzle_service.daily.is_iso_date`."""
+    return is_iso_date(value)
 
 
 def _load_content(language: str = "zh"):

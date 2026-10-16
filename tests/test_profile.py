@@ -284,10 +284,20 @@ def test_a_broken_profile_does_not_stop_the_service(tmp_path, capsys):
 
 
 def _answer_for(puzzle):
+    """A submission that this puzzle counts as solved.
+
+    Most kinds expose a single answer key. The word ladder does not: it is solved by
+    stepping to a word one letter away, so the daily pool including it (as of the
+    curated `DAILY_KINDS`) is exactly what turned this helper's assumption into a
+    failure. Solving it properly here keeps the test about the *record*, not about the
+    ladder.
+    """
     data = getattr(puzzle, "data", {}) or {}
     for key in ("answer", "word", "target"):
         if key in data and not isinstance(data.get(key), (list, dict)):
             return data[key]
+    if "player_path" in data and "end" in data:
+        return data["end"]  # the ladder accepts any path that reaches the target
     raise AssertionError(f"{type(puzzle).__name__} exposes no answer key")
 
 

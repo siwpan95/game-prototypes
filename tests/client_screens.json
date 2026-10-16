@@ -42,8 +42,8 @@
     "WordLadderPuzzle.easy": "5d0e6f6368315a96a3ff88b82e3e21980de23a34fa11bc266f2cb607f8580810",
     "WordLadderPuzzle.hard": "b61ec7b1fa654b5648dc7647a246cfeff273420dedad4da85d989e7452d3edac",
     "WordLadderPuzzle.medium": "35348161bece4340a377703142e2b985c52ae123fc02dad277972f91857979c7",
-    "menu": "3be23560490ae2abbd324cd01512e64c8f17ae8973e0c24b06f290a13b44aab7",
-    "result": "bb9e171d927f5b266d884cf08b38c98e1ae80ecf37157bbec04e383a929fda42"
+    "menu": "e8dbc6811cc4b12b7bb6330d43760292cc5248b668af6cceaaa7349b3e28a3d3",
+    "result": "bf788cc73d96db1f2d99d2f6b7c699399760669fbb522143579b9bb250fdc7be"
   },
   "zh": {
     "AnagramPuzzle.easy": "638a99440738394a66c82f6168c37afaf3e421b23f6071c801249d209075bcad",
@@ -88,7 +88,7 @@
     "WordLadderPuzzle.easy": "59e4a638f580a118bc32faaae6a3f67c7bca8cb4990520047492a468cd64ed8a",
     "WordLadderPuzzle.hard": "f54d3ad423f4753017fec9fc52e23bf34c3dfa2b4e8cc0bb7d92a6577d2cafb0",
     "WordLadderPuzzle.medium": "cde0ed68101656d7f705a759b42b71b243dc9fb496683551a57fd9296c553a35",
-    "menu": "79e54fa2d1fa4b671eb089787f08ea4995d17595a2618d6add6f8c10c0be624b",
-    "result": "5d933dbc6b9efc4dd9ea89da70f2c9ca3a7d5ae77e18269cdc94b3419e536fb4"
+    "menu": "d607f596dbd0b3790b3a4a72188e913ff6f80b5bab25613ed565a0b960a1c8d2",
+    "result": "c4888ac3d510d34b8671dd524494628e2d1857d70930dc202167ff34ef891774"
   }
 }

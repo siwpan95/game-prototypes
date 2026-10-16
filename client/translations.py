@@ -18,6 +18,9 @@ __all__ = [
     "hint_bar_at_bottom",
     "label_for_mode",
     "label_for_difficulty",
+    "SWATCH_ORDER",
+    "PYGAME_GLYPH_FALLBACKS",
+    "desktop_safe",
 ]
 
 #: key -> {language: string}. ``{}``-style placeholders are filled by :func:`t`.
@@ -43,6 +46,28 @@ TEXT: dict[str, dict[str, str]] = {
     "btn_hint": {"en": "Hint", "zh": "提示"},
     "btn_skip": {"en": "Skip", "zh": "跳过"},
     "btn_next": {"en": "Next", "zh": "下一题"},
+    "btn_share": {"en": "Share card", "zh": "分享卡片"},
+    "daily": {"en": "Daily", "zh": "每日一题"},
+    #: Shown once today's puzzle has been played. A word, not a check mark: the CJK
+    #: font family resolved on this machine has no glyph for U+2713 and drew a tofu
+    #: box inside the button, which is worse than saying it in words.
+    "daily_done": {"en": "Daily done", "zh": "每日已完成"},
+    #: Streak and totals, shown on the menu. `practice` counts non-daily puzzles.
+    "progress_line": {
+        "en": "Streak {streak} (best {best}) · {days} dailies · {practice} practice",
+        "zh": "连胜 {streak}（最好 {best}）· 每日 {days} 天 · 练习 {practice} 题",
+    },
+    "daily_result_line": {
+        "en": "{day}: {mark} {kind}",
+        "zh": "{day}：{mark} {kind}",
+    },
+    "daily_solved_mark": {"en": "solved", "zh": "已解"},
+    "daily_failed_mark": {"en": "not solved", "zh": "未解"},
+    "daily_result": {"en": "{day} · streak {streak}", "zh": "{day} · 连胜 {streak}"},
+    "msg_bad_date": {
+        "en": "The date must look like YYYY-MM-DD, got {day}",
+        "zh": "日期要写成 YYYY-MM-DD，收到 {day}",
+    },
     "btn_check": {"en": "Check", "zh": "检查"},
     "btn_submit": {"en": "Submit", "zh": "提交"},
     "btn_undo": {"en": "Undo", "zh": "撤销"},
@@ -192,6 +217,28 @@ def tr(key: str, language: str, **kwargs: object) -> str:
     fires on the screens using both.
     """
     return t(key, language, **kwargs)
+
+
+#: Characters that the canonical text uses but the *desktop* font family cannot draw,
+#: mapped to equivalents it can.
+#:
+#: The share card is generated once (puzzle_service.profile) and rendered by four
+#: clients: terminal, browser, SVG and pygame. The terminal and the browser draw U+2714
+#: and U+2718 without trouble, and the SVG card is vector text, so changing the marks
+#: themselves would degrade three clients to fix one. Instead the desktop substitutes at
+#: render time. Measured with both desktop families: neither Microsoft YaHei nor the
+#: Latin fallback has U+2714/U+2718, and both have U+221A/U+00D7.
+PYGAME_GLYPH_FALLBACKS: dict[str, str] = {
+    "✔": "√",
+    "✘": "×",
+}
+
+
+def desktop_safe(text: str) -> str:
+    """Replace characters the desktop font cannot draw (see PYGAME_GLYPH_FALLBACKS)."""
+    for fancy, plain in PYGAME_GLYPH_FALLBACKS.items():
+        text = text.replace(fancy, plain)
+    return text
 
 
 def mode_options(language: str) -> list[str]:

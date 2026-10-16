@@ -15,6 +15,7 @@ ensure_importable()
 from client.engine import Engine
 from client.translations import (
     MODE_DEFAULT_INDEX,
+    desktop_safe,
     SWATCH_ORDER,
     hint_bar_at_bottom,
     label_for_difficulty,
@@ -156,6 +157,11 @@ class UI:
         self.font_xs = _load_font(14, prefer_cjk=prefer_cjk)
 
         self.screen_state = "menu"  # menu | playing | result
+        #: Whether the active puzzle is the daily, and the result screen's share card.
+        self._daily = False
+        self._share_text = ""
+        self._show_share = False
+        self._result_buttons: list = []
         self._puzzle: BasePuzzle | None = None
 
         # Selections
@@ -252,8 +258,11 @@ class UI:
                          color=C_ACCENT if i == self._mode_idx else C_BTN)
             self._menu_buttons.append(("mode", i, btn))
 
-        # Difficulty selector
-        y = 470
+        # Difficulty selector. The gap after the mode list depends on how many modes
+        # this language offers (English has four, Chinese one), so the difficulty
+        # block is offset by half of "four modes" worth of space rather than pinned to
+        # an absolute y — otherwise the Chinese menu is mostly empty in the middle.
+        y = 470 - (4 - len(self._mode_options)) * 22
         for i, diff in enumerate(self._diff_options):
             label = label_for_difficulty(diff, self.lang)
             if i == self._diff_idx:
@@ -262,12 +271,26 @@ class UI:
                          color=C_ACCENT2 if i == self._diff_idx else C_BTN)
             self._menu_buttons.append(("diff", i, btn))
 
-        # Start & Quit buttons
-        btn_start = Button(pygame.Rect(cx - 160, 640, 140, 48), tr("start", self.lang), self.font_md,
-                           color=C_GREEN, hover_color=(100, 220, 140))
+        # Start, Daily, Quit. The daily sits between them because it is the one thing
+        # a returning player wants first; its label says so once it has been played.
+        btn_start = Button(pygame.Rect(cx - 240, 640, 140, 48), tr("start", self.lang), self.font_md,
+                           color=C_GREEN, hover_color=(100, 220, 140), key="start")
         self._menu_buttons.append(("start", 0, btn_start))
-        btn_quit = Button(pygame.Rect(cx + 20, 640, 140, 48), tr("quit", self.lang), self.font_md,
-                          color=C_RED, hover_color=(240, 100, 100))
+
+        daily = self.engine.daily_status()
+        played = bool(daily["played"])
+        btn_daily = Button(
+            pygame.Rect(cx - 70, 640, 140, 48),
+            tr("daily_done" if played else "daily", self.lang),
+            self.font_md,
+            color=C_BTN if played else C_ACCENT,
+            hover_color=C_ACCENT2,
+            key="daily",
+        )
+        self._menu_buttons.append(("daily", 0, btn_daily))
+
+        btn_quit = Button(pygame.Rect(cx + 100, 640, 140, 48), tr("quit", self.lang), self.font_md,
+                          color=C_RED, hover_color=(240, 100, 100), key="quit")
         self._menu_buttons.append(("quit", 0, btn_quit))
 
     def _handle_menu(self, events: list, mouse_pos: tuple) -> None:
@@ -286,6 +309,9 @@ class UI:
                         self.engine.reset()
                         self.engine.configure(mode, diff)
                         self._start_puzzle()
+                    elif btn_type == "daily":
+                        self.engine.configure("balanced", self._diff_options[self._diff_idx])
+                        self._start_daily()
                     elif btn_type == "quit":
                         pygame.event.post(pygame.event.Event(pygame.QUIT))
 
@@ -299,25 +325,71 @@ class UI:
         sub = self.font_sm.render(tr("subtitle", self.lang), True, C_GRAY)
         self.screen.blit(sub, (WIDTH // 2 - sub.get_width() // 2, 105))
 
-        # Section labels
+        # Section labels follow the buttons' own offset so they stay attached to them.
+        diff_top = 470 - (4 - len(self._mode_options)) * 22
         ml = self.font_md.render(tr("section_mode", self.lang), True, C_WHITE)
         self.screen.blit(ml, (WIDTH // 2 - ml.get_width() // 2, 218))
         dl = self.font_md.render(tr("section_difficulty", self.lang), True, C_WHITE)
-        self.screen.blit(dl, (WIDTH // 2 - dl.get_width() // 2, 440))
+        self.screen.blit(dl, (WIDTH // 2 - dl.get_width() // 2, diff_top - 30))
 
         for _, _, btn in self._menu_buttons:
             btn.draw(self.screen)
 
+        self._draw_progress()
+
+    def _draw_progress(self) -> None:
+        """The player's own record, under the difficulty section.
+
+        Shown on the menu rather than buried in a sub-screen: a streak only motivates
+        if it is visible before the decision to play, not after.
+        """
+        summary = self.engine.profile_summary()
+        if summary.get("disabled"):
+            return
+        text = tr(
+            "progress_line", self.lang,
+            streak=summary["current_streak"],
+            best=summary["best_streak"],
+            days=summary["total_solved"],
+            practice=summary["practice_solved"],
+        )
+        surf = self.font_sm.render(text, True, C_GRAY)
+        self.screen.blit(surf, (WIDTH // 2 - surf.get_width() // 2, 604))
+
+        today = self.engine.daily_status()
+        if today["played"]:
+            mark = tr("daily_solved_mark" if today["solved"] else "daily_failed_mark", self.lang)
+            detail = self.font_xs.render(
+                tr("daily_result_line", self.lang, day=today["day"], mark=mark, kind=today["kind"]),
+                True, C_GRAY,
+            )
+            self.screen.blit(detail, (WIDTH // 2 - detail.get_width() // 2, 624))
+
     # -----------------------------------------------------------------------
     # Start / next puzzle
     # -----------------------------------------------------------------------
-    def _start_puzzle(self) -> None:
-        self._puzzle = self.engine.start_new_puzzle()
+
+    def _reset_play_state(self) -> None:
         self._sel_row = -1
         self._sel_col = -1
         self._ms_first_click = True
         self._mem_mismatch_pending = False
         self._guess_input = ""
+
+    def _start_daily(self, day: str | None = None) -> None:
+        self._puzzle = self.engine.start_daily(day)
+        self._begin_play(daily=True)
+
+    def _start_puzzle(self) -> None:
+        self._puzzle = self.engine.start_new_puzzle()
+        self._begin_play(daily=False)
+
+    def _begin_play(self, *, daily: bool) -> None:
+        """Shared setup for any newly started puzzle."""
+        self._reset_play_state()
+        self._daily = daily
+        self._share_text = ""
+        self._show_share = False
         self._anagram_sel = -1
         self._wl_input = ""
         self._hangman_msg = ""
@@ -517,9 +589,17 @@ class UI:
     # Result screen
     # -----------------------------------------------------------------------
     def _handle_result(self, events: list, mouse_pos: tuple) -> None:
+        for btn in self._result_buttons:
+            btn.update(mouse_pos)
         for ev in events:
-            if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
-                self._start_puzzle()
+            for btn in self._result_buttons:
+                if not btn.clicked(ev):
+                    continue
+                if btn.key == "share":
+                    self._show_share = True
+                    self._share_text = self.engine.share_card(self.engine.day)
+                else:
+                    self._start_puzzle()
 
     def _draw_result(self, mouse_pos: tuple) -> None:
         self.screen.fill(C_BG)
@@ -529,7 +609,19 @@ class UI:
         color = C_GREEN if correct else C_RED
 
         txt = self.font_lg.render(msg, True, color)
-        self.screen.blit(txt, (WIDTH // 2 - txt.get_width() // 2, 200))
+        self.screen.blit(txt, (WIDTH // 2 - txt.get_width() // 2, 170))
+
+        if self._daily:
+            # The day and the streak are the point of the daily, so they are on the
+            # result screen rather than left to the menu.
+            summary = self.engine.profile_summary()
+            line = tr(
+                "daily_result", self.lang,
+                day=self.engine.day or "",
+                streak=summary["current_streak"],
+            )
+            daily = self.font_md.render(line, True, C_ACCENT2)
+            self.screen.blit(daily, (WIDTH // 2 - daily.get_width() // 2, 232))
 
         if correct:
             pts = r.get("points", 0)
@@ -540,8 +632,48 @@ class UI:
             detail = self.font_sm.render(tr("bonus_detail", self.lang, time_bonus=tb, streak_bonus=sb), True, C_GRAY)
             self.screen.blit(detail, (WIDTH // 2 - detail.get_width() // 2, 320))
 
-        cont = self.font_md.render(tr("click_to_continue", self.lang), True, C_GRAY)
-        self.screen.blit(cont, (WIDTH // 2 - cont.get_width() // 2, 450))
+        if self._show_share and self._share_text:
+            self._draw_share_card()
+        else:
+            cont = self.font_md.render(tr("click_to_continue", self.lang), True, C_GRAY)
+            self.screen.blit(cont, (WIDTH // 2 - cont.get_width() // 2, 450))
+
+        self._result_buttons = self._build_result_buttons()
+        for btn in self._result_buttons:
+            btn.draw(self.screen)
+
+    def _build_result_buttons(self) -> list:
+        """Result-screen buttons: continue, or show the spoiler-free share card."""
+        buttons = [
+            Button(
+                pygame.Rect(WIDTH // 2 - 220, HEIGHT - 110, 200, 44),
+                tr("btn_next", self.lang), self.font_md, color=C_GREEN, key="next",
+            )
+        ]
+        if self._daily and self.engine.day and not self._show_share:
+            buttons.append(
+                Button(
+                    pygame.Rect(WIDTH // 2 + 20, HEIGHT - 110, 200, 44),
+                    tr("btn_share", self.lang), self.font_md, color=C_ACCENT, key="share",
+                )
+            )
+        return buttons
+
+    def _draw_share_card(self) -> None:
+        """The share text, line by line — no answer, no guesses, nothing to spoil."""
+        panel = pygame.Rect(140, 356, WIDTH - 280, 150)
+        pygame.draw.rect(self.screen, C_PANEL, panel, border_radius=10)
+        # The card is shared text produced elsewhere; substitute the characters this
+        # font cannot draw so a mark does not arrive as a box.
+        lines = desktop_safe(self._share_text).splitlines()
+        y = panel.y + 16
+        for index, line in enumerate(lines):
+            font = self.font_md if index == 0 else self.font_sm
+            surf = font.render(line, True, C_WHITE if index == 0 else C_GRAY)
+            self.screen.blit(surf, (panel.x + 16, y))
+            y += surf.get_height() + 4
+            if y > panel.bottom - 20:
+                break
 
     def _show_result(self, result: dict) -> None:
         self._last_result = result

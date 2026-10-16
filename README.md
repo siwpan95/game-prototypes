@@ -60,9 +60,28 @@ cd <PATH>\text-adventure
 # 一次性：建好可用的虚拟环境（会顺带跑一次无头冒烟测试）
 pwsh -NoProfile -File scripts\rebuild_venv.ps1
 
-.\.venv\Scripts\python.exe text_adventure_zh\main.py    # 中文版
-.\.venv\Scripts\python.exe text_adventure\main.py       # 英文版
+.\.venv\Scripts\python.exe -m client.main --lang zh   # 中文版
+.\.venv\Scripts\python.exe -m client.main --lang en   # 英文版
 ```
+
+菜单里三件事：**开始**（按所选模式/难度随机出题）、**每日一题**、**退出**。
+每日一题与命令行版、网页版是**同一道题**（同一个日期种子、同一份候选种类表，
+`scripts/check_daily_parity.py` 逐日核对），玩完当天的题按钮会变成「每日已完成」。
+进度（连胜、最佳连胜、每日天数、练习题数与分种类正确率）与终端/网页共用
+`saves/profile.json` —— 换客户端打开，连胜是同一个数字。
+结果页可点「分享卡片」查看**不含谜底**的分享文本。
+
+### 在线内容包服务（可选的社区投稿通道）
+```powershell
+# 维护者：启动服务（published 对外可见，quarantine 是隔离区）
+.\.venv\Scripts\python.exe -m puzzle_service.pack_server `
+    --published content/published --quarantine content/quarantine `
+    --key-file maintainer.key --keyring keys.json --port 8765
+```
+投稿走 `POST /submit`（落在**隔离区**，客户端看不到），维护者用 `POST /accept/<name>`
+才发布；发布时会用服务端钥匙重新签名。客户端只信签名：先验目录签名，再逐个校验下载内容，
+**验证通过后才安装**（安装是目录改名，崩溃只会留下旧包或新包）。详见
+[`docs/pack-service.md`](docs/pack-service.md)。
 
 ### 浏览器版（Cordis 宿主）
 ```powershell
@@ -81,11 +100,16 @@ npm run e2e:browser -- --headful   # 留 60 秒人工观察
 ```
 命令行 puzzle_service/cli.py        终端客户端：把视图模型渲染成文字
 浏览器 public/                       Web 客户端：把视图模型渲染成语义 HTML
-pygame text_adventure*_zh/ui.py      桌面客户端（历史实现，保留）
-   │  POST 动作 + SSE 快照（Web）／直接调用（终端）
-Node Cordis 宿主 src/               编排层：插件装载、生命周期、HTTP/SSE
-   │  JSON-RPC 2.0 over stdio（src/core/bridge.mjs ↔ python/rpc_server.py）
-Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、计分、视图模型
+桌面   client/                       pygame 客户端：--lang 切换语言（与另两个客户端同题同进度）
+   │  POST 动作 + SSE 快照（Web）／直接调用（终端、桌面）
+   ▼
+Cordis 宿主 src/（Node）            插件加载、HTTP + SSE
+   │  JSON-RPC 2.0 over stdio
+   ▼
+Python 谜题服务 puzzle_service/    谜题状态、规则、计分、视图模型（无头）
+   │
+   ▼
+gameplay_pool/ + content/packs/    一份实现 + 按语言分开的内容包
 ```
 
 - **谜题即插件**：一种谜题在 `puzzle_service/registry.py` 里登记一次（名称、交互模型、可执行动作、
@@ -97,7 +121,7 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 ## 目录要点
 - `gameplay_pool/`：**统一的谜题实现**（14 种）+ `messages.py`（全部文案的分语言表）
 - `client/`：**统一的 pygame 桌面客户端**（`main.py` 入口、`ui.py` 界面、`engine.py` 引擎、`translations.py` 界面文案）
-- `puzzle_service/`：无头领域层——`registry.py`（按语言建键的注册表）、`views.py`（视图模型）、`service.py`（会话/计分/动作）、`profile.py`（进度与分享卡片）、`content.py`（内容包）、`cli.py`（终端客户端）
+- `puzzle_service/`：无头领域层——`registry.py`（按语言建键的注册表）、`views.py`（视图模型）、`service.py`（会话/计分/动作）、`profile.py`（进度、分种类战绩与分享卡片）、`daily.py`（每日一题的日期种子，三个客户端共用）、`content.py`（内容包）、`submission.py`（投稿/审核/签名）、`pack_registry.py` + `pack_server.py` + `pack_client.py`（在线内容包服务）、`cli.py`（终端客户端）
 - `python/rpc_server.py`：JSON-RPC 2.0 stdio 服务端（仅标准库）
 - `src/`：Cordis 宿主——`boot.mjs`（唯一启动入口）、`core/bridge.mjs`（Node 侧桥）、`plugins/`（puzzle / web / render）、`smoke.mjs`（端到端冒烟）、`browser_e2e.mjs`（真浏览器端到端）
 - `public/`：浏览器客户端（`index.html` + `client/`，与桌面客户端 `client/` 不同）
@@ -159,12 +183,41 @@ MathPuzzle(difficulty="easy", lang="en").puzzle_name   # 'Math Puzzle'
   英文卡片的**大小写**、以及英文字体族的选择。
 证据见 [`docs/records/m5-unification_2026-10-16.md`](docs/records/m5-unification_2026-10-16.md)。
 
+## 路线图状态（哪些做完了，哪些**没做**）
+
+对照 [`docs/spec/SPEC-101-platform-roadmap.md`](docs/spec/SPEC-101-platform-roadmap.md)。这张表故意把「没做」写清楚：
+一个只列已完成项的清单，读起来像是全都做完了。
+
+| 阶段 | 状态 | 说明 |
+| --- | --- | --- |
+| M0 打底（可玩、可测、可复现） | **已完成** | 两个客户端原本都起不来，先修崩溃再谈平台化 |
+| M1 领域层与视图契约 | **已完成** | 注册表、10 个渲染原语、`label_key` 契约、谜底不进视图模型 |
+| M2 内容包 · 加载与首个数据包 | **已完成** | 双包各 154 条，`--check` 防漂移 |
+| M2 内容包 · 社区投稿/审核/签名 | **已完成** | `pack-cli` 全流程；签名覆盖语义而非字节 |
+| M2 内容包 · **在线投稿服务** | **已完成（本轮）** | 标准库 HTTP 服务 + 只信签名的客户端；隔离区、限流、尺寸上限、原子安装。**未做**：账号体系、Web 审核界面、对象存储 |
+| M3 网页编辑器 | **未做** | 只读开关 + 快照撤销的设计已调研，未实现 |
+| M4 每日节奏与分享 | **已完成** | 每日一题、streak、历史、文字与 SVG 分享卡片 |
+| M4 **桌面版接入每日/进度** | **已完成（本轮）** | 与命令行/网页同题同进度；**未做**：桌面版的内嵌图形分享导出（只能在窗口里看卡片文本） |
+| M5 一份实现 + 语言资源 | **已完成** | 谜题库与桌面客户端各自收敛为一份，均有等价性证据 |
+
+**明确未做（不打算在本轮或下一轮顺手做）**：
+
+- **M3 网页编辑器**：需要编辑态与保存流程，是独立工程。
+- **在线服务的账号体系与审核界面**：目前审核靠 `/submissions` 列表 + `POST /accept/<name>`，
+  没有登录、没有权限分级、没有浏览器界面；`--host 0.0.0.0` 暴露到公网前必须先补这些。
+- **非对称签名**：现在是共享密钥 HMAC（理由见 `puzzle_service/submission.py` 的模块文档）。
+- **内容包吊销名单**：钥匙泄露只能换钥匙并重新签名。
+- **`pattern` 等生成型谜题的难度参数化**：它们没有题库可迁移，需要的是参数化（M2 记录里已说明）。
+- **桌面版图形分享导出（PNG）**：SVG/文字卡片已有，网页能直接看图；桌面版只显示文本。
+
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**200 passed**（含 44×2 个客户端画面基线、40 项投稿/签名测试）——注册表（含**按语言建键**与「未注册语言不回退」）、视图（谜底不泄漏、label 键契约）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（双包 + 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/历史/图形卡片、客户端一致性。
+- `pytest tests -q`：**252 passed**（含 44×2 个客户端画面基线、40 项投稿/签名测试、36 项在线服务测试、16 项桌面每日/进度测试）——注册表（按语言建键、未注册语言不回退）、视图（谜底不泄漏、label 键契约）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（双包 + 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（同种子可复现 **且桌面与服务逐日同题**）、进度/连续天数/存档/历史/图形卡片、客户端一致性、投稿与签名（篡改、未知钥匙、缺签名、损坏 provenance）、在线服务（隔离区不可见、投稿不能自我发布、超大请求体、路径穿越、限流）。
 - `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）/ BROWSER E2E PASSED（18 项）**——最后一项是**真浏览器**（Playwright + Chromium）跑出来的：加载与控制台零错误、SSE、14 种可选、开局渲染中文标签、错答、提示、点击格子、键盘 `f` 插旗、右键插旗、方向键操作 2048、颜色不单独承载信息、答题结果、每日一题、分享卡片、进度显示、图形卡片以 `image/svg+xml` 提供、历史新在前、**axe-core 可访问性审计四个画面零 serious/critical**。
-- `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击）＋ 菜单 ＋ 结果画面，无头运行。
-- `python scripts/_audit_parity.py`：**两版各 0 problem**——统一实现与两版旧实现在数据、提示、种类元数据上逐项一致（只允许两类已登记差异）。
-- `python scripts/check_build_consistency.py`：**CLIENT CONSISTENCY PASSED**——两客户端解析到同一个谜题池、暴露同样的 14 种、引擎与界面接口一致（已用负向对照验证会红）。
+- `python scripts/smoke_headless.py`：**SMOKE PASSED**——桌面客户端两种语言各遍历 **14 种**谜题画面（含一次真实点击）＋ 菜单 ＋ 结果画面，无头运行。
+- `python scripts/client_screens.py --language zh|en`：**CLIENT SCREENS MATCH THE BASELINE**——两语言各 44 个画面的像素哈希基线（菜单 + 14 种 × 3 难度 + 结果页）。
+- `python scripts/check_daily_parity.py`：**DAILY PARITY PASSED**——同一日期在桌面引擎与谜题服务里解析为**同一个种类**（逐日核对 21 天）。
+- `python scripts/check_font_glyphs.py`：**FONT GLYPH COVERAGE PASSED**——界面用到的符号与 CJK 都能真正渲染；该检查自己带一个负向对照（必须抓出已知缺字的 U+2713）。它上线第一天就抓出 `✓`（按钮里的豆腐块）与分享卡片的 `✔`/`✘`（两个 Pygame 字体都没有）。
+- `python scripts/check_build_consistency.py`：**CLIENT CONSISTENCY PASSED**——只有一个桌面客户端、一个谜题池，两种语言解析到同一份实现。
 - `python scripts/build_content_pack.py [--language en] --check`：**up to date（两个包各 6 文件 / 154 条）**。
 - 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11 / playwright-core 1.64.1（复用本机已有的 Chromium，未下载）/ axe-core 4.14.0。
 - 修复前两个版本**都无法启动**（`ui.py` 从一个从未存在的模块 `shared.font_utils` 导入字体），

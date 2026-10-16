@@ -24,6 +24,7 @@ import hashlib
 import json
 import os
 import random
+import tempfile
 import sys
 from pathlib import Path
 
@@ -55,6 +56,12 @@ def capture_screens(language: str) -> dict[str, str]:
     content = load_pack(language=language)
     pygame.init()
     screens: dict[str, str] = {}
+    # A throwaway profile per run: the menu now draws the player's streak, so using
+    # the real save file would make the baseline depend on who ran it and how much
+    # they had played. A temp file inside the run's own directory keeps it empty and
+    # deterministic.
+    profile_dir = tempfile.mkdtemp(prefix="client-screens-")
+    profile_path = Path(profile_dir) / "profile.json"
 
     def shot(name: str) -> None:
         surface = pygame.display.get_surface()
@@ -62,7 +69,9 @@ def capture_screens(language: str) -> dict[str, str]:
         screens[name] = hashlib.sha256(raw).hexdigest()
 
     def new_ui() -> tuple[object, object]:
-        engine = Engine(event_bus=EventBus(), lang=language, content=content)
+        engine = Engine(
+            event_bus=EventBus(), lang=language, content=content, profile_path=profile_path
+        )
         return engine, UI(engine=engine, lang=language)
 
     # --- menu (selection frozen so the baseline depends on the client, not on the
