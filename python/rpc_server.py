@@ -32,7 +32,12 @@ if __package__ in (None, ""):  # running as a script: make the project importabl
         sys.path.insert(0, str(_ROOT))
 
 from puzzle_service.registry import UnknownKind, UnknownLanguage
-from puzzle_service.service import InvalidAction, InvalidAnswer, PuzzleService
+from puzzle_service.service import (
+    ContentTrustError,
+    InvalidAction,
+    InvalidAnswer,
+    PuzzleService,
+)
 
 __all__ = ["RpcServer", "METHODS"]
 
@@ -58,8 +63,13 @@ class RpcServer:
     """Serves the puzzle service over newline-delimited JSON frames."""
 
     def __init__(self, language: str = "zh", stdin: TextIO | None = None,
-                 stdout: TextIO | None = None, stderr: TextIO | None = None):
-        self.service = PuzzleService(language=language)
+                 stdout: TextIO | None = None, stderr: TextIO | None = None,
+                 require_signature: bool = False, keyring: str | None = None):
+        self.service = PuzzleService(
+            language=language,
+            require_signature=require_signature,
+            keyring=keyring,
+        )
         self.stdin = stdin or sys.stdin
         self.stdout = stdout or sys.stdout
         self.stderr = stderr or sys.stderr
@@ -256,11 +266,21 @@ METHODS = (
 def main(argv: list[str] | None = None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
     language = "zh"
+    require_signature = False
+    keyring: str | None = None
     for index, arg in enumerate(args):
         if arg == "--language" and index + 1 < len(args):
             language = args[index + 1]
         elif arg.startswith("--language="):
             language = arg.split("=", 1)[1]
+        elif arg == "--require-signature":
+            # Serving third-party content: refuse an unsigned or tampered pack at
+            # startup rather than when the first player asks for a puzzle.
+            require_signature = True
+        elif arg == "--keyring" and index + 1 < len(args):
+            keyring = args[index + 1]
+        elif arg.startswith("--keyring="):
+            keyring = arg.split("=", 1)[1]
     try:
         reconfigure = getattr(sys.stdout, "reconfigure", None)
         if callable(reconfigure):
@@ -268,7 +288,16 @@ def main(argv: list[str] | None = None) -> int:
         sys.stdin.reconfigure(encoding="utf-8")
     except Exception:  # pragma: no cover - stdin/stdout may be a pipe without reconfigure
         pass
-    return RpcServer(language=language).serve_forever()
+    try:
+        server = RpcServer(
+            language=language,
+            require_signature=require_signature,
+            keyring=keyring,
+        )
+    except ContentTrustError as exc:
+        print(f"refusing to serve untrusted content: {exc}", file=sys.stderr)
+        return 4
+    return server.serve_forever()
 
 
 if __name__ == "__main__":

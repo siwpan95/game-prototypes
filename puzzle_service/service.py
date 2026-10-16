@@ -21,11 +21,20 @@ import sys
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from puzzle_service import views
 from puzzle_service.profile import DailyRecord, ProfileStore, share_card_svg
 from puzzle_service.registry import PuzzleKind, all_kinds, discover, get
+
+
+class ContentTrustError(RuntimeError):
+    """The content pack cannot be trusted: tampered, or unsigned where that is required.
+
+    Raised while constructing the service, so a strict deployment fails at startup
+    rather than when the first player asks for a puzzle.
+    """
 
 __all__ = ["Session", "PuzzleService", "InvalidAction", "InvalidAnswer"]
 
@@ -81,12 +90,25 @@ class PuzzleService:
     """Headless puzzle service. One instance per process; sessions multiplexed by id."""
 
     def __init__(self, language: str = "zh", autodiscover: bool = True,
-                 profile_path: Any = None, remember: bool = True):
+                 profile_path: Any = None, remember: bool = True,
+                 require_signature: bool = False, keyring: Any = None):
+        """
+        Args:
+            require_signature: refuse to start on a content pack that is unsigned or
+                whose signature does not match. Off by default, because the shipped
+                packs are maintainer-authored and unsigned, and a policy nobody asked
+                for should not stop the game. A deployment serving third-party content
+                turns it on (``python/rpc_server.py --require-signature``).
+            keyring: optional mapping of trusted key ids to labels. Without it a
+                signature can still be checked against the content it covers, but not
+                against *who* signed; with it, an unknown signer is refused.
+        """
         self.language = language
         # Content is loaded once per service: a pack read failure is reported here
         # (loudly) rather than swallowed per puzzle, and the game still runs on the
         # banks embedded in the puzzle modules.
         self.content = _load_content(language)
+        self.content_trust = self._check_trust(require_signature, keyring)
         # Register this language's kinds if they are not registered *for it* yet.
         # The check is per language: two PuzzleService instances in one process may
         # speak different languages and must not share registrations.
@@ -142,11 +164,48 @@ class PuzzleService:
 
     # --- content -------------------------------------------------------------
 
+    def _check_trust(self, require_signature: bool, keyring: Any) -> dict[str, Any]:
+        """Report — and under a strict policy, enforce — the pack's signature.
+
+        Returning the result instead of only raising means a permissive deployment can
+        still say what it loaded and how far that was verified, rather than reporting
+        nothing at all about content it is willing to serve.
+        """
+        if self.content is None:
+            return {"status": "no-pack"}
+        # Imported here: the service is the runtime, and a pack verifier that imports
+        # the service back would be a cycle.
+        from puzzle_service.submission import (
+            Policy,
+            PolicyError,
+            SignatureError,
+            load_keyring,
+            verify_signature,
+        )
+
+        policy = Policy(required=require_signature)
+        if isinstance(keyring, (str, Path)):
+            policy.keyring = load_keyring(keyring)
+        elif isinstance(keyring, dict):
+            policy.keyring = dict(keyring)
+        try:
+            result = verify_signature(self.content.root, None, policy)
+        except (SignatureError, PolicyError) as exc:
+            # Tampering is never acceptable, whatever the policy says about signing:
+            # a pack whose contents do not match its signature is not this pack.
+            raise ContentTrustError(str(exc)) from exc
+        if policy.keyring and result.get("key_id") and not policy.known(result["key_id"]):
+            raise ContentTrustError(
+                f"{self.content.root}: signed by unknown key {result['key_id']!r}"
+            )
+        return result
+
     def content_summary(self) -> dict[str, Any]:
         if self.content is None:
             return {"source": "built-in banks", "counts": {}}
         summary = self.content.describe()
         summary["source"] = "content pack"
+        summary["trust"] = self.content_trust.get("status", "unknown")
         summary.pop("root", None)  # a machine path has no business crossing the wire
         return summary
 

@@ -103,7 +103,8 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - `public/`：浏览器客户端（`index.html` + `client/`，与桌面客户端 `client/` 不同）
 - `content/packs/`：按语言分开的内容包（`core-zh`、`core-en`）
 - `shared/`：共用层——`font_utils.py`（跨平台 CJK 字体）、`paths.py`（项目根发现与导入引导）、`ui_boot.py`、`cli.py`
-- `scripts/`：环境重建、无头冒烟、内容包生成与校验、客户端一致性检查、卡片渲染
+- `pack_cli.py`：**内容包投稿工具**——`new/validate/sign/review/accept`（见 [`docs/content-submission.md`](docs/content-submission.md)）
+- `scripts/`：环境重建、无头冒烟、内容包生成与校验、客户端一致性与画面基线、卡片渲染
 - `tests/`：Python 测试（无显示器、不依赖 pygame 窗口）
 - `docs/`：文档枢纽——`spec/`（长期规范，如 [平台化路线图](docs/spec/SPEC-101-platform-roadmap.md)）、`records/`（实测记录与[调研卷](docs/records/platform-research-2026-10/README.md)）
 
@@ -159,7 +160,7 @@ MathPuzzle(difficulty="easy", lang="en").puzzle_name   # 'Math Puzzle'
 证据见 [`docs/records/m5-unification_2026-10-16.md`](docs/records/m5-unification_2026-10-16.md)。
 
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**160 passed**（含 44×2 个客户端画面基线）——注册表（含**按语言建键**与「未注册语言不回退」）、视图（谜底不泄漏、label 键契约）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（双包 + 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/历史/图形卡片、客户端一致性。
+- `pytest tests -q`：**200 passed**（含 44×2 个客户端画面基线、40 项投稿/签名测试）——注册表（含**按语言建键**与「未注册语言不回退」）、视图（谜底不泄漏、label 键契约）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（双包 + 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/历史/图形卡片、客户端一致性。
 - `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）/ BROWSER E2E PASSED（18 项）**——最后一项是**真浏览器**（Playwright + Chromium）跑出来的：加载与控制台零错误、SSE、14 种可选、开局渲染中文标签、错答、提示、点击格子、键盘 `f` 插旗、右键插旗、方向键操作 2048、颜色不单独承载信息、答题结果、每日一题、分享卡片、进度显示、图形卡片以 `image/svg+xml` 提供、历史新在前、**axe-core 可访问性审计四个画面零 serious/critical**。
 - `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击）＋ 菜单 ＋ 结果画面，无头运行。
 - `python scripts/_audit_parity.py`：**两版各 0 problem**——统一实现与两版旧实现在数据、提示、种类元数据上逐项一致（只允许两类已登记差异）。
