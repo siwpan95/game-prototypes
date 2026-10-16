@@ -286,20 +286,49 @@ def create_config_excel(filename="config.xlsx"):
     }
     
     # 6. 技能配置表
-    # 解锁等级：玩家达到该等级才学会（开局只送 1 级技）
+    # 效果类型：attack/defense/evade/special/double_strike/repair_vehicle/melee_mastery
+    # 职业限定：0=全职业；1=猎人 2=机械师 3=战士
+    # 冷却：使用后的不可用回合数
     skills_data = {
-        'ID': [1, 2, 3, 4, 5],
-        '名称': ['普通攻击', '蓄力射击', '防御姿态', '紧急回避', '必杀技'],
-        '类型': ['attack', 'attack', 'defense', 'evade', 'special'],
-        '消耗': [0, 10, 5, 8, 30],
-        '效果': ['造成物理伤害', '蓄力一击，伤害翻倍', '减少受到的伤害', '提高闪避率', '无视防御的强力攻击'],
-        '解锁等级': [1, 2, 1, 3, 5],
+        'ID': [1, 2, 3, 4, 5, 6, 7, 8],
+        '名称': ['普通攻击', '蓄力射击', '防御姿态', '紧急回避', '必杀技',
+               '电光石火', '紧急修理', '肉搏精通'],
+        '类型': ['attack', 'attack', 'defense', 'evade', 'special',
+               'special', 'special', 'special'],
+        '消耗': [0, 10, 5, 8, 30, 20, 15, 10],
+        '效果': ['造成物理伤害', '蓄力一击，伤害翻倍', '减少受到的伤害', '提高闪避率', '无视防御的强力攻击',
+               '战车兵器连射两次', '恢复战车HP与装甲片', '本场步行攻击大幅提升'],
+        '效果类型': ['', '', '', '', 'pierce',
+                   'double_strike', 'repair_vehicle', 'melee_mastery'],
+        '解锁等级': [1, 2, 1, 3, 5, 5, 5, 5],
+        '职业限定': [0, 0, 0, 0, 0, 1, 2, 3],
+        '冷却': [0, 2, 0, 1, 3, 3, 4, 2],
         '描述': [
             '基础的物理攻击',
             '需要一回合蓄力的强力攻击',
             '暂时提高防御力',
             '暂时提高闪避率',
-            '消耗大量能量的终极技能'
+            '消耗大量能量的终极技能',
+            '猎人特技：同一战车兵器连续发射两次',
+            '机械师特技：战斗中紧急抢修战车',
+            '战士特技：步行战斗攻击提升'
+        ]
+    }
+
+    # 6.5 职业配置表
+    # 成长率：每级提升的 HP/攻击/防御/速度
+    classes_data = {
+        'ID': [1, 2, 3],
+        '名称': ['猎人', '机械师', '战士'],
+        'HP成长': [12, 10, 14],
+        '攻击成长': [3, 2, 4],
+        '防御成长': [2, 3, 2],
+        '速度成长': [1, 1, 0],
+        '特技': ['电光石火', '紧急修理', '肉搏精通'],
+        '描述': [
+            '专精战车战斗的赏金猎人，擅长连射武器',
+            '唯一能抢修战车的机械专家，乘车战斗好手',
+            '肉搏战专家，步行时攻击力成长最高'
         ]
     }
     
@@ -383,6 +412,7 @@ def create_config_excel(filename="config.xlsx"):
         'Maps': pd.DataFrame(maps_data),
         'NPCs': pd.DataFrame(npcs_data),
         'Skills': pd.DataFrame(skills_data),
+        'Classes': pd.DataFrame(classes_data),
         'Shops': pd.DataFrame(shops_data),
         'Quests': pd.DataFrame(quests_data),
         'Bounties': pd.DataFrame(bounties_data),

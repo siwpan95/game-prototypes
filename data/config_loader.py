@@ -171,6 +171,22 @@ class SkillData:
     effect: str
     description: str
     unlock_level: int = 1  # 解锁等级（玩家达到该等级才学会）
+    effect_type: str = ""  # 效果类型（pierce/double_strike/repair_vehicle/melee_mastery）
+    class_id: int = 0       # 职业限定（0=全职业；1=猎人 2=机械师 3=战士）
+    cooldown: int = 0       # 使用后冷却回合数
+
+
+@dataclass
+class ClassData:
+    """职业：成长率 + 专属特技"""
+    id: int
+    name: str
+    hp_growth: int = 10
+    attack_growth: int = 3
+    defense_growth: int = 2
+    speed_growth: int = 1
+    signature_skill: str = ""
+    description: str = ""
 
 @dataclass
 class ShopData:
@@ -220,6 +236,7 @@ class ConfigLoader:
         self.maps: Dict[int, MapData] = {}
         self.npcs: Dict[int, NPCData] = {}
         self.skills: Dict[int, SkillData] = {}
+        self.classes: Dict[int, ClassData] = {}
         self.shops: Dict[int, ShopData] = {}
         self.quests: Dict[int, QuestData] = {}
         self.bounties: Dict[int, BountyData] = {}
@@ -242,6 +259,7 @@ class ConfigLoader:
             self._load_maps()
             self._load_npcs()
             self._load_skills()
+            self._load_classes()
             self._load_shops()
             self._load_quests()
             self._load_bounties()
@@ -356,11 +374,39 @@ class ConfigLoader:
                     effect=str(row['效果']),
                     description=str(row['描述']),
                     unlock_level=max(1, int(_col(row, '解锁等级', 1))),
+                    effect_type=str(_col(row, '效果类型', '') or ''),
+                    class_id=int(_col(row, '职业限定', 0)),
+                    cooldown=max(0, int(_col(row, '冷却', 0))),
                 )
                 self.skills[skill.id] = skill
             print(f"加载了 {len(self.skills)} 个技能配置")
         except Exception as e:
             print(f"加载技能配置失败: {e}")
+
+    def _load_classes(self):
+        """加载职业配置（缺表时静默跳过）"""
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='Classes')
+            for _, row in df.iterrows():
+                class_data = ClassData(
+                    id=int(row['ID']),
+                    name=str(row['名称']),
+                    hp_growth=int(_col(row, 'HP成长', 10)),
+                    attack_growth=int(_col(row, '攻击成长', 3)),
+                    defense_growth=int(_col(row, '防御成长', 2)),
+                    speed_growth=int(_col(row, '速度成长', 1)),
+                    signature_skill=str(_col(row, '特技', '') or ''),
+                    description=str(_col(row, '描述', '') or ''),
+                )
+                self.classes[class_data.id] = class_data
+            print(f"加载了 {len(self.classes)} 个职业配置")
+        except Exception as e:
+            if "No sheet named" in str(e) or "Worksheet" in str(e):
+                return
+            print(f"加载职业配置失败: {e}")
+
+    def get_class_by_id(self, class_id: int) -> Optional[ClassData]:
+        return self.classes.get(class_id)
     
     def _load_shops(self):
         """加载商店配置"""

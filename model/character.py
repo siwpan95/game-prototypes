@@ -29,6 +29,11 @@ class Character:
         # 战斗临时倍率（军号等道具，战斗结束后重置）
         self.battle_atk_mult = 1.0
         self.battle_def_mult = 1.0
+        # 职业（成长率与专属特技）
+        self.class_id = 1
+        self.class_data = None  # ClassData，由外部注入
+        # 技能冷却：skill_id -> 剩余回合
+        self.cooldowns = {}
         # 当前乘坐的战车引用（由外部设置）
         self.vehicle: Optional["Vehicle"] = None
 
@@ -109,16 +114,19 @@ class Character:
     def is_alive(self) -> bool:
         return self.hp > 0
 
-    def take_damage(self, damage: int) -> int:
+    def take_damage(self, damage: int, pierce: bool = False) -> int:
         """造成伤害，返回实际伤害值
 
         原作语义：乘战车且战车存活时，伤害由战车全额承担（车内人免火）；
-        步行（或战车毁）时扣驾驶员 HP（防御减伤）。
+        步行（或战车毁）时扣驾驶员 HP（防御减伤；pierce=True 无视防御）。
         """
         if (self.vehicle and not self.combat_on_foot
                 and self.vehicle.is_alive()):
-            return self.vehicle.take_damage(damage)
-        actual_damage = max(1, damage - self.defense // 2)
+            return self.vehicle.take_damage(damage, pierce)
+        if pierce:
+            actual_damage = max(1, damage)
+        else:
+            actual_damage = max(1, damage - self.defense // 2)
         self.hp -= actual_damage
         if self.hp < 0:
             self.hp = 0
@@ -139,10 +147,16 @@ class Character:
         self.level += 1
         self.exp -= self.exp_to_next
         self.exp_to_next = int(self.exp_to_next * 1.5)
-        self.max_hp += 10
-        self._base_attack += 3
-        self._base_defense += 2
-        self._base_speed += 1
+        # 成长率按职业（无职业数据时用默认值）
+        cls = self.class_data
+        hp_g = getattr(cls, "hp_growth", 10)
+        atk_g = getattr(cls, "attack_growth", 3)
+        def_g = getattr(cls, "defense_growth", 2)
+        spd_g = getattr(cls, "speed_growth", 1)
+        self.max_hp += hp_g
+        self._base_attack += atk_g
+        self._base_defense += def_g
+        self._base_speed += spd_g
         self.hp = self.max_hp
 
     # ── 存档序列化 ──
@@ -161,6 +175,7 @@ class Character:
             "exp_to_next": self.exp_to_next,
             "skills": [s.id for s in self.skills],
             "equipment": {slot: it.id for slot, it in self.equipment.items()},
+            "class_id": self.class_id,
         }
 
     @classmethod
@@ -174,6 +189,8 @@ class Character:
         c.level = d.get("level", 1)
         c.exp = d.get("exp", 0)
         c.exp_to_next = d.get("exp_to_next", 100)
+        c.class_id = d.get("class_id", 1)
+        c.class_data = config.get_class_by_id(c.class_id)
         for skill_id in d.get("skills", []):
             skill_data = config.get_skill_by_id(skill_id)
             if skill_data is not None:

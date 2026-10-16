@@ -342,7 +342,19 @@ class MainWindow:
     # ═══════════════════════════════════════════════════
 
     def _on_new_game(self):
-        self.vm.command_new_game()
+        """新游戏：选择职业（1 猎人 / 2 机械师 / 3 战士）"""
+        class_id = simpledialog.askinteger(
+            "选择职业",
+            "1 = 猎人（战车连射）\n2 = 机械师（紧急修理）\n3 = 战士（肉搏精通）\n\n"
+            "输入职业编号（1-3，取消默认猎人）：",
+            minvalue=1, maxvalue=3, parent=self.root, initialvalue=1
+        )
+        if class_id is None:
+            class_id = 1
+        self.vm.command_new_game(class_id)
+        cls = self.vm.config.get_class_by_id(class_id)
+        if cls is not None:
+            self.vm.data.add_log(f"你以{cls.name}的身份踏上了旅程。{cls.description}")
 
     def _ask_slot(self, title: str):
         """弹出槽位选择框（1-3），取消返回 None"""

@@ -71,6 +71,7 @@ class BattleEngine:
 
         # 敌人反击
         vehicle_was_alive = (data.player.vehicle is not None
+                             and not data.player.combat_on_foot
                              and data.player.vehicle.is_alive())
         dmg2 = BattleEngine.calculate_enemy_damage(enemy, data.player)
         result.messages.append(
@@ -79,6 +80,8 @@ class BattleEngine:
         break_msg = BattleEngine._vehicle_break_message(data.player, vehicle_was_alive)
         if break_msg:
             result.messages.append(break_msg)
+
+        BattleEngine._tick_cooldowns(data.player)
 
         if not data.player.is_alive():
             result.player_dead = True
@@ -119,6 +122,8 @@ class BattleEngine:
         if break_msg:
             result.messages.append(break_msg)
 
+        BattleEngine._tick_cooldowns(data.player)
+
         if not data.player.is_alive():
             result.player_dead = True
 
@@ -128,7 +133,7 @@ class BattleEngine:
 
     @staticmethod
     def player_use_skill(data: "GameData", skill_index: int) -> BattleResult:
-        """玩家使用技能"""
+        """玩家使用技能（效果类型分流 + 冷却）"""
         result = BattleResult()
         enemy = data.current_enemy
         player = data.player
@@ -141,6 +146,12 @@ class BattleEngine:
 
         skill = player.skills[skill_index]
 
+        # 冷却检查
+        cd = player.cooldowns.get(skill.id, 0)
+        if cd > 0:
+            result.messages.append(f"{skill.name}冷却中（剩余{cd}回合）！")
+            return result
+
         # 检查消耗（攻击技能消耗 HP 的 cost%）
         cost_hp = max(1, player.max_hp * skill.cost // 100)
         if player.hp <= cost_hp:
@@ -151,9 +162,51 @@ class BattleEngine:
         result.messages.append(f"{player.name}使用了{skill.name}！（消耗{cost_hp}HP）")
 
         skill_type = skill.type
+        effect_type = getattr(skill.data, "effect_type", "") or ""
         effect_val = skill.effect
+        used = True  # 使用成功即进入冷却
 
-        if skill_type == "attack":
+        if effect_type == "double_strike":
+            # 电光石火：战车兵器连射两次（第二击 60%）
+            for i, ratio in enumerate((1.0, 0.6)):
+                dmg = int((player.attack + random.randint(-3, 5)) * ratio)
+                actual = enemy.take_damage(dmg)
+                result.messages.append(f"第{i+1}击造成{actual}点伤害！")
+                if not enemy.is_alive():
+                    break
+            BattleEngine._tick_cooldowns(player)
+            if used:
+                player.cooldowns[skill.id] = getattr(skill.data, "cooldown", 0)
+            if not enemy.is_alive():
+                result.enemy_dead = True
+                return result
+
+        elif effect_type == "repair_vehicle":
+            # 紧急修理：恢复战车 HP 与装甲片
+            vehicle = player.vehicle
+            if vehicle is not None and vehicle.is_alive():
+                healed = int(vehicle.max_hp * 0.3)
+                vehicle.hp = min(vehicle.max_hp, vehicle.hp + healed)
+                vehicle.armor_plates = min(vehicle.max_plates,
+                                           vehicle.armor_plates + 10)
+                result.messages.append(
+                    f"紧急修理完成：战车恢复{healed}点HP，装甲片+10！"
+                )
+            else:
+                result.messages.append("没有可修理的战车！")
+
+        elif effect_type == "melee_mastery":
+            # 肉搏精通：本场步行攻击提升
+            player.battle_atk_mult += 0.3
+            result.messages.append("肉搏精通发动，本场步行攻击提升30%！")
+
+        elif effect_type == "pierce":
+            # 必杀技：无视防御的强力攻击
+            dmg = int(player.attack * 1.5) + random.randint(-3, 5)
+            actual = enemy.take_damage(max(1, dmg), pierce=True)
+            result.messages.append(f"无视防御，造成{actual}点伤害！")
+
+        elif skill_type == "attack":
             # 攻击技能：基于 effect 值放大伤害
             multiplier = 1.5 + int(effect_val) / 100 if effect_val.isdigit() else 1.5
             dmg = int((player.attack + random.randint(-3, 5)) * multiplier)
@@ -221,6 +274,11 @@ class BattleEngine:
                 if break_msg:
                     result.messages.append(break_msg)
 
+        # 冷却：先递减全场，再为本技能进入冷却
+        BattleEngine._tick_cooldowns(player)
+        if used and skill.data is not None:
+            player.cooldowns[skill.id] = max(0, getattr(skill.data, "cooldown", 0))
+
         # 检查击杀
         if not enemy.is_alive():
             result.enemy_dead = True
@@ -230,6 +288,20 @@ class BattleEngine:
             result.player_dead = True
 
         return result
+
+    @staticmethod
+    def _tick_cooldowns(player: Character):
+        """每个玩家回合行动结束时，全场技能冷却 -1"""
+        for sid in list(player.cooldowns.keys()):
+            if player.cooldowns[sid] > 0:
+                player.cooldowns[sid] -= 1
+
+    @staticmethod
+    def reset_battle_state(player: Character):
+        """战斗结束：重置倍率与冷却"""
+        player.battle_atk_mult = 1.0
+        player.battle_def_mult = 1.0
+        player.cooldowns = {}
 
     # ── 道具（战斗中） ──
 
@@ -345,6 +417,8 @@ class BattleEngine:
         break_msg = BattleEngine._vehicle_break_message(player, True)
         if break_msg:
             result.messages.append(break_msg)
+
+        BattleEngine._tick_cooldowns(player)
 
         if not player.is_alive():
             result.player_dead = True

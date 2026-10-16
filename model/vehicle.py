@@ -188,8 +188,8 @@ class Vehicle:
     def is_alive(self) -> bool:
         return self.hp > 0
 
-    def take_damage(self, damage: int) -> int:
-        """受到伤害：先耗装甲片，归零后扣耐久（防御减伤）。
+    def take_damage(self, damage: int, pierce: bool = False) -> int:
+        """受到伤害：先耗装甲片，归零后扣耐久（防御减伤；pierce 无视防御）。
 
         返回实际吃掉的总伤害（装甲片吸收 + 耐久损失）。
         """
@@ -205,7 +205,10 @@ class Vehicle:
 
         # SP 耗尽，防御开始减伤
         self.armor_plates = 0
-        actual = max(1, damage - sp - self.defense // 2)
+        if pierce:
+            actual = damage - sp
+        else:
+            actual = max(1, damage - sp - self.defense // 2)
         self.hp -= actual
         if self.hp <= 0:
             self.hp = 0

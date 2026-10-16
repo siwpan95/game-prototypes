@@ -51,11 +51,13 @@ class GameViewModel:
     # 初始化
     # ═══════════════════════════════════════════════════
 
-    def init_new_game(self):
-        """初始化新游戏"""
+    def init_new_game(self, class_id: int = 1):
+        """初始化新游戏（class_id：1=猎人 2=机械师 3=战士）"""
         self.data = GameData()
         self.data.config = self.config
         self.data.player = Character("雷班纳", 100, 100, 15, 8, 12)
+        self.data.player.class_id = class_id
+        self.data.player.class_data = self.config.get_class_by_id(class_id)
         self.data.gold = 500
         self.data.player_x = 10
         self.data.player_y = 10
@@ -135,15 +137,23 @@ class GameViewModel:
     # ═══════════════════════════════════════════════════
 
     def _check_skill_unlocks(self):
-        """按等级解锁技能（幂等：已学会的不会重复学/重复提示）"""
+        """按等级解锁技能（幂等：已学会的不会重复学/重复提示）
+
+        职业限定技能只有对应职业可学（class_id 0=全职业）。
+        """
         player = self.data.player
         if not player:
             return
         known_ids = [s.id for s in player.skills]
         for skill_data in self.config.skills.values():
-            if skill_data.unlock_level <= player.level and skill_data.id not in known_ids:
-                player.learn_skill(Skill(skill_data))
-                self.data.add_log(f"学会了新技能: {skill_data.name}！")
+            if skill_data.id in known_ids:
+                continue
+            if skill_data.unlock_level > player.level:
+                continue
+            if skill_data.class_id not in (0, player.class_id):
+                continue
+            player.learn_skill(Skill(skill_data))
+            self.data.add_log(f"学会了新技能: {skill_data.name}！")
 
     def _refresh_all(self):
         """刷新所有 Observable 属性"""
@@ -919,8 +929,9 @@ class GameViewModel:
         else:
             d.add_log(f"{bounty.name}的悬赏已领取。")
 
-    def command_new_game(self):
-        self.init_new_game()
+    def command_new_game(self, class_id: int = 1):
+        """开始新游戏（class_id：1=猎人 2=机械师 3=战士）"""
+        self.init_new_game(class_id)
 
     # ═══════════════════════════════════════════════════
     # 命令 — 存档 / 读档
@@ -1035,13 +1046,11 @@ class GameViewModel:
         self._notify_state()
 
     def _end_battle(self):
-        """结束战斗：恢复乘车形态、重置战斗倍率"""
-        player = self.data.player
-        player.combat_on_foot = False
-        player.battle_atk_mult = 1.0
-        player.battle_def_mult = 1.0
-        if player.vehicle is not None:
-            player.vehicle.battle_atk_mult = 1.0
+        """结束战斗：恢复乘车形态、重置战斗倍率与技能冷却"""
+        BattleEngine.reset_battle_state(self.data.player)
+        if self.data.player.vehicle is not None:
+            self.data.player.vehicle.battle_atk_mult = 1.0
+        self.data.player.combat_on_foot = False
         BattleEngine.end_battle(self.data)
 
     def _apply_battle_result(self, result):

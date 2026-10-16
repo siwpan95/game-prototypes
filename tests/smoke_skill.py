@@ -52,24 +52,26 @@ def main():
         logs_after = [m for m in vm.data.log_messages if "学会了新技能" in m]
         assert logs_before == logs_after, "重复调用不应重复提示"
 
-        # 升到 5 级 → 全部学会
+        # 升到 5 级 → 通用技能全部学会 + 猎人特技电光石火（职业限定）
         player.level = 5
         vm._check_skill_unlocks()
-        assert sorted(s.id for s in player.skills) == [1, 2, 3, 4, 5], "5 级应学会全部技能"
+        assert sorted(s.id for s in player.skills) == [1, 2, 3, 4, 5, 6], \
+            "猎人 5 级应学会 1-5 加电光石火"
 
         # 存档往返保留已学技能
         assert vm.command_save(2)
         vm.command_new_game()
         vm.command_load(2)
-        assert sorted(s.id for s in vm.data.player.skills) == [1, 2, 3, 4, 5], \
+        assert sorted(s.id for s in vm.data.player.skills) == [1, 2, 3, 4, 5, 6], \
             "读档后已学技能应保留"
 
-        # 旧配置（无解锁等级列）默认 1 级，全部开局可学 —— 向后兼容
+        # 旧配置（无解锁等级列）默认 1 级且无职业限定，全部开局可学 —— 向后兼容
         import pandas as pd
         old_path = os.path.join(tmp_dir, "old_config.xlsx")
         with pd.ExcelFile(os.path.join(REPO_ROOT, "config.xlsx")) as xl:
             sheets = {name: pd.read_excel(xl, sheet_name=name) for name in xl.sheet_names}
-        sheets["Skills"] = sheets["Skills"].drop(columns=["解锁等级"])
+        sheets["Skills"] = sheets["Skills"].drop(
+            columns=["解锁等级", "效果类型", "职业限定", "冷却"])
         with pd.ExcelWriter(old_path, engine="openpyxl") as writer:
             for name, df in sheets.items():
                 df.to_excel(writer, sheet_name=name, index=False)
@@ -79,7 +81,9 @@ def main():
             "旧配置缺列应默认 1 级"
         vm2 = GameViewModel(old_config)
         vm2.command_new_game()
-        assert len(vm2.data.player.skills) == 5, "旧配置开局应可学全部技能"
+        # 旧配置派生表的职业限定全部默认 0（全职业），开局应学全部技能
+        assert len(vm2.data.player.skills) == len(old_config.skills), \
+            "旧配置开局应可学全部技能"
 
         print("SMOKE OK: 技能解锁全部断言通过")
     finally:
