@@ -8,6 +8,7 @@ from .skill import Skill
 from .game_state import GameState, GameData, Direction, QuestTrack, QuestManager
 from .battle import BattleEngine
 from .bounty import BountyManager, BountyStatus
+from .mod_shop import ModShop
 from .map_manager import MapManager, VIEWPORT_W, VIEWPORT_H
 from .infinite_map import InfiniteTerrain
 
@@ -21,6 +22,7 @@ __all__ = [
     "QuestTrack", "QuestManager",
     "BattleEngine",
     "BountyManager", "BountyStatus",
+    "ModShop",
     "MapManager", "VIEWPORT_W", "VIEWPORT_H",
     "InfiniteTerrain",
 ]

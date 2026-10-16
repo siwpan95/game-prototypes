@@ -88,6 +88,7 @@ class EngineData:
     defense: int         # 引擎防御
     weight: float        # 自重（吨）
     description: str = ""
+    price: int = 0       # 改造店更换价格（0=不出售）
 
 
 @dataclass
@@ -463,6 +464,7 @@ class ConfigLoader:
                     defense=int(_col(row, '防御', 0)),
                     weight=float(row['自重']),
                     description=str(_col(row, '描述', '') or ''),
+                    price=int(_col(row, '价格', 0)),
                 )
                 self.engines[engine.id] = engine
             print(f"加载了 {len(self.engines)} 个引擎配置")

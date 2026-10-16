@@ -9,7 +9,7 @@ from data import ConfigLoader, SaveManager
 from model import (
     Character, Enemy, Item, Vehicle, NPC, Skill,
     GameState, GameData, Direction, QuestTrack, QuestManager,
-    BattleEngine, MapManager, InfiniteTerrain, BountyManager,
+    BattleEngine, MapManager, InfiniteTerrain, BountyManager, ModShop,
 )
 
 
@@ -206,6 +206,8 @@ class GameViewModel:
             GameState.SHOP: self._render_shop,
             GameState.DIALOG: self._render_dialog,
             GameState.BOUNTY: self._render_bounty_board,
+            GameState.GARAGE: self._render_garage,
+            GameState.ENGINE_SHOP: self._render_engine_shop,
         }
         renderer = renderers.get(d.state, lambda: "")
         self.display_text.set(renderer())
@@ -293,12 +295,57 @@ class GameViewModel:
             "=== 城镇 ===\n\n"
             "欢迎来到城镇！\n\n"
             "1. 商店\n"
-            "2. 旅馆\n"
-            "3. 修理店\n"
-            "4. 悬赏榜\n"
-            "5. 离开城镇\n\n"
+            "2. 战车店（改造）\n"
+            "3. 旅馆\n"
+            "4. 修理店\n"
+            "5. 悬赏榜\n"
+            "6. 离开城镇\n\n"
             "请选择选项..."
         )
+
+    def _render_garage(self) -> str:
+        """战车改造店菜单"""
+        d = self.data
+        v = d.current_vehicle
+        if v is None:
+            return "=== 战车改造店 ===\n\n你没有战车。\n"
+        lines = [
+            "=== 战车改造店 ===\n\n",
+            f"当前战车: {v.name}（底盘 {v.chassis.name} / 引擎 {v.engine.name}）\n",
+            f"底盘防御: {v.chassis.defense + v.chassis_defense_bonus}"
+            f"/{v.chassis.defense_max}   装甲片: {v.armor_plates}/{v.max_plates}\n\n",
+            f"1. 开主炮孔 [{v.extra_main_slots}/{ModShop.MAIN_CAP}]"
+            f"（{ModShop._cost_text(ModShop.hole_cost(v, '主炮'))}）\n",
+            f"2. 开副炮孔 [{v.extra_sub_slots}/{ModShop.SUB_CAP}]"
+            f"（{ModShop._cost_text(ModShop.hole_cost(v, '副炮'))}）\n",
+            f"3. 开SE孔 [{v.extra_se_slots}/{ModShop.SE_CAP}]"
+            f"（{ModShop._cost_text(ModShop.hole_cost(v, 'SE'))}）\n",
+            f"4. 底盘防御强化 +{ModShop.DEF_STEP}"
+            f"（{ModShop._cost_text(ModShop.defense_cost(v))}）\n",
+            f"5. 装甲片扩容 +{ModShop.PLATE_STEP}"
+            f"（{ModShop.plate_cost(v)}G）\n",
+            "6. 更换引擎\n",
+            "7. 离开\n\n",
+            "按数字键选择改造项目...",
+        ]
+        return "".join(lines)
+
+    def _render_engine_shop(self) -> str:
+        """引擎更换列表"""
+        d = self.data
+        v = d.current_vehicle
+        lines = ["=== 引擎更换 ===\n\n"]
+        if v is not None:
+            lines.append(f"当前引擎: {v.engine.name}（载重 {int(v.engine.load)}t）\n\n")
+        engines = sorted((e for e in self.config.engines.values() if e.price > 0),
+                         key=lambda e: e.id)
+        for i, engine in enumerate(engines):
+            lines.append(
+                f"{i+1}. {engine.name}  载重 {int(engine.load)}t  "
+                f"防御 {engine.defense}  - {engine.price}G\n"
+            )
+        lines.append("\n按数字键购买更换，按ESC返回改造店。")
+        return "".join(lines)
 
     def _render_bounty_board(self) -> str:
         """悬赏榜：列表 + 状态 + 操作提示"""
@@ -669,6 +716,107 @@ class GameViewModel:
         elif d.state == GameState.BOUNTY:
             d.state = GameState.TOWN  # 悬赏榜返回城镇菜单
             self._notify_state()
+        elif d.state == GameState.GARAGE:
+            d.state = GameState.TOWN  # 改造店返回城镇菜单
+            self._notify_state()
+        elif d.state == GameState.ENGINE_SHOP:
+            d.state = GameState.GARAGE  # 引擎列表返回改造店
+            self._notify_state()
+
+    # ═══════════════════════════════════════════════════
+    # 命令 — 战车改造店
+    # ═══════════════════════════════════════════════════
+
+    def command_open_garage(self):
+        """打开战车改造店（城镇菜单进入）"""
+        d = self.data
+        if d.current_vehicle is None:
+            d.add_log("你没有战车，改造店无从下手。")
+            return
+        d.state = GameState.GARAGE
+        d.add_log("欢迎来到战车改造店。")
+        self._notify_state()
+
+    def command_mod_action(self, option: int):
+        """改造店菜单交互（1-7）"""
+        d = self.data
+        v = d.current_vehicle
+        if v is None or d.state != GameState.GARAGE:
+            return
+
+        if option == 1:  # 开主炮孔
+            self._do_mod(v, "主炮")
+        elif option == 2:  # 开副炮孔
+            self._do_mod(v, "副炮")
+        elif option == 3:  # 开SE孔
+            self._do_mod(v, "SE")
+        elif option == 4:  # 底盘防御强化
+            cost = ModShop.defense_cost(v)
+            if cost is None:
+                d.add_log("底盘防御已达上限。")
+            elif d.gold >= cost:
+                d.gold -= cost
+                ModShop.upgrade_defense(v)
+                d.add_log(f"底盘防御强化完成（+{ModShop.DEF_STEP}），花费{cost}金币！")
+            else:
+                d.add_log(f"金币不足！需要{cost}金币。")
+        elif option == 5:  # 装甲片扩容
+            cost = ModShop.plate_cost(v)
+            if d.gold >= cost:
+                d.gold -= cost
+                ModShop.expand_plates(v)
+                d.add_log(f"装甲片容量 +{ModShop.PLATE_STEP}，花费{cost}金币！")
+            else:
+                d.add_log(f"金币不足！需要{cost}金币。")
+        elif option == 6:  # 更换引擎
+            self.command_open_engine_shop()
+        elif option == 7:  # 离开
+            d.state = GameState.TOWN
+            self._notify_state()
+
+    def _do_mod(self, vehicle, kind: str):
+        """开孔改造（带费用结算）"""
+        d = self.data
+        cost = ModShop.hole_cost(vehicle, kind)
+        if cost is None:
+            d.add_log(f"{kind}孔已满。")
+            return
+        if d.gold < cost:
+            d.add_log(f"金币不足！需要{cost}金币。")
+            return
+        d.gold -= cost
+        ModShop.add_hole(vehicle, kind)
+        d.add_log(f" {kind}孔开启完成，花费{cost}金币！")
+
+    def command_open_engine_shop(self):
+        """打开引擎更换列表"""
+        d = self.data
+        if not any(e.price > 0 for e in self.config.engines.values()):
+            d.add_log("本店没有可更换的引擎。")
+            return
+        d.state = GameState.ENGINE_SHOP
+        self._notify_state()
+
+    def command_engine_interact(self, index: int):
+        """购买/更换引擎（按编号）"""
+        d = self.data
+        v = d.current_vehicle
+        if v is None or d.state != GameState.ENGINE_SHOP:
+            return
+        engines = [e for e in self.config.engines.values() if e.price > 0]
+        engines.sort(key=lambda e: e.id)
+        if index < 0 or index >= len(engines):
+            return
+        engine = engines[index]
+        if v.engine.id == engine.id:
+            d.add_log("已经装配着这个引擎了。")
+            return
+        if d.gold < engine.price:
+            d.add_log(f"金币不足！需要{engine.price}金币。")
+            return
+        d.gold -= engine.price
+        ModShop.change_engine(v, engine)
+        d.add_log(f"引擎更换为{engine.name}（载重 {int(engine.load)}t），花费{engine.price}金币！")
 
     def command_show_quests(self):
         """显示任务日志"""

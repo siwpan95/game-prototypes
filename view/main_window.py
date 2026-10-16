@@ -294,16 +294,24 @@ class MainWindow:
             if event.char == '1':
                 self.vm.command_enter_shop()
             elif event.char == '2':
-                self.vm.command_rest()
+                self.vm.command_open_garage()
             elif event.char == '3':
-                self.vm.command_repair_vehicle()
+                self.vm.command_rest()
             elif event.char == '4':
-                self.vm.command_open_bounty_board()
+                self.vm.command_repair_vehicle()
             elif event.char == '5':
+                self.vm.command_open_bounty_board()
+            elif event.char == '6':
                 self.vm.command_leave_town()
         elif d.state == GameState.BOUNTY:
             if event.char.isdigit():
                 self.vm.command_bounty_interact(int(event.char) - 1)
+        elif d.state == GameState.GARAGE:
+            if event.char.isdigit():
+                self.vm.command_mod_action(int(event.char))
+        elif d.state == GameState.ENGINE_SHOP:
+            if event.char.isdigit():
+                self.vm.command_engine_interact(int(event.char) - 1)
         elif d.state == GameState.SHOP:
             if event.char.isdigit():
                 self.vm.command_buy_item(int(event.char) - 1)

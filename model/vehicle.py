@@ -51,6 +51,13 @@ class Vehicle:
         # 防御姿态倍率（战斗中临时提升，1.0 = 常态）
         self.defense_multiplier = 1.0
 
+        # ── 改造状态（改造店升级，随存档持久化） ──
+        self.extra_main_slots = 0   # 额外主炮孔
+        self.extra_sub_slots = 0    # 额外副炮孔
+        self.extra_se_slots = 0     # 额外 S-E 孔
+        self.chassis_defense_bonus = 0  # 底盘防御强化值
+        self.plates_capacity_bonus = 0  # 装甲片扩容值
+
         self.max_hp = chassis.durability
         self.hp = chassis.durability
         self.fuel = vehicle_data.fuel_capacity
@@ -68,9 +75,58 @@ class Vehicle:
 
     @property
     def defense(self) -> int:
-        """防御力 =（底盘 + 引擎 + C装置）× 防御姿态倍率"""
-        base = self.chassis.defense + self.engine.defense + self.cunit.defense
+        """防御力 =（底盘 + 强化值 + 引擎 + C装置）× 防御姿态倍率"""
+        base = (self.chassis.defense + self.chassis_defense_bonus
+                + self.engine.defense + self.cunit.defense)
         return int(base * self.defense_multiplier)
+
+    # ── 孔位（底盘基础孔 + 改造开孔） ──
+
+    @property
+    def main_slots(self) -> int:
+        return self.chassis.main_slots + self.extra_main_slots
+
+    @property
+    def sub_slots(self) -> int:
+        return self.chassis.sub_slots + self.extra_sub_slots
+
+    @property
+    def se_slots(self) -> int:
+        return self.chassis.se_slots + self.extra_se_slots
+
+    def can_equip(self, weapon) -> bool:
+        """武器是否能装上（孔位是否足够）"""
+        if weapon is None:
+            return False
+        if weapon.type == "主炮":
+            return len(self.main_weapons) < self.main_slots
+        if weapon.type == "副炮":
+            return len(self.sub_weapons) < self.sub_slots
+        if weapon.type == "SE":
+            return len(self.se_weapons) < self.se_slots
+        return False
+
+    def equip_weapon(self, weapon) -> bool:
+        """安装武器（孔位不足返回 False）"""
+        if not self.can_equip(weapon):
+            return False
+        if weapon.type == "主炮":
+            self.main_weapons.append(weapon)
+        elif weapon.type == "副炮":
+            self.sub_weapons.append(weapon)
+        elif weapon.type == "SE":
+            self.se_weapons.append(weapon)
+        else:
+            return False
+        return True
+
+    def unequip_weapon(self, kind: str, index: int):
+        """卸下武器，返回卸下的 WeaponData（没有则 None）"""
+        bucket = {"主炮": self.main_weapons, "副炮": self.sub_weapons,
+                  "SE": self.se_weapons}.get(kind)
+        if bucket is None or not (0 <= index < len(bucket)):
+            return None
+        return bucket.pop(index)
 
     @property
     def speed(self) -> int:
@@ -84,7 +140,16 @@ class Vehicle:
 
     @property
     def max_sp(self) -> int:
+        """装甲片容量总吸收量"""
         return self.max_plates * PLATE_ABSORB
+
+    @property
+    def max_plates(self) -> int:
+        return self._base_max_plates + self.plates_capacity_bonus
+
+    @max_plates.setter
+    def max_plates(self, value):
+        self._base_max_plates = value
 
     def all_weapons(self) -> list:
         return list(self.main_weapons) + list(self.sub_weapons) + list(self.se_weapons)
@@ -169,10 +234,16 @@ class Vehicle:
     def to_dict(self) -> dict:
         return {
             "id": self.id,
+            "engine_id": self.engine.id,  # 改造店可能更换过引擎
             "hp": self.hp,
             "fuel": self.fuel,
             "armor_plates": self.armor_plates,
             "broken": self.broken,
+            "extra_main_slots": self.extra_main_slots,
+            "extra_sub_slots": self.extra_sub_slots,
+            "extra_se_slots": self.extra_se_slots,
+            "chassis_defense_bonus": self.chassis_defense_bonus,
+            "plates_capacity_bonus": self.plates_capacity_bonus,
         }
 
     @classmethod
@@ -181,8 +252,19 @@ class Vehicle:
         if vehicle_data is None:
             raise ValueError(f"存档引用了不存在的战车ID: {d['id']}")
         v = cls(vehicle_data, config)
+        # 改造店更换过的引擎优先于配置默认值
+        engine_id = d.get("engine_id")
+        if engine_id is not None and engine_id != v.engine.id:
+            engine = config.get_engine_by_id(engine_id)
+            if engine is not None:
+                v.engine = engine
         v.hp = d.get("hp", v.max_hp)
         v.fuel = d.get("fuel", v.max_fuel)
         v.armor_plates = d.get("armor_plates", v.max_plates)
         v.broken = d.get("broken", False)
+        v.extra_main_slots = d.get("extra_main_slots", 0)
+        v.extra_sub_slots = d.get("extra_sub_slots", 0)
+        v.extra_se_slots = d.get("extra_se_slots", 0)
+        v.chassis_defense_bonus = d.get("chassis_defense_bonus", 0)
+        v.plates_capacity_bonus = d.get("plates_capacity_bonus", 0)
         return v
