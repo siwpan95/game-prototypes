@@ -216,6 +216,8 @@ class GameViewModel:
             GameState.BOUNTY: self._render_bounty_board,
             GameState.GARAGE: self._render_garage,
             GameState.ENGINE_SHOP: self._render_engine_shop,
+            GameState.WEAPON_SHOP: self._render_weapon_shop,
+            GameState.TAXI: self._render_taxi,
         }
         renderer = renderers.get(d.state, lambda: "")
         self.display_text.set(renderer())
@@ -310,7 +312,8 @@ class GameViewModel:
             "3. 旅馆\n"
             "4. 修理店\n"
             "5. 悬赏榜\n"
-            "6. 离开城镇\n\n"
+            "6. 出租车站\n"
+            "7. 离开城镇\n\n"
             "请选择选项..."
         )
 
@@ -336,9 +339,43 @@ class GameViewModel:
             f"5. 装甲片扩容 +{ModShop.PLATE_STEP}"
             f"（{ModShop.plate_cost(v)}G）\n",
             "6. 更换引擎\n",
-            "7. 离开\n\n",
+            "7. 购买战车武器\n",
+            "8. 离开\n\n",
             "按数字键选择改造项目...",
         ]
+        return "".join(lines)
+
+    def _render_weapon_shop(self) -> str:
+        """战车武器商店列表"""
+        d = self.data
+        v = d.current_vehicle
+        lines = ["=== 战车武器店 ===\n\n"]
+        if v is not None:
+            lines.append(
+                f"{v.name} 孔位: 主炮 {len(v.main_weapons)}/{v.main_slots}  "
+                f"副炮 {len(v.sub_weapons)}/{v.sub_slots}  "
+                f"SE {len(v.se_weapons)}/{v.se_slots}\n\n"
+            )
+        weapons = sorted((w for w in self.config.weapons.values() if w.price > 0),
+                         key=lambda w: w.id)
+        for i, weapon in enumerate(weapons):
+            lines.append(
+                f"{i+1}. [{weapon.type}] {weapon.name}  攻击 {weapon.attack}  "
+                f"自重 {weapon.weight}t  - {weapon.price}G\n"
+            )
+        lines.append("\n按数字键购买安装（孔位不足时无法安装），按ESC返回。")
+        return "".join(lines)
+
+    def _render_taxi(self) -> str:
+        """出租车站：城镇列表"""
+        d = self.data
+        towns = sorted((m for m in self.config.maps.values()
+                        if m.is_town and m.id != d.current_map_id),
+                       key=lambda m: m.id)
+        lines = ["=== 出租车站 ===\n\n", f"车费统一 {self.TAXI_PRICE} 金币。\n\n"]
+        for i, town in enumerate(towns):
+            lines.append(f"{i+1}. {town.name}\n")
+        lines.append("\n按数字键乘车，按ESC返回城镇。")
         return "".join(lines)
 
     def _render_engine_shop(self) -> str:
@@ -786,6 +823,83 @@ class GameViewModel:
         elif d.state == GameState.ENGINE_SHOP:
             d.state = GameState.GARAGE  # 引擎列表返回改造店
             self._notify_state()
+        elif d.state == GameState.WEAPON_SHOP:
+            d.state = GameState.GARAGE  # 武器列表返回改造店
+            self._notify_state()
+        elif d.state == GameState.TAXI:
+            d.state = GameState.TOWN  # 出租车站返回城镇菜单
+            self._notify_state()
+
+    # ═══════════════════════════════════════════════════
+    # 命令 — 战车武器购买 / 出租车站
+    # ═══════════════════════════════════════════════════
+
+    TAXI_PRICE = 500
+
+    def command_open_weapon_shop(self):
+        """打开战车武器商店（改造店内进入）"""
+        d = self.data
+        if d.current_vehicle is None:
+            d.add_log("没有战车，买来武器装哪儿？")
+            return
+        if not any(w.price > 0 for w in self.config.weapons.values()):
+            d.add_log("本店没有出售的武器。")
+            return
+        d.state = GameState.WEAPON_SHOP
+        self._notify_state()
+
+    def command_weapon_interact(self, index: int):
+        """购买并安装战车武器（按编号）"""
+        d = self.data
+        v = d.current_vehicle
+        if v is None or d.state != GameState.WEAPON_SHOP:
+            return
+        weapons = sorted((w for w in self.config.weapons.values() if w.price > 0),
+                         key=lambda w: w.id)
+        if index < 0 or index >= len(weapons):
+            return
+        weapon = weapons[index]
+        if not v.can_equip(weapon):
+            d.add_log(f"{weapon.type}孔位已满！请先在改造店开孔。")
+            return
+        if d.gold < weapon.price:
+            d.add_log(f"金币不足！需要{weapon.price}金币。")
+            return
+        d.gold -= weapon.price
+        v.equip_weapon(weapon)
+        d.add_log(f"安装了{weapon.name}（{weapon.type}，攻击{weapon.attack}），花费{weapon.price}金币！")
+
+    def command_open_taxi(self):
+        """打开出租车站（城镇间付费瞬移）"""
+        d = self.data
+        towns = [m for m in self.config.maps.values()
+                 if m.is_town and m.id != d.current_map_id]
+        if not towns:
+            d.add_log("出租车去不了别的地方（附近没有其他城镇）。")
+            return
+        d.state = GameState.TAXI
+        self._notify_state()
+
+    def command_taxi_interact(self, index: int):
+        """乘出租车前往目标城镇"""
+        d = self.data
+        if d.state != GameState.TAXI:
+            return
+        towns = sorted((m for m in self.config.maps.values()
+                        if m.is_town and m.id != d.current_map_id),
+                       key=lambda m: m.id)
+        if index < 0 or index >= len(towns):
+            return
+        target = towns[index]
+        if d.gold < self.TAXI_PRICE:
+            d.add_log(f"金币不足！车费 {self.TAXI_PRICE} 金币。")
+            return
+        d.gold -= self.TAXI_PRICE
+        d.current_map_id = target.id
+        d.player_x, d.player_y = MapManager.entrance_cell(target)
+        d.state = GameState.TOWN
+        d.add_log(f"乘出租车抵达{target.name}，车费 {self.TAXI_PRICE} 金币。")
+        self._notify_state()
 
     # ═══════════════════════════════════════════════════
     # 命令 — 战车改造店
@@ -834,7 +948,9 @@ class GameViewModel:
                 d.add_log(f"金币不足！需要{cost}金币。")
         elif option == 6:  # 更换引擎
             self.command_open_engine_shop()
-        elif option == 7:  # 离开
+        elif option == 7:  # 购买战车武器
+            self.command_open_weapon_shop()
+        elif option == 8:  # 离开
             d.state = GameState.TOWN
             self._notify_state()
 

@@ -115,6 +115,7 @@ class WeaponData:
     attack: int
     weight: float
     description: str = ""
+    price: int = 0       # 战车店购买价格（0=不出售，专有/掉落）
 
 
 @dataclass
@@ -558,6 +559,7 @@ class ConfigLoader:
                     attack=int(row['攻击']),
                     weight=float(row['自重']),
                     description=str(_col(row, '描述', '') or ''),
+                    price=int(_col(row, '价格', 0)),
                 )
                 self.weapons[weapon.id] = weapon
             print(f"加载了 {len(self.weapons)} 个战车武器配置")

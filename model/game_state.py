@@ -18,6 +18,8 @@ class GameState(Enum):
     BOUNTY = 7
     GARAGE = 8
     ENGINE_SHOP = 9
+    WEAPON_SHOP = 10
+    TAXI = 11
 
 
 class Direction(Enum):

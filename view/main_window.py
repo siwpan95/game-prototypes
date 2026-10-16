@@ -305,6 +305,8 @@ class MainWindow:
             elif event.char == '5':
                 self.vm.command_open_bounty_board()
             elif event.char == '6':
+                self.vm.command_open_taxi()
+            elif event.char == '7':
                 self.vm.command_leave_town()
         elif d.state == GameState.BOUNTY:
             if event.char.isdigit():
@@ -315,6 +317,12 @@ class MainWindow:
         elif d.state == GameState.ENGINE_SHOP:
             if event.char.isdigit():
                 self.vm.command_engine_interact(int(event.char) - 1)
+        elif d.state == GameState.WEAPON_SHOP:
+            if event.char.isdigit():
+                self.vm.command_weapon_interact(int(event.char) - 1)
+        elif d.state == GameState.TAXI:
+            if event.char.isdigit():
+                self.vm.command_taxi_interact(int(event.char) - 1)
         elif d.state == GameState.SHOP:
             if event.char.isdigit():
                 self.vm.command_buy_item(int(event.char) - 1)
@@ -412,7 +420,7 @@ class MainWindow:
         ESC键：暂停菜单/返回
         
         城镇菜单：
-        1 商店  2 战车店(改造)  3 旅馆  4 修理店  5 悬赏榜  6 离开
+        1 商店  2 战车店(改造/武器)  3 旅馆  4 修理店  5 悬赏榜  6 出租车站  7 离开
         
         战斗中：
         1 攻击  2 防御  3 道具  0 乘降  4 逃跑  5-9 技能
