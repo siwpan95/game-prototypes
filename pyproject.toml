@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "text-adventure"
+version = "0.1.0"
+description = "Puzzle-driven text adventure (pygame client + headless puzzle service + Cordis host)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "siwpan" }]
+dependencies = ["pygame-ce>=2.5"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+text-adventure = "shared.cli:main_zh"
+text-adventure-en = "shared.cli:main_en"
+
+[tool.setuptools]
+# Explicit package list: these are the import roots the game and the puzzle
+# service actually use. Keeping it explicit stops setuptools from guessing.
+packages = [
+  "shared",
+  "text_adventure",
+  "text_adventure.gameplay_pool",
+  "text_adventure_zh",
+  "text_adventure_zh.gameplay_pool",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

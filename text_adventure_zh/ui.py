@@ -6,6 +6,12 @@ import pygame
 import sys
 import time
 
+# Make the project root importable so ``shared.*`` resolves however this file is
+# launched (``python main.py``, ``python text_adventure_zh/main.py``, an IDE, ...).
+from shared import ensure_importable
+
+ensure_importable()
+
 from engine import Engine
 from gameplay_pool import (
     BasePuzzle, MathPuzzle, RiddlePuzzle, CrosswordPuzzle, SudokuPuzzle,
