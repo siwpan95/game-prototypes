@@ -33,7 +33,7 @@ def main():
         d = vm.data
 
         # 4 个任务全部激活
-        assert len(d.quest_progress) == 4, f"应有 4 个进行中任务: {len(d.quest_progress)}"
+        assert len(d.quest_progress) == 8, f"应有 8 个进行中任务: {len(d.quest_progress)}"
 
         # ── kill 任务：清理野犬（杀 3 只野犬） ──
         quest1 = config.quests[1]
@@ -52,7 +52,7 @@ def main():
         # 奖励发放：经验 +100、金币 +200、物品 药草
         gold_after = d.gold
         # （初始 500 + 击杀奖励浮动，这里只验证任务奖励到账过：用日志断言）
-        assert any("任务完成: 清理野犬" in m for m in d.log_messages), "应有任务完成日志"
+        assert any("任务完成: 镇外的野犬" in m for m in d.log_messages), "应有任务完成日志"
 
         # ── collect 任务：找回被盗物品（获得猎枪） ──
         quest3 = config.quests[3]
@@ -97,7 +97,8 @@ def main():
         assert 4 in [q.id for q in vm.data.completed_quests], "读档后已完成任务应保留"
         assert 2 in [t.quest_data.id for t in vm.data.quest_progress], \
             "读档后未完成任务应仍在进行中"
-        assert len(vm.data.quest_progress) == 1, "读档后只剩赏金猎人任务未完成"
+        assert len(vm.data.quest_progress) == 5, \
+            f"读档后 8 任务完成 3 个应剩 5 个: {len(vm.data.quest_progress)}"
 
         print("SMOKE OK: 任务系统全部断言通过")
     finally:

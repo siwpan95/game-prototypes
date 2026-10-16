@@ -49,7 +49,7 @@ def main():
 
         # 掉落配置
         assert config.enemies[1].drop_item_id == 1 and config.enemies[1].drop_rate == 0.25
-        assert config.enemies[3].drop_item_id == 0, "装甲虫应不掉落"
+        assert config.enemies[3].drop_item_id == 20, "装甲虫应掉落宠物项圈（支线任务物）"
 
         class _Data:
             pass
@@ -88,7 +88,7 @@ def main():
         data.gold = 0
         data.inventory = []
         data.quest_progress = []
-        data.current_enemy = Enemy(config.enemies[3])  # 装甲虫 drop=0
+        data.current_enemy = Enemy(config.enemies[12])  # 大象 drop=0
         data.add_log = lambda msg: None
         result = battle_mod.BattleEngine.resolve_victory(data, config.items)
         assert result.item_dropped is None, "不掉落配置应生效"

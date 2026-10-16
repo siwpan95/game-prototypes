@@ -164,6 +164,11 @@ class GameData:
         self.camouflage_steps = 0
         # 已拥有战车 ID 集合（车库）
         self.owned_vehicle_ids = {1}
+        # 剧情进度：章节号 + 事件标志
+        self.story_chapter = 0
+        self.story_flags = set()
+        # 怪物击破数（图鉴）：enemy_id -> count
+        self.enemy_kills = {}
 
         # 日志
         self.log_messages = []  # list[str]
@@ -216,6 +221,9 @@ class GameData:
             "bounty_claimed": sorted(self.bounty_claimed),
             "camouflage_steps": self.camouflage_steps,
             "owned_vehicle_ids": sorted(self.owned_vehicle_ids),
+            "story_chapter": self.story_chapter,
+            "story_flags": sorted(self.story_flags),
+            "enemy_kills": {str(k): v for k, v in self.enemy_kills.items()},
         }
 
     @classmethod
@@ -260,6 +268,10 @@ class GameData:
         gd.bounty_claimed = set(d.get("bounty_claimed", []))
         gd.camouflage_steps = d.get("camouflage_steps", 0)
         gd.owned_vehicle_ids = set(d.get("owned_vehicle_ids", [1]))
+        gd.story_chapter = d.get("story_chapter", 0)
+        gd.story_flags = set(d.get("story_flags", []))
+        gd.enemy_kills = {int(k): int(v)
+                          for k, v in d.get("enemy_kills", {}).items()}
 
         # 状态校正：依赖未持久化临时对象的状态一律回退到 WORLD
         try:

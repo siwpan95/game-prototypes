@@ -9,6 +9,7 @@ from .game_state import GameState, GameData, Direction, QuestTrack, QuestManager
 from .battle import BattleEngine
 from .bounty import BountyManager, BountyStatus
 from .mod_shop import ModShop
+from .story import StoryManager
 from .map_manager import MapManager, VIEWPORT_W, VIEWPORT_H
 from .infinite_map import InfiniteTerrain
 
@@ -23,6 +24,7 @@ __all__ = [
     "BattleEngine",
     "BountyManager", "BountyStatus",
     "ModShop",
+    "StoryManager",
     "MapManager", "VIEWPORT_W", "VIEWPORT_H",
     "InfiniteTerrain",
 ]

@@ -158,16 +158,22 @@ class MapData:
     is_town: bool = False      # 是否城镇地图
     entrance_x: int = -1       # 荒野入口坐标（-1 = 无）
     entrance_y: int = -1
+    intro: str = ""            # 城镇/地图简介（首访时显示）
 
 @dataclass
 class NPCData:
     id: int
     name: str
     role: str
-    dialog: str
+    dialog: str          # 兼容字段：默认段（无条件）
     location_x: int
     location_y: int
     map_id: int
+    dialogs: list = None  # 对话树：[(条件或None, 文本), ...]，渲染时取第一个满足条件的段
+
+    def __post_init__(self):
+        if self.dialogs is None:
+            self.dialogs = [(None, self.dialog)]
 
 @dataclass
 class SkillData:
@@ -343,25 +349,44 @@ class ConfigLoader:
                     is_town=_to_bool(_col(row, '是否城镇', False), False),
                     entrance_x=int(_col(row, '入口X', -1)),
                     entrance_y=int(_col(row, '入口Y', -1)),
+                    intro=str(_col(row, '简介', '') or ''),
                 )
                 self.maps[map_data.id] = map_data
             print(f"加载了 {len(self.maps)} 个地图配置")
         except Exception as e:
             print(f"加载地图配置失败: {e}")
     
+    @staticmethod
+    def _parse_dialogs(raw: str) -> list:
+        """解析对话树：| 分段；[cond]前缀 → (条件, 文本)，无前缀 → (None, 文本)"""
+        segments = []
+        for part in str(raw).split('|'):
+            part = part.strip()
+            if not part:
+                continue
+            if part.startswith('[') and ']' in part:
+                cond, text = part[1:].split(']', 1)
+                segments.append((cond.strip(), text.strip()))
+            else:
+                segments.append((None, part))
+        return segments or [(None, str(raw))]
+
     def _load_npcs(self):
         """加载NPC配置"""
         try:
             df = pd.read_excel(self.excel_path, sheet_name='NPCs')
             for _, row in df.iterrows():
+                dialogs = self._parse_dialogs(str(row['对话']))
                 npc = NPCData(
                     id=int(row['ID']),
                     name=str(row['名称']),
                     role=str(row['角色']),
-                    dialog=str(row['对话']),
+                    dialog=next((text for cond, text in dialogs if cond is None),
+                                dialogs[0][1]),
                     location_x=int(row['X坐标']),
                     location_y=int(row['Y坐标']),
-                    map_id=int(row['地图ID'])
+                    map_id=int(row['地图ID']),
+                    dialogs=dialogs,
                 )
                 self.npcs[npc.id] = npc
             print(f"加载了 {len(self.npcs)} 个NPC配置")

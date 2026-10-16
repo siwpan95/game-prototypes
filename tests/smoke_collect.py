@@ -54,8 +54,8 @@ def main():
         vm.command_interact()
         assert sum(1 for v in d.vehicles if v.id == 2) == 1, "不应重复获得"
 
-        # ── site 付费：警车 (28,12) 金币不足 ──
-        d.player_x, d.player_y = 28, 11
+        # ── site 付费：警车 (46,10) 帕特港附近，金币不足 ──
+        d.player_x, d.player_y = 46, 9
         vm.command_move(Direction.DOWN)
         vm.command_interact()
         assert 8 not in d.owned_vehicle_ids, "金币不足不应获得"

@@ -65,10 +65,10 @@ def main():
         assert "你身处城镇" in view, "城镇地图应有情境提示"
         d.player_y += 1
 
-        # ── 城镇内遇 NPC（商人 在 (10,10)）──
-        d.player_x, d.player_y = 9, 10
+        # ── 城镇内遇 NPC（商人·老周 在 (8,9) 伊尔镇）──
+        d.player_x, d.player_y = 7, 9
         npc = MapManager.try_move(d, 1, 0, config.npcs)
-        assert npc is not None and npc.name == "商人", f"应遇到商人: {npc}"
+        assert npc is not None and npc.name == "商人·老周", f"应遇到商人: {npc}"
         assert d.state == GameState.DIALOG or True  # try_move 不切状态，由 VM 处理
 
         # ── 商店按地图匹配 ──

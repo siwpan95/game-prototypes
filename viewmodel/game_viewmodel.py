@@ -10,6 +10,7 @@ from model import (
     Character, Enemy, Item, Vehicle, NPC, Skill,
     GameState, GameData, Direction, QuestTrack, QuestManager,
     BattleEngine, MapManager, InfiniteTerrain, BountyManager, ModShop,
+    StoryManager,
 )
 
 
@@ -89,6 +90,17 @@ class GameViewModel:
 
         # 地图
         MapManager.create_map(self.data, self.config.maps, self.config.npcs)
+
+        # 开场叙事（序章）
+        cls = self.data.player.class_data
+        cls_name = cls.name if cls is not None else "猎人"
+        for line in (
+            f"—— {cls_name}雷班纳，伊尔镇的赏金新手 ——",
+            "大破坏后的第一百年。世界归了钢铁，人守着残存的镇子。",
+            "你有一辆吉普车、一把猎枪，和一个空空的悬赏榜。",
+            "去荒野吧。B 是通缉犯，V 是没主的战车，□ 是镇子的门。",
+        ):
+            self.data.add_log(line)
 
         self.data.add_log("欢迎来到重装机兵的世界！")
 
@@ -437,7 +449,43 @@ class GameViewModel:
         npc = self.data.current_npc
         if not npc:
             return ""
-        return f"=== {npc.name} ===\n\n{npc.dialog}\n\n\n按空格键继续..."
+        # 剧情章节展开时优先显示章节文本
+        if self.data.story_chapter >= 1 and getattr(npc, "id", None) == 10 \
+                and self.data.story_chapter == 4:
+            story = StoryManager.chapter_text(4)
+            if story:
+                return (f"=== 剧情·{StoryManager.CHAPTER_NAMES[4]} ===\n\n"
+                        f"{story}\n\n\n按空格键继续...")
+        text = self._pick_npc_dialog(npc)
+        return f"=== {npc.name} ===\n\n{text}\n\n\n按空格键继续..."
+
+    def _pick_npc_dialog(self, npc) -> str:
+        """对话树取段：条件段按定义顺序从新到旧（后定义优先），
+        取第一个满足条件的；全不满足时用默认段兜底"""
+        segments = npc.dialogs or [(None, npc.dialog)]
+        default = next((t for c, t in segments if c is None), npc.dialog)
+        for cond, text in reversed(segments):
+            if cond is not None and self._check_dialog_cond(cond):
+                return text
+        return default
+
+    def _check_dialog_cond(self, cond: str) -> bool:
+        """对话条件：chapter>=N / chapter==N / flag:名 / !flag:名"""
+        d = self.data
+        cond = cond.strip()
+        if cond.startswith("chapter"):
+            op = ">=" if ">=" in cond else ("==" if "==" in cond else None)
+            if op and op in cond:
+                num = int(cond.split(op)[1].strip().split()[0])
+                if op == ">=":
+                    return d.story_chapter >= num
+                return d.story_chapter == num
+            return False
+        if cond.startswith("flag:"):
+            return cond[5:].strip() in d.story_flags
+        if cond.startswith("!flag:"):
+            return cond[6:].strip() not in d.story_flags
+        return False
 
     def _render_quests(self) -> str:
         """渲染任务日志"""
@@ -618,6 +666,12 @@ class GameViewModel:
         else:
             d.state = GameState.WORLD
             d.add_log(f"来到了{map_data.name}。")
+        # 首访简介（地图/城镇介绍，visited 标记记入剧情 flags）
+        if map_data.intro:
+            visited_key = f"visited_map_{map_id}"
+            if visited_key not in d.story_flags:
+                d.story_flags.add(visited_key)
+                d.add_log(f"【{map_data.name}】{map_data.intro}")
         QuestManager.track_explore_map(d, map_id)
         self._notify_state()
 
@@ -655,8 +709,12 @@ class GameViewModel:
 
     def command_start_dialog(self, npc_data):
         self.data.current_npc = npc_data
+        # 剧情钩子：与文徇对话推进章节
+        story_text = StoryManager.on_npc_dialog(self.data, npc_data.id)
         self.data.state = GameState.DIALOG
         self.data.add_log(f"与{npc_data.name}交谈")
+        if story_text:
+            self.data.add_log("（新的章节展开了……）")
         self._notify_state()
 
     # ═══════════════════════════════════════════════════
@@ -876,9 +934,16 @@ class GameViewModel:
         d = self.data
         if d.state in (GameState.MENU, GameState.BATTLE):
             return
-        if d.state in (GameState.INVENTORY, GameState.TOWN,
-                        GameState.SHOP, GameState.DIALOG):
+        if d.state in (GameState.INVENTORY, GameState.TOWN, GameState.SHOP):
             d.state = GameState.WORLD
+            self._notify_state()
+        elif d.state == GameState.DIALOG:
+            # 任务日志/图鉴等：从城镇打开的回城镇状态，否则回荒野
+            m = self.config.maps.get(d.current_map_id)
+            if m is not None and m.is_town:
+                d.state = GameState.TOWN
+            else:
+                d.state = GameState.WORLD
             self._notify_state()
         elif d.state == GameState.BOUNTY:
             d.state = GameState.TOWN  # 悬赏榜返回城镇菜单
@@ -1075,6 +1140,35 @@ class GameViewModel:
             })()
             self._notify_state()
 
+    def command_show_codex(self):
+        """显示怪物图鉴（击破数）"""
+        d = self.data
+        if d.state in (GameState.WORLD, GameState.TOWN):
+            d.state = GameState.DIALOG
+            d.current_npc = type('obj', (object,), {
+                'name': '怪物图鉴',
+                'dialog': self._render_codex()
+            })()
+            self._notify_state()
+
+    def _render_codex(self) -> str:
+        """怪物图鉴：已击破显示详情与击破数，未遭遇显示 ???"""
+        d = self.data
+        lines = ["=== 怪物图鉴 ===\n\n"]
+        total, seen = len(self.config.enemies), 0
+        for eid in sorted(self.config.enemies.keys()):
+            ed = self.config.enemies[eid]
+            kills = d.enemy_kills.get(eid, 0)
+            if kills > 0:
+                seen += 1
+                lines.append(f"◆ {ed.name}  [{ed.category}]  击破 {kills}\n")
+                lines.append(f"   {ed.description}\n\n")
+            else:
+                lines.append(f"◇ ？？？  [???]  未遭遇\n")
+        lines.append(f"\n图鉴进度: {seen}/{total}")
+        lines.append("\n\n按ESC返回...")
+        return "".join(lines)
+
     # ═══════════════════════════════════════════════════
     # 命令 — 悬赏榜（城镇设施）
     # ═══════════════════════════════════════════════════
@@ -1106,6 +1200,12 @@ class GameViewModel:
             payout = BountyManager.claim(d, bounty_id)
             if payout > 0:
                 d.add_log(f"领取了{bounty.name}的悬赏，获得 {payout} 金币！")
+                # 剧情钩子：首次领赏 → 悬赏之路
+                story_text = StoryManager.on_bounty_claimed(d, bounty_id)
+                if story_text:
+                    for line in story_text.splitlines():
+                        if line.strip():
+                            d.add_log(line)
         elif status == "active":
             d.add_log(f"悬赏进行中: {bounty.name}，目标在荒野中（地图标记 B）。")
         else:
@@ -1205,6 +1305,12 @@ class GameViewModel:
                 + f"\n{bounty.name}拦住了去路：“下车吧，这不是钢铁该管的事。”"
             )
         d.add_log(f"遭遇了赏金首{bounty.name}！")
+        # 剧情钩子：首次遭遇赏金首 → 红狼夺炮
+        story_text = StoryManager.on_bounty_encounter(d)
+        if story_text:
+            for line in story_text.splitlines():
+                if line.strip():
+                    d.add_log(line)
         self._notify_state()
 
     def command_toggle_vehicle(self):
@@ -1234,6 +1340,12 @@ class GameViewModel:
             self.data.player.vehicle.battle_atk_mult = 1.0
         self.data.player.combat_on_foot = False
         BattleEngine.end_battle(self.data)
+        # 剧情钩子：战斗结束检查第 5 章
+        story_text = StoryManager.on_battle_end(self.data)
+        if story_text:
+            for line in story_text.splitlines():
+                if line.strip():
+                    self.data.add_log(line)
 
     def _apply_battle_result(self, result):
         """应用战斗回合结果"""
@@ -1241,7 +1353,7 @@ class GameViewModel:
             self.battle_text.set(self.battle_text.get() + msg + "\n")
 
         if result.player_dead:
-            self.data.add_log("你战败了...")
+            self.data.add_log("你战败了。荒野收下了战车，等着下一个不甘心的人。")
             if self.on_game_over:
                 self.on_game_over()
             return
@@ -1263,6 +1375,21 @@ class GameViewModel:
                     )
                     # 掉落计入收集任务
                     QuestManager.track_collect(self.data, vr.item_dropped.id)
+                # 击破数（图鉴用）
+                dead_enemy = self.data.current_enemy
+                if dead_enemy is not None:
+                    eid = dead_enemy.data.id
+                    self.data.enemy_kills[eid] = self.data.enemy_kills.get(eid, 0) + 1
+                # 剧情钩子：诺亚碎片 → 终章
+                story_text = None
+                if dead_enemy is not None:
+                    story_text = StoryManager.on_enemy_defeated(
+                        self.data, dead_enemy.data.id
+                    )
+                if story_text:
+                    for line in story_text.splitlines():
+                        if line.strip():
+                            self.data.add_log(line)
                 # 赏金首结算（接取状态下击杀即时入账）
                 bounty_id = self.data.current_bounty_id
                 if bounty_id is not None:
@@ -1280,6 +1407,12 @@ class GameViewModel:
                                 + f"\n{bounty.name}已被击败，回城镇悬赏榜可领取悬赏。"
                             )
                     self.data.current_bounty_id = None
+                    # 剧情钩子：击败戈麦斯 → 红狼之死
+                    story_text = StoryManager.on_bounty_defeated(self.data, bounty_id)
+                    if story_text:
+                        for line in story_text.splitlines():
+                            if line.strip():
+                                self.data.add_log(line)
                     # 剧情战车：击败指定赏金首获得（红狼战车 ← 戈麦斯）
                     for vd in self.config.vehicles.values():
                         if (vd.acquire_type == "bounty"

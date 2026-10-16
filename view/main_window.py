@@ -89,6 +89,7 @@ class MainWindow:
             ("物品(I)", lambda: self.vm.command_open_inventory()),
             ("战车(V)", self._show_vehicles),
             ("任务(Q)", lambda: self.vm.command_show_quests()),
+            ("图鉴(K)", lambda: self.vm.command_show_codex()),
             ("休息(R)", lambda: self.vm.command_rest()),
         ]
         ButtonBar(self.info_panel, buttons).pack(fill=tk.X, padx=10, pady=5)
@@ -242,6 +243,7 @@ class MainWindow:
         root.bind("<i>", lambda e: self.vm.command_open_inventory())
         root.bind("<v>", lambda e: self._show_vehicles())
         root.bind("<q>", lambda e: self.vm.command_show_quests())
+        root.bind("<k>", lambda e: self.vm.command_show_codex())
         root.bind("<r>", lambda e: self.vm.command_rest())
         root.bind("<s>", lambda e: self._on_save())
         root.bind("<Key>", self._handle_key)
@@ -417,7 +419,13 @@ class MainWindow:
             self.vm.command_switch_vehicle(idx - 1)
 
     def _on_game_over(self):
-        show_messagebox("游戏结束", "你战败了！游戏将重新开始。")
+        show_messagebox(
+            "倒下",
+            "视野里最后一片红色散去。\n\n"
+            "荒野从不埋葬任何人——它只是收下战车，\n"
+            "再等着下一个不甘心的人来把它挖出来。\n\n"
+            "（游戏将重新开始）"
+        )
         self._on_new_game()
 
     def _show_help(self):
@@ -426,8 +434,9 @@ class MainWindow:
         方向键：移动角色
         空格键：互动/确认
         I键：打开物品栏
-        V键：查看战车
+        V键：查看战车（序号切换驾驶）
         Q键：任务日志
+        K键：怪物图鉴
         R键：休息（仅在城镇）
         S键：保存（3 槽位）
         ESC键：暂停菜单/返回
