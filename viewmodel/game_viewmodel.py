@@ -718,11 +718,45 @@ class GameViewModel:
         self.data.current_npc = npc_data
         # 剧情钩子：与文徇对话推进章节
         story_text = StoryManager.on_npc_dialog(self.data, npc_data.id)
+        # 支线钩子：四面镜合成（文徇）
+        if npc_data.id == 10:
+            self._try_synthesize_laser()
         self.data.state = GameState.DIALOG
         self.data.add_log(f"与{npc_data.name}交谈")
         if story_text:
             self.data.add_log("（新的章节展开了……）")
         self._notify_state()
+
+    # 四面镜合成：四片各一 → 4342 型激光炮（500 攻主炮）
+    LENS_IDS = (21, 22, 23, 24)
+    LASER_WEAPON_ID = 14
+
+    def _try_synthesize_laser(self):
+        """四面镜合成：镜片由神秘人/弗朗/波特/沙漠之舟必掉，找文徇合成"""
+        d = self.data
+        counts = []
+        for lid in self.LENS_IDS:
+            n = sum(1 for it in d.inventory if it.id == lid)
+            if n < 1:
+                return  # 集不齐，静默返回
+            counts.append(n)
+        v = d.current_vehicle
+        weapon = self.config.get_weapon_by_id(self.LASER_WEAPON_ID)
+        if v is None or weapon is None:
+            return
+        if not v.can_equip(weapon):
+            d.add_log("文徇：“四面镜都齐了……但你的主炮孔满了，开了孔再来。”")
+            return
+        for lid in self.LENS_IDS:
+            for it in d.inventory:
+                if it.id == lid:
+                    d.inventory.remove(it)
+                    break
+        v.equip_weapon(weapon)
+        d.story_flags.add("laser_synthesized")
+        d.add_log("四面镜在文徇手中拼合——光束聚成一线！")
+        d.add_log(f"获得传说主炮：4342 型激光炮（攻击 500），已装上{v.name}！")
+        d.add_log("文徇：“红狼没能看到的黎明，替他看一眼。”")
 
     # ═══════════════════════════════════════════════════
     # 命令 — 战斗
@@ -863,8 +897,7 @@ class GameViewModel:
             else:
                 d.add_log("没有战车可以使用燃料！")
         elif item.type == "buff":
-            d.add_log(f"使用了{item.name}，感觉充满了力量！（buff 效果下阶段实装）")
-            d.inventory.pop(index)
+            d.add_log(f"{item.name}要在战斗中使用才有效。")
         else:
             d.add_log(f"{item.name}现在不能使用。")
 
@@ -1158,8 +1191,19 @@ class GameViewModel:
             })()
             self._notify_state()
 
+    def command_show_handnotes(self):
+        """显示博士手记（按章节解锁的世界观文档）"""
+        d = self.data
+        if d.state in (GameState.WORLD, GameState.TOWN, GameState.MENU):
+            d.state = GameState.DIALOG
+            d.current_npc = type('obj', (object,), {
+                'name': '博士手记',
+                'dialog': StoryManager.handnote_text(d.story_chapter)
+            })()
+            self._notify_state()
+
     def _render_codex(self) -> str:
-        """怪物图鉴：已击破显示详情与击破数，未遭遇显示 ???"""
+        """图鉴：怪物（击破数）+ 赏金首（已领取的显示悬赏详情）"""
         d = self.data
         lines = ["=== 怪物图鉴 ===\n\n"]
         total, seen = len(self.config.enemies), 0
@@ -1173,6 +1217,19 @@ class GameViewModel:
             else:
                 lines.append(f"◇ ？？？  [???]  未遭遇\n")
         lines.append(f"\n图鉴进度: {seen}/{total}")
+
+        # 赏金首图鉴：已领取的解锁详情
+        lines.append("\n=== 赏金首档案 ===\n\n")
+        b_seen = 0
+        for bid in sorted(self.config.bounties.keys()):
+            b = self.config.bounties[bid]
+            if bid in d.bounty_claimed:
+                b_seen += 1
+                lines.append(f"◆ {b.name}  悬赏 {b.reward}G  （已缉拿）\n")
+                lines.append(f"   {b.description}\n\n")
+            else:
+                lines.append(f"◇ ？？？  悬赏 {b.reward}G  在逃\n")
+        lines.append(f"档案进度: {b_seen}/{len(self.config.bounties)}")
         lines.append("\n\n按ESC返回...")
         return "".join(lines)
 

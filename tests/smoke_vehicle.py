@@ -33,7 +33,7 @@ def main():
         assert len(config.chassis) == 8, f"应有 8 个底盘: {len(config.chassis)}"
         assert len(config.engines) == 6, f"应有 6 个引擎: {len(config.engines)}"
         assert len(config.cunits) == 4, f"应有 4 个C装置: {len(config.cunits)}"
-        assert len(config.weapons) == 13, f"应有 13 个武器: {len(config.weapons)}"
+        assert len(config.weapons) == 14, f"应有 14 个武器: {len(config.weapons)}"
         assert len(config.vehicles) == 8, f"应有 8 辆战车: {len(config.vehicles)}"
 
         # ── 起始战车（吉普车 = 野驴底 + MOT1 + 艾米 + 15机关炮） ──

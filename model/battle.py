@@ -358,6 +358,12 @@ class BattleEngine:
             else:
                 result.messages.append("没有战车可以使用燃料！")
                 consumed = False
+        elif effect == "buff_atk":
+            # 兴奋剂类：本场攻击提升
+            player.battle_atk_mult += value / 100
+            result.messages.append(
+                f"{player.name}使用了{item.name}，攻击提升{value}%！"
+            )
         elif effect == "buff_atkdef":
             # 军号：攻防大幅提升；20% 几率损坏（仍生效）
             player.battle_atk_mult += value / 100

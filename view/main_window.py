@@ -251,6 +251,7 @@ class MainWindow:
         root.bind("<v>", lambda e: self._show_vehicles())
         root.bind("<q>", lambda e: self.vm.command_show_quests())
         root.bind("<k>", lambda e: self.vm.command_show_codex())
+        root.bind("<h>", lambda e: self.vm.command_show_handnotes())
         root.bind("<m>", lambda e: show_messagebox(
             "静音", "已开启静音。" if self.audio.toggle_mute() else "已恢复声音。"))
         root.bind("<r>", lambda e: self.vm.command_rest())
