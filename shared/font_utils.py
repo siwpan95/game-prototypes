@@ -21,7 +21,13 @@ import sys
 
 import pygame
 
-__all__ = ["load_font", "load_cjk_font", "available_families", "clear_cache"]
+__all__ = [
+    "load_font",
+    "load_cjk_font",
+    "available_families",
+    "supports_cjk",
+    "clear_cache",
+]
 
 # Families that carry CJK glyphs, most preferred first. Resolved by name via
 # SysFont, which maps a family name onto whatever the running platform provides.
@@ -48,7 +54,7 @@ _LATIN_FAMILIES: tuple[str, ...] = (
     "Arial",
 )
 
-_cache: dict[tuple[str, int, bool], pygame.font.Font] = {}
+_cache: dict[tuple[int, bool], pygame.font.Font] = {}
 _warned = False
 
 
@@ -71,7 +77,7 @@ def _pick_family(prefer_cjk: bool) -> str | None:
 
 
 def _resolve(prefer_cjk: bool) -> tuple[str | None, bool]:
-    """Return ``(family_or_None, found_cjk_family)``."""
+    """Return ``(family_or_None, found_cjk_family)`` (diagnostics only)."""
     family = _pick_family(prefer_cjk)
     if family is None and prefer_cjk:
         return None, False
@@ -79,46 +85,79 @@ def _resolve(prefer_cjk: bool) -> tuple[str | None, bool]:
     return family, is_cjk
 
 
+#: A character no Latin-only font can render; used to prove CJK coverage.
+_CJK_PROBE = "\u89e3"  # 解
+_LATIN_PROBE = "M"
+
+
+def supports_cjk(font: pygame.font.Font) -> bool:
+    """Whether *font* really renders CJK, instead of drawing a tofu box.
+
+    ``pygame.font.SysFont`` falls back to a default font **silently** when the
+    requested family cannot be loaded, and the fallback draws CJK text as empty
+    boxes with no error (pygame issue #3025). Comparing rendered widths is a
+    cheap, dependency-free way to catch that: a font with CJK glyphs gives the
+    ideograph a different advance than a Latin capital.
+    """
+    try:
+        cjk_width = font.size(_CJK_PROBE)[0]
+        latin_width = font.size(_LATIN_PROBE)[0]
+        hei = font.size("\u9ed1")[0]
+        kou = font.size("\u53e3")[0]
+    except Exception:  # pragma: no cover - font backend failure
+        return False
+    if cjk_width <= 0:
+        return False
+    # Two different ideographs of the same size class must both be wider than a
+    # capital, and must measure equal to each other (they share an advance box).
+    return cjk_width > latin_width and hei == kou == cjk_width
+
+
 def load_font(size: int, prefer_cjk: bool = False) -> pygame.font.Font:
     """Load a font at *size* points without relying on a fixed file path.
 
     Args:
         size: point size.
-        prefer_cjk: try CJK-capable families first (Chinese build).
+        prefer_cjk: pick the first available family that **provably** renders CJK
+            (Chinese build). Families are only trusted after :func:`supports_cjk`
+            confirms them, because SysFont falls back silently.
 
     Returns:
         A :class:`pygame.font.Font`. Falls back to pygame's bundled default
-        (carrying a stderr notice) when the platform exposes no known family.
+        (carrying a stderr notice) when no CJK-capable family can be proven.
     """
     global _warned
-    key = ("cjk" if prefer_cjk else "latin", int(size), prefer_cjk)
-    cached = _cache.get(key)
+    cache_key = (int(size), prefer_cjk)
+    cached = _cache.get(cache_key)
     if cached is not None:
         return cached
 
-    family, found_cjk = _resolve(prefer_cjk)
-    if family is None:
-        font = pygame.font.Font(None, size)
+    font: pygame.font.Font | None = None
+    if prefer_cjk:
+        font = _load_cjk(size)
+    if font is None:
+        family = _pick_family(prefer_cjk)
+        font = pygame.font.SysFont(family, size) if family else pygame.font.Font(None, size)
         if prefer_cjk and not _warned:
             _warned = True
             print(
-                "[font_utils] no CJK-capable system font found; "
-                "falling back to pygame's default font (CJK glyphs may be missing). "
-                "Install one of: " + ", ".join(_CJK_FAMILIES),
+                "[font_utils] no CJK-capable system font could be verified; "
+                "Chinese text may render as boxes. Install one of: "
+                + ", ".join(_CJK_FAMILIES),
                 file=sys.stderr,
             )
-    else:
-        if prefer_cjk and not found_cjk and not _warned:
-            _warned = True
-            print(
-                f"[font_utils] CJK family not installed; using '{family}'. "
-                "CJK glyphs may be missing.",
-                file=sys.stderr,
-            )
-        font = pygame.font.SysFont(family, size)
 
-    _cache[key] = font
+    _cache[cache_key] = font
     return font
+
+
+def _load_cjk(size: int) -> pygame.font.Font | None:
+    """First CJK family whose rendered output actually contains CJK glyphs."""
+    for family in _CJK_FAMILIES:
+        candidate = pygame.font.SysFont(family, size)
+        if supports_cjk(candidate):
+            return candidate
+    return None
 
 
 def load_cjk_font(size: int) -> pygame.font.Font:

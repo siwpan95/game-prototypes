@@ -55,13 +55,20 @@ def _check_font() -> str:
     from shared import font_utils
 
     pygame.init()
+    font_utils.clear_cache()
     font = font_utils.load_cjk_font(20)
     families = sorted(font_utils.available_families())
     height = font.get_height()
+    proven = font_utils.supports_cjk(font)
     pygame.quit()
     if height <= 0:
         raise AssertionError("font has zero height")
-    return f"{len(families)} families visible, CJK font height {height}px"
+    if not proven:
+        raise AssertionError(
+            "the resolved font does not actually render CJK glyphs "
+            f"(SysFont can fall back silently); families visible: {len(families)}"
+        )
+    return f"{len(families)} families visible, CJK glyphs verified, height {height}px"
 
 
 def _wrong_answer_for(puzzle):
