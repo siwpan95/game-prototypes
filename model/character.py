@@ -34,6 +34,8 @@ class Character:
         self.class_data = None  # ClassData，由外部注入
         # 技能冷却：skill_id -> 剩余回合
         self.cooldowns = {}
+        # 步行攻击加成（格斗家伙伴，默认 1.0）
+        self.foot_atk_mult = 1.0
         # 当前乘坐的战车引用（由外部设置）
         self.vehicle: Optional["Vehicle"] = None
 

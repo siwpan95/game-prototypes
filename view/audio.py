@@ -16,6 +16,9 @@ class AudioManager:
             root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             assets_dir = os.path.join(root, "assets", "music")
         self._dir = assets_dir
+        sfx_dir = os.path.join(os.path.dirname(assets_dir), "sfx")
+        self._sfx_dir = sfx_dir
+        self._winsound = None
         self._pygame = None
         self._muted = False
         self._current = None
@@ -26,10 +29,28 @@ class AudioManager:
             self._pygame = pygame
         except Exception:
             self._pygame = None  # 无 pygame / 无音频设备：静默
+        try:
+            import winsound
+            self._winsound = winsound  # Windows 原生，播 SFX wav
+        except Exception:
+            self._winsound = None
 
     @property
     def available(self) -> bool:
         return self._pygame is not None
+
+    def play_sfx(self, name: str):
+        """播放 assets/sfx/<name>.wav（winsound 异步，不阻塞 UI）"""
+        if self._muted or self._winsound is None:
+            return
+        path = os.path.join(self._sfx_dir, name + ".wav")
+        if not os.path.exists(path):
+            return
+        try:
+            self._winsound.PlaySound(
+                path, self._winsound.SND_ASYNC | self._winsound.SND_FILENAME)
+        except Exception:
+            pass
 
     def play(self, name: str, loops: int = -1):
         """循环播放 assets/music/<name>.mp3；同名不重播"""

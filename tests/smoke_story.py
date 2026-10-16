@@ -39,9 +39,9 @@ def main():
         assert config.load_all(), "配置加载失败"
 
         # ── T3.1 十二张地图 ──
-        assert len(config.maps) == 12, f"应有 12 张地图: {len(config.maps)}"
-        assert len(config.npcs) == 14, f"应有 14 个NPC: {len(config.npcs)}"
-        assert len(config.shops) == 5 and len(config.quests) == 8
+        assert len(config.maps) == 13, f"应有 13 张地图: {len(config.maps)}"
+        assert len(config.npcs) == 15, f"应有 15 个NPC: {len(config.npcs)}"
+        assert len(config.shops) == 6 and len(config.quests) == 8
         assert config.maps[12].name == "神殿废墟"
         assert "诺亚" in config.maps[12].intro, "神殿废墟应有简介文案"
         # 城镇首访简介

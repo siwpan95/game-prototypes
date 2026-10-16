@@ -39,8 +39,10 @@ class BattleEngine:
 
     @staticmethod
     def calculate_damage(attacker: Character, defender: Character) -> int:
-        """计算攻击伤害"""
+        """计算攻击伤害（格斗家伙伴：步行战斗攻击加成）"""
         base = attacker.attack + random.randint(-5, 5)
+        if attacker.combat_on_foot:
+            base = int(base * getattr(attacker, "foot_atk_mult", 1.0))
         return defender.take_damage(max(1, base))
 
     @staticmethod

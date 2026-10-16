@@ -169,6 +169,8 @@ class GameData:
         self.story_flags = set()
         # 怪物击破数（图鉴）：enemy_id -> count
         self.enemy_kills = {}
+        # 已招募伙伴 ID 集合
+        self.partners = set()
 
         # 日志
         self.log_messages = []  # list[str]
@@ -224,6 +226,7 @@ class GameData:
             "story_chapter": self.story_chapter,
             "story_flags": sorted(self.story_flags),
             "enemy_kills": {str(k): v for k, v in self.enemy_kills.items()},
+            "partners": sorted(self.partners),
         }
 
     @classmethod
@@ -272,6 +275,7 @@ class GameData:
         gd.story_flags = set(d.get("story_flags", []))
         gd.enemy_kills = {int(k): int(v)
                           for k, v in d.get("enemy_kills", {}).items()}
+        gd.partners = set(d.get("partners", []))
 
         # 状态校正：依赖未持久化临时对象的状态一律回退到 WORLD
         try:

@@ -28,6 +28,7 @@ class MainWindow:
         # 启动 VM 回调
         vm.on_game_over = self._on_game_over
         vm.on_state_changed = self._on_state_changed
+        vm.on_battle_sfx = self._on_battle_sfx
 
     def _setup_window(self):
         self.root.title("重装机兵同人·锈色黎明 - Metal Max Fan Game")
@@ -234,6 +235,10 @@ class MainWindow:
         if state == GameState.WORLD and d.current_map_id in (5, 12):
             bgm = "dungeon"
         self.audio.play(bgm)
+
+    def _on_battle_sfx(self, kind: str):
+        """战斗事件音效（VM 回调：encounter/victory/defeat/levelup）"""
+        self.audio.play_sfx(kind)
 
     # ═══════════════════════════════════════════════════
     # 键盘绑定

@@ -31,7 +31,7 @@ def main():
         assert config.load_all(), "配置加载失败"
 
         # ── 新道具配置 ──
-        assert len(config.items) == 25, f"应有 25 个物品: {len(config.items)}"
+        assert len(config.items) == 27, f"应有 27 个物品: {len(config.items)}"
         assert config.items[11].name == "军号" and config.items[11].effect_type == "buff_atkdef"
         assert config.items[12].name == "烟幕弹" and config.items[12].use_scene == "车"
         assert config.items[13].name == "雷达" and config.items[13].use_scene == "车"

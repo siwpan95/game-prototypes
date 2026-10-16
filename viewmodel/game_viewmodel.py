@@ -43,6 +43,7 @@ class GameViewModel:
         self.on_battle_hide: Optional[Callable] = None
         self.on_game_over: Optional[Callable] = None
         self.on_state_changed: Optional[Callable] = None
+        self.on_battle_sfx: Optional[Callable] = None
         self.on_skill_panel_changed: Optional[Callable] = None
 
         self._last_update = time.time()
@@ -721,11 +722,64 @@ class GameViewModel:
         # 支线钩子：四面镜合成（文徇）
         if npc_data.id == 10:
             self._try_synthesize_laser()
+        # 伙伴钩子：招募（章节达标且未招募）
+        partner = self.config.get_partner_by_npc(npc_data.id)
+        if partner is not None and partner.id not in self.data.partners \
+                and self.data.story_chapter >= partner.recruit_chapter:
+            self._recruit_partner(partner)
         self.data.state = GameState.DIALOG
         self.data.add_log(f"与{npc_data.name}交谈")
         if story_text:
             self.data.add_log("（新的章节展开了……）")
         self._notify_state()
+
+    def _recruit_partner(self, partner):
+        """招募伙伴"""
+        d = self.data
+        d.partners.add(partner.id)
+        d.add_log(f"—— {partner.name} 加入了队伍！{partner.description}")
+        d.add_log(f"当前同行：{'、'.join(self.partner_names()) or '无'}")
+        self._sync_partner_bonuses()
+
+    def _sync_partner_bonuses(self):
+        """把伙伴被动效果同步到角色属性（招募/读档后调用）"""
+        player = self.data.player
+        if player is None:
+            return
+        player.foot_atk_mult = 1.25 if self._has_partner_effect("foot_atk") else 1.0
+
+    def _mechanic_repair(self):
+        """机械师伙伴：战斗结束后小修战车"""
+        v = self.data.current_vehicle
+        if v is None or not v.is_alive():
+            return
+        plates = 0
+        hp = int(v.max_hp * 0.1)
+        for pid in self.data.partners:
+            p = self.config.partners.get(pid)
+            if p is not None and p.effect_type == "repair":
+                plates = p.effect_value
+        if plates <= 0:
+            return
+        v.armor_plates = min(v.max_plates, v.armor_plates + plates)
+        v.hp = min(v.max_hp, v.hp + hp)
+        self.data.add_log(
+            f"机械师在战斗间隙检修了战车（装甲片+{plates}，HP+{hp}）。"
+        )
+
+    def partner_names(self):
+        """已招募伙伴名列表"""
+        return [self.config.partners[pid].name
+                for pid in sorted(self.data.partners)
+                if pid in self.config.partners]
+
+    def _has_partner_effect(self, effect_type: str) -> bool:
+        """队伍中是否有指定效果类型的伙伴"""
+        for pid in self.data.partners:
+            p = self.config.partners.get(pid)
+            if p is not None and p.effect_type == effect_type:
+                return True
+        return False
 
     # 四面镜合成：四片各一 → 4342 型激光炮（500 攻主炮）
     LENS_IDS = (21, 22, 23, 24)
@@ -1327,6 +1381,7 @@ class GameViewModel:
         # 注意：不在此处触发探索任务追踪——进度已随存档保存，
         # 重复触发会在"站在目标地图里读档"时误判新任务完成。
         MapManager.create_map(self.data, self.config.maps, self.config.npcs)
+        self._sync_partner_bonuses()
         self._notify_state()
         self._refresh_all()
         return True
@@ -1346,6 +1401,8 @@ class GameViewModel:
         self.data.state = GameState.BATTLE
         self.data.current_enemy = enemy
         self.battle_text.set(f"遭遇了{enemy.name}！")
+        if self.on_battle_sfx:
+            self.on_battle_sfx("encounter")
         self._notify_state()
 
     def _start_bounty_battle(self, bounty):
@@ -1404,6 +1461,8 @@ class GameViewModel:
             self.data.player.vehicle.battle_atk_mult = 1.0
         self.data.player.combat_on_foot = False
         BattleEngine.end_battle(self.data)
+        # 伙伴钩子：机械师战后小修
+        self._mechanic_repair()
         # 剧情钩子：战斗结束检查第 5 章
         story_text = StoryManager.on_battle_end(self.data)
         if story_text:
@@ -1418,6 +1477,8 @@ class GameViewModel:
 
         if result.player_dead:
             self.data.add_log("你战败了。荒野收下了战车，等着下一个不甘心的人。")
+            if self.on_battle_sfx:
+                self.on_battle_sfx("defeat")
             if self.on_game_over:
                 self.on_game_over()
             return
@@ -1429,10 +1490,14 @@ class GameViewModel:
                 self.battle_text.set(
                     f"胜利！获得{vr.exp_gained}经验和{vr.gold_gained}金币！"
                 )
+                if self.on_battle_sfx:
+                    self.on_battle_sfx("victory")
                 if vr.leveled_up:
                     self.battle_text.set(
                         self.battle_text.get() + f"\n升级了！现在等级 {self.data.player.level}！"
                     )
+                    if self.on_battle_sfx:
+                        self.on_battle_sfx("levelup")
                 if vr.item_dropped:
                     self.battle_text.set(
                         self.battle_text.get() + f"\n获得了{vr.item_dropped.name}！"

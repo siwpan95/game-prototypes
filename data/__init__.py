@@ -4,6 +4,7 @@ from .config_loader import (
     EnemyData, ItemData, VehicleData, MapData,
     NPCData, SkillData, ShopData, QuestData, BountyData,
     ChassisData, EngineData, CUnitData, WeaponData, ClassData,
+    PartnerData,
 )
 from .save_manager import SaveManager
 
@@ -12,5 +13,6 @@ __all__ = [
     "EnemyData", "ItemData", "VehicleData", "MapData",
     "NPCData", "SkillData", "ShopData", "QuestData", "BountyData",
     "ChassisData", "EngineData", "CUnitData", "WeaponData", "ClassData",
+    "PartnerData",
     "SaveManager",
 ]

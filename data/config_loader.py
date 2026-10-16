@@ -201,6 +201,19 @@ class ClassData:
     signature_skill: str = ""
     description: str = ""
 
+
+@dataclass
+class PartnerData:
+    """伙伴（规划 T3.2：机械师/格斗家式同伴）"""
+    id: int
+    name: str
+    role: str
+    description: str = ""
+    recruit_npc: int = 0        # 招募 NPC 的 id（与其对话且章节达标即加入）
+    recruit_chapter: int = 0    # 招募所需最低章节
+    effect_type: str = ""       # repair / foot_atk
+    effect_value: int = 0
+
 @dataclass
 class ShopData:
     id: int
@@ -250,6 +263,7 @@ class ConfigLoader:
         self.npcs: Dict[int, NPCData] = {}
         self.skills: Dict[int, SkillData] = {}
         self.classes: Dict[int, ClassData] = {}
+        self.partners: Dict[int, PartnerData] = {}
         self.shops: Dict[int, ShopData] = {}
         self.quests: Dict[int, QuestData] = {}
         self.bounties: Dict[int, BountyData] = {}
@@ -273,6 +287,7 @@ class ConfigLoader:
             self._load_npcs()
             self._load_skills()
             self._load_classes()
+            self._load_partners()
             self._load_shops()
             self._load_quests()
             self._load_bounties()
@@ -439,6 +454,35 @@ class ConfigLoader:
 
     def get_class_by_id(self, class_id: int) -> Optional[ClassData]:
         return self.classes.get(class_id)
+
+    def _load_partners(self):
+        """加载伙伴配置（缺表时静默跳过）"""
+        try:
+            df = pd.read_excel(self.excel_path, sheet_name='Partners')
+            for _, row in df.iterrows():
+                partner = PartnerData(
+                    id=int(row['ID']),
+                    name=str(row['名称']),
+                    role=str(row['角色']),
+                    description=str(_col(row, '描述', '') or ''),
+                    recruit_npc=int(_col(row, '招募NPC', 0)),
+                    recruit_chapter=int(_col(row, '招募条件', 0)),
+                    effect_type=str(_col(row, '效果类型', '') or ''),
+                    effect_value=int(_col(row, '效果值', 0)),
+                )
+                self.partners[partner.id] = partner
+            print(f"加载了 {len(self.partners)} 个伙伴配置")
+        except Exception as e:
+            if "No sheet named" in str(e) or "Worksheet" in str(e):
+                return
+            print(f"加载伙伴配置失败: {e}")
+
+    def get_partner_by_npc(self, npc_id: int) -> Optional[PartnerData]:
+        """按招募 NPC 反查伙伴"""
+        for p in self.partners.values():
+            if p.recruit_npc == npc_id:
+                return p
+        return None
     
     def _load_shops(self):
         """加载商店配置"""
