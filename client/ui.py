@@ -7,19 +7,28 @@ import sys
 import time
 
 # Make the project root importable so ``shared.*`` resolves however this file is
-# launched (``python main.py``, ``python text_adventure/main.py``, an IDE, ...).
+# launched (``python main.py``, ``python text_adventure_zh/main.py``, an IDE, ...).
 from shared import ensure_importable
 
 ensure_importable()
 
-from engine import Engine
+from client.engine import Engine
+from client.translations import (
+    MODE_DEFAULT_INDEX,
+    SWATCH_ORDER,
+    hint_bar_at_bottom,
+    label_for_difficulty,
+    label_for_mode,
+    mode_options,
+    tr,
+)
 from gameplay_pool import (
     BasePuzzle, MathPuzzle, RiddlePuzzle, CrosswordPuzzle, SudokuPuzzle,
     GuessNumberPuzzle, WordLadderPuzzle, MinesweeperPuzzle, NonogramPuzzle,
     AnagramPuzzle, MemoryPuzzle, PatternPuzzle, HangmanPuzzle, Puzzle2048,
     ColorSequencePuzzle,
 )
-from gameplay_pool.color_sequence import COLOR_RGB, COLOR_BRIGHT
+from gameplay_pool.color_sequence import COLOR_RGB, COLOR_BRIGHT, COLORS
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -28,6 +37,10 @@ WIDTH, HEIGHT = 960, 720
 FPS = 60
 HEADER_H = 50
 FOOTER_H = 50
+
+#: Footer buttons in draw order: dispatch keys (stable across languages) paired with
+#: the translation key for their label.
+FOOTER_KEYS: tuple[str, ...] = ("btn_menu", "btn_hint", "btn_skip", "btn_next")
 
 # Colors
 C_BG        = (30, 30, 46)
@@ -70,10 +83,17 @@ SYMBOL_COLORS: dict[str, tuple] = {
 }
 
 
-def _load_font(size: int) -> pygame.font.Font:
-    """跨平台加载等宽字体"""
-    from shared.font_utils import load_font
-    return load_font(size)
+def _load_font(size: int, prefer_cjk: bool = True) -> pygame.font.Font:
+    """Load a font by family name — no hard-coded font path (see shared/font_utils).
+
+    ``prefer_cjk`` follows the language: the Chinese client always loaded a CJK family
+    (and verified it really renders CJK), while the English client used the Latin
+    family. Keeping that per language means the merged client draws what each old
+    client drew, and an English screen stops picking up a different typeface.
+    """
+    from shared.font_utils import load_cjk_font, load_font
+
+    return load_cjk_font(size) if prefer_cjk else load_font(size)
 
 
 # ---------------------------------------------------------------------------
@@ -82,9 +102,14 @@ def _load_font(size: int) -> pygame.font.Font:
 class Button:
     def __init__(self, rect: pygame.Rect, text: str, font: pygame.font.Font,
                  color: tuple = C_BTN, hover_color: tuple = C_BTN_HOV,
-                 text_color: tuple = C_WHITE, border_radius: int = 6):
+                 text_color: tuple = C_WHITE, border_radius: int = 6,
+                 key: str = ""):
         self.rect = rect
         self.text = text
+        #: Stable identity for dispatching clicks. The label cannot serve this role in
+        #: a multi-language client: dispatching on displayed text means the branch
+        #: changes when the wording does.
+        self.key = key
         self.font = font
         self.color = color
         self.hover_color = hover_color
@@ -113,17 +138,22 @@ class Button:
 # Main UI class
 # ---------------------------------------------------------------------------
 class UI:
-    def __init__(self, engine: Engine):
+    def __init__(self, engine: Engine, lang: str | None = None):
         self.engine = engine
+        #: The language this client speaks. The engine and every puzzle are asked for
+        #: it too, so hints and content match the interface.
+        self.lang = lang or getattr(engine, "lang", None) or "zh"
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Puzzle Game")
+        pygame.display.set_caption(tr("caption", self.lang))
         self.clock = pygame.time.Clock()
 
-        self.font_lg = _load_font(32)
-        self.font_md = _load_font(22)
-        self.font_sm = _load_font(17)
-        self.font_xs = _load_font(14)
+        # Font family follows the language; see _load_font.
+        prefer_cjk = self.lang == "zh"
+        self.font_lg = _load_font(32, prefer_cjk=prefer_cjk)
+        self.font_md = _load_font(22, prefer_cjk=prefer_cjk)
+        self.font_sm = _load_font(17, prefer_cjk=prefer_cjk)
+        self.font_xs = _load_font(14, prefer_cjk=prefer_cjk)
 
         self.screen_state = "menu"  # menu | playing | result
         self._puzzle: BasePuzzle | None = None
@@ -170,9 +200,9 @@ class UI:
         self._puzzle_buttons: list[Button] = []
 
         # Mode/difficulty
-        self._mode_options = ["content_heavy", "balanced", "generated_heavy", "random"]
+        self._mode_options = mode_options(self.lang)
         self._diff_options = ["easy", "medium", "hard", "random"]
-        self._mode_idx = 1
+        self._mode_idx = MODE_DEFAULT_INDEX.get(self.lang, 0)
         self._diff_idx = 1
 
     # -----------------------------------------------------------------------
@@ -215,7 +245,7 @@ class UI:
         # Mode selector
         y = 250
         for i, mode in enumerate(self._mode_options):
-            label = mode.replace("_", " ").title()
+            label = label_for_mode(mode, self.lang)
             if i == self._mode_idx:
                 label = f"[ {label} ]"
             btn = Button(pygame.Rect(cx - 140, y + i * 44, 280, 38), label, self.font_sm,
@@ -225,7 +255,7 @@ class UI:
         # Difficulty selector
         y = 470
         for i, diff in enumerate(self._diff_options):
-            label = diff.title()
+            label = label_for_difficulty(diff, self.lang)
             if i == self._diff_idx:
                 label = f"[ {label} ]"
             btn = Button(pygame.Rect(cx - 140, y + i * 40, 280, 34), label, self.font_sm,
@@ -233,10 +263,10 @@ class UI:
             self._menu_buttons.append(("diff", i, btn))
 
         # Start & Quit buttons
-        btn_start = Button(pygame.Rect(cx - 160, 640, 140, 48), "START", self.font_md,
+        btn_start = Button(pygame.Rect(cx - 160, 640, 140, 48), tr("start", self.lang), self.font_md,
                            color=C_GREEN, hover_color=(100, 220, 140))
         self._menu_buttons.append(("start", 0, btn_start))
-        btn_quit = Button(pygame.Rect(cx + 20, 640, 140, 48), "QUIT", self.font_md,
+        btn_quit = Button(pygame.Rect(cx + 20, 640, 140, 48), tr("quit", self.lang), self.font_md,
                           color=C_RED, hover_color=(240, 100, 100))
         self._menu_buttons.append(("quit", 0, btn_quit))
 
@@ -263,16 +293,16 @@ class UI:
         self.screen.fill(C_BG)
         self._build_menu_buttons()
 
-        title = self.font_lg.render("Puzzle Game", True, C_ACCENT)
+        title = self.font_lg.render(tr("caption", self.lang), True, C_ACCENT)
         self.screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 60))
 
-        sub = self.font_sm.render("A Collection of Brain Teasers", True, C_GRAY)
+        sub = self.font_sm.render(tr("subtitle", self.lang), True, C_GRAY)
         self.screen.blit(sub, (WIDTH // 2 - sub.get_width() // 2, 105))
 
         # Section labels
-        ml = self.font_md.render("Mode", True, C_WHITE)
+        ml = self.font_md.render(tr("section_mode", self.lang), True, C_WHITE)
         self.screen.blit(ml, (WIDTH // 2 - ml.get_width() // 2, 218))
-        dl = self.font_md.render("Difficulty", True, C_WHITE)
+        dl = self.font_md.render(tr("section_difficulty", self.lang), True, C_WHITE)
         self.screen.blit(dl, (WIDTH // 2 - dl.get_width() // 2, 440))
 
         for _, _, btn in self._menu_buttons:
@@ -317,16 +347,16 @@ class UI:
         for ev in events:
             for btn in self._footer_buttons:
                 if btn.clicked(ev):
-                    if btn.text == "Hint":
+                    if btn.key == "btn_hint":
                         self._show_hint_popup()
-                    elif btn.text == "Skip":
+                    elif btn.key == "btn_skip":
                         self.engine.skip_puzzle()
                         self._start_puzzle()
                         return
-                    elif btn.text == "Menu":
+                    elif btn.key == "btn_menu":
                         self.screen_state = "menu"
                         return
-                    elif btn.text == "Next":
+                    elif btn.key == "btn_next":
                         self._start_puzzle()
                         return
 
@@ -381,24 +411,24 @@ class UI:
         self.screen.blit(txt, (10, 12))
 
         score_txt = self.font_sm.render(
-            f"Score: {self.engine.state.score}  Streak: {self.engine.state.streak}", True, C_WHITE
+            tr("score_streak", self.lang, **{"self.engine.state.score": self.engine.state.score, "self.engine.state.streak": self.engine.state.streak}), True, C_WHITE
         )
         self.screen.blit(score_txt, (WIDTH - score_txt.get_width() - 15, 15))
 
         elapsed = int(self.engine.elapsed)
-        time_txt = self.font_sm.render(f"Time: {elapsed}s", True, C_GRAY)
+        time_txt = self.font_sm.render(tr("time", self.lang, elapsed=elapsed), True, C_GRAY)
         self.screen.blit(time_txt, (WIDTH // 2 - time_txt.get_width() // 2, 15))
 
     def _build_footer(self) -> None:
         self._footer_buttons = []
-        labels = ["Menu", "Hint", "Skip", "Next"]
+        labels = [(key, tr(key, self.lang)) for key in FOOTER_KEYS]
         bw = 100
         gap = 20
         total = len(labels) * bw + (len(labels) - 1) * gap
         sx = (WIDTH - total) // 2
-        for i, label in enumerate(labels):
+        for i, (key, label) in enumerate(labels):
             r = pygame.Rect(sx + i * (bw + gap), HEIGHT - FOOTER_H + 8, bw, 34)
-            self._footer_buttons.append(Button(r, label, self.font_sm))
+            self._footer_buttons.append(Button(r, label, self.font_sm, key=key))
 
     def _draw_footer(self) -> None:
         pygame.draw.rect(self.screen, C_PANEL, (0, HEIGHT - FOOTER_H, WIDTH, FOOTER_H))
@@ -435,15 +465,19 @@ class UI:
         self._draw_header()
         self._draw_footer()
 
-        # Hint popup
+        # Hint / feedback bar — placed just above the footer hint button
         if self._last_result.get("hint") and time.time() < self._show_result_until:
             hint = self._last_result["hint"]
-            surf = self.font_md.render(f"Hint: {hint}", True, C_YELLOW)
+            surf = self.font_md.render(tr("hint_bar", self.lang, text=hint), True, C_YELLOW)
             bx = WIDTH // 2 - surf.get_width() // 2 - 10
-            by = HEIGHT // 2 - 20
-            pygame.draw.rect(self.screen, C_DARK, (bx, by, surf.get_width() + 20, 40),
+            # Where the bar sits is a per-language choice: the Chinese client moved it
+            # above the footer so it cannot cover the puzzle, the English one draws it
+            # mid-screen. Preserved per language rather than picked for both.
+            bottom = hint_bar_at_bottom(self.lang)
+            by = (HEIGHT - FOOTER_H - 46) if bottom else (HEIGHT // 2 - 20)
+            pygame.draw.rect(self.screen, C_DARK, (bx, by, surf.get_width() + 20, 36 if bottom else 40),
                              border_radius=8)
-            self.screen.blit(surf, (bx + 10, by + 8))
+            self.screen.blit(surf, (bx + 10, by + (6 if bottom else 8)))
 
         # Draw puzzle-specific UI
         puzzle = self._puzzle
@@ -491,7 +525,7 @@ class UI:
         self.screen.fill(C_BG)
         r = self._last_result
         correct = r.get("correct", False)
-        msg = "Correct!" if correct else "Wrong!"
+        msg = tr("correct" if correct else "wrong", self.lang)
         color = C_GREEN if correct else C_RED
 
         txt = self.font_lg.render(msg, True, color)
@@ -499,14 +533,14 @@ class UI:
 
         if correct:
             pts = r.get("points", 0)
-            pt = self.font_md.render(f"+{pts} points", True, C_YELLOW)
+            pt = self.font_md.render(tr("points", self.lang, points=pts), True, C_YELLOW)
             self.screen.blit(pt, (WIDTH // 2 - pt.get_width() // 2, 280))
             tb = r.get("time_bonus", 0)
             sb = r.get("streak_bonus", 0)
-            detail = self.font_sm.render(f"Time bonus: +{tb}  Streak bonus: +{sb}", True, C_GRAY)
+            detail = self.font_sm.render(tr("bonus_detail", self.lang, time_bonus=tb, streak_bonus=sb), True, C_GRAY)
             self.screen.blit(detail, (WIDTH // 2 - detail.get_width() // 2, 320))
 
-        cont = self.font_md.render("Click anywhere to continue", True, C_GRAY)
+        cont = self.font_md.render(tr("click_to_continue", self.lang), True, C_GRAY)
         self.screen.blit(cont, (WIDTH // 2 - cont.get_width() // 2, 450))
 
     def _show_result(self, result: dict) -> None:
@@ -521,9 +555,9 @@ class UI:
             for btn in self._puzzle_buttons:
                 if btn.clicked(ev):
                     digit = btn.text
-                    if digit == "Del":
+                    if btn.key == "btn_delete":
                         self._guess_input = self._guess_input[:-1]
-                    elif digit == "OK":
+                    elif btn.key == "btn_ok":
                         if self._guess_input:
                             result = self.engine.submit_answer(int(self._guess_input))
                             if result.get("correct") or self._puzzle is None:
@@ -531,7 +565,7 @@ class UI:
                                 return
                             else:
                                 self._guess_input = ""
-                                self._show_hint_inline("Wrong! Try again.")
+                                self._show_hint_inline(tr("msg_wrong_try_again", self.lang))
                     else:
                         if len(self._guess_input) < 6:
                             self._guess_input += digit
@@ -550,7 +584,7 @@ class UI:
 
         # Number pad
         self._puzzle_buttons = []
-        keys = [str(i) for i in range(10)] + ["Del", "OK"]
+        keys = [str(i) for i in range(10)] + [tr("btn_delete", self.lang), tr("btn_ok", self.lang)]
         cols = 4
         bw, bh = 70, 50
         gap = 8
@@ -559,8 +593,17 @@ class UI:
         for i, key in enumerate(keys):
             r, c = divmod(i, cols)
             rect = pygame.Rect(sx + c * (bw + gap), sy + r * (bh + gap), bw, bh)
-            color = C_RED if key == "Del" else C_GREEN if key == "OK" else C_BTN
-            self._puzzle_buttons.append(Button(rect, key, self.font_md, color=color))
+            # The label is the value this button types, so the digit branch in the
+            # handler reads `btn.text`; only delete/OK carry a dispatch key.
+            if key == tr("btn_delete", self.lang):
+                role, color = "btn_delete", C_RED
+            elif key == tr("btn_ok", self.lang):
+                role, color = "btn_ok", C_GREEN
+            else:
+                role, color = "", C_BTN
+            self._puzzle_buttons.append(
+                Button(rect, key, self.font_md, color=color, key=role)
+            )
 
     # -----------------------------------------------------------------------
     # Riddle Puzzle
@@ -633,19 +676,17 @@ class UI:
                 elif ev.unicode.isalpha() and len(ev.unicode) == 1:
                     puzzle.set_cell(self._sel_row, self._sel_col, ev.unicode.upper())
 
-            # Check button — must be handled inside the event loop: this block used
-            # to sit after it and read `ev`, which raised UnboundLocalError as soon
-            # as the crossword screen received any event (found 2026-10-16).
+            # Check button — handle inside the event loop
             if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
                 for btn in self._puzzle_buttons:
                     if btn.clicked(ev):
-                        if btn.text == "Check":
+                        if btn.key == "btn_check":
                             correct = puzzle.check_answer(None)
                             if correct:
                                 result = self.engine.submit_answer(None)
                                 self._show_result(result)
                             else:
-                                self._show_hint_inline("Not quite right yet!")
+                                self._show_hint_inline(tr("msg_not_quite_right_yet", self.lang))
 
     def _draw_crossword(self, puzzle: CrosswordPuzzle) -> None:
         size = puzzle.data["size"]
@@ -673,19 +714,19 @@ class UI:
 
         # Clues
         clues_y = oy + size * cell_sz + 15
-        self.screen.blit(self.font_sm.render("ACROSS", True, C_ACCENT), (40, clues_y))
+        self.screen.blit(self.font_sm.render(tr("crossword_across", self.lang), True, C_ACCENT), (40, clues_y))
         for i, clue in enumerate(puzzle.data["clues_across"]):
             ct = self.font_xs.render(clue, True, C_WHITE)
             self.screen.blit(ct, (50, clues_y + 22 + i * 18))
 
         cx = WIDTH // 2 + 20
-        self.screen.blit(self.font_sm.render("DOWN", True, C_ACCENT2), (cx, clues_y))
+        self.screen.blit(self.font_sm.render(tr("crossword_down", self.lang), True, C_ACCENT2), (cx, clues_y))
         for i, clue in enumerate(puzzle.data["clues_down"]):
             ct = self.font_xs.render(clue, True, C_WHITE)
             self.screen.blit(ct, (cx + 10, clues_y + 22 + i * 18))
 
         self._puzzle_buttons = [
-            Button(pygame.Rect(WIDTH - 140, HEADER_H + 10, 100, 36), "Check", self.font_sm,
+            Button(pygame.Rect(WIDTH - 140, HEADER_H + 10, 100, 36), tr("btn_check", self.lang), self.font_sm,
                    color=C_GREEN)
         ]
 
@@ -716,13 +757,13 @@ class UI:
                 # Number buttons
                 for btn in self._puzzle_buttons:
                     if btn.clicked(ev):
-                        if btn.text == "Check":
+                        if btn.key == "btn_check":
                             correct = puzzle.check_answer(None)
                             if correct:
                                 result = self.engine.submit_answer(None)
                                 self._show_result(result)
                             else:
-                                self._show_hint_inline("Not complete yet!")
+                                self._show_hint_inline(tr("msg_not_complete_yet", self.lang))
                         elif self._sel_row >= 0 and btn.text.isdigit():
                             puzzle.set_cell(self._sel_row, self._sel_col, int(btn.text))
 
@@ -770,7 +811,7 @@ class UI:
             self._puzzle_buttons.append(Button(rect, label, self.font_sm))
 
         # Check button
-        cb = Button(pygame.Rect(WIDTH - 140, HEADER_H + 10, 100, 36), "Check", self.font_sm,
+        cb = Button(pygame.Rect(WIDTH - 140, HEADER_H + 10, 100, 36), tr("btn_check", self.lang), self.font_sm,
                     color=C_GREEN)
         self._puzzle_buttons.append(cb)
 
@@ -784,7 +825,7 @@ class UI:
         for ev in events:
             for btn in self._puzzle_buttons:
                 if btn.clicked(ev):
-                    if btn.text == "OK":
+                    if btn.key == "btn_ok":
                         if self._guess_input:
                             result = self.engine.submit_answer(int(self._guess_input))
                             if result.get("correct"):
@@ -794,11 +835,11 @@ class UI:
                                 self._guess_input = ""
                                 hint = puzzle.data["last_hint"]
                                 self._show_hint_inline(hint)
-                                if "Out of attempts" in hint:
+                                if tr("msg_out_of_attempts", self.lang) in hint:
                                     self.engine.skip_puzzle()
                                     self._show_result({"correct": False})
                                     return
-                    elif btn.text == "Del":
+                    elif btn.key == "btn_delete":
                         self._guess_input = self._guess_input[:-1]
                     else:
                         if len(self._guess_input) < 6:
@@ -807,12 +848,12 @@ class UI:
     def _draw_guess_number(self, puzzle: GuessNumberPuzzle) -> None:
         data = puzzle.data
         t = self.font_md.render(
-            f"Guess a number between {data['low']} and {data['high']}", True, C_WHITE
+            tr("guess_prompt", self.lang, **{"data['low']": data["low"], "data['high']": data["high"]}), True, C_WHITE
         )
         self.screen.blit(t, (WIDTH // 2 - t.get_width() // 2, 80))
 
         attempts = self.font_sm.render(
-            f"Attempts: {data['attempts']}/{data['max_attempts']}", True, C_GRAY
+            tr("guess_attempts", self.lang, **{"data['attempts']": data["attempts"], "data['max_attempts']": data["max_attempts"]}), True, C_GRAY
         )
         self.screen.blit(attempts, (WIDTH // 2 - attempts.get_width() // 2, 120))
 
@@ -832,7 +873,7 @@ class UI:
         # Guess history
         y = 240
         for g in data["guesses"]:
-            gt = self.font_sm.render(f"Guessed: {g}", True, C_GRAY)
+            gt = self.font_sm.render(tr("guess_previous", self.lang, g=g), True, C_GRAY)
             self.screen.blit(gt, (WIDTH // 2 - gt.get_width() // 2, y))
             y += 22
 
@@ -846,7 +887,7 @@ class UI:
 
         # Number pad
         self._puzzle_buttons = []
-        keys = [str(i) for i in range(10)] + ["Del", "OK"]
+        keys = [str(i) for i in range(10)] + [tr("btn_delete", self.lang), tr("btn_ok", self.lang)]
         cols = 4
         bw, bh = 70, 50
         gap = 8
@@ -855,8 +896,17 @@ class UI:
         for i, key in enumerate(keys):
             r, c = divmod(i, cols)
             rect = pygame.Rect(sx + c * (bw + gap), sy + r * (bh + gap), bw, bh)
-            color = C_RED if key == "Del" else C_GREEN if key == "OK" else C_BTN
-            self._puzzle_buttons.append(Button(rect, key, self.font_md, color=color))
+            # The label is the value this button types, so the digit branch in the
+            # handler reads `btn.text`; only delete/OK carry a dispatch key.
+            if key == tr("btn_delete", self.lang):
+                role, color = "btn_delete", C_RED
+            elif key == tr("btn_ok", self.lang):
+                role, color = "btn_ok", C_GREEN
+            else:
+                role, color = "", C_BTN
+            self._puzzle_buttons.append(
+                Button(rect, key, self.font_md, color=color, key=role)
+            )
 
     # -----------------------------------------------------------------------
     # Word Ladder Puzzle
@@ -880,12 +930,12 @@ class UI:
                             self._show_result(result)
                             return
                     else:
-                        self._show_hint_inline("Invalid step! One letter must change.")
+                        self._show_hint_inline(tr("msg_invalid_step_letter", self.lang))
                         self._wl_input = ""
 
             for btn in self._puzzle_buttons:
                 if btn.clicked(ev):
-                    if btn.text == "Submit":
+                    if btn.key == "btn_submit":
                         if self._wl_input:
                             valid = puzzle.set_step(self._wl_input)
                             if valid:
@@ -895,9 +945,9 @@ class UI:
                                     self._show_result(result)
                                     return
                             else:
-                                self._show_hint_inline("Invalid step!")
+                                self._show_hint_inline(tr("msg_invalid_step", self.lang))
                                 self._wl_input = ""
-                    elif btn.text == "Undo":
+                    elif btn.key == "btn_undo":
                         path = puzzle.data["player_path"]
                         if len(path) > 1:
                             path.pop()
@@ -906,7 +956,7 @@ class UI:
     def _draw_word_ladder(self, puzzle: WordLadderPuzzle) -> None:
         data = puzzle.data
         t = self.font_md.render(
-            f"Transform '{data['start'].upper()}' -> '{data['end'].upper()}'", True, C_WHITE
+            tr("ladder_prompt", self.lang, **{"data['start'].upper()": data["start"].upper(), "data['end'].upper()": data["end"].upper()}), True, C_WHITE
         )
         self.screen.blit(t, (WIDTH // 2 - t.get_width() // 2, 70))
 
@@ -922,15 +972,15 @@ class UI:
                 self.screen.blit(arrow, (WIDTH // 2 - arrow.get_width() // 2, y - 10))
 
         # Input
-        inp_label = self.font_sm.render("Type next word and press Enter:", True, C_GRAY)
+        inp_label = self.font_sm.render(tr("ladder_input", self.lang), True, C_GRAY)
         self.screen.blit(inp_label, (WIDTH // 2 - inp_label.get_width() // 2, y + 20))
         inp = self.font_md.render(self._wl_input or "_", True, C_ACCENT)
         self.screen.blit(inp, (WIDTH // 2 - inp.get_width() // 2, y + 50))
 
         self._puzzle_buttons = [
-            Button(pygame.Rect(WIDTH // 2 - 120, y + 90, 100, 36), "Submit", self.font_sm,
+            Button(pygame.Rect(WIDTH // 2 - 120, y + 90, 100, 36), tr("btn_submit", self.lang), self.font_sm,
                    color=C_GREEN),
-            Button(pygame.Rect(WIDTH // 2 + 20, y + 90, 100, 36), "Undo", self.font_sm,
+            Button(pygame.Rect(WIDTH // 2 + 20, y + 90, 100, 36), tr("btn_undo", self.lang), self.font_sm,
                    color=C_ORANGE),
         ]
 
@@ -960,7 +1010,7 @@ class UI:
                                     self._ms_first_click = False
                                 puzzle.reveal(r, c)
                                 if puzzle.data["game_over"]:
-                                    self._show_hint_inline("BOOM! Game Over!")
+                                    self._show_hint_inline(tr("msg_boom", self.lang))
                                     self.engine.skip_puzzle()
                                 elif puzzle.data["win"]:
                                     result = self.engine.submit_answer(None)
@@ -998,7 +1048,7 @@ class UI:
         mines_left = puzzle.data["mines"] - sum(
             1 for r in range(rows) for c in range(cols) if puzzle.data["flagged"][r][c]
         )
-        mt = self.font_sm.render(f"Mines left: {mines_left}", True, C_WHITE)
+        mt = self.font_sm.render(tr("mines_left", self.lang, mines_left=mines_left), True, C_WHITE)
         self.screen.blit(mt, (WIDTH // 2 - mt.get_width() // 2, oy + rows * cell_sz + 8))
 
         self._puzzle_buttons = []
@@ -1028,12 +1078,12 @@ class UI:
 
             for btn in self._puzzle_buttons:
                 if btn.clicked(ev):
-                    if btn.text == "Check":
+                    if btn.key == "btn_check":
                         if puzzle.check_answer(None):
                             result = self.engine.submit_answer(None)
                             self._show_result(result)
                         else:
-                            self._show_hint_inline("Not quite right!")
+                            self._show_hint_inline(tr("msg_not_quite_right", self.lang))
 
     def _draw_nonogram(self, puzzle: NonogramPuzzle) -> None:
         size = puzzle.data["size"]
@@ -1069,7 +1119,7 @@ class UI:
                                       oy - (i + 1) * (cell_sz - 2)))
 
         self._puzzle_buttons = [
-            Button(pygame.Rect(WIDTH - 140, HEADER_H + 10, 100, 36), "Check", self.font_sm,
+            Button(pygame.Rect(WIDTH - 140, HEADER_H + 10, 100, 36), tr("btn_check", self.lang), self.font_sm,
                    color=C_GREEN)
         ]
 
@@ -1098,26 +1148,22 @@ class UI:
                         else:
                             puzzle.swap_letters(self._anagram_sel, i)
                             self._anagram_sel = -1
-                            if puzzle.check_answer(None):
-                                result = self.engine.submit_answer(None)
-                                self._show_result(result)
-                                return
 
             for btn in self._puzzle_buttons:
                 if btn.clicked(ev):
-                    if btn.text == "Check":
+                    if btn.key == "btn_check":
                         if puzzle.check_answer(None):
                             result = self.engine.submit_answer(None)
                             self._show_result(result)
                         else:
-                            self._show_hint_inline("Not the right word yet!")
-                    elif btn.text == "Shuffle":
+                            self._show_hint_inline(tr("msg_not_right_word", self.lang))
+                    elif btn.key == "btn_shuffle":
                         import random
                         random.shuffle(puzzle.data["player_letters"])
                         self._anagram_sel = -1
 
     def _draw_anagram(self, puzzle: AnagramPuzzle) -> None:
-        t = self.font_md.render("Unscramble the word!", True, C_WHITE)
+        t = self.font_md.render(tr("anagram_prompt", self.lang), True, C_WHITE)
         self.screen.blit(t, (WIDTH // 2 - t.get_width() // 2, 80))
 
         letters = puzzle.data["player_letters"]
@@ -1139,17 +1185,17 @@ class UI:
 
         # Current attempt
         attempt = "".join(letters).upper()
-        at = self.font_sm.render(f"Current: {attempt}", True, C_GRAY)
+        at = self.font_sm.render(tr("anagram_current", self.lang, attempt=attempt), True, C_GRAY)
         self.screen.blit(at, (WIDTH // 2 - at.get_width() // 2, 290))
 
         self._puzzle_buttons = [
-            Button(pygame.Rect(WIDTH // 2 - 120, 330, 100, 36), "Check", self.font_sm,
+            Button(pygame.Rect(WIDTH // 2 - 120, 330, 100, 36), tr("btn_check", self.lang), self.font_sm,
                    color=C_GREEN),
-            Button(pygame.Rect(WIDTH // 2 + 20, 330, 100, 36), "Shuffle", self.font_sm,
+            Button(pygame.Rect(WIDTH // 2 + 20, 330, 100, 36), tr("btn_shuffle", self.lang), self.font_sm,
                    color=C_ORANGE),
         ]
 
-        inst = self.font_xs.render("Click two letters to swap them", True, C_GRAY)
+        inst = self.font_xs.render(tr("anagram_instruction", self.lang), True, C_GRAY)
         self.screen.blit(inst, (WIDTH // 2 - inst.get_width() // 2, 160))
 
     # -----------------------------------------------------------------------
@@ -1200,7 +1246,7 @@ class UI:
         oy = HEADER_H + 20 + (HEIGHT - HEADER_H - FOOTER_H - 20 - total_h) // 2
 
         moves_t = self.font_sm.render(
-            f"Moves: {puzzle.data['moves']}  Pairs: {puzzle.data['pairs_found']}/{puzzle.data['pairs']}",
+            tr("memory_moves", self.lang, **{"puzzle.data['moves']": puzzle.data["moves"], "puzzle.data['pairs_found']": puzzle.data["pairs_found"], "puzzle.data['pairs']": puzzle.data["pairs"]}),
             True, C_WHITE
         )
         self.screen.blit(moves_t, (WIDTH // 2 - moves_t.get_width() // 2, HEADER_H + 2))
@@ -1250,7 +1296,7 @@ class UI:
 
     def _draw_pattern(self, puzzle: PatternPuzzle) -> None:
         seq = puzzle.data["sequence"]
-        t = self.font_md.render("What comes next?", True, C_WHITE)
+        t = self.font_md.render(tr("riddle_prompt", self.lang), True, C_WHITE)
         self.screen.blit(t, (WIDTH // 2 - t.get_width() // 2, 80))
 
         # Show sequence
@@ -1283,21 +1329,21 @@ class UI:
                     letter = btn.text
                     result = puzzle.guess_letter(letter)
                     if result == "correct":
-                        self._hangman_msg = f"'{letter}' is in the word!"
+                        self._hangman_msg = tr("hangman_hit", self.lang, **{"'{letter}'": letter})
                         self._hangman_msg_until = time.time() + 1.5
                         if self._all_letters_guessed(puzzle):
                             res = self.engine.submit_answer(None)
                             self._show_result(res)
                             return
                     elif result == "wrong":
-                        self._hangman_msg = f"'{letter}' is wrong! ({len(puzzle.data['wrong'])}/{puzzle.data['max_wrong']})"
+                        self._hangman_msg = tr("hangman_miss", self.lang, **{"'{letter}'": letter, "len(puzzle.data['wrong'])": len(puzzle.data["wrong"]), "puzzle.data['max_wrong']": puzzle.data["max_wrong"]})
                         self._hangman_msg_until = time.time() + 1.5
-                        if puzzle.data["wrong"] and len(puzzle.data["wrong"]) >= puzzle.data["max_wrong"]:
-                            self._hangman_msg = f"Game Over! Word: {puzzle.data['word'].upper()}"
-                            self._hangman_msg_until = time.time() + 3.0
-                            self.engine.skip_puzzle()
+                    elif result == "game_over":
+                        self._hangman_msg = tr("hangman_over", self.lang, **{"puzzle.data['word'].upper()": puzzle.data["word"].upper()})
+                        self._hangman_msg_until = time.time() + 3.0
+                        self.engine.skip_puzzle()
                     elif result == "duplicate":
-                        self._hangman_msg = f"You already tried '{letter}'!"
+                        self._hangman_msg = tr("hangman_repeat", self.lang, **{"'{letter}'": letter})
                         self._hangman_msg_until = time.time() + 1.5
                     elif result == "win":
                         res = self.engine.submit_answer(None)
@@ -1308,7 +1354,7 @@ class UI:
         return all(ch in puzzle.data["guessed"] for ch in puzzle.data["word"])
 
     def _draw_hangman(self, puzzle: HangmanPuzzle) -> None:
-        title = self.font_md.render("Guess the word!", True, C_WHITE)
+        title = self.font_md.render(tr("hangman_prompt", self.lang), True, C_WHITE)
         self.screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 70))
 
         # Display word
@@ -1338,7 +1384,7 @@ class UI:
 
         # Wrong letters
         if puzzle.data["wrong"]:
-            wrong_str = "Wrong: " + " ".join(sorted(puzzle.data["wrong"])).upper()
+            wrong_str = tr("hangman_wrong_prefix", self.lang) + " ".join(sorted(puzzle.data["wrong"])).upper()
             wt = self.font_sm.render(wrong_str, True, C_RED)
             self.screen.blit(wt, (80, y + 5))
 
@@ -1349,7 +1395,7 @@ class UI:
 
         # Remaining guesses
         remaining = max_wrong - wrong_count
-        rt = self.font_sm.render(f"Guesses left: {remaining}", True, C_GRAY)
+        rt = self.font_sm.render(tr("hangman_left", self.lang, remaining=remaining), True, C_GRAY)
         self.screen.blit(rt, (WIDTH // 2 - rt.get_width() // 2, 280))
 
         # Letter buttons (A-Z keyboard)
@@ -1447,15 +1493,15 @@ class UI:
                                          y + (cell_sz - t.get_height()) // 2))
 
         # Score
-        st = self.font_md.render(f"Score: {puzzle.data['score']}  |  Target: {puzzle.data['target']}", True, C_WHITE)
+        st = self.font_md.render(tr("board_score", self.lang, **{"puzzle.data['score']": puzzle.data["score"], "puzzle.data['target']": puzzle.data["target"]}), True, C_WHITE)
         self.screen.blit(st, (WIDTH // 2 - st.get_width() // 2, oy + size * cell_sz + 10))
 
         # Instructions
-        inst = self.font_sm.render("Arrow keys / WASD to move tiles", True, C_GRAY)
+        inst = self.font_sm.render(tr("board_instruction", self.lang), True, C_GRAY)
         self.screen.blit(inst, (WIDTH // 2 - inst.get_width() // 2, oy + size * cell_sz + 38))
 
         if puzzle.data["game_over"]:
-            go = self.font_lg.render("Game Over!", True, C_RED)
+            go = self.font_lg.render(tr("board_game_over", self.lang), True, C_RED)
             self.screen.blit(go, (WIDTH // 2 - go.get_width() // 2, oy + size * cell_sz + 60))
 
         self._puzzle_buttons = []
@@ -1492,16 +1538,16 @@ class UI:
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
                     for btn in self._puzzle_buttons:
                         if btn.clicked(ev):
-                            color = btn.text.lower()
+                            color = btn.text
                             result = puzzle.press_color(color)
                             if result == "win":
-                                self._cs_feedback_msg = "Correct! Well done!"
+                                self._cs_feedback_msg = tr("cs_correct", self.lang)
                                 self._cs_feedback_until = now + 1.5
                                 res = self.engine.submit_answer(None)
                                 self._show_result(res)
                                 return
                             elif result == "wrong":
-                                self._cs_feedback_msg = "Wrong sequence! Try again."
+                                self._cs_feedback_msg = tr("cs_wrong", self.lang)
                                 self._cs_feedback_until = now + 2.0
                                 self.engine.skip_puzzle()
 
@@ -1517,20 +1563,21 @@ class UI:
         seq = puzzle.data["sequence"]
         now = time.time()
 
-        title = self.font_md.render("Repeat the Color Sequence!", True, C_WHITE)
+        title = self.font_md.render(tr("colors_prompt", self.lang), True, C_WHITE)
         self.screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 70))
 
         if phase == "show":
-            st = self.font_sm.render("Watch the pattern...", True, C_YELLOW)
+            st = self.font_sm.render(tr("colors_watch", self.lang), True, C_YELLOW)
             self.screen.blit(st, (WIDTH // 2 - st.get_width() // 2, 110))
         elif phase == "input":
             idx = puzzle.data["player_index"]
-            done = ", ".join(c.title() for c in puzzle.data["player_input"])
-            st = self.font_sm.render(f"Your input: {done}  ({idx}/{len(seq)})", True, C_WHITE)
+            done = ", ".join(puzzle.color_label(c) for c in puzzle.data["player_input"])
+            st = self.font_sm.render(tr("colors_progress", self.lang, **{"done": done, "idx": idx, "len(seq)": len(seq)}), True, C_WHITE)
             self.screen.blit(st, (WIDTH // 2 - st.get_width() // 2, 110))
 
         # Draw color buttons
-        colors = ["red", "green", "blue", "yellow"]
+        colors = [tr(f"color_{name}", self.lang) for name in SWATCH_ORDER]
+        colors_en = COLORS
         bw, bh = 100, 100
         gap = 30
         total = len(colors) * (bw + gap) - gap
@@ -1544,10 +1591,10 @@ class UI:
 
             # Flash during show phase
             is_flashing = (phase == "show" and i == self._cs_flash_index)
-            bg = COLOR_BRIGHT.get(color, C_CELL_BG) if is_flashing else COLOR_RGB.get(color, C_CELL_BG)
+            bg = COLOR_BRIGHT.get(colors_en[i], C_CELL_BG) if is_flashing else COLOR_RGB.get(colors_en[i], C_CELL_BG)
             pygame.draw.rect(self.screen, bg, rect, border_radius=12)
 
-            label = color.title()
+            label = color
             lt = self.font_md.render(label, True, C_WHITE)
             self.screen.blit(lt, (x + (bw - lt.get_width()) // 2,
                                    sy + (bh - lt.get_height()) // 2))
@@ -1560,12 +1607,12 @@ class UI:
 
         # Feedback message
         if self._cs_feedback_msg and now < self._cs_feedback_until:
-            color = C_GREEN if "Correct" in self._cs_feedback_msg else C_RED
+            color = C_GREEN if tr("cs_correct_marker", self.lang) in self._cs_feedback_msg else C_RED
             mt = self.font_md.render(self._cs_feedback_msg, True, color)
             self.screen.blit(mt, (WIDTH // 2 - mt.get_width() // 2, 350))
 
         # Sequence length indicator
-        sl = self.font_sm.render(f"Sequence length: {len(seq)}", True, C_GRAY)
+        sl = self.font_sm.render(tr("colors_length", self.lang, **{"len(seq)": len(seq)}), True, C_GRAY)
         self.screen.blit(sl, (WIDTH // 2 - sl.get_width() // 2, 390))
 
     # -----------------------------------------------------------------------

@@ -5,21 +5,48 @@ from __future__ import annotations
 import time
 from typing import Any
 
-from domain import GameState
-from events import EventBus
+from client.domain import GameState
+from client.events import EventBus
+from client.translations import t
 from gameplay_pool import BasePuzzle, PuzzlePicker, RandomPick
 
 
-class Engine:
-    """Core game engine coordinating puzzles, scoring, and state."""
+def _default_content(language: str):
+    """The content pack for *language*, or ``None`` to fall back to built-in banks.
 
-    def __init__(self, event_bus: EventBus | None = None):
+    The desktop client used to draw from banks compiled into its own modules; now it
+    plays the same pack as the service and the web client, so all three show the same
+    puzzles. A missing or broken pack is reported and the game still runs.
+    """
+    try:
+        from puzzle_service.content import ContentPackError, load_pack
+
+        return load_pack(language=language)
+    except ContentPackError as exc:
+        print(f"[desktop-client] content pack unusable, using built-in banks: {exc}", flush=True)
+        return None
+
+
+class Engine:
+    """Core game engine coordinating puzzles, scoring, and state.
+
+    The engine is language-aware because two of its replies reach the player as text
+    ("no active puzzle"); everything else it does — scoring, streaks, timing — is
+    language-independent.
+    """
+
+    def __init__(self, event_bus: EventBus | None = None, lang: str | None = None,
+                 content: Any = None):
+        self.lang = lang or messages.DEFAULT_LANGUAGE
         self.state = GameState()
         self.event_bus = event_bus or EventBus()
         self._picker: PuzzlePicker | RandomPick | None = None
         self._current_puzzle: BasePuzzle | None = None
         self._puzzle_start_time: float = 0.0
         self._puzzles_total: int = 0
+        # Content pack handed to every puzzle this engine creates, so the desktop
+        # client plays the same content as the service and the web client.
+        self.content = content if content is not None else _default_content(self.lang)
 
     # --- Configuration ---
 
@@ -37,7 +64,13 @@ class Engine:
         if self._picker is None:
             self.configure("balanced", "medium")
         assert self._picker is not None
-        self._current_puzzle = self._picker.pick()
+        # The picker takes the language so the puzzle it builds speaks it; the pack
+        # is attached the same way the service does it.
+        self._current_puzzle = self._picker.pick(lang=self.lang)
+        if self.content is not None:
+            self._current_puzzle.content = self.content
+            if getattr(self._current_puzzle, "content_kind", None):
+                self._current_puzzle._generate()
         self._puzzle_start_time = time.time()
         self._puzzles_total += 1
         self.event_bus.publish("puzzle_started", {"puzzle": self._current_puzzle})
@@ -47,7 +80,7 @@ class Engine:
         """Submit an answer for the current puzzle. Returns result info."""
         puzzle = self._current_puzzle
         if puzzle is None:
-            return {"correct": False, "error": "No active puzzle"}
+            return {"correct": False, "error": t("msg_no_active_puzzle", self.lang)}
 
         correct = puzzle.check_answer(answer)
         time_used = time.time() - self._puzzle_start_time
@@ -84,7 +117,7 @@ class Engine:
 
     def get_hint(self) -> str:
         if self._current_puzzle is None:
-            return "No active puzzle"
+            return t("msg_no_active_puzzle_hint", self.lang)
         return self._current_puzzle.get_hint()
 
     # --- State queries ---

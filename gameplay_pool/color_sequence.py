@@ -94,15 +94,21 @@ class ColorSequencePuzzle(BasePuzzle):
     def check_answer(self, answer: Any) -> bool:
         return self.data["correct"] and self.data["player_index"] >= len(self.data["sequence"])
 
-    def _color_label(self, color: str) -> str:
+    def color_label(self, color: str) -> str:
         """A colour as this language spells it.
 
-        The two legacy builds disagreed here — Chinese used 红色/绿色, English used
-        ``.title()`` — so both spellings are preserved rather than one being chosen.
+        Public because clients render colour names too (the pygame client's status
+        line, the terminal client's "your input" line); the two legacy builds
+        disagreed here — Chinese used 红色/绿色, English used ``.title()`` — so both
+        spellings are preserved rather than one being chosen.
         """
         if self.lang == "zh":
             return COLOR_CN.get(color, color)
         return color.title()
+
+    def _color_label(self, color: str) -> str:
+        """Backwards-compatible alias for :meth:`color_label`."""
+        return self.color_label(color)
 
     def get_hint(self) -> str:
         seq = self.data["sequence"]

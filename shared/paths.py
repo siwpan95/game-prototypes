@@ -21,21 +21,6 @@ __all__ = ["find_project_root", "bootstrap_import_path", "PROJECT_ROOT"]
 _ROOT_MARKERS = ("pyproject.toml", "requirements.txt")
 _ROOT_SIGNATURES = ("shared",)
 
-# Import roots for the pygame front ends. `engine`/`ui`/`events`/`domain` are flat
-# modules inside each client directory, so that directory has to be on sys.path when
-# one of those clients runs.
-#
-# NOTE (M5): the puzzle pool is unified at the project root
-# (``gameplay_pool/``), and the per-client copies were deleted for exactly the
-# reason this comment used to warn about — two copies of ``gameplay_pool`` made the
-# import depend on sys.path order. Passing a build name here now selects the
-# *client* to run; the pool is the same for both.
-_IMPORT_ROOTS: dict[str, str] = {
-    "en": "text_adventure",
-    "zh": "text_adventure_zh",
-}
-
-
 def find_project_root(start: Path | str | None = None) -> Path | None:
     """Walk up from *start* (default: this file) to the project root."""
     base = Path(start).resolve() if start is not None else Path(__file__).resolve()
@@ -52,37 +37,22 @@ def find_project_root(start: Path | str | None = None) -> Path | None:
 PROJECT_ROOT: Path | None = find_project_root()
 
 
-def bootstrap_import_path(
-    build: str | None = None, start: Path | str | None = None
-) -> Path | None:
-    """Put the project root, and at most one build directory, on ``sys.path``.
+def bootstrap_import_path(start: Path | str | None = None) -> Path | None:
+    """Put the project root on ``sys.path``.
 
-    Args:
-        build: ``"en"`` or ``"zh"`` to select that build's flat-import root.
-            Pass ``None`` for headless tools that use package-qualified imports
-            only (the puzzle service, tests), so neither build shadows the other.
-        start: directory to search upwards from (defaults to this file).
+    Every package now lives at the project root (``gameplay_pool``, ``client``,
+    ``puzzle_service``, ``shared``), so one entry is enough. This used to take a
+    *build* name to select between two parallel client directories; those were
+    deleted in M5, and with them the reason for the parameter — two copies of
+    ``gameplay_pool`` made the import depend on ``sys.path`` order.
 
-    Idempotent. Returns the project root, or ``None`` when no marker file was
-    found (the caller then decides whether that is fatal).
+    Idempotent. Returns the project root, or ``None`` when no marker file was found
+    (the caller then decides whether that is fatal).
     """
-    if build is not None and build not in _IMPORT_ROOTS:
-        raise ValueError(
-            f"unknown build {build!r}; expected one of {sorted(_IMPORT_ROOTS)} or None"
-        )
-
     root = find_project_root(start) if start is not None else PROJECT_ROOT
     if root is None:
         return None
-
-    wanted = [str(root)]
-    if build is not None:
-        build_dir = root / _IMPORT_ROOTS[build]
-        if not build_dir.is_dir():
-            raise FileNotFoundError(f"build directory missing: {build_dir}")
-        wanted.append(str(build_dir))
-
-    for entry in reversed(wanted):
-        if entry not in sys.path:
-            sys.path.insert(0, entry)
+    entry = str(root)
+    if entry not in sys.path:
+        sys.path.insert(0, entry)
     return root

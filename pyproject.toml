@@ -16,9 +16,7 @@ dependencies = ["pygame-ce>=2.5"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-# Two different clients, two names: the pygame desktop build and the terminal
-# client. Giving the CLI the generic `text-adventure` name would hide that this
-# project has more than one front end.
+# Two front ends, two names: the desktop (pygame) client and the terminal client.
 text-adventure-cli = "puzzle_service.cli:main_cli"
 text-adventure-pygame-zh = "shared.cli:main_zh"
 text-adventure-pygame-en = "shared.cli:main_en"
@@ -27,16 +25,15 @@ text-adventure-pygame-en = "shared.cli:main_en"
 # Explicit package list: these are the import roots the game and the puzzle
 # service actually use. Keeping it explicit stops setuptools from guessing.
 #
-# `gameplay_pool` is the unified implementation (M5): one copy of the puzzle logic,
-# with the language as a constructor argument. The directories below it are the
-# pygame clients (engine/ui/events/domain) — legacy front ends that are scheduled
-# for retirement, not part of the unified pool.
+# `gameplay_pool` is the unified puzzle implementation and `client` the unified
+# desktop client (M5): one copy of each, with the language as an argument. The
+# per-client directories were deleted once the merged clients were proven to render
+# identically.
 packages = [
   "shared",
   "gameplay_pool",
+  "client",
   "puzzle_service",
-  "text_adventure.gameplay_pool",
-  "text_adventure_zh.gameplay_pool",
 ]
 
 [tool.pytest.ini_options]

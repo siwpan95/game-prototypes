@@ -33,7 +33,7 @@ def _child(build: str) -> int:
     os.environ.setdefault("SDL_AUDIODRIVER", "dummy")
     from shared.paths import bootstrap_import_path
 
-    if bootstrap_import_path(build) is None:
+    if bootstrap_import_path() is None:
         print("ENVIRONMENT ERROR: project root not found", file=sys.stderr)
         return 3
     from shared.ui_boot import run_build
@@ -93,7 +93,7 @@ def _check_puzzles() -> str:
     """
     from shared.paths import bootstrap_import_path
 
-    bootstrap_import_path("zh")
+    bootstrap_import_path()
     from gameplay_pool import PUZZLE_CLASSES
 
     problems: list[str] = []

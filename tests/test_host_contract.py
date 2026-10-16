@@ -80,14 +80,7 @@ def test_web_plugin_declares_its_injection():
 
 
 def test_the_two_clients_stay_structurally_equal():
-    """Catches drift between the two pygame clients (and any duplicate puzzle pool).
-
-    The clients implement the same game, and nothing else enforces that they keep the
-    same shape. The concrete cost of ignoring it: a helper added to the Chinese build
-    only was missing in English, which failed the first time the English build was
-    played. Since M5 the check also asserts that neither client carries its own
-    puzzle pool — one implementation lives at the project root.
-    """
+    """One desktop client, one pool, and the retired copies stay retired."""
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "check_build_consistency.py")],
         capture_output=True,
@@ -99,3 +92,25 @@ def test_the_two_clients_stay_structurally_equal():
     )
     assert result.returncode == 0, f"{result.stdout}\n{result.stderr}"
     assert "CLIENT CONSISTENCY PASSED" in result.stdout
+
+
+def test_the_desktop_client_still_draws_what_it_drew():
+    """Screen baseline: 44 screens per language, compared by pixel hash.
+
+    This is the check the M5 client merge was accepted on (identical rendering before
+    and after), kept reproducible now that the legacy clients are gone. It catches a
+    restyle, a shifted layout or a dropped label that no unit test would notice —
+    three real differences were caught this way while merging.
+    """
+    for language in ("zh", "en"):
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "client_screens.py"), "--language", language],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            cwd=str(ROOT),
+            timeout=900,
+        )
+        assert result.returncode == 0, f"{language}: {result.stdout}\n{result.stderr}"
+        assert "CLIENT SCREENS MATCH THE BASELINE" in result.stdout

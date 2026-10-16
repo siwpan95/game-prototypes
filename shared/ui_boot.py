@@ -1,10 +1,8 @@
-"""Boot one pygame build headlessly and drive it through real UI code paths.
+"""Boot the desktop client headlessly and drive it through real UI code paths.
 
-Used by ``scripts/smoke_headless.py``, which runs each build in its own process.
-That isolation is required, not stylistic: ``text_adventure`` and
-``text_adventure_zh`` each contain a ``gameplay_pool`` package and an ``engine``
-module, so whichever build directory lands on ``sys.path`` first shadows the
-other for the whole process.
+Used by ``scripts/smoke_headless.py``, which runs each language in its own process.
+Two languages in one process would fight over the display and the imported modules,
+so isolation is a requirement, not a preference.
 """
 
 from __future__ import annotations
@@ -31,32 +29,34 @@ def _ensure_headless() -> None:
 
 
 def run_build(build: str, frames: int = 2) -> str:
-    """Boot *build* (``"en"`` or ``"zh"``) and drive every puzzle kind through the UI.
+    """Boot the desktop client for *build* ("en" or "zh") and drive every puzzle kind.
 
     Returns a one-line summary. Raises on any failure so a caller can report it
     loudly rather than treating a skipped screen as a pass.
 
-    Every kind is exercised on purpose. An earlier version played one random
-    puzzle, which meant a defect in a single kind's screen showed up only when the
-    random draw happened to hit it — a latent ``UnboundLocalError`` in the English
-    crossword handler survived that way until 2026-10-16.
+    Every kind is exercised on purpose. An earlier version played one random puzzle,
+    which meant a defect in a single kind's screen showed up only when the random draw
+    happened to hit it — a latent ``UnboundLocalError`` in the crossword handler
+    survived that way until 2026-10-16.
     """
     _ensure_headless()
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    bootstrap_import_path(build)
+    bootstrap_import_path()
 
     import pygame
 
-    from engine import Engine  # type: ignore[import-not-found]  # noqa: E402
-    from events import EventBus  # type: ignore[import-not-found]  # noqa: E402
-    from gameplay_pool import PUZZLE_CLASSES  # type: ignore[import-not-found]  # noqa: E402
-    from ui import UI  # type: ignore[import-not-found]  # noqa: E402
+    from client.engine import Engine
+    from client.events import EventBus
+    from client.ui import UI
+    from gameplay_pool import PUZZLE_CLASSES
 
+    language = "zh" if build == "zh" else "en"
     pygame.init()
-    engine = Engine(event_bus=EventBus())
-    ui = UI(engine=engine)  # the construction that used to raise ModuleNotFoundError
+    engine = Engine(event_bus=EventBus(), lang=language)
+    ui = UI(engine=engine, lang=language)  # the construction that used to raise
 
     assert getattr(ui, "_menu_buttons", None) is not None, "menu buttons were not built"
+    assert ui.lang == language, f"UI speaks {ui.lang!r}, expected {language!r}"
 
     # 1. menu screen
     for _ in range(max(1, frames)):
@@ -67,11 +67,13 @@ def run_build(build: str, frames: int = 2) -> str:
     for puzzle_cls in PUZZLE_CLASSES:
         name = puzzle_cls.__name__
         try:
-            # Ask the engine for exactly this kind. The engine's picker cannot do
+            # Ask the engine for a puzzle of this kind. The engine's picker cannot do
             # that by construction (it selects pools by mode), so the kind is
             # instantiated here and handed to the engine — which also proves the
             # engine accepts a puzzle supplied from outside its picker.
-            puzzle = puzzle_cls(difficulty="easy")
+            puzzle = puzzle_cls(
+                difficulty="easy", lang=language, content=engine.content
+            )
             engine.configure("balanced", "easy")
             engine._current_puzzle = puzzle
             engine._puzzle_start_time = time.time()
@@ -108,8 +110,8 @@ def run_build(build: str, frames: int = 2) -> str:
     if failures:
         raise AssertionError("; ".join(failures))
     return (
-        f"{len(PUZZLE_CLASSES)} kinds: menu + every playing screen + result painted, "
-        "each with a simulated click"
+        f"{language}: {len(PUZZLE_CLASSES)} kinds — menu + every playing screen + result "
+        "painted, each with a simulated click"
     )
 
 

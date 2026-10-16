@@ -3,7 +3,7 @@
 文字冒险解谜游戏（英文 + 中文双版本），现在也可以**在浏览器里玩**。
 
 ## 简介
-基于 pygame 的文字冒险/解谜游戏，整合多种小谜题（数学、谜语、填字、数独、猜数字、扫雷、数织、2048 等），由引擎驱动谜题生命周期与计分。含英文版 `text_adventure/` 与中文版 `text_adventure_zh/` 两个并行实现。
+基于 pygame 的文字冒险/解谜游戏，整合多种小谜题（数学、谜语、填字、数独、猜数字、扫雷、数织、2048 等），由引擎驱动谜题生命周期与计分。谜题逻辑与桌面客户端**各只有一份实现**，语言是参数而不是第二份代码（见「一份实现，多种语言」）。
 
 谜题逻辑（14 种）现在跑在一个**无头 Python 谜题服务**里，外面套一层 **Cordis 宿主**（Node）负责编排与渲染，因此同一个谜题服务可以同时供 pygame 客户端和浏览器客户端使用——加一道谜题不必改任何客户端。
 
@@ -96,11 +96,11 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 
 ## 目录要点
 - `gameplay_pool/`：**统一的谜题实现**（14 种）+ `messages.py`（全部文案的分语言表）
-- `text_adventure/`、`text_adventure_zh/`：英文与中文 **pygame 客户端**（`main.py` 入口、`ui.py` 界面、`engine.py` 引擎）
+- `client/`：**统一的 pygame 桌面客户端**（`main.py` 入口、`ui.py` 界面、`engine.py` 引擎、`translations.py` 界面文案）
 - `puzzle_service/`：无头领域层——`registry.py`（按语言建键的注册表）、`views.py`（视图模型）、`service.py`（会话/计分/动作）、`profile.py`（进度与分享卡片）、`content.py`（内容包）、`cli.py`（终端客户端）
 - `python/rpc_server.py`：JSON-RPC 2.0 stdio 服务端（仅标准库）
 - `src/`：Cordis 宿主——`boot.mjs`（唯一启动入口）、`core/bridge.mjs`（Node 侧桥）、`plugins/`（puzzle / web / render）、`smoke.mjs`（端到端冒烟）、`browser_e2e.mjs`（真浏览器端到端）
-- `public/`：浏览器客户端（`index.html` + `client/`）
+- `public/`：浏览器客户端（`index.html` + `client/`，与桌面客户端 `client/` 不同）
 - `content/packs/`：按语言分开的内容包（`core-zh`、`core-en`）
 - `shared/`：共用层——`font_utils.py`（跨平台 CJK 字体）、`paths.py`（项目根发现与导入引导）、`ui_boot.py`、`cli.py`
 - `scripts/`：环境重建、无头冒烟、内容包生成与校验、客户端一致性检查、卡片渲染
@@ -136,22 +136,30 @@ MathPuzzle(difficulty="easy", lang="zh").puzzle_name   # '数学题'
 MathPuzzle(difficulty="easy", lang="en").puzzle_name   # 'Math Puzzle'
 ```
 
-- 全部用户可见文案集中在 [`gameplay_pool/messages.py`](gameplay_pool/messages.py)（谜题名、提示、规则描述）；
+- 全部用户可见文案集中在 [`gameplay_pool/messages.py`](gameplay_pool/messages.py)（谜题名、提示、规则描述）
+  与 [`client/translations.py`](client/translations.py)（桌面界面文案）；
   缺一条翻译会**响亮报错**（`KeyError` 指出键与语言），不会静默退回另一种语言。
 - 内容（谜语/填字线索/词库）按语言分属不同内容包：`content/packs/core-zh`、`content/packs/core-en`。
 - 注册表按 `(语言, 种类)` 建键，所以同一个进程里可以同时存在两种语言的服务
   （这正是合并时暴露的缺陷：原先按种类名建键，先注册的语言会赢下之后所有请求）。
-- `text_adventure/` 与 `text_adventure_zh/` 现在只剩 **pygame 客户端**
-  （`engine`/`ui`/`events`/`domain`/`main`），它们各自的 `gameplay_pool` 副本已删除——
+- **桌面客户端也只有一份**：[`client/`](client/main.py)，用 `--lang zh|en` 切换。
+  两份并行实现（`text_adventure/`、`text_adventure_zh/`）与其 `gameplay_pool` 副本都已删除——
   两份同名包会让「导入到哪一份」取决于 `sys.path` 顺序，那正是 M5 要消除的东西。
 
-合并的正确性不是靠「看着差不多」，而是逐项比对：同一随机种子下，
-统一实现与两版旧实现在**数据、提示、种类元数据**上一致（差异只有两处，且都记录在案：
-填字的提示策略中英本来就不同，谜语提示把「answer」改成「option」）。
+合并的正确性不是靠「看着差不多」，而是可复现的证据：
+
+- **行为等价**：同一随机种子下逐项比对统一实现与两版旧实现的数据、提示、种类元数据，
+  两版各 0 problem（差异只有两处，且都记录在案：填字的提示策略中英本来就不同，
+  谜语提示把「answer」改成「option」）。
+- **像素等价（客户端）**：两版旧客户端与合并后的客户端各渲染 44 个画面
+  （菜单 + 14 种 × 3 难度 + 结果页），**两语言各 44/44 完全一致**；
+  该基线已固化进测试（`scripts/client_screens.py --record` 可重录，
+  改动未预期时会红）。合并过程中它抓到三处真实差异：颜色卡片的**顺序**、
+  英文卡片的**大小写**、以及英文字体族的选择。
 证据见 [`docs/records/m5-unification_2026-10-16.md`](docs/records/m5-unification_2026-10-16.md)。
 
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**159 passed**——注册表（含**按语言建键**与「未注册语言不回退」）、视图（谜底不泄漏、label 键契约）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（双包 + 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/历史/图形卡片、客户端一致性。
+- `pytest tests -q`：**160 passed**（含 44×2 个客户端画面基线）——注册表（含**按语言建键**与「未注册语言不回退」）、视图（谜底不泄漏、label 键契约）、服务（14 种全部可解、动作驱动不重复计分）、桥（真子进程）、宿主跨语言契约、内容包（双包 + 11 种坏包失败路径）、命令行（真子进程 + 管道 stdin）、每日一题（14 种逐一验证同种子可复现）、进度/连续天数/存档/历史/图形卡片、客户端一致性。
 - `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）/ BROWSER E2E PASSED（18 项）**——最后一项是**真浏览器**（Playwright + Chromium）跑出来的：加载与控制台零错误、SSE、14 种可选、开局渲染中文标签、错答、提示、点击格子、键盘 `f` 插旗、右键插旗、方向键操作 2048、颜色不单独承载信息、答题结果、每日一题、分享卡片、进度显示、图形卡片以 `image/svg+xml` 提供、历史新在前、**axe-core 可访问性审计四个画面零 serious/critical**。
 - `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击）＋ 菜单 ＋ 结果画面，无头运行。
 - `python scripts/_audit_parity.py`：**两版各 0 problem**——统一实现与两版旧实现在数据、提示、种类元数据上逐项一致（只允许两类已登记差异）。

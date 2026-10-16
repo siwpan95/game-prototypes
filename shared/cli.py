@@ -1,10 +1,4 @@
-"""Console entry points.
-
-``text_adventure/main.py`` and ``text_adventure_zh/main.py`` insert their own
-directory into ``sys.path`` and then use flat imports (``from engine import
-Engine``). Importing those modules from a console script or a test runner does
-not run that preamble, so the import roots are installed here first.
-"""
+"""Pygame client entry points (one client, one language argument)."""
 
 from __future__ import annotations
 
@@ -26,16 +20,16 @@ def _root_or_die():
 
 
 def main_zh() -> None:
-    """Launch the Chinese build."""
+    """Launch the desktop client in Chinese."""
     _root_or_die()
-    from text_adventure_zh.main import main
+    from client.main import main
 
-    main()
+    main(["--lang", "zh"])
 
 
 def main_en() -> None:
-    """Launch the English build."""
+    """Launch the desktop client in English."""
     _root_or_die()
-    from text_adventure.main import main
+    from client.main import main
 
-    main()
+    main(["--lang", "en"])

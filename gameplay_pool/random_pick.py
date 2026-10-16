@@ -53,7 +53,13 @@ class PuzzlePicker:
         self.difficulty = difficulty
         self._history: list[type[BasePuzzle]] = []
 
-    def pick(self) -> BasePuzzle:
+    def pick(self, lang: str | None = None) -> BasePuzzle:
+        """Build one puzzle from the weighted pools.
+
+        ``lang`` reaches the puzzle so the whole game — interface, hints and content —
+        speaks one language. It used to be decided at import time by which copy of
+        this package happened to be installed.
+        """
         weights = MODE_WEIGHTS.get(self.mode, (33, 34, 33))
         difficulty = self.difficulty
         if difficulty == "random":
@@ -73,7 +79,7 @@ class PuzzlePicker:
 
         puzzle_cls = random.choice(chosen_pool)
         self._history.append(puzzle_cls)
-        return puzzle_cls(difficulty=difficulty)
+        return puzzle_cls(difficulty=difficulty, lang=lang)
 
     def reset_history(self) -> None:
         self._history.clear()
@@ -85,9 +91,10 @@ class RandomPick:
     def __init__(self, difficulty: str = "medium"):
         self.difficulty = difficulty
 
-    def pick(self) -> BasePuzzle:
+    def pick(self, lang: str | None = None) -> BasePuzzle:
+        """Build one puzzle, uniformly at random, in *lang*."""
         difficulty = self.difficulty
         if difficulty == "random":
             difficulty = random.choice(["easy", "medium", "hard"])
         puzzle_cls = random.choice(PUZZLE_CLASSES)
-        return puzzle_cls(difficulty=difficulty)
+        return puzzle_cls(difficulty=difficulty, lang=lang)
