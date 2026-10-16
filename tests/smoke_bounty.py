@@ -106,15 +106,15 @@ def main():
         vm.command_handle_escape()
         vm.command_leave_town()
 
-        # ── 强制人战：临时收车 + 战后恢复 ──
+        # ── 强制人战：切步行形态 + 战后恢复 ──
         vm.command_bounty_interact(2)  # 接取马歇尔
         assert d.player.vehicle is not None, "接取前应乘战车"
         walk_onto(vm, -25, -5)
         assert d.state == GameState.BATTLE and d.current_enemy.name == "马歇尔"
-        assert d.player.vehicle is None, "强制人战应临时收车"
+        assert d.player.combat_on_foot is True, "强制人战应切步行形态"
+        assert d.player.vehicle is not None, "战车链接应保留（战后恢复乘车）"
         kill_current_enemy(vm)
-        assert d.player.vehicle is not None, "战后应恢复战车"
-        assert d.current_vehicle is not None and d.current_vehicle.is_alive() or True
+        assert d.player.combat_on_foot is False, "战后应恢复乘车形态"
 
         # ── 存档往返 ──
         assert vm.command_save(1), "应可保存"

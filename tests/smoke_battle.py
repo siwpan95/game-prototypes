@@ -85,6 +85,27 @@ def main():
         vm.command_defend()
         assert vehicle.defense == v_def_before, "防御姿态结束后战车防御应复原"
 
+        # ── 乘降切换：步行用人属性、战车不承伤 ──
+        vm.command_new_game()
+        d = vm.data
+        player, vehicle = d.player, d.current_vehicle
+        vehicle.hp = vehicle.max_hp
+        fresh_battle(vm, 4)
+        vm.command_toggle_vehicle()  # 下车
+        assert player.combat_on_foot is True, "应切步行形态"
+        plates_before = vehicle.armor_plates
+        hp_before = player.hp
+        vm.command_attack()  # 步行攻击 → 敌人反击打人
+        if d.current_enemy is not None and d.current_enemy.is_alive():
+            assert player.hp < hp_before, "步行时人应直接承伤"
+            assert vehicle.armor_plates == plates_before, "步行时战车不应承伤"
+        vm.command_toggle_vehicle()  # 上车
+        assert player.combat_on_foot is False, "应恢复乘车形态"
+
+        # ── 战斗面板显示形态 ──
+        text = vm._render_battle()
+        assert "形态:" in text and "乘战车" in text, "战斗面板应显示形态"
+
         # ── 步行（无战车）：防御减伤，无随机 ──
         player.vehicle = None
         d.current_vehicle = None

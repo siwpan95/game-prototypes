@@ -117,6 +117,7 @@ class MainWindow:
             ("攻击(1)", lambda: self.vm.command_attack()),
             ("防御(2)", lambda: self.vm.command_defend()),
             ("道具(3)", lambda: self.vm.command_open_inventory()),
+            ("乘降(0)", lambda: self.vm.command_toggle_vehicle()),
             ("逃跑(4)", lambda: self.vm.command_escape()),
         ]
         for text, cmd in battle_buttons:
@@ -286,6 +287,8 @@ class MainWindow:
                 self.vm.command_open_inventory()
             elif event.char == '4':
                 self.vm.command_escape()
+            elif event.char == '0':
+                self.vm.command_toggle_vehicle()
             elif event.char in '56789':
                 skill_idx = int(event.char) - 5
                 if skill_idx < len(d.player.skills):
@@ -393,17 +396,22 @@ class MainWindow:
         V键：查看战车
         Q键：任务日志
         R键：休息（仅在城镇）
-        ESC键：返回/打开菜单
-        数字键：选择选项
-        5-9键：战斗中释放技能
+        S键：保存（3 槽位）
+        ESC键：暂停菜单/返回
+        
+        城镇菜单：
+        1 商店  2 战车店(改造)  3 旅馆  4 修理店  5 悬赏榜  6 离开
+        
+        战斗中：
+        1 攻击  2 防御  3 道具  0 乘降  4 逃跑  5-9 技能
         
         游戏提示：
-        - 探索无限世界，击败敌人
-        - 学习技能，在战斗中释放
+        - 悬赏榜接取通缉犯，荒野中 B 标记即为赏金首位置
+        - 战车先耗装甲片再伤耐久，善用修理店
+        - 部分对决强制步行（马歇尔/帕鲁），人类武器派上用场
+        - 改造店可开炮孔、强化防御、扩容装甲片、更换引擎
         - 完成任务获取丰厚奖励
-        - 乘坐战车获得属性加成
-        - 收集金钱和装备
-        - 升级角色能力
+        - 升级角色能力，按等级解锁新技能
         """)
 
     def _show_about(self):

@@ -46,8 +46,6 @@ class GameViewModel:
 
         self._last_update = time.time()
         self._running = False
-        # 强制人战时的临时收车备份（战斗结束后恢复）
-        self._vehicle_backup = None
 
     # ═══════════════════════════════════════════════════
     # 初始化
@@ -55,7 +53,6 @@ class GameViewModel:
 
     def init_new_game(self):
         """初始化新游戏"""
-        self._vehicle_backup = None
         self.data = GameData()
         self.data.config = self.config
         self.data.player = Character("雷班纳", 100, 100, 15, 8, 12)
@@ -243,18 +240,21 @@ class GameViewModel:
         # 乘战车作战时显示战车状态
         vehicle_line = ""
         vehicle = self.data.player.vehicle
-        if vehicle is not None and vehicle.is_alive():
+        on_foot = self.data.player.combat_on_foot
+        if vehicle is not None and vehicle.is_alive() and not on_foot:
             vehicle_line = (
                 f"        ║  战车: {vehicle.name} "
                 f"HP: {vehicle.hp}/{vehicle.max_hp}"
                 f"  燃料: {int(vehicle.fuel)}/{int(vehicle.max_fuel):<20}║\n"
             )
+        mode = "步行" if on_foot else ("乘战车" if vehicle is not None else "步行")
 
         return (
             f"\n"
             f"        ╔══════════════════════════════════════════════════════╗\n"
             f"        ║                     战 斗                           ║\n"
             f"        ╠══════════════════════════════════════════════════════╣\n"
+            f"        ║  形态: {mode:<44}║\n"
             f"        ║                                                      ║\n"
             f"        ║  {enemy.name:^20}                                    ║\n"
             f"        ║  HP: {enemy.hp:>3}/{enemy.max_hp:<3}                                      ║\n"
@@ -938,18 +938,16 @@ class GameViewModel:
         self._notify_state()
 
     def _start_bounty_battle(self, bounty):
-        """赏金首明雷战斗：记录 bounty、强制人战则临时下车"""
+        """赏金首明雷战斗：记录 bounty、强制人战则切步行形态"""
         d = self.data
         enemy_data = self.config.enemies.get(bounty.enemy_id)
         if enemy_data is None:
             d.add_log(f"{bounty.name}的战斗数据缺失（敌人ID {bounty.enemy_id}）！")
             return
         d.current_bounty_id = bounty.id
-        self._vehicle_backup = None
-        if bounty.on_foot and d.player.vehicle is not None:
-            # 强制人战：临时收车，战斗结束后恢复
-            self._vehicle_backup = d.player.vehicle
-            d.player.vehicle = None
+        if bounty.on_foot:
+            # 强制人战：切步行形态，战斗结束后自动恢复乘车
+            d.player.combat_on_foot = True
         enemy = Enemy(enemy_data)
         d.state = GameState.BATTLE
         d.current_enemy = enemy
@@ -962,11 +960,29 @@ class GameViewModel:
         d.add_log(f"遭遇了赏金首{bounty.name}！")
         self._notify_state()
 
+    def command_toggle_vehicle(self):
+        """战斗中乘降切换（战车损坏或强制人战不可乘车）"""
+        d = self.data
+        if d.state != GameState.BATTLE:
+            return
+        player = d.player
+        vehicle = player.vehicle
+        if vehicle is None or not vehicle.is_alive():
+            d.add_log("战车已损坏，无法乘车！")
+            return
+        if player.combat_on_foot:
+            player.combat_on_foot = False
+            self.battle_text.set(self.battle_text.get() + "\n你跳上了战车。")
+            d.add_log("乘上了战车。")
+        else:
+            player.combat_on_foot = True
+            self.battle_text.set(self.battle_text.get() + "\n你跳下了战车。")
+            d.add_log("跳下了战车。")
+        self._notify_state()
+
     def _end_battle(self):
-        """结束战斗并恢复临时下车的战车"""
-        if self._vehicle_backup is not None:
-            self.data.player.vehicle = self._vehicle_backup
-            self._vehicle_backup = None
+        """结束战斗：恢复乘车形态"""
+        self.data.player.combat_on_foot = False
         BattleEngine.end_battle(self.data)
 
     def _apply_battle_result(self, result):

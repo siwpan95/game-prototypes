@@ -24,18 +24,24 @@ class Character:
         self.exp_to_next = 100
         self.skills = []  # list[Skill]
         self.equipment = {}  # dict[槽位名 -> Item]，人类装备
+        # 战斗形态：False=乘战车（战车承伤），True=步行（人直接承伤，用人类武器）
+        self.combat_on_foot = False
         # 当前乘坐的战车引用（由外部设置）
         self.vehicle: Optional["Vehicle"] = None
 
     @property
+    def _weapon_bonus(self) -> int:
+        weapon = self.equipment.get("武器")
+        return weapon.effect_value if weapon is not None else 0
+
+    @property
     def attack(self):
-        """攻击力 = 基础攻击 + 战车加成 + 武器加成"""
+        """攻击力：步行=基础+人类武器；乘车=基础+战车武器"""
+        if self.combat_on_foot:
+            return self._base_attack + self._weapon_bonus
         total = self._base_attack
         if self.vehicle and self.vehicle.is_alive():
             total += self.vehicle.attack
-        weapon = self.equipment.get("武器")
-        if weapon is not None:
-            total += weapon.effect_value
         return total
 
     @attack.setter
@@ -44,13 +50,13 @@ class Character:
 
     @property
     def defense(self):
-        """防御力 = 基础防御 + 战车加成 + 各防具加成"""
+        """防御力 = 基础防御 + 防具加成 + 战车加成（乘车时）"""
         total = self._base_defense
-        if self.vehicle and self.vehicle.is_alive():
-            total += self.vehicle.defense
         for slot, item in self.equipment.items():
             if slot != "武器":
                 total += item.effect_value
+        if not self.combat_on_foot and self.vehicle and self.vehicle.is_alive():
+            total += self.vehicle.defense
         return total
 
     @defense.setter
@@ -103,9 +109,10 @@ class Character:
         """造成伤害，返回实际伤害值
 
         原作语义：乘战车且战车存活时，伤害由战车全额承担（车内人免火）；
-        战车被毁或未乘战车时，才扣驾驶员 HP（防御减伤）。
+        步行（或战车毁）时扣驾驶员 HP（防御减伤）。
         """
-        if self.vehicle and self.vehicle.is_alive():
+        if (self.vehicle and not self.combat_on_foot
+                and self.vehicle.is_alive()):
             return self.vehicle.take_damage(damage)
         actual_damage = max(1, damage - self.defense // 2)
         self.hp -= actual_damage
