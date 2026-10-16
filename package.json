@@ -1,0 +1,19 @@
+{
+  "name": "text-adventure-host",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cordis host for the text-adventure puzzle service (Python puzzles over a JSON-RPC stdio bridge)",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/boot.mjs",
+    "dev": "node --watch src/boot.mjs",
+    "smoke": "node src/smoke.mjs",
+    "test": "node src/smoke.mjs"
+  },
+  "dependencies": {
+    "@cordisjs/plugin-loader": "^1.0.0-rc.8",
+    "@cordisjs/plugin-logger-console": "^1.0.0",
+    "cordis": "^4.0.0-rc.10"
+  }
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文字解谜 · Text Adventure</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #1e1e2e;
+    --panel: #2d2d41;
+    --line: #45455f;
+    --ink: #ebebf5;
+    --muted: #9a9ab8;
+    --accent: #8964ea;
+    --ok: #50c878;
+    --bad: #dc5050;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 1rem 1.25rem 3rem;
+    background: var(--bg); color: var(--ink);
+    font: 16px/1.55 "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  }
+  h1 { font-size: 1.15rem; margin: 0 0 .75rem; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: .75rem; }
+  .toolbar select, .toolbar button {
+    font: inherit; padding: .35rem .7rem; border-radius: 6px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  }
+  .toolbar button { cursor: pointer; }
+  .toolbar button:hover { border-color: var(--accent); }
+  #scoreboard { color: var(--muted); margin: 0 0 .5rem; }
+  #status { min-height: 1.5em; margin: 0 0 1rem; color: var(--accent); }
+  .view { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; }
+  .text { margin: 0 0 .75rem; font-size: 1.05rem; }
+  .text.muted { color: var(--muted); font-size: .95rem; }
+  .field { display: flex; gap: .5rem; align-items: center; margin: .5rem 0 1rem; }
+  .field input {
+    font: inherit; padding: .35rem .6rem; border-radius: 6px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--ink); min-width: 12rem;
+  }
+  .options { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .option, .token, .key, .swatch, .direction {
+    font: inherit; cursor: pointer; border-radius: 6px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+    padding: .35rem .7rem;
+  }
+  .option:hover, .token:hover, .key:not(:disabled):hover, .swatch:hover { border-color: var(--accent); }
+  .token.selected { border-color: var(--accent); background: #3a2f63; }
+  .sequence { list-style: none; display: flex; gap: .4rem; padding: 0; margin: 0 0 1rem; flex-wrap: wrap; }
+  .grid { border-collapse: collapse; margin: .5rem 0 1rem; }
+  .grid td {
+    width: 2.2rem; height: 2.2rem; text-align: center; vertical-align: middle;
+    border: 1px solid var(--line); background: var(--bg); cursor: pointer;
+  }
+  .grid td:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .grid td.fixed { color: var(--muted); background: #26263a; cursor: default; }
+  .grid td.revealed { background: #33334d; cursor: default; }
+  .grid td.flagged { color: var(--bad); }
+  .grid td.matched { background: #2f4a3a; }
+  .keyboard { display: flex; flex-wrap: wrap; gap: .3rem; margin: .5rem 0; max-width: 34rem; }
+  .key { min-width: 2rem; padding: .25rem .45rem; }
+  .key-correct { border-color: var(--ok); color: var(--ok); }
+  .key-wrong { border-color: var(--bad); color: var(--bad); text-decoration: line-through; }
+  .key:disabled { cursor: default; opacity: .85; }
+  .colors { display: flex; flex-wrap: wrap; gap: .5rem; margin: .5rem 0; }
+  .swatch-red { border-color: #dc5050; }
+  .swatch-green { border-color: #50c878; }
+  .swatch-blue { border-color: #508ce6; }
+  .swatch-yellow { border-color: #e6c846; }
+  .board { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+  .direction-pad { display: grid; grid-template-columns: repeat(3, 3rem); gap: .3rem; }
+  .direction-up { grid-column: 2; }
+  .direction-left { grid-column: 1; grid-row: 2; }
+  .direction-down { grid-column: 2; grid-row: 2; }
+  .direction-right { grid-column: 3; grid-row: 2; }
+  .list { color: var(--muted); margin: 0 0 1rem 1.2rem; padding: 0; }
+  .solved { color: var(--ok); font-weight: 600; }
+  .placeholder { color: var(--muted); }
+  .hint { color: var(--muted); font-size: .9rem; margin-top: 1.5rem; }
+  .hint code { color: var(--ink); }
+</style>
+</head>
+<body>
+<h1>文字解谜 · Text Adventure</h1>
+
+<div class="toolbar">
+  <label>谜题 <select id="kind"><option value="">自动选择</option></select></label>
+  <label>难度
+    <select id="difficulty">
+      <option value="easy">简单</option>
+      <option value="medium" selected>中等</option>
+      <option value="hard">困难</option>
+    </select>
+  </label>
+  <button id="new" type="button">下一题</button>
+  <button id="hint" type="button">提示</button>
+  <button id="reset" type="button">重置</button>
+</div>
+
+<p id="scoreboard">得分 0 · 连击 0 · 已完成 0</p>
+<p id="status" role="status" aria-live="polite">正在连接…</p>
+
+<main id="board"><p class="placeholder">选择一种谜题开始。</p></main>
+
+<p class="hint">
+  全部谜题由 Python 进程计算（状态唯一真相源），本页只负责渲染视图模型：
+  浏览器 → Cordis 宿主 → JSON-RPC stdio → 谜题服务。
+  方向键可直接操作 2048；雷区可按 <code>F</code> 或右键插旗。
+</p>
+
+<script type="module" src="./client/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "id": "puzzles",
+      "name": "./src/plugins/puzzle.mjs",
+      "config": {
+        "language": "zh",
+        "timeoutMs": 15000
+      }
+    },
+    {
+      "id": "web",
+      "name": "./src/plugins/web.mjs",
+      "config": {
+        "host": "127.0.0.1",
+        "port": 8080
+      }
+    }
+  ]
+}
