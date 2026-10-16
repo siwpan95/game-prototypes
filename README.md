@@ -1,39 +1,66 @@
 # text_adventure
 
-文字冒险解谜游戏（英文 + 中文双版本）。
+文字冒险解谜游戏（英文 + 中文双版本），现在也可以**在浏览器里玩**。
 
 ## 简介
 基于 pygame 的文字冒险/解谜游戏，整合多种小谜题（数学、谜语、填字、数独、猜数字、扫雷、数织、2048 等），由引擎驱动谜题生命周期与计分。含英文版 `text_adventure/` 与中文版 `text_adventure_zh/` 两个并行实现。
 
+谜题逻辑（14 种）现在跑在一个**无头 Python 谜题服务**里，外面套一层 **Cordis 宿主**（Node）负责编排与渲染，因此同一个谜题服务可以同时供 pygame 客户端和浏览器客户端使用——加一道谜题不必改任何客户端。
+
 ## 语言 / 类型
-- 语言：Python
-- 类型：桌面 GUI 游戏（pygame 文字解谜）
+- 语言：Python（谜题与 pygame 客户端）、JavaScript（Cordis 宿主与浏览器客户端）
+- 类型：桌面 GUI 游戏 + 浏览器可玩游戏
 
 ## 快速开始
 
 > 下文的 `<PATH>` 是路径占位符，请替换成本机实际克隆位置。**不要**把绝对路径写进代码或配置。
 
+### 桌面版（pygame）
 ```powershell
 cd <PATH>\text-adventure
 
 # 一次性：建好可用的虚拟环境（会顺带跑一次无头冒烟测试）
 pwsh -NoProfile -File scripts\rebuild_venv.ps1
 
-# 开玩（中文版 / 英文版）
-.\.venv\Scripts\python.exe text_adventure_zh\main.py
-.\.venv\Scripts\python.exe text_adventure\main.py
+.\.venv\Scripts\python.exe text_adventure_zh\main.py    # 中文版
+.\.venv\Scripts\python.exe text_adventure\main.py       # 英文版
 ```
 
-不需要虚拟环境也可以，直接 `python scripts\smoke_headless.py` 与 `python text_adventure_zh\main.py` 即可（需已装 `pygame-ce`）。
+### 浏览器版（Cordis 宿主）
+```powershell
+npm install        # 一次性：装 cordis 与官方插件
+npm start          # 启动宿主，打印的地址（默认 http://127.0.0.1:8080）直接用浏览器打开
+```
+
+端口、绑定地址、谜题语言都在 `cordis.json` 里改（默认只绑回环地址，不对局域网开放）。
+
+## 架构（三层，谜题逻辑只有一个真相源）
+
+```
+浏览器 public/                      渲染层：把视图模型映射到语义 HTML
+   │  POST 动作 + SSE 快照
+Node Cordis 宿主 src/               编排层：插件装载、生命周期、HTTP/SSE
+   │  JSON-RPC 2.0 over stdio（src/core/bridge.mjs ↔ python/rpc_server.py）
+Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、计分、视图模型
+   └─ pygame 客户端 text_adventure*_zh/ui.py  共存的旧渲染层
+```
+
+- **谜题即插件**：一种谜题在 `puzzle_service/registry.py` 里登记一次（名称、交互模型、可执行动作、
+  答案类型、靠提交还是靠动作判定），选择器、RPC 方法面、视图模型全部读注册表，不再有硬编码的种类列表。
+- **客户端只认少量渲染原语**（10 个：文本 / 输入框 / 选项 / 列表 / 线索 / 网格 / 序列 / 字母键盘 / 颜色 / 棋盘）。
+  未知原语会**响亮失败**，不会渲染成空白页——半成品谜题因此暴露在测试里，而不是用户面前。
+- **谜底不进视图模型**：数独只发题目网格、填字只发玩家网格与线索（有测试守着）。
 
 ## 目录要点
-- `text_adventure/`：英文版（`main.py` 入口）
-- `text_adventure_zh/`：中文版（`main.py` 入口）
-- 各版本内：`engine.py`（引擎）、`ui.py`（pygame 界面）、`events.py`（事件总线）、`domain.py`（状态）、`gameplay_pool/`（谜题库）
-- `shared/`：两版共用层——`font_utils.py`（跨平台 CJK 字体，按字体族名解析，不写死路径）、`paths.py`（项目根发现与导入路径引导）、`ui_boot.py`（把界面跑到无头环境里的启动器）、`cli.py`（控制台入口）
-- `scripts/`：`rebuild_venv.ps1`（重建并验证虚拟环境）、`smoke_headless.py`（无头端到端冒烟测试）
-- `docs/`：文档枢纽（`records/` 记录实测证据，`spec/` 放长期有效的规范）
-- `pyproject.toml`：依赖与打包声明；`pip install -e .` 后 `shared` 在任何启动方式下都可导入
+- `text_adventure/`、`text_adventure_zh/`：英文版与中文版（`main.py` 入口、`ui.py` pygame 界面、`gameplay_pool/` 谜题库）
+- `puzzle_service/`：无头领域层——`registry.py`（kind 注册表）、`views.py`（视图模型）、`service.py`（会话/计分/动作）
+- `python/rpc_server.py`：JSON-RPC 2.0 stdio 服务端（仅标准库）
+- `src/`：Cordis 宿主——`boot.mjs`（唯一启动入口）、`core/bridge.mjs`（Node 侧桥）、`plugins/`（puzzle / web / render）、`smoke.mjs`（端到端冒烟）
+- `public/`：浏览器客户端（`index.html` + `client/`）
+- `shared/`：两版共用层——`font_utils.py`（跨平台 CJK 字体）、`paths.py`（项目根发现与导入引导）、`ui_boot.py`、`cli.py`
+- `scripts/`：`rebuild_venv.ps1`（重建并验证虚拟环境）、`smoke_headless.py`（无头端到端冒烟）
+- `tests/`：Python 测试（无显示器、不依赖 pygame 窗口）
+- `docs/`：文档枢纽——`spec/`（长期规范，如 [平台化路线图](docs/spec/SPEC-101-platform-roadmap.md)）、`records/`（实测记录与[调研卷](docs/records/platform-research-2026-10/README.md)）
 
 ## 两个版本的隔离（重要）
 两个版本各自导出同名的顶层模块（`engine`、`events`、`domain`、`gameplay_pool`）。**同一进程里只能有一个版本生效**：
@@ -41,44 +68,28 @@ pwsh -NoProfile -File scripts\rebuild_venv.ps1
 
 - 启动某一版时用 `shared.paths.bootstrap_import_path("zh" | "en")` 显式声明；
 - 需要同时验证两版时**必须分进程**（`scripts/smoke_headless.py` 就是这么做的）；
-- 后续平台化会把两侧收敛到带包名的导入（`text_adventure_zh.engine`），届时这条限制消失。
-
-## 运行方式与依赖
-```
-python text_adventure/main.py          # 英文版
-python text_adventure_zh/main.py       # 中文版
-python scripts/smoke_headless.py       # 无头冒烟测试（不需显示器）
-pwsh -NoProfile -File scripts/rebuild_venv.ps1   # 重建 .venv 并验证
-```
-- 依赖：`pygame-ce >= 2.5`（导入名仍是 `pygame`）。`pyproject.toml` 里声明，`dev` 额外装 `pytest`。
-- 虚拟环境：`.venv/` 不入库。仓库里曾经提交过一个**在别的机器/路径下建的** `.venv`（其 `pyvenv.cfg` 指向已不存在的解释器），
-  已改为用 `scripts/rebuild_venv.ps1` 在本地重建；脚本运行期探测解释器（`$env:TEXT_ADVENTURE_PYTHON` → `python3` → `python`），
-  不钉死版本、不写死盘符。
+- `puzzle_service` 只做包名导入（`text_adventure_zh.gameplay_pool`），因此可以在一个进程里切换语言；
+- 收敛为「一份实现 + 语言资源」是后续计划（见 [SPEC-101](docs/spec/SPEC-101-platform-roadmap.md) §阶段 M5）。
 
 ## 测试状态（2026-10-16 复核）
-- `python scripts/smoke_headless.py`：**通过**。4 项检查＝谜题注册表（14 种全部可生成并给出提示）、CJK 字体解析、
-  中文版 菜单→答题→结果 三个画面、英文版同样三个画面；本机 `pygame-ce 2.5.8 / Python 3.14.7`。
-- 修复前两个版本**都无法启动**：`ui.py` 从一个从未存在的模块 `shared.font_utils` 导入字体，
-  `UI.__init__` 直接 `ModuleNotFoundError`。`py_compile` 只做语法检查，因此历史上「语法检查通过」并不代表能运行。
-- 已知行为（既有，非本轮引入）：`MathPuzzle`、`RiddlePuzzle`、`GuessNumberPuzzle`、`PatternPuzzle` 四种的 `check_answer`
-  对类型不对的入参抛 `ValueError`/`TypeError` 而非返回 `False`。详见 `docs/records/text-adventure-boot-crash-fix_2026-10-16.md`。
+- `pytest tests -q`：**58 passed**——注册表契约、视图契约（含「谜底不泄漏」）、服务契约（含 14 种全部可解、动作驱动不重复计分）、桥契约（真子进程）、宿主跨语言契约。
+- `npm run smoke`：**SMOKE PASSED（11 项）**——真启动 Cordis 宿主、真发 HTTP、真连 SSE；14 种视图全部通过原语白名单校验。
+- `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端在无头环境走完 菜单→答题→结果。
+- 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11。
+- 修复前两个版本**都无法启动**（`ui.py` 从一个从未存在的模块 `shared.font_utils` 导入字体），
+  详见 [记录](docs/records/text-adventure-boot-crash-fix_2026-10-16.md)。
+- 已知行为（既有，非本轮引入）：`MathPuzzle`、`RiddlePuzzle`、`GuessNumberPuzzle`、`PatternPuzzle` 的
+  `check_answer` 对类型不对的入参抛 `ValueError`/`TypeError`；服务边界把它转成结构化错误，不计分。
 
-## 架构方向（进行中）
-目标是把「谜题 = 插件」做实，让**加一道谜题、换一层渲染**都不必改引擎：
-
-```
-浏览器（通用控件，无 pygame 依赖）
-  │  HTTP / WebSocket
-Node Cordis 宿主   plugin-loader + 插件：谜题服务 / Web 服务 / 会话 / 计分
-  │  JSON-RPC 2.0 over stdio（Python 侧零依赖标准库协议层）
-Python 无头谜题进程  谜题注册表 + 视图模型 + 计分规则（状态的唯一真相源）
-  └─ pygame 版 ui.py 作为共存的旧客户端保留
-```
-
-分阶段推进；当前进度与下一步见 `docs/`。
+## 依赖
+- Python：`pygame-ce >= 2.5`（导入名仍是 `pygame`），声明在 `pyproject.toml`；`dev` 额外装 `pytest`。
+- Node：`cordis`、`@cordisjs/plugin-loader`、`@cordisjs/plugin-logger-console`，声明在 `package.json`。
+  Cordis 仍是 RC 线，版本在此显式钉住（调研见 [调研卷](docs/records/platform-research-2026-10/01-plugin-kernel.md)）。
+- 虚拟环境 `.venv/` 与 `node_modules/` 都不入库。仓库里曾提交过一个**在别的机器/路径下建的** `.venv`
+  （`pyvenv.cfg` 指向已不存在的解释器），已改为用 `scripts/rebuild_venv.ps1` 在本地重建。
 
 ## 治理
-- 规则来自治理仓（分发版落地见 `governance/`），本仓自有的文档按四分类（枢纽 / 规范 / 事实源 / 记录）放在 `docs/`。
+- 规则来自治理仓（分发版落地见 DSH 检出的 `governance/`），本仓自有文档按四分类放在 [`docs/`](docs/README.md)。
 - 本仓**没有** Node 治理运行时，因此不假装跑过 `check:governance`：相关规则按条目人工机械核对并在提交信息里记账。
 
 ## 规则内核接入判定（R2 · 2026-08-27，2026-10-16 复核不变）

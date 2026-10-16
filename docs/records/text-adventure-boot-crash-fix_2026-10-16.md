@@ -9,7 +9,7 @@
 | # | 缺陷 | 证据 | 影响 |
 | --- | --- | --- | --- |
 | 1 | `shared.font_utils` 不存在 | `ModuleNotFoundError: No module named 'shared'`，抛在 `UI.__init__` 第 117 行 `self.font_lg = _load_font(32)` | **两个版本都打不开**：窗口还没画第一帧就崩。README 当时只声明 `py_compile` 通过，所以这个缺陷从未暴露 |
-| 2 | `.venv` 是死环境 | `pyvenv.cfg` 记录 `home = F:\Python314`、`command = F:\Python314\python.exe -m venv G:\games\text_adventure\.venv`；本机解释器实际在 `G:\Python314\python.exe`，且该盘符下的路径不存在 | 任何 `.venv\Scripts\python.exe` 调用都失败；同时它记录的是**另一台机器/另一个路径**（`G:\games\...`），仓被搬动过 |
+| 2 | `.venv` 是死环境 | `pyvenv.cfg` 里记录的解释器所在盘符与**本机实际盘符不同**（`home` 指向一个已不存在的盘），且创建命令里还带着**另一个目录树**（不是本仓当前的克隆位置）；本机真实解释器在另一个盘符的同名目录下，而 `pyvenv.cfg` 记录的那个盘符下没有该路径 | 任何 `.venv\Scripts\python.exe` 调用都失败；同时它记录的是**另一台机器/另一个路径**，说明仓被搬动过。按治理规则，**本记录不复述具体盘符**——要复现就自己看 `pyvenv.cfg` |
 | 3 | 两个版本导出同名顶层模块 | `text_adventure/` 与 `text_adventure_zh/` 各自含 `gameplay_pool/`、`engine.py`、`events.py`、`domain.py`，导入走扁平写法（`from engine import Engine`） | 谁先进入 `sys.path` 谁生效：同一进程内先导入的版本会**静默遮蔽**另一个。冒烟测试最初正是抓到这一点（中文版报 `cannot import name 'COLOR_CN' from 'gameplay_pool.color_sequence'`，实际拿到的是英文版的文件） |
 
 ## 二、输入健壮性实测（供服务边界设计用）
