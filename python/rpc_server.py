@@ -75,6 +75,8 @@ class RpcServer:
             "content.info": self._content_info,
             "profile.info": self._profile_info,
             "profile.share": self._profile_share,
+            "profile.share.svg": self._profile_share_svg,
+            "profile.history": self._profile_history,
             "session.reset": self._reset,
             "server.ping": self._ping,
             "server.info": self._info,
@@ -125,6 +127,12 @@ class RpcServer:
 
     def _profile_share(self, day: str | None = None) -> dict[str, Any]:
         return {"card": self.service.share_card(day)}
+
+    def _profile_share_svg(self, day: str | None = None) -> dict[str, Any]:
+        return {"svg": self.service.share_card_svg(day)}
+
+    def _profile_history(self, limit: int = 14, day: str | None = None) -> dict[str, Any]:
+        return {"days": self.service.history(limit=limit, day=day)}
 
     def _ping(self) -> dict[str, Any]:
         return {"pong": True}
@@ -237,6 +245,8 @@ METHODS = (
     "content.info",
     "profile.info",
     "profile.share",
+    "profile.share.svg",
+    "profile.history",
     "server.info",
     "server.ping",
     "server.shutdown",

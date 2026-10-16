@@ -21,6 +21,7 @@ from puzzle_service.profile import (
     ProfileStore,
     default_profile_path,
     share_card,
+    share_card_svg,
 )
 from puzzle_service.service import PuzzleService
 
@@ -320,3 +321,169 @@ def test_cli_reports_progress_and_share_card(tmp_path):
     assert card.returncode == 0, card.stderr
     assert "每日一题" in card.stdout
     assert "不含谜底" in card.stdout
+
+
+# --- history ----------------------------------------------------------------
+
+
+def test_history_lists_days_newest_first():
+    profile = Profile()
+    for day in ("2026-10-10", "2026-10-11", "2026-10-12"):
+        _record(profile, day)
+    days = [record.day for record in profile.history()]
+    assert days == ["2026-10-12", "2026-10-11", "2026-10-10"]
+
+
+def test_history_respects_the_limit():
+    profile = Profile()
+    for index in range(10):
+        _record(profile, f"2026-10-{index + 1:02d}")
+    assert len(profile.history(limit=3)) == 3
+    assert profile.history(limit=3)[0].day == "2026-10-10"
+
+
+def test_history_does_not_show_days_after_the_anchor():
+    """Looking at an old day must not reveal later days."""
+    profile = Profile()
+    for day in ("2026-10-10", "2026-10-11", "2026-10-12"):
+        _record(profile, day)
+    days = [record.day for record in profile.history(day="2026-10-11")]
+    assert days == ["2026-10-11", "2026-10-10"]
+
+
+def test_history_is_empty_without_records():
+    assert Profile().history() == []
+
+
+def test_the_service_reports_history(tmp_path):
+    service = PuzzleService(language="zh", profile_path=tmp_path / "p.json")
+    assert service.history() == []
+    service.new_daily(session_id="s", day="2026-10-16")
+    service.submit("s", _answer_for(service._session("s").puzzle))
+    rows = service.history()
+    assert len(rows) == 1
+    assert rows[0]["day"] == "2026-10-16"
+    assert rows[0]["solved"] is True
+    assert rows[0]["kind"] == "guess_number" or rows[0]["kind"]
+
+
+def test_a_past_day_can_be_replayed_and_matches_its_record(tmp_path):
+    """The point of history: you can go back to a day and get the same puzzle."""
+    service = PuzzleService(language="zh", profile_path=tmp_path / "p.json")
+    first = service.new_daily(session_id="a", day="2026-10-10")
+    service.submit("a", _answer_for(service._session("a").puzzle))
+    listed = service.history(limit=5)[0]
+    assert listed["day"] == "2026-10-10"
+
+    replayed = service.new_daily(session_id="b", day=listed["day"])
+    assert replayed["kind"] == listed["kind"]
+    assert replayed["daily"]["played"] is True
+
+
+# --- the picture card -------------------------------------------------------
+
+
+def test_the_svg_card_is_well_formed_and_says_the_same_things():
+    import xml.etree.ElementTree as ElementTree
+
+    profile = Profile()
+    _record(profile, "2026-10-16", score=18, attempts=3, seconds=42)
+    svg = share_card_svg(profile, "2026-10-16")
+    root = ElementTree.fromstring(svg)  # raises if the markup is broken
+    assert root.tag.endswith("svg")
+    text = " ".join(node.text or "" for node in root.iter() if node.tag.endswith("text"))
+    assert "2026-10-16" in text
+    assert "已完成" in text
+    assert "得分 18" in text
+    assert "连续 1 天" in text
+    assert "不含谜底" in text
+
+
+def test_the_svg_card_is_readable_without_rendering_it():
+    """Text stays text: no paths, so a screen reader and a test can both read it."""
+    profile = Profile()
+    _record(profile, "2026-10-16")
+    svg = share_card_svg(profile, "2026-10-16")
+    assert "<text" in svg, "the card was rasterised into shapes"
+    root_label = svg.split("aria-label=", 1)[1].split('"', 2)[1]
+    assert "2026-10-16" in root_label
+    assert "不含谜底" in root_label
+
+
+def test_the_svg_card_states_the_outcome_without_relying_on_colour():
+    """Colour is decoration; the mark and the word carry the meaning (SC 1.4.1)."""
+    solved = share_card_svg(_with_day("2026-10-16", True), "2026-10-16")
+    unsolved = share_card_svg(_with_day("2026-10-16", False), "2026-10-16")
+    assert "✔ 已完成" in solved
+    assert "✘ 未完成" in unsolved
+
+
+def test_the_svg_card_escapes_player_data():
+    """A hostile day string must not be able to break out of the document."""
+    profile = Profile()
+    _record(profile, "2026-10-16")
+    svg = share_card_svg(profile, '"><script>alert(1)</script>')
+    assert "<script>" not in svg
+    assert "&lt;script&gt;" in svg or "&quot;&gt;" in svg
+    import xml.etree.ElementTree as ElementTree
+
+    ElementTree.fromstring(svg)
+
+
+def test_the_svg_card_handles_an_unplayed_day():
+    import xml.etree.ElementTree as ElementTree
+
+    svg = share_card_svg(Profile(), "2026-10-16")
+    ElementTree.fromstring(svg)
+    assert "还没玩" in svg
+
+
+def test_the_cli_writes_the_card_to_a_file(tmp_path):
+    profile_path = tmp_path / "cli" / "profile.json"
+    target = tmp_path / "card.svg"
+    env = {"TEXT_ADVENTURE_PROFILE": str(profile_path)}
+    result = subprocess.run(
+        [sys.executable, "-m", "puzzle_service.cli", "card", "2026-10-16", str(target)],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        cwd=str(ROOT),
+        env={**dict(**__import__("os").environ), **env},
+        timeout=180,
+    )
+    assert result.returncode == 0, result.stderr
+    assert target.is_file(), f"card was not written: {result.stdout}"
+    assert target.read_text(encoding="utf-8").startswith("<svg")
+
+
+def test_the_cli_lists_history(tmp_path):
+    profile_path = tmp_path / "h" / "profile.json"
+    store = ProfileStore(profile_path)
+    _record(store.profile, "2026-10-16", score=15)
+    _record(store.profile, "2026-10-15", solved=False)
+    store.save()
+
+    result = subprocess.run(
+        [sys.executable, "-m", "puzzle_service.cli", "history"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        cwd=str(ROOT),
+        env={**dict(**__import__("os").environ), "TEXT_ADVENTURE_PROFILE": str(profile_path)},
+        timeout=180,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "2026-10-16" in result.stdout
+    assert "共 2 天" in result.stdout
+    lines = result.stdout.strip().splitlines()
+    assert lines.index([line for line in lines if "2026-10-16" in line][0]) < lines.index(
+        [line for line in lines if "2026-10-15" in line][0]
+    ), "history should be newest first"
+
+
+def _with_day(day: str, solved: bool) -> Profile:
+    profile = Profile()
+    _record(profile, day, solved=solved)
+    return profile

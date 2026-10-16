@@ -24,7 +24,7 @@ from datetime import datetime
 from typing import Any
 
 from puzzle_service import views
-from puzzle_service.profile import DailyRecord, ProfileStore
+from puzzle_service.profile import DailyRecord, ProfileStore, share_card_svg
 from puzzle_service.registry import PuzzleKind, all_kinds, discover, get
 
 __all__ = ["Session", "PuzzleService", "InvalidAction", "InvalidAnswer"]
@@ -115,6 +115,27 @@ class PuzzleService:
         if self.profile is None:
             return "（未开启进度记录）"
         return self.profile.share_card(day)
+
+    def share_card_svg(self, day: str | None = None) -> str:
+        if self.profile is None:
+            return ""
+        return share_card_svg(self.profile, day)
+
+    def history(self, limit: int = 14, day: str | None = None) -> list[dict[str, Any]]:
+        """Recent daily records, newest first (used by the terminal history command)."""
+        if self.profile is None:
+            return []
+        return [
+            {
+                "day": record.day,
+                "kind": record.kind,
+                "solved": record.solved,
+                "score": record.score,
+                "attempts": record.attempts,
+                "seconds": round(record.seconds, 1),
+            }
+            for record in self.profile.history(limit=limit, day=day)
+        ]
 
     # --- content -------------------------------------------------------------
 

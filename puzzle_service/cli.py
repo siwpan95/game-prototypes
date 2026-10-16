@@ -14,6 +14,8 @@ Commands::
     daily [YYYY-MM-DD] [diff]  the puzzle of the day (same date = same puzzle)
     profile                    progress: days played, streak, best streak
     share [YYYY-MM-DD]         spoiler-free share card for a day
+    card [YYYY-MM-DD] [path]   write the picture (SVG) version of the share card
+    history [days] [YYYY-MM-DD]  recent daily records, newest first
     submit <answer>            answer the current puzzle
     act <action> [k=v ...]     run a kind action (reveal row=0 col=1, move direction=left, ...)
     hint                       show the current puzzle's hint
@@ -29,12 +31,21 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 from typing import Any, Iterable, Iterator, TextIO
 
 from puzzle_service.registry import UnknownKind
 from puzzle_service.service import InvalidAction, InvalidAnswer, PuzzleService
 
 __all__ = ["main_cli", "render_snapshot", "TerminalSession"]
+
+
+def _default_card_path(day: str | None) -> Path:
+    """Where a generated card goes: next to the profile, in the ignored saves dir."""
+    from puzzle_service.profile import default_profile_path
+
+    stamp = day or "latest"
+    return default_profile_path().parent / f"share-{stamp}.svg"
 
 DIFFICULTIES = ("easy", "medium", "hard")
 INTERACTIVE_ALIASES = {"": "state", "s": "submit", "n": "new", "h": "hint", "q": "quit", "?": "help"}
@@ -192,6 +203,10 @@ class TerminalSession:
                 )
             if verb == "share":
                 return True, True, self.service.share_card(args[0] if args else None)
+            if verb == "card":
+                return True, True, self._card(args)
+            if verb == "history":
+                return True, True, self._history(args)
             if verb == "content":
                 return True, True, json.dumps(
                     self.service.content_summary(), ensure_ascii=False, indent=2
@@ -221,6 +236,42 @@ class TerminalSession:
             return True, False, f"× 缺少参数或未知种类：{exc}"
 
         return True, False, f"× 未知命令 {verb!r}；输入 help 看可用命令"
+
+    def _card(self, args: list[str]) -> str:
+        """Write the picture version of the share card next to the profile.
+
+        Written to a file rather than printed: the SVG is a document, and terminal
+        output would just be its markup.
+        """
+        day = args[0] if args else None
+        svg = self.service.share_card_svg(day)
+        if not svg:
+            return "× 未开启进度记录，无法生成卡片"
+        target = Path(args[1]) if len(args) > 1 else _default_card_path(day)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(svg + "\n", encoding="utf-8", newline="\n")
+        return f"卡片已写入 {target}"
+
+    def _history(self, args: list[str]) -> str:
+        limit = 14
+        day = None
+        for token in args:
+            if token.isdigit():
+                limit = int(token)
+            else:
+                day = token
+        rows = self.service.history(limit=limit, day=day)
+        if not rows:
+            return "（还没有记录：先玩每日一题，或本会话未开启进度记录）"
+        lines = ["日期\t\t种类\t\t结果\t得分\t尝试\t用时"]
+        for row in rows:
+            mark = "✔" if row["solved"] else "✘"
+            lines.append(
+                f"{row['day']}\t{row['kind']}\t{mark}\t{row['score']}\t"
+                f"{row['attempts']}\t{row['seconds']}s"
+            )
+        lines.append(f"共 {len(rows)} 天")
+        return "\n".join(lines)
 
     # --- commands -----------------------------------------------------------
 

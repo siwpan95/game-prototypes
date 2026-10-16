@@ -33,6 +33,7 @@ __all__ = [
     "default_profile_path",
     "PROFILE_ENV_VAR",
     "share_card",
+    "share_card_svg",
     "SOLVED_MARK",
     "UNSOLVED_MARK",
 ]
@@ -133,6 +134,18 @@ class Profile:
 
     # --- reporting -----------------------------------------------------------
 
+    def history(self, limit: int = 14, day: str | None = None) -> list[DailyRecord]:
+        """The most recent *limit* days, newest first.
+
+        Listing history is what turns a streak from a number into evidence:
+        a player can see which days they played, and a test can check that a
+        replay of an old day still resolves to the same puzzle. Without it the
+        only way back to a past day was to remember its date from elsewhere.
+        """
+        anchor = day or date.today().isoformat()
+        days = [key for key in sorted(self.days) if key <= anchor]
+        return [self.days[key] for key in reversed(days[-max(1, limit):])]
+
     def share_card(self, day: str | None = None) -> str:
         """A spoiler-free summary of a day — the thing a player pastes to a friend.
 
@@ -224,11 +237,7 @@ class ProfileStore:
 
 def share_card(profile: Profile, day: str | None = None) -> str:
     """Render the share text for *day* (default: today, else the most recent day)."""
-    key = day
-    if key is None:
-        key = date.today().isoformat()
-        if key not in profile.days and profile.days:
-            key = max(profile.days)
+    key = _card_day(profile, day)
     header = f"文字解谜 · 每日一题 {key}"
     safe = "（本卡片不含谜底，可安全分享）"
     if key not in profile.days:
@@ -250,6 +259,83 @@ def share_card(profile: Profile, day: str | None = None) -> str:
     return "\n".join(lines)
 
 
+def share_card_svg(profile: Profile, day: str | None = None) -> str:
+    """A picture version of the share card, as standalone SVG.
+
+    SVG rather than a raster format for two reasons: it needs no dependency and no
+    browser to produce, and — because the text stays as ``<text>`` elements — the
+    card remains readable by a screen reader and checkable by a test. A PNG export
+    would have thrown both away.
+
+    The card shows the same three facts as the text version and nothing else: no
+    answer, no puzzle content. The layout is drawn by hand from plain rectangles
+    and text, so there is no font or image to ship alongside it.
+    """
+    key = _card_day(profile, day)
+    record = profile.days.get(key)
+    solved = bool(record and record.solved)
+    accent = "#50c878" if solved else "#dc5050"
+    status = "已完成" if solved else ("未完成" if record else "还没玩")
+    kind = record.kind if record else "—"
+    score = record.score if record else 0
+    seconds = f"{record.seconds:.0f}s" if record else "—"
+    attempts = record.attempts if record else 0
+    streak = profile.current_streak(key) if record else 0
+
+    parts: list[str] = []
+    # Every interpolated value is escaped, including the ones inside attributes:
+    # a day string arrives from the caller, and an unescaped one could close the
+    # attribute and inject markup into the document (caught by a test, 2026-10-16).
+    label = _svg_escape(
+        f"文字解谜每日一题 {key}，{status}，得分 {score}，连续 {streak} 天，不含谜底"
+    )
+    parts.append(
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="480" height="260" '
+        f'viewBox="0 0 480 260" role="img" aria-label="{label}">'
+    )
+    parts.append('<rect width="480" height="260" rx="16" fill="#1e1e2e"/>')
+    parts.append('<rect x="16" y="16" width="448" height="228" rx="12" fill="#2d2d41"/>')
+    parts.append(
+        f'<text x="36" y="60" font-family="sans-serif" font-size="20" fill="#ebebf5">'
+        f'文字解谜 · 每日一题</text>'
+    )
+    parts.append(
+        f'<text x="36" y="88" font-family="sans-serif" font-size="14" fill="#9a9ab8">'
+        f'{_svg_escape(key)}</text>'
+    )
+    # Status row: a mark plus the word, so the outcome does not depend on colour
+    # alone (WCAG 2.2 SC 1.4.1).
+    parts.append(f'<circle cx="44" cy="128" r="9" fill="{accent}"/>')
+    parts.append(
+        f'<text x="62" y="134" font-family="sans-serif" font-size="18" fill="#ebebf5">'
+        f'{"✔" if solved else "✘"} {_svg_escape(status)} · {_svg_escape(str(kind))}</text>'
+    )
+    parts.append(
+        f'<text x="36" y="172" font-family="sans-serif" font-size="15" fill="#ebebf5">'
+        f'得分 {score} · 用时 {_svg_escape(seconds)} · 尝试 {attempts} 次</text>'
+    )
+    parts.append(
+        f'<text x="36" y="200" font-family="sans-serif" font-size="15" fill="#ebebf5">'
+        f'连续 {streak} 天（最佳 {profile.best_streak} 天）</text>'
+    )
+    parts.append(
+        f'<text x="36" y="228" font-family="sans-serif" font-size="12" fill="#9a9ab8">'
+        f'本卡片不含谜底，可安全分享</text>'
+    )
+    parts.append("</svg>")
+    return "\n".join(parts)
+
+
+def _card_day(profile: Profile, day: str | None) -> str:
+    """Which day a card is about: the one asked for, else today, else the latest."""
+    if day:
+        return day
+    today = date.today().isoformat()
+    if today not in profile.days and profile.days:
+        return max(profile.days)
+    return today
+
+
 def _parse_day(value: str | None) -> date | None:
     if not value:
         return None
@@ -257,3 +343,14 @@ def _parse_day(value: str | None) -> date | None:
         return datetime.strptime(value, "%Y-%m-%d").date()
     except (TypeError, ValueError):
         return None
+
+
+def _svg_escape(text: str) -> str:
+    """Escape text for XML content. A player's data must not be able to break the card."""
+    return (
+        str(text)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+    )
