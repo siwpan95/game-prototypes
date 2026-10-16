@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -75,3 +77,24 @@ def test_web_plugin_declares_its_injection():
     """Cordis throws at run time if a service is read without an inject declaration."""
     text = (ROOT / "src" / "plugins" / "web.mjs").read_text(encoding="utf-8")
     assert "static inject = ['puzzles']" in text, "web.mjs lost its inject declaration"
+
+
+def test_the_two_builds_stay_structurally_equal():
+    """Catches drift between text_adventure/ and text_adventure_zh/.
+
+    Both builds implement the same 14 kinds, and nothing else enforces that they
+    keep the same shape. The daily-puzzle work is the concrete cost of ignoring it:
+    a helper added to the Chinese base class only was missing in English, which
+    failed the first time the English build was actually played.
+    """
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "check_build_consistency.py")],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        cwd=str(ROOT),
+        timeout=300,
+    )
+    assert result.returncode == 0, f"{result.stdout}\n{result.stderr}"
+    assert "BUILD CONSISTENCY PASSED" in result.stdout

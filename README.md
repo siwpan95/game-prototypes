@@ -31,9 +31,16 @@ pwsh -NoProfile -File scripts\play.ps1 new sudoku ';' hint   # 多条命令共�
 .\.venv\Scripts\python.exe -m puzzle_service.cli kinds      # 列出全部谜题种类
 ```
 
-命令：`kinds` `content` `new [种类] [难度]` `submit <答案>` `act <动作> [k=v ...]` `hint` `state` `json` `help` `quit`。
+命令：`kinds` `content` `new [种类] [难度]` `daily [YYYY-MM-DD]` `submit <答案>` `act <动作> [k=v ...]` `hint` `state` `json` `help` `quit`。
 交互模式下直接输入选项序号即可作答；stdin 是管道时**不打印提示符**（提示符只给真人看），所以同一套代码既能手动玩也能被脚本驱动。
 出错的命令以非零码退出，脚本可直接分支判断。
+
+**每日一题**：`daily 2026-10-16` 按日期确定性地选题（类型与内容都由日期种子驱动），
+所以同一天在任何机器上都是同一题，也不需要服务端排期或预生成列表。
+```powershell
+pwsh -NoProfile -File scripts\play.ps1 daily            # 今天
+pwsh -NoProfile -File scripts\play.ps1 daily 2026-10-16 # 指定日期（可复现）
+```
 
 ### 桌面版（pygame）
 ```powershell
@@ -114,9 +121,10 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - 收敛为「一份实现 + 语言资源」是后续计划（见 [SPEC-101](docs/spec/SPEC-101-platform-roadmap.md) §阶段 M5）。
 
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**102 passed**——注册表契约、视图契约（含「谜底不泄漏」）、服务契约（含 14 种全部可解、动作驱动不重复计分）、桥契约（真子进程）、宿主跨语言契约、内容包契约（含 11 种坏包的失败路径）、**命令行契约（真子进程 + 管道 stdin）**。
+- `pytest tests -q`：**114 passed**——注册表契约、视图契约（含「谜底不泄漏」）、服务契约（含 14 种全部可解、动作驱动不重复计分）、桥契约（真子进程）、宿主跨语言契约、内容包契约（含 11 种坏包的失败路径）、命令行契约（真子进程 + 管道 stdin）、**每日一题契约（14 种逐一验证同种子可复现）**、两版结构一致性。
 - `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）**——真启动 Cordis 宿主、真发 HTTP、真连 SSE；14 种视图全部通过原语白名单校验。
 - `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击事件）＋ 菜单 ＋ 结果画面，无头运行。
+- `python scripts/check_build_consistency.py`：**BUILD CONSISTENCY PASSED**——两版 14 个类结构一致（已用注入漂移验证它真的会红）。
 - `python scripts/build_content_pack.py --check`：**up to date（6 文件 / 154 条）**——内容包与题库一致。
 - 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11。
 - **未经人眼验证**：浏览器端只做了 HTTP/SSE/客户端语法与 DOM 绑定检查，还没有真正在浏览器里点过一局。
