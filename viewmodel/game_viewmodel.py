@@ -112,11 +112,12 @@ class GameViewModel:
         self._last_update = now
         self.data.game_time += delta
 
-        # 随机遇敌（使用地图遭遇率）
+        # 随机遇敌（使用地图遭遇率；迷彩条生效期屏蔽）
         if self.data.state == GameState.WORLD:
-            enc_rate = self._get_encounter_rate()
-            if random.random() < enc_rate * 0.05:  # 每 tick 概率 = rate * 0.05
-                self._random_encounter()
+            if self.data.camouflage_steps <= 0:
+                enc_rate = self._get_encounter_rate()
+                if random.random() < enc_rate * 0.05:  # 每 tick 概率 = rate * 0.05
+                    self._random_encounter()
 
         # 刷新显示
         self._refresh_all()
@@ -455,6 +456,9 @@ class GameViewModel:
 
         # 探索任务追踪（移动成功后）
         if moved:
+            # 迷彩条：剩余隐身步数递减
+            if self.data.camouflage_steps > 0:
+                self.data.camouflage_steps -= 1
             QuestManager.track_explore_map(self.data, self.data.current_map_id)
             # 赏金首明雷遭遇（走到坐标即触发）
             bounty = BountyManager.check_encounter(self.data)
@@ -583,15 +587,21 @@ class GameViewModel:
     def command_use_item(self, index: int):
         """使用/装备物品
 
-        编号在物品栏范围内：消耗品直接使用，装备类执行装备（换下的旧装备回包）。
-        编号超出物品栏：视为卸下已装备（序号续排在物品栏之后，见 _render_inventory）。
+        战斗中：走战斗道具逻辑（夺命三宝/特殊炮弹/回复）。
+        非战斗：装备类执行装备，探索类执行探索效果，其余直接使用。
         """
         d = self.data
         if index < 0:
             return
 
-        if index < len(d.inventory):
+        if d.state == GameState.BATTLE:
+            result = BattleEngine.player_use_item(d, index)
+            self._apply_battle_result(result)
+            return
+
+        if 0 <= index < len(d.inventory):
             item = d.inventory[index]
+
             if getattr(item.data, "is_equipment", False):
                 old = d.player.equip(item)
                 d.inventory.pop(index)
@@ -601,6 +611,12 @@ class GameViewModel:
                 else:
                     d.add_log(f"装备了{item.name}！")
                 return
+
+            scene = getattr(item.data, "use_scene", "人")
+            if scene == "探索":
+                self._use_explore_item(index)
+                return
+
             self._consume_item(index)
             return
 
@@ -614,6 +630,44 @@ class GameViewModel:
             d.add_log(f"卸下了{old.name}。")
             return
         d.add_log("没有这个物品。")
+
+    def _use_explore_item(self, index: int):
+        """探索类道具（迷彩条/地图）"""
+        d = self.data
+        item = d.inventory[index]
+        effect = getattr(item.data, "effect_type", "")
+        if effect == "camouflage":
+            d.camouflage_steps = item.effect_value
+            d.add_log(f"使用了{item.name}，接下来 {item.effect_value} 次移动不会遇敌。")
+            d.inventory.pop(index)
+        elif effect == "map_hint":
+            hint = self._nearest_hint()
+            d.add_log(f"查看了{item.name}：{hint}")
+        else:
+            d.add_log(f"{item.name}现在不能使用。")
+
+    def _nearest_hint(self) -> str:
+        """地图道具：提示最近的城镇入口与赏金首"""
+        d = self.data
+        best_town, best_town_dist = None, None
+        for (tx, ty), map_id in d.map_entrances.items():
+            dist = abs(tx - d.player_x) + abs(ty - d.player_y)
+            if best_town_dist is None or dist < best_town_dist:
+                best_town = self.config.maps.get(map_id)
+                best_town_dist = dist
+        parts = []
+        if best_town is not None:
+            parts.append(f"最近的城镇是{best_town.name}（约 {best_town_dist} 步）")
+        best_bounty, best_bounty_dist = None, None
+        for bounty in self.config.bounties.values():
+            if bounty.map_id != d.current_map_id or bounty.id in d.bounty_claimed:
+                continue
+            dist = abs(bounty.x - d.player_x) + abs(bounty.y - d.player_y)
+            if best_bounty_dist is None or dist < best_bounty_dist:
+                best_bounty, best_bounty_dist = bounty, dist
+        if best_bounty is not None:
+            parts.append(f"最近的赏金首是{best_bounty.name}（约 {best_bounty_dist} 步）")
+        return "；".join(parts) if parts else "附近没有发现城镇或赏金首"
 
     def _consume_item(self, index: int):
         """消耗品使用逻辑"""
@@ -981,8 +1035,13 @@ class GameViewModel:
         self._notify_state()
 
     def _end_battle(self):
-        """结束战斗：恢复乘车形态"""
-        self.data.player.combat_on_foot = False
+        """结束战斗：恢复乘车形态、重置战斗倍率"""
+        player = self.data.player
+        player.combat_on_foot = False
+        player.battle_atk_mult = 1.0
+        player.battle_def_mult = 1.0
+        if player.vehicle is not None:
+            player.vehicle.battle_atk_mult = 1.0
         BattleEngine.end_battle(self.data)
 
     def _apply_battle_result(self, result):

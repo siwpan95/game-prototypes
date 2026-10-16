@@ -26,6 +26,9 @@ class Character:
         self.equipment = {}  # dict[槽位名 -> Item]，人类装备
         # 战斗形态：False=乘战车（战车承伤），True=步行（人直接承伤，用人类武器）
         self.combat_on_foot = False
+        # 战斗临时倍率（军号等道具，战斗结束后重置）
+        self.battle_atk_mult = 1.0
+        self.battle_def_mult = 1.0
         # 当前乘坐的战车引用（由外部设置）
         self.vehicle: Optional["Vehicle"] = None
 
@@ -36,13 +39,14 @@ class Character:
 
     @property
     def attack(self):
-        """攻击力：步行=基础+人类武器；乘车=基础+战车武器"""
+        """攻击力：步行=基础+人类武器；乘车=基础+战车武器；× 战斗倍率"""
         if self.combat_on_foot:
-            return self._base_attack + self._weapon_bonus
-        total = self._base_attack
-        if self.vehicle and self.vehicle.is_alive():
-            total += self.vehicle.attack
-        return total
+            total = self._base_attack + self._weapon_bonus
+        else:
+            total = self._base_attack
+            if self.vehicle and self.vehicle.is_alive():
+                total += self.vehicle.attack
+        return int(total * self.battle_atk_mult)
 
     @attack.setter
     def attack(self, value):
@@ -50,14 +54,14 @@ class Character:
 
     @property
     def defense(self):
-        """防御力 = 基础防御 + 防具加成 + 战车加成（乘车时）"""
+        """防御力 = 基础防御 + 防具加成 + 战车加成（乘车时）；× 战斗倍率"""
         total = self._base_defense
         for slot, item in self.equipment.items():
             if slot != "武器":
                 total += item.effect_value
         if not self.combat_on_foot and self.vehicle and self.vehicle.is_alive():
             total += self.vehicle.defense
-        return total
+        return int(total * self.battle_def_mult)
 
     @defense.setter
     def defense(self, value):
@@ -196,3 +200,10 @@ class Enemy(Character):
         self.exp_reward = enemy_data.exp_reward
         self.gold_reward = enemy_data.gold_reward
         self.data = enemy_data
+        # 烟幕弹等道具的下回合减伤（一次性）
+        self.next_attack_mult = 1.0
+
+    @property
+    def category(self) -> str:
+        """系别（生物/机械/电气）——道具克制判定"""
+        return getattr(self.data, "category", "生物")

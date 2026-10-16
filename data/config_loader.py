@@ -48,6 +48,7 @@ class EnemyData:
     drop_item_id: int = 0  # 掉落物品ID（0=不掉落）
     drop_rate: float = 0.0  # 掉落率（0-1）
     is_bounty: bool = False  # 是否赏金首专用战斗数据（不随机遭遇）
+    category: str = "生物"  # 系别：生物/机械/电气（道具克制依据）
 
 @dataclass
 class ItemData:
@@ -59,6 +60,8 @@ class ItemData:
     description: str
     usable_in_battle: bool
     equip_slot: str = ""  # 装备槽位：""=消耗品；头/身/手/鞋/武器=可装备
+    use_scene: str = "人"  # 使用场景：人/车/弹/探索
+    effect_type: str = ""  # 效果类型（见 create.py 注释）
 
     @property
     def is_equipment(self) -> bool:
@@ -269,6 +272,7 @@ class ConfigLoader:
                     drop_item_id=int(_col(row, '掉落物品ID', 0)),
                     drop_rate=float(_col(row, '掉落率', 0.0)),
                     is_bounty=_to_bool(_col(row, '是否赏金首', False), False),
+                    category=str(_col(row, '系别', '生物') or '生物'),
                 )
                 self.enemies[enemy.id] = enemy
             print(f"加载了 {len(self.enemies)} 个敌人配置")
@@ -289,6 +293,8 @@ class ConfigLoader:
                     description=str(row['描述']),
                     usable_in_battle=bool(row['战斗中可用']),
                     equip_slot=str(_col(row, '装备槽位', '') or '').strip(),
+                    use_scene=str(_col(row, '使用场景', '人') or '人').strip(),
+                    effect_type=str(_col(row, '效果类型', '') or '').strip(),
                 )
                 self.items[item.id] = item
             print(f"加载了 {len(self.items)} 个物品配置")

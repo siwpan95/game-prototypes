@@ -50,6 +50,8 @@ class Vehicle:
         self.max_plates = vehicle_data.armor_plates
         # 防御姿态倍率（战斗中临时提升，1.0 = 常态）
         self.defense_multiplier = 1.0
+        # 战斗攻击倍率（雷达等道具，战斗结束后重置）
+        self.battle_atk_mult = 1.0
 
         # ── 改造状态（改造店升级，随存档持久化） ──
         self.extra_main_slots = 0   # 额外主炮孔
@@ -70,8 +72,9 @@ class Vehicle:
 
     @property
     def attack(self) -> int:
-        """攻击力 = 全部武器攻击之和"""
-        return sum(w.attack for w in self.all_weapons())
+        """攻击力 = 全部武器攻击之和 × 战斗倍率（雷达等道具）"""
+        return int(sum(w.attack for w in self.all_weapons())
+                   * self.battle_atk_mult)
 
     @property
     def defense(self) -> int:

@@ -45,8 +45,11 @@ class BattleEngine:
 
     @staticmethod
     def calculate_enemy_damage(attacker: Character, defender: Character) -> int:
-        """计算敌人攻击伤害"""
-        base = attacker.attack + random.randint(-3, 3)
+        """计算敌人攻击伤害（含烟幕弹等一次性减伤）"""
+        mult = getattr(attacker, "next_attack_mult", 1.0)
+        if isinstance(attacker, Enemy):
+            attacker.next_attack_mult = 1.0  # 一次性生效
+        base = int(attacker.attack * mult) + random.randint(-3, 3)
         return defender.take_damage(max(1, base))
 
     # ── 普通攻击 ──
@@ -226,6 +229,125 @@ class BattleEngine:
         if not player.is_alive():
             result.player_dead = True
 
+        return result
+
+    # ── 道具（战斗中） ──
+
+    # 伤害类道具的系别映射与未命中系别的保底伤害
+    _DAMAGE_EFFECTS = {
+        "damage_bio": ("生物",),
+        "damage_mech": ("机械",),
+    }
+    _DAMAGE_FALLBACK = 20
+
+    @staticmethod
+    def player_use_item(data: "GameData", index: int) -> BattleResult:
+        """战斗中使用道具（含夺命三宝与特殊炮弹）
+
+        按物品的 使用场景/效果类型 分流；回合结束后敌人照常反击。
+        """
+        result = BattleResult()
+        player = data.player
+        enemy = data.current_enemy
+        if not enemy:
+            return result
+        if index < 0 or index >= len(data.inventory):
+            result.messages.append("无效的物品！")
+            return result
+
+        item = data.inventory[index]
+        item_data = item.data
+        scene = getattr(item_data, "use_scene", "人")
+        effect = getattr(item_data, "effect_type", "")
+        value = item.effect_value
+
+        if scene == "探索":
+            result.messages.append(f"{item.name}不能在战斗中使用！")
+            return result
+
+        # ── 场景校验（不通过则不消耗） ──
+        if scene == "车" and (player.combat_on_foot
+                              or player.vehicle is None
+                              or not player.vehicle.is_alive()):
+            result.messages.append(f"{item.name}需要乘坐战车时使用！")
+            return result
+
+        consumed = True
+        if effect == "heal":
+            player.heal(value)
+            result.messages.append(f"使用了{item.name}，恢复了{value}点HP！")
+        elif effect == "revive":
+            player.heal(player.max_hp)
+            result.messages.append(f"使用了{item.name}，HP完全恢复！")
+        elif effect == "fuel":
+            if player.vehicle is not None:
+                player.vehicle.refuel(value)
+                result.messages.append(f"使用了{item.name}，恢复了{value}点燃料！")
+            else:
+                result.messages.append("没有战车可以使用燃料！")
+                consumed = False
+        elif effect == "buff_atkdef":
+            # 军号：攻防大幅提升；20% 几率损坏（仍生效）
+            player.battle_atk_mult += value / 100
+            player.battle_def_mult += value / 100
+            result.messages.append(
+                f"{player.name}吹响了{item.name}！攻击与防御大幅提升！"
+            )
+            if random.random() < 0.2:
+                result.messages.append("军号吹破了……")
+        elif effect == "debuff_enemy":
+            # 烟幕弹：本回合敌人伤害减半
+            enemy.next_attack_mult = max(0.1, 1.0 - value / 100)
+            result.messages.append(f"投出了{item.name}，敌人被烟幕笼罩！")
+        elif effect == "buff_vehicle_atk":
+            # 雷达：本场战车攻击提升
+            player.vehicle.battle_atk_mult += value / 100
+            result.messages.append(f"雷达锁定目标，战车攻击提升！")
+        elif effect in BattleEngine._DAMAGE_EFFECTS:
+            # 特殊炮弹/药液：按系别克制
+            target_categories = BattleEngine._DAMAGE_EFFECTS[effect]
+            if enemy.category in target_categories:
+                damage = value
+                result.messages.append(
+                    f"{item.name}命中{enemy.name}，造成{damage}点伤害！"
+                )
+            else:
+                damage = BattleEngine._DAMAGE_FALLBACK
+                result.messages.append(
+                    f"{item.name}对{enemy.name}效果不佳，仅造成{damage}点伤害。"
+                )
+            enemy.take_damage(damage)
+            if not enemy.is_alive():
+                result.enemy_dead = True
+                if consumed:
+                    data.inventory.pop(index)
+                return result
+        else:
+            # 旧版 heal/fuel 直通的兼容路径
+            if item.type == "heal":
+                player.heal(value)
+                result.messages.append(f"使用了{item.name}，恢复了{value}点HP！")
+            elif item.type == "fuel" and player.vehicle is not None:
+                player.vehicle.refuel(value)
+                result.messages.append(f"使用了{item.name}，恢复了{value}点燃料！")
+            else:
+                result.messages.append(f"{item.name}现在不能使用。")
+                consumed = False
+
+        if consumed:
+            data.inventory.pop(index)
+
+        # 敌人反击
+        dmg = BattleEngine.calculate_enemy_damage(enemy, player)
+        result.messages.append(
+            f"{enemy.name}攻击{BattleEngine._hit_target(player)}造成{dmg}点伤害！"
+        )
+        break_msg = BattleEngine._vehicle_break_message(player, True)
+        if break_msg:
+            result.messages.append(break_msg)
+
+        if not player.is_alive():
+            result.player_dead = True
         return result
 
     # ── 逃跑 ──

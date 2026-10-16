@@ -75,10 +75,10 @@ def main():
         quest2 = config.quests[2]
         assert quest2.target_id == 6 and quest2.target_count == 1
         d.state = GameState.TOWN
-        d.current_map_id = 2
+        d.current_map_id = 3  # 罗克镇武器店（猎枪在售）
         vm.command_enter_shop()
         assert d.current_shop is not None
-        # 伊尔镇商店商品 1,2,3,4 → 第 4 个是猎枪(4)
+        # 罗克镇武器店商品含猎枪(4)
         idx = d.current_shop.items.index(4)
         d.gold = 9999
         vm.command_buy_item(idx)
