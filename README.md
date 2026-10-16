@@ -15,6 +15,26 @@
 
 > 下文的 `<PATH>` 是路径占位符，请替换成本机实际克隆位置。**不要**把绝对路径写进代码或配置。
 
+### 命令行版（终端可玩，不需要 pygame 也不需要浏览器）
+```powershell
+cd <PATH>\text-adventure
+
+pwsh -NoProfile -File scripts\play.ps1                       # 交互模式
+pwsh -NoProfile -File scripts\play.ps1 new math easy         # 单条命令
+pwsh -NoProfile -File scripts\play.ps1 new sudoku ';' hint   # 多条命令共用同一局
+```
+
+包装脚本只做两件事：找一个**能跑的解释器**（`$env:TEXT_ADVENTURE_PYTHON` → 项目 `.venv` → `python3`/`python`/`py`，不写死任何路径），
+并把子进程的编码设成 UTF-8（否则中文在默认代码页的控制台上是乱码）。也可以直接用：
+```powershell
+.\.venv\Scripts\python.exe -m puzzle_service.cli            # 交互
+.\.venv\Scripts\python.exe -m puzzle_service.cli kinds      # 列出全部谜题种类
+```
+
+命令：`kinds` `content` `new [种类] [难度]` `submit <答案>` `act <动作> [k=v ...]` `hint` `state` `json` `help` `quit`。
+交互模式下直接输入选项序号即可作答；stdin 是管道时**不打印提示符**（提示符只给真人看），所以同一套代码既能手动玩也能被脚本驱动。
+出错的命令以非零码退出，脚本可直接分支判断。
+
 ### 桌面版（pygame）
 ```powershell
 cd <PATH>\text-adventure
@@ -37,12 +57,13 @@ npm start          # 启动宿主，打印的地址（默认 http://127.0.0.1:80
 ## 架构（三层，谜题逻辑只有一个真相源）
 
 ```
-浏览器 public/                      渲染层：把视图模型映射到语义 HTML
-   │  POST 动作 + SSE 快照
+命令行 puzzle_service/cli.py        终端客户端：把视图模型渲染成文字
+浏览器 public/                       Web 客户端：把视图模型渲染成语义 HTML
+pygame text_adventure*_zh/ui.py      桌面客户端（历史实现，保留）
+   │  POST 动作 + SSE 快照（Web）／直接调用（终端）
 Node Cordis 宿主 src/               编排层：插件装载、生命周期、HTTP/SSE
    │  JSON-RPC 2.0 over stdio（src/core/bridge.mjs ↔ python/rpc_server.py）
 Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、计分、视图模型
-   └─ pygame 客户端 text_adventure*_zh/ui.py  共存的旧渲染层
 ```
 
 - **谜题即插件**：一种谜题在 `puzzle_service/registry.py` 里登记一次（名称、交互模型、可执行动作、
@@ -93,11 +114,12 @@ Python 谜题进程 python/ + puzzle_service/   领域层：状态、规则、�
 - 收敛为「一份实现 + 语言资源」是后续计划（见 [SPEC-101](docs/spec/SPEC-101-platform-roadmap.md) §阶段 M5）。
 
 ## 测试状态（2026-10-16 复核）
-- `pytest tests -q`：**82 passed**——注册表契约、视图契约（含「谜底不泄漏」）、服务契约（含 14 种全部可解、动作驱动不重复计分）、桥契约（真子进程）、宿主跨语言契约、内容包契约（含 11 种坏包的失败路径）。
+- `pytest tests -q`：**102 passed**——注册表契约、视图契约（含「谜底不泄漏」）、服务契约（含 14 种全部可解、动作驱动不重复计分）、桥契约（真子进程）、宿主跨语言契约、内容包契约（含 11 种坏包的失败路径）、**命令行契约（真子进程 + 管道 stdin）**。
 - `npm test`：**CLIENT CHECK PASSED / SMOKE PASSED（11 项）**——真启动 Cordis 宿主、真发 HTTP、真连 SSE；14 种视图全部通过原语白名单校验。
 - `python scripts/smoke_headless.py`：**SMOKE PASSED**——两版 pygame 客户端各遍历 **14 种**谜题画面（含一次真实点击事件）＋ 菜单 ＋ 结果画面，无头运行。
 - `python scripts/build_content_pack.py --check`：**up to date（6 文件 / 154 条）**——内容包与题库一致。
 - 环境：Python 3.14.7 / pygame-ce 2.5.8 / Node 26.10.0 / cordis 4.0.0-rc.11。
+- **未经人眼验证**：浏览器端只做了 HTTP/SSE/客户端语法与 DOM 绑定检查，还没有真正在浏览器里点过一局。
 - 修复前两个版本**都无法启动**（`ui.py` 从一个从未存在的模块 `shared.font_utils` 导入字体），
   详见 [记录](docs/records/text-adventure-boot-crash-fix_2026-10-16.md)。
 - 已知行为（既有，非本轮引入）：`MathPuzzle`、`RiddlePuzzle`、`GuessNumberPuzzle`、`PatternPuzzle` 的

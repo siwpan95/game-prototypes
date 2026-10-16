@@ -45,4 +45,5 @@
 | REC-01 | 启动崩溃修复与改造起点 | [records/text-adventure-boot-crash-fix_2026-10-16.md](records/text-adventure-boot-crash-fix_2026-10-16.md) | 生效 | 2026-10-16 | 三个缺陷的实测证据（缺失字体模块、死掉的 .venv、同名模块遮蔽）、14 种谜题的输入健壮性表 |
 | REC-02 | Cordis 化与 Web 层落地 | [records/text-adventure-cordis-web_2026-10-16.md](records/text-adventure-cordis-web_2026-10-16.md) | 生效 | 2026-10-16 | 三层架构的实测验证（58 条 pytest + 11 项宿主冒烟）、构建过程中被实测抓到的问题 |
 | REC-03 | 内容包落地与两个实测缺陷 | [records/content-pack-m2_2026-10-16.md](records/content-pack-m2_2026-10-16.md) | 生效 | 2026-10-16 | M2 内容包（154 条，由模块派生）、4 字母池混入 5 字母词的脏数据、英文填字界面的 UnboundLocalError |
+| REC-04 | 命令行客户端 | [records/cli-client_2026-10-16.md](records/cli-client_2026-10-16.md) | 生效 | 2026-10-16 | 终端客户端作为当前主力交互面；开发中被测试抓到的 6 个真实缺陷（缺 `__main__` 守卫、用文本当控制信号、跨进程状态、未接住查找失败、英文 label、夹具污染） |
 | REC-AU-02 | 平台化调研卷（2026-10） | [records/platform-research-2026-10/README.md](records/platform-research-2026-10/README.md) | 生效 | 2026-10-16 | 四份联网调研报告的索引入口：内核选型 / 平台化架构 / 竞品扫描 / Web 平台形态 |
