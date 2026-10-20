@@ -13,7 +13,7 @@ Python 3（tkinter），桌面 GUI 游戏，纯标准库。
 
 ## 运行方式与依赖
 ```
-F:\Python314\python.exe main.py
+python main.py
 ```
 依赖：Python 标准库（tkinter、json、random 等），无需第三方包。GUI 窗口游戏，运行后会阻塞等待交互。
 
