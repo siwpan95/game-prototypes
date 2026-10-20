@@ -1,6 +1,14 @@
-# procgen 程序化生成库
+# procgen 程序化生成库（本仓内嵌副本）
 
 供各游戏项目 `import` 复用的程序化生成工具包（纯 Python + numpy）。
+
+> **溯源注记（2026-10-20）**：本目录是 [siwpan/procgen](https://gitee.com/siwpan/procgen) 的**内嵌冻结副本**，
+> 按「自包含、零跨项目耦合」原则随 sandbox 一起版本化（`game.py` 即按此设计）。
+> 上游包已于同日更名为 **`worldbuilder`**（PyPI：`pip install worldbuilder`），
+> 因此**本副本的包名 `procgen` 与上游发行名已不一致**——这是刻意保留：
+> 改名会波及 `world_gen.py` / `game.py` / `run.py` 三处导入与本仓既有产物，收益不抵成本。
+> 代码内容与上游 `worldbuilder/` 逐模块相同（截至 2026-10-20 比对，7 个模块中 6 个 md5 一致，
+> 仅 `__init__.py` 因包名字符串而不同）。后续如需跟进上游改动，请以 `worldbuilder` 为基准。
 
 ## 模块
 - `noise`：`value_noise` / `perlin_noise` / `fractal_noise` / `fbm`（可调 lacunarity/gain）/ `simplex_noise`（方向伪影更少的改进版）
