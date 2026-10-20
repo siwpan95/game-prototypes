@@ -83,7 +83,7 @@
 └── tests/                     # 单元 / 面板 / 控制器测试（无头 + 需 tkinter）
     ├── _panel_harness.py      # FakeCanvas + CallbackRecorder 脚手架
     ├── test_all.py            # 纯逻辑总套件（沙箱 Python 即可）
-    ├── test_panels_suite.py   # 面板自由函数套件（需 F:\Python314 带 tkinter）
+    ├── test_panels_suite.py   # 面板自由函数套件（需带 tkinter 的 Python）
     └── test_e* / test_panel_* / test_controller_*
 ```
 
@@ -99,7 +99,7 @@
 
 > 注：GUI 使用的 `NotoSansSC-*.otf` 字体已随项目附带，无需额外安装字体。代码中未使用 `from __future__ import annotations`，因此 `int | None` 等标注会在导入时求值，必须使用 Python 3.10+。
 >
-> **测试环境分工**：纯逻辑与 `test_all.py` 可在任意 Python（含沙箱）运行；面板 / 控制器测试需在**带 tkinter 的 Python（如 `F:\Python314\python.exe`）**下运行 `tests/test_panels_suite.py`，否则会因缺 tkinter 跳过（非代码问题）。
+> **测试环境分工**：纯逻辑与 `test_all.py` 可在任意 Python（含沙箱）运行；面板 / 控制器测试需在**带 tkinter 的 Python** 下运行 `tests/test_panels_suite.py`，否则会因缺 tkinter 跳过（非代码问题）。
 
 ---
 
