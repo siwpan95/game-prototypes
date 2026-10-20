@@ -13,7 +13,7 @@ alloy — 统一游戏引擎
     - 渲染            → render/              (控制台/Tkinter/Pygame 多后端)
     - 音频            → audio/               (bloodmusic 合成引擎)
     - 粒子特效        → fx/                  (tools/particle)
-    - AI 叙事与对话   → ai/                  (easy-ai + ollama_generator)
+    - AI 叙事与对话   → ai/                  (peasy-ai + ollama_generator)
     - 测试工具        → test/                (py_test_runner)
 
 架构分层：

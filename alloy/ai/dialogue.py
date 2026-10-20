@@ -1,7 +1,7 @@
 """
 对话引擎：6阶段管道 + 规则匹配 + AI驱动，支持自动降级。
 
-融合 easy-ai 的 ResponsePipeline 架构和 ollama_generator 的AI后端，
+融合 peasy-ai（原 easy-ai）的 ResponsePipeline 架构和 ollama_generator 的AI后端，
 提供统一的对话管理和响应生成接口。
 
 管道阶段：
