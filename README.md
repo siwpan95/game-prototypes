@@ -13,7 +13,7 @@
 - `_test_*.py` —— 启动、按钮、E2E 等测试脚本
 
 ## 运行方式与依赖
-- 运行：`F:\Python314\python.exe launcher/main.py`
+- 运行：`python launcher/main.py`
 - 依赖：无（仅标准库 tkinter）
 
 ## 测试状态
