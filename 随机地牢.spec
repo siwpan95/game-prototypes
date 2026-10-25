@@ -3,7 +3,8 @@
 
 a = Analysis(
     ['随机地牢.py'],
-    pathex=[],
+    # R3 拆包后主逻辑在 ./dungeon/ 下，显式给出包搜索路径，保证打包能收集到
+    pathex=['.'],
     binaries=[],
     datas=[],
     hiddenimports=[],
