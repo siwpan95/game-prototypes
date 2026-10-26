@@ -10,6 +10,21 @@ highway.
 
 ![3D scene](docs/highway_3d.png)
 
+## Live gameplay recording
+
+**[▶ Endless Highway 3D — 3-minute live demo](docs/demo_3d.mp4)** (1280×720 / 30 fps /
+H.264 + AAC stereo / 20.1 MB)
+
+Frames are read back from the app's own GL framebuffer (not screen capture), and the
+audio track comes from the mixer output, so the adaptive synthwave score is preserved.
+
+| Time | Content |
+| --- | --- |
+| 0–6 s | Opening drive: perspective highway, lane dashes, roadside props, HUD distance climbing |
+| 6–9.5 s | **PAUSED** overlay |
+| 9.5–162 s | Main driving: autopilot holds the lane, body roll on steering, random drift, 0→470 km, drift counter accumulating |
+| 162–180 s | Steering off the shoulder → **GAME OVER** overlay (distance / drift stats, car flashing red) |
+
 ## What the 3D refactor changed
 
 | Area | Before (pygame 2D) | After (3dworld 3D) |
@@ -68,7 +83,21 @@ config.json        tuning: window, road, player, drift, decorations + a `threed`
 faatt.py           standalone audio-workstation GUI tool (dev only, not used by the game)
 scripts/
   smoke_logic.py   gameplay smoke test (no window, no GL)
+  record_demo.py   live recording: capture + mux, one command
+docs/              captured frames + the live demo video
 ```
+
+## Recording
+
+```bat
+pip install -r requirements-dev.txt          :: brings ffmpeg (bundled with imageio-ffmpeg)
+python scripts/record_demo.py --duration 180 --out docs/demo_3d.mp4
+```
+
+Frames are read back with `glReadPixels` and piped to ffmpeg as rawvideo (so the result
+is unaffected by window occlusion); the audio track is dumped straight from the mixer
+output and muxed in afterwards. `--demo` adds a scripted run: autopilot → PAUSED
+overlay → crash into the GAME OVER screen.
 
 ## Test status
 

@@ -8,6 +8,20 @@
 
 ![3D 画面](docs/highway_3d.png)
 
+## 实机演示视频
+
+**[▶ Endless Highway 3D — 3 分钟实机演示](docs/demo_3d.mp4)**（1280×720 / 30fps / H.264 + AAC 立体声 / 20.1 MB）
+
+画面取自**本进程回读的 GL 帧缓冲**（不是抓屏），音轨来自混音输出，保留自适应电子配乐。
+内容覆盖：
+
+| 时间 | 内容 |
+| --- | --- |
+| 0–6s | 开场行驶：透视公路、车道虚线、路旁装饰物、HUD 里程爬升 |
+| 6–9.5s | **PAUSED** 覆盖层（暂停界面） |
+| 9.5–162s | 主体驾驶：自动驾驶维持居中，转向侧倾、随机漂移、里程 0→470 km、漂移计数累积 |
+| 162–180s | 冲出路肩撞毁 → **GAME OVER** 覆盖层（里程 / 漂移统计 / 红色闪车身） |
+
 ## 语言 / 类型
 
 - Python / pyglet 3D 图形界面驾驶游戏（ECS 架构，基于 3dworld 引擎）
@@ -78,8 +92,28 @@ config.json        参数：窗口、公路、玩家、漂移、装饰物 + thre
 faatt.py           独立的音频工作站 GUI 工具（开发用，游戏不依赖）
 scripts/
   smoke_logic.py    玩法逻辑冒烟测试（不开窗口、不碰 GL）
-docs/              抓帧产物
+  record_demo.py    实机录像：一键录制 + 音视频封装出片
+docs/              抓帧产物 + 实机演示视频
 ```
+
+## 实机录像
+
+```bat
+:: 录制 3 分钟实机演示（自动驾驶 + 演示编排 + 配乐）
+pip install -r requirements-dev.txt          :: 提供 ffmpeg（imageio-ffmpeg 自带）
+python scripts/record_demo.py --duration 180 --out docs/demo_3d.mp4
+```
+
+实现要点：
+
+- **画面**：进程内 `glReadPixels` 回读 GL 帧缓冲 → rawvideo 管道 → ffmpeg（libx264）。
+  不是抓屏，因此不受窗口遮挡/最小化/桌面壁纸影响；`glReadPixels` 是自下而上的，
+  写入前按行翻转，否则成片上下颠倒。
+- **音频**：`audio/sd_mixer.py` 把混音输出直接落成 WAV，最后与视频封装成 mp4。
+- **节流**：按墙钟时间节流到目标帧率，保证成片是**实时**速度而非快放。
+- **演示编排**（`--demo`）：自动驾驶维持居中 → 6s 暂停展示 PAUSED → 末段冲出路肩
+  展示 GAME OVER；提前意外撞毁会自动复活，保证录到完整内容。
+- ffmpeg 查找顺序：`WORLD3D_FFMPEG` → PATH → `imageio-ffmpeg` → 常见安装位置。
 
 ## 配置
 
@@ -102,6 +136,8 @@ docs/              抓帧产物
 - `python scripts/smoke_logic.py` —— 玩法逻辑冒烟 **11 项全通过**
   （里程累计 / 装饰生成 / 装饰回收 / 转向 / 阻尼 / 漂移冲量 / 撞路肩判死 / 死亡后停止推进）
 - `python main.py --shot` —— 实机抓帧通过，渲染 3D 画面正常，**59.5 fps**（1280×720）
+- `python scripts/record_demo.py` —— 实机录像 3 分钟出片（5402 帧 / 30.0 fps），
+  音轨 mean -16.9 dB、peak -0.8 dB
 - 音频链路：sounddevice 混音器启动成功，5 个音乐分层 + 14 个音效加载并播放，退出时干净关闭
 
 ## 许可
