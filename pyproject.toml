@@ -1,0 +1,21 @@
+# 项目元数据与依赖治理（#12 第一步）。
+# 说明：本文件定义声明式依赖（含 numpy 兼容区间），使构建可复现。
+# 后续建议再引入锁文件（pip-tools / poetry / uv）以固定精确版本，
+# 并在 CI 中校验锁定文件，彻底消除依赖漂移风险。
+[project]
+name = "progress-quest-2"
+version = "0.1.0"
+description = "Progress Quest 2 — The Progression (Python/Tkinter 移植版)"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
