@@ -5,7 +5,7 @@ complete effects chain (LP/HP filter, distortion, reverb, stereo).
 Style: High-energy synthwave driving music + cinematic SFX.
 """
 
-# Lazy imports — pygame may not be available at import time
+# Lazy imports — keep import-time cost low (合成器只在需要时才加载)
 def __getattr__(name):
     if name in ('MusicSystem', 'SFXSystem', 'AudioManager'):
         if name == 'MusicSystem':

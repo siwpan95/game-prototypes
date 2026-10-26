@@ -7,7 +7,6 @@ Enhanced with faatt-engine: milestone chimes, near-miss detection,
 bonus SFX triggers via event-name system.
 """
 
-import pygame
 import random
 from ecs import System, Component
 from ecs.components import GameState, Drift, VehicleControl, Position
@@ -50,7 +49,7 @@ class AudioSystem(System):
         self.crash_triggered = False
         self._drift_sfx_cooldown = 0.0
         self._near_miss_cooldown = 0.0
-        self._near_miss_threshold = 15  # pixels from edge
+        self._near_miss_threshold = 4.0  # world units from center near road edge
         self._random_sfx_cooldown = random.uniform(3.0, 8.0)  # activate idle SFX
 
     def _ensure_audio(self):
@@ -112,19 +111,13 @@ class AudioSystem(System):
                 break
 
         if player_x is not None:
-            from ecs.systems import CollisionSystem
-            # We can't easily access CollisionSystem params from here,
-            # so use a simplified check: get edge info from world config
-            # For now, use a reasonable default detection zone
-            # The CollisionSystem uses road_left/road_right from config
-            # We estimate near-miss when close to screen edges
-            if hasattr(self, '_near_miss_triggered'):
+            # 近失检测（简化）：车辆贴近公路边缘时给出警示。
+            # 边缘信息来自世界配置（road_half_width），这里用合理阈值估算。
+            if state.alive and abs(player_x) > self._near_miss_threshold:
                 self._near_miss_cooldown -= dt
-                if self._near_miss_cooldown <= 0 and state.alive:
-                    # This is a simplified detection — actual near-miss
-                    # would need access to road bounds. Placeholder for
-                    # future integration with collision data.
-                    pass
+                if self._near_miss_cooldown <= 0:
+                    am.trigger_sfx('event:/SFX/NearMiss')
+                    self._near_miss_cooldown = 0.6
 
         # ── Update adaptive music + engine ────────────────
         am.update(
