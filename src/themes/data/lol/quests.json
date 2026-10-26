@@ -1,0 +1,182 @@
+[
+  {
+    "name": "一血争夺战",
+    "description": "拿下游戏的第一滴血",
+    "target_monster": "敌方英雄",
+    "target_count": 1,
+    "reward_exp": 200,
+    "reward_gold": 400,
+    "reward_item": {"name": "一血奖励", "value": 150, "item_type": "gold"}
+  },
+  {
+    "name": "红BUFF控制",
+    "description": "击败红BUFF，获得攻击加成",
+    "target_monster": "红BUFF（烈焰之环）",
+    "target_count": 3,
+    "reward_exp": 150,
+    "reward_gold": 300,
+    "reward_item": {"name": "红BUFF效果", "value": 50, "item_type": "buff"}
+  },
+  {
+    "name": "蓝BUFF控制",
+    "description": "击败蓝BUFF，获得法力回复",
+    "target_monster": "蓝BUFF（智慧之尘）",
+    "target_count": 3,
+    "reward_exp": 150,
+    "reward_gold": 300,
+    "reward_item": {"name": "蓝BUFF效果", "value": 50, "item_type": "buff"}
+  },
+  {
+    "name": "小龙狩猎",
+    "description": "击败小龙，获得龙魂",
+    "target_monster": "小龙（山脉）",
+    "target_count": 2,
+    "reward_exp": 500,
+    "reward_gold": 1000,
+    "reward_item": {"name": "山脉龙魂", "value": 200, "item_type": "buff"}
+  },
+  {
+    "name": "峡谷先锋争夺",
+    "description": "击败峡谷先锋，获得先锋之眼",
+    "target_monster": "峡谷先锋",
+    "target_count": 1,
+    "reward_exp": 600,
+    "reward_gold": 1200,
+    "reward_item": {"name": "峡谷先锋之眼", "value": 300, "item_type": "misc"}
+  },
+  {
+    "name": "纳什男爵讨伐",
+    "description": "击败纳什男爵，获得男爵BUFF",
+    "target_monster": "纳什男爵",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 5000,
+    "reward_item": {"name": "男爵BUFF", "value": 800, "item_type": "buff"}
+  },
+  {
+    "name": "一血塔",
+    "description": "推掉敌方第一座防御塔",
+    "target_monster": "防御塔",
+    "target_count": 1,
+    "reward_exp": 300,
+    "reward_gold": 600,
+    "reward_item": {"name": "一血塔奖励", "value": 200, "item_type": "gold"}
+  },
+  {
+    "name": "三杀达成",
+    "description": "连续击败3个敌方英雄",
+    "target_monster": "敌方英雄",
+    "target_count": 3,
+    "reward_exp": 500,
+    "reward_gold": 1000,
+    "reward_item": {"name": "三杀奖励", "value": 300, "item_type": "gold"}
+  },
+  {
+    "name": "五杀达成",
+    "description": "连续击败5个敌方英雄，达成五杀",
+    "target_monster": "敌方英雄",
+    "target_count": 5,
+    "reward_exp": 1500,
+    "reward_gold": 3000,
+    "reward_item": {"name": "五杀奖励", "value": 800, "item_type": "gold"}
+  },
+  {
+    "name": "超神达成",
+    "description": "在不阵亡的情况下击败7个敌方英雄",
+    "target_monster": "敌方英雄",
+    "target_count": 7,
+    "reward_exp": 3000,
+    "reward_gold": 6000,
+    "reward_item": {"name": "超神奖励", "value": 1500, "item_type": "gold"}
+  },
+  {
+    "name": "高地塔破坏",
+    "description": "推掉敌方高地塔",
+    "target_monster": "高地塔",
+    "target_count": 2,
+    "reward_exp": 800,
+    "reward_gold": 1500,
+    "reward_item": {"name": "高地塔金币", "value": 250, "item_type": "gold"}
+  },
+  {
+    "name": "兵营破坏",
+    "description": "摧毁敌方兵营，让超级兵出兵",
+    "target_monster": "兵营",
+    "target_count": 1,
+    "reward_exp": 1000,
+    "reward_gold": 2000,
+    "reward_item": {"name": "兵营金币", "value": 400, "item_type": "gold"}
+  },
+  {
+    "name": "水晶摧毁",
+    "description": "摧毁敌方水晶，获得胜利",
+    "target_monster": "水晶",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 5000,
+    "reward_item": {"name": "水晶金币", "value": 500, "item_type": "gold"}
+  },
+  {
+    "name": "召唤师水晶摧毁",
+    "description": "摧毁敌方召唤师水晶，获得最终胜利",
+    "target_monster": "召唤师水晶",
+    "target_count": 1,
+    "reward_exp": 5000,
+    "reward_gold": 15000,
+    "reward_item": {"name": "胜利金币", "value": 1000, "item_type": "gold"}
+  },
+  {
+    "name": "远古巨龙讨伐",
+    "description": "击败远古巨龙，获得最强BUFF",
+    "target_monster": "远古巨龙",
+    "target_count": 1,
+    "reward_exp": 3000,
+    "reward_gold": 8000,
+    "reward_item": {"name": "远古龙魂", "value": 500, "item_type": "buff"}
+  },
+  {
+    "name": "敌方打野狩猎",
+    "description": "击败敌方打野英雄",
+    "target_monster": "敌方打野",
+    "target_count": 5,
+    "reward_exp": 400,
+    "reward_gold": 800,
+    "reward_item": {"name": "打野金币", "value": 150, "item_type": "gold"}
+  },
+  {
+    "name": "中路一塔推掉",
+    "description": "推掉敌方中路一塔",
+    "target_monster": "防御塔",
+    "target_count": 1,
+    "reward_exp": 350,
+    "reward_gold": 700,
+    "reward_item": {"name": "中路塔金币", "value": 180, "item_type": "gold"}
+  },
+  {
+    "name": "全英雄试用",
+    "description": "用所有英雄各赢一局游戏",
+    "target_monster": "敌方英雄",
+    "target_count": 50,
+    "reward_exp": 10000,
+    "reward_gold": 50000,
+    "reward_item": {"name": "全英雄大师", "value": 5000, "item_type": "title"}
+  },
+  {
+    "name": "排位赛胜利",
+    "description": "在排位赛中取得胜利",
+    "target_monster": "敌方英雄",
+    "target_count": 1,
+    "reward_exp": 800,
+    "reward_gold": 2000,
+    "reward_item": {"name": "排位胜点", "value": 30, "item_type": "point"}
+  },
+  {
+    "name": "大龙BUFF推进",
+    "description": "利用大龙BUFF推掉敌方基地",
+    "target_monster": "纳什男爵",
+    "target_count": 1,
+    "reward_exp": 3000,
+    "reward_gold": 10000,
+    "reward_item": {"name": "大龙推进大师", "value": 2000, "item_type": "title"}
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "project_root": "D:\\allin\\stay\\pq_multiverse",
+  "modules_analyzed": 19,
+  "patterns_detected": [
+    {
+      "pattern": "分层架构",
+      "confidence": "66.7%",
+      "description": "检测到分层架构特征",
+      "evidence_count": 1,
+      "files_count": 7,
+      "sample_evidence": [
+        "检测到多层结构: view, presentation"
+      ]
+    }
+  ],
+  "pattern_details": {
+    "分层架构": {
+      "pattern": "分层架构",
+      "confidence": "66.7%",
+      "description": "检测到分层架构特征",
+      "evidence_count": 1,
+      "files_count": 7,
+      "sample_evidence": [
+        "检测到多层结构: view, presentation"
+      ]
+    }
+  },
+  "file_patterns": {}
+}

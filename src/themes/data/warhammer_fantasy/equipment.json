@@ -1,0 +1,436 @@
+[
+  {
+    "id": "longsword",
+    "name": "长剑",
+    "desc": "帝国标准佩剑，可靠而致命",
+    "item_type": "weapon",
+    "value": 300,
+    "stat_bonus": {
+      "strength": 8
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "warhammer_weapon",
+    "name": "战锤",
+    "desc": "破甲利器，锤击能震碎骨骼",
+    "item_type": "weapon",
+    "value": 400,
+    "stat_bonus": {
+      "strength": 10
+    },
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "mace",
+    "name": "钉头锤",
+    "desc": "教会骑士常用武器，对付不死族有效",
+    "item_type": "weapon",
+    "value": 350,
+    "stat_bonus": {
+      "strength": 9
+    },
+    "level": 3,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "greatsword",
+    "name": "巨剑",
+    "desc": "双手巨剑，一刀斩断敌人",
+    "item_type": "weapon",
+    "value": 800,
+    "stat_bonus": {
+      "strength": 15
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "spear",
+    "name": "长矛",
+    "desc": "帝国步兵标准武器，适合阵列作战",
+    "item_type": "weapon",
+    "value": 250,
+    "stat_bonus": {
+      "strength": 7
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "battle_axe",
+    "name": "战斧",
+    "desc": "矮人或兽人喜爱，劈砍威力大",
+    "item_type": "weapon",
+    "value": 500,
+    "stat_bonus": {
+      "strength": 12
+    },
+    "level": 6,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "crossbow",
+    "name": "弩",
+    "desc": "远程武器，穿透力强",
+    "item_type": "weapon",
+    "value": 600,
+    "stat_bonus": {
+      "strength": 10
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "long_bow",
+    "name": "长弓",
+    "desc": "精灵或帝国游侠使用，精准致命",
+    "item_type": "weapon",
+    "value": 450,
+    "stat_bonus": {
+      "strength": 9
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "pistol",
+    "name": "火枪",
+    "desc": "帝国工程师发明，火药武器",
+    "item_type": "weapon",
+    "value": 800,
+    "stat_bonus": {
+      "strength": 12
+    },
+    "level": 9,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "musket",
+    "name": "步枪",
+    "desc": "帝国精锐步兵使用，装填慢但威力大",
+    "item_type": "weapon",
+    "value": 1200,
+    "stat_bonus": {
+      "strength": 15
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "chainmail",
+    "name": "链甲",
+    "desc": "锁链编织的护甲，兼顾防护与灵活",
+    "item_type": "armor",
+    "value": 500,
+    "stat_bonus": {
+      "constitution": 15
+    },
+    "level": 11,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "plate_armor",
+    "name": "板甲",
+    "desc": "帝国骑士或巴托尼亚骑士专用，全面防护",
+    "item_type": "armor",
+    "value": 2000,
+    "stat_bonus": {
+      "constitution": 30
+    },
+    "level": 12,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "shield",
+    "name": "盾牌",
+    "desc": "木制或铁制盾牌，抵挡攻击",
+    "item_type": "accessory",
+    "value": 400,
+    "stat_bonus": {
+      "constitution": 10
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "knight_armor",
+    "name": "骑士盔甲",
+    "desc": "精工打造的骑士全身甲",
+    "item_type": "armor",
+    "value": 3000,
+    "stat_bonus": {
+      "constitution": 30
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "grail_cup",
+    "name": "巴托尼亚圣杯",
+    "desc": "巴托尼亚圣物，获得神圣祝福",
+    "item_type": "accessory",
+    "value": 10000,
+    "stat_bonus": {
+      "strength": 10,
+      "constitution": 10
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "vampire_ring",
+    "name": "吸血鬼戒指",
+    "desc": "吸取敌人生命，治疗自己",
+    "item_type": "accessory",
+    "value": 5000,
+    "stat_bonus": {
+      "strength": 5
+    },
+    "level": 16,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "dwarf_explosives",
+    "name": "矮人炸药",
+    "desc": "范围爆炸，对群体敌人有效",
+    "item_type": "consumable",
+    "value": 800,
+    "stat_bonus": {},
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "elf_bow",
+    "name": "精灵弓",
+    "desc": "高等精灵或木精灵专用，射程远",
+    "item_type": "weapon",
+    "value": 1000,
+    "stat_bonus": {
+      "strength": 11
+    },
+    "level": 18,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "orc_choppa",
+    "name": "兽人砍刀",
+    "desc": "绿皮粗制武器，但够大够猛",
+    "item_type": "weapon",
+    "value": 350,
+    "stat_bonus": {
+      "strength": 13
+    },
+    "level": 19,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "chaos_axe",
+    "name": "混沌战斧",
+    "desc": "被混沌腐化的战斧，附带黑暗力量",
+    "item_type": "weapon",
+    "value": 1500,
+    "stat_bonus": {
+      "strength": 16
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "necromancer_staff",
+    "name": "死灵法杖",
+    "desc": "施展亡灵魔法，复活死者",
+    "item_type": "weapon",
+    "value": 2000,
+    "stat_bonus": {
+      "strength": 8
+    },
+    "level": 21,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "solar_stone",
+    "name": "蜥蜴人太阳石",
+    "desc": "蕴含太阳能量，对黑暗生物额外伤害",
+    "item_type": "accessory",
+    "value": 4000,
+    "stat_bonus": {
+      "strength": 8,
+      "constitution": 8
+    },
+    "level": 22,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "skaven_poison",
+    "name": "斯卡文毒药",
+    "desc": "涂抹武器，使敌人中毒",
+    "item_type": "consumable",
+    "value": 600,
+    "stat_bonus": {},
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "tomb_king_amulet",
+    "name": "古墓王护身符",
+    "desc": "古墓王诅咒，削弱附近敌人",
+    "item_type": "accessory",
+    "value": 4500,
+    "stat_bonus": {
+      "constitution": 15
+    },
+    "level": 24,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "empire_general_sword",
+    "name": "帝国将军佩剑",
+    "desc": "帝国将军专用，精工打造",
+    "item_type": "weapon",
+    "value": 1800,
+    "stat_bonus": {
+      "strength": 14
+    },
+    "level": 25,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "high_elf_staff",
+    "name": "高等精灵法杖",
+    "desc": "施展高等魔法，增强法术威力",
+    "item_type": "weapon",
+    "value": 2500,
+    "stat_bonus": {
+      "strength": 10
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "wood_elf_cloak",
+    "name": "木精灵森林斗篷",
+    "desc": "森林隐身，难以被敌人发现",
+    "item_type": "armor",
+    "value": 1200,
+    "stat_bonus": {
+      "constitution": 12
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "dark_elf_repeater",
+    "name": "黑暗精灵连弩",
+    "desc": "快速连射，压制敌人",
+    "item_type": "weapon",
+    "value": 1600,
+    "stat_bonus": {
+      "strength": 13
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "greenskin_chariot",
+    "name": "绿皮巨型战车",
+    "desc": "驾驶巨型战车冲锋，碾压敌人",
+    "item_type": "mount",
+    "value": 5000,
+    "stat_bonus": {
+      "strength": 20,
+      "constitution": 50
+    },
+    "level": 30,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  }
+]

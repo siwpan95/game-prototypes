@@ -1,0 +1,544 @@
+[
+  {
+    "name": "铁剑",
+    "value": 100,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 3
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "试作斩岩",
+    "value": 300,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 6,
+      "constitution": 2
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "流浪乐团的套装",
+    "value": 200,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 4
+    },
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "角斗士的归宿",
+    "value": 350,
+    "item_type": "armor",
+    "stat_bonus": {
+      "strength": 5,
+      "constitution": 3
+    },
+    "level": 3,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "神射手之誓",
+    "value": 150,
+    "item_type": "boots",
+    "stat_bonus": {
+      "dexterity": 3
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "祭礼残章",
+    "value": 400,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "intelligence": 7
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "战狂的羽饰",
+    "value": 180,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "strength": 2,
+      "dexterity": 2
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "教官的胸甲",
+    "value": 220,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 3,
+      "wisdom": 2
+    },
+    "level": 6,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "流放者的手套",
+    "value": 160,
+    "item_type": "gloves",
+    "stat_bonus": {
+      "intelligence": 2,
+      "charm": 1
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "幸运儿之冠",
+    "value": 120,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "charm": 3
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "武人的肩甲",
+    "value": 280,
+    "item_type": "shoulder",
+    "stat_bonus": {
+      "strength": 4,
+      "constitution": 2
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "风鹰剑",
+    "value": 500,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 8,
+      "constitution": 4
+    },
+    "level": 9,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "天空之刃",
+    "value": 550,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 7,
+      "dexterity": 5
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "狼的末路",
+    "value": 600,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 10,
+      "constitution": 5
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "尘世之锁",
+    "value": 520,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "intelligence": 9,
+      "wisdom": 3
+    },
+    "level": 11,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "和璞鸢",
+    "value": 580,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 9,
+      "dexterity": 4
+    },
+    "level": 12,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "雾切之回光",
+    "value": 620,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 8,
+      "intelligence": 6
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "护摩之杖",
+    "value": 590,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 7,
+      "constitution": 6
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "终末嗟叹之诗",
+    "value": 560,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "dexterity": 8,
+      "intelligence": 4
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "苍古的自由之誓",
+    "value": 650,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 6,
+      "dexterity": 6,
+      "intelligence": 6
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "磐岩结绿",
+    "value": 530,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 7,
+      "constitution": 5
+    },
+    "level": 16,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "角斗士的终幕礼",
+    "value": 400,
+    "item_type": "armor",
+    "stat_bonus": {
+      "strength": 8,
+      "constitution": 4
+    },
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "翠绿之影",
+    "value": 380,
+    "item_type": "armor",
+    "stat_bonus": {
+      "dexterity": 8,
+      "intelligence": 4
+    },
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "炽烈的炎之魔女",
+    "value": 390,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 8,
+      "strength": 3
+    },
+    "level": 18,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "如雷的盛怒",
+    "value": 385,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 7,
+      "dexterity": 5
+    },
+    "level": 19,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "冰风迷途的勇士",
+    "value": 395,
+    "item_type": "armor",
+    "stat_bonus": {
+      "constitution": 7,
+      "intelligence": 5
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "被怜爱的少女",
+    "value": 370,
+    "item_type": "armor",
+    "stat_bonus": {
+      "wisdom": 9,
+      "intelligence": 4
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "流浪大地的乐团",
+    "value": 375,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 6,
+      "wisdom": 6
+    },
+    "level": 21,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "追忆之注连",
+    "value": 410,
+    "item_type": "armor",
+    "stat_bonus": {
+      "strength": 6,
+      "dexterity": 6
+    },
+    "level": 22,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "绝缘之旗印",
+    "value": 415,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 7,
+      "wisdom": 5
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "辰砂往生录",
+    "value": 420,
+    "item_type": "armor",
+    "stat_bonus": {
+      "strength": 7,
+      "constitution": 6
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "深林的记忆",
+    "value": 405,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 8,
+      "wisdom": 4
+    },
+    "level": 24,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "饰金之梦",
+    "value": 425,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 9,
+      "wisdom": 3
+    },
+    "level": 25,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "乐园遗落之花",
+    "value": 395,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 7,
+      "dexterity": 4
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "渡火者的燃烧之宴",
+    "value": 360,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 6,
+      "strength": 4
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "教官的四件套",
+    "value": 280,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 5,
+      "wisdom": 5
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "战狂的五件套",
+    "value": 320,
+    "item_type": "armor",
+    "stat_bonus": {
+      "strength": 6,
+      "dexterity": 3
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "流浪者的宽恕",
+    "value": 340,
+    "item_type": "armor",
+    "stat_bonus": {
+      "dexterity": 5,
+      "intelligence": 5
+    },
+    "level": 29,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "幸运儿的五件套",
+    "value": 250,
+    "item_type": "armor",
+    "stat_bonus": {
+      "charm": 6,
+      "wisdom": 3
+    },
+    "level": 30,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  }
+]

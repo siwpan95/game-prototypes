@@ -1,0 +1,181 @@
+[
+  {
+    "name": "收集波波羽毛",
+    "description": "收集波波掉落的羽毛",
+    "target_monster": "波波",
+    "target_count": 8,
+    "reward_exp": 400,
+    "reward_gold": 100
+  },
+  {
+    "name": "击败道馆馆主",
+    "description": "在道馆中击败强大的宝可梦",
+    "target_monster": "腕力",
+    "target_count": 1,
+    "reward_exp": 800,
+    "reward_gold": 200,
+    "reward_item": {"name": "道馆徽章", "value": 0, "item_type": "misc", "stat_bonus": {"strength": 2}}
+  },
+  {
+    "name": "捕捉超音蝠",
+    "description": "在洞穴中捕捉超音蝠",
+    "target_monster": "超音蝠",
+    "target_count": 5,
+    "reward_exp": 600,
+    "reward_gold": 150
+  },
+  {
+    "name": "挑战四大天王",
+    "description": "击败四大天王的宝可梦",
+    "target_monster": "快龙",
+    "target_count": 1,
+    "reward_exp": 1200,
+    "reward_gold": 500,
+    "reward_item": {"name": "冠军证书", "value": 0, "item_type": "misc", "stat_bonus": {"strength": 5, "constitution": 3}}
+  },
+  {
+    "name": "清除虫系宝可梦",
+    "description": "清除森林中过多的虫系宝可梦",
+    "target_monster": "绿毛虫",
+    "target_count": 10,
+    "reward_exp": 350,
+    "reward_gold": 90
+  },
+  {
+    "name": "平息暴鲤龙之怒",
+    "description": "平息暴动的暴鲤龙",
+    "target_monster": "暴鲤龙",
+    "target_count": 2,
+    "reward_exp": 1500,
+    "reward_gold": 400,
+    "reward_item": {"name": "龙之宝石", "value": 500, "item_type": "misc", "stat_bonus": {"strength": 4, "constitution": 4, "intelligence": 3}}
+  },
+  {
+    "name": "收服皮卡丘",
+    "description": "在常青森林收服皮卡丘",
+    "target_monster": "皮卡丘",
+    "target_count": 3,
+    "reward_exp": 700,
+    "reward_gold": 180
+  },
+  {
+    "name": "击败火箭队",
+    "description": "在月见山击败火箭队成员",
+    "target_monster": "小拉达",
+    "target_count": 8,
+    "reward_exp": 550,
+    "reward_gold": 140
+  },
+  {
+    "name": "挑战尼比道馆",
+    "description": "在尼比道馆击败岩石系宝可梦",
+    "target_monster": "穿山鼠",
+    "target_count": 1,
+    "reward_exp": 900,
+    "reward_gold": 220,
+    "reward_item": {"name": "灰色徽章", "value": 0, "item_type": "misc", "stat_bonus": {"constitution": 2}}
+  },
+  {
+    "name": "探索华蓝洞窟",
+    "description": "在华蓝洞窟击败强大的宝可梦",
+    "target_monster": "海星星",
+    "target_count": 10,
+    "reward_exp": 800,
+    "reward_gold": 200
+  },
+  {
+    "name": "收服凯西",
+    "description": "在金黄市收服超能力系宝可梦",
+    "target_monster": "凯西",
+    "target_count": 2,
+    "reward_exp": 1000,
+    "reward_gold": 250,
+    "reward_item": {"name": "折弯的汤匙", "value": 300, "item_type": "weapon", "stat_bonus": {"intelligence": 6}}
+  },
+  {
+    "name": "挑战枯叶道馆",
+    "description": "在枯叶道馆击败电系宝可梦",
+    "target_monster": "皮卡丘",
+    "target_count": 1,
+    "reward_exp": 950,
+    "reward_gold": 240,
+    "reward_item": {"name": "橙色徽章", "value": 0, "item_type": "misc", "stat_bonus": {"dexterity": 2}}
+  },
+  {
+    "name": "平息卡比兽之眠",
+    "description": "用宝可梦之笛唤醒卡比兽",
+    "target_monster": "胖丁",
+    "target_count": 1,
+    "reward_exp": 850,
+    "reward_gold": 210
+  },
+  {
+    "name": "收集进化石",
+    "description": "收集各种进化石碎片",
+    "target_monster": "妙蛙种子",
+    "target_count": 5,
+    "reward_exp": 750,
+    "reward_gold": 190,
+    "reward_item": {"name": "火之石碎片", "value": 200, "item_type": "misc"}
+  },
+  {
+    "name": "挑战彩虹道馆",
+    "description": "在彩虹道馆击败草系宝可梦",
+    "target_monster": "大食花",
+    "target_count": 1,
+    "reward_exp": 980,
+    "reward_gold": 245,
+    "reward_item": {"name": "彩虹徽章", "value": 0, "item_type": "misc", "stat_bonus": {"wisdom": 2}}
+  },
+  {
+    "name": "探索浅红洞窟",
+    "description": "在浅红洞窟击败毒系和恶系宝可梦",
+    "target_monster": "阿柏蛇",
+    "target_count": 12,
+    "reward_exp": 1100,
+    "reward_gold": 280
+  },
+  {
+    "name": "挑战红莲道馆",
+    "description": "在红莲岛击败火系宝可梦",
+    "target_monster": "小火龙",
+    "target_count": 1,
+    "reward_exp": 1200,
+    "reward_gold": 300,
+    "reward_item": {"name": "深红徽章", "value": 0, "item_type": "misc", "stat_bonus": {"strength": 3}}
+  },
+  {
+    "name": "挑战石英联盟",
+    "description": "在石英高原挑战四天王和冠军",
+    "target_monster": "快龙",
+    "target_count": 1,
+    "reward_exp": 3000,
+    "reward_gold": 1000,
+    "reward_item": {"name": "冠军奖杯", "value": 0, "item_type": "misc", "stat_bonus": {"strength": 8, "constitution": 5, "intelligence": 5, "wisdom": 5, "dexterity": 5}}
+  },
+  {
+    "name": "收集树果",
+    "description": "在城都地区收集各种树果",
+    "target_monster": "波波",
+    "target_count": 15,
+    "reward_exp": 600,
+    "reward_gold": 150
+  },
+  {
+    "name": "挑战城都道馆",
+    "description": "在城都地区挑战所有道馆",
+    "target_monster": "腕力",
+    "target_count": 8,
+    "reward_exp": 2000,
+    "reward_gold": 600,
+    "reward_item": {"name": "城都徽章盒", "value": 0, "item_type": "misc", "stat_bonus": {"strength": 4, "constitution": 4}}
+  },
+  {
+    "name": "探索丰缘地区",
+    "description": "在丰缘地区捕捉新的宝可梦",
+    "target_monster": "皮卡丘",
+    "target_count": 10,
+    "reward_exp": 1500,
+    "reward_gold": 400
+  }
+]

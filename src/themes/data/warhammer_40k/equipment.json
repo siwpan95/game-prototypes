@@ -1,0 +1,537 @@
+[
+  {
+    "id": "bolter",
+    "name": "爆弹枪",
+    "desc": "星际战士标准武器，发射爆炸弹头",
+    "item_type": "weapon",
+    "value": 500,
+    "stat_bonus": {
+      "strength": 10
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "heavy_bolter",
+    "name": "重型爆弹枪",
+    "desc": "重型支援武器，持续火力压制",
+    "item_type": "weapon",
+    "value": 1200,
+    "stat_bonus": {
+      "strength": 18
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "chainsword",
+    "name": "链锯剑",
+    "desc": "高速旋转的链锯剑，撕裂一切",
+    "item_type": "weapon",
+    "value": 400,
+    "stat_bonus": {
+      "strength": 8
+    },
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "power_sword",
+    "name": "动力剑",
+    "desc": "包裹能量场的剑刃，斩断金属",
+    "item_type": "weapon",
+    "value": 1500,
+    "stat_bonus": {
+      "strength": 15
+    },
+    "level": 3,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "thunder_hammer",
+    "name": "雷霆锤",
+    "desc": "沉重的一击，附带震荡波",
+    "item_type": "weapon",
+    "value": 2000,
+    "stat_bonus": {
+      "strength": 20
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "power_armor",
+    "name": "动力装甲",
+    "desc": "星际战士标准装甲，提供全面防护",
+    "item_type": "armor",
+    "value": 3000,
+    "stat_bonus": {
+      "constitution": 50
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "terminator_armor",
+    "name": "终结者装甲",
+    "desc": "重型装甲，近乎无敌的防护",
+    "item_type": "armor",
+    "value": 8000,
+    "stat_bonus": {
+      "constitution": 100
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "jump_pack",
+    "name": "跳跃背包",
+    "desc": "允许穿戴者进行跳跃突击",
+    "item_type": "accessory",
+    "value": 2500,
+    "stat_bonus": {},
+    "level": 6,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "storm_shield",
+    "name": "风暴盾",
+    "desc": "能量护盾，抵挡远程攻击",
+    "item_type": "accessory",
+    "value": 1800,
+    "stat_bonus": {
+      "constitution": 20
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "plasma_gun",
+    "name": "等离子枪",
+    "desc": "发射高能等离子弹，穿透力极强",
+    "item_type": "weapon",
+    "value": 1800,
+    "stat_bonus": {
+      "strength": 18
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "melta_gun",
+    "name": "熔化枪",
+    "desc": "发射高热光束，熔化装甲",
+    "item_type": "weapon",
+    "value": 2000,
+    "stat_bonus": {
+      "strength": 25
+    },
+    "level": 9,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "flamethrower",
+    "name": "火焰喷射器",
+    "desc": "喷射高热火焰，焚烧近距离敌人",
+    "item_type": "weapon",
+    "value": 1000,
+    "stat_bonus": {
+      "strength": 12
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "lasgun",
+    "name": "激光枪",
+    "desc": "帝国卫队标准武器，廉价而可靠",
+    "item_type": "weapon",
+    "value": 200,
+    "stat_bonus": {
+      "strength": 6
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "imperial_sword",
+    "name": "帝国长剑",
+    "desc": "帝国军官佩剑，精工打造",
+    "item_type": "weapon",
+    "value": 600,
+    "stat_bonus": {
+      "strength": 10
+    },
+    "level": 11,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "chainaxe",
+    "name": "链锯斧",
+    "desc": "欧克蛮人喜爱的重型武器",
+    "item_type": "weapon",
+    "value": 700,
+    "stat_bonus": {
+      "strength": 15
+    },
+    "level": 12,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "ork_power_klaw",
+    "name": "欧克铁拳",
+    "desc": "欧克军阀的巨型铁拳，一击必杀",
+    "item_type": "weapon",
+    "value": 900,
+    "stat_bonus": {
+      "strength": 22
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "tau_pulse_rifle",
+    "name": "钛族脉冲步枪",
+    "desc": "钛族标准武器，发射高能脉冲弹",
+    "item_type": "weapon",
+    "value": 1200,
+    "stat_bonus": {
+      "strength": 14
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "tau_crisis_suit_equip",
+    "name": "钛族危机战斗服",
+    "desc": "钛族重型机甲，装备多种武器",
+    "item_type": "armor",
+    "value": 6000,
+    "stat_bonus": {
+      "constitution": 80
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "necron_particle_whip",
+    "name": "死灵粒子鞭",
+    "desc": "死灵族武器，发射粒子光束",
+    "item_type": "weapon",
+    "value": 2200,
+    "stat_bonus": {
+      "strength": 16
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "eldar_shuriken",
+    "name": "灵族星镖弹射器",
+    "desc": "灵族标准武器，发射旋转的星镖",
+    "item_type": "weapon",
+    "value": 1400,
+    "stat_bonus": {
+      "strength": 13
+    },
+    "level": 16,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "grey_knight_nemesis",
+    "name": "灰骑士灵能武器",
+    "desc": "灰骑士专用，注入灵能的近战武器",
+    "item_type": "weapon",
+    "value": 5000,
+    "stat_bonus": {
+      "strength": 20
+    },
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "sister_bolter",
+    "name": "修女会爆弹枪",
+    "desc": "修女会专用爆弹枪，刻有帝国符号",
+    "item_type": "weapon",
+    "value": 550,
+    "stat_bonus": {
+      "strength": 11
+    },
+    "level": 18,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "tech_priest_electro",
+    "name": "机械教机电武装",
+    "desc": "机械教技术祭司的机电武器，可电击敌人",
+    "item_type": "weapon",
+    "value": 1600,
+    "stat_bonus": {
+      "strength": 8
+    },
+    "level": 19,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "assassin_sniper",
+    "name": "刺客细剑狙击枪",
+    "desc": "帝国刺客专用，远程一击必杀",
+    "item_type": "weapon",
+    "value": 4000,
+    "stat_bonus": {
+      "strength": 30
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "imperial_flak",
+    "name": "帝国卫队防弹衣",
+    "desc": "帝国卫队标准防护，基础但有效",
+    "item_type": "armor",
+    "value": 300,
+    "stat_bonus": {
+      "constitution": 10
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "tau_armor",
+    "name": "钛族护甲",
+    "desc": "钛族标准护甲，轻便而坚固",
+    "item_type": "armor",
+    "value": 1500,
+    "stat_bonus": {
+      "constitution": 15
+    },
+    "level": 21,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "eldar_armor",
+    "name": "灵族护甲",
+    "desc": "灵族精制护甲，兼顾防护与敏捷",
+    "item_type": "armor",
+    "value": 2000,
+    "stat_bonus": {
+      "constitution": 20
+    },
+    "level": 22,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "reliquary",
+    "name": "帝皇圣物",
+    "desc": "蕴含帝皇力量的圣物，极为稀有",
+    "item_type": "accessory",
+    "value": 10000,
+    "stat_bonus": {
+      "strength": 10,
+      "constitution": 10
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "void_shield",
+    "name": "虚空盾发生器",
+    "desc": "展开虚空能量护盾，抵挡一切攻击",
+    "item_type": "accessory",
+    "value": 5000,
+    "stat_bonus": {
+      "constitution": 30
+    },
+    "level": 24,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "teleporter",
+    "name": "短距传送器",
+    "desc": "允许短距离空间传送",
+    "item_type": "accessory",
+    "value": 4000,
+    "stat_bonus": {},
+    "level": 25,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "drop_pod",
+    "name": "空降舱",
+    "desc": "从轨道空降部队到战场",
+    "item_type": "accessory",
+    "value": 3000,
+    "stat_bonus": {},
+    "level": 25,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "rocket_launcher_equip",
+    "name": "火箭筒",
+    "desc": "发射火箭弹，范围爆炸伤害",
+    "item_type": "weapon",
+    "value": 1500,
+    "stat_bonus": {
+      "strength": 22
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "chaos_axe",
+    "name": "混沌战斧",
+    "desc": "被混沌腐化的战斧，附带黑暗力量",
+    "item_type": "weapon",
+    "value": 1800,
+    "stat_bonus": {
+      "strength": 18
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "genestealer_claw",
+    "name": "基因窃取者利爪",
+    "desc": "泰伦生化武器，能撕裂装甲",
+    "item_type": "weapon",
+    "value": 1200,
+    "stat_bonus": {
+      "strength": 16
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "ork_choppa",
+    "name": "欧克砍刀",
+    "desc": "欧克蛮人粗制武器，但够大够猛",
+    "item_type": "weapon",
+    "value": 350,
+    "stat_bonus": {
+      "strength": 9
+    },
+    "level": 29,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "id": "tau_shield_generator",
+    "name": "钛族护盾发生器",
+    "desc": "钛族能量护盾，保护步兵单位",
+    "item_type": "accessory",
+    "value": 2500,
+    "stat_bonus": {
+      "constitution": 25
+    },
+    "level": 30,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "name": "摧毁混沌要塞",
+    "description": "混沌势力在该区域建立了要塞，威胁帝国安全。你必须摧毁它。",
+    "target_monster": "欧克小子",
+    "target_count": 6,
+    "reward_exp": 432,
+    "reward_gold": 93,
+    "reward_item": null
+  },
+  {
+    "name": "保卫招募世界",
+    "description": "帝国招募世界遭到欧克蛮人入侵，必须保卫招募中心。",
+    "target_monster": "泰伦战士",
+    "target_count": 14,
+    "reward_exp": 171,
+    "reward_gold": 260,
+    "reward_item": null
+  },
+  {
+    "name": "夺回失陷星球",
+    "description": "帝国失陷星球被泰伦虫族占领，必须夺回。",
+    "target_monster": "欧克战车",
+    "target_count": 9,
+    "reward_exp": 342,
+    "reward_gold": 112,
+    "reward_item": null
+  },
+  {
+    "name": "猎杀泰伦虫族",
+    "description": "泰伦虫族先锋生物在该区域活动，必须消灭。",
+    "target_monster": "欧克军阀",
+    "target_count": 9,
+    "reward_exp": 417,
+    "reward_gold": 264,
+    "reward_item": null
+  },
+  {
+    "name": "探索远古遗迹",
+    "description": "在荒芜世界上发现远古遗迹，可能藏有失落科技。",
+    "target_monster": "恶魔王子",
+    "target_count": 11,
+    "reward_exp": 147,
+    "reward_gold": 69,
+    "reward_item": null
+  },
+  {
+    "name": "刺杀异端领袖",
+    "description": "异端领袖在混乱世界煽动叛乱，必须刺杀。",
+    "target_monster": "混沌星际战士",
+    "target_count": 11,
+    "reward_exp": 430,
+    "reward_gold": 179,
+    "reward_item": null
+  },
+  {
+    "name": "净化污染世界",
+    "description": "纳垢瘟疫污染了帝国世界，必须净化。",
+    "target_monster": "死灵毁灭者",
+    "target_count": 15,
+    "reward_exp": 254,
+    "reward_gold": 257,
+    "reward_item": null
+  },
+  {
+    "name": "收集钛族情报",
+    "description": "钛族在边境世界活动，需要收集其军事部署情报。",
+    "target_monster": "纳垢烂哥",
+    "target_count": 14,
+    "reward_exp": 441,
+    "reward_gold": 137,
+    "reward_item": null
+  },
+  {
+    "name": "摧毁欧克基地",
+    "description": "欧克蛮人在小行星上建立基地，威胁贸易航线。",
+    "target_monster": "灵族蜘蛛机甲",
+    "target_count": 11,
+    "reward_exp": 453,
+    "reward_gold": 71,
+    "reward_item": null
+  },
+  {
+    "name": "救援帝国卫队",
+    "description": "帝国卫队被混沌围困，必须救援。",
+    "target_monster": "审判官打手",
+    "target_count": 12,
+    "reward_exp": 184,
+    "reward_gold": 56,
+    "reward_item": null
+  },
+  {
+    "name": "调查神秘信号",
+    "description": "深空传来神秘信号，可能是失陷战团或远古科技。",
+    "target_monster": "欧克战车",
+    "target_count": 13,
+    "reward_exp": 471,
+    "reward_gold": 239,
+    "reward_item": null
+  },
+  {
+    "name": "阻止亚空间裂缝",
+    "description": "亚空间裂缝在该区域打开，恶魔涌入现实。",
+    "target_monster": "欧克头目",
+    "target_count": 13,
+    "reward_exp": 471,
+    "reward_gold": 84,
+    "reward_item": null
+  },
+  {
+    "name": "消灭灵族突袭队",
+    "description": "灵族突袭队袭击帝国殖民地，必须消灭。",
+    "target_monster": "泰伦战士",
+    "target_count": 6,
+    "reward_exp": 133,
+    "reward_gold": 152,
+    "reward_item": null
+  },
+  {
+    "name": "激活死灵 Tomb",
+    "description": "远古死灵 Tomb 开始苏醒，必须调查并决定如何处理。",
+    "target_monster": "灵族守护者",
+    "target_count": 12,
+    "reward_exp": 253,
+    "reward_gold": 167,
+    "reward_item": null
+  },
+  {
+    "name": "征服敌对星球",
+    "description": "帝国需要新的招募世界，必须征服一颗敌对星球。",
+    "target_monster": "死灵毁灭者",
+    "target_count": 6,
+    "reward_exp": 334,
+    "reward_gold": 264,
+    "reward_item": null
+  },
+  {
+    "name": "修复虚空盾",
+    "description": "行星防御虚空盾被破坏，必须修复以抵挡即将到来的入侵。",
+    "target_monster": "克里格死亡兵",
+    "target_count": 9,
+    "reward_exp": 199,
+    "reward_gold": 115,
+    "reward_item": null
+  },
+  {
+    "name": "摧毁混沌战舰",
+    "description": "混沌战舰停留在轨道上，炮击帝国地面部队。",
+    "target_monster": "色孽魅妖",
+    "target_count": 6,
+    "reward_exp": 190,
+    "reward_gold": 218,
+    "reward_item": null
+  },
+  {
+    "name": "护送帝国特使",
+    "description": "帝国特使需要穿越危险区域，到达谈判地点。",
+    "target_monster": "色孽魅妖",
+    "target_count": 8,
+    "reward_exp": 440,
+    "reward_gold": 59,
+    "reward_item": null
+  },
+  {
+    "name": "回收基因种子",
+    "description": "阵亡星际战士的基因种子必须回收，这是战团的未来。",
+    "target_monster": "灵族蜘蛛机甲",
+    "target_count": 6,
+    "reward_exp": 290,
+    "reward_gold": 207,
+    "reward_item": null
+  },
+  {
+    "name": "猎杀混沌巫师",
+    "description": "混沌巫师正在举行仪式，将释放恶魔军团。",
+    "target_monster": "欧克军阀",
+    "target_count": 9,
+    "reward_exp": 161,
+    "reward_gold": 180,
+    "reward_item": null
+  }
+]

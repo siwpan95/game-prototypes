@@ -1,0 +1,156 @@
+{
+  "character": {
+    "name": "测试英雄",
+    "race": "人类",
+    "char_class": "死灵法师",
+    "level": 1,
+    "exp": 52.0,
+    "exp_to_next_level": 1200,
+    "gold": 0,
+    "strength": 10,
+    "dexterity": 10,
+    "constitution": 10,
+    "intelligence": 10,
+    "charm": 10,
+    "wisdom": 10,
+    "hp_max": 10,
+    "mp_max": 5,
+    "equipment": {
+      "weapon": null,
+      "shoulder": null,
+      "helm": null,
+      "chest": null,
+      "arms": null,
+      "gloves": null,
+      "underarmor": null,
+      "pants": null,
+      "legs": null,
+      "shins": null,
+      "boots": null
+    },
+    "inventory": [],
+    "spellbook": [],
+    "encumbrance": 0,
+    "max_encumbrance": 20
+  },
+  "exp_bar": {
+    "current": 0.0,
+    "max_value": 1200
+  },
+  "plot_bar": {
+    "current": 0.0,
+    "max_value": 100
+  },
+  "quest_bar": {
+    "current": 0.0,
+    "max_value": 100
+  },
+  "encum_bar": {
+    "current": 0.0,
+    "max_value": 100
+  },
+  "action_bar": {
+    "current": 0.0,
+    "max_value": 100
+  },
+  "quest": null,
+  "monster": null,
+  "plot_chapters": [
+    {
+      "name": "序章",
+      "completed": true,
+      "unlocked": true,
+      "description": "在这个世界中，一个无名冒险者踏上了旅程...",
+      "is_prologue": true,
+      "tasks_required": 0
+    },
+    {
+      "name": "章 I",
+      "completed": false,
+      "unlocked": true,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 3
+    },
+    {
+      "name": "章 II",
+      "completed": false,
+      "unlocked": false,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 5
+    },
+    {
+      "name": "章 III",
+      "completed": false,
+      "unlocked": false,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 8
+    },
+    {
+      "name": "章 IV",
+      "completed": false,
+      "unlocked": false,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 12
+    },
+    {
+      "name": "章 V",
+      "completed": false,
+      "unlocked": false,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 16
+    },
+    {
+      "name": "章 VI",
+      "completed": false,
+      "unlocked": false,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 20
+    },
+    {
+      "name": "章 VII",
+      "completed": false,
+      "unlocked": false,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 25
+    },
+    {
+      "name": "章 VIII",
+      "completed": false,
+      "unlocked": false,
+      "description": "",
+      "is_prologue": false,
+      "tasks_required": 30
+    }
+  ],
+  "active_tasks": [
+    {
+      "task_type": "击败",
+      "description": "硬毛老鼠",
+      "completed": false
+    },
+    {
+      "task_type": "击败",
+      "description": "沉沦魔",
+      "completed": true
+    },
+    {
+      "task_type": "完成",
+      "description": "第五章任务",
+      "completed": false
+    }
+  ],
+  "progress": {
+    "quests_completed_total": 0,
+    "current_chapter_index": 1,
+    "current_action_text": "Executing 沉沦魔",
+    "action_target_count": 1,
+    "action_current_count": 0
+  }
+}

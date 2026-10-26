@@ -1,0 +1,506 @@
+[
+  {
+    "name": "破坏剑",
+    "value": 2000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 45
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "圣剑·艾克斯卡尔巴",
+    "value": 5000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 70,
+      "holy": 50
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 175
+    },
+    "prefixes": []
+  },
+  {
+    "name": "贤者之石",
+    "value": 3000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "magic": 40
+    },
+    "level": 2,
+    "base_stats": {
+      "attack": 125
+    },
+    "prefixes": []
+  },
+  {
+    "name": "白魔杖",
+    "value": 800,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 25,
+      "healing": 30
+    },
+    "level": 3,
+    "base_stats": {
+      "attack": 75
+    },
+    "prefixes": []
+  },
+  {
+    "name": "黑魔杖",
+    "value": 800,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 30,
+      "dark": 25
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 75
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤士之杖",
+    "value": 1200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 35,
+      "summon": 40
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "龙骑士之枪",
+    "value": 1500,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 38,
+      "jump": 20
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "忍者刀",
+    "value": 1000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 32,
+      "agility": 25
+    },
+    "level": 6,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "机工士之枪",
+    "value": 1300,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 35,
+      "mechanical": 30
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "吟游诗人之琴",
+    "value": 900,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 20,
+      "song": 25
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 70
+    },
+    "prefixes": []
+  },
+  {
+    "name": "学者之书",
+    "value": 1100,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 32,
+      "knowledge": 30
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 85
+    },
+    "prefixes": []
+  },
+  {
+    "name": "圣骑士之盾",
+    "value": 1000,
+    "item_type": "shield",
+    "stat_bonus": {
+      "defense": 35,
+      "holy": 20
+    },
+    "level": 9,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "咒术师之盾",
+    "value": 1200,
+    "item_type": "shield",
+    "stat_bonus": {
+      "defense": 30,
+      "dark": 25
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "白魔道士之袍",
+    "value": 1500,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 25,
+      "magic_def": 40,
+      "healing": 35
+    },
+    "level": 11,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "黑魔道士之袍",
+    "value": 1500,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 20,
+      "magic_def": 35,
+      "magic": 45
+    },
+    "level": 11,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤士之袍",
+    "value": 1800,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 22,
+      "magic_def": 38,
+      "summon": 50
+    },
+    "level": 12,
+    "base_stats": {
+      "attack": 110
+    },
+    "prefixes": []
+  },
+  {
+    "name": "龙骑士之铠",
+    "value": 2000,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 45,
+      "jump": 25
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 120
+    },
+    "prefixes": []
+  },
+  {
+    "name": "忍者之衣",
+    "value": 1600,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 30,
+      "agility": 40
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "机工士之铠",
+    "value": 2200,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 42,
+      "mechanical": 35
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 125
+    },
+    "prefixes": []
+  },
+  {
+    "name": "水晶盔甲",
+    "value": 3000,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 55,
+      "magic_def": 50
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 150
+    },
+    "prefixes": []
+  },
+  {
+    "name": "飞空艇零件",
+    "value": 500,
+    "item_type": "material",
+    "level": 16,
+    "base_stats": {
+      "attack": 50
+    },
+    "prefixes": []
+  },
+  {
+    "name": "魔石",
+    "value": 200,
+    "item_type": "material",
+    "level": 17,
+    "base_stats": {
+      "attack": 25
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤石·巴哈姆特",
+    "value": 5000,
+    "item_type": "material",
+    "level": 18,
+    "base_stats": {
+      "attack": 175
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤石·伊弗利特",
+    "value": 2000,
+    "item_type": "material",
+    "level": 19,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤石·希瓦",
+    "value": 2000,
+    "item_type": "material",
+    "level": 19,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤石·拉姆",
+    "value": 2000,
+    "item_type": "material",
+    "level": 20,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤石·堤丰",
+    "value": 2500,
+    "item_type": "material",
+    "level": 21,
+    "base_stats": {
+      "attack": 110
+    },
+    "prefixes": []
+  },
+  {
+    "name": "界限剑",
+    "value": 4000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 60,
+      "limit": 30
+    },
+    "level": 22,
+    "base_stats": {
+      "attack": 160
+    },
+    "prefixes": []
+  },
+  {
+    "name": "贤者之冠",
+    "value": 2500,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "defense": 30,
+      "magic": 45
+    },
+    "level": 22,
+    "base_stats": {
+      "attack": 120
+    },
+    "prefixes": []
+  },
+  {
+    "name": "龙骑士之 helm",
+    "value": 2000,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "defense": 35,
+      "jump": 20
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "忍者之头巾",
+    "value": 1500,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "defense": 20,
+      "agility": 35
+    },
+    "level": 24,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "飞空靴",
+    "value": 1800,
+    "item_type": "boots",
+    "stat_bonus": {
+      "defense": 25,
+      "fly": 1
+    },
+    "level": 25,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "机工士之靴",
+    "value": 1600,
+    "item_type": "boots",
+    "stat_bonus": {
+      "defense": 22,
+      "mechanical": 25
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "白魔之手袋",
+    "value": 1200,
+    "item_type": "gloves",
+    "stat_bonus": {
+      "defense": 18,
+      "healing": 25
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "黑魔之手袋",
+    "value": 1200,
+    "item_type": "gloves",
+    "stat_bonus": {
+      "defense": 15,
+      "magic": 30
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "召唤士之手袋",
+    "value": 1400,
+    "item_type": "gloves",
+    "stat_bonus": {
+      "defense": 16,
+      "summon": 35
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "水晶球",
+    "value": 3500,
+    "item_type": "misc",
+    "stat_bonus": {
+      "magic": 50
+    },
+    "level": 29,
+    "base_stats": {
+      "attack": 140
+    },
+    "prefixes": []
+  },
+  {
+    "name": "奥丁之剑",
+    "value": 6000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 75,
+      "dark": 40
+    },
+    "level": 30,
+    "base_stats": {
+      "attack": 190
+    },
+    "prefixes": []
+  }
+]

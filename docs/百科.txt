@@ -1,0 +1,146 @@
+跳转到内容
+
+主菜单
+GHGWIKI
+搜索GHGWIKI内容
+搜索
+中文（简体）
+创建账号
+登录
+
+个人工具
+目录 隐藏
+（首段）
+剧情
+开关剧情子章节
+种族
+职业
+历史
+开关历史子章节
+报导
+参见
+外部连结
+Progress Quest[编辑]
+页面
+讨论
+
+简体
+阅读
+编辑
+查看历史
+
+工具
+外观 隐藏
+文本
+
+小
+
+标准
+
+大
+宽度
+
+标准
+
+宽
+Progress Quest
+Progress Quest
+类型	parody of MMORPGs
+平台	Windows（通过Linux版本Wine的测试]]
+开发商	Eric Fredricksen
+总监	Module:Wikidata第446行Lua错误：attempt to index field 'wikibase' (a nil value)
+制作人	Module:Wikidata第446行Lua错误：attempt to index field 'wikibase' (a nil value)
+设计师	Eric Fredricksen
+编剧	Module:Wikidata第446行Lua错误：attempt to index field 'wikibase' (a nil value)
+程序	Module:Wikidata第446行Lua错误：attempt to index field 'wikibase' (a nil value)
+美术	Module:Wikidata第446行Lua错误：attempt to index field 'wikibase' (a nil value)
+音乐	Module:Wikidata第446行Lua错误：attempt to index field 'wikibase' (a nil value)
+系列	Module:Wikidata第446行Lua错误：attempt to index field 'wikibase' (a nil value)
+模式	Zero players
+发行日	2002年
+《Progress Quest》是一个为了戏仿“无尽的任务”（EverQuest）、及其他大型多人线上角色扮演游戏所制作的电脑游戏。可不严谨地称为零人游戏， 也就是说玩家一设定好他的人造角色， 接著就完全没有与使用者互动；游戏自己本身“玩”了起来，而人类玩家则充当观察者的角色。
+
+Progress Quest 戏仿电脑角色扮演游戏，尤其是 无尽的任务(EverQuest)，因为许多玩家认为如此的玩游戏很无趣。无尽的任务(EverQuest) 因为它的"自动攻击"战斗系统而恶名昭彰，使用者只要按下一个按钮去开始战斗模式，自此之后除了看之外就很少事情要做了。Progress Quest 也嘲笑 传统角色扮演游戏的种族、职业、故事、任务、物品等等。
+
+程式由Eric Fredricksen在2002年初写成。玩家们快速的加入这个游戏，并在许多知名的免费软体下载网站及游戏评论网站上写假的评论，尽量给Progress Quest高的评分。
+
+游戏把角色的状态显示在萤幕上，包含数个进度条，表示玩家在游戏中的进度。角色会在游戏中获得经验值、物品、以及和怪兽相遇。然后物品会卖掉，以购买新的和角色等级相称的装备。游戏中也会有一些任务是“整体章节进度”的一部份，也会在前一个章节完成后加入新的章节。
+
+开始一个新游戏时，会显示几个选项供玩家选择，让玩家决定他的角色的种族及职业。而初始状态则是透过模拟掷骰子决定，包含力量（Strength）、体质（Constitution）、敏捷（Dexterity）、智力（Intelligence）、智慧（Wisdom）及魅力（Charisma）六项能力值。玩家们以低于水平的装备开始游戏，慢慢地赚取更好的武器、装甲、及咒语。
+
+然而几乎所有上述的角色属性及装备皆不会对游戏性产生影响。唯一的例外是“力量”属性，其决定了物品的携带容量，而间接影响升级的速度。
+
+剧情[编辑]
+游戏的背景故事是Grumdrig这个地区的发展史及以及各王国的成立。目前游戏中有四个王国：Knoram、Expodrine、Oobag及Spoltog。故事模仿奇幻小说的剧情，使用古代的语言，且创造出像"aberdoxy"这样的字。
+
+种族[编辑]
+英文	中文翻译
+Half Orc	半半兽人
+Half Human	半人
+Half Halfling	半半身人（半哈比人）
+Double Hobbit	大型哈比人
+Low Elf	低等精灵
+Dung Elf	污粪精灵
+Talking Pony	会说话的小马
+Greater Gnome	大型地精
+Gyrognome	回转地精
+Lesser Dwarf	小型矮人
+Crested Dwarf	鸡冠矮人
+Eel Man	鳗鱼人
+Panda Man	熊猫人
+Trans-Kobold	变形狗头人
+Enchanted motorcycle	魔法机车
+Will o' the Wisp	鬼火
+Battle-Finch	战斗雀鸟
+Double Wookie	大型武技族
+Skraeling	丑人
+Demicanadian	半加拿大人
+Land Squid	地行乌贼
+职业[编辑]
+英文	中文翻译
+Ur-Paladian	呃……圣骑士
+Voodoo Princess	巫毒公主
+Robot Monk	机器僧侣
+Mu-Fu Monk	幕府僧侣
+Mage Illusioner	幻影法师
+Shiv-Knight	剃刀骑士
+Inner Masson	精神马尾松
+Fighter/Organist	战士／风琴手
+Puma Burgular	美洲狮盗贼
+Runeloremaster	符文专家
+Tongueblade	操舌剑者
+Hunter Strangler	猎人扼杀者
+Battle-Felon	战斗恶棍
+Tickle-Mimic	搞笑小丑
+Slow Poisoner	慢性施毒师
+Bastard Lunatic	杂种狂人
+Lowling	卑下者
+Birdrider	鸟骑士
+若要取得咒语、物品、以及怪物名称的范例，试试这里：互动随机角色扮演故事产生器（Interactive Random RP Story Generator）。
+
+历史[编辑]
+玩家可以选择创建离线帐号以自娱，或者是创建线上帐号，使他们的角色状态储存于网站的排行榜。这么作可以让角色在个别的国度取得更高的排名之馀，还能和其他角色比较他们的成就。玩家还能选择加入善良、中立、以及邪恶阵营的公会，虽然这么作并没有好处。
+
+这个游戏曾经经过几次的升级。其中一次的升级加入了有阴影的进度条，玩家们于是把这次升级后的版本戏称为Progress Quest 3D。在这游戏的 官方论坛 中，许多老手使用者贴的讨论串常误导新手，让他们以为有银版、金版、白金版，甚至是钻石镶嵌版的DVD版本游戏，里面有著很棒的3D绘图效果。
+
+报导[编辑]
+Morgan Webb. Download of the Day: 'Progress Quest'. TechTV. 2002 [February 16, 2006].
+Dan Norton. Baking a Progress Quest. Flak Magazine. 2002 [February 16, 2006]. （原始内容存档于2006-02-08）.
+参见[编辑]
+Idle RPG
+Catassing
+外部连结[编辑]
+官方网站 Progress Quest
+Progress Quest at Yahoo! Groups
+Progress Quest FAQs at GameFAQs
+Progress Quest Companion — Fan site (out of date)
+Progress Quest Stats Macro Tool — For rolling character stats
+Progress Quest spell conversions for use with Dungeons & Dragons 3rd Edition
+SimpleRPG — A much simpler version of Progress Quest
+Review of Progress Quest
+分类：​有脚本错误的页面免费游戏电子角色扮演游戏Windows游戏
+此页面最后编辑于2020年8月24日 (星期一) 13:46。
+除非另有声明，本网站内容采用Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)授权。
+隐私政策关于GHGWIKI免责声明使用条款给Miraheze捐款移动版视图
+Hosted by MirahezeCreative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+Powered by MediaWiki

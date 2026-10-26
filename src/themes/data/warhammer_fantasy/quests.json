@@ -1,0 +1,182 @@
+[
+  {
+    "name": "摧毁混沌要塞",
+    "description": "混沌势力在北方建立要塞，威胁帝国安全。",
+    "target_monster": "巨人",
+    "target_count": 13,
+    "reward_exp": 489,
+    "reward_gold": 132,
+    "reward_item": null
+  },
+  {
+    "name": "保卫帝国招募中心",
+    "description": "帝国招募中心遭到绿皮袭击，必须保卫。",
+    "target_monster": "蝎尾狮",
+    "target_count": 8,
+    "reward_exp": 261,
+    "reward_gold": 103,
+    "reward_item": null
+  },
+  {
+    "name": "夺回失陷城堡",
+    "description": "帝国城堡被不死族占领，必须夺回。",
+    "target_monster": "古墓王木乃伊",
+    "target_count": 6,
+    "reward_exp": 235,
+    "reward_gold": 248,
+    "reward_item": null
+  },
+  {
+    "name": "猎杀吸血鬼伯爵",
+    "description": "吸血鬼伯爵在西尔瓦尼亚肆虐，必须消灭。",
+    "target_monster": "斯卡文鼠人",
+    "target_count": 8,
+    "reward_exp": 324,
+    "reward_gold": 296,
+    "reward_item": null
+  },
+  {
+    "name": "探索矮人遗迹",
+    "description": "矮人废弃矿洞中发现远古遗迹，可能藏有宝藏。",
+    "target_monster": "山岭巨人",
+    "target_count": 5,
+    "reward_exp": 215,
+    "reward_gold": 90,
+    "reward_item": null
+  },
+  {
+    "name": "刺杀绿皮酋长",
+    "description": "绿皮酋长统一部落，威胁帝国边境。",
+    "target_monster": "斯卡文刺客",
+    "target_count": 9,
+    "reward_exp": 136,
+    "reward_gold": 197,
+    "reward_item": null
+  },
+  {
+    "name": "净化不死族污染",
+    "description": "不死族污染了土地，必须净化。",
+    "target_monster": "古墓王木乃伊",
+    "target_count": 11,
+    "reward_exp": 480,
+    "reward_gold": 187,
+    "reward_item": null
+  },
+  {
+    "name": "收集精灵魔法物品",
+    "description": "帝国需要精灵魔法物品来对抗混沌。",
+    "target_monster": "深海巨兽",
+    "target_count": 15,
+    "reward_exp": 316,
+    "reward_gold": 204,
+    "reward_item": null
+  },
+  {
+    "name": "摧毁战车工厂",
+    "description": "绿皮建造巨型战车工厂，威胁帝国。",
+    "target_monster": "斯卡文鼠人",
+    "target_count": 5,
+    "reward_exp": 228,
+    "reward_gold": 237,
+    "reward_item": null
+  },
+  {
+    "name": "救援帝国骑士",
+    "description": "帝国骑士被野兽人围困，必须救援。",
+    "target_monster": "黑暗精灵",
+    "target_count": 5,
+    "reward_exp": 254,
+    "reward_gold": 70,
+    "reward_item": null
+  },
+  {
+    "name": "调查魔法风暴",
+    "description": "神秘魔法风暴席卷乡村，必须调查。",
+    "target_monster": "黑暗精灵",
+    "target_count": 5,
+    "reward_exp": 444,
+    "reward_gold": 270,
+    "reward_item": null
+  },
+  {
+    "name": "阻止斯卡文阴谋",
+    "description": "斯卡文鼠人在帝国城市下挖掘隧道，阴谋破坏。",
+    "target_monster": "兽人",
+    "target_count": 9,
+    "reward_exp": 394,
+    "reward_gold": 206,
+    "reward_item": null
+  },
+  {
+    "name": "征服敌对部落",
+    "description": "帝国需要征服敌对的绿皮或蛮族部落。",
+    "target_monster": "僵尸",
+    "target_count": 14,
+    "reward_exp": 366,
+    "reward_gold": 117,
+    "reward_item": null
+  },
+  {
+    "name": "修复远古机器",
+    "description": "矮人远古机器停止运作，需要修复以保卫矮人城堡。",
+    "target_monster": "斯卡文刺客",
+    "target_count": 9,
+    "reward_exp": 232,
+    "reward_gold": 84,
+    "reward_item": null
+  },
+  {
+    "name": "护送圣杯骑士",
+    "description": "巴托尼亚圣杯骑士需要穿越危险区域，完成使命。",
+    "target_monster": "森林蜘蛛",
+    "target_count": 10,
+    "reward_exp": 312,
+    "reward_gold": 51,
+    "reward_item": null
+  },
+  {
+    "name": "击败蜥蜴人守卫",
+    "description": "蜥蜴人守卫远古金字塔，必须击败以进入。",
+    "target_monster": "蜥蜴人狂战士",
+    "target_count": 12,
+    "reward_exp": 305,
+    "reward_gold": 201,
+    "reward_item": null
+  },
+  {
+    "name": "探索金字塔",
+    "description": "蜥蜴人金字塔内藏有远古秘密，必须探索。",
+    "target_monster": "混沌勇士",
+    "target_count": 12,
+    "reward_exp": 189,
+    "reward_gold": 251,
+    "reward_item": null
+  },
+  {
+    "name": "消灭古墓王",
+    "description": "古墓王苏醒，威胁周边地区，必须消灭。",
+    "target_monster": "野兽人",
+    "target_count": 9,
+    "reward_exp": 133,
+    "reward_gold": 234,
+    "reward_item": null
+  },
+  {
+    "name": "保卫选帝侯城堡",
+    "description": "选帝侯城堡被混沌围攻，必须保卫。",
+    "target_monster": "敌对矮人",
+    "target_count": 15,
+    "reward_exp": 287,
+    "reward_gold": 295,
+    "reward_item": null
+  },
+  {
+    "name": "潜入暗精灵城堡",
+    "description": "暗精灵在海边建立城堡，威胁帝国海岸，必须潜入。",
+    "target_monster": "古墓王木乃伊",
+    "target_count": 6,
+    "reward_exp": 333,
+    "reward_gold": 128,
+    "reward_item": null
+  }
+]

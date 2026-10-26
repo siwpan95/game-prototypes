@@ -1,0 +1,175 @@
+[
+  {
+    "name": "消灭石腭怪",
+    "description": "在艾尔文森林消灭石腭怪",
+    "target_monster": "石腭怪",
+    "target_count": 10,
+    "reward_exp": 200,
+    "reward_gold": 50,
+    "reward_item": {"name": "石腭怪护符", "value": 50, "item_type": "misc", "stat_bonus": {"constitution": 1}}
+  },
+  {
+    "name": "收集狼人皮毛",
+    "description": "从血牙狼人身上收集皮毛",
+    "target_monster": "血牙狼人",
+    "target_count": 8,
+    "reward_exp": 350,
+    "reward_gold": 80,
+    "reward_item": {"name": "冰霜巨魔之心", "value": 100, "item_type": "misc", "stat_bonus": {"strength": 2}}
+  },
+  {
+    "name": "清除暮光信徒",
+    "description": "阻止暮光之锤的邪恶仪式",
+    "target_monster": "暮光信徒",
+    "target_count": 6,
+    "reward_exp": 500,
+    "reward_gold": 120
+  },
+  {
+    "name": "讨伐黑石兽人",
+    "description": "击退黑石氏族的入侵",
+    "target_monster": "黑石兽人",
+    "target_count": 8,
+    "reward_exp": 400,
+    "reward_gold": 100,
+    "reward_item": {"name": "黑铁勋章", "value": 80, "item_type": "misc", "stat_bonus": {"strength": 2, "constitution": 1}}
+  },
+  {
+    "name": "净化天灾亡灵",
+    "description": "清除天灾军团的亡灵爪牙",
+    "target_monster": "天灾亡灵",
+    "target_count": 12,
+    "reward_exp": 700,
+    "reward_gold": 180
+  },
+  {
+    "name": "讨伐深渊领主",
+    "description": "击败入侵艾泽拉斯的深渊领主",
+    "target_monster": "深渊领主",
+    "target_count": 3,
+    "reward_exp": 1500,
+    "reward_gold": 400,
+    "reward_item": {"name": "深渊之心", "value": 500, "item_type": "misc", "stat_bonus": {"strength": 5, "constitution": 3, "intelligence": 3}}
+  },
+  {
+    "name": "清除鱼人巢穴",
+    "description": "在西部荒野清除鱼人巢穴",
+    "target_monster": "鱼人",
+    "target_count": 15,
+    "reward_exp": 450,
+    "reward_gold": 110
+  },
+  {
+    "name": "击败豺狼人酋长",
+    "description": "在艾尔文森林击败豺狼人酋长",
+    "target_monster": "豺狼人",
+    "target_count": 1,
+    "reward_exp": 600,
+    "reward_gold": 150,
+    "reward_item": {"name": "豺狼人徽章", "value": 120, "item_type": "misc", "stat_bonus": {"strength": 3}}
+  },
+  {
+    "name": "收集鹰身女妖羽毛",
+    "description": "从鹰身女妖身上收集羽毛",
+    "target_monster": "鹰身女妖",
+    "target_count": 10,
+    "reward_exp": 550,
+    "reward_gold": 140
+  },
+  {
+    "name": "狩猎熊王",
+    "description": "在银松森林击败熊王",
+    "target_monster": "熊",
+    "target_count": 1,
+    "reward_exp": 800,
+    "reward_gold": 200,
+    "reward_item": {"name": "熊王之皮", "value": 250, "item_type": "misc", "stat_bonus": {"constitution": 4}}
+  },
+  {
+    "name": "击败狮子王",
+    "description": "在暮色森林击败狮子王",
+    "target_monster": "狮子",
+    "target_count": 1,
+    "reward_exp": 850,
+    "reward_gold": 210,
+    "reward_item": {"name": "狮子之心", "value": 280, "item_type": "misc", "stat_bonus": {"strength": 5, "dexterity": 3}}
+  },
+  {
+    "name": "净化丧尸墓地",
+    "description": "在提瑞斯法林地净化丧尸墓地",
+    "target_monster": "丧尸",
+    "target_count": 20,
+    "reward_exp": 900,
+    "reward_gold": 220
+  },
+  {
+    "name": "击败幽灵队长",
+    "description": "在幽暗城附近击败幽灵队长",
+    "target_monster": "幽灵",
+    "target_count": 1,
+    "reward_exp": 950,
+    "reward_gold": 240,
+    "reward_item": {"name": "幽灵之尘", "value": 300, "item_type": "misc", "stat_bonus": {"intelligence": 4, "wisdom": 3}}
+  },
+  {
+    "name": "讨伐小鬼群",
+    "description": "在燃烧平原讨伐小鬼群",
+    "target_monster": "小鬼",
+    "target_count": 15,
+    "reward_exp": 800,
+    "reward_gold": 200
+  },
+  {
+    "name": "击败火元素领主",
+    "description": "在灼热峡谷击败火元素领主",
+    "target_monster": "火元素",
+    "target_count": 1,
+    "reward_exp": 1200,
+    "reward_gold": 350,
+    "reward_item": {"name": "火焰之石", "value": 400, "item_type": "misc", "stat_bonus": {"intelligence": 6, "strength": 3}}
+  },
+  {
+    "name": "挑战山岭巨人",
+    "description": "在荒芜之地挑战山岭巨人",
+    "target_monster": "山岭巨人",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 600,
+    "reward_item": {"name": "巨人碎石", "value": 600, "item_type": "misc", "stat_bonus": {"constitution": 8, "strength": 5}}
+  },
+  {
+    "name": "挑战红龙女王",
+    "description": "在湿地挑战红龙女王",
+    "target_monster": "红龙",
+    "target_count": 1,
+    "reward_exp": 3000,
+    "reward_gold": 1000,
+    "reward_item": {"name": "龙之宝玉", "value": 1000, "item_type": "misc", "stat_bonus": {"strength": 10, "intelligence": 8, "constitution": 6}}
+  },
+  {
+    "name": "击败黑龙公主",
+    "description": "在黑石山击败黑龙公主",
+    "target_monster": "黑龙",
+    "target_count": 1,
+    "reward_exp": 5000,
+    "reward_gold": 2000,
+    "reward_item": {"name": "黑龙鳞片", "value": 2000, "item_type": "misc", "stat_bonus": {"strength": 15, "constitution": 10, "intelligence": 8}}
+  },
+  {
+    "name": "探索奥达曼",
+    "description": "在荒芜之地探索奥达曼地下城",
+    "target_monster": "石腭怪",
+    "target_count": 20,
+    "reward_exp": 1500,
+    "reward_gold": 450
+  },
+  {
+    "name": "挑战蓝龙军团",
+    "description": "在冬泉谷挑战蓝龙军团",
+    "target_monster": "蓝龙",
+    "target_count": 1,
+    "reward_exp": 3500,
+    "reward_gold": 1200,
+    "reward_item": {"name": "蓝龙鳞片", "value": 1500, "item_type": "misc", "stat_bonus": {"intelligence": 12, "wisdom": 8, "strength": 5}}
+  }
+]

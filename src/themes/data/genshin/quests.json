@@ -1,0 +1,174 @@
+[
+  {
+    "name": "清理丘丘人营地",
+    "description": "击败丘丘人，恢复道路安全",
+    "target_monster": "丘丘人",
+    "target_count": 8,
+    "reward_exp": 400,
+    "reward_gold": 100
+  },
+  {
+    "name": "收集史莱姆材料",
+    "description": "收集史莱姆掉落的凝液",
+    "target_monster": "水史莱姆",
+    "target_count": 6,
+    "reward_exp": 300,
+    "reward_gold": 80,
+    "reward_item": {"name": "史莱姆精华", "value": 50, "item_type": "misc", "stat_bonus": {"intelligence": 1}}
+  },
+  {
+    "name": "击败深渊法师",
+    "description": "击败盘踞在遗迹中的火深渊法师",
+    "target_monster": "火深渊法师",
+    "target_count": 1,
+    "reward_exp": 800,
+    "reward_gold": 200,
+    "reward_item": {"name": "火元素石珀", "value": 100, "item_type": "misc", "stat_bonus": {"strength": 2}}
+  },
+  {
+    "name": "破坏遗迹守卫",
+    "description": "破坏失控的遗迹守卫",
+    "target_monster": "遗迹守卫",
+    "target_count": 3,
+    "reward_exp": 600,
+    "reward_gold": 150
+  },
+  {
+    "name": "讨伐野伏众",
+    "description": "清除盘踞在稻妻的野伏众",
+    "target_monster": "野伏众",
+    "target_count": 5,
+    "reward_exp": 500,
+    "reward_gold": 130
+  },
+  {
+    "name": "击破遗迹巨蛇",
+    "description": "击败地底的遗迹巨蛇",
+    "target_monster": "遗迹巨蛇",
+    "target_count": 2,
+    "reward_exp": 1500,
+    "reward_gold": 400,
+    "reward_item": {"name": "巨蛇之眼", "value": 500, "item_type": "misc", "stat_bonus": {"strength": 4, "constitution": 3, "intelligence": 3}}
+  },
+  {
+    "name": "净化无相之风",
+    "description": "击败风元素凝聚而成的无相之风",
+    "target_monster": "无相之风",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 500,
+    "reward_item": {"name": "自在松石断片", "value": 300, "item_type": "misc", "stat_bonus": {"intelligence": 5}}
+  },
+  {
+    "name": "封印无相之雷",
+    "description": "封印雷元素凝聚而成的无相之雷",
+    "target_monster": "无相之雷",
+    "target_count": 1,
+    "reward_exp": 2100,
+    "reward_gold": 520,
+    "reward_item": {"name": "最胜紫晶断片", "value": 320, "item_type": "misc", "stat_bonus": {"intelligence": 5, "strength": 3}}
+  },
+  {
+    "name": "平息纯水精灵",
+    "description": "平息纯水精灵·洛蒂娅的怒火",
+    "target_monster": "纯水精灵·洛蒂娅",
+    "target_count": 1,
+    "reward_exp": 1900,
+    "reward_gold": 480,
+    "reward_item": {"name": "涤净青金断片", "value": 280, "item_type": "misc", "stat_bonus": {"intelligence": 4, "wisdom": 3}}
+  },
+  {
+    "name": "讨伐爆炎树",
+    "description": "击败位于摘星崖的爆炎树",
+    "target_monster": "爆炎树",
+    "target_count": 1,
+    "reward_exp": 1950,
+    "reward_gold": 490,
+    "reward_item": {"name": "常燃火种", "value": 350, "item_type": "misc", "stat_bonus": {"strength": 4, "constitution": 3}}
+  },
+  {
+    "name": "挑战雷音权现",
+    "description": "在清籁岛击败雷音权现",
+    "target_monster": "雷音权现",
+    "target_count": 1,
+    "reward_exp": 3000,
+    "reward_gold": 800,
+    "reward_item": {"name": "雷霆数珠", "value": 600, "item_type": "misc", "stat_bonus": {"intelligence": 8, "strength": 4}}
+  },
+  {
+    "name": "清除盗宝团",
+    "description": "清除璃月地区的盗宝团匪徒",
+    "target_monster": "盗宝团·火之药剂师",
+    "target_count": 10,
+    "reward_exp": 800,
+    "reward_gold": 200
+  },
+  {
+    "name": "击败深渊咏者",
+    "description": "击败深渊教团的深渊咏者·紫电",
+    "target_monster": "深渊咏者·紫电",
+    "target_count": 1,
+    "reward_exp": 1200,
+    "reward_gold": 300,
+    "reward_item": {"name": "深渊的祷文", "value": 200, "item_type": "misc", "stat_bonus": {"intelligence": 4}}
+  },
+  {
+    "name": "讨伐深渊使徒",
+    "description": "在渊下宫击败深渊使徒·激流",
+    "target_monster": "深渊使徒·激流",
+    "target_count": 1,
+    "reward_exp": 1800,
+    "reward_gold": 450,
+    "reward_item": {"name": "激流之刃", "value": 500, "item_type": "weapon", "stat_bonus": {"dexterity": 8}}
+  },
+  {
+    "name": "净化蕈兽",
+    "description": "清除须弥地区的蕈兽",
+    "target_monster": "蕈兽",
+    "target_count": 15,
+    "reward_exp": 900,
+    "reward_gold": 220
+  },
+  {
+    "name": "击败魔偶剑鬼",
+    "description": "在刃连岛击败魔偶剑鬼",
+    "target_monster": "魔偶剑鬼",
+    "target_count": 1,
+    "reward_exp": 4000,
+    "reward_gold": 1000,
+    "reward_item": {"name": "魔偶的秘银", "value": 800, "item_type": "misc", "stat_bonus": {"strength": 10, "dexterity": 8}}
+  },
+  {
+    "name": "探索龙脊雪山",
+    "description": "在龙脊雪山击败冰深渊法师和冰史莱姆",
+    "target_monster": "冰深渊法师",
+    "target_count": 5,
+    "reward_exp": 1100,
+    "reward_gold": 280
+  },
+  {
+    "name": "收集飘浮灵碎片",
+    "description": "在稻妻地区收集飘浮灵掉落的碎片",
+    "target_monster": "飘浮灵",
+    "target_count": 20,
+    "reward_exp": 700,
+    "reward_gold": 180
+  },
+  {
+    "name": "击败深海龙蜥",
+    "description": "在渊下宫击败深海龙蜥",
+    "target_monster": "深海龙蜥",
+    "target_count": 1,
+    "reward_exp": 2500,
+    "reward_gold": 650,
+    "reward_item": {"name": "龙蜥之鳞", "value": 500, "item_type": "misc", "stat_bonus": {"strength": 6, "constitution": 5}}
+  },
+  {
+    "name": "清除镀金旅团",
+    "description": "在须弥沙漠地区清除镀金旅团",
+    "target_monster": "镀金旅团·鸦喙戟手",
+    "target_count": 8,
+    "reward_exp": 1000,
+    "reward_gold": 250
+  }
+]

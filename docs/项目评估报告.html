@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PQ Multiverse 项目评估报告</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Microsoft YaHei UI', 'Segoe UI', sans-serif;
+    background: #f5f5f5; color: #222; line-height: 1.7; padding: 20px;
+}
+.container { max-width: 900px; margin: 0 auto; background: white;
+    border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+.header { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white;
+    padding: 30px 40px; }
+.header h1 { font-size: 24px; margin-bottom: 6px; }
+.header .meta { font-size: 13px; opacity: 0.7; }
+.header .score { display: inline-block; margin-top: 12px; padding: 6px 16px;
+    background: rgba(255,255,255,0.15); border-radius: 20px; font-size: 14px; }
+.section { padding: 28px 40px; border-bottom: 1px solid #eee; }
+.section:last-child { border-bottom: none; }
+.section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 2px solid #e8e8e8; }
+.issue { margin-bottom: 14px; padding: 14px 16px; border-radius: 8px;
+    border-left: 4px solid; }
+.issue-critical { background: #fff5f5; border-color: #e74c3c; }
+.issue-major { background: #fff9f0; border-color: #f39c12; }
+.issue-minor { background: #f0f8ff; border-color: #3498db; }
+.issue-good { background: #f0fff4; border-color: #27ae60; }
+.issue .tag { display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: bold; margin-right: 8px; }
+.tag-critical { background: #e74c3c; color: white; }
+.tag-major { background: #f39c12; color: white; }
+.tag-minor { background: #3498db; color: white; }
+.tag-good { background: #27ae60; color: white; }
+.issue h3 { font-size: 15px; margin-bottom: 6px; }
+.issue p { font-size: 13px; color: #555; }
+.issue code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px;
+    font-family: 'Consolas', monospace; font-size: 12px; }
+.issue .fix { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ddd;
+    font-size: 13px; }
+.issue .fix strong { color: #27ae60; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+table th { background: #1a1a2e; color: white; padding: 8px 12px; text-align: left; }
+table td { padding: 8px 12px; border-bottom: 1px solid #eee; }
+table tr:hover { background: #f9f9f9; }
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+.stat-card { background: #f8f9fa; border-radius: 8px; padding: 16px; text-align: center; }
+.stat-card .num { font-size: 28px; font-weight: bold; color: #1a1a2e; }
+.stat-card .label { font-size: 12px; color: #666; margin-top: 4px; }
+.summary { background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 16px 0; }
+.summary p { font-size: 14px; margin-bottom: 8px; }
+.priority-list { list-style: none; counter-reset: pri; }
+.priority-list li { counter-increment: pri; padding: 10px 0 10px 40px;
+    position: relative; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
+.priority-list li:last-child { border-bottom: none; }
+.priority-list li::before { content: counter(pri); position: absolute; left: 0; top: 8px;
+    width: 28px; height: 28px; background: #1a1a2e; color: white; border-radius: 50%;
+    text-align: center; line-height: 28px; font-size: 12px; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>PQ Multiverse 项目整体评估报告</h1>
+        <div class="meta">评估时间：2026-06-29 | 项目路径：D:\allin\stay\pq_multiverse</div>
+        <div class="score">综合评分：55/100 — 原型阶段，核心架构基本成型，存在阻塞性 bug</div>
+    </div>
+
+    <div class="section">
+        <h2>项目数据概览</h2>
+        <div class="stat-grid">
+            <div class="stat-card"><div class="num">9</div><div class="label">活跃代码文件</div></div>
+            <div class="stat-card"><div class="num">2,714</div><div class="label">活跃代码行数</div></div>
+            <div class="stat-card"><div class="num">9</div><div class="label">遗留文件</div></div>
+            <div class="stat-card"><div class="num">3,251</div><div class="label">遗留代码行数</div></div>
+        </div>
+        <table>
+            <tr><th>分类</th><th>文件</th><th>行数</th><th>状态</th></tr>
+            <tr><td>入口</td><td>main.py</td><td>91</td><td>✅ 活跃</td></tr>
+            <tr><td>引擎桥接</td><td>themed_engine.py</td><td>276</td><td>⚠️ 有 bug</td></tr>
+            <tr><td>核心引擎</td><td>game_engine_v2.py</td><td>987</td><td>⚠️ 有 bug</td></tr>
+            <tr><td>开始界面</td><td>start_screen.py</td><td>242</td><td>✅ 新建</td></tr>
+            <tr><td>主界面 UI</td><td>tkinter_ui_themed.py</td><td>609</td><td>⚠️ 有 bug</td></tr>
+            <tr><td>主题基类</td><td>theme_base.py</td><td>95</td><td>✅ 正常</td></tr>
+            <tr><td>魔兽主题</td><td>warcraft_theme.py</td><td>127</td><td>✅ 正常</td></tr>
+            <tr><td>原神主题</td><td>genshin_theme.py</td><td>143</td><td>✅ 正常</td></tr>
+            <tr><td>宝可梦主题</td><td>pokemon_theme.py</td><td>144</td><td>✅ 正常</td></tr>
+            <tr style="color:#999"><td>遗留</td><td>game_engine.py + 8个旧UI/测试</td><td>3,251</td><td>❌ 不被引用</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>阻塞性问题（必须修复）</h2>
+
+        <div class="issue issue-critical">
+            <span class="tag tag-critical">P0</span>
+            <h3>1. 章节解锁机制在主题模式下完全失效</h3>
+            <p><code>ThemedGameEngine._trigger_plot_event()</code> 覆盖了父类 <code>GameEngine</code> 的新版章节解锁逻辑。父类基于"完成任务数"逐步解锁章节，但子类用的是旧的 <code>plot_bar.increment(20)</code> 随机事件逻辑，<strong>从不更新 <code>plot_chapters</code> 的 <code>unlocked</code>/<code>completed</code> 状态</strong>。导致主题模式下章节永远不解锁、剧情条永远 0%。</p>
+            <div class="fix"><strong>修复方案：</strong>删除 <code>themed_engine.py</code> 中的 <code>_trigger_plot_event</code> 方法，直接继承父类逻辑。或在子类中调用 <code>super()._trigger_plot_event()</code>。</div>
+        </div>
+
+        <div class="issue issue-critical">
+            <span class="tag tag-critical">P0</span>
+            <h3>2. save_game() / load_game() 方法不存在</h3>
+            <p><code>tkinter_ui_themed.py</code> 第 568/573/581 行调用 <code>self.engine.save_game()</code> 和 <code>self.engine.load_game()</code>，但引擎只定义了 <code>save(filepath)</code> 和 <code>load(filepath)</code>。<strong>点击保存/加载按钮必定崩溃</strong>。</p>
+            <div class="fix"><strong>修复方案：</strong>在 <code>ThemedGameEngine</code> 中添加 <code>save_game()</code>/<code>load_game()</code> 便捷方法，内部调用 <code>save()</code>/<code>load()</code> 并使用固定存档路径。</div>
+        </div>
+
+        <div class="issue issue-critical">
+            <span class="tag tag-critical">P0</span>
+            <h3>3. 保存/加载不完整 — 章节和任务状态丢失</h3>
+            <p><code>save()</code> 方法没有保存 <code>plot_chapters</code>、<code>active_tasks</code>、<code>_quests_completed_total</code>、<code>current_monster</code> 等关键状态。加载后章节进度归零、活跃任务清空。</p>
+            <div class="fix"><strong>修复方案：</strong>扩展 <code>save()</code> 序列化全部游戏状态，<code>load()</code> 对应反序列化。</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>架构问题</h2>
+
+        <div class="issue issue-major">
+            <span class="tag tag-major">P1</span>
+            <h3>4. 骨架/血肉分离不彻底</h3>
+            <p>用户明确要求"游戏本体仅负责运行逻辑，主题对应文案"。但以下两处仍使用硬编码数据：</p>
+            <p>• <code>Character._learn_spell()</code> — 法术名硬编码为"火焰之箭/冰霜之触"等，不同主题学到的是同一套法术<br>
+            • <code>_populate_active_tasks()</code> — 活跃任务目标硬编码为"一些巨眼怪/一些洞穴人"等，与主题无关</p>
+            <div class="fix"><strong>修复方案：</strong>在 <code>GameTheme</code> 基类中增加 <code>spell_pool</code> 和 <code>task_targets</code> 字段，由各主题填充。引擎通过 <code>self.theme</code> 获取。</div>
+        </div>
+
+        <div class="issue issue-major">
+            <span class="tag tag-major">P1</span>
+            <h3>5. ThemedGameEngine._buy_equipment 只支持 4 种装备槽</h3>
+            <p>子类重写的 <code>_buy_equipment()</code> 只处理 weapon/armor/helmet/boots 四种，而引擎定义了 11 个装备槽（shoulder/chest/arms/gloves/underarmor/pants/legs/shins）。大量装备槽永远不会被商店装备填充。</p>
+            <div class="fix"><strong>修复方案：</strong>统一使用父类的 <code>slot_map</code> 逻辑，或扩展主题数据中的 item_type 以覆盖全部槽位。</div>
+        </div>
+
+        <div class="issue issue-major">
+            <span class="tag tag-major">P1</span>
+            <h3>6. _init_game_data 初始化的默认数据在主题模式下完全冗余</h3>
+            <p><code>GameEngine._init_game_data()</code> 初始化了 4 个默认怪物和 4 个商店物品，但 <code>ThemedGameEngine</code> 重写了 <code>_start_new_monster()</code>、<code>_start_new_quest()</code>、<code>_buy_equipment()</code>，使用主题数据。这些默认数据从不被使用，浪费内存且造成混淆。</p>
+            <div class="fix"><strong>修复方案：</strong>将 <code>_init_game_data()</code> 改为空方法或仅保留空列表，由子类按需覆盖。</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>机制偏差</h2>
+
+        <div class="issue issue-major">
+            <span class="tag tag-major">P1</span>
+            <h3>7. 经验获取方式不符原版 PQ</h3>
+            <p>原版 PQ 经验是<strong>随时间自动获得</strong>（每 tick 获得 MaxProgress/1000 点），不是击杀怪物获得。当前实现在 <code>_kill_monster()</code> 中一次性给予 <code>exp_reward</code>。这与之前从 C++ 源码确认的机制矛盾。</p>
+            <div class="fix"><strong>修复方案：</strong>在 <code>_game_tick()</code> 中每 tick 增加 <code>exp_bar.max_value / 1000</code> 经验，击杀怪物不再直接给经验（或仅给少量奖励经验）。</div>
+        </div>
+
+        <div class="issue issue-minor">
+            <span class="tag tag-minor">P2</span>
+            <h3>8. 战斗 HP 显示 bug</h3>
+            <p><code>_kill_monster()</code> 第 584 行：<code>HP: {self.current_monster.hp}/{self.current_monster.hp + damage}</code>。分母用的是"当前HP+本次伤害"，不是怪物的最大HP，显示的进度条比例不正确。</p>
+        </div>
+
+        <div class="issue issue-minor">
+            <span class="tag tag-minor">P2</span>
+            <h3>9. Spell.__str__ 存在死代码</h3>
+            <p><code>Spell.__str__()</code> 计算了 <code>lvl</code>（罗马数字）但没有使用，直接返回 <code>f"{self.name}"</code>。</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>代码卫生</h2>
+
+        <div class="issue issue-major">
+            <span class="tag tag-major">P1</span>
+            <h3>10. 9 个遗留文件共 3,251 行代码不被引用</h3>
+            <table>
+                <tr><th>文件</th><th>行数</th><th>问题</th></tr>
+                <tr><td>game_engine.py</td><td>703</td><td>V1 旧引擎，只被 main_window.py 引用</td></tr>
+                <tr><td>main_window.py</td><td>300</td><td>引用 V1 引擎的旧 UI</td></tr>
+                <tr><td>main_window_v2.py</td><td>321</td><td>旧 UI V2，被 tkinter_ui 系列取代</td></tr>
+                <tr><td>tkinter_ui.py</td><td>247</td><td>旧 UI</td></tr>
+                <tr><td>tkinter_ui_v2.py</td><td>260</td><td>旧 UI V2</td></tr>
+                <tr><td>pygame_ui_v2.py</td><td>290</td><td>pygame UI，已弃用</td></tr>
+                <tr><td>prototype.py</td><td>372</td><td>原型代码</td></tr>
+                <tr><td>test_game_v2.py</td><td>101</td><td>旧测试</td></tr>
+                <tr><td>test_progress_bars.py</td><td>123</td><td>旧测试</td></tr>
+            </table>
+            <div class="fix"><strong>修复方案：</strong>移至 <code>src/_archive/</code> 目录或直接删除。遗留代码占总量的 54%，严重影响可维护性。</div>
+        </div>
+
+        <div class="issue issue-minor">
+            <span class="tag tag-minor">P2</span>
+            <h3>11. themed_engine.py 模块级导入冗余</h3>
+            <p>第 18 行 <code>from themes.warcraft_theme import WarcraftTheme</code> 在模块级导入了魔兽主题，但第 55 行又在 <code>load_theme()</code> 中 lazy import。模块级导入是多余的。</p>
+        </div>
+
+        <div class="issue issue-minor">
+            <span class="tag tag-minor">P2</span>
+            <h3>12. get_recent_logs() 返回空列表</h3>
+            <p>日志系统未实现，<code>get_recent_logs()</code> 始终返回 <code>[]</code>。UI 的 <code>_on_log</code> 回调也是空实现。</p>
+        </div>
+
+        <div class="issue issue-minor">
+            <span class="tag tag-minor">P2</span>
+            <h3>13. 线程安全风险</h3>
+            <p><code>tkinter_ui_themed.py</code> 的 <code>game_loop</code> 在子线程调用 <code>engine._game_tick()</code>（内部有锁），但 <code>_refresh_all()</code> 在主线程通过 <code>root.after(0, ...)</code> 访问引擎数据时<strong>无锁保护</strong>，可能产生竞态条件。</p>
+        </div>
+
+        <div class="issue issue-minor">
+            <span class="tag tag-minor">P2</span>
+            <h3>14. 文档可能过时</h3>
+            <p>6 个文档文件共 1,978 行，部分可能描述旧架构（如 <code>开发指南.md</code> 可能引用 V1 引擎）。需审查同步。</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>做得好的部分</h2>
+
+        <div class="issue issue-good">
+            <span class="tag tag-good">✓</span>
+            <h3>主题系统架构设计清晰</h3>
+            <p><code>GameTheme</code> 基类 + <code>ThemeItem/ThemeMonster/ThemeQuest</code> 数据类的分层设计干净，新增主题只需实现 <code>setup_data()</code>，符合"高度工具化、可重复"的目标。</p>
+        </div>
+
+        <div class="issue issue-good">
+            <span class="tag tag-good">✓</span>
+            <h3>负重系统已正确还原原版</h3>
+            <p><code>encumbrance = 物品堆数</code>，<code>max_encumbrance = 10 + STR</code>，与 C++ 源码一致。背包合并同类物品逻辑正确。</p>
+        </div>
+
+        <div class="issue issue-good">
+            <span class="tag tag-good">✓</span>
+            <h3>开始界面设计符合原版精神</h3>
+            <p>主题选择 + 纯随机角色（可重掷）+ 可编辑名称，流程简洁。符合 PQ "挂机为主、手动极简"的设计哲学。</p>
+        </div>
+
+        <div class="issue issue-good">
+            <span class="tag tag-good">✓</span>
+            <h3>11 装备槽 + 6 属性 + 罗马数字法术书</h3>
+            <p>数据结构忠实还原原版 PQ，为后续扩展打下基础。</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>修复优先级</h2>
+        <div class="summary">
+            <p><strong>当前状态：</strong>原型阶段，骨架+血肉的架构方向正确，但存在 3 个阻塞性 bug 导致核心功能（章节解锁、存档）不可用，遗留代码占比过高。</p>
+        </div>
+        <ol class="priority-list">
+            <li><strong>P0 — 删除 themed_engine._trigger_plot_event 覆盖</strong>，让章节解锁逻辑回归父类（5分钟）</li>
+            <li><strong>P0 — 实现 save_game/load_game 便捷方法</strong>，修复保存/加载崩溃（15分钟）</li>
+            <li><strong>P0 — 补全 save/load 序列化</strong>，保存章节/任务/怪物状态（30分钟）</li>
+            <li><strong>P1 — 清理 9 个遗留文件</strong>，移至 _archive 或删除（5分钟）</li>
+            <li><strong>P1 — 主题化 _learn_spell 和 _populate_active_tasks</strong>，完成骨架/血肉分离（30分钟）</li>
+            <li><strong>P1 — 修复 _buy_equipment 装备槽映射</strong>，支持全部 11 槽位（15分钟）</li>
+            <li><strong>P1 — 经验获取机制改为随时间获得</strong>，对齐原版 PQ（20分钟）</li>
+            <li><strong>P2 — 清理 _init_game_data 冗余数据、模块级导入、死代码</strong>（15分钟）</li>
+            <li><strong>P2 — 实现日志系统</strong>，替代空 get_recent_logs（20分钟）</li>
+            <li><strong>P2 — 审查并更新文档</strong>，同步当前架构（30分钟）</li>
+        </ol>
+    </div>
+</div>
+</body>
+</html>

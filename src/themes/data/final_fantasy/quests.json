@@ -1,0 +1,182 @@
+[
+  {
+    "name": "哥布林讨伐",
+    "description": "消灭威胁村庄的哥布林部落",
+    "target_monster": "哥布林",
+    "target_count": 8,
+    "reward_exp": 50,
+    "reward_gold": 100,
+    "reward_item": {"name": "哥布林短刀", "value": 5, "item_type": "weapon"}
+  },
+  {
+    "name": "洞穴鼠大作战",
+    "description": "清除地下洞穴的鼠群",
+    "target_monster": "洞穴鼠",
+    "target_count": 15,
+    "reward_exp": 40,
+    "reward_gold": 80,
+    "reward_item": {"name": "老鼠尾巴", "value": 1, "item_type": "material"}
+  },
+  {
+    "name": "毒蛛狩猎",
+    "description": "击败森林中的毒蛛",
+    "target_monster": "毒蛛",
+    "target_count": 10,
+    "reward_exp": 80,
+    "reward_gold": 150,
+    "reward_item": {"name": "毒蛛之囊", "value": 8, "item_type": "material"}
+  },
+  {
+    "name": "石头怪破坏任务",
+    "description": "击碎矿山中的石头怪",
+    "target_monster": "石头怪",
+    "target_count": 5,
+    "reward_exp": 100,
+    "reward_gold": 200,
+    "reward_item": {"name": "石头怪之石", "value": 10, "item_type": "material"}
+  },
+  {
+    "name": "幽灵净化作战",
+    "description": "净化墓地中的幽灵",
+    "target_monster": "幽灵",
+    "target_count": 8,
+    "reward_exp": 200,
+    "reward_gold": 400,
+    "reward_item": {"name": "幽灵之尘", "value": 15, "item_type": "material"}
+  },
+  {
+    "name": "僵尸讨伐",
+    "description": "清除墓地中的僵尸",
+    "target_monster": "僵尸",
+    "target_count": 12,
+    "reward_exp": 150,
+    "reward_gold": 300,
+    "reward_item": {"name": "僵尸之脑", "value": 8, "item_type": "material"}
+  },
+  {
+    "name": "龙骑兵歼灭",
+    "description": "击败偷袭村庄的龙骑兵",
+    "target_monster": "龙骑兵",
+    "target_count": 3,
+    "reward_exp": 200,
+    "reward_gold": 500,
+    "reward_item": {"name": "龙骑兵之枪", "value": 50, "item_type": "weapon"}
+  },
+  {
+    "name": "贝希摩斯狩猎",
+    "description": "击败草原上的贝希摩斯",
+    "target_monster": "贝希摩斯",
+    "target_count": 1,
+    "reward_exp": 500,
+    "reward_gold": 1200,
+    "reward_item": {"name": "贝希摩斯之角", "value": 120, "item_type": "material"}
+  },
+  {
+    "name": "巨龙讨伐作战",
+    "description": "击败守护宝藏的巨龙",
+    "target_monster": "巨龙",
+    "target_count": 1,
+    "reward_exp": 800,
+    "reward_gold": 2000,
+    "reward_item": {"name": "龙之鳞", "value": 200, "item_type": "material"}
+  },
+  {
+    "name": "召唤兽·伊弗利特",
+    "description": "击败火之神兽伊弗利特，获得召唤石",
+    "target_monster": "伊弗利特",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 5000,
+    "reward_item": {"name": "召唤石·伊弗利特", "value": 2000, "item_type": "material"}
+  },
+  {
+    "name": "召唤兽·希瓦",
+    "description": "击败冰之神兽希瓦，获得召唤石",
+    "target_monster": "希瓦",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 5000,
+    "reward_item": {"name": "召唤石·希瓦", "value": 2000, "item_type": "material"}
+  },
+  {
+    "name": "召唤兽·拉姆",
+    "description": "击败雷之神兽拉姆，获得召唤石",
+    "target_monster": "拉姆",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 5000,
+    "reward_item": {"name": "召唤石·拉姆", "value": 2000, "item_type": "material"}
+  },
+  {
+    "name": "奥丁讨伐",
+    "description": "击败黑暗骑士奥丁",
+    "target_monster": "奥丁",
+    "target_count": 1,
+    "reward_exp": 3000,
+    "reward_gold": 8000,
+    "reward_item": {"name": "奥丁之剑", "value": 1000, "item_type": "weapon"}
+  },
+  {
+    "name": "巴哈姆特召唤",
+    "description": "击败龙王巴哈姆特，获得最强召唤石",
+    "target_monster": "巴哈姆特",
+    "target_count": 1,
+    "reward_exp": 5000,
+    "reward_gold": 15000,
+    "reward_item": {"name": "召唤石·巴哈姆特", "value": 5000, "item_type": "material"}
+  },
+  {
+    "name": "混沌歼灭战",
+    "description": "最终决战，击败混沌",
+    "target_monster": "混沌",
+    "target_count": 1,
+    "reward_exp": 10000,
+    "reward_gold": 50000,
+    "reward_item": {"name": "混沌之石", "value": 3000, "item_type": "material"}
+  },
+  {
+    "name": "魔王讨伐",
+    "description": "击败魔王，拯救世界",
+    "target_monster": "魔王",
+    "target_count": 1,
+    "reward_exp": 8000,
+    "reward_gold": 30000,
+    "reward_item": {"name": "魔王之角", "value": 1500, "item_type": "material"}
+  },
+  {
+    "name": "神龙试炼",
+    "description": "挑战最强隐藏BOSS神龙",
+    "target_monster": "神龙",
+    "target_count": 1,
+    "reward_exp": 20000,
+    "reward_gold": 100000,
+    "reward_item": {"name": "神龙之鳞", "value": 5000, "item_type": "material"}
+  },
+  {
+    "name": "水晶复苏任务",
+    "description": "恢复被黑暗侵蚀的水晶",
+    "target_monster": "暗之晶体",
+    "target_count": 5,
+    "reward_exp": 600,
+    "reward_gold": 1200,
+    "reward_item": {"name": "水晶碎片", "value": 300, "item_type": "material"}
+  },
+  {
+    "name": "飞空艇夺还作战",
+    "description": "夺回被敌人占领的飞空艇",
+    "target_monster": "飞空艇炮台",
+    "target_count": 8,
+    "reward_exp": 500,
+    "reward_gold": 1000,
+    "reward_item": {"name": "飞空艇零件", "value": 80, "item_type": "material"}
+  },
+  {
+    "name": "全职业大师挑战",
+    "description": "用所有职业通关游戏",
+    "target_monster": "混沌",
+    "target_count": 10,
+    "reward_exp": 50000,
+    "reward_gold": 500000,
+    "reward_item": {"name": "贤者之石", "value": 3000, "item_type": "misc"}
+  }
+]

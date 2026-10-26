@@ -1,0 +1,182 @@
+[
+  {
+    "name": "讨伐波克布林",
+    "description": "消灭威胁海拉鲁的波克布林部落",
+    "target_monster": "波克布林",
+    "target_count": 5,
+    "reward_exp": 50,
+    "reward_gold": 100,
+    "reward_item": {"name": "波克布林棍棒", "value": 5, "item_type": "weapon"}
+  },
+  {
+    "name": "狩猎莫力布林",
+    "description": "击败强大的莫力布林",
+    "target_monster": "莫力布林",
+    "target_count": 3,
+    "reward_exp": 60,
+    "reward_gold": 150,
+    "reward_item": {"name": "莫力布林角", "value": 8, "item_type": "material"}
+  },
+  {
+    "name": "挑战莱尼尔",
+    "description": "击败草原上的莱尼尔",
+    "target_monster": "莱尼尔",
+    "target_count": 1,
+    "reward_exp": 200,
+    "reward_gold": 500,
+    "reward_item": {"name": "莱尼尔刃角", "value": 80, "item_type": "material"}
+  },
+  {
+    "name": "守护者讨伐作战",
+    "description": "摧毁失控的守护者",
+    "target_monster": "守护者",
+    "target_count": 3,
+    "reward_exp": 300,
+    "reward_gold": 800,
+    "reward_item": {"name": "守护者螺栓", "value": 50, "item_type": "material"}
+  },
+  {
+    "name": "西诺克斯狩猎",
+    "description": "击败巨大的西诺克斯",
+    "target_monster": "西诺克斯",
+    "target_count": 2,
+    "reward_exp": 200,
+    "reward_gold": 400,
+    "reward_item": {"name": "西诺克斯肝", "value": 30, "item_type": "material"}
+  },
+  {
+    "name": "石巨人破坏任务",
+    "description": "击碎各地的石巨人",
+    "target_monster": "石巨人",
+    "target_count": 3,
+    "reward_exp": 250,
+    "reward_gold": 600,
+    "reward_item": {"name": "巨人岩石", "value": 50, "item_type": "material"}
+  },
+  {
+    "name": "呀哈哈收集大作战",
+    "description": "收集呀哈哈幼苗",
+    "target_monster": "丘丘",
+    "target_count": 10,
+    "reward_exp": 100,
+    "reward_gold": 200,
+    "reward_item": {"name": "呀哈哈面具", "value": 500, "item_type": "misc"}
+  },
+  {
+    "name": "神庙全解放",
+    "description": "探索并解放所有神庙",
+    "target_monster": "守护者",
+    "target_count": 5,
+    "reward_exp": 500,
+    "reward_gold": 1000,
+    "reward_item": {"name": "静谧公主", "value": 100, "item_type": "material"}
+  },
+  {
+    "name": "鸟望台激活计划",
+    "description": "激活所有鸟望台",
+    "target_monster": "依盖队队员",
+    "target_count": 8,
+    "reward_exp": 300,
+    "reward_gold": 600,
+    "reward_item": {"name": "希卡之石", "value": 500, "item_type": "misc"}
+  },
+  {
+    "name": "依盖队扫荡",
+    "description": "消灭依盖队基地的敌人",
+    "target_monster": "依盖队队员",
+    "target_count": 10,
+    "reward_exp": 200,
+    "reward_gold": 400,
+    "reward_item": {"name": "依盖队面具", "value": 10, "item_type": "misc"}
+  },
+  {
+    "name": "白银莱尼尔讨伐",
+    "description": "击败最强的白银莱尼尔",
+    "target_monster": "白银莱尼尔",
+    "target_count": 1,
+    "reward_exp": 500,
+    "reward_gold": 1200,
+    "reward_item": {"name": "白银莱尼尔刃角", "value": 300, "item_type": "material"}
+  },
+  {
+    "name": "灾厄盖侬歼灭战",
+    "description": "最终决战，拯救海拉鲁",
+    "target_monster": "灾厄盖侬",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 5000,
+    "reward_item": {"name": "大师剑", "value": 3000, "item_type": "weapon", "stat_bonus": {"attack": 50}}
+  },
+  {
+    "name": "卓拉族的试炼",
+    "description": "完成卓拉族的试炼任务",
+    "target_monster": "蓝色莫力布林",
+    "target_count": 5,
+    "reward_exp": 150,
+    "reward_gold": 300,
+    "reward_item": {"name": "卓拉之矛", "value": 900, "item_type": "weapon"}
+  },
+  {
+    "name": "鼓隆族的火山探险",
+    "description": "探索死亡之山，击败火焰石巨人",
+    "target_monster": "火焰石巨人",
+    "target_count": 2,
+    "reward_exp": 300,
+    "reward_gold": 700,
+    "reward_item": {"name": "鼓隆之盾", "value": 750, "item_type": "shield"}
+  },
+  {
+    "name": "利特族的空中作战",
+    "description": "协助利特族击败空中敌人",
+    "target_monster": "蓝色蜥蜴战士",
+    "target_count": 6,
+    "reward_exp": 180,
+    "reward_gold": 350,
+    "reward_item": {"name": "利特之弓", "value": 650, "item_type": "bow"}
+  },
+  {
+    "name": "格鲁德族的沙漠远征",
+    "description": "穿越沙漠，击败沙漠中的敌人",
+    "target_monster": "黑色波克布林",
+    "target_count": 8,
+    "reward_exp": 200,
+    "reward_gold": 450,
+    "reward_item": {"name": "格鲁德之刀", "value": 850, "item_type": "weapon"}
+  },
+  {
+    "name": "希卡科技的秘密",
+    "description": "发现并激活古代希卡装置",
+    "target_monster": "步行守护者",
+    "target_count": 4,
+    "reward_exp": 250,
+    "reward_gold": 550,
+    "reward_item": {"name": "古代兵装·剑", "value": 800, "item_type": "weapon"}
+  },
+  {
+    "name": "左纳乌能源收集",
+    "description": "收集左纳乌能源，建造装置",
+    "target_monster": "白银波克布林",
+    "target_count": 6,
+    "reward_exp": 200,
+    "reward_gold": 400,
+    "reward_item": {"name": "左纳乌能源·大型", "value": 150, "item_type": "material"}
+  },
+  {
+    "name": "科洛克族的失踪事件",
+    "description": "寻找失踪的科洛克族成员",
+    "target_monster": "黑暗法师",
+    "target_count": 3,
+    "reward_exp": 180,
+    "reward_gold": 380,
+    "reward_item": {"name": "魔法师法杖", "value": 60, "item_type": "weapon"}
+  },
+  {
+    "name": "海拉鲁全境巡逻",
+    "description": "巡逻海拉鲁全境，清除所有威胁",
+    "target_monster": "盖侬兵",
+    "target_count": 5,
+    "reward_exp": 800,
+    "reward_gold": 2000,
+    "reward_item": {"name": "盖侬兵之剑", "value": 500, "item_type": "weapon"}
+  }
+]

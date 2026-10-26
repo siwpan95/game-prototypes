@@ -1,0 +1,182 @@
+[
+  {
+    "name": "邪恶洞穴",
+    "description": "探索并清除营地外的邪恶洞穴",
+    "target_monster": "沉沦魔",
+    "target_count": 10,
+    "reward_exp": 100,
+    "reward_gold": 200,
+    "reward_item": {"name": "生命药水", "value": 10, "item_type": "potion"}
+  },
+  {
+    "name": "修女的任务",
+    "description": "找回失窃的赫拉迪克·马勒斯",
+    "target_monster": "血鸟",
+    "target_count": 1,
+    "reward_exp": 200,
+    "reward_gold": 500,
+    "reward_item": {"name": "技能点药水", "value": 100, "item_type": "potion"}
+  },
+  {
+    "name": "工具匠的任务",
+    "description": "帮助工具匠查尔·德瑞找回锤子",
+    "target_monster": "硬毛老鼠",
+    "target_count": 15,
+    "reward_exp": 150,
+    "reward_gold": 300,
+    "reward_item": {"name": "攻击药水", "value": 50, "item_type": "potion"}
+  },
+  {
+    "name": "安达利尔讨伐",
+    "description": "击败第一章BOSS安达利尔",
+    "target_monster": "安达利尔",
+    "target_count": 1,
+    "reward_exp": 800,
+    "reward_gold": 2000,
+    "reward_item": {"name": "安达利尔的心脏", "value": 200, "item_type": "material"}
+  },
+  {
+    "name": "罗达门特之馆",
+    "description": "击败第二章的变节者罗达门特",
+    "target_monster": "尸魔",
+    "target_count": 20,
+    "reward_exp": 300,
+    "reward_gold": 600,
+    "reward_item": {"name": "防御药水", "value": 60, "item_type": "potion"}
+  },
+  {
+    "name": "堕落天使都瑞尔",
+    "description": "击败第二章BOSS都瑞尔",
+    "target_monster": "都瑞尔",
+    "target_count": 1,
+    "reward_exp": 1200,
+    "reward_gold": 3000,
+    "reward_item": {"name": "都瑞尔的外壳", "value": 300, "item_type": "material"}
+  },
+  {
+    "name": "黄金鸟",
+    "description": "完成第三章黄金鸟任务",
+    "target_monster": "沙蜥",
+    "target_count": 10,
+    "reward_exp": 250,
+    "reward_gold": 500,
+    "reward_item": {"name": "黄金鸟之羽", "value": 80, "item_type": "material"}
+  },
+  {
+    "name": "黑魂石",
+    "description": "将黑魂石交给凯恩",
+    "target_monster": "幽灵",
+    "target_count": 8,
+    "reward_exp": 400,
+    "reward_gold": 800,
+    "reward_item": {"name": "黑魂石", "value": 500, "item_type": "material"}
+  },
+  {
+    "name": "墨菲斯托讨伐",
+    "description": "击败第三章BOSS墨菲斯托",
+    "target_monster": "墨菲斯托",
+    "target_count": 1,
+    "reward_exp": 2000,
+    "reward_gold": 5000,
+    "reward_item": {"name": "墨菲斯托之魂", "value": 500, "item_type": "material"}
+  },
+  {
+    "name": "地狱熔炉",
+    "description": "摧毁地狱熔炉",
+    "target_monster": "遗忘骑士",
+    "target_count": 12,
+    "reward_exp": 500,
+    "reward_gold": 1000,
+    "reward_item": {"name": "地狱熔炉之锤", "value": 800, "item_type": "weapon"}
+  },
+  {
+    "name": "暗黑破坏神讨伐",
+    "description": "击败第四章BOSS暗黑破坏神",
+    "target_monster": "暗黑破坏神",
+    "target_count": 1,
+    "reward_exp": 3000,
+    "reward_gold": 8000,
+    "reward_item": {"name": "暗黑破坏神之角", "value": 800, "item_type": "material"}
+  },
+  {
+    "name": "哈洛加斯围城",
+    "description": "协助哈洛加斯抵抗巴尔的军队",
+    "target_monster": "攻城破坏者",
+    "target_count": 15,
+    "reward_exp": 600,
+    "reward_gold": 1200,
+    "reward_item": {"name": "哈洛加斯之盾", "value": 600, "item_type": "shield"}
+  },
+  {
+    "name": "亚瑞特山之巅",
+    "description": "攀登亚瑞特山，击败尼拉塞克",
+    "target_monster": "尼拉塞克",
+    "target_count": 1,
+    "reward_exp": 2500,
+    "reward_gold": 6000,
+    "reward_item": {"name": "尼拉塞克的心脏", "value": 600, "item_type": "material"}
+  },
+  {
+    "name": "远古野蛮人试炼",
+    "description": "击败三位远古野蛮人",
+    "target_monster": "血领主",
+    "target_count": 3,
+    "reward_exp": 1500,
+    "reward_gold": 3000,
+    "reward_item": {"name": "远古之誓", "value": 1000, "item_type": "material"}
+  },
+  {
+    "name": "巴尔讨伐",
+    "description": "击败第五章BOSS巴尔，拯救世界之石",
+    "target_monster": "巴尔",
+    "target_count": 1,
+    "reward_exp": 5000,
+    "reward_gold": 15000,
+    "reward_item": {"name": "巴尔之眼", "value": 1000, "item_type": "material"}
+  },
+  {
+    "name": "符文收集大作战",
+    "description": "收集各种符文，打造符文之语",
+    "target_monster": "沉沦魔巫师",
+    "target_count": 20,
+    "reward_exp": 400,
+    "reward_gold": 800,
+    "reward_item": {"name": "符文·艾尔", "value": 50, "item_type": "material"}
+  },
+  {
+    "name": "赫拉迪克方块任务",
+    "description": "寻找赫拉迪克方块，合成强大装备",
+    "target_monster": "岩石野兽",
+    "target_count": 8,
+    "reward_exp": 350,
+    "reward_gold": 700,
+    "reward_item": {"name": "赫拉迪克方块", "value": 2000, "item_type": "misc"}
+  },
+  {
+    "name": "地狱难度通关",
+    "description": "在地狱难度下通关全部五章",
+    "target_monster": "巴尔",
+    "target_count": 1,
+    "reward_exp": 10000,
+    "reward_gold": 50000,
+    "reward_item": {"name": "泰瑞尔的力量", "value": 5000, "item_type": "armor"}
+  },
+  {
+    "name": "屠夫狩猎",
+    "description": "击败传说中的屠夫",
+    "target_monster": "屠夫",
+    "target_count": 1,
+    "reward_exp": 1500,
+    "reward_gold": 3000,
+    "reward_item": {"name": "屠夫的斧头", "value": 150, "item_type": "weapon"}
+  },
+  {
+    "name": "全职业大师挑战",
+    "description": "用所有职业通关游戏",
+    "target_monster": "暗黑破坏神",
+    "target_count": 7,
+    "reward_exp": 20000,
+    "reward_gold": 100000,
+    "reward_item": {"name": "地狱火炬", "value": 10000, "item_type": "misc"}
+  }
+]

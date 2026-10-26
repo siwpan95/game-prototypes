@@ -1,0 +1,1866 @@
+[
+  {
+    "name": "丘丘人",
+    "level": 1,
+    "hp": 30,
+    "exp_reward": 50,
+    "loot_table": [
+      {
+        "item": {
+          "name": "丘丘人面具",
+          "value": 5,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.8
+      },
+      {
+        "item": {
+          "name": "坚硬的丘丘人面具",
+          "value": 15,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.2
+      }
+    ],
+    "gold_reward": 16,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "水史莱姆",
+    "level": 1,
+    "hp": 20,
+    "exp_reward": 40,
+    "loot_table": [
+      {
+        "item": {
+          "name": "史莱姆凝液",
+          "value": 3,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.9
+      },
+      {
+        "item": {
+          "name": "史莱姆原浆",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 13,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "火深渊法师",
+    "level": 5,
+    "hp": 150,
+    "exp_reward": 200,
+    "loot_table": [
+      {
+        "item": {
+          "name": "深渊的叹息",
+          "value": 20,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.7
+      },
+      {
+        "item": {
+          "name": "火元素石珀",
+          "value": 35,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.4
+      }
+    ],
+    "gold_reward": 66,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "愚人众先遣队",
+    "level": 3,
+    "hp": 80,
+    "exp_reward": 120,
+    "loot_table": [
+      {
+        "item": {
+          "name": "愚人众的徽记",
+          "value": 12,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "新兵的铳尾",
+          "value": 25,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 40,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "遗迹守卫",
+    "level": 8,
+    "hp": 300,
+    "exp_reward": 400,
+    "loot_table": [
+      {
+        "item": {
+          "name": "遗迹的核心",
+          "value": 50,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.8
+      },
+      {
+        "item": {
+          "name": "混沌回路",
+          "value": 80,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 133,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "若陀龙王",
+    "level": 10,
+    "hp": 500,
+    "exp_reward": 600,
+    "loot_table": [
+      {
+        "item": {
+          "name": "若陀的龙角",
+          "value": 100,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "岩龙之鳞",
+          "value": 150,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 200,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "丘丘暴徒",
+    "level": 4,
+    "hp": 120,
+    "exp_reward": 180,
+    "loot_table": [
+      {
+        "item": {
+          "name": "不祥的面具",
+          "value": 18,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "丘丘暴徒之斧",
+          "value": 60,
+          "item_type": "weapon",
+          "stat_bonus": {
+            "strength": 3
+          }
+        },
+        "drop_chance": 0.1
+      }
+    ],
+    "gold_reward": 60,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "遗迹猎者",
+    "level": 7,
+    "hp": 260,
+    "exp_reward": 350,
+    "loot_table": [
+      {
+        "item": {
+          "name": "混沌机关",
+          "value": 40,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "混沌锚栓",
+          "value": 65,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 116,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "雷深渊法师",
+    "level": 6,
+    "hp": 180,
+    "exp_reward": 250,
+    "loot_table": [
+      {
+        "item": {
+          "name": "深渊的引路灯",
+          "value": 25,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "雷元素石珀",
+          "value": 40,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 83,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "野伏众",
+    "level": 5,
+    "hp": 160,
+    "exp_reward": 220,
+    "loot_table": [
+      {
+        "item": {
+          "name": "破碎的面具",
+          "value": 15,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.7
+      },
+      {
+        "item": {
+          "name": "野伏刀",
+          "value": 70,
+          "item_type": "weapon",
+          "stat_bonus": {
+            "dexterity": 4
+          }
+        },
+        "drop_chance": 0.08
+      }
+    ],
+    "gold_reward": 73,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "遗迹巨蛇",
+    "level": 12,
+    "hp": 700,
+    "exp_reward": 900,
+    "loot_table": [
+      {
+        "item": {
+          "name": "混沌真眼",
+          "value": 120,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.4
+      },
+      {
+        "item": {
+          "name": "巨蛇的鳞片",
+          "value": 300,
+          "item_type": "misc",
+          "stat_bonus": {
+            "constitution": 5
+          }
+        },
+        "drop_chance": 0.05
+      }
+    ],
+    "gold_reward": 300,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "镀金旅团",
+    "level": 4,
+    "hp": 100,
+    "exp_reward": 150,
+    "loot_table": [
+      {
+        "item": {
+          "name": "褪色的红绸",
+          "value": 14,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.7
+      },
+      {
+        "item": {
+          "name": "镶边红绸",
+          "value": 30,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.2
+      }
+    ],
+    "gold_reward": 50,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "雷史莱姆",
+    "level": 1,
+    "hp": 22,
+    "exp_reward": 42,
+    "loot_table": [
+      {
+        "item": {
+          "name": "史莱姆凝液",
+          "value": 3,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.9
+      },
+      {
+        "item": {
+          "name": "雷元素碎片",
+          "value": 8,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.25
+      }
+    ],
+    "gold_reward": 14,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "火史莱姆",
+    "level": 1,
+    "hp": 24,
+    "exp_reward": 44,
+    "loot_table": [
+      {
+        "item": {
+          "name": "史莱姆凝液",
+          "value": 3,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.9
+      },
+      {
+        "item": {
+          "name": "燃烧的史莱姆凝液",
+          "value": 8,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.25
+      }
+    ],
+    "gold_reward": 14,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "冰史莱姆",
+    "level": 2,
+    "hp": 28,
+    "exp_reward": 48,
+    "loot_table": [
+      {
+        "item": {
+          "name": "史莱姆凝液",
+          "value": 3,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.9
+      },
+      {
+        "item": {
+          "name": "冰元素碎片",
+          "value": 8,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.25
+      }
+    ],
+    "gold_reward": 16,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "风丘丘萨满",
+    "level": 3,
+    "hp": 90,
+    "exp_reward": 140,
+    "loot_table": [
+      {
+        "item": {
+          "name": "丘丘人面具",
+          "value": 8,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.7
+      },
+      {
+        "item": {
+          "name": "风元素碎片",
+          "value": 15,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 46,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "盗宝团·火之药剂师",
+    "level": 4,
+    "hp": 110,
+    "exp_reward": 170,
+    "loot_table": [
+      {
+        "item": {
+          "name": "盗宝团的徽记",
+          "value": 12,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "烈焰药剂",
+          "value": 20,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 56,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "盗宝团·神射手",
+    "level": 4,
+    "hp": 105,
+    "exp_reward": 165,
+    "loot_table": [
+      {
+        "item": {
+          "name": "盗宝团的徽记",
+          "value": 12,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "破旧的弓箭",
+          "value": 45,
+          "item_type": "weapon",
+          "stat_bonus": {
+            "dexterity": 3
+          }
+        },
+        "drop_chance": 0.08
+      }
+    ],
+    "gold_reward": 55,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "无相之风",
+    "level": 15,
+    "hp": 800,
+    "exp_reward": 1000,
+    "loot_table": [
+      {
+        "item": {
+          "name": "自在松石碎屑",
+          "value": 80,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "自在松石断片",
+          "value": 150,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.25
+      }
+    ],
+    "gold_reward": 333,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "无相之雷",
+    "level": 15,
+    "hp": 850,
+    "exp_reward": 1050,
+    "loot_table": [
+      {
+        "item": {
+          "name": "最胜紫晶碎屑",
+          "value": 80,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "最胜紫晶断片",
+          "value": 150,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.25
+      }
+    ],
+    "gold_reward": 350,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "无相之火",
+    "level": 16,
+    "hp": 900,
+    "exp_reward": 1100,
+    "loot_table": [
+      {
+        "item": {
+          "name": "燃愿玛瑙碎屑",
+          "value": 80,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "燃愿玛瑙断片",
+          "value": 150,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.25
+      }
+    ],
+    "gold_reward": 366,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "纯水精灵·洛蒂娅",
+    "level": 14,
+    "hp": 750,
+    "exp_reward": 950,
+    "loot_table": [
+      {
+        "item": {
+          "name": "涤净青金碎屑",
+          "value": 75,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "纯净水球",
+          "value": 120,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.2
+      }
+    ],
+    "gold_reward": 316,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "爆炎树",
+    "level": 14,
+    "hp": 780,
+    "exp_reward": 980,
+    "loot_table": [
+      {
+        "item": {
+          "name": "燃愿玛瑙碎屑",
+          "value": 75,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "常燃火种",
+          "value": 100,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 326,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "雷音权现",
+    "level": 18,
+    "hp": 1200,
+    "exp_reward": 1500,
+    "loot_table": [
+      {
+        "item": {
+          "name": "最胜紫晶碎屑",
+          "value": 100,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      },
+      {
+        "item": {
+          "name": "雷霆数珠",
+          "value": 200,
+          "item_type": "misc",
+          "stat_bonus": {
+            "intelligence": 5
+          }
+        },
+        "drop_chance": 0.05
+      }
+    ],
+    "gold_reward": 500,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "深渊咏者·紫电",
+    "level": 9,
+    "hp": 350,
+    "exp_reward": 450,
+    "loot_table": [
+      {
+        "item": {
+          "name": "深渊的祷文",
+          "value": 35,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "紫电之石",
+          "value": 60,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 150,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "深渊使徒·激流",
+    "level": 11,
+    "hp": 550,
+    "exp_reward": 700,
+    "loot_table": [
+      {
+        "item": {
+          "name": "深渊的徽记",
+          "value": 50,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      },
+      {
+        "item": {
+          "name": "激流之刃",
+          "value": 180,
+          "item_type": "weapon",
+          "stat_bonus": {
+            "dexterity": 6
+          }
+        },
+        "drop_chance": 0.06
+      }
+    ],
+    "gold_reward": 233,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "冰深渊法师",
+    "level": 6,
+    "hp": 185,
+    "exp_reward": 255,
+    "loot_table": [
+      {
+        "item": {
+          "name": "深渊的寒冰",
+          "value": 26,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "冰元素石珀",
+          "value": 42,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 85,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "草丘丘萨满",
+    "level": 3,
+    "hp": 92,
+    "exp_reward": 145,
+    "loot_table": [
+      {
+        "item": {
+          "name": "丘丘人面具",
+          "value": 8,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.7
+      },
+      {
+        "item": {
+          "name": "草元素碎片",
+          "value": 15,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 48,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "镀金旅团·鸦喙戟手",
+    "level": 5,
+    "hp": 170,
+    "exp_reward": 230,
+    "loot_table": [
+      {
+        "item": {
+          "name": "褪色的红绸",
+          "value": 16,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "镀金长戟",
+          "value": 85,
+          "item_type": "weapon",
+          "stat_bonus": {
+            "strength": 4
+          }
+        },
+        "drop_chance": 0.08
+      }
+    ],
+    "gold_reward": 76,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "蕈兽",
+    "level": 3,
+    "hp": 85,
+    "exp_reward": 130,
+    "loot_table": [
+      {
+        "item": {
+          "name": "蕈兽孢子",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.8
+      },
+      {
+        "item": {
+          "name": "蕈兽的菌盖",
+          "value": 22,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 43,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "飘浮灵",
+    "level": 2,
+    "hp": 40,
+    "exp_reward": 60,
+    "loot_table": [
+      {
+        "item": {
+          "name": "飘浮灵的碎片",
+          "value": 6,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.8
+      },
+      {
+        "item": {
+          "name": "元素微粒",
+          "value": 12,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.2
+      }
+    ],
+    "gold_reward": 20,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "遗迹巡弋者",
+    "level": 9,
+    "hp": 320,
+    "exp_reward": 420,
+    "loot_table": [
+      {
+        "item": {
+          "name": "混沌机关",
+          "value": 45,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.6
+      },
+      {
+        "item": {
+          "name": "遗迹的齿轮",
+          "value": 70,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.3
+      }
+    ],
+    "gold_reward": 140,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "魔偶剑鬼",
+    "level": 20,
+    "hp": 1500,
+    "exp_reward": 2000,
+    "loot_table": [
+      {
+        "item": {
+          "name": "孤风之魂",
+          "value": 150,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      },
+      {
+        "item": {
+          "name": "魔偶的秘银",
+          "value": 350,
+          "item_type": "misc",
+          "stat_bonus": {
+            "strength": 7,
+            "dexterity": 5
+          }
+        },
+        "drop_chance": 0.04
+      }
+    ],
+    "gold_reward": 666,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "name": "深海龙蜥",
+    "level": 13,
+    "hp": 680,
+    "exp_reward": 880,
+    "loot_table": [
+      {
+        "item": {
+          "name": "龙蜥之鳞",
+          "value": 90,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      },
+      {
+        "item": {
+          "name": "深海之牙",
+          "value": 160,
+          "item_type": "weapon",
+          "stat_bonus": {
+            "strength": 6
+          }
+        },
+        "drop_chance": 0.06
+      }
+    ],
+    "gold_reward": 293,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  }
+]

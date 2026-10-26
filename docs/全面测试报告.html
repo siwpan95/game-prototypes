@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>pq_multiverse 全面测试报告</title>
+    <style>
+        body { font-family: 'Microsoft YaHei', sans-serif; margin: 40px; background: #f8f9fa; color: #333; line-height: 1.6; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 12px; }
+        h2 { color: #34495e; margin-top: 32px; border-left: 4px solid #3498db; padding-left: 12px; }
+        h3 { color: #555; margin-top: 24px; }
+        .summary { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin: 20px 0; }
+        .pass { color: #27ae60; font-weight: bold; }
+        .fail { color: #e74c3c; font-weight: bold; }
+        .warn { color: #f39c12; font-weight: bold; }
+        table { border-collapse: collapse; width: 100%; margin: 16px 0; background: #fff; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #3498db; color: white; }
+        tr:nth-child(even) { background: #f2f2f2; }
+        .code { font-family: Consolas, monospace; background: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+        .card { background: #fff; border-radius: 8px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin: 16px 0; }
+        .metric { display: inline-block; margin: 10px 20px 10px 0; font-size: 1.1em; }
+        .metric-value { font-size: 1.5em; font-weight: bold; color: #3498db; }
+        ul { margin: 8px 0; }
+        .note { background: #fff3cd; border-left: 4px solid #f39c12; padding: 12px; margin: 16px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>pq_multiverse 全面测试报告</h1>
+    <p>测试工具：<span class="code">py_test_runner</span>（D:\allin\tools\py_test_runner）</p>
+    <p>目标项目：<span class="code">D:\allin\stay\pq_multiverse</span></p>
+    <p>测试时间：2026-06-30 00:15</p>
+    <p>Python 解释器：C:\Users\13122\AppData\Local\Programs\Python\Python314\python.exe</p>
+
+    <div class="summary">
+        <h2>总体结论</h2>
+        <p><span class="pass">✅ 通过</span> — pq_multiverse 当前代码在语法、导入、GUI 启动、JSON 数据等方面均无阻塞性问题。</p>
+        <p>共执行 4 类测试模式，覆盖项目全部 10 个有效 Python 文件。未发现 P0 级阻塞 bug。</p>
+
+        <div class="metric">
+            <div class="metric-value">4/4</div>
+            <div>测试模式通过</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value">10/10</div>
+            <div>Python 文件导入成功</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value">10/10</div>
+            <div>GUI 启动成功</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value">100%</div>
+            <div>JSON 数据合法</div>
+        </div>
+    </div>
+
+    <h2>1. 简单测试模式（Simple Test）</h2>
+    <div class="card">
+        <p><strong>命令：</strong></p>
+        <p class="code">python main.py --simple --simple-target D:/allin/stay/pq_multiverse -c</p>
+        <p><strong>结果：</strong><span class="pass">✅ 通过</span></p>
+        <p><strong>覆盖范围：</strong></p>
+        <ul>
+            <li>编译项目根目录下所有 <span class="code">.py</span> 文件（含子目录）</li>
+            <li>解析项目根目录下所有 <span class="code">.json</span> 文件</li>
+        </ul>
+        <p><strong>结论：</strong>全部 Python 文件语法正确，无 JSON 格式错误。</p>
+    </div>
+
+    <h2>2. 动态测试模式（Dynamic Test）</h2>
+    <div class="card">
+        <p><strong>说明：</strong>使用 py_test_runner 的 <span class="code">DynamicTester</span> 对项目全部有效 Python 文件（排除 <span class="code">src/_archive</span> 遗留文件）执行导入测试与 GUI 启动测试。</p>
+        <p><strong>结果：</strong><span class="pass">✅ 10/10 导入成功 | 10/10 GUI 启动成功</span></p>
+
+        <table>
+            <tr><th>#</th><th>文件</th><th>导入</th><th>GUI 启动</th><th>耗时</th></tr>
+            <tr><td>1</td><td class="code">main.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.29s</td></tr>
+            <tr><td>2</td><td class="code">src/themed_engine.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.27s</td></tr>
+            <tr><td>3</td><td class="code">src/core/game_engine_v2.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.26s</td></tr>
+            <tr><td>4</td><td class="code">src/data/chinese_resources.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.20s</td></tr>
+            <tr><td>5</td><td class="code">src/themes/genshin_theme.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.25s</td></tr>
+            <tr><td>6</td><td class="code">src/themes/pokemon_theme.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.25s</td></tr>
+            <tr><td>7</td><td class="code">src/themes/theme_base.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.25s</td></tr>
+            <tr><td>8</td><td class="code">src/themes/warcraft_theme.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.25s</td></tr>
+            <tr><td>9</td><td class="code">src/ui/start_screen.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.31s</td></tr>
+            <tr><td>10</td><td class="code">src/ui/tkinter_ui_themed.py</td><td class="pass">OK</td><td class="pass">OK</td><td>0.31s</td></tr>
+        </table>
+
+        <p><strong>结论：</strong>所有模块均可独立导入，tkinter 环境正常，主入口与各主题/UI 组件无启动错误。</p>
+        <p class="note">注：py_test_runner 默认的 <span class="code">main.py --dynamic</span> 仅扫描项目根目录的 <span class="code">*.py</span>，本次通过 <span class="code">DynamicTester</span> 显式传入递归收集的文件列表，实现了对项目全部有效模块的覆盖。</p>
+    </div>
+
+    <h2>3. 架构模式检测（Architecture Detection）</h2>
+    <div class="card">
+        <p><strong>说明：</strong>使用 py_test_runner 的 <span class="code">ArchitectureDetector</span> 扫描项目源码结构。</p>
+        <p><strong>分析模块数：</strong>19 个</p>
+        <p><strong>结果：</strong></p>
+        <table>
+            <tr><th>架构模式</th><th>置信度</th><th>涉及文件</th><th>说明</th></tr>
+            <tr><td>分层架构</td><td>66.7%</td><td>7 个</td><td>检测到 view、presentation 等多层结构</td></tr>
+        </table>
+        <p><strong>结论：</strong>项目结构基本符合分层架构，core（引擎）、themes（主题）、ui（界面）职责分离清晰。</p>
+    </div>
+
+    <h2>4. 探针冒烟测试（Smoke Probes）</h2>
+    <div class="card">
+        <p><strong>命令：</strong></p>
+        <p class="code">python main.py --smoke -c</p>
+        <p><strong>结果：</strong><span class="pass">✅ 7/7 通过</span></p>
+        <table>
+            <tr><th>探针</th><th>状态</th></tr>
+            <tr><td>Python 版本检查</td><td class="pass">PASS</td></tr>
+            <tr><td>工作目录可访问</td><td class="pass">PASS</td></tr>
+            <tr><td>数学库正常</td><td class="pass">PASS</td></tr>
+            <tr><td>日志目录存在</td><td class="pass">PASS</td></tr>
+            <tr><td>main.py 存在</td><td class="pass">PASS</td></tr>
+            <tr><td>core 模块存在</td><td class="pass">PASS</td></tr>
+            <tr><td>gui 模块存在</td><td class="pass">PASS</td></tr>
+        </table>
+        <p><strong>结论：</strong>测试工具自身运行环境正常。</p>
+    </div>
+
+    <h2>5. 项目统计</h2>
+    <div class="card">
+        <table>
+            <tr><th>类别</th><th>数量</th></tr>
+            <tr><td>有效 Python 文件</td><td>10（不含 src/_archive 遗留文件）</td></tr>
+            <tr><td>遗留归档文件</td><td>9（在 src/_archive 下）</td></tr>
+            <tr><td>文档/数据文件</td><td>21（md/html/json 等）</td></tr>
+            <tr><td>主题数量</td><td>3（warcraft / genshin / pokemon）</td></tr>
+        </table>
+    </div>
+
+    <h2>6. 发现与建议</h2>
+    <div class="card">
+        <h3>✅ 优点</h3>
+        <ul>
+            <li>全部 10 个有效模块均可导入和启动 GUI，无运行时阻塞问题。</li>
+            <li>代码语法与 JSON 数据均合法。</li>
+            <li>主题系统与引擎分层清晰，架构检测认可其分层架构。</li>
+            <li>项目已将遗留文件归档到 <span class="code">src/_archive</span>，主代码树干净。</li>
+        </ul>
+
+        <h3>⚠️ 建议</h3>
+        <ul>
+            <li><strong>功能测试：</strong>py_test_runner 是面向导入/语法/GUI 的轻量测试框架，未覆盖游戏逻辑（如章节解锁、存档加载、经验增长等）。建议后续补充针对 <span class="code">GameEngine</span> 和 <span class="code">ThemedGameEngine</span> 的单元测试。</li>
+            <li><strong>测试工具适配：</strong>py_test_runner 的 <span class="code">--dynamic</span> 默认仅扫描项目根目录，<span class="code">--arch</span> 默认硬编码为 D:\allin。若常对子项目做测试，可考虑为工具补充 <span class="code">--targets</span> 或 <span class="code">--dynamic-project</span> 参数。</li>
+            <li><strong>代码质量：</strong>项目中部分函数较长（如 <span class="code">game_engine_v2.py</span> 的 <span class="code">_complete_quest</span>），后续可适当拆分以提高可维护性。</li>
+        </ul>
+    </div>
+
+    <h2>7. 生成的报告文件</h2>
+    <div class="card">
+        <ul>
+            <li><span class="code">D:\allin\stay\pq_multiverse\docs\dynamic_test_report.json</span> — 动态测试详细结果</li>
+            <li><span class="code">D:\allin\stay\pq_multiverse\docs\architecture_report.json</span> — 架构检测报告</li>
+            <li><span class="code">D:\allin\tools\py_test_runner\logs\test_run_20260630_000733.log</span> — 探针测试日志</li>
+        </ul>
+    </div>
+</body>
+</html>

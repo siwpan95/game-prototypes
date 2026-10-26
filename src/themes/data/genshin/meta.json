@@ -1,0 +1,30 @@
+{
+  "id": "genshin",
+  "name": "原神",
+  "description": "提瓦特大陆的冒险 - 七种元素的传奇",
+  "race_label": "地区",
+  "class_label": "武器类型",
+  "monster_label": "魔物",
+  "klasses": [
+    "单手剑",
+    "双手剑",
+    "长柄武器",
+    "弓",
+    "法器"
+  ],
+  "races": [
+    "蒙德",
+    "璃月",
+    "稻妻",
+    "须弥",
+    "枫丹",
+    "纳塔",
+    "至冬"
+  ],
+  "titles": [
+    "the Slayer",
+    "the Slain",
+    "the Brave",
+    "the Wise"
+  ]
+}
