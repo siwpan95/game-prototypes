@@ -1,0 +1,10 @@
+﻿
+
+# 未跟踪产物/输出治理（2026-08-28）
+*.spec
+__pycache__/
+build/
+dist/
+tests/output/
+allin_engine/fonts/
+# 引擎字体（体积大，按需自备；见引擎 README「本地字体加载」）
