@@ -1,0 +1,3 @@
+# stay dependencies (auto-generated 2026-08-20)
+numpy
+pytest
