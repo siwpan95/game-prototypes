@@ -1,0 +1,86 @@
+{
+  "gold": 176266,
+  "party": [
+    {
+      "name": "兰斯洛特",
+      "job_key": "德鲁伊",
+      "race_key": "人类",
+      "level": 30,
+      "exp": 2523,
+      "hp": 548,
+      "max_hp": 448,
+      "mp": 200,
+      "max_mp": 200,
+      "atk": 101,
+      "def_": 66,
+      "spd": 41,
+      "equipment": {
+        "weapon": "秘银剑",
+        "armor": "龙鳞甲",
+        "accessory": "力量腰带",
+        "shield": null
+      },
+      "skills": [],
+      "dead": false
+    },
+    {
+      "name": "艾尔文",
+      "job_key": "圣骑士",
+      "race_key": "魔裔",
+      "level": 30,
+      "exp": 2098,
+      "hp": 573,
+      "max_hp": 473,
+      "mp": 220,
+      "max_mp": 220,
+      "atk": 97,
+      "def_": 70,
+      "spd": 37,
+      "equipment": {
+        "weapon": "秘银剑",
+        "armor": "龙鳞甲",
+        "accessory": "力量腰带",
+        "shield": null
+      },
+      "skills": [],
+      "dead": false
+    },
+    {
+      "name": "艾尔文",
+      "job_key": "圣骑士",
+      "race_key": "魔裔",
+      "level": 30,
+      "exp": 2523,
+      "hp": 573,
+      "max_hp": 473,
+      "mp": 220,
+      "max_mp": 220,
+      "atk": 97,
+      "def_": 70,
+      "spd": 37,
+      "equipment": {
+        "weapon": "秘银剑",
+        "armor": "龙鳞甲",
+        "accessory": "力量腰带",
+        "shield": null
+      },
+      "skills": [],
+      "dead": false
+    }
+  ],
+  "inventory": [],
+  "consumables": {
+    "力量药剂": 113,
+    "治疗药水": 116,
+    "解毒剂": 71,
+    "魔力药水": 120,
+    "复活卷轴": 85,
+    "强效治疗药水": 112,
+    "强效魔力药水": 80
+  },
+  "unlocked_dungeons": 7,
+  "total_monsters_killed": 3513,
+  "total_treasures_found": 693,
+  "total_events_triggered": 1,
+  "_hash": "9d6e3e8213c96a48"
+}

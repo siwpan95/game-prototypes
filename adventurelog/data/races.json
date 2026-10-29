@@ -1,0 +1,7 @@
+{
+  "人类":   {"name": "人类",   "desc": "适应性最强的种族，属性均衡",         "hp_mod": 5,  "atk_mod": 0,  "def_mod": 0,  "spd_mod": 0,  "mp_mod": 5},
+  "精灵":   {"name": "精灵",   "desc": "敏捷优雅，擅长魔法但体质较弱",       "hp_mod": -10,"atk_mod": 0,  "def_mod": -2, "spd_mod": 4,  "mp_mod": 15},
+  "矮人":   {"name": "矮人",   "desc": "坚韧顽强，防御力出众",               "hp_mod": 15, "atk_mod": 2,  "def_mod": 3,  "spd_mod": -2, "mp_mod": -5},
+  "半兽人": {"name": "半兽人", "desc": "蛮力惊人，攻击力极强但魔力低下",     "hp_mod": 10, "atk_mod": 5,  "def_mod": 1,  "spd_mod": -1, "mp_mod": -15},
+  "魔裔":   {"name": "魔裔",   "desc": "天生魔力充沛，但物理防御较弱",       "hp_mod": -5, "atk_mod": -2, "def_mod": -3, "spd_mod": 2,  "mp_mod": 25}
+}

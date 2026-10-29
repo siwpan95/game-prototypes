@@ -1,0 +1,98 @@
+{
+  "战士": {
+    "name": "战士",
+    "emoji": "🗡",
+    "color": "#e74c3c",
+    "base_hp": 120,
+    "base_atk": 15,
+    "base_def": 12,
+    "base_spd": 8,
+    "initial_skills": [
+      "斩击"
+    ]
+  },
+  "法师": {
+    "name": "法师",
+    "emoji": "🔮",
+    "color": "#9b59b6",
+    "base_hp": 70,
+    "base_atk": 25,
+    "base_def": 5,
+    "base_spd": 10,
+    "initial_skills": [
+      "火球"
+    ]
+  },
+  "游侠": {
+    "name": "游侠",
+    "emoji": "🏹",
+    "color": "#2ecc71",
+    "base_hp": 85,
+    "base_atk": 18,
+    "base_def": 7,
+    "base_spd": 16,
+    "initial_skills": [
+      "连射"
+    ]
+  },
+  "牧师": {
+    "name": "牧师",
+    "emoji": "✝",
+    "color": "#f39c12",
+    "base_hp": 90,
+    "base_atk": 10,
+    "base_def": 10,
+    "base_spd": 9,
+    "initial_skills": [
+      "治愈"
+    ]
+  },
+  "刺客": {
+    "name": "刺客",
+    "emoji": "🗡",
+    "color": "#8e44ad",
+    "base_hp": 75,
+    "base_atk": 22,
+    "base_def": 4,
+    "base_spd": 18,
+    "initial_skills": [
+      "暗杀"
+    ]
+  },
+  "术士": {
+    "name": "术士",
+    "emoji": "👿",
+    "color": "#e67e22",
+    "base_hp": 65,
+    "base_atk": 28,
+    "base_def": 3,
+    "base_spd": 11,
+    "initial_skills": [
+      "暗影弹"
+    ]
+  },
+  "圣骑士": {
+    "name": "圣骑士",
+    "emoji": "🛡",
+    "color": "#3498db",
+    "base_hp": 130,
+    "base_atk": 12,
+    "base_def": 15,
+    "base_spd": 6,
+    "initial_skills": [
+      "圣光斩"
+    ]
+  },
+  "德鲁伊": {
+    "name": "德鲁伊",
+    "emoji": "🌿",
+    "color": "#27ae60",
+    "base_hp": 95,
+    "base_atk": 14,
+    "base_def": 8,
+    "base_spd": 12,
+    "initial_skills": [
+      "自然之触"
+    ]
+  }
+}

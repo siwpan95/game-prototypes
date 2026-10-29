@@ -1,0 +1,15 @@
+{
+  "木剑":       {"name": "木剑",       "slot": "weapon",    "hp_bonus": 0,  "atk_bonus": 3,  "def_bonus": 0,  "spd_bonus": 0},
+  "铁剑":       {"name": "铁剑",       "slot": "weapon",    "hp_bonus": 0,  "atk_bonus": 8,  "def_bonus": 0,  "spd_bonus": 0},
+  "钢剑":       {"name": "钢剑",       "slot": "weapon",    "hp_bonus": 0,  "atk_bonus": 15, "def_bonus": 0,  "spd_bonus": 0},
+  "秘银剑":     {"name": "秘银剑",     "slot": "weapon",    "hp_bonus": 0,  "atk_bonus": 25, "def_bonus": 0,  "spd_bonus": 0},
+  "魔杖":       {"name": "魔杖",       "slot": "weapon",    "hp_bonus": 0,  "atk_bonus": 12, "def_bonus": 0,  "spd_bonus": 0},
+  "贤者之杖":   {"name": "贤者之杖",   "slot": "weapon",    "hp_bonus": 0,  "atk_bonus": 22, "def_bonus": 0,  "spd_bonus": 0},
+  "皮甲":       {"name": "皮甲",       "slot": "armor",     "hp_bonus": 15, "atk_bonus": 0,  "def_bonus": 3,  "spd_bonus": 0},
+  "锁子甲":     {"name": "锁子甲",     "slot": "armor",     "hp_bonus": 30, "atk_bonus": 0,  "def_bonus": 7,  "spd_bonus": 0},
+  "板甲":       {"name": "板甲",       "slot": "armor",     "hp_bonus": 50, "atk_bonus": 0,  "def_bonus": 12, "spd_bonus": 0},
+  "龙鳞甲":     {"name": "龙鳞甲",     "slot": "armor",     "hp_bonus": 80, "atk_bonus": 0,  "def_bonus": 18, "spd_bonus": 0},
+  "护符":       {"name": "护符",       "slot": "accessory", "hp_bonus": 10, "atk_bonus": 0,  "def_bonus": 0,  "spd_bonus": 2},
+  "疾风戒指":   {"name": "疾风戒指",   "slot": "accessory", "hp_bonus": 0,  "atk_bonus": 0,  "def_bonus": 0,  "spd_bonus": 6},
+  "力量腰带":   {"name": "力量腰带",   "slot": "accessory", "hp_bonus": 20, "atk_bonus": 5,  "def_bonus": 0,  "spd_bonus": 0}
+}

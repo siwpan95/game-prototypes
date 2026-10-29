@@ -1,0 +1,48 @@
+{
+  "落石陷阱": {
+    "name": "落石陷阱",
+    "desc": "前方传来岩石松动的声响……一块巨石从头顶砸下！",
+    "event_type": "trap",
+    "choices": [
+      {"text": "冲过去",   "effect_type": "damage", "effect_value": 20, "success_chance": 0.4},
+      {"text": "小心绕开", "effect_type": "damage", "effect_value": 5,  "success_chance": 0.8}
+    ]
+  },
+  "宝箱": {
+    "name": "宝箱",
+    "desc": "角落里躺着一个积满灰尘的宝箱，上面刻着奇怪的符文。",
+    "event_type": "treasure",
+    "choices": [
+      {"text": "打开宝箱", "effect_type": "gold",   "effect_value": 50, "success_chance": 0.7},
+      {"text": "无视它",   "effect_type": "none",   "effect_value": 0,  "success_chance": 1.0}
+    ]
+  },
+  "受伤的旅人": {
+    "name": "受伤的旅人",
+    "desc": "一位浑身是伤的冒险者靠在墙边，用微弱的声音向你求助。",
+    "event_type": "npc",
+    "choices": [
+      {"text": "用治疗药水救助", "effect_type": "item_reward", "cost_item": "治疗药水", "effect_value": 0, "success_chance": 1.0},
+      {"text": "给予金币帮助",   "effect_type": "gold_cost",   "effect_value": 30,"success_chance": 1.0},
+      {"text": "直接离开",       "effect_type": "none",        "effect_value": 0, "success_chance": 1.0}
+    ]
+  },
+  "古老神龛": {
+    "name": "古老神龛",
+    "desc": "一面布满苔藓的石壁上嵌着一座古老的神龛，散发着微弱的光芒。",
+    "event_type": "rest",
+    "choices": [
+      {"text": "虔诚祈祷", "effect_type": "full_heal", "effect_value": 0, "success_chance": 0.6},
+      {"text": "匆匆路过", "effect_type": "none",      "effect_value": 0, "success_chance": 1.0}
+    ]
+  },
+  "魔法符文": {
+    "name": "魔法符文",
+    "desc": "地面上刻着一圈发光的魔法符文，空气中弥漫着奥术能量。",
+    "event_type": "riddle",
+    "choices": [
+      {"text": "触碰符文",    "effect_type": "random_buff", "effect_value": 0, "success_chance": 0.5},
+      {"text": "避开符文区域","effect_type": "none",        "effect_value": 0, "success_chance": 1.0}
+    ]
+  }
+}

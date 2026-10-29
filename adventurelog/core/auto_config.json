@@ -1,0 +1,271 @@
+{
+  "pipeline": [
+    "SM_Recruit",
+    "SM_Shop",
+    "SM_Warehouse",
+    "SM_Explore",
+    "SM_Rest"
+  ],
+  "global": {
+    "party_size": 3,
+    "auto_buy_budget_pct": 0.6,
+    "rest_threshold_hp_pct": 0.3,
+    "max_dungeon_retries": 3,
+    "loop_delay_ms": 2000,
+    "inventory_cap": 20
+  },
+  "state_machines": {
+    "SM_Recruit": {
+      "initial": "idle",
+      "pipeline_index": 0,
+      "description": "自动招募冒险者",
+      "states": {
+        "idle": {
+          "content": "准备前往酒馆招募冒险者……",
+          "on_enter": "检查队伍人数",
+          "on_exit": "出发前往酒馆",
+          "transitions": { "start": "checking_slots" }
+        },
+        "checking_slots": {
+          "content": "检查队伍空位：等待招募",
+          "on_enter": "计算需要招募的人数",
+          "on_exit": "开始招募流程",
+          "transitions": {
+            "slots_available": "recruiting",
+            "slots_full": "finished"
+          }
+        },
+        "recruiting": {
+          "content": "正在酒馆招募冒险者……",
+          "on_enter": "随机选择职业和种族",
+          "on_exit": "完成一轮招募",
+          "transitions": {
+            "recruit_done": "checking_slots",
+            "recruit_skip": "finished"
+          }
+        },
+        "finished": {
+          "content": "招募阶段完成！",
+          "on_enter": "输出队伍信息",
+          "transitions": {}
+        }
+      }
+    },
+
+    "SM_Shop": {
+      "initial": "idle",
+      "pipeline_index": 1,
+      "description": "自动购物与装备",
+      "states": {
+        "idle": {
+          "content": "准备前往商店采购装备……",
+          "on_enter": "评估队伍装备需求",
+          "on_exit": "前往商店",
+          "transitions": { "start": "checking_market" }
+        },
+        "checking_market": {
+          "content": "查看市场行情，刷新物价……",
+          "on_enter": "刷新市场波动系数",
+          "on_exit": "确认购买预算",
+          "transitions": {
+            "market_ok": "buying_gear",
+            "market_too_expensive": "finished"
+          }
+        },
+        "buying_gear": {
+          "content": "正在选购武器装备……",
+          "on_enter": "遍历商品列表匹配需求",
+          "on_exit": "完成本轮采购",
+          "transitions": { "gear_done": "buying_consumables" }
+        },
+        "buying_consumables": {
+          "content": "补充消耗品：药水、卷轴……",
+          "on_enter": "检查库存缺口",
+          "on_exit": "消耗品采购完毕",
+          "transitions": { "consumables_done": "finished" }
+        },
+        "finished": {
+          "content": "购物阶段完成！",
+          "on_enter": "输出装备摘要",
+          "transitions": {}
+        }
+      }
+    },
+
+    "SM_Warehouse": {
+      "initial": "idle",
+      "pipeline_index": 2,
+      "description": "自动整理仓库与装备",
+      "states": {
+        "idle": {
+          "content": "准备整理仓库，优化装备配置……",
+          "on_enter": "统计背包物品",
+          "on_exit": "打开仓库",
+          "transitions": { "start": "checking_inventory" }
+        },
+        "checking_inventory": {
+          "content": "盘点背包中的装备与消耗品……",
+          "on_enter": "列出所有物品，检查是否超过上限",
+          "on_exit": "对比队伍需求",
+          "transitions": {
+            "inventory_full": "selling_all",
+            "has_items": "auto_equipping",
+            "empty": "finished"
+          }
+        },
+        "auto_equipping": {
+          "content": "自动为队伍装备最优物品……",
+          "on_enter": "逐角色逐槽位装备",
+          "on_exit": "装备配置完成",
+          "transitions": {
+            "equip_done": "selling_junk",
+            "equip_fail": "finished"
+          }
+        },
+        "selling_junk": {
+          "content": "出售无用装备，回收金币……",
+          "on_enter": "标记劣质装备出售",
+          "on_exit": "出售完成",
+          "transitions": {
+            "sell_done": "finished",
+            "junk_done": "finished"
+          }
+        },
+        "selling_all": {
+          "content": "背包已满！全量清仓出售中……",
+          "on_enter": "背包达到上限，全部卖出",
+          "on_exit": "清仓完毕",
+          "transitions": {
+            "all_sold": "finished"
+          }
+        },
+        "finished": {
+          "content": "仓库整理完毕！装备已优化。",
+          "on_enter": "输出整理报告",
+          "transitions": {}
+        }
+      }
+    },
+
+    "SM_Explore": {
+      "initial": "idle",
+      "pipeline_index": 3,
+      "description": "自动探索地下城（含战斗）",
+      "states": {
+        "idle": {
+          "content": "准备出发探索地下城……",
+          "on_enter": "检查可用地下城",
+          "on_exit": "选择目标地下城",
+          "transitions": { "start": "selecting_dungeon" }
+        },
+        "selecting_dungeon": {
+          "content": "自动选择合适的地下城……",
+          "on_enter": "评估难度匹配",
+          "on_exit": "确定目标地下城",
+          "transitions": {
+            "dungeon_selected": "entering",
+            "no_dungeon": "finished"
+          }
+        },
+        "entering": {
+          "content": "踏入地下城，开始逐层推进……",
+          "on_enter": "设置探索状态",
+          "on_exit": "进入楼层",
+          "transitions": { "entered": "on_floor" }
+        },
+        "on_floor": {
+          "content": "探索楼层，遭遇敌人或事件……",
+          "on_enter": "触发随机事件",
+          "on_exit": "离开当前楼层",
+          "transitions": {
+            "floor_event": "handling_event",
+            "floor_battle": "fighting",
+            "floor_complete": "floor_decision"
+          }
+        },
+        "handling_event": {
+          "content": "触发探索事件，自动决策中……",
+          "on_enter": "处理随机事件",
+          "on_exit": "事件处理完毕",
+          "transitions": { "event_done": "floor_decision" }
+        },
+        "fighting": {
+          "content": "⚔ 自动战斗中……",
+          "on_enter": "按 SPD 排序，双方交替行动",
+          "on_exit": "战斗结束",
+          "transitions": {
+            "victory": "looting",
+            "defeat": "retreating"
+          }
+        },
+        "looting": {
+          "content": "打扫战场，收集战利品……",
+          "on_enter": "掉落判定",
+          "on_exit": "战利品分配完毕",
+          "transitions": { "loot_done": "floor_decision" }
+        },
+        "retreating": {
+          "content": "战斗失败，撤退回城……",
+          "on_enter": "强制中断探索",
+          "on_exit": "撤退完成",
+          "transitions": { "retreat_done": "finished" }
+        },
+        "floor_decision": {
+          "content": "楼层间决策：继续深入？",
+          "on_enter": "评估队伍状态",
+          "on_exit": "做出决策",
+          "transitions": {
+            "continue": "on_floor",
+            "retreat": "finished",
+            "rest": "camping"
+          }
+        },
+        "camping": {
+          "content": "扎营休整，恢复体力……",
+          "on_enter": "执行扎营恢复",
+          "on_exit": "休整完毕",
+          "transitions": { "camp_done": "floor_decision" }
+        },
+        "finished": {
+          "content": "探索阶段结束。",
+          "on_enter": "退出地下城",
+          "transitions": {}
+        }
+      }
+    },
+
+    "SM_Rest": {
+      "initial": "idle",
+      "pipeline_index": 4,
+      "description": "自动休整恢复",
+      "states": {
+        "idle": {
+          "content": "评估队伍状态，需要休整吗？",
+          "on_enter": "检查 HP/MP/死亡状态",
+          "on_exit": "确定休整需求",
+          "transitions": { "start": "checking_health" }
+        },
+        "checking_health": {
+          "content": "分析伤员情况……",
+          "on_enter": "检查各角色 HP 百分比",
+          "on_exit": "确定休整策略",
+          "transitions": {
+            "need_rest": "resting",
+            "healthy": "finished"
+          }
+        },
+        "resting": {
+          "content": "在旅店休息，全员恢复中……",
+          "on_enter": "支付费用，全恢复+复活",
+          "on_exit": "休息完毕",
+          "transitions": { "rest_done": "finished" }
+        },
+        "finished": {
+          "content": "休整阶段完成！队伍精力充沛！",
+          "on_enter": "输出恢复报告",
+          "transitions": {}
+        }
+      }
+    }
+  }
+}

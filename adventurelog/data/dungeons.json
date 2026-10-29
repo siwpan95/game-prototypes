@@ -1,0 +1,9 @@
+[
+  {"name": "新手森林",     "floors": 5,  "monster_names": ["史莱姆", "哥布林"],                          "boss_name": "哥布林",    "difficulty": 1,  "gold_mult": 1.0, "exp_mult": 1.0},
+  {"name": "暗影洞窟",     "floors": 6,  "monster_names": ["哥布林", "骷髅兵", "暗影法师"],             "boss_name": "暗影法师",  "difficulty": 2,  "gold_mult": 1.0, "exp_mult": 1.0},
+  {"name": "古老遗迹",     "floors": 7,  "monster_names": ["骷髅兵", "石像鬼", "暗影法师"],             "boss_name": "石像鬼",    "difficulty": 3,  "gold_mult": 1.0, "exp_mult": 1.0},
+  {"name": "食人魔巢穴",   "floors": 8,  "monster_names": ["石像鬼", "食人魔", "骷髅兵"],               "boss_name": "食人魔",    "difficulty": 5,  "gold_mult": 1.0, "exp_mult": 1.0},
+  {"name": "吸血鬼城堡",   "floors": 8,  "monster_names": ["吸血鬼", "暗影法师", "骷髅兵"],             "boss_name": "吸血鬼",    "difficulty": 6,  "gold_mult": 1.0, "exp_mult": 1.0},
+  {"name": "龙之峡谷",     "floors": 10, "monster_names": ["恶龙幼崽", "食人魔", "吸血鬼"],             "boss_name": "恶龙幼崽",  "difficulty": 8,  "gold_mult": 1.0, "exp_mult": 1.0},
+  {"name": "魔王城",       "floors": 10, "monster_names": ["暗黑骑士", "吸血鬼", "恶龙幼崽"],           "boss_name": "魔王",      "difficulty": 10, "gold_mult": 1.0, "exp_mult": 1.0}
+]

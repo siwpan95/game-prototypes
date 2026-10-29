@@ -1,0 +1,9 @@
+{
+  "治疗药水":   {"name": "治疗药水",   "desc": "恢复50点HP",         "item_type": "heal",       "effect_value": 50,  "price": 25,  "emoji": "🧪"},
+  "强效治疗药水":{"name": "强效治疗药水","desc": "恢复150点HP",       "item_type": "heal",       "effect_value": 150, "price": 60,  "emoji": "🧪"},
+  "魔力药水":   {"name": "魔力药水",   "desc": "恢复40点MP",         "item_type": "mp_restore", "effect_value": 40,  "price": 30,  "emoji": "💧"},
+  "强效魔力药水":{"name": "强效魔力药水","desc": "恢复100点MP",      "item_type": "mp_restore", "effect_value": 100, "price": 70,  "emoji": "💧"},
+  "解毒剂":     {"name": "解毒剂",     "desc": "解除中毒状态",       "item_type": "cleanse",    "effect_value": 0,   "price": 20,  "emoji": "🧴"},
+  "力量药剂":   {"name": "力量药剂",   "desc": "下次战斗ATK+30%",    "item_type": "buff",       "effect_value": 30,  "price": 40,  "emoji": "💪"},
+  "复活卷轴":   {"name": "复活卷轴",   "desc": "复活一名阵亡的队友", "item_type": "revive",     "effect_value": 0,   "price": 200, "emoji": "📜"}
+}

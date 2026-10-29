@@ -1,0 +1,12 @@
+{
+  "史莱姆":   {"name": "史莱姆",   "hp": 30,  "atk": 5,  "def_": 2,  "spd": 4,  "gold": 10,  "exp": 20,  "emoji": "🟢", "color": "#44ff44", "skills": []},
+  "哥布林":   {"name": "哥布林",   "hp": 60,  "atk": 12, "def_": 5,  "spd": 7,  "gold": 25,  "exp": 40,  "emoji": "👺", "color": "#66cc66", "skills": ["斩击"]},
+  "骷髅兵":   {"name": "骷髅兵",   "hp": 90,  "atk": 18, "def_": 10, "spd": 6,  "gold": 40,  "exp": 60,  "emoji": "💀", "color": "#cccccc", "skills": ["斩击"]},
+  "暗影法师": {"name": "暗影法师", "hp": 70,  "atk": 25, "def_": 4,  "spd": 10, "gold": 50, "exp": 75,  "emoji": "🧙", "color": "#9944cc", "skills": ["火球", "治愈"]},
+  "石像鬼":   {"name": "石像鬼",   "hp": 130, "atk": 22, "def_": 18, "spd": 8,  "gold": 60, "exp": 90,  "emoji": "🗿", "color": "#888888", "skills": ["铁壁"]},
+  "食人魔":   {"name": "食人魔",   "hp": 200, "atk": 35, "def_": 15, "spd": 5,  "gold": 90, "exp": 130, "emoji": "👹", "color": "#cc6644", "skills": ["旋风斩"]},
+  "吸血鬼":   {"name": "吸血鬼",   "hp": 150, "atk": 30, "def_": 12, "spd": 14, "gold": 110, "exp": 160, "emoji": "🧛", "color": "#cc3344", "skills": ["治愈", "暗杀"]},
+  "恶龙幼崽": {"name": "恶龙幼崽", "hp": 300, "atk": 45, "def_": 22, "spd": 12, "gold": 200, "exp": 250, "emoji": "🐉", "color": "#ff6622", "skills": ["火球", "暴风雪"]},
+  "暗黑骑士": {"name": "暗黑骑士", "hp": 250, "atk": 40, "def_": 28, "spd": 11, "gold": 180, "exp": 220, "emoji": "⚔",  "color": "#334455", "skills": ["斩击", "铁壁", "战吼"]},
+  "魔王":     {"name": "魔王",     "hp": 500, "atk": 60, "def_": 30, "spd": 15, "gold": 500, "exp": 500, "emoji": "👑", "color": "#ff0000", "skills": ["火球", "暴风雪", "战吼", "治愈"]}
+}

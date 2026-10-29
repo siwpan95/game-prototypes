@@ -1,0 +1,12 @@
+{
+  "斩击":   {"name": "斩击",   "desc": "强力斩击敌人",           "skill_type": "attack", "power": 1.8, "mp_cost": 5,  "cooldown": 2, "job_limit": ["战士"], "level_req": 1},
+  "旋风斩": {"name": "旋风斩", "desc": "旋风攻击全体敌人",       "skill_type": "attack", "power": 1.3, "mp_cost": 8,  "cooldown": 3, "job_limit": ["战士"], "level_req": 5},
+  "火球":   {"name": "火球",   "desc": "发射火球攻击",           "skill_type": "attack", "power": 2.2, "mp_cost": 10, "cooldown": 2, "job_limit": ["法师","术士"], "level_req": 3, "stat_req": {"mp": 30}},
+  "暴风雪": {"name": "暴风雪", "desc": "冰冻攻击全体敌人",       "skill_type": "attack", "power": 1.5, "mp_cost": 15, "cooldown": 4, "job_limit": ["法师","术士"], "level_req": 8, "stat_req": {"mp": 50}},
+  "连射":   {"name": "连射",   "desc": "快速三连射击",           "skill_type": "attack", "power": 1.6, "mp_cost": 6,  "cooldown": 2, "job_limit": ["游侠"], "level_req": 2},
+  "暗杀":   {"name": "暗杀",   "desc": "致命一击",               "skill_type": "attack", "power": 3.0, "mp_cost": 12, "cooldown": 5, "job_limit": ["刺客"], "level_req": 6, "stat_req": {"atk": 25}},
+  "治愈":   {"name": "治愈",   "desc": "回复一名队友HP",         "skill_type": "heal",   "power": 1.0, "mp_cost": 8,  "cooldown": 3, "job_limit": ["牧师","法师"], "level_req": 2, "stat_req": {"mp": 25}},
+  "群体治愈":{"name": "群体治愈","desc":"回复全体队友HP",        "skill_type": "heal",   "power": 0.6, "mp_cost": 15, "cooldown": 5, "job_limit": ["牧师"], "level_req": 6, "stat_req": {"mp": 40}},
+  "铁壁":   {"name": "铁壁",   "desc": "提升自身防御力",         "skill_type": "buff",   "power": 0.5, "mp_cost": 10, "cooldown": 4, "job_limit": ["战士","牧师"], "level_req": 4},
+  "战吼":   {"name": "战吼",   "desc": "提升全体队友攻击力",     "skill_type": "buff",   "power": 0.3, "mp_cost": 12, "cooldown": 5, "job_limit": ["战士"], "level_req": 7, "stat_req": {"atk": 20}}
+}
