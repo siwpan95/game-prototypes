@@ -1,0 +1,212 @@
+[
+  {
+    "id": "slime",
+    "name": "Slime",
+    "hp": 12,
+    "attack": 4,
+    "is_boss": false,
+    "wave_min": 1,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": []
+  },
+  {
+    "id": "goblin_scout",
+    "name": "Goblin Scout",
+    "hp": 10,
+    "attack": 6,
+    "is_boss": false,
+    "wave_min": 1,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": ["Poisonous"]
+  },
+  {
+    "id": "zombie",
+    "name": "Zombie",
+    "hp": 15,
+    "attack": 3,
+    "is_boss": false,
+    "wave_min": 1,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": []
+  },
+  {
+    "id": "skeleton_shield",
+    "name": "Skeleton Shield",
+    "hp": 20,
+    "attack": 2,
+    "is_boss": false,
+    "wave_min": 2,
+    "intent": "defend",
+    "intent_pattern": "alternate",
+    "keywords": ["Taunt"]
+  },
+  {
+    "id": "orc_grunt",
+    "name": "Orc Grunt",
+    "hp": 18,
+    "attack": 5,
+    "is_boss": false,
+    "wave_min": 2,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": []
+  },
+  {
+    "id": "wraith",
+    "name": "Wraith",
+    "hp": 14,
+    "attack": 4,
+    "is_boss": false,
+    "wave_min": 3,
+    "intent": "attack",
+    "intent_pattern": "buff_then_attack",
+    "keywords": ["Lifesteal"]
+  },
+  {
+    "id": "stone_golem",
+    "name": "Stone Golem",
+    "hp": 30,
+    "attack": 3,
+    "is_boss": false,
+    "wave_min": 3,
+    "intent": "defend",
+    "intent_pattern": "alternate",
+    "keywords": ["Taunt", "Divine Shield"]
+  },
+  {
+    "id": "harpy",
+    "name": "Harpy",
+    "hp": 12,
+    "attack": 5,
+    "is_boss": false,
+    "wave_min": 4,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": ["Windfury"]
+  },
+  {
+    "id": "cultist",
+    "name": "Cultist",
+    "hp": 15,
+    "attack": 3,
+    "is_boss": false,
+    "wave_min": 4,
+    "intent": "buff",
+    "intent_pattern": "buff_then_attack",
+    "keywords": []
+  },
+  {
+    "id": "dragon_whelp",
+    "name": "Dragon Whelp",
+    "hp": 25,
+    "attack": 6,
+    "is_boss": false,
+    "wave_min": 5,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": ["Taunt"]
+  },
+  {
+    "id": "necromancer",
+    "name": "Necromancer",
+    "hp": 20,
+    "attack": 4,
+    "is_boss": false,
+    "wave_min": 6,
+    "intent": "buff",
+    "intent_pattern": "buff_then_attack",
+    "keywords": ["Lifesteal"]
+  },
+  {
+    "id": "frost_giant",
+    "name": "Frost Giant",
+    "hp": 35,
+    "attack": 5,
+    "is_boss": false,
+    "wave_min": 7,
+    "intent": "defend",
+    "intent_pattern": "buff_then_attack",
+    "keywords": ["Divine Shield"]
+  },
+  {
+    "id": "hellhound",
+    "name": "Hellhound",
+    "hp": 18,
+    "attack": 8,
+    "is_boss": false,
+    "wave_min": 8,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": ["Poisonous", "Rush"]
+  },
+  {
+    "id": "archmage",
+    "name": "Archmage",
+    "hp": 22,
+    "attack": 7,
+    "is_boss": false,
+    "wave_min": 9,
+    "intent": "buff",
+    "intent_pattern": "buff_then_attack",
+    "keywords": []
+  },
+  {
+    "id": "lich",
+    "name": "Lich",
+    "hp": 40,
+    "attack": 6,
+    "is_boss": false,
+    "wave_min": 10,
+    "intent": "attack",
+    "intent_pattern": "buff_then_attack",
+    "keywords": ["Lifesteal", "Divine Shield"]
+  },
+
+  {
+    "id": "orc_warlord",
+    "name": "Orc Warlord",
+    "hp": 50,
+    "attack": 8,
+    "is_boss": true,
+    "wave_min": 5,
+    "intent": "attack",
+    "intent_pattern": "buff_then_attack",
+    "keywords": ["Taunt"]
+  },
+  {
+    "id": "dragon_king",
+    "name": "Dragon King",
+    "hp": 60,
+    "attack": 10,
+    "is_boss": true,
+    "wave_min": 10,
+    "intent": "attack",
+    "intent_pattern": "buff_then_attack",
+    "keywords": ["Taunt", "Divine Shield"]
+  },
+  {
+    "id": "void_lord",
+    "name": "Void Lord",
+    "hp": 70,
+    "attack": 7,
+    "is_boss": true,
+    "wave_min": 15,
+    "intent": "defend",
+    "intent_pattern": "buff_then_attack",
+    "keywords": ["Taunt", "Lifesteal", "Divine Shield"]
+  },
+  {
+    "id": "demon_prince",
+    "name": "Demon Prince",
+    "hp": 55,
+    "attack": 12,
+    "is_boss": true,
+    "wave_min": 20,
+    "intent": "attack",
+    "intent_pattern": "always_attack",
+    "keywords": ["Poisonous", "Windfury"]
+  }
+]
