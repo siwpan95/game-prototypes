@@ -1,0 +1,101 @@
+{
+    "window": {
+        "title": "Endless Highway 3D",
+        "width": 1280,
+        "height": 720
+    },
+    "game": {
+        "fps": 60
+    },
+    "road": {
+        "width": 400,
+        "surface_color": [30, 30, 30],
+        "edge_line_width": 5,
+        "edge_line_color": [255, 255, 0],
+        "center_dash_length": 50,
+        "center_gap_length": 30,
+        "center_line_width": 10,
+        "center_line_color": [255, 255, 255],
+        "scroll_speed": 5,
+        "distance_factor": 0.01
+    },
+    "player": {
+        "width": 50,
+        "height": 80,
+        "y_screen_offset": 100,
+        "color": [0, 255, 0],
+        "windshield_color": [100, 200, 255],
+        "wheel_size": 8,
+        "wheel_color": [0, 0, 0],
+        "speed": 5
+    },
+    "drift": {
+        "chance": 0.012,
+        "min_push": 0.5,
+        "max_push": 0.6,
+        "scale_per_km": 0.012
+    },
+    "decorations": {
+        "spawn_interval": 40,
+        "scroll_speed": 5,
+        "types": {
+            "cactus": {
+                "color": [50, 120, 50],
+                "min_size": 20,
+                "max_size": 40,
+                "spawn_weight": 40
+            },
+            "rock": {
+                "color": [160, 120, 70],
+                "min_size": 15,
+                "max_size": 35,
+                "spawn_weight": 30
+            },
+            "dead_bush": {
+                "color": [180, 160, 90],
+                "min_size": 10,
+                "max_size": 22,
+                "spawn_weight": 20
+            },
+            "guardrail": {
+                "color": [120, 70, 30],
+                "spawn_weight": 10
+            }
+        }
+    },
+    "fonts": {
+        "large": "Arial",
+        "normal": "Arial",
+        "small": "Arial",
+        "large_size": 48,
+        "normal_size": 36,
+        "small_size": 24
+    },
+
+    "threed": {
+        "road_half_width": 6.0,
+        "road_length": 400.0,
+        "road_far_z": -390.0,
+        "road_near_z": 14.0,
+        "road_y": 0.0,
+        "road_color": [0.13, 0.13, 0.16],
+        "edge_color": [1.0, 0.85, 0.12],
+        "center_dash_color": [0.95, 0.95, 0.95],
+        "ground_color": [0.86, 0.78, 0.55],
+        "sky_color": [0.72, 0.82, 0.92],
+        "camera_height": 4.5,
+        "camera_back": 11.0,
+        "camera_look_ahead": 30.0,
+        "car_half_width": 1.1,
+        "world_scroll": 80.0,
+        "dash_count": 56,
+        "dash_length": 3.0,
+        "dash_gap": 4.0,
+        "deco_spawn_z": -150.0,
+        "fog_near": 70.0,
+        "fog_far": 330.0,
+        "steer_accel": 22.0,
+        "lateral_drag": 3.2,
+        "drift_world_scale": 3.0
+    }
+}

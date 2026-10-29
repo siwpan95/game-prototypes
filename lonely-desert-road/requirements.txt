@@ -1,0 +1,9 @@
+# Endless Highway 3D —— 基于 3dworld 引擎重构后的运行依赖
+#
+# 引擎本体（PyPI 发行名 3dworld / 导入名 world3d）：提供 DemoApp 窗口框架、
+# core.geometry 程序化几何、engine.mathkit 相机与矩阵等 3D 能力。
+3dworld
+# 音频合成（faatt 引擎）与播放后端（sounddevice）所需的数值/音频栈
+numpy
+scipy
+sounddevice
