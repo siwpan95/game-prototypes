@@ -1,0 +1,2475 @@
+{
+  "talents": [
+    {
+      "id": "tal_tianlongren",
+      "name": "天龙人",
+      "rarity": "legendary",
+      "category": "出身",
+      "description": "祖上三代都坐在饭局的主桌。你满月那天收的红包总额超过普通人三年工资，而家里人管这叫\"随个份子\"。",
+      "mutex_group": "birth_class",
+      "weight": 0.8,
+      "effects": {
+        "init": {
+          "wealth": 8,
+          "charisma": 4,
+          "intelligence": 2,
+          "happiness": 3
+        },
+        "init_traits": [
+          "含着金汤匙",
+          "何不食肉糜"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "人脉",
+              "mult": 2.5
+            },
+            {
+              "tag": "投资",
+              "mult": 2.0
+            },
+            {
+              "tag": "打工",
+              "mult": 0.2
+            }
+          ],
+          "career_bonus": {
+            "金融投资": 1.6,
+            "企业管理": 1.5
+          },
+          "stat_gain": 1.2,
+          "relationship_decay": 1.3
+        }
+      },
+      "unlocks": [
+        "pool_elite_circle"
+      ],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_meiji_huaren",
+      "name": "美籍华人",
+      "rarity": "legendary",
+      "category": "出身",
+      "description": "你妈挺着肚子飞了十三个小时，落地第四天你就有了一张纸。这张纸让你此后每次填表都比别人多一个选项，也让你每次过年回老家都要解释一遍自己不是外国人。",
+      "mutex_group": "birth_class",
+      "weight": 0.7,
+      "effects": {
+        "init": {
+          "wealth": 6,
+          "intelligence": 3,
+          "charisma": 3,
+          "happiness": 4
+        },
+        "init_traits": [
+          "身份优势",
+          "文化夹缝"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "留学",
+              "mult": 3.0
+            },
+            {
+              "tag": "移民",
+              "mult": 3.0
+            },
+            {
+              "tag": "高考",
+              "mult": 0.1
+            }
+          ],
+          "career_bonus": {
+            "外企高管": 1.5,
+            "学术科研": 1.3
+          },
+          "stat_gain": 1.15
+        }
+      },
+      "unlocks": [
+        "pool_overseas"
+      ],
+      "unlock_condition": "tal_meiji_huaren",
+      "inheritable": false
+    },
+    {
+      "id": "tal_zhenlong_zhixue",
+      "name": "真龙之血",
+      "rarity": "legendary",
+      "category": "出身",
+      "description": "母亲怀你时梦见赤龙入怀，接生婆当场跪下磕了三个头。这事不能外传——上一个说自己梦见龙的人，全族的名字都写进了史书的同一行。",
+      "mutex_group": "dynasty_birth",
+      "weight": 0.6,
+      "effects": {
+        "init_dimensions": {
+          "NOBLES": 25,
+          "CHURCH": 15,
+          "STABILITY": 10,
+          "CHARISMA": 20,
+          "COMMONERS": -10
+        },
+        "init_traits": [
+          "天命所归"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "夺嫡",
+              "mult": 3.0
+            },
+            {
+              "tag": "谶纬",
+              "mult": 2.5
+            }
+          ],
+          "stat_gain": 1.25,
+          "stat_loss": 0.85
+        }
+      },
+      "unlocks": [
+        "mode_cultivation",
+        "pool_dynasty_hidden"
+      ],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_linggen_juexing",
+      "name": "灵根觉醒",
+      "rarity": "legendary",
+      "category": "特殊",
+      "description": "体检时医生盯着你的片子看了很久，最后只说了句\"你这骨头长得不太像人\"，然后把片子撕了。当晚你梦见一座没有名字的山，山上有人背对着你，说等你很久了。",
+      "mutex_group": "",
+      "weight": 0.9,
+      "effects": {
+        "init": {
+          "health": 15,
+          "intelligence": 4,
+          "strength": 3,
+          "luck": 2
+        },
+        "init_traits": [
+          "灵根",
+          "夙慧"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "修行",
+              "mult": 6.0
+            },
+            {
+              "tag": "奇遇",
+              "mult": 2.5
+            },
+            {
+              "tag": "职场",
+              "mult": 0.4
+            }
+          ],
+          "stat_gain": 1.3,
+          "stat_loss": 0.7
+        }
+      },
+      "unlocks": [
+        "mode_cultivation",
+        "pool_cultivation_early"
+      ],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_wenqu_xiafan",
+      "name": "文曲星下凡",
+      "rarity": "legendary",
+      "category": "天资",
+      "description": "别人背书靠抄十遍，你靠瞄一眼。老师第一次把你的卷子拿去教研组传阅时，教导主任的第一反应是查监控。",
+      "mutex_group": "iq_tier",
+      "weight": 1.0,
+      "effects": {
+        "init": {
+          "intelligence": 8,
+          "happiness": -1
+        },
+        "init_traits": [
+          "过目成诵"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "学业",
+              "mult": 3.0
+            },
+            {
+              "tag": "科举",
+              "mult": 3.0
+            }
+          ],
+          "career_bonus": {
+            "学术科研": 1.6,
+            "教育": 1.4,
+            "文官": 1.5
+          },
+          "stat_gain": 1.2
+        }
+      },
+      "unlocks": [
+        "pool_scholar"
+      ],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_lunhui_jiyi",
+      "name": "轮回记忆",
+      "rarity": "legendary",
+      "category": "特殊",
+      "description": "你对某些瞬间有强烈的既视感：那道作文题、领导刁难你的措辞、爱人转身时肩膀的角度。你早就活过一遍了，只是这次你记得。",
+      "mutex_group": "",
+      "weight": 0.5,
+      "effects": {
+        "init": {
+          "intelligence": 5,
+          "luck": 4,
+          "happiness": -3
+        },
+        "init_traits": [
+          "似曾相识",
+          "洞悉命数"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "抉择",
+              "mult": 2.0
+            },
+            {
+              "tag": "危机",
+              "mult": 0.5
+            }
+          ],
+          "stat_loss": 0.6,
+          "relationship_decay": 1.2
+        }
+      },
+      "unlocks": [
+        "pool_meta"
+      ],
+      "unlock_condition": "tal_lunhui_jiyi",
+      "inheritable": true
+    },
+    {
+      "id": "tal_hanmen_guizi",
+      "name": "寒门贵子",
+      "rarity": "epic",
+      "category": "出身",
+      "description": "家里唯一的电器是灯泡，你妈把\"念书是唯一的出路\"这句话说了整整十八年。你信了，而且做到了——代价是你到现在都不会花钱。",
+      "mutex_group": "birth_class",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "wealth": -2,
+          "intelligence": 4,
+          "strength": 2,
+          "happiness": -2
+        },
+        "init_traits": [
+          "能吃苦",
+          "省吃俭用"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "学业",
+              "mult": 1.8
+            },
+            {
+              "tag": "打工",
+              "mult": 1.5
+            }
+          ],
+          "stat_gain": 1.15,
+          "stat_loss": 0.9
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_shizu_menfa",
+      "name": "士族门阀",
+      "rarity": "epic",
+      "category": "出身",
+      "description": "族谱厚得能垫桌脚，祠堂里的牌位比你认识的活人还多。你还没开口，郡守就已经知道该给你留哪个位置。",
+      "mutex_group": "dynasty_birth",
+      "weight": 1.2,
+      "effects": {
+        "init_dimensions": {
+          "NOBLES": 20,
+          "WEALTH": 15,
+          "INTELLIGENCE": 10,
+          "COMMONERS": -8
+        },
+        "init_traits": [
+          "门第森严"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "举荐",
+              "mult": 2.5
+            },
+            {
+              "tag": "联姻",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "文官": 1.5
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_guomu_buwang",
+      "name": "过目不忘",
+      "rarity": "epic",
+      "category": "天资",
+      "description": "看过的东西就像刻在脑子里，包括十年前那个让你尴尬到脚趾抠地的下午。这个天赋从不区分你想不想记住。",
+      "mutex_group": "iq_tier",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "intelligence": 5,
+          "happiness": -2
+        },
+        "init_traits": [
+          "记性太好"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "学业",
+              "mult": 2.0
+            },
+            {
+              "tag": "考试",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "法律": 1.4,
+            "医疗": 1.3,
+            "学术科研": 1.3
+          },
+          "stat_gain": 1.1
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_tiansheng_lizhi",
+      "name": "天生丽质",
+      "rarity": "epic",
+      "category": "天资",
+      "description": "你从小就习惯了陌生人多看你两眼。好处是很多门会自动打开，坏处是你永远不知道对方看重的是你的能力还是你的脸。",
+      "mutex_group": "appearance",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "charisma": 6,
+          "happiness": 2,
+          "intelligence": -1
+        },
+        "init_traits": [
+          "颜值即正义"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "恋爱",
+              "mult": 2.5
+            },
+            {
+              "tag": "社交",
+              "mult": 1.8
+            },
+            {
+              "tag": "桃花劫",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "演艺": 1.7,
+            "销售": 1.4,
+            "后宫": 1.6
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_quanmou_tianshou",
+      "name": "权谋天授",
+      "rarity": "epic",
+      "category": "天资",
+      "description": "别人在饭桌上听菜，你在听座次。你七岁就看懂了两个大人客套背后谁欠谁一个人情，并且默默记了下来。",
+      "mutex_group": "",
+      "weight": 1.0,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "charisma": 3
+        },
+        "init_dimensions": {
+          "MORALITY": -10,
+          "STABILITY": 10
+        },
+        "init_traits": [
+          "深谙人心"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "朝堂",
+              "mult": 2.5
+            },
+            {
+              "tag": "职场",
+              "mult": 2.0
+            },
+            {
+              "tag": "背叛",
+              "mult": 1.5
+            }
+          ],
+          "career_bonus": {
+            "文官": 1.5,
+            "企业管理": 1.4
+          }
+        }
+      },
+      "unlocks": [
+        "pool_court_intrigue"
+      ],
+      "unlock_condition": "tal_quanmou_tianshou",
+      "inheritable": false
+    },
+    {
+      "id": "tal_shejiao_niubi",
+      "name": "社交牛逼症",
+      "rarity": "epic",
+      "category": "性格",
+      "description": "你能在电梯里三十秒内跟陌生人聊成兄弟，也能在全场冷场时若无其事地接一句话。代价是所有人都以为你不需要安慰。",
+      "mutex_group": "social",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "charisma": 5,
+          "happiness": 3,
+          "intelligence": -1
+        },
+        "init_traits": [
+          "自来熟"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "社交",
+              "mult": 2.5
+            },
+            {
+              "tag": "人脉",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "销售": 1.6,
+            "公关": 1.5,
+            "外交": 1.4
+          },
+          "relationship_decay": 0.6
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_fangu_zai",
+      "name": "反骨仔",
+      "rarity": "epic",
+      "category": "性格",
+      "description": "凡是有人拍着你肩膀说\"听我的准没错\"，你的第一反应就是想看看不听会怎么样。你的人生因此错过了很多机会，也躲过了很多坑。",
+      "mutex_group": "obedience",
+      "weight": 1.1,
+      "effects": {
+        "init": {
+          "strength": 3,
+          "charisma": 2,
+          "wealth": -3
+        },
+        "init_dimensions": {
+          "STABILITY": -15,
+          "COMMONERS": 15,
+          "NOBLES": -10
+        },
+        "init_traits": [
+          "桀骜不驯"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "造反",
+              "mult": 3.0
+            },
+            {
+              "tag": "创业",
+              "mult": 2.0
+            },
+            {
+              "tag": "升迁",
+              "mult": 0.5
+            }
+          ],
+          "stat_gain": 1.15,
+          "stat_loss": 1.15
+        }
+      },
+      "unlocks": [
+        "pool_rebellion"
+      ],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_guiren_xiangzhu",
+      "name": "贵人相助",
+      "rarity": "epic",
+      "category": "际遇",
+      "description": "每到最难的关口，总会冒出个人拉你一把——可能是隔壁工位的大姐，也可能是只见过一面的老教授。你至今没搞明白自己凭什么值得。",
+      "mutex_group": "",
+      "weight": 1.1,
+      "effects": {
+        "init": {
+          "luck": 4,
+          "charisma": 2,
+          "wealth": 2
+        },
+        "init_traits": [
+          "命里有人疼"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "机遇",
+              "mult": 2.5
+            },
+            {
+              "tag": "举荐",
+              "mult": 2.5
+            },
+            {
+              "tag": "破产",
+              "mult": 0.4
+            }
+          ],
+          "stat_loss": 0.75
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": "tal_guiren_xiangzhu",
+      "inheritable": true
+    },
+    {
+      "id": "tal_caiyun_hengtong",
+      "name": "财运亨通",
+      "rarity": "epic",
+      "category": "际遇",
+      "description": "你买的基金会涨，你排的队会突然开新窗口，你随手买的彩票中过两次五块钱。钱好像天生喜欢往你口袋里钻，虽然数额都不大。",
+      "mutex_group": "fortune",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "wealth": 6,
+          "luck": 3
+        },
+        "init_dimensions": {
+          "WEALTH": 20
+        },
+        "init_traits": [
+          "财神眷顾"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "投资",
+              "mult": 2.5
+            },
+            {
+              "tag": "破财",
+              "mult": 0.4
+            }
+          ],
+          "career_bonus": {
+            "金融投资": 1.5,
+            "经商": 1.5
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_jinli_futi",
+      "name": "锦鲤附体",
+      "rarity": "epic",
+      "category": "际遇",
+      "description": "抽奖抽到过三次一等奖，公司裁员名单永远差你一个。朋友们转发你的照片许愿，你自己也开始半信半疑。",
+      "mutex_group": "luck",
+      "weight": 1.0,
+      "effects": {
+        "init": {
+          "luck": 6,
+          "happiness": 2
+        },
+        "init_traits": [
+          "欧皇"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "奇遇",
+              "mult": 2.5
+            },
+            {
+              "tag": "意外",
+              "mult": 0.4
+            },
+            {
+              "tag": "灾祸",
+              "mult": 0.3
+            }
+          ],
+          "stat_loss": 0.7
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": "tal_jinli_futi",
+      "inheritable": true
+    },
+    {
+      "id": "tal_tiandu_yingcai",
+      "name": "天妒英才",
+      "rarity": "epic",
+      "category": "诅咒",
+      "description": "你二十岁就写出了别人四十岁才敢想的东西，所有人都说你前途无量。只有你的体检报告知道，这份天赋是预支的。",
+      "mutex_group": "",
+      "weight": 0.9,
+      "effects": {
+        "init": {
+          "intelligence": 6,
+          "charisma": 4,
+          "health": -25,
+          "happiness": -3
+        },
+        "init_traits": [
+          "才华横溢",
+          "药不能停"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "成名",
+              "mult": 2.5
+            },
+            {
+              "tag": "疾病",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "学术科研": 1.6,
+            "文艺创作": 1.6
+          },
+          "stat_gain": 1.3
+        }
+      },
+      "unlocks": [
+        "pool_tragic_genius"
+      ],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_yizhe_renxin",
+      "name": "医者仁心",
+      "rarity": "epic",
+      "category": "特殊",
+      "description": "你从小就是那个会给受伤的麻雀包扎的人。长大后你发现，能救的人比想救的人少得多，但你还是每次都先伸手。",
+      "mutex_group": "",
+      "weight": 1.0,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "charisma": 3,
+          "health": 8,
+          "wealth": -2
+        },
+        "init_dimensions": {
+          "MORALITY": 20,
+          "COMMONERS": 15,
+          "CHURCH": 10
+        },
+        "init_traits": [
+          "悬壶济世"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "疫病",
+              "mult": 3.0
+            },
+            {
+              "tag": "救人",
+              "mult": 2.5
+            }
+          ],
+          "career_bonus": {
+            "医疗": 1.8
+          },
+          "relationship_decay": 0.7
+        }
+      },
+      "unlocks": [
+        "pool_plague"
+      ],
+      "unlock_condition": "tal_yizhe_renxin",
+      "inheritable": true
+    },
+    {
+      "id": "tal_chaiqian_hu",
+      "name": "拆迁户",
+      "rarity": "rare",
+      "category": "出身",
+      "description": "一纸红头文件下来，你家那栋漏雨的自建房变成了三套房加一笔现金。你爸从此再也没提过让你好好读书的事。",
+      "mutex_group": "birth_class",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "wealth": 5,
+          "happiness": 3,
+          "intelligence": -2
+        },
+        "init_traits": [
+          "躺平资本"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "房产",
+              "mult": 2.5
+            },
+            {
+              "tag": "打工",
+              "mult": 0.4
+            }
+          ],
+          "career_bonus": {
+            "包租": 1.8
+          },
+          "stat_gain": 0.9
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_shuxiang_mendi",
+      "name": "书香门第",
+      "rarity": "rare",
+      "category": "出身",
+      "description": "家里最贵的家具是书柜，客厅墙上挂着爷爷手写的条幅。你从小听着饭桌上的学术争论长大，直到很久以后才知道这叫\"文化资本\"。",
+      "mutex_group": "education_start",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "charisma": 2,
+          "wealth": 1
+        },
+        "init_dimensions": {
+          "INTELLIGENCE": 15,
+          "CHURCH": 8
+        },
+        "init_traits": [
+          "书香门第"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "学业",
+              "mult": 1.8
+            },
+            {
+              "tag": "文教",
+              "mult": 1.8
+            }
+          ],
+          "career_bonus": {
+            "学术科研": 1.4,
+            "教育": 1.4
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_bianfang_jiangmen",
+      "name": "边关将门",
+      "rarity": "rare",
+      "category": "出身",
+      "description": "你家祖坟朝向北方，因为里面躺着的人大多没能回来。你六岁就会擦刀，十岁知道军饷什么时候会拖欠。",
+      "mutex_group": "dynasty_birth",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "strength": 5,
+          "health": 10,
+          "intelligence": -1
+        },
+        "init_dimensions": {
+          "STRENGTH": 25,
+          "NOBLES": 8,
+          "CHURCH": -8
+        },
+        "init_traits": [
+          "将门虎子"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "战事",
+              "mult": 3.0
+            },
+            {
+              "tag": "边关",
+              "mult": 2.5
+            }
+          ],
+          "career_bonus": {
+            "武将": 1.7
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_gongjiang_shijia",
+      "name": "工匠世家",
+      "rarity": "rare",
+      "category": "出身",
+      "description": "你爹能听声音判断木料干没干透。他一辈子没被写进任何一本书，但半个城的房梁都是他架的。",
+      "mutex_group": "",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "strength": 3,
+          "intelligence": 2,
+          "wealth": 2
+        },
+        "init_dimensions": {
+          "COMMONERS": 15,
+          "WEALTH": 8
+        },
+        "init_traits": [
+          "手上有活"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "营造",
+              "mult": 2.5
+            },
+            {
+              "tag": "技艺",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "工程技术": 1.5,
+            "匠作": 1.6
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_tiansheng_shenli",
+      "name": "天生神力",
+      "rarity": "rare",
+      "category": "天资",
+      "description": "小学掰手腕就没输过，搬家公司见了你都想挖人。你唯一的困扰是握手时得刻意收着劲，否则对方会做出很复杂的表情。",
+      "mutex_group": "body",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "strength": 5,
+          "health": 12,
+          "intelligence": -2
+        },
+        "init_dimensions": {
+          "STRENGTH": 20
+        },
+        "init_traits": [
+          "力能扛鼎"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "武力",
+              "mult": 2.5
+            },
+            {
+              "tag": "体力活",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "武将": 1.5,
+            "体育": 1.6
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_guixi_zhiti",
+      "name": "龟息之体",
+      "rarity": "rare",
+      "category": "天资",
+      "description": "熬夜第二天照样精神，感冒从来不超过两天。同龄人开始聊三高的时候，你还在纠结今晚吃火锅还是烧烤。",
+      "mutex_group": "longevity",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "health": 18,
+          "happiness": 2,
+          "charisma": -1
+        },
+        "init_dimensions": {
+          "HEALTH": 25
+        },
+        "init_traits": [
+          "底子厚"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "疾病",
+              "mult": 0.3
+            },
+            {
+              "tag": "长寿",
+              "mult": 2.5
+            }
+          ],
+          "stat_loss": 0.7
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_juedui_yingan",
+      "name": "绝对音感",
+      "rarity": "rare",
+      "category": "天资",
+      "description": "你能听出空调外机是降B调。这个能力在音乐课上让你出尽风头，在开放式办公室里让你痛不欲生。",
+      "mutex_group": "",
+      "weight": 1.1,
+      "effects": {
+        "init": {
+          "intelligence": 3,
+          "charisma": 3,
+          "happiness": -1
+        },
+        "init_traits": [
+          "耳朵毒"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "艺术",
+              "mult": 2.5
+            },
+            {
+              "tag": "表演",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "文艺创作": 1.6,
+            "演艺": 1.4,
+            "乐师": 1.7
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_shuzi_minggan",
+      "name": "数字敏感",
+      "rarity": "rare",
+      "category": "天资",
+      "description": "菜市场找零算错一毛你都能立刻发现。长大后这个本事让你在做账时无往不利，也让你清楚地知道自己这辈子买不起哪套房。",
+      "mutex_group": "",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "wealth": 2,
+          "happiness": -2
+        },
+        "init_traits": [
+          "算得清"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "理财",
+              "mult": 2.5
+            },
+            {
+              "tag": "赌博",
+              "mult": 1.5
+            }
+          ],
+          "career_bonus": {
+            "金融投资": 1.5,
+            "会计": 1.6
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_chengfu_jishen",
+      "name": "城府极深",
+      "rarity": "rare",
+      "category": "性格",
+      "description": "你笑的时候没人知道你在想什么，包括你自己的家人。这让你在办公室政治里活得很久，也让你在深夜里格外安静。",
+      "mutex_group": "temperament",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "intelligence": 3,
+          "charisma": 2,
+          "happiness": -3
+        },
+        "init_dimensions": {
+          "MORALITY": -12,
+          "STABILITY": 12
+        },
+        "init_traits": [
+          "喜怒不形于色"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "权斗",
+              "mult": 2.5
+            },
+            {
+              "tag": "背叛",
+              "mult": 0.5
+            }
+          ],
+          "career_bonus": {
+            "企业管理": 1.4,
+            "文官": 1.4
+          },
+          "relationship_decay": 1.25
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_ledao_zhiming",
+      "name": "乐天知命",
+      "rarity": "rare",
+      "category": "性格",
+      "description": "项目黄了你去吃顿好的，被裁员那天你在朋友圈发了张夕阳。别人说你没心没肺，其实你只是很早就想明白了一件事：急也没用。",
+      "mutex_group": "mindset",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "happiness": 5,
+          "health": 6,
+          "wealth": -2
+        },
+        "init_dimensions": {
+          "HAPPINESS": 25
+        },
+        "init_traits": [
+          "心大"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "抑郁",
+              "mult": 0.2
+            },
+            {
+              "tag": "躺平",
+              "mult": 2.0
+            }
+          ],
+          "stat_loss": 0.75,
+          "stat_gain": 0.9
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_yemao_zi",
+      "name": "夜猫子",
+      "rarity": "rare",
+      "category": "性格",
+      "description": "凌晨两点是你一天里脑子最清楚的时候。你写出过最好的东西，也毁掉了最好的肝。",
+      "mutex_group": "biorhythm",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "health": -8,
+          "happiness": 1
+        },
+        "init_traits": [
+          "昼伏夜出"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "创作",
+              "mult": 2.0
+            },
+            {
+              "tag": "加班",
+              "mult": 1.8
+            },
+            {
+              "tag": "早课",
+              "mult": 0.3
+            }
+          ],
+          "career_bonus": {
+            "文艺创作": 1.4,
+            "程序开发": 1.4
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_juan_wang",
+      "name": "卷王",
+      "rarity": "rare",
+      "category": "性格",
+      "description": "全组都下班了你还在改第七版方案，不是因为老板要求，是因为你受不了自己交出去的东西不够好。三年后你升职了，同时也是全组唯一一个有胃病的人。",
+      "mutex_group": "",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "intelligence": 3,
+          "wealth": 3,
+          "health": -10,
+          "happiness": -4
+        },
+        "init_traits": [
+          "自我压榨"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "升职",
+              "mult": 2.5
+            },
+            {
+              "tag": "加班",
+              "mult": 2.5
+            },
+            {
+              "tag": "恋爱",
+              "mult": 0.4
+            }
+          ],
+          "career_bonus": {
+            "企业管理": 1.4,
+            "程序开发": 1.4
+          },
+          "stat_gain": 1.25
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_kaoyun_hengtong",
+      "name": "考运亨通",
+      "rarity": "rare",
+      "category": "际遇",
+      "description": "你复习到的那三章，永远是考卷上分值最高的三章。老师觉得你努力，同学觉得你邪门，只有你知道两者都对。",
+      "mutex_group": "",
+      "weight": 1.1,
+      "effects": {
+        "init": {
+          "luck": 5,
+          "intelligence": 2
+        },
+        "init_traits": [
+          "押题小能手"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "考试",
+              "mult": 3.0
+            },
+            {
+              "tag": "科举",
+              "mult": 3.0
+            }
+          ],
+          "career_bonus": {
+            "文官": 1.4,
+            "教育": 1.3
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": "tal_kaoyun_hengtong",
+      "inheritable": false
+    },
+    {
+      "id": "tal_dianshi_chengjin",
+      "name": "点石成金",
+      "rarity": "rare",
+      "category": "际遇",
+      "description": "你随手接的私活能变成生意，你顺嘴提的点子被别人做成了公司。可惜你从来记不住给自己留股份。",
+      "mutex_group": "fortune",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "wealth": 4,
+          "intelligence": 3,
+          "charisma": 2
+        },
+        "init_dimensions": {
+          "WEALTH": 15
+        },
+        "init_traits": [
+          "生财有道"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "创业",
+              "mult": 2.5
+            },
+            {
+              "tag": "经商",
+              "mult": 2.5
+            }
+          ],
+          "career_bonus": {
+            "经商": 1.6,
+            "金融投资": 1.3
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": true
+    },
+    {
+      "id": "tal_wangnian_zhijiao",
+      "name": "忘年之交",
+      "rarity": "rare",
+      "category": "际遇",
+      "description": "你交的朋友总比你大二三十岁。他们教会你的东西，比你同龄人一辈子能教你的都多——代价是你要不断地参加葬礼。",
+      "mutex_group": "",
+      "weight": 1.1,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "charisma": 3,
+          "happiness": -2
+        },
+        "init_traits": [
+          "老成"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "拜师",
+              "mult": 3.0
+            },
+            {
+              "tag": "传承",
+              "mult": 2.5
+            },
+            {
+              "tag": "离别",
+              "mult": 1.5
+            }
+          ],
+          "relationship_decay": 0.8
+        }
+      },
+      "unlocks": [
+        "pool_mentor"
+      ],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_wangluo_hongren",
+      "name": "网红体质",
+      "rarity": "rare",
+      "category": "际遇",
+      "description": "你随手拍的一条视频莫名其妙火了，评论区有人叫你老师，有人问你是不是团队运营。三个月后热度散了，只剩下一堆记得你黑历史的人。",
+      "mutex_group": "",
+      "weight": 1.0,
+      "effects": {
+        "init": {
+          "charisma": 5,
+          "wealth": 3,
+          "happiness": -2
+        },
+        "init_traits": [
+          "自带流量"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "走红",
+              "mult": 3.0
+            },
+            {
+              "tag": "舆论",
+              "mult": 2.5
+            },
+            {
+              "tag": "翻车",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "演艺": 1.5,
+            "自媒体": 1.8
+          }
+        }
+      },
+      "unlocks": [
+        "pool_internet_fame"
+      ],
+      "unlock_condition": "tal_wangluo_hongren",
+      "inheritable": false
+    },
+    {
+      "id": "tal_tiansha_guxing",
+      "name": "天煞孤星",
+      "rarity": "rare",
+      "category": "诅咒",
+      "description": "算命的看了你一眼就摇头，说你克六亲。你不信，但你确实是家族聚会上永远坐在角落的那个。好在没人可依靠的人，往往最先学会靠自己。",
+      "mutex_group": "relation",
+      "weight": 1.0,
+      "effects": {
+        "init": {
+          "charisma": -4,
+          "happiness": -5,
+          "intelligence": 5,
+          "strength": 4
+        },
+        "init_dimensions": {
+          "MORALITY": -8,
+          "STABILITY": -8
+        },
+        "init_traits": [
+          "孤星入命",
+          "独行者"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "亲情",
+              "mult": 0.3
+            },
+            {
+              "tag": "独行",
+              "mult": 2.5
+            },
+            {
+              "tag": "奇遇",
+              "mult": 1.8
+            }
+          ],
+          "relationship_decay": 1.6,
+          "stat_gain": 1.2
+        }
+      },
+      "unlocks": [
+        "pool_lone_wolf"
+      ],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_meiyun_chanshen",
+      "name": "霉运缠身",
+      "rarity": "rare",
+      "category": "诅咒",
+      "description": "你排的队总是最慢的，你买的股票第二天就跌。但奇怪的是，你每次躲过的大事故都刚好是你迟到那一趟。倒霉倒到极致，也是一种保命方式。",
+      "mutex_group": "luck",
+      "weight": 1.0,
+      "effects": {
+        "init": {
+          "luck": -5,
+          "wealth": -5,
+          "health": 10,
+          "intelligence": 3
+        },
+        "init_traits": [
+          "非酋",
+          "大难不死"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "倒霉",
+              "mult": 3.0
+            },
+            {
+              "tag": "横死",
+              "mult": 0.2
+            }
+          ],
+          "stat_gain": 0.9,
+          "stat_loss": 0.8
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_shiguan_zhibi",
+      "name": "史官之笔",
+      "rarity": "rare",
+      "category": "特殊",
+      "description": "你写下的字会被后人当真。这既是权力也是枷锁——你很清楚，改一个字就能让一个活人在三百年后变成奸臣。",
+      "mutex_group": "",
+      "weight": 0.9,
+      "effects": {
+        "init": {
+          "intelligence": 5,
+          "charisma": 2,
+          "wealth": -3
+        },
+        "init_dimensions": {
+          "MORALITY": 15,
+          "CHURCH": 12,
+          "NOBLES": -10
+        },
+        "init_traits": [
+          "秉笔直书"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "史笔",
+              "mult": 3.0
+            },
+            {
+              "tag": "谏言",
+              "mult": 2.5
+            }
+          ],
+          "career_bonus": {
+            "文官": 1.5,
+            "学术科研": 1.4
+          }
+        }
+      },
+      "unlocks": [
+        "pool_historian"
+      ],
+      "unlock_condition": "tal_shiguan_zhibi",
+      "inheritable": false
+    },
+    {
+      "id": "tal_shanzhong_yiren",
+      "name": "山中遗人",
+      "rarity": "rare",
+      "category": "特殊",
+      "description": "你小时候在山里走丢过三天，回来后说不清吃了什么、见了谁。家里人不敢多问，只是从那以后你再没生过病。",
+      "mutex_group": "",
+      "weight": 0.9,
+      "effects": {
+        "init": {
+          "health": 12,
+          "luck": 3,
+          "charisma": -3,
+          "intelligence": 2
+        },
+        "init_traits": [
+          "山野之气"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "修行",
+              "mult": 3.0
+            },
+            {
+              "tag": "山野",
+              "mult": 2.5
+            },
+            {
+              "tag": "社交",
+              "mult": 0.5
+            }
+          ],
+          "stat_loss": 0.8
+        }
+      },
+      "unlocks": [
+        "pool_cultivation_early"
+      ],
+      "unlock_condition": "tal_shanzhong_yiren",
+      "inheritable": true
+    },
+    {
+      "id": "tal_nongcun_hukou",
+      "name": "农村户口",
+      "rarity": "common",
+      "category": "出身",
+      "description": "你在能看见银河的地方长大，十岁就会插秧。进城后同学笑你普通话有口音，但只有你知道一亩地能打多少斤稻子。",
+      "mutex_group": "birth_class",
+      "weight": 1.5,
+      "effects": {
+        "init": {
+          "strength": 3,
+          "health": 8,
+          "wealth": -3,
+          "charisma": -1
+        },
+        "init_dimensions": {
+          "COMMONERS": 15
+        },
+        "init_traits": [
+          "土地情结",
+          "身体扎实"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "务农",
+              "mult": 2.5
+            },
+            {
+              "tag": "进城",
+              "mult": 1.8
+            }
+          ],
+          "stat_loss": 0.9
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_buyi_hanshi",
+      "name": "布衣寒士",
+      "rarity": "common",
+      "category": "出身",
+      "description": "一件长衫洗到发白，你还是每天把它熨平了才出门。你说过一句话：读书人可以穷，但不能邋遢。",
+      "mutex_group": "dynasty_birth",
+      "weight": 1.5,
+      "effects": {
+        "init": {
+          "intelligence": 3,
+          "wealth": -2,
+          "charisma": 1
+        },
+        "init_dimensions": {
+          "COMMONERS": 12,
+          "NOBLES": -10,
+          "MORALITY": 8
+        },
+        "init_traits": [
+          "安贫乐道"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "科举",
+              "mult": 2.0
+            },
+            {
+              "tag": "清议",
+              "mult": 1.8
+            }
+          ],
+          "stat_gain": 1.05
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_dusheng_zinv",
+      "name": "独生子女",
+      "rarity": "common",
+      "category": "出身",
+      "description": "全家的资源都给了你，全家的期待也都压在你身上。你小时候羡慕有兄弟姐妹的同学，长大后开始算一个人要照顾几个老人。",
+      "mutex_group": "sibling",
+      "weight": 1.5,
+      "effects": {
+        "init": {
+          "wealth": 2,
+          "intelligence": 2,
+          "happiness": -2
+        },
+        "init_traits": [
+          "独苗",
+          "压力山大"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "养老",
+              "mult": 2.0
+            },
+            {
+              "tag": "家庭期待",
+              "mult": 2.0
+            }
+          ],
+          "stat_gain": 1.05
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_xiongdi_chengqun",
+      "name": "兄弟成群",
+      "rarity": "common",
+      "category": "出身",
+      "description": "家里五个孩子，你排行老三——上面顾不上，下面轮不着。好处是你从小就学会了怎么在不被注意的情况下拿到最大那块肉。",
+      "mutex_group": "sibling",
+      "weight": 1.5,
+      "effects": {
+        "init": {
+          "charisma": 3,
+          "strength": 2,
+          "wealth": -3
+        },
+        "init_dimensions": {
+          "COMMONERS": 10
+        },
+        "init_traits": [
+          "会来事",
+          "抢食本能"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "手足",
+              "mult": 2.5
+            },
+            {
+              "tag": "分家",
+              "mult": 2.0
+            }
+          ],
+          "relationship_decay": 0.8
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_yumu_naodai",
+      "name": "榆木脑袋",
+      "rarity": "common",
+      "category": "诅咒",
+      "description": "同一道题老师讲了四遍你才懂，但懂了就再也不会忘。你这辈子想明白的道理不多，可每一条你都真的做到了。",
+      "mutex_group": "iq_tier",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "intelligence": -4,
+          "happiness": 4,
+          "health": 8,
+          "strength": 2
+        },
+        "init_traits": [
+          "一根筋",
+          "傻人有傻福"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "被骗",
+              "mult": 1.8
+            },
+            {
+              "tag": "焦虑",
+              "mult": 0.3
+            }
+          ],
+          "stat_loss": 0.8
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_qimao_buyang",
+      "name": "其貌不扬",
+      "rarity": "common",
+      "category": "诅咒",
+      "description": "照片里你永远是那个\"哦对还有他\"。没人因为你的脸给你机会，所以你只好把本事练到别人没法忽略的程度。",
+      "mutex_group": "appearance",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "charisma": -4,
+          "intelligence": 4,
+          "happiness": -1,
+          "health": 3
+        },
+        "init_traits": [
+          "低存在感",
+          "实力派"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "桃花劫",
+              "mult": 0.2
+            },
+            {
+              "tag": "苦功",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "学术科研": 1.2,
+            "工程技术": 1.2
+          },
+          "stat_gain": 1.1
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_shejiao_kongju",
+      "name": "社交恐惧症",
+      "rarity": "common",
+      "category": "诅咒",
+      "description": "点外卖备注\"请勿敲门放门口\"，接电话前要先在心里演练三遍。省下来的社交时间，你全用来读书和发呆了。",
+      "mutex_group": "social",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "charisma": -4,
+          "intelligence": 4,
+          "happiness": -2
+        },
+        "init_traits": [
+          "i人",
+          "深度专注"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "社交",
+              "mult": 0.3
+            },
+            {
+              "tag": "独处",
+              "mult": 2.5
+            },
+            {
+              "tag": "钻研",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "程序开发": 1.4,
+            "学术科研": 1.3
+          },
+          "relationship_decay": 1.3
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_tiruo_duobing",
+      "name": "体弱多病",
+      "rarity": "common",
+      "category": "诅咒",
+      "description": "从小请假条比作业本厚。你在病床上读完了整个书架，所以医生说你身体差的时候，语文老师说你作文好。",
+      "mutex_group": "body",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "health": -15,
+          "strength": -3,
+          "intelligence": 5,
+          "charisma": 1
+        },
+        "init_dimensions": {
+          "HEALTH": -20
+        },
+        "init_traits": [
+          "药罐子",
+          "博览群书"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "疾病",
+              "mult": 2.5
+            },
+            {
+              "tag": "读书",
+              "mult": 2.0
+            },
+            {
+              "tag": "体力活",
+              "mult": 0.3
+            }
+          ],
+          "career_bonus": {
+            "学术科研": 1.3,
+            "文艺创作": 1.3
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_lazhu_liangtou",
+      "name": "蜡烛两头烧",
+      "rarity": "common",
+      "category": "诅咒",
+      "description": "你在三十岁前干完了别人五十岁才干完的事。所有人都夸你效率高，没人问你为什么体检报告上全是箭头。",
+      "mutex_group": "longevity",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "health": -18,
+          "wealth": 3,
+          "intelligence": 4,
+          "happiness": -3
+        },
+        "init_traits": [
+          "透支体质"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "猝死",
+              "mult": 2.0
+            },
+            {
+              "tag": "升职",
+              "mult": 2.0
+            }
+          ],
+          "stat_gain": 1.35,
+          "stat_loss": 1.2
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_xinzhi_koukuai",
+      "name": "心直口快",
+      "rarity": "common",
+      "category": "性格",
+      "description": "会上你是唯一一个说\"这个方案有问题\"的人。散会后领导找你谈心，同事在群里给你发了三个大拇指——私聊。",
+      "mutex_group": "temperament",
+      "weight": 1.5,
+      "effects": {
+        "init": {
+          "charisma": -2,
+          "happiness": 3,
+          "strength": 1
+        },
+        "init_dimensions": {
+          "MORALITY": 12,
+          "NOBLES": -10,
+          "COMMONERS": 10
+        },
+        "init_traits": [
+          "直肠子"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "得罪人",
+              "mult": 2.5
+            },
+            {
+              "tag": "谏言",
+              "mult": 2.0
+            },
+            {
+              "tag": "升迁",
+              "mult": 0.6
+            }
+          ],
+          "relationship_decay": 1.2
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_beiguan_zhuyi",
+      "name": "悲观主义",
+      "rarity": "common",
+      "category": "性格",
+      "description": "你做每个计划都会先想最坏的结果，所以你从来没有真正被打垮过，也从来没有真正开心过。",
+      "mutex_group": "mindset",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "happiness": -4,
+          "intelligence": 3,
+          "wealth": 3
+        },
+        "init_traits": [
+          "未雨绸缪"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "风险",
+              "mult": 0.5
+            },
+            {
+              "tag": "破产",
+              "mult": 0.4
+            },
+            {
+              "tag": "抑郁",
+              "mult": 1.8
+            }
+          ],
+          "stat_loss": 0.8
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_zaoqi_niao",
+      "name": "早起鸟",
+      "rarity": "common",
+      "category": "性格",
+      "description": "六点自然醒，周末也一样。你在别人还没起床时就做完了半天的事，然后晚上九点开始困得说不出完整的句子。",
+      "mutex_group": "biorhythm",
+      "weight": 1.5,
+      "effects": {
+        "init": {
+          "health": 8,
+          "intelligence": 2,
+          "happiness": 1,
+          "charisma": -1
+        },
+        "init_traits": [
+          "作息规律"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "自律",
+              "mult": 2.0
+            },
+            {
+              "tag": "夜生活",
+              "mult": 0.3
+            }
+          ],
+          "stat_gain": 1.05
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_wanmei_zhuyi",
+      "name": "完美主义",
+      "rarity": "common",
+      "category": "性格",
+      "description": "PPT 的每个色块都要对齐到像素，交稿永远是最后一分钟。你做出来的东西没人挑得出毛病，除了它总是迟到。",
+      "mutex_group": "",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "happiness": -4,
+          "health": -4
+        },
+        "init_traits": [
+          "强迫症",
+          "细节控"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "作品",
+              "mult": 2.0
+            },
+            {
+              "tag": "拖延",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "文艺创作": 1.3,
+            "工程技术": 1.3
+          },
+          "stat_gain": 1.15
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_kanjia_gaoshou",
+      "name": "砍价高手",
+      "rarity": "common",
+      "category": "性格",
+      "description": "你能把标价三百的东西砍到一百二，并且全程面带微笑。老板送你出门时那句\"下次别来了\"，你当成了褒奖。",
+      "mutex_group": "",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "wealth": 3,
+          "charisma": 2,
+          "happiness": 1
+        },
+        "init_traits": [
+          "精打细算"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "交易",
+              "mult": 2.5
+            },
+            {
+              "tag": "被宰",
+              "mult": 0.2
+            }
+          ],
+          "career_bonus": {
+            "经商": 1.4,
+            "销售": 1.3
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": "tal_kanjia_gaoshou",
+      "inheritable": false
+    },
+    {
+      "id": "tal_mubushiding",
+      "name": "目不识丁",
+      "rarity": "common",
+      "category": "诅咒",
+      "description": "你不会写自己的名字，但你能看出哪个买家在虚张声势，也知道哪块地明年会涨。字认得人少，人认得字多。",
+      "mutex_group": "education_start",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "intelligence": -4,
+          "strength": 4,
+          "charisma": 3,
+          "health": 5
+        },
+        "init_dimensions": {
+          "COMMONERS": 15,
+          "CHURCH": -12
+        },
+        "init_traits": [
+          "江湖智慧",
+          "不识字"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "科举",
+              "mult": 0.1
+            },
+            {
+              "tag": "市井",
+              "mult": 2.5
+            },
+            {
+              "tag": "闯荡",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "经商": 1.3,
+            "武将": 1.2
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_tieda_weikou",
+      "name": "铁打的胃",
+      "rarity": "common",
+      "category": "天资",
+      "description": "路边摊、隔夜菜、来路不明的自酿酒，你什么都能消化。在讲究\"酒品即人品\"的饭局上，这是一种硬通货。",
+      "mutex_group": "",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "health": 10,
+          "charisma": 3,
+          "wealth": 2,
+          "intelligence": -1
+        },
+        "init_traits": [
+          "千杯不醉"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "酒局",
+              "mult": 2.5
+            },
+            {
+              "tag": "食物中毒",
+              "mult": 0.2
+            }
+          ],
+          "career_bonus": {
+            "销售": 1.3,
+            "公关": 1.3
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_luchi",
+      "name": "路痴",
+      "rarity": "common",
+      "category": "诅咒",
+      "description": "导航说\"前方右转\"，你会先思考三秒哪边是右。不过因为老走错路，你见过很多别人一辈子都不会路过的风景。",
+      "mutex_group": "",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "intelligence": -2,
+          "luck": 4,
+          "happiness": 1,
+          "wealth": -2
+        },
+        "init_traits": [
+          "方向感为零",
+          "误入桃源"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "迷路",
+              "mult": 3.0
+            },
+            {
+              "tag": "奇遇",
+              "mult": 2.0
+            },
+            {
+              "tag": "迟到",
+              "mult": 2.0
+            }
+          ]
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_shoujiao_linghuo",
+      "name": "心灵手巧",
+      "rarity": "common",
+      "category": "天资",
+      "description": "坏掉的插座、卡住的抽屉、开线的衣服，到你手里都能复活。全楼的邻居都有你的微信，但没有一个人给过你钱。",
+      "mutex_group": "",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "intelligence": 2,
+          "charisma": 2,
+          "wealth": 3,
+          "health": 2
+        },
+        "init_traits": [
+          "动手能力强"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "技艺",
+              "mult": 2.5
+            },
+            {
+              "tag": "邻里",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "工程技术": 1.4,
+            "匠作": 1.4
+          }
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_erzhan_kaoyan",
+      "name": "二战考研人",
+      "rarity": "common",
+      "category": "际遇",
+      "description": "第一年差了四分。你在出租屋里又背了一年书，每天路过学校门口都不敢往里看。这一年没人陪你，但你自己撑下来了。",
+      "mutex_group": "",
+      "weight": 1.2,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "wealth": -4,
+          "happiness": -3,
+          "health": -4
+        },
+        "init_traits": [
+          "死磕到底",
+          "抗压能力强"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "考试",
+              "mult": 2.5
+            },
+            {
+              "tag": "坚持",
+              "mult": 2.0
+            }
+          ],
+          "career_bonus": {
+            "学术科研": 1.3,
+            "教育": 1.2
+          },
+          "stat_loss": 0.85
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": "tal_erzhan_kaoyan",
+      "inheritable": false
+    },
+    {
+      "id": "tal_dagongren",
+      "name": "打工人",
+      "rarity": "common",
+      "category": "际遇",
+      "description": "早八晚九，地铁上睡二十分钟是你一天里最踏实的觉。你不恨这份工作，你只是偶尔会在电梯镜子里认不出自己。",
+      "mutex_group": "",
+      "weight": 1.6,
+      "effects": {
+        "init": {
+          "wealth": 2,
+          "health": -5,
+          "happiness": -3,
+          "strength": 1
+        },
+        "init_traits": [
+          "社畜",
+          "忍耐力强"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "职场",
+              "mult": 2.0
+            },
+            {
+              "tag": "加班",
+              "mult": 2.0
+            },
+            {
+              "tag": "裁员",
+              "mult": 1.5
+            }
+          ],
+          "stat_gain": 1.05
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_xiangqin_changke",
+      "name": "相亲常客",
+      "rarity": "common",
+      "category": "际遇",
+      "description": "你妈的手机里存着十七个媒人的电话。你已经能在见面前三分钟内准确预判对方会问哪三个问题，并且准备好了三套答案。",
+      "mutex_group": "",
+      "weight": 1.4,
+      "effects": {
+        "init": {
+          "charisma": 3,
+          "happiness": -3,
+          "intelligence": 1,
+          "wealth": -2
+        },
+        "init_traits": [
+          "久经沙场",
+          "催婚受害者"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "相亲",
+              "mult": 3.0
+            },
+            {
+              "tag": "婚姻",
+              "mult": 2.0
+            },
+            {
+              "tag": "催婚",
+              "mult": 2.5
+            }
+          ],
+          "relationship_decay": 1.1
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    },
+    {
+      "id": "tal_bierenjia_haizi",
+      "name": "别人家的孩子",
+      "rarity": "common",
+      "category": "特殊",
+      "description": "你是全小区家长口中的模板。这意味着你每一次考砸都不只是你自己的失败，还是一整套叙事的崩塌——所以你不敢考砸。",
+      "mutex_group": "",
+      "weight": 1.3,
+      "effects": {
+        "init": {
+          "intelligence": 4,
+          "charisma": 3,
+          "happiness": -4
+        },
+        "init_traits": [
+          "优等生",
+          "不能输"
+        ],
+        "modifiers": {
+          "event_weight": [
+            {
+              "tag": "学业",
+              "mult": 2.0
+            },
+            {
+              "tag": "期待",
+              "mult": 2.5
+            },
+            {
+              "tag": "叛逆",
+              "mult": 0.4
+            }
+          ],
+          "stat_gain": 1.1,
+          "stat_loss": 1.1
+        }
+      },
+      "unlocks": [],
+      "unlock_condition": null,
+      "inheritable": false
+    }
+  ]
+}

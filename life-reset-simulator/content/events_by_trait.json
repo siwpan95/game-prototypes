@@ -1,0 +1,207 @@
+{
+  "_meta": {
+    "schema": "events_by_trait/v1",
+    "description": "by_trait 事件 20 条。子组键 = 玩家 traits 列表中的特质字符串(如 念旧/冒险家/嗜酒)。触发条件:玩家 traits 包含子组键。每条事件文案与该特质强相关，强化'天赋/特质定义身份'的设计。沿用 event schema。"
+  },
+  "event_templates": {
+    "by_trait": {
+      "念旧": [
+        {
+          "id": "ev_trait_old_photo",
+          "desc": "搬家时翻出一个铁皮盒子，里面是十年前的照片。照片里的人你认得，但当年那个自己你已经不太认得了。",
+          "options": {
+            "A": {"text": "一张张看完 (幸福+2, 智力+1, 健康-1)", "effects": {"happiness": 2, "intelligence": 1, "health": -1}, "feedback": ["你看到凌晨两点。", "有一张照片你看了很久，是和一个已经不联系的人的合影。"]},
+            "B": {"text": "原样收起来，以后再说 (幸福+1, 魅力-1)", "effects": {"happiness": 1, "charisma": -1}, "feedback": ["盒子又封起来了。", "你把它放到了新家的最高一层柜子，告诉自己'别再翻'。"]}
+          },
+          "tags": ["trait", "nostalgia", "memory"]
+        },
+        {
+          "id": "ev_trait_old_thing_break",
+          "desc": "用了二十年的搪瓷缸裂了道缝。新杯子家里有十几个，但你就是想修这个。",
+          "options": {
+            "A": {"text": "找锔瓷师傅修 (财富-2, 幸福+3, 魅力+1)", "effects": {"wealth": -2, "happiness": 3, "charisma": 1}, "feedback": ["师傅说'修这玩意儿比买新的还贵'。", "你说'修吧'。修好后你用它喝水，觉得水都甜了。"]},
+            "B": {"text": "留着当摆设，换新的用 (幸福-1, 财富+1)", "effects": {"wealth": 1, "happiness": -1}, "feedback": ["新杯子很好用。", "但你每次倒水都会看一眼那个旧的。"]}
+          },
+          "tags": ["trait", "nostalgia", "object"]
+        }
+      ],
+      "冒险家": [
+        {
+          "id": "ev_trait_mountain_storm",
+          "desc": "你独自在山里扎营，半夜起了暴风雨。帐篷被吹得哗哗响，外面雷打得像要把山劈开。",
+          "options": {
+            "A": {"text": "撤离到山下避难所 (力量+1, 健康-2, 幸福-1)", "effects": {"strength": 1, "health": -2, "happiness": -1}, "feedback": ["你摸黑走了两小时下山。", "到了避难所你发现自己浑身湿透却笑出了声——这才是冒险。"]},
+            "B": {"text": "死扛，看能不能撑过 (力量+2, 健康-5, 运气-1)", "effects": {"strength": 2, "health": -5, "luck": -1}, "feedback": ["帐篷没塌，但你一夜没睡。", "第二天清晨云开雾散，你看见的日出比任何一次都美。"]},
+            "C": {"text": "给救援打电话 (魅力-1, 健康-1)", "effects": {"health": -1, "charisma": -1}, "feedback": ["救援来了，但训了你一顿。", "你在下山路上没说话，觉得自己这次是怂了。"]}
+          },
+          "tags": ["trait", "adventure", "survival"]
+        },
+        {
+          "id": "ev_trait_road_unknown",
+          "desc": "自驾游到了一个岔路口。导航信号没了，左边是柏油路，右边是土路，尽头都看不见。",
+          "options": {
+            "A": {"text": "走土路 (运气+1, 智力-1, 幸福+2)", "effects": {"luck": 1, "intelligence": -1, "happiness": 2}, "feedback": ["土路尽头是个没名字的小村。", "村里老人请你喝了碗茶，说'好多年没外人来过了'。"]},
+            "B": {"text": "走柏油路 (智力+1, 幸福-1)", "effects": {"intelligence": 1, "happiness": -1}, "feedback": ["柏油路通到了高速。", "你按计划到了目的地，但觉得这趟少了点什么。"]}
+          },
+          "tags": ["trait", "adventure", "choice"]
+        }
+      ],
+      "嗜酒": [
+        {
+          "id": "ev_trait_drunk_call",
+          "desc": "你又喝多了。第二天醒来发现手机里打了一通电话，对方是你前任，通话时长47分钟。",
+          "options": {
+            "A": {"text": "查通话记录看说了啥 (智力+1, 幸福-3, 魅力-2)", "effects": {"intelligence": 1, "happiness": -3, "charisma": -2}, "feedback": ["没有录音。", "你给对方发了句'昨晚不好意思'，对方回了个'嗯'，再没下文。"]},
+            "B": {"text": "假装没发生 (幸福-1, 道德-1)", "effects": {"happiness": -1}, "feedback": ["你删了通话记录。", "但删不掉的是——你酒后打电话这件事本身。"]},
+            "C": {"text": "立誓戒酒 (健康+2, 幸福-2)", "effects": {"health": 2, "happiness": -2}, "feedback": ["你把家里酒全倒了。", "坚持了三天，第四天晚上你又开了一瓶。"]}
+          },
+          "tags": ["trait", "alcohol", "regret"]
+        },
+        {
+          "id": "ev_trait_health_checkup",
+          "desc": "体检报告出来了。脂肪肝、转氨酶偏高、血压低压也高了。医生看着你说'你多大？'你说三十五。",
+          "options": {
+            "A": {"text": "彻底戒酒+运动 (健康+4, 幸福-3, 财富-1)", "effects": {"health": 4, "happiness": -3, "wealth": -1}, "feedback": ["你办了张健身卡，去了两次。", "第三次你站在健身房门口犹豫了十分钟，转头去了酒吧。"]},
+            "B": {"text": "减量，不戒 (健康+1, 智力+1)", "effects": {"health": 1, "intelligence": 1}, "feedback": ["你把每天的量从一斤减到三两。", "其实三两已经不少了，但你跟自己说'这是进步'。"]},
+            "C": {"text": "不看了，该喝喝 (健康-3, 幸福+1)", "effects": {"health": -3, "happiness": 1}, "feedback": ["报告塞进了抽屉最深处。", "你想'活到几岁算几岁'，但夜里你摸了摸肝的位置。"]}
+          },
+          "tags": ["trait", "alcohol", "health"]
+        }
+      ],
+      "文艺青年": [
+        {
+          "id": "ev_trait_bookstore_close",
+          "desc": "你常去的那家独立书店要关了。老板说房租涨了三倍，撑不下去。书架上还剩半架子没卖出去的。",
+          "options": {
+            "A": {"text": "买下剩下的书 (财富-3, 智力+3, 幸福+2)", "effects": {"wealth": -3, "intelligence": 3, "happiness": 2}, "feedback": ["你搬了三趟才搬完。", "其中一本扉页有老板的手写赠言：'愿书与人，都不孤单'。"]},
+            "B": {"text": "在店里办一场告别朗读会 (魅力+3, 幸福+2, 财富-1)", "effects": {"charisma": 3, "happiness": 2, "wealth": -1}, "feedback": ["来了二十几个人，有人哭了。", "老板把最后一盏台灯送给了你，说'记得看书'。"]}
+          },
+          "tags": ["trait", "literary", "farewell"]
+        },
+        {
+          "id": "ev_trait_poem_moment",
+          "desc": "深夜加班回家的地铁上，你对面的玻璃映出自己疲惫的脸。你忽然想起一句诗，但想不起是谁写的。",
+          "options": {
+            "A": {"text": "回家翻书查出来 (智力+2, 健康-1, 幸福+1)", "effects": {"intelligence": 2, "health": -1, "happiness": 1}, "feedback": ["查到了，是木心的。", "你把那句诗抄在了便利贴上，贴在工位显示器边上。"]},
+            "B": {"text": "记在备忘录里，明天再说 (智力+1, 幸福-1)", "effects": {"intelligence": 1, "happiness": -1}, "feedback": ["备忘录里写了一半。", "第二天你看见，但已经想不起当时为什么激动。"]}
+          },
+          "tags": ["trait", "literary", "moment"]
+        }
+      ],
+      "流浪癖": [
+        {
+          "id": "ev_trait_settle_pressure",
+          "desc": "家里又催你结婚买房了。电话那头妈妈说'你看你表哥孩子都上小学了'。你看着窗外发呆。",
+          "options": {
+            "A": {"text": "继续漂着，不解释 (幸福+1, 魅力-2, 运气+1)", "effects": {"happiness": 1, "charisma": -2, "luck": 1}, "feedback": ["挂了电话你订了下个月去西藏的票。", "妈妈发来一条'注意身体'，你回了个拥抱的表情。"]},
+            "B": {"text": "答应回家相亲 (幸福-3, 魅力+1, 财富+1)", "effects": {"happiness": -3, "charisma": 1, "wealth": 1}, "feedback": ["相亲对象挺好，但你脑子里想的是青海湖。", "回来后你把订婚戒指退了，对方没问为什么。"]}
+          },
+          "tags": ["trait", "wanderlust", "family"]
+        }
+      ],
+      "丧子之痛": [
+        {
+          "id": "ev_trait_grief_anniversary",
+          "desc": "今天是孩子走的那天。日历上没有标记，但你每年都会在这一天醒得很早。",
+          "options": {
+            "A": {"text": "去那棵树下坐一天 (幸福-1, 健康-2, 魅力+1)", "effects": {"happiness": -1, "health": -2, "charisma": 1}, "feedback": ["你带了他爱喝的饮料。", "倒一半自己喝，一半浇在土里。树下有个新长出的小苗，你看着它很久。"]},
+            "B": {"text": "正常上班，假装是普通的一天 (智力+0, 幸福-3, 健康-1)", "effects": {"happiness": -3, "health": -1}, "feedback": ["同事问你怎么不说话，你说'有点累'。", "下班你在车里坐了一小时才上楼。"]}
+          },
+          "tags": ["trait", "grief", "anniversary"]
+        }
+      ],
+      "旧情难忘": [
+        {
+          "id": "ev_trait_meet_ex",
+          "desc": "在超市遇见了前任。ta推着购物车，车里有个儿童座椅，里面坐着个两三岁的孩子。",
+          "options": {
+            "A": {"text": "上前打招呼 (魅力+1, 幸福-2, 智力+0)", "effects": {"charisma": 1, "happiness": -2}, "feedback": ["ta愣了一下，然后笑了笑。", "孩子管你叫叔叔/阿姨，你应了一声，心口闷闷的。"]},
+            "B": {"text": "绕开，假装没看见 (幸福-1, 魅力-1)", "effects": {"happiness": -1, "charisma": -1}, "feedback": ["你拐进了另一个货架。", "结账时你在ta后面排队，相隔三个人，谁都没回头。"]},
+            "C": {"text": "掉头就走 (幸福-3, 运气-1)", "effects": {"happiness": -3, "luck": -1}, "feedback": ["你东西都没买就出了超市。", "回家路上你想，原来这么多年了还是不行。"]}
+          },
+          "tags": ["trait", "ex", "encounter"]
+        }
+      ],
+      "极限运动": [
+        {
+          "id": "ev_trait_near_miss",
+          "desc": "跳伞时主伞没开。备用伞在最后一刻打开了，你在距离地面八十米的地方稳住了。",
+          "options": {
+            "A": {"text": "继续挑战更难的 (力量+2, 运气-2, 健康-1)", "effects": {"strength": 2, "luck": -2, "health": -1}, "feedback": ["教练说你是疯子。", "你说'活着就是为了这种感觉'，但晚上你做了一个很长的梦。"]},
+            "B": {"text": "退一步，改玩低风险项目 (智力+1, 幸福-2, 健康+1)", "effects": {"intelligence": 1, "happiness": -2, "health": 1}, "feedback": ["你开始徒步。", "风景很好，但你总觉得少了那一秒自由落体的心跳。"]}
+          },
+          "tags": ["trait", "extreme_sport", "near_death"]
+        }
+      ],
+      "神秘知识": [
+        {
+          "id": "ev_trait_old_book_page",
+          "desc": "那本古籍你翻到了第一百页。这一页的字迹和前面不一样，像是另一个人写的，墨色也深。",
+          "options": {
+            "A": {"text": "通宵研读 (智力+3, 健康-4, 运气+1)", "effects": {"intelligence": 3, "health": -4, "luck": 1}, "feedback": ["天亮时你合上书，手在抖。", "你读懂了一半，另一半你希望自己没读懂。"]},
+            "B": {"text": "记下来，慢慢看 (智力+1, 幸福-1)", "effects": {"intelligence": 1, "happiness": -1}, "feedback": ["你抄录了关键几行。", "抄完你把原件锁了起来，钥匙藏在了只有你知道的地方。"]}
+          },
+          "tags": ["trait", "mystery", "knowledge"]
+        }
+      ],
+      "含着金汤匙": [
+        {
+          "id": "ev_trait_family_meeting",
+          "desc": "家里开家族会议，讨论今年的资产配置。你在会议室坐了三小时，听他们谈几个亿的数字，像在谈买菜。",
+          "options": {
+            "A": {"text": "认真听，学点东西 (智力+2, 魅力+1)", "effects": {"intelligence": 2, "charisma": 1}, "feedback": ["大伯夸你'这孩子有心'。", "你点点头，心里在想刚才那个数字后面有几个零。"]},
+            "B": {"text": "玩手机，装个样子 (智力-1, 魅力-2)", "effects": {"intelligence": -1, "charisma": -2}, "feedback": ["你被点名'有没有在听'。", "你抬头说了句'在听'，又被点了一句'那你来说说'。你卡壳了。"]}
+          },
+          "tags": ["trait", "wealth", "family"]
+        }
+      ],
+      "土地情结": [
+        {
+          "id": "ev_trait_hometown_visit",
+          "desc": "你回了一趟老家。村口的老槐树还在，井还在，但你家的田已经租给别人种了。",
+          "options": {
+            "A": {"text": "下田干一天活 (力量+2, 幸福+3, 健康-2)", "effects": {"strength": 2, "happiness": 3, "health": -2}, "feedback": ["太阳晒得你脊背发烫。", "晚上你吃着自家种的菜，觉得比城里任何馆子都香。"]},
+            "B": {"text": "在田埂上坐一下午 (幸福+2, 智力+1)", "effects": {"happiness": 2, "intelligence": 1}, "feedback": ["你看着稻浪发呆。", "邻居路过说'回来啦'，你嗯了一声，没多说话。"]}
+          },
+          "tags": ["trait", "rural", "roots"]
+        }
+      ],
+      "何不食肉糜": [
+        {
+          "id": "ev_trait_class_shock",
+          "desc": "你新招的助理说她为了省钱每天通勤两小时。你随口问'为什么不租近点'，她笑了笑没说话。",
+          "options": {
+            "A": {"text": "给她加薪+租房补贴 (财富-2, 魅力+3, 道德+2)", "effects": {"wealth": -2, "charisma": 3}, "feedback": ["她哭了，说'谢谢你老板'。", "你有点不好意思——这点钱对你来说不算什么，对她却改变了一切。"]},
+            "B": {"text": "回去查了下公司薪资水平 (智力+2, 道德+1)", "effects": {"intelligence": 2}, "feedback": ["你发现整体偏低。", "第二天你提了全员调薪方案，HR说'预算有限'，你说'那就调整预算'。"]},
+            "C": {"text": "没多想 (智力-1, 魅力-1)", "effects": {"intelligence": -1, "charisma": -1}, "feedback": ["你继续让她每天通勤两小时。", "三个月后她辞职了，理由是'找到更近的工作'。"]}
+          },
+          "tags": ["trait", "wealth", "empathy"]
+        }
+      ],
+      "社恐": [
+        {
+          "id": "ev_trait_party_invited",
+          "desc": "同事聚餐邀请了你。群里二十个人都回复了'收到'，光看消息你就手心冒汗。",
+          "options": {
+            "A": {"text": "去，但早退 (魅力+1, 幸福-2, 健康-1)", "effects": {"charisma": 1, "happiness": -2, "health": -1}, "feedback": ["你坐了四十分钟就找借口走了。", "回去路上你松了口气，但有点后悔没多待一会。"]},
+            "B": {"text": "拒绝 (幸福+1, 魅力-2)", "effects": {"happiness": 1, "charisma": -2}, "feedback": ["你编了个理由说有事。", "同事回了个'好吧'，你盯着这个'好吧'看了五分钟。"]},
+            "C": {"text": "去，全程当背景板 (幸福-3, 智力+1)", "effects": {"happiness": -3, "intelligence": 1}, "feedback": ["你坐在角落听他们聊天。", "有人点你名你才说两句，说完又沉默。"]}
+          },
+          "tags": ["trait", "social_anxiety", "party"]
+        }
+      ],
+      "卷王": [
+        {
+          "id": "ev_trait_burnout_signal",
+          "desc": "你连续加班四十天了。今天早上你盯着Excel，发现一个单元格里的数字你看了五分钟才看懂。",
+          "options": {
+            "A": {"text": "请假休息一周 (健康+4, 财富-2, 幸福+1)", "effects": {"health": 4, "wealth": -2, "happiness": 1}, "feedback": ["你在家躺了三天才缓过来。", "第四天你开始焦虑没工作的事，又打开了电脑。"]},
+            "B": {"text": "硬撑 (健康-5, 智力-1, 财富+2)", "effects": {"health": -5, "intelligence": -1, "wealth": 2}, "feedback": ["项目如期交付。", "但你忘了上个月也交付过一个项目，连名字都想不起来了。"]},
+            "C": {"text": "去找心理医生 (健康+2, 智力+1, 财富-1, 幸福+1)", "effects": {"health": 2, "intelligence": 1, "wealth": -1, "happiness": 1}, "feedback": ["医生说你已经是中度焦虑。", "你点点头，心想'原来我不是矫情'。"]}
+          },
+          "tags": ["trait", "burnout", "workaholic"]
+        }
+      ]
+    }
+  }
+}

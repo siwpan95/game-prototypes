@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "batch": "2026-08-02 增强",
+    "group": "by_career",
+    "note": "补齐 by_career 至目标值 20：为当前仅 2 条的 culture / engineering / finance 各补 1 条（深合并，不覆盖存量）。已在 main.py::life_event 与 core/events_picker 接线消费。"
+  },
+  "event_templates": {
+    "by_career": {
+      "culture": [
+        {
+          "id": "ev_car_culture_gallery",
+          "desc": "市美术馆邀你策展一场小而美的联展。布展预算紧，但作品够好。",
+          "options": {
+            "A": {
+              "text": "坚持学术性，婉拒商业赞助 (智力+2, 财富-2)",
+              "effects": { "intelligence": 2, "wealth": -2 },
+              "feedback": [
+                "你把所有标签都改成了克制的灰底黑字。",
+                "开展那天，业内前辈点了点头，没说话，但你懂。"
+              ]
+            },
+            "B": {
+              "text": "接下品牌赞助，换更大展厅 (魅力+2, 财富+2, 幸福+1)",
+              "effects": { "charisma": 2, "wealth": 2, "happiness": 1 },
+              "feedback": [
+                "展厅大了一倍，logo 也大了一倍。",
+                "入场人数破纪录，你在角落偷偷笑了。"
+              ]
+            },
+            "C": {
+              "text": "把联展做成公益导览 (魅力+1, 幸福+2)",
+              "effects": { "charisma": 1, "happiness": 2 },
+              "feedback": [
+                "你给小朋友讲了半小时一幅画的来历。",
+                "临走有个孩子说'我以后也想策展'，你鼻子一酸。"
+              ]
+            }
+          }
+        }
+      ],
+      "engineering": [
+        {
+          "id": "ev_car_eng_overtime",
+          "desc": "项目上线前夜，测试环境又崩了。群里静悄悄，只有你在线。",
+          "options": {
+            "A": {
+              "text": "通宵抢修保上线 (智力+1, 健康-4, 财富+1)",
+              "effects": { "intelligence": 1, "health": -4, "wealth": 1 },
+              "feedback": [
+                "凌晨四点你合眼两秒，梦见生产环境在冒烟。",
+                "早上九点服务稳稳起，你趴在桌上睡成了表情包。"
+              ]
+            },
+            "B": {
+              "text": "叫醒同事一起扛 (魅力+2, 健康-2)",
+              "effects": { "charisma": 2, "health": -2 },
+              "feedback": [
+                "你@了三个人，两分钟收到三个'马上'。",
+                "事后大家请你喝奶茶，说'关键时刻靠你'。"
+              ]
+            },
+            "C": {
+              "text": "申请延期，睡个安稳觉 (健康+3, 幸福+1)",
+              "effects": { "health": 3, "happiness": 1 },
+              "feedback": [
+                "你写道'质量优先于排期'，发送，关机。",
+                "第二天客户反而夸你们稳，你松了口气。"
+              ]
+            }
+          }
+        }
+      ],
+      "finance": [
+        {
+          "id": "ev_car_fin_market",
+          "desc": "你负责的基金季度回撤了 8%。客户电话一个接一个。",
+          "options": {
+            "A": {
+              "text": "调仓避险，守住本金 (财富+1, 智力+1)",
+              "effects": { "wealth": 1, "intelligence": 1 },
+              "feedback": [
+                "你把高波动仓位砍了一半，夜里睡得着了。",
+                "月底回撤收窄到 3%，客户没再打电话。"
+              ]
+            },
+            "B": {
+              "text": "加杠杆博反弹 (财富+3, 健康-2)",
+              "effects": { "wealth": 3, "health": -2 },
+              "feedback": [
+                "市场真反弹了，你账户飘红三天。",
+                "但心跳也跟着 K 线一起飙，体检多了项异常。"
+              ]
+            },
+            "C": {
+              "text": "坦诚沟通，安抚客户 (魅力+2, 幸福+1)",
+              "effects": { "charisma": 2, "happiness": 1 },
+              "feedback": [
+                "你开了场直播，把回撤讲得明明白白。",
+                "弹幕刷'这经理实在'，赎回反而少了。"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

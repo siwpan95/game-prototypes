@@ -1,0 +1,2466 @@
+{
+  "cards": [
+    {
+      "id": "mod_kpi_ritual",
+      "title": "季度述职",
+      "description": "总监让你把三个月的活压成 5 页 PPT。你翻完记录发现真正的产出只有一句话，其余都卡在等排期。",
+      "left_choice": {
+        "text": "包装成战略级项目",
+        "effects": {
+          "WEALTH": 10,
+          "CHARISMA": 8,
+          "MORALITY": -12,
+          "HAPPINESS": -5
+        },
+        "speech": "赋能、抓手、闭环——凑够 5 页了。"
+      },
+      "right_choice": {
+        "text": "如实汇报一页讲完",
+        "effects": {
+          "MORALITY": 12,
+          "HAPPINESS": 5,
+          "WEALTH": -8,
+          "NOBLES": -10
+        },
+        "speech": "就这些，剩下的都在等排期。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "kpi",
+        "ppt"
+      ]
+    },
+    {
+      "id": "mod_layoff_list",
+      "title": "优化名单",
+      "description": "HR 把会议室订在下午四点，标题写着「组织调整沟通」。你看了眼名单里熟悉的三个工位，都空了。",
+      "left_choice": {
+        "text": "主动举手拿 N+1",
+        "effects": {
+          "WEALTH": 12,
+          "HAPPINESS": 6,
+          "STABILITY": -18,
+          "NOBLES": -8
+        },
+        "speech": "赔偿金到账那天，我先睡三天。"
+      },
+      "right_choice": {
+        "text": "留下来接同事的活",
+        "effects": {
+          "STABILITY": 10,
+          "NOBLES": 8,
+          "HEALTH": -12,
+          "HAPPINESS": -10
+        },
+        "speech": "工位还在，只是活变成两份。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 1.2,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "layoff",
+        "midlife35"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_STABILITY": 61
+          },
+          "text": "两个月后部门重组，你被划给了新总监，汇报线又长了一层。",
+          "effects": {
+            "NOBLES": -6,
+            "HAPPINESS": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_ai_replace",
+      "title": "模型上线了",
+      "description": "周会上产品经理演示新模型，二十秒生成你做了三年的报表。他说这叫提效，让你去负责校对输出。",
+      "left_choice": {
+        "text": "连夜自学提示工程",
+        "effects": {
+          "INTELLIGENCE": 15,
+          "STABILITY": 6,
+          "HEALTH": -10,
+          "HAPPINESS": -6
+        },
+        "speech": "打不过就先摸清它的脾气。"
+      },
+      "right_choice": {
+        "text": "拒绝改岗守住旧流程",
+        "effects": {
+          "MORALITY": 8,
+          "HAPPINESS": 5,
+          "NOBLES": -14,
+          "STABILITY": -12
+        },
+        "speech": "我这三年的手艺，不是校对工。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 40
+      },
+      "weight": 1.1,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "ai",
+        "midlife35"
+      ]
+    },
+    {
+      "id": "mod_offer_counter",
+      "title": "离职谈话",
+      "description": "你交了辞呈，老板第二天约你去楼下咖啡馆，加薪两千，还说下季度给你挂个组长的头衔。",
+      "left_choice": {
+        "text": "收下加薪留下来",
+        "effects": {
+          "WEALTH": 10,
+          "STABILITY": 12,
+          "CHARISMA": -8,
+          "HAPPINESS": -6
+        },
+        "speech": "两千块买断我下一年的犹豫。"
+      },
+      "right_choice": {
+        "text": "按原计划走人",
+        "effects": {
+          "HAPPINESS": 12,
+          "CHARISMA": 8,
+          "STABILITY": -15,
+          "WEALTH": -10
+        },
+        "speech": "留下来的人，明年还得再谈一次。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "resign",
+        "midlife35"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_STABILITY": 71
+          },
+          "text": "半年后组长头衔落空，老板说编制卡在集团那边，让你再等等。",
+          "effects": {
+            "HAPPINESS": -8,
+            "NOBLES": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_annual_party",
+      "title": "年会节目",
+      "description": "行政点名让你们组出个节目，排练排在每天下班之后。领导笑着说，这也是团队建设的一部分。",
+      "left_choice": {
+        "text": "扮丑跳操博领导一笑",
+        "effects": {
+          "NOBLES": 12,
+          "CHARISMA": 8,
+          "MORALITY": -10,
+          "HAPPINESS": -8
+        },
+        "speech": "丢脸一晚，换半年的好脸色。"
+      },
+      "right_choice": {
+        "text": "推说家里有事不去",
+        "effects": {
+          "HAPPINESS": 10,
+          "HEALTH": 6,
+          "NOBLES": -12,
+          "COMMONERS": -8
+        },
+        "speech": "我的下班时间不参与团建。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 0
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "party",
+        "teambuilding"
+      ]
+    },
+    {
+      "id": "mod_overtime_badge",
+      "title": "打卡截图",
+      "description": "部门群里开始流行晒深夜打卡截图，二十三点四十的电梯自拍。今晚你八点就把电脑合上了。",
+      "left_choice": {
+        "text": "回办公室补拍一张",
+        "effects": {
+          "NOBLES": 10,
+          "CHARISMA": 6,
+          "HEALTH": -10,
+          "MORALITY": -8
+        },
+        "speech": "灯留着，人先把照片拍完。"
+      },
+      "right_choice": {
+        "text": "照常下班不发一张",
+        "effects": {
+          "HEALTH": 10,
+          "HAPPINESS": 8,
+          "NOBLES": -10,
+          "COMMONERS": -6
+        },
+        "speech": "我的价值不在电梯口的灯光里。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 0
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "overtime",
+        "performance"
+      ]
+    },
+    {
+      "id": "mod_promotion_slot",
+      "title": "晋升名额",
+      "description": "P7 名额只有一个，另一位候选人是带你入职的师兄。评审前一天，他给你发来一句「加油啊」。",
+      "left_choice": {
+        "text": "把他项目的坑写进材料",
+        "effects": {
+          "WEALTH": 14,
+          "NOBLES": 10,
+          "MORALITY": -18,
+          "COMMONERS": -12
+        },
+        "speech": "评审看数据，不看我们的交情。"
+      },
+      "right_choice": {
+        "text": "只讲自己的活不提他",
+        "effects": {
+          "MORALITY": 12,
+          "COMMONERS": 10,
+          "WEALTH": -8,
+          "NOBLES": -6
+        },
+        "speech": "赢也要赢得让我明年能睡着。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 50
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "promotion",
+        "midlife35"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_MORALITY": 61
+          },
+          "text": "师兄晋升后把你要进了他的组，年底考核给了你一个 A。",
+          "effects": {
+            "NOBLES": 8,
+            "WEALTH": 6,
+            "HAPPINESS": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_salary_delay",
+      "title": "工资缓发",
+      "description": "财务在群里发通知，本月薪资延后到十五号，后面配了个抱拳表情。你的房贷每月十号自动扣。",
+      "left_choice": {
+        "text": "刷信用卡先垫上",
+        "effects": {
+          "STABILITY": 8,
+          "INTELLIGENCE": 5,
+          "WEALTH": -12,
+          "HAPPINESS": -8
+        },
+        "speech": "先把征信保住，别的以后算。"
+      },
+      "right_choice": {
+        "text": "在群里问几号到账",
+        "effects": {
+          "COMMONERS": 12,
+          "MORALITY": 8,
+          "NOBLES": -14,
+          "STABILITY": -8
+        },
+        "speech": "总得有人先把这句话说出口。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "salary",
+        "mortgage"
+      ]
+    },
+    {
+      "id": "mod_career_switch",
+      "title": "中年转行",
+      "description": "三十六岁，你在招聘软件上刷到一条烘焙学徒，月薪四千包住。你算了算，正好是房贷的一半。",
+      "left_choice": {
+        "text": "报名学徒从头再来",
+        "effects": {
+          "HAPPINESS": 15,
+          "INTELLIGENCE": 8,
+          "WEALTH": -20,
+          "STABILITY": -15
+        },
+        "speech": "四十岁前，我想干一件想干的事。"
+      },
+      "right_choice": {
+        "text": "关掉软件继续投简历",
+        "effects": {
+          "STABILITY": 10,
+          "WEALTH": 8,
+          "HAPPINESS": -12,
+          "HEALTH": -6
+        },
+        "speech": "梦想这东西，等房贷还完再说。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 30
+      },
+      "weight": 0.8,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "career",
+        "midlife35",
+        "mortgage"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_HAPPINESS": 61
+          },
+          "text": "半年后你在小区门口支了个摊，早晨六点的面团比 PPT 好闻。",
+          "effects": {
+            "HAPPINESS": 10,
+            "HEALTH": 6,
+            "WEALTH": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_down_payment",
+      "title": "首付缺口",
+      "description": "看中的两居室首付还差十八万，中介说明天再不定就被隔壁那对小夫妻签走。父母说他们可以出。",
+      "left_choice": {
+        "text": "接过父母的养老钱",
+        "effects": {
+          "WEALTH": 20,
+          "STABILITY": 12,
+          "CHURCH": -10,
+          "MORALITY": -12
+        },
+        "speech": "这笔钱我记在账上，一定还。"
+      },
+      "right_choice": {
+        "text": "放弃这套再攒两年",
+        "effects": {
+          "MORALITY": 10,
+          "CHURCH": 8,
+          "STABILITY": -12,
+          "HAPPINESS": -10
+        },
+        "speech": "房子会有的，爸妈的存折只有一本。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 40
+      },
+      "weight": 1.2,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "mortgage",
+        "house",
+        "eldercare"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_WEALTH": 71
+          },
+          "text": "签约当天房东临时加价三万，中介劝你别为这点钱翻脸。",
+          "effects": {
+            "WEALTH": -10,
+            "HAPPINESS": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_fund_dip",
+      "title": "基金绿了",
+      "description": "去年跟风买的那只基金今天跌破成本线三成，理财群里群主已经把群名改成了「长期主义」。",
+      "left_choice": {
+        "text": "割肉离场换定期",
+        "effects": {
+          "STABILITY": 12,
+          "HAPPINESS": 6,
+          "WEALTH": -15,
+          "INTELLIGENCE": -5
+        },
+        "speech": "亏掉的是钱，留住的是睡眠。"
+      },
+      "right_choice": {
+        "text": "补仓摊薄继续拿着",
+        "effects": {
+          "INTELLIGENCE": 10,
+          "STRENGTH": 6,
+          "WEALTH": -10,
+          "HAPPINESS": -8
+        },
+        "speech": "跌到这份上，卖了才叫真亏。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 25
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "money",
+        "fund",
+        "investment"
+      ]
+    },
+    {
+      "id": "mod_friend_loan",
+      "title": "同学借钱",
+      "description": "高中同桌深夜发来消息，说生意周转差三万，两个月一定还。你们上次见面还是六年前的婚礼。",
+      "left_choice": {
+        "text": "转三万不提借条",
+        "effects": {
+          "CHARISMA": 12,
+          "MORALITY": 10,
+          "WEALTH": -18,
+          "STABILITY": -8
+        },
+        "speech": "就当花三万，买一个不后悔。"
+      },
+      "right_choice": {
+        "text": "说手头也紧婉拒",
+        "effects": {
+          "WEALTH": 8,
+          "STABILITY": 6,
+          "CHARISMA": -12,
+          "HAPPINESS": -8
+        },
+        "speech": "拒绝的话说出口，比三万难。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 35
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "money",
+        "friendship",
+        "loan"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_CHARISMA": 61
+          },
+          "text": "第三个月他真的连本带利转了回来，还附了张自家小店的照片。",
+          "effects": {
+            "WEALTH": 12,
+            "CHARISMA": 6,
+            "HAPPINESS": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_downgrade_life",
+      "title": "消费降级",
+      "description": "你把三十八块的手冲换成七块的挂耳，健身房年卡到期没续，购物车里躺着两年没舍得买的相机。",
+      "left_choice": {
+        "text": "清空购物车买相机",
+        "effects": {
+          "HAPPINESS": 14,
+          "INTELLIGENCE": 6,
+          "WEALTH": -16,
+          "STABILITY": -6
+        },
+        "speech": "省下的每一块都在提醒我穷。"
+      },
+      "right_choice": {
+        "text": "连挂耳也停只喝白水",
+        "effects": {
+          "WEALTH": 12,
+          "STRENGTH": 5,
+          "HAPPINESS": -12,
+          "CHARISMA": -6
+        },
+        "speech": "戒掉的不是咖啡，是那点体面。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "money",
+        "downgrade",
+        "lifestyle"
+      ]
+    },
+    {
+      "id": "mod_company_equity",
+      "title": "公司期权",
+      "description": "HR 发来一份期权授予书，四年归属，行权价按上轮估值算。同事说上一批离职的人一分都没拿到。",
+      "left_choice": {
+        "text": "签下四年绑定",
+        "effects": {
+          "WEALTH": 14,
+          "STABILITY": 10,
+          "HAPPINESS": -8,
+          "CHARISMA": -6
+        },
+        "speech": "赌四年，赌它真的能上市。"
+      },
+      "right_choice": {
+        "text": "要求折成现金月薪",
+        "effects": {
+          "WEALTH": 8,
+          "MORALITY": 6,
+          "NOBLES": -12,
+          "STABILITY": -8
+        },
+        "speech": "画在纸上的饼，我咬不动。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 45
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "money",
+        "equity",
+        "startup"
+      ]
+    },
+    {
+      "id": "mod_insurance_pitch",
+      "title": "保险推销",
+      "description": "表姐改行做了保险经纪，饭桌上掏出计划书，说重疾险过四十就贵一倍。你妈在旁边一直点头。",
+      "left_choice": {
+        "text": "当场签下年缴八千",
+        "effects": {
+          "STABILITY": 14,
+          "CHURCH": 8,
+          "WEALTH": -14,
+          "HAPPINESS": -6
+        },
+        "speech": "买的不是保额，是我妈的安心。"
+      },
+      "right_choice": {
+        "text": "说回去研究研究",
+        "effects": {
+          "WEALTH": 10,
+          "INTELLIGENCE": 8,
+          "CHURCH": -10,
+          "CHARISMA": -8
+        },
+        "speech": "亲戚推销的东西，我不当场签。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "money",
+        "insurance",
+        "family"
+      ]
+    },
+    {
+      "id": "mod_mortgage_prepay",
+      "title": "提前还贷",
+      "description": "账上攒到二十万，房贷利率四点二，理财收益跌到二点八。银行客服说提前还款要排队三个月。",
+      "left_choice": {
+        "text": "全部砸进去还贷",
+        "effects": {
+          "STABILITY": 16,
+          "HAPPINESS": 8,
+          "WEALTH": -18,
+          "INTELLIGENCE": -5
+        },
+        "speech": "我不想再被那串数字追着跑。"
+      },
+      "right_choice": {
+        "text": "留着现金等机会",
+        "effects": {
+          "WEALTH": 10,
+          "INTELLIGENCE": 10,
+          "STABILITY": -10,
+          "HAPPINESS": -8
+        },
+        "speech": "手里有活钱，心里才不发慌。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 55
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "mortgage",
+        "money",
+        "bank"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_STABILITY": 66
+          },
+          "text": "还贷后月供少了两千三，你第一次在月底看到余额还是正的。",
+          "effects": {
+            "HAPPINESS": 8,
+            "STABILITY": 5,
+            "WEALTH": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_crypto_group",
+      "title": "炒币群邀请",
+      "description": "大学室友拉你进一个五百人的群，置顶写着「上车还来得及」。他晒的截图显示三个月翻了四倍。",
+      "left_choice": {
+        "text": "投五万试试水",
+        "effects": {
+          "HAPPINESS": 10,
+          "STRENGTH": 6,
+          "WEALTH": -20,
+          "STABILITY": -14
+        },
+        "speech": "穷了这么多年，总得赌一把。"
+      },
+      "right_choice": {
+        "text": "退群并屏蔽他",
+        "effects": {
+          "STABILITY": 10,
+          "MORALITY": 8,
+          "CHARISMA": -10,
+          "HAPPINESS": -5
+        },
+        "speech": "能翻四倍的好事，轮不到我。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 45
+      },
+      "weight": 0.8,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "money",
+        "crypto",
+        "risk"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_WEALTH": 61
+          },
+          "text": "两周后交易所暂停提币，室友的微信头像变成了灰色。",
+          "effects": {
+            "WEALTH": -16,
+            "HAPPINESS": -12,
+            "CHARISMA": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_side_income",
+      "title": "副业第一笔",
+      "description": "周末接的第一单文案打过来八百块，扣完平台抽成剩六百四。你算了下时薪，比本职还低一点。",
+      "left_choice": {
+        "text": "加码接单做到深夜",
+        "effects": {
+          "WEALTH": 12,
+          "INTELLIGENCE": 8,
+          "HEALTH": -14,
+          "HAPPINESS": -5
+        },
+        "speech": "低是低，可这钱是我自己的。"
+      },
+      "right_choice": {
+        "text": "收摊回去睡觉",
+        "effects": {
+          "HEALTH": 10,
+          "HAPPINESS": 8,
+          "WEALTH": -6,
+          "INTELLIGENCE": -5
+        },
+        "speech": "算清时薪的那一刻，我醒了。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "sidehustle",
+        "money",
+        "freelance"
+      ]
+    },
+    {
+      "id": "mod_blind_date_form",
+      "title": "相亲表格",
+      "description": "介绍人发来一张表：身高体重、房贷余额、父母有无退休金。备注写着「对方要求本地有房无贷」。",
+      "left_choice": {
+        "text": "把房贷那栏留空",
+        "effects": {
+          "CHARISMA": 12,
+          "WEALTH": 6,
+          "MORALITY": -14,
+          "HAPPINESS": -6
+        },
+        "speech": "先见到人，再说那六十万。"
+      },
+      "right_choice": {
+        "text": "如实填完再发回",
+        "effects": {
+          "MORALITY": 14,
+          "HAPPINESS": 6,
+          "CHARISMA": -12,
+          "CHURCH": -8
+        },
+        "speech": "我背着贷款，但我不撒谎。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 30
+      },
+      "weight": 1.1,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "dating",
+        "mortgage",
+        "marriage"
+      ]
+    },
+    {
+      "id": "mod_bride_price",
+      "title": "彩礼谈判",
+      "description": "女方家提出十八万八彩礼，还要在车本上加名。你妈把定期取出来那天，在柜台前抖了很久。",
+      "left_choice": {
+        "text": "借钱凑齐这个数",
+        "effects": {
+          "CHURCH": 12,
+          "CHARISMA": 8,
+          "WEALTH": -22,
+          "STABILITY": -12
+        },
+        "speech": "钱能还，这次的脸面得给她。"
+      },
+      "right_choice": {
+        "text": "坐下来重新谈",
+        "effects": {
+          "WEALTH": 12,
+          "MORALITY": 10,
+          "CHARISMA": -12,
+          "CHURCH": -10
+        },
+        "speech": "婚是两个人的，不是两张账单。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 30
+      },
+      "weight": 1.1,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "marriage",
+        "money",
+        "eldercare"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_CHURCH": 66
+          },
+          "text": "婚后第一年，丈母娘把彩礼原封退了回来，当作你们的装修款。",
+          "effects": {
+            "WEALTH": 14,
+            "CHURCH": 6,
+            "HAPPINESS": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_urge_marriage",
+      "title": "年夜催婚",
+      "description": "年夜饭第三轮敬酒，二舅问你三十二了还打算等谁。全桌安静下来，电视里正唱着难忘今宵。",
+      "left_choice": {
+        "text": "笑着敷衍说在看",
+        "effects": {
+          "CHURCH": 10,
+          "CHARISMA": 6,
+          "HAPPINESS": -12,
+          "MORALITY": -6
+        },
+        "speech": "快了快了——这话我说了四年。"
+      },
+      "right_choice": {
+        "text": "放下筷子说不结",
+        "effects": {
+          "HAPPINESS": 14,
+          "MORALITY": 10,
+          "CHURCH": -16,
+          "CHARISMA": -8
+        },
+        "speech": "一个人过得挺好，这是真话。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_happiness": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "family",
+        "marriage",
+        "newyear"
+      ]
+    },
+    {
+      "id": "mod_school_district",
+      "title": "学区房抉择",
+      "description": "孩子明年上小学，对口那所排名倒数。中介说隔壁老破小四十平要五百八十万，能进实验二小。",
+      "left_choice": {
+        "text": "卖掉现在的换过去",
+        "effects": {
+          "CHURCH": 14,
+          "INTELLIGENCE": 8,
+          "WEALTH": -25,
+          "HAPPINESS": -10
+        },
+        "speech": "我这辈子就这样了，他不能。"
+      },
+      "right_choice": {
+        "text": "留在原地读对口",
+        "effects": {
+          "WEALTH": 14,
+          "HAPPINESS": 8,
+          "CHURCH": -14,
+          "STABILITY": -6
+        },
+        "speech": "四十平的学区，装不下一个童年。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 60
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "parenting",
+        "house",
+        "mortgage"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_CHURCH": 66
+          },
+          "text": "政策改成多校划片，五百八十万买来的学区一夜之间变成摇号。",
+          "effects": {
+            "WEALTH": -14,
+            "HAPPINESS": -10,
+            "STABILITY": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_parent_hospital",
+      "title": "父亲住院",
+      "description": "凌晨两点老家打来电话，父亲心梗进了 ICU。你手机屏幕上还挂着明早八点的项目评审提醒。",
+      "left_choice": {
+        "text": "买最早一班高铁回去",
+        "effects": {
+          "CHURCH": 16,
+          "MORALITY": 12,
+          "NOBLES": -14,
+          "WEALTH": -10
+        },
+        "speech": "评审可以改期，人不能等。"
+      },
+      "right_choice": {
+        "text": "先转账再请假两天",
+        "effects": {
+          "NOBLES": 8,
+          "STABILITY": 6,
+          "CHURCH": -12,
+          "HAPPINESS": -14
+        },
+        "speech": "钱先到，我周末一定赶回去。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.3,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "eldercare",
+        "family",
+        "health"
+      ]
+    },
+    {
+      "id": "mod_nursing_home",
+      "title": "养老院选择",
+      "description": "母亲摔了一跤后行动不便，护工月费六千五，你和妹妹各出一半。她在电话里说别送她去。",
+      "left_choice": {
+        "text": "接来同住自己照顾",
+        "effects": {
+          "CHURCH": 16,
+          "MORALITY": 10,
+          "HEALTH": -14,
+          "STABILITY": -12
+        },
+        "speech": "她带大我的时候，也没送我走。"
+      },
+      "right_choice": {
+        "text": "送进条件好的机构",
+        "effects": {
+          "STABILITY": 10,
+          "HEALTH": 8,
+          "CHURCH": -14,
+          "HAPPINESS": -12
+        },
+        "speech": "专业护理，比我笨手笨脚强。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 35
+      },
+      "weight": 1.1,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "eldercare",
+        "family",
+        "money"
+      ],
+      "chain_reactions": [
+        {
+          "condition": {
+            "min_CHURCH": 71
+          },
+          "text": "母亲在你家阳台种起了小葱，说这屋子终于有了点人味。",
+          "effects": {
+            "HAPPINESS": 10,
+            "CHURCH": 6,
+            "HEALTH": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_partner_relocate",
+      "title": "异地调令",
+      "description": "公司要派你去成都两年，补贴每月三千。伴侣的手术排在下月，主刀医生只在本地这家医院坐诊。",
+      "left_choice": {
+        "text": "接下调令按时报到",
+        "effects": {
+          "WEALTH": 14,
+          "NOBLES": 12,
+          "CHURCH": -16,
+          "HAPPINESS": -12
+        },
+        "speech": "两年而已，视频每天都能开。"
+      },
+      "right_choice": {
+        "text": "拒绝外派留在本地",
+        "effects": {
+          "CHURCH": 14,
+          "HAPPINESS": 10,
+          "NOBLES": -16,
+          "WEALTH": -10
+        },
+        "speech": "她进手术室时，我要在门外站着。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 40
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "relationship",
+        "career",
+        "health"
+      ]
+    },
+    {
+      "id": "mod_ex_wedding",
+      "title": "前任的请柬",
+      "description": "前任寄来婚礼请柬，落款还写着你当年给她起的那个昵称。日期正好是你们分手的第五年。",
+      "left_choice": {
+        "text": "包个大红包去现场",
+        "effects": {
+          "CHARISMA": 12,
+          "MORALITY": 8,
+          "WEALTH": -12,
+          "HAPPINESS": -10
+        },
+        "speech": "去看看，把这一页真正翻过去。"
+      },
+      "right_choice": {
+        "text": "回一句祝福不出席",
+        "effects": {
+          "HAPPINESS": 10,
+          "STABILITY": 6,
+          "CHARISMA": -10,
+          "MORALITY": -5
+        },
+        "speech": "祝福是真心的，出席就免了。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_happiness": 0
+      },
+      "weight": 0.8,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "relationship",
+        "past",
+        "wedding"
+      ]
+    },
+    {
+      "id": "mod_second_child",
+      "title": "二胎商量",
+      "description": "父母催二胎催了一年，说趁他们还能帮着带。老大补习班一年三万六，你们存款是十一万。",
+      "left_choice": {
+        "text": "顺了老人的心愿",
+        "effects": {
+          "CHURCH": 16,
+          "HAPPINESS": 6,
+          "WEALTH": -20,
+          "STABILITY": -12
+        },
+        "speech": "再挤挤，多一个孩子多条路。"
+      },
+      "right_choice": {
+        "text": "明确说只要一个",
+        "effects": {
+          "WEALTH": 12,
+          "STABILITY": 10,
+          "CHURCH": -16,
+          "HAPPINESS": -6
+        },
+        "speech": "养得起一个，我就只生一个。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 45
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "parenting",
+        "family",
+        "eldercare"
+      ]
+    },
+    {
+      "id": "mod_gym_card_dust",
+      "title": "健身卡到期",
+      "description": "办的两千八年卡今天到期，系统显示总共去过四次，最后一次是十一个月前的入场体测。",
+      "left_choice": {
+        "text": "咬牙再续一年卡",
+        "effects": {
+          "STRENGTH": 12,
+          "HEALTH": 8,
+          "WEALTH": -12,
+          "HAPPINESS": -5
+        },
+        "speech": "续费是我对自己最后的期待。"
+      },
+      "right_choice": {
+        "text": "退卡改成楼下跑步",
+        "effects": {
+          "WEALTH": 10,
+          "MORALITY": 6,
+          "STRENGTH": -8,
+          "CHARISMA": -5
+        },
+        "speech": "两千八，买了四次自我感动。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.8,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "fitness",
+        "money"
+      ]
+    },
+    {
+      "id": "mod_commute_two_hours",
+      "title": "通勤两小时",
+      "description": "每天地铁往返两小时四十分，六号线早高峰要等三趟才挤得上。公司附近合租房月租四千二。",
+      "left_choice": {
+        "text": "搬去公司附近合租",
+        "effects": {
+          "HEALTH": 12,
+          "HAPPINESS": 10,
+          "WEALTH": -14,
+          "STABILITY": -8
+        },
+        "speech": "四千二，买回我每天两小时。"
+      },
+      "right_choice": {
+        "text": "继续挤省下房租",
+        "effects": {
+          "WEALTH": 12,
+          "STRENGTH": 6,
+          "HEALTH": -12,
+          "HAPPINESS": -8
+        },
+        "speech": "在地铁上，我至少还能补个觉。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 20
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "commute",
+        "rent"
+      ]
+    },
+    {
+      "id": "mod_checkup_abnormal",
+      "title": "报告单四项红",
+      "description": "体检中心打电话来，说甲状腺结节和转氨酶要复查。你翻了下日程，下周三下午空着，也可以拿来赶那份延期两次的方案。",
+      "left_choice": {
+        "text": "请假去复查",
+        "effects": {
+          "HEALTH": 14,
+          "HAPPINESS": 6,
+          "WEALTH": -6,
+          "NOBLES": -8
+        },
+        "speech": "身体是自己的，方案再延一次。"
+      },
+      "right_choice": {
+        "text": "先把方案交了",
+        "effects": {
+          "NOBLES": 10,
+          "WEALTH": 8,
+          "HEALTH": -14,
+          "HAPPINESS": -6
+        },
+        "speech": "复查排到下个月，方案排在明早。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 30
+      },
+      "weight": 1.2,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "checkup",
+        "midlife35"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_HEALTH": 61
+          },
+          "chance": 0.6,
+          "title": "复查那天的走廊",
+          "description": "超声科门口坐了两个小时，医生说结节三级，随访就行。你走出医院时太阳很好，第一次觉得请这半天假不亏。",
+          "effects": {
+            "HAPPINESS": 10,
+            "STABILITY": 6,
+            "WEALTH": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_shortvideo_loop",
+      "title": "刷到凌晨三点",
+      "description": "手指往上滑第四百次，屏幕右上角显示03:12。明早八点有个会。你告诉自己再看一条，然后看到了第七条。",
+      "left_choice": {
+        "text": "把手机扔客厅",
+        "effects": {
+          "HEALTH": 10,
+          "STABILITY": 8,
+          "INTELLIGENCE": 3,
+          "HAPPINESS": -9
+        },
+        "speech": "充电线留在卧室就是个陷阱。"
+      },
+      "right_choice": {
+        "text": "再看一条就睡",
+        "effects": {
+          "HAPPINESS": 9,
+          "HEALTH": -11,
+          "INTELLIGENCE": -6,
+          "STRENGTH": -5
+        },
+        "speech": "这条讲的是怎么早睡，看完就睡。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_happiness": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "shortvideo",
+        "sleep"
+      ]
+    },
+    {
+      "id": "mod_sudden_death_news",
+      "title": "热搜上的同行",
+      "description": "热搜第三条：某公司32岁工程师连续加班后离世。你翻了翻自己这周的打卡记录，四天在22点以后走的。评论区在吵该怪谁。",
+      "left_choice": {
+        "text": "转发并申请调岗",
+        "effects": {
+          "HEALTH": 12,
+          "HAPPINESS": 8,
+          "WEALTH": -9,
+          "NOBLES": -10
+        },
+        "speech": "我不想成为下一条热搜的配图。"
+      },
+      "right_choice": {
+        "text": "关掉热搜继续",
+        "effects": {
+          "WEALTH": 9,
+          "NOBLES": 8,
+          "HEALTH": -12,
+          "HAPPINESS": -8
+        },
+        "speech": "他是他，我这周只加了四天班。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 0
+      },
+      "weight": 1.1,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "overtime",
+        "midlife35"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_HEALTH": 40
+          },
+          "chance": 0.65,
+          "title": "凌晨的耳鸣",
+          "description": "两点你被自己的心跳吵醒，右耳嗡嗡响了十分钟。你摸黑翻出血压计，又觉得没必要，把它塞回了抽屉最里面。",
+          "effects": {
+            "HEALTH": -10,
+            "HAPPINESS": -7,
+            "STABILITY": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_therapy_bill",
+      "title": "一小时六百",
+      "description": "咨询师建议做满十次。你在手机银行里看了看余额，六千块相当于两个月的房贷利息。她问你现在在想什么，你说在想钱。",
+      "left_choice": {
+        "text": "咬牙做满十次",
+        "effects": {
+          "HAPPINESS": 14,
+          "STABILITY": 8,
+          "HEALTH": 4,
+          "WEALTH": -16
+        },
+        "speech": "这六千买的是还能上班的自己。"
+      },
+      "right_choice": {
+        "text": "改成自己扛",
+        "effects": {
+          "WEALTH": 12,
+          "STRENGTH": 6,
+          "HAPPINESS": -13,
+          "HEALTH": -7
+        },
+        "speech": "睡一觉就好，以前也这么过来的。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 20
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "therapy",
+        "money"
+      ]
+    },
+    {
+      "id": "mod_drinking_table",
+      "title": "酒桌上的规矩",
+      "description": "客户举着杯子说，这杯干了合同就好谈。你上个月刚查出中度脂肪肝，医生让戒酒三个月。总监在桌子底下踢了你一脚。",
+      "left_choice": {
+        "text": "端起来干了",
+        "effects": {
+          "WEALTH": 14,
+          "NOBLES": 12,
+          "HEALTH": -16,
+          "MORALITY": -5
+        },
+        "speech": "医生又不给我发年终奖。"
+      },
+      "right_choice": {
+        "text": "以茶代酒",
+        "effects": {
+          "HEALTH": 11,
+          "MORALITY": 8,
+          "WEALTH": -12,
+          "NOBLES": -11
+        },
+        "speech": "报告在这，这杯我是真喝不了。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 25
+      },
+      "weight": 1.05,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "drinking",
+        "workplace"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_WEALTH": 51,
+            "max_HEALTH": 45
+          },
+          "chance": 0.7,
+          "title": "第二天的化验单",
+          "description": "早上七点你吐在了公司卫生间，同事把你扶去了急诊。转氨酶是上限的三倍，医生把戒酒两个字写得又粗又大。",
+          "effects": {
+            "HEALTH": -14,
+            "WEALTH": -6,
+            "HAPPINESS": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_hair_loss",
+      "title": "发际线后退",
+      "description": "理发师第三次说，先生您头顶这块要不要考虑一下。植发机构报价三万八，可以分十二期。你摸了摸，确实比去年空了一片。",
+      "left_choice": {
+        "text": "刷卡去植发",
+        "effects": {
+          "CHARISMA": 13,
+          "HAPPINESS": 9,
+          "WEALTH": -18,
+          "STABILITY": -4
+        },
+        "speech": "见客户的是我的脸，不是存款。"
+      },
+      "right_choice": {
+        "text": "剃短，认头型",
+        "effects": {
+          "WEALTH": 10,
+          "MORALITY": 5,
+          "CHARISMA": -11,
+          "HAPPINESS": -7
+        },
+        "speech": "三万八够我爸做两次膝盖手术。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 30
+      },
+      "weight": 0.85,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "appearance",
+        "midlife35"
+      ]
+    },
+    {
+      "id": "mod_night_snack_order",
+      "title": "深夜下单",
+      "description": "副业的稿子改到十一点半，你点开外卖，购物车里躺着炸鸡和可乐，共四十八块。冰箱里还有前天买的西蓝花，已经发黄。",
+      "left_choice": {
+        "text": "下单炸鸡",
+        "effects": {
+          "HAPPINESS": 11,
+          "STRENGTH": 4,
+          "HEALTH": -12,
+          "WEALTH": -6
+        },
+        "speech": "改了四小时稿，这顿我配得上。"
+      },
+      "right_choice": {
+        "text": "煮那把西蓝花",
+        "effects": {
+          "HEALTH": 10,
+          "WEALTH": 7,
+          "HAPPINESS": -9,
+          "STRENGTH": -3
+        },
+        "speech": "发黄的部分切掉还能吃。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 0
+      },
+      "weight": 0.95,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "food",
+        "sidehustle"
+      ]
+    },
+    {
+      "id": "mod_wedding_gift",
+      "title": "五月的第四张",
+      "description": "这个月第四张请柬，大学室友，毕业后只见过一次。群里说的行情是一千二。你这个月的信用卡账单还有三千没还上。",
+      "left_choice": {
+        "text": "随一千二到场",
+        "effects": {
+          "CHARISMA": 12,
+          "COMMONERS": 10,
+          "WEALTH": -14,
+          "HAPPINESS": -4
+        },
+        "speech": "人情是存进去才取得出来的。"
+      },
+      "right_choice": {
+        "text": "转两百说出差",
+        "effects": {
+          "WEALTH": 11,
+          "STABILITY": 5,
+          "CHARISMA": -12,
+          "COMMONERS": -9
+        },
+        "speech": "我这个月真的转不出一千二。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.1,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "wedding",
+        "money"
+      ]
+    },
+    {
+      "id": "mod_group_chat_ask",
+      "title": "帮个小忙",
+      "description": "前同事私聊：能帮我看份简历吗，就十分钟。你打开文档，七页，还附了三个岗位的招聘要求。你手上的排期今晚十点截止。",
+      "left_choice": {
+        "text": "熬夜帮他改完",
+        "effects": {
+          "COMMONERS": 12,
+          "CHARISMA": 9,
+          "HEALTH": -10,
+          "WEALTH": -5
+        },
+        "speech": "改完了，第三个岗位你别投。"
+      },
+      "right_choice": {
+        "text": "回一句最近很忙",
+        "effects": {
+          "HEALTH": 8,
+          "STABILITY": 6,
+          "COMMONERS": -11,
+          "CHARISMA": -8
+        },
+        "speech": "最近排期太满，回头请你吃饭。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 0
+      },
+      "weight": 0.95,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "favor",
+        "workplace"
+      ]
+    },
+    {
+      "id": "mod_pet_medical_bill",
+      "title": "猫的急诊单",
+      "description": "凌晨的宠物医院，医生说尿路梗阻，手术加住院八千二。它是你毕业那年从纸箱里抱回来的，今年第九年，掉毛掉得厉害。",
+      "left_choice": {
+        "text": "签字，做手术",
+        "effects": {
+          "HAPPINESS": 13,
+          "MORALITY": 10,
+          "WEALTH": -20,
+          "STABILITY": -5
+        },
+        "speech": "它陪我搬过四次家，这钱得花。"
+      },
+      "right_choice": {
+        "text": "选保守治疗",
+        "effects": {
+          "WEALTH": 12,
+          "STABILITY": 6,
+          "HAPPINESS": -15,
+          "MORALITY": -8
+        },
+        "speech": "先开药看看，实在不行再说吧。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 25
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "pet",
+        "money"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_WEALTH": 45
+          },
+          "chance": 0.6,
+          "title": "三天后的复发",
+          "description": "第三天夜里它又开始叫，这次医生说错过了窗口期。你把定期取了出来，交费单上的数字比八千二多了整整一倍。",
+          "effects": {
+            "WEALTH": -14,
+            "HAPPINESS": -12,
+            "MORALITY": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_neighbor_leak",
+      "title": "楼上漏水了",
+      "description": "主卧天花板洇出一块巴掌大的黄印。楼上住的是租客，房东电话打不通。物业说这属于业主之间的事，建议你们自行协商。",
+      "left_choice": {
+        "text": "报警走维权",
+        "effects": {
+          "WEALTH": 10,
+          "MORALITY": 8,
+          "COMMONERS": -12,
+          "HAPPINESS": -6
+        },
+        "speech": "留证据、找鉴定，一步都不省。"
+      },
+      "right_choice": {
+        "text": "自己刷层漆",
+        "effects": {
+          "COMMONERS": 9,
+          "STABILITY": 7,
+          "WEALTH": -11,
+          "HAPPINESS": -6
+        },
+        "speech": "两百块的漆，比两个月的气便宜。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 30
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "neighbor",
+        "house"
+      ]
+    },
+    {
+      "id": "mod_landlord_notice",
+      "title": "房东要涨租",
+      "description": "房东在微信里发了个笑脸：下月起涨八百，周边都这个价。你算了算搬家加中介费要六千，而你上周刚组装完那个书架。",
+      "left_choice": {
+        "text": "接受涨价续租",
+        "effects": {
+          "STABILITY": 11,
+          "HEALTH": 6,
+          "WEALTH": -13,
+          "HAPPINESS": -5
+        },
+        "speech": "书架拆了就装不回去了，续吧。"
+      },
+      "right_choice": {
+        "text": "退租搬去远郊",
+        "effects": {
+          "WEALTH": 12,
+          "MORALITY": 4,
+          "STABILITY": -13,
+          "HEALTH": -8
+        },
+        "speech": "省下的八百，拿去还最低还款。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.05,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "rent",
+        "moving"
+      ]
+    },
+    {
+      "id": "mod_moments_curation",
+      "title": "仅三天可见",
+      "description": "领导加了你的微信，头像是全家福。你翻了翻去年的朋友圈，有两条骂甲方的，一条凌晨三点的加班自拍，一条转租广告。",
+      "left_choice": {
+        "text": "设成三天可见",
+        "effects": {
+          "STABILITY": 10,
+          "NOBLES": 8,
+          "CHARISMA": -11,
+          "HAPPINESS": -5
+        },
+        "speech": "干干净净什么都看不见，最安全。"
+      },
+      "right_choice": {
+        "text": "一条都不删",
+        "effects": {
+          "MORALITY": 11,
+          "HAPPINESS": 7,
+          "NOBLES": -12,
+          "STABILITY": -6
+        },
+        "speech": "他要看就看，那也是我过的日子。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 0
+      },
+      "weight": 0.85,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "socialmedia",
+        "privacy"
+      ]
+    },
+    {
+      "id": "mod_referral_request",
+      "title": "内推这个人",
+      "description": "表姐让你把她儿子推进公司，说孩子刚毕业很努力。你看了简历，专业不对口，项目经历是三个课程作业。内推奖金三千。",
+      "left_choice": {
+        "text": "递上去写推荐语",
+        "effects": {
+          "CHURCH": 13,
+          "WEALTH": 8,
+          "MORALITY": -12,
+          "COMMONERS": -7
+        },
+        "speech": "推荐语写满，面试就看他自己了。"
+      },
+      "right_choice": {
+        "text": "婉拒，帮改简历",
+        "effects": {
+          "MORALITY": 11,
+          "INTELLIGENCE": 5,
+          "CHURCH": -13,
+          "CHARISMA": -6
+        },
+        "speech": "我推了会砸招牌，简历我帮他改。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 25
+      },
+      "weight": 0.95,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "referral",
+        "workplace"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_NOBLES": 41
+          },
+          "chance": 0.55,
+          "title": "两周后的复盘",
+          "description": "招聘群里有人艾特你：内推的候选人二面爽约，还在点评网站写了公司坏话。表姐当晚打来电话，问是不是你没使劲。",
+          "effects": {
+            "CHARISMA": -10,
+            "COMMONERS": -8,
+            "CHURCH": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_gender_bias_meeting",
+      "title": "会上那句玩笑",
+      "description": "评审会上总监指着方案说，这块做得细，果然还是女生心思密。全场笑了两秒。做这块的是坐你旁边的男同事，改了六版。",
+      "left_choice": {
+        "text": "当场把话接回来",
+        "effects": {
+          "MORALITY": 13,
+          "COMMONERS": 9,
+          "NOBLES": -13,
+          "STABILITY": -5
+        },
+        "speech": "这版是他做的，改了六遍。"
+      },
+      "right_choice": {
+        "text": "跟着笑过去",
+        "effects": {
+          "NOBLES": 9,
+          "STABILITY": 7,
+          "MORALITY": -12,
+          "COMMONERS": -8
+        },
+        "speech": "会后我私下跟他说一声就好。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_morality": 20
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "bias",
+        "workplace"
+      ]
+    },
+    {
+      "id": "mod_livestream_debut",
+      "title": "第一场直播",
+      "description": "开播四十分钟，在线人数最高七人，其中两个是你自己的小号。选品让你把那款没做过质检的洗面奶挂上链接，佣金三成。",
+      "left_choice": {
+        "text": "挂上去念脚本",
+        "effects": {
+          "WEALTH": 14,
+          "CHARISMA": 9,
+          "MORALITY": -15,
+          "COMMONERS": -6
+        },
+        "speech": "家人们，这款我自己也在用。"
+      },
+      "right_choice": {
+        "text": "只讲用过的",
+        "effects": {
+          "MORALITY": 12,
+          "INTELLIGENCE": 6,
+          "WEALTH": -12,
+          "CHARISMA": -8
+        },
+        "speech": "没测过的我不挂，掉粉就掉粉。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 30
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "livestream",
+        "sidehustle"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_WEALTH": 51
+          },
+          "chance": 0.6,
+          "title": "退货潮",
+          "description": "第三天后台弹出一百三十二条退货，理由清一色写着过敏。平台扣了保证金，选品换了头像，再也不回你的消息。",
+          "effects": {
+            "WEALTH": -16,
+            "CHARISMA": -9,
+            "MORALITY": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_lottery_fantasy",
+      "title": "两块钱的梦",
+      "description": "同事在群里发彩票截图，说这期奖池八个亿。你查过中奖概率是一千七百万分之一，但下班路过便利店时还是停了三秒。",
+      "left_choice": {
+        "text": "买一百块机选",
+        "effects": {
+          "HAPPINESS": 9,
+          "COMMONERS": 5,
+          "WEALTH": -8,
+          "INTELLIGENCE": -6
+        },
+        "speech": "一百块买两天幻想，不算贵。"
+      },
+      "right_choice": {
+        "text": "转进货币基金",
+        "effects": {
+          "WEALTH": 10,
+          "INTELLIGENCE": 7,
+          "HAPPINESS": -9,
+          "COMMONERS": -4
+        },
+        "speech": "一千七百万分之一，我算过了。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 0.8,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "lottery",
+        "money"
+      ]
+    },
+    {
+      "id": "mod_ai_prompt_course",
+      "title": "卖课的师兄",
+      "description": "师兄发来链接：三天上手大模型，月入两万，原价一千九，老同学五百九。他去年还在跟你一起投简历。评论区全是感谢。",
+      "left_choice": {
+        "text": "报名并做分销",
+        "effects": {
+          "WEALTH": 12,
+          "CHARISMA": 8,
+          "MORALITY": -14,
+          "INTELLIGENCE": -5
+        },
+        "speech": "拉三个人就回本，这题不难。"
+      },
+      "right_choice": {
+        "text": "自己啃开源文档",
+        "effects": {
+          "INTELLIGENCE": 13,
+          "MORALITY": 8,
+          "WEALTH": -9,
+          "HAPPINESS": -7
+        },
+        "speech": "这钱我宁可拿去买两个月算力。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 35
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "ai",
+        "course"
+      ]
+    },
+    {
+      "id": "mod_big_data_pricing",
+      "title": "同一张机票",
+      "description": "你订了三年的那条航线，软件显示一千二百八。用同事新装的账号一搜，同一班次九百六。客服说价格实时浮动，建议多刷。",
+      "left_choice": {
+        "text": "注销重新注册",
+        "effects": {
+          "WEALTH": 10,
+          "INTELLIGENCE": 7,
+          "STABILITY": -9,
+          "HAPPINESS": -5
+        },
+        "speech": "三年老用户，换个新号省三百二。"
+      },
+      "right_choice": {
+        "text": "截图去投诉",
+        "effects": {
+          "MORALITY": 12,
+          "COMMONERS": 8,
+          "HAPPINESS": -10,
+          "WEALTH": -6
+        },
+        "speech": "钱是小事，我想要一句解释。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 0.9,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "algorithm",
+        "consumer"
+      ]
+    },
+    {
+      "id": "mod_gig_delivery",
+      "title": "跑单的夜晚",
+      "description": "副业跑外卖第十一天，晚高峰一单五块八。系统提示还有四分钟超时，前面是栋没有电梯的六层老楼。雨这时候开始下了。",
+      "left_choice": {
+        "text": "冲上六楼",
+        "effects": {
+          "WEALTH": 9,
+          "STRENGTH": 7,
+          "HEALTH": -13,
+          "HAPPINESS": -5
+        },
+        "speech": "超时扣八块，跑上去只累一趟。"
+      },
+      "right_choice": {
+        "text": "请客户下楼取",
+        "effects": {
+          "HEALTH": 9,
+          "MORALITY": 5,
+          "WEALTH": -10,
+          "COMMONERS": -8
+        },
+        "speech": "抱歉雨太大，能麻烦您下来吗。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 25
+      },
+      "weight": 0.95,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "gig",
+        "sidehustle"
+      ]
+    },
+    {
+      "id": "mod_hometown_return",
+      "title": "回不回县城",
+      "description": "老家表弟发来照片：新区三居室，总价四十二万。你在这边的首付还差三十万。妈在电话那头说，回来考个编，离家也近。",
+      "left_choice": {
+        "text": "退租，回县城",
+        "effects": {
+          "STABILITY": 14,
+          "HEALTH": 9,
+          "WEALTH": -10,
+          "CHARISMA": -12
+        },
+        "speech": "四十二万在这边只够买个厕所。"
+      },
+      "right_choice": {
+        "text": "留下继续攒首付",
+        "effects": {
+          "CHARISMA": 11,
+          "INTELLIGENCE": 8,
+          "STABILITY": -11,
+          "HAPPINESS": -7
+        },
+        "speech": "回去了就再也出不来了。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 20
+      },
+      "weight": 1.1,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "hometown",
+        "mortgage"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_WEALTH": 40,
+            "max_HAPPINESS": 45
+          },
+          "chance": 0.65,
+          "title": "第七次搬家",
+          "description": "房东卖房，你在两周里看了九套。搬家师傅问这箱子里装的什么，你说是书，其实是六年攒下的一沓中介名片。",
+          "effects": {
+            "STABILITY": -11,
+            "HAPPINESS": -8,
+            "HEALTH": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mod_face_recognition",
+      "title": "刷脸才能进",
+      "description": "小区换了人脸门禁，物业说不录入就只能每次登记。业主群吵了三百多条，有人说方便，有人问数据存在哪台服务器上。",
+      "left_choice": {
+        "text": "录入，图省事",
+        "effects": {
+          "STABILITY": 10,
+          "COMMONERS": 6,
+          "MORALITY": -9,
+          "INTELLIGENCE": -5
+        },
+        "speech": "手机早把我卖光了，不差这次。"
+      },
+      "right_choice": {
+        "text": "带头要说明书",
+        "effects": {
+          "MORALITY": 12,
+          "INTELLIGENCE": 8,
+          "STABILITY": -10,
+          "COMMONERS": -7
+        },
+        "speech": "先说清数据存哪，再谈方便。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_morality": 25
+      },
+      "weight": 0.85,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "privacy",
+        "tech"
+      ]
+    },
+    {
+      "id": "mod_viral_rumor",
+      "title": "转不转那条",
+      "description": "一条爆料在群里传疯了，指名道姓说某公司裁员八千。你认识那家的人，对方说数字是编的。但转发过去，你能涨几百粉。",
+      "left_choice": {
+        "text": "转发蹭流量",
+        "effects": {
+          "CHARISMA": 12,
+          "WEALTH": 7,
+          "MORALITY": -15,
+          "COMMONERS": -6
+        },
+        "speech": "热点只有六小时，真假明天说。"
+      },
+      "right_choice": {
+        "text": "在群里辟谣",
+        "effects": {
+          "MORALITY": 13,
+          "COMMONERS": 9,
+          "CHARISMA": -11,
+          "HAPPINESS": -5
+        },
+        "speech": "我问过里面的人，八千是编的。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_morality": 30
+      },
+      "weight": 0.95,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "rumor",
+        "socialmedia"
+      ]
+    },
+    {
+      "id": "mod_remote_work_dilemma",
+      "title": "居家办公的红利",
+      "description": "公司宣布可以长期居家办公。你发现一天能省下两小时通勤、三十块外卖差价，但镜子里的你已经三天没洗头。",
+      "left_choice": {
+        "text": "彻底居家，谁也不见",
+        "effects": {
+          "WEALTH": 8,
+          "HEALTH": 6,
+          "HAPPINESS": -8,
+          "CHARISMA": -10
+        },
+        "speech": "省下的钱够买张新床垫。"
+      },
+      "right_choice": {
+        "text": "每周去公司两天维持人脉",
+        "effects": {
+          "WEALTH": 4,
+          "CHARISMA": 6,
+          "HAPPINESS": 2,
+          "HEALTH": -2
+        },
+        "speech": "露脸这种事，省不得。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "职场生存",
+      "tags": [
+        "workplace",
+        "remote",
+        "wfh"
+      ]
+    },
+    {
+      "id": "mod_insurance_push",
+      "title": "保险推销的同学",
+      "description": "高中同学突然约你吃饭，席间掏出一份保险方案。他说这不是推销，是关心你。方案的年缴金额正好是你三个月工资。",
+      "left_choice": {
+        "text": "买一份，就当存钱",
+        "effects": {
+          "WEALTH": -10,
+          "HEALTH": 4,
+          "HAPPINESS": -3
+        },
+        "speech": "万一用上了呢。"
+      },
+      "right_choice": {
+        "text": "婉拒，说再考虑考虑",
+        "effects": {
+          "CHARISMA": 4,
+          "WEALTH": 2,
+          "HAPPINESS": -1
+        },
+        "speech": "考虑考虑的意思就是不考虑。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "金钱理财",
+      "tags": [
+        "finance",
+        "insurance",
+        "sales"
+      ]
+    },
+    {
+      "id": "mod_inlaw_chunwan",
+      "title": "除夕去谁家",
+      "description": "结婚第一个除夕，两边父母都等着你们回去。你妈说嫁出去的女儿泼出去的水，她妈说儿子不回来算什么过年。",
+      "left_choice": {
+        "text": "各回各家，各找各妈",
+        "effects": {
+          "HAPPINESS": 6,
+          "CHARISMA": -4,
+          "MORALITY": -2
+        },
+        "speech": "我们这代人不委屈自己。"
+      },
+      "right_choice": {
+        "text": "今年你家明年她家",
+        "effects": {
+          "CHARISMA": 6,
+          "HAPPINESS": -2,
+          "STABILITY": 4
+        },
+        "speech": "轮流制，谁也别亏。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "婚恋家庭",
+      "tags": [
+        "family",
+        "inlaw",
+        "newyear"
+      ]
+    },
+    {
+      "id": "mod_checkup_nodule",
+      "title": "体检报告的结节",
+      "description": "体检报告出来了，甲状腺有个三类结节。医生说观察就行，但你盯着那行字看了二十分钟，上网查了四十篇帖子，越查越慌。",
+      "left_choice": {
+        "text": "立刻挂专家号复查",
+        "effects": {
+          "HEALTH": 6,
+          "WEALTH": -4,
+          "HAPPINESS": -4
+        },
+        "speech": "查清楚才能睡好觉。"
+      },
+      "right_choice": {
+        "text": "听医生的，半年后复查",
+        "effects": {
+          "HEALTH": 2,
+          "HAPPINESS": -2,
+          "INTELLIGENCE": 2
+        },
+        "speech": "焦虑比结节更伤身。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "健康身心",
+      "tags": [
+        "health",
+        "checkup",
+        "anxiety"
+      ]
+    },
+    {
+      "id": "mod_group_redpacket",
+      "title": "同学群的红包接龙",
+      "description": "高中同学群里有人发结婚请柬，紧跟一个红包接龙。你看着200、300、500的数字往上跳，手指悬在屏幕上。",
+      "left_choice": {
+        "text": "随大流包500",
+        "effects": {
+          "WEALTH": -6,
+          "CHARISMA": 6,
+          "HAPPINESS": -2
+        },
+        "speech": "面子这种税，躲不掉。"
+      },
+      "right_choice": {
+        "text": "包个吉利数188，潜水",
+        "effects": {
+          "WEALTH": -2,
+          "CHARISMA": -4,
+          "HAPPINESS": 2
+        },
+        "speech": "毕业后就没说过话，188够了。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "redpacket",
+        "classmate"
+      ]
+    },
+    {
+      "id": "mod_neighbor_noise",
+      "title": "楼上的钢琴",
+      "description": "楼上邻居家的孩子每天晚上八点准时练琴，弹得像在拆钢琴。你上门沟通过一次，对方妈妈说孩子要考级，再忍忍。",
+      "left_choice": {
+        "text": "买降噪耳机，忍",
+        "effects": {
+          "WEALTH": -2,
+          "HAPPINESS": -4,
+          "HEALTH": 2
+        },
+        "speech": "和气生财，和气生财。"
+      },
+      "right_choice": {
+        "text": "物业投诉加录音取证",
+        "effects": {
+          "CHARISMA": -6,
+          "HAPPINESS": 4,
+          "STABILITY": -3
+        },
+        "speech": "讲道理没用，那就讲规矩。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "社交人情",
+      "tags": [
+        "social",
+        "neighbor",
+        "noise"
+      ]
+    },
+    {
+      "id": "mod_ai_replace_job",
+      "title": "AI要替代你了",
+      "description": "公司引入了AI工具，你的核心工作它能完成八成。老板开会时笑着说这是赋能不是替代，但你注意到隔壁组已经裁了两个人。",
+      "left_choice": {
+        "text": "学AI，把自己变成会用AI的人",
+        "effects": {
+          "INTELLIGENCE": 8,
+          "WEALTH": -2,
+          "HEALTH": -4,
+          "HAPPINESS": -2
+        },
+        "speech": "打不过就加入。"
+      },
+      "right_choice": {
+        "text": "转岗去做AI做不了的人际活",
+        "effects": {
+          "CHARISMA": 6,
+          "WEALTH": -4,
+          "STABILITY": 4
+        },
+        "speech": "机器懂流程，不懂人情。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "ai",
+        "career"
+      ]
+    },
+    {
+      "id": "mod_secondhand_scam",
+      "title": "二手平台的买家",
+      "description": "你在闲鱼挂了台旧手机，买家收到后说开不了机要求退款，还发了张糊成一团的视频当证据。你的手机寄出前明明测过十次。",
+      "left_choice": {
+        "text": "硬刚，要求平台介入",
+        "effects": {
+          "INTELLIGENCE": 4,
+          "CHARISMA": -4,
+          "HAPPINESS": -4,
+          "WEALTH": 2
+        },
+        "speech": "证据我有，怕你不成。"
+      },
+      "right_choice": {
+        "text": "息事宁人，退款了事",
+        "effects": {
+          "WEALTH": -4,
+          "HAPPINESS": -2,
+          "STABILITY": 2
+        },
+        "speech": "时间比这点钱值钱。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 1.0,
+      "era": "modern",
+      "category": "时代浪潮",
+      "tags": [
+        "trend",
+        "secondhand",
+        "scam"
+      ]
+    }
+  ]
+}

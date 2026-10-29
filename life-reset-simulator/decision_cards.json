@@ -1,0 +1,599 @@
+{
+  "cards": [
+    {
+      "id": "war_declaration",
+      "title": "边境冲突",
+      "description": "邻国在边境集结军队，是战是和？",
+      "left_choice": {
+        "text": "主动出击，展示武力",
+        "effects": {
+          "STRENGTH": 15,
+          "WEALTH": -20,
+          "STABILITY": -10,
+          "NOBLES": 10,
+          "COMMONERS": -15
+        },
+        "speech": "让他们知道我们的厉害！"
+      },
+      "right_choice": {
+        "text": "谈判和解，赠送礼物",
+        "effects": {
+          "STRENGTH": -10,
+          "WEALTH": -15,
+          "STABILITY": 10,
+          "NOBLES": -5,
+          "COMMONERS": 5
+        },
+        "speech": "战争是最后的手段。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 0
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "军事外交",
+      "tags": [
+        "war",
+        "border",
+        "military"
+      ]
+    },
+    {
+      "id": "famine",
+      "title": "粮食危机",
+      "description": "今年收成不好，粮仓空虚。",
+      "left_choice": {
+        "text": "开仓放粮，赈济灾民",
+        "effects": {
+          "WEALTH": -25,
+          "COMMONERS": 20,
+          "NOBLES": -10,
+          "CHARISMA": 15,
+          "MORALITY": 10
+        },
+        "speech": "百姓的性命最重要。"
+      },
+      "right_choice": {
+        "text": "提高粮价，维持财政",
+        "effects": {
+          "WEALTH": 15,
+          "COMMONERS": -25,
+          "STABILITY": -20,
+          "CHARISMA": -20
+        },
+        "speech": "国家需要资金运转。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "famine",
+        "food",
+        "economy"
+      ]
+    },
+    {
+      "id": "plague",
+      "title": "瘟疫爆发",
+      "description": "城市中出现怪病，传播迅速。",
+      "left_choice": {
+        "text": "隔离病患，封锁城市",
+        "effects": {
+          "HEALTH": 20,
+          "STABILITY": -15,
+          "COMMONERS": -10,
+          "CHARISMA": -5
+        },
+        "speech": "必须阻止瘟疫扩散。"
+      },
+      "right_choice": {
+        "text": "祈祷神明，寻求奇迹",
+        "effects": {
+          "HEALTH": -20,
+          "CHURCH": 20,
+          "STABILITY": -10,
+          "MORALITY": 5
+        },
+        "speech": "这是神的考验。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "天灾危机",
+      "tags": [
+        "plague",
+        "disease",
+        "disaster"
+      ]
+    },
+    {
+      "id": "heresy",
+      "title": "异端邪说",
+      "description": "教廷报告有异端传播危险思想。",
+      "left_choice": {
+        "text": "支持教会，镇压异端",
+        "effects": {
+          "CHURCH": 20,
+          "STABILITY": -10,
+          "INTELLIGENCE": -15,
+          "MORALITY": -10
+        },
+        "speech": "必须维护正统信仰。"
+      },
+      "right_choice": {
+        "text": "宽容对待，学术辩论",
+        "effects": {
+          "CHURCH": -20,
+          "INTELLIGENCE": 15,
+          "STABILITY": 5,
+          "NOBLES": -5
+        },
+        "speech": "真理越辩越明。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_church": 0
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "宗教文化",
+      "tags": [
+        "religion",
+        "heresy",
+        "culture"
+      ]
+    },
+    {
+      "id": "noble_revolt",
+      "title": "贵族叛乱",
+      "description": "几个大贵族联合起来挑战你的权威。",
+      "left_choice": {
+        "text": "武力镇压，杀一儆百",
+        "effects": {
+          "STRENGTH": 20,
+          "NOBLES": -30,
+          "STABILITY": -20,
+          "CHARISMA": -10
+        },
+        "speech": "叛徒必须付出代价！"
+      },
+      "right_choice": {
+        "text": "谈判妥协，分享权力",
+        "effects": {
+          "STRENGTH": -15,
+          "NOBLES": 20,
+          "STABILITY": 10,
+          "WEALTH": -10
+        },
+        "speech": "和平解决为上策。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_nobles": 0
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "贵族权谋",
+      "tags": [
+        "nobility",
+        "revolt",
+        "politics"
+      ]
+    },
+    {
+      "id": "foreign_marriage",
+      "title": "政治联姻",
+      "description": "邻国提出联姻以结盟。",
+      "left_choice": {
+        "text": "接受联姻，巩固同盟",
+        "effects": {
+          "STABILITY": 20,
+          "STRENGTH": 10,
+          "CHARISMA": 5,
+          "HAPPINESS": -15
+        },
+        "speech": "为了国家利益。"
+      },
+      "right_choice": {
+        "text": "拒绝联姻，保持独立",
+        "effects": {
+          "STRENGTH": -10,
+          "CHARISMA": 10,
+          "HAPPINESS": 10,
+          "STABILITY": -5
+        },
+        "speech": "我们不需要靠联姻生存。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 0
+      },
+      "weight": 0.5,
+      "era": "dynasty",
+      "category": "军事外交",
+      "tags": [
+        "marriage",
+        "alliance",
+        "diplomacy"
+      ]
+    },
+    {
+      "id": "economic_reform",
+      "title": "经济改革",
+      "description": "经济停滞，需要改革税收制度。",
+      "left_choice": {
+        "text": "减税惠民，刺激经济",
+        "effects": {
+          "WEALTH": -20,
+          "COMMONERS": 25,
+          "CHARISMA": 15,
+          "NOBLES": -10
+        },
+        "speech": "藏富于民才是正道。"
+      },
+      "right_choice": {
+        "text": "加税强国，发展军事",
+        "effects": {
+          "WEALTH": 20,
+          "COMMONERS": -25,
+          "STRENGTH": 15,
+          "CHARISMA": -20
+        },
+        "speech": "强大的国家需要资金。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "economy",
+        "tax",
+        "reform"
+      ]
+    },
+    {
+      "id": "border_raid",
+      "title": "边境劫掠",
+      "description": "蛮族部落袭击边境村庄，抢走粮食和牲畜。",
+      "left_choice": {
+        "text": "派兵追击，夺回财物",
+        "effects": {
+          "STRENGTH": 10,
+          "WEALTH": 5,
+          "COMMONERS": 5,
+          "STABILITY": -5
+        },
+        "speech": "犯我边境者，虽远必诛！"
+      },
+      "right_choice": {
+        "text": "加强边防，安抚村民",
+        "effects": {
+          "STRENGTH": 5,
+          "WEALTH": -10,
+          "COMMONERS": 10,
+          "STABILITY": 5
+        },
+        "speech": "防御是最好的保护。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 30
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "军事外交",
+      "tags": [
+        "raid",
+        "border",
+        "military"
+      ]
+    },
+    {
+      "id": "trade_agreement",
+      "title": "贸易协议",
+      "description": "邻国提出贸易协议，但要求降低关税。",
+      "left_choice": {
+        "text": "签署协议，促进贸易",
+        "effects": {
+          "WEALTH": 20,
+          "STABILITY": 10,
+          "STRENGTH": -5,
+          "NOBLES": 5
+        },
+        "speech": "贸易带来繁荣。"
+      },
+      "right_choice": {
+        "text": "拒绝协议，保护产业",
+        "effects": {
+          "WEALTH": -10,
+          "STABILITY": -5,
+          "NOBLES": 10,
+          "COMMONERS": -5
+        },
+        "speech": "不能依赖外国。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 30
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "trade",
+        "economy",
+        "diplomacy"
+      ]
+    },
+    {
+      "id": "natural_disaster",
+      "title": "天灾降临",
+      "description": "洪水冲毁了农田，灾民流离失所。",
+      "left_choice": {
+        "text": "全力救灾，安置灾民",
+        "effects": {
+          "WEALTH": -25,
+          "COMMONERS": 20,
+          "CHARISMA": 15,
+          "MORALITY": 10
+        },
+        "speech": "百姓的生命重于一切。"
+      },
+      "right_choice": {
+        "text": "优先修复，维持秩序",
+        "effects": {
+          "WEALTH": -15,
+          "STABILITY": 10,
+          "COMMONERS": -15,
+          "CHARISMA": -10
+        },
+        "speech": "秩序是恢复的前提。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 20
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "天灾危机",
+      "tags": [
+        "disaster",
+        "flood",
+        "relief"
+      ]
+    },
+    {
+      "id": "cultural_renaissance",
+      "title": "文化复兴",
+      "description": "学者们请求资助艺术和科学的发展。",
+      "left_choice": {
+        "text": "慷慨资助，支持文化",
+        "effects": {
+          "WEALTH": -20,
+          "INTELLIGENCE": 25,
+          "CHARISMA": 10,
+          "HAPPINESS": 10
+        },
+        "speech": "艺术让文明伟大。"
+      },
+      "right_choice": {
+        "text": "有限支持，注重实用",
+        "effects": {
+          "WEALTH": -10,
+          "INTELLIGENCE": 10,
+          "CHARISMA": 5,
+          "STABILITY": 5
+        },
+        "speech": "实用主义更重要。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 40
+      },
+      "weight": 0.4,
+      "era": "dynasty",
+      "category": "宗教文化",
+      "tags": [
+        "culture",
+        "arts",
+        "renaissance"
+      ]
+    },
+    {
+      "id": "succession_crisis",
+      "title": "继承危机",
+      "description": "你没有合法子嗣，贵族们开始讨论继承问题。",
+      "left_choice": {
+        "text": "指定继承人，稳定人心",
+        "effects": {
+          "STABILITY": 15,
+          "NOBLES": 10,
+          "HAPPINESS": -10,
+          "HEALTH": -5
+        },
+        "speech": "国家需要明确的未来。"
+      },
+      "right_choice": {
+        "text": "暂不决定，观望等待",
+        "effects": {
+          "STABILITY": -20,
+          "NOBLES": -15,
+          "HAPPINESS": 5,
+          "HEALTH": 5
+        },
+        "speech": "时间会给出答案。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 50
+      },
+      "weight": 0.5,
+      "era": "dynasty",
+      "category": "贵族权谋",
+      "tags": [
+        "succession",
+        "nobility",
+        "politics"
+      ]
+    },
+    {
+      "id": "spy_discovery",
+      "title": "间谍发现",
+      "description": "发现邻国间谍在收集军事机密。",
+      "left_choice": {
+        "text": "公开处决，以示警告",
+        "effects": {
+          "STRENGTH": 10,
+          "STABILITY": 5,
+          "CHARISMA": -5,
+          "MORALITY": -10
+        },
+        "speech": "间谍必须付出代价！"
+      },
+      "right_choice": {
+        "text": "秘密交换，获取情报",
+        "effects": {
+          "STRENGTH": 5,
+          "INTELLIGENCE": 15,
+          "STABILITY": -5,
+          "MORALITY": -5
+        },
+        "speech": "情报更有价值。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 40
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "贵族权谋",
+      "tags": [
+        "spy",
+        "military",
+        "intelligence"
+      ]
+    },
+    {
+      "id": "religious_schism",
+      "title": "宗教分裂",
+      "description": "教会内部出现严重分歧，两大派系都要求你支持。",
+      "left_choice": {
+        "text": "支持传统派，维持现状",
+        "effects": {
+          "CHURCH": 15,
+          "STABILITY": 5,
+          "INTELLIGENCE": -10,
+          "MORALITY": -5
+        },
+        "speech": "传统不容置疑。"
+      },
+      "right_choice": {
+        "text": "支持改革派，允许新思想",
+        "effects": {
+          "CHURCH": -15,
+          "INTELLIGENCE": 15,
+          "STABILITY": -10,
+          "NOBLES": -5
+        },
+        "speech": "时代在进步。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_church": 40
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "宗教文化",
+      "tags": [
+        "religion",
+        "schism",
+        "church"
+      ]
+    },
+    {
+      "id": "peasant_uprising",
+      "title": "农民起义",
+      "description": "不堪重税的农民拿起武器反抗。",
+      "left_choice": {
+        "text": "出兵镇压",
+        "effects": {
+          "STRENGTH": -10,
+          "COMMONERS": -30,
+          "STABILITY": -15,
+          "NOBLES": 15
+        },
+        "speech": "叛乱必须平息！"
+      },
+      "right_choice": {
+        "text": "倾听诉求，减税让利",
+        "effects": {
+          "WEALTH": -15,
+          "COMMONERS": 20,
+          "STABILITY": 10,
+          "NOBLES": -10
+        },
+        "speech": "民心不可失。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_commoners": 0
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "天灾危机",
+      "tags": [
+        "peasant",
+        "revolt",
+        "disaster"
+      ]
+    },
+    {
+      "id": "royal_feast",
+      "title": "王室盛宴",
+      "description": "外国使节来访，需要举办盛大宴会。",
+      "left_choice": {
+        "text": "极尽奢华，彰显国力",
+        "effects": {
+          "WEALTH": -20,
+          "CHARISMA": 20,
+          "NOBLES": 10,
+          "COMMONERS": -10
+        },
+        "speech": "让四方来贺！"
+      },
+      "right_choice": {
+        "text": "简约务实，节省开支",
+        "effects": {
+          "WEALTH": -5,
+          "CHARISMA": -10,
+          "STABILITY": 5,
+          "COMMONERS": 10
+        },
+        "speech": "务实才是王道。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 30
+      },
+      "weight": 0.5,
+      "era": "dynasty",
+      "category": "宫廷私人",
+      "tags": [
+        "feast",
+        "royal",
+        "diplomacy"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "schema": "heirlooms/v1",
+    "description": "传家宝库 12 件。灵感来源:BitLife Heirlooms(继承到下一代的传家物品)+ 中国式家长'传家宝'机制。每件含:被动效果(effects,持有者每局生效)、传承概率(inherit_chance,传入profile.lineage下代生效)、来源(origin:成就解锁/结局获得/挑战奖励)。传家宝解决'多周目元进度'中除天赋继承外的另一条留存线——物品继承,让玩家有更多'跨代积累'的动机。",
+    "design_notes": "传家宝存于 profile.lineage.heirlooms(list[str] id)。每局开始时,持有者获得 effects 加成(init属性/modifiers)。死亡时按 inherit_chance 概率决定是否传入下一代。origin.achievement 解锁后,该传家宝首次进入 lineage 池。"
+  },
+  "heirlooms": [
+    {
+      "id": "heir_jade_pendant",
+      "name": "祖传玉佩",
+      "rarity": "rare",
+      "description": "祖母传给母亲,母亲传给你。玉色温润,贴身戴着能安神。",
+      "effects": {"init": {"luck": 2, "health": 5}, "modifiers": {"stat_loss": 0.95}},
+      "inherit_chance": 0.9,
+      "origin": {"type": "achievement", "id": "ach_first_run"}
+    },
+    {
+      "id": "heir_old_watch",
+      "name": "父亲的旧手表",
+      "rarity": "common",
+      "description": "机械表,走得不太准,但每天只快两分钟。父亲走时把它摘下来递给你,什么也没说。",
+      "effects": {"init": {"intelligence": 1, "happiness": 1}, "modifiers": {"event_weight": [{"tag": "念旧", "mult": 1.5}]}},
+      "inherit_chance": 0.8,
+      "origin": {"type": "ending", "id": "end_emo_big_family"}
+    },
+    {
+      "id": "heir_ancestral_sword",
+      "name": "祖传佩剑",
+      "rarity": "epic",
+      "description": "据说是祖上某位武将的随身兵器。剑身有缺口,但出鞘仍有寒光。",
+      "effects": {"init": {"strength": 3}, "modifiers": {"career_bonus": {"军旅": 1.3}, "event_weight": [{"tag": "冒险", "mult": 1.5}]}},
+      "inherit_chance": 0.7,
+      "origin": {"type": "achievement", "id": "ach_strength_max"}
+    },
+    {
+      "id": "heir_scholar_brush",
+      "name": "文人遗笔",
+      "rarity": "epic",
+      "description": "一支用了三代的毛笔。笔杆上有手汗磨出的凹痕,墨香渗进了木纹。",
+      "effects": {"init": {"intelligence": 3}, "modifiers": {"career_bonus": {"学术科研": 1.3, "文化艺术": 1.2}}},
+      "inherit_chance": 0.7,
+      "origin": {"type": "achievement", "id": "ach_intelligence_max"}
+    },
+    {
+      "id": "heir_merchant_abacus",
+      "name": "商贾算盘",
+      "rarity": "epic",
+      "description": "紫檀算盘,珠子被摸得发亮。祖上靠它起家,传下'算清楚每一文钱'的家训。",
+      "effects": {"init": {"wealth": 4}, "modifiers": {"career_bonus": {"商业金融": 1.4, "灰色地带": 1.2}}},
+      "inherit_chance": 0.65,
+      "origin": {"type": "ending", "id": "end_legend_richest"}
+    },
+    {
+      "id": "heir_doctor_manual",
+      "name": "医者手札",
+      "rarity": "epic",
+      "description": "泛黄的医案笔记,记录了三代行医人的心得。扉页写着'医者仁心'四个字。",
+      "effects": {"init": {"intelligence": 2, "health": 8}, "modifiers": {"career_bonus": {"医疗健康": 1.4}}},
+      "inherit_chance": 0.7,
+      "origin": {"type": "ending", "id": "end_career_chief_physician"}
+    },
+    {
+      "id": "heir_lucky_coin",
+      "name": "幸运铜板",
+      "rarity": "rare",
+      "description": "一枚磨损的铜板。你不知道它从哪来,但每次重大决定前你都会抛一下。",
+      "effects": {"init": {"luck": 3}, "modifiers": {"event_weight": [{"tag": "运气", "mult": 1.8}]}},
+      "inherit_chance": 0.5,
+      "origin": {"type": "achievement", "id": "ach_luck_zero"}
+    },
+    {
+      "id": "heir_letter_collection",
+      "name": "情书一沓",
+      "rarity": "rare",
+      "description": "祖父写给祖母的,父亲写给母亲的,现在轮到你。信纸泛黄,字迹各异,但情意相通。",
+      "effects": {"init": {"charisma": 2, "happiness": 2}, "modifiers": {"relationship_decay": 0.85}},
+      "inherit_chance": 0.75,
+      "origin": {"type": "ending", "id": "end_emo_white_hair"}
+    },
+    {
+      "id": "heir_secret_diary",
+      "name": "秘传日记",
+      "rarity": "legendary",
+      "description": "一本不署名的日记。前三代人的秘密都在里面,你读的时候会忽然懂了某些家族传说。",
+      "effects": {"init": {"intelligence": 2, "luck": 2}, "modifiers": {"event_weight": [{"tag": "神秘", "mult": 2.0}]}, "unlocks": ["cultivation_mode_hint"]},
+      "inherit_chance": 0.6,
+      "origin": {"type": "achievement", "id": "ach_hidden_endings"}
+    },
+    {
+      "id": "heir_war_medal",
+      "name": "战场勋章",
+      "rarity": "epic",
+      "description": "曾祖父留下的勋章,背面刻着日期和一个你不认识的名字。家里没人愿意多提。",
+      "effects": {"init": {"strength": 2, "charisma": 1}, "modifiers": {"event_weight": [{"tag": "战争", "mult": 1.8}, {"tag": "责任", "mult": 1.5}]}},
+      "inherit_chance": 0.8,
+      "origin": {"type": "achievement", "id": "ach_survive_crisis"}
+    },
+    {
+      "id": "heir_recipe_book",
+      "name": "家传菜谱",
+      "rarity": "common",
+      "description": "一本油渍斑斑的本子。曾祖母的字迹最工整,到你这代已经只能看图猜字了。",
+      "effects": {"init": {"happiness": 3, "health": 3}, "modifiers": {"relationship_decay": 0.9}},
+      "inherit_chance": 0.85,
+      "origin": {"type": "achievement", "id": "ach_ten_runs"}
+    },
+    {
+      "id": "heir_crown",
+      "name": "褪色王冠",
+      "rarity": "legendary",
+      "description": "王权模式的传家之物。金漆剥落了大半,露出底下的铜色。但它戴在头上,依然沉。",
+      "effects": {"init_dimensions": {"STABILITY": 20, "NOBLES": 15, "COMMONERS": -10}, "modifiers": {"career_bonus": {"法律政务": 1.3}}},
+      "inherit_chance": 0.5,
+      "origin": {"type": "achievement", "id": "ach_reigns_all_titles"}
+    }
+  ]
+}

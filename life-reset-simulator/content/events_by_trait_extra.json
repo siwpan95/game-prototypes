@@ -1,0 +1,75 @@
+{
+  "_meta": {
+    "batch": "2026-08-02 增强",
+    "group": "by_trait",
+    "note": "补齐 by_trait 至目标值 20：为当前仅 1 条的 卷王 / 社恐 各补 1 条（深合并，不覆盖存量）。已在 main.py::life_event 与 core/events_picker 接线消费。"
+  },
+  "event_templates": {
+    "by_trait": {
+      "卷王": [
+        {
+          "id": "ev_trait_workaholic_burnout",
+          "desc": "你又连续两周没在零点前合眼。身体开始用偏头痛抗议。",
+          "options": {
+            "A": {
+              "text": "再撑撑，deadline 要到了 (健康-4, 财富+1)",
+              "effects": { "health": -4, "wealth": 1 },
+              "feedback": [
+                "你把咖啡当水喝，进度条终于动了。",
+                "交付那天你在工位上睡了过去，被同事拍照。"
+              ]
+            },
+            "B": {
+              "text": "强制休假三天 (健康+3, 幸福+1)",
+              "effects": { "health": 3, "happiness": 1 },
+              "feedback": [
+                "你把自动回复设成'已离线'，手机关机。",
+                "第三天你居然在公园看了半小时云，忘了时间。"
+              ]
+            },
+            "C": {
+              "text": "把活分出去，带徒弟 (魅力+1, 幸福+1)",
+              "effects": { "charisma": 1, "happiness": 1 },
+              "feedback": [
+                "你把任务拆给新人，手把手带了一下午。",
+                "他独立交付时你有点骄傲，原来放权也挺爽。"
+              ]
+            }
+          }
+        }
+      ],
+      "社恐": [
+        {
+          "id": "ev_trait_social_anxiety_party",
+          "desc": "部门团建定在喧闹的火锅店。你盯着群里的接龙，手指悬在屏幕上。",
+          "options": {
+            "A": {
+              "text": "硬着头皮去，找个角落 (魅力+1, 幸福-1)",
+              "effects": { "charisma": 1, "happiness": -1 },
+              "feedback": [
+                "你缩在离门最近的位置，全程涮肉不抬头。",
+                "散场时主管拍拍你肩：'来了就好'，你耳根发烫。"
+              ]
+            },
+            "B": {
+              "text": "装病请假 (幸福+2, 魅力-1)",
+              "effects": { "happiness": 2, "charisma": -1 },
+              "feedback": [
+                "你发完'发烧了'就把群设了免扰。",
+                "一个人窝家里看了部老电影，久违的踏实。"
+              ]
+            },
+            "C": {
+              "text": "提议改线上小范围交流 (智力+1, 幸福+1)",
+              "effects": { "intelligence": 1, "happiness": 1 },
+              "feedback": [
+                "你建议'先线上碰，线下看情况'，居然通过了。",
+                "视频里你反而说得流利，大家说'这样挺好'。"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

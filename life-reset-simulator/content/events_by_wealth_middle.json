@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "schema": "events_by_wealth_middle/v1",
+    "description": "by_wealth.middle 中产生活事件 10 条。原 by_wealth 仅有 rich/poor 两档，本文件新增 middle 子组，通过 content/ 深合并自动并入 by_wealth。中产困境：够不着够不着、掉不下去的尴尬——房贷、教育焦虑、消费升级陷阱、35岁危机。沿用 event schema(id/desc/options/feedback≥2/tags)。"
+  },
+  "event_templates": {
+    "by_wealth": {
+      "middle": [
+        {
+          "id": "ev_middle_mortgage_rate",
+          "desc": "房贷利率下调了，群里都在讨论要不要提前还贷。你算了笔账，提前还20万能省17万利息，但手头也就刚够这20万。",
+          "options": {
+            "A": {"text": "提前还一部分，留点应急 (财富-4, 幸福+3, 智力+1)", "effects": {"wealth": -4, "happiness": 3, "intelligence": 1}, "feedback": ["你去了趟银行，排队两小时办完。", "回家路上你忽然觉得轻松了不少——少欠银行的钱，比多发工资还爽。"]},
+            "B": {"text": "不还，钱留着投资 (财富-1, 智力+1, 幸福-1)", "effects": {"wealth": -1, "intelligence": 1, "happiness": -1}, "feedback": ["你把钱转进了基金。", "三个月后看了看收益，比房贷利率还低两个点。"]},
+            "C": {"text": "继续观望，等利率再降 (幸福-1)", "effects": {"happiness": -1}, "feedback": ["你又等了半年。", "利率没再降，但你把计算器按出了包浆。"]}
+          },
+          "tags": ["middle", "mortgage", "finance"]
+        },
+        {
+          "id": "ev_middle_kid_cram_school",
+          "desc": "孩子的同班同学都在报奥数班，一学期八千。你家孩子还没报。班主任私聊你说'建议考虑一下，别让孩子掉队'。",
+          "options": {
+            "A": {"text": "报，咬牙也要报 (财富-3, 幸福-2, 健康-1)", "effects": {"wealth": -3, "happiness": -2, "health": -1}, "feedback": ["孩子周一三五晚上没了，周末也没了。", "你接送他的时候，他在车上睡着了。"]},
+            "B": {"text": "不报，自己教 (智力+1, 幸福-3, 魅力+1)", "effects": {"intelligence": 1, "happiness": -3, "charisma": 1}, "feedback": ["你教到第三次就拍了桌子。", "孩子哭着说'爸爸/妈妈你比老师凶'。"]},
+            "C": {"text": "报个便宜的兴趣班替代 (财富-1, 幸福+1)", "effects": {"wealth": -1, "happiness": 1}, "feedback": ["你给孩子报了画画班。", "他画了一学期，画得不好但很开心——至少比奥数开心。"]}
+          },
+          "tags": ["middle", "education", "parenting"]
+        },
+        {
+          "id": "ev_middle_car_upgrade",
+          "desc": "开了八年的车开始各种小毛病。同事都换了新能源，你看着自己的油老虎，加油站的发票攒了一抽屉。",
+          "options": {
+            "A": {"text": "换新能源，跟风 (财富-8, 幸福+3, 魅力+2)", "effects": {"wealth": -8, "happiness": 3, "charisma": 2}, "feedback": ["新车没声儿，你开了一周才习惯。", "充电比加油便宜这件事，让你每次充电都偷着乐。"]},
+            "B": {"text": "修修继续开 (财富-1, 幸福-1)", "effects": {"wealth": -1, "happiness": -1}, "feedback": ["修车师傅都认识你了。", "他说你这车再修两次就能买新的了——你当他开玩笑。"]},
+            "C": {"text": "卖掉，改坐地铁 (财富+3, 幸福-2, 健康+2)", "effects": {"wealth": 3, "happiness": -2, "health": 2}, "feedback": ["地铁里你第一次看清了上班路上的人。", "原来大家都这么累。"]}
+          },
+          "tags": ["middle", "car", "consumption"]
+        },
+        {
+          "id": "ev_middle_35_crisis",
+          "desc": "你35岁了。招聘软件上你看到的岗位都写着'35岁以下'。猎头的电话从一周三个变成一个月一个。",
+          "options": {
+            "A": {"text": "考公，求个稳定 (智力+2, 财富-2, 幸福-1)", "effects": {"intelligence": 2, "wealth": -2, "happiness": -1}, "feedback": ["你买了套真题，每天下班刷到凌晨。", "行测的逻辑题你做得很顺，申论你写不出来——你已经很多年没正经写过东西了。"]},
+            "B": {"text": "在原公司苟住，不折腾 (幸福-2, 稳定+3)", "effects": {"happiness": -2, "intelligence": 0}, "feedback": ["你开始准点下班，不抢活了。", "领导看你的眼神变了变，但没说什么。"]},
+            "C": {"text": "副业搞起来，鸡蛋不放一个篮子 (财富+1, 智力+1, 健康-3)", "effects": {"wealth": 1, "intelligence": 1, "health": -3}, "feedback": ["你白天上班晚上做自媒体，剪视频剪到两点。", "一个月赚了300块，但你觉得自己又活过来了。"]}
+          },
+          "tags": ["middle", "midlife", "career"]
+        },
+        {
+          "id": "ev_middle_parents_illness",
+          "desc": "老家打电话来，父亲住院了，需要搭桥。手术费自费部分要十二万，你卡里只有八万。",
+          "options": {
+            "A": {"text": "卖掉手里的基金凑钱 (财富-6, 幸福-2, 魅力+2)", "effects": {"wealth": -6, "happiness": -2, "charisma": 2}, "feedback": ["基金亏着卖的，你心疼了一下又骂自己小气。", "父亲手术成功那天，你蹲在走廊哭了十分钟。"]},
+            "B": {"text": "找亲戚借 (财富-4, 魅力-1, 幸福-3)", "effects": {"wealth": -4, "charisma": -1, "happiness": -3}, "feedback": ["大伯借了三万，二姑借了两万，三叔说最近手头紧。", "你把每个借你钱的人记在了本子上——这是要还的人情。"]},
+            "C": {"text": "刷信用卡，先救命 (财富-2, 幸福-4, 健康-2)", "effects": {"wealth": -2, "happiness": -4, "health": -2}, "feedback": ["手术做了，账单也来了。", "你算过分期，要还两年半。"]}
+          },
+          "tags": ["middle", "parents", "medical"]
+        },
+        {
+          "id": "ev_middle_consumption_trap",
+          "desc": "双十一，购物车塞了八千块的东西。其中一半是'提升生活品质'的：戴森、扫地机器人、胶囊咖啡机。",
+          "options": {
+            "A": {"text": "全买了，对自己好一点 (财富-5, 幸福+4, 魅力+1)", "effects": {"wealth": -5, "happiness": 4, "charisma": 1}, "feedback": ["快递堆满了玄关。", "新鲜感持续了两周，然后扫地机器人开始吃你的袜子。"]},
+            "B": {"text": "只买扫地机器人 (财富-1, 幸福+2)", "effects": {"wealth": -1, "happiness": 2}, "feedback": ["你退了戴森和咖啡机。", "扫地机器人确实省事，但你还是会自己扫——它扫不干净边角。"]},
+            "C": {"text": "清空购物车，存钱 (财富+2, 幸福-2, 智力+1)", "effects": {"wealth": 2, "happiness": -2, "intelligence": 1}, "feedback": ["你看着存款数字涨了一点。", "但深夜刷到别人晒戴森的帖子，你还是酸了一下。"]}
+          },
+          "tags": ["middle", "consumption", "shopping"]
+        },
+        {
+          "id": "ev_middle_reunion_compare",
+          "desc": "十周年同学聚会。有人开了公司，有人当了处级，有人在硅谷。你端着酒杯，被问'最近怎么样'时笑了笑说'还行'。",
+          "options": {
+            "A": {"text": "实话实说，混得一般 (魅力+2, 幸福-2)", "effects": {"charisma": 2, "happiness": -2}, "feedback": ["对方愣了一下，说'够用就行'。", "你觉得这四个字比任何炫耀都刺耳。"]},
+            "B": {"text": "吹一波，反正没人查 (魅力-1, 幸福+1, 道德-2)", "effects": {"charisma": -1, "happiness": 1}, "feedback": ["你说自己'管个项目'。", "回家路上你反复回想这句话，越想越心虚。"]},
+            "C": {"text": "提前离席 (幸福-1, 魅力-1)", "effects": {"happiness": -1, "charisma": -1}, "feedback": ["你说孩子发烧，得先走。", "其实孩子在你妈家好好的。"]}
+          },
+          "tags": ["middle", "reunion", "comparison"]
+        },
+        {
+          "id": "ev_middle_house_renovation",
+          "desc": "住了十年的房子，墙皮开始掉，水管开始漏。装修公司报价十八万，你说能不能便宜点，对方说这是良心价。",
+          "options": {
+            "A": {"text": "咬牙装，一步到位 (财富-8, 幸福+4, 健康+2)", "effects": {"wealth": -8, "happiness": 4, "health": 2}, "feedback": ["装修三个月，你们搬了三次家。", "完工那天你躺在地板上看天花板，觉得值。"]},
+            "B": {"text": "局部翻新，先修漏的 (财富-2, 幸福+1)", "effects": {"wealth": -2, "happiness": 1}, "feedback": ["你只修了卫生间和厨房。", "客厅的墙皮继续掉，你说这是'工业风'。"]},
+            "C": {"text": "自己动手，省人工 (财富-1, 健康-3, 智力+1)", "effects": {"wealth": -1, "health": -3, "intelligence": 1}, "feedback": ["你看了二十个装修视频。", "刷的漆不太匀，但你摸着自己的墙觉得挺骄傲。"]}
+          },
+          "tags": ["middle", "renovation", "house"]
+        },
+        {
+          "id": "ev_middle_side_hustle_fail",
+          "desc": "你跟朋友合伙开了个奶茶店，投了八万。半年后店黄了，朋友说要不算了，你这八万就当学费。",
+          "options": {
+            "A": {"text": "认了，就当交学费 (财富-4, 智力+2, 幸福-2)", "effects": {"wealth": -4, "intelligence": 2, "happiness": -2}, "feedback": ["你把'学费'两个字写了三遍在备忘录里。", "后来你看见奶茶就胃疼。"]},
+            "B": {"text": "找朋友理论，要个说法 (魅力-2, 智力+1, 财富+1)", "effects": {"charisma": -2, "intelligence": 1, "wealth": 1}, "feedback": ["朋友说他自己也亏了。", "你们吵了一架，从此没再联系。"]},
+            "C": {"text": "盘下店自己接着干 (财富-3, 健康-4, 幸福-3)", "effects": {"wealth": -3, "health": -4, "happiness": -3}, "feedback": ["你一个人扛了三个月。", "最后还是关了——但这次亏的是你自己的钱，没有'学费'这个借口了。"]}
+          },
+          "tags": ["middle", "business", "failure"]
+        },
+        {
+          "id": "ev_middle_insurance_medical",
+          "desc": "你给全家买了商业医疗险，一年保费两万多。老婆说太贵了，能不能停了。你算了算，去年父亲住院自费了十二万。",
+          "options": {
+            "A": {"text": "继续交，买个安心 (财富-2, 幸福+2)", "effects": {"wealth": -2, "happiness": 2}, "feedback": ["保单压在抽屉底下。", "你希望永远用不上，但万一呢。"]},
+            "B": {"text": "停了大人的，留孩子的 (财富+1, 幸福-1)", "effects": {"wealth": 1, "happiness": -1}, "feedback": ["你和老婆说好，大人扛着，孩子必须有保障。", "夜里你摸了摸自己的胸口，决定明天开始少熬夜。"]},
+            "C": {"text": "全停了，赌一把 (财富+2, 幸福-3)", "effects": {"wealth": 2, "happiness": -3}, "feedback": ["退保那天你松了口气又提了口气。", "从此每次体检出报告，你都比别人多紧张三秒。"]}
+          },
+          "tags": ["middle", "insurance", "family"]
+        }
+      ]
+    }
+  }
+}

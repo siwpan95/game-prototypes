@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-02T21:44:47Z",
+  "updated_at": "2026-08-02T23:41:24Z",
+  "total_runs": 1,
+  "unlocked_achievements": [],
+  "seen_endings": [
+    "end_legacy_rich_beloved"
+  ],
+  "inherited_talent": null,
+  "unlocked_talents": [],
+  "unlocked_card_pools": [],
+  "unlocked_background_options": [],
+  "unlocked_modes": [],
+  "content_state": {
+    "cooldown": {},
+    "decay": {},
+    "last_seen_run": {}
+  },
+  "stats": {
+    "best_score": 300,
+    "longest_life": 70,
+    "total_endings": 1,
+    "total_achievements": 0
+  },
+  "lineage": [],
+  "streaks": {
+    "current": 1,
+    "last_play_date": "2026-08-03",
+    "max_streak": 1,
+    "claimed_milestones": [],
+    "pending_buff": null
+  },
+  "heirlooms_state": {
+    "heirlooms": [],
+    "generations": 0,
+    "history": []
+  },
+  "unlocked_challenges": [],
+  "completed_challenges": [],
+  "active_challenge": null
+}

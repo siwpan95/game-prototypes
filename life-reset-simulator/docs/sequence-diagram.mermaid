@@ -1,0 +1,249 @@
+sequenceDiagram
+    autonumber
+    actor U as 玩家
+    participant UI as 表现层<br/>(main.py / game_gui.py)
+    participant S as Services
+    participant CL as ContentLoader
+    participant PF as Profile
+    participant TS as TalentSystem
+    participant AR as AntiRepeatEngine
+    participant DB as DeckBinder
+    participant EP as EventPicker
+    participant DT as DecisionTree
+    participant P as Player
+    participant ER as EndingResolver
+    participant AS as AchievementSystem
+    participant RP as LifeReport
+    participant SM as SaveManager
+
+    %% ═════════ 阶段 0：启动与初始化 ═════════
+    rect rgb(238, 244, 255)
+    Note over UI,PF: 【阶段 0】启动初始化（CLI 与 GUI 共用）
+    U->>UI: 启动游戏
+    UI->>S: get_services()
+    S->>CL: load()
+    CL->>CL: 读根目录 backgrounds/decision_cards/events.json
+    CL->>CL: 读 content/ 下 9 个新 JSON
+    CL->>CL: _deep_merge() 合并 event_templates
+    CL->>CL: _apply_defaults() 补齐全部可选字段
+    CL->>CL: _build_index() 建 id 索引 + 查重
+    alt 存在重复 id 或文件损坏
+        CL-->>S: errors[] 非空（降级：跳过坏文件，保留其余）
+        S-->>UI: 返回可展示的告警信息
+    end
+    S->>PF: Profile.load()
+    alt profile.json 不存在
+        PF->>PF: 创建默认档案（R6-1）
+    else JSON 损坏
+        PF->>PF: 备份为 .corrupt.<ts> 并重建（R6-2）
+    end
+    PF-->>S: profile
+    S-->>UI: services 就绪
+    UI-->>U: 显示主菜单
+    end
+
+    %% ═════════ 阶段 1：新局开始 ═════════
+    rect rgb(240, 255, 242)
+    Note over U,DT: 【阶段 1】新游戏 → 篇章选择（Q1 拍板：主菜单显式选择）
+    U->>UI: 选择「新游戏」
+    UI-->>U: 显示「王朝篇 / 现代篇」
+    U->>UI: 选择篇章
+    UI->>P: Player() 并置 player.era = "dynasty"|"modern"
+    UI->>PF: begin_run()
+    PF->>PF: total_runs += 1
+    PF->>PF: cooldown[*] -= 1，≤0 删键
+    PF->>PF: decay[*] = min(1.0, decay + DECAY_RECOVER)
+    UI->>AR: begin_run()
+    AR->>AR: seen_this_run.clear()
+    end
+
+    %% ═════════ 阶段 2：开局天赋抽取（P0-2 / P0-3）═════════
+    rect rgb(255, 248, 235)
+    Note over U,PF: 【阶段 2】天赋 10 连抽选 3 —— 关键流程 A
+    UI->>TS: roll(profile, n=10)
+    TS->>CL: talents()  → 60 个天赋
+    TS->>PF: 读 unlocked_talents / unlocked_achievements
+    TS->>TS: 过滤 unlock_condition：<br/>null 或 已解锁 → 入池
+
+    alt profile.inherited_talent 非空（P0-3 天赋继承）
+        TS->>TS: 该天赋置顶为 slot0，标记 pinned=True，**必出**
+        TS->>TS: drawn={继承天赋}；mutex_used={其 mutex_group}
+        Note right of TS: 剩余 9 个名额
+    else 首局或未继承
+        TS->>TS: drawn={}；剩余 10 个名额
+    end
+
+    loop 每个剩余名额
+        TS->>TS: 按 rarity 概率选桶<br/>legendary 1% / epic 8% / rare 26% / common 65%
+        TS->>TS: 桶内剔除：已抽中的 id、mutex_group 已占用的
+        alt 该桶可选集为空
+            TS->>TS: 降级到下一稀有度桶（legendary→epic→rare→common）
+        end
+        alt 所有桶均空
+            TS->>TS: 提前结束，保证已产出 ≥3 个候选
+        end
+        TS->>TS: 桶内按 weight 轮盘赌抽 1 个
+        TS->>TS: drawn.add(id)；mutex_used.add(mutex_group)
+    end
+    TS-->>UI: 10 个候选天赋（含 pinned 标记与稀有度色）
+    UI->>P: player.talent_offered = [10 个 id]
+    UI-->>U: 展示 10 张天赋卡（继承的置顶高亮）
+    U->>UI: 勾选 3 个
+    UI->>TS: apply(player, chosen3)
+    TS->>P: talents = chosen3
+    TS->>P: adjust(**effects.init) 应用初始属性
+    TS->>P: traits.extend(effects.init_traits)
+    TS->>TS: 生成 TalentModifier（缓存于 Services）
+    Note over TS,DT: effects.init_dimensions 暂存，<br/>待 init_decision_tree() 后再应用（Q2）
+    end
+
+    %% ═════════ 阶段 3：出身 12 步 ═════════
+    rect rgb(248, 240, 255)
+    Note over U,EP: 【阶段 3】12 步出身选择 + 早年回顾（消费 childhood/teenage/youth）
+    UI->>CL: backgrounds()
+    CL-->>UI: steps + step_order（缺失则回退旧 5 键）
+    loop step_order 中每一步
+        UI-->>U: 展示 ≥4 个选项
+        U->>UI: 选择
+        UI->>P: 应用 effects.stats / mbti / traits
+        UI->>P: 应用 effects.sets（era/region/siblings/aptitude/education/life_goal）
+        alt 第 4 / 8 / 12 步之后
+            UI->>EP: pick(player, pools=["by_age.childhood"|"teenage"|"youth"])
+            EP-->>UI: 早年事件
+            U->>UI: 选择
+            UI->>EP: apply_choice(player, event, key)
+        end
+    end
+    UI->>P: player.age = 20
+    end
+
+    %% ═════════ 阶段 4：王权模式 —— 防重复抽卡（P0-1）═════════
+    rect rgb(255, 240, 240)
+    Note over U,DT: 【阶段 4】防重复抽卡 —— 关键流程 B（DeckBinder 注入模式）
+    UI->>P: init_decision_tree()
+    P->>DT: DecisionTree(player)
+    DT->>DT: _load_decision_cards() 读旧 JSON（占位，随后被覆盖）
+    UI->>TS: 应用 effects.init_dimensions
+    TS->>DT: adjust_dimension(DIM, delta) × N
+
+    loop 每回合决策
+        UI->>DB: next_cards(dt, player, k=3)
+        DB->>CL: cards(era=player.era)
+        CL-->>DB: 60 张（王朝篇含存量 16 / 现代篇 60）
+        DB->>DB: _build_pool()：按 era、min_year/max_year、<br/>unlock_condition、requires_talent 预过滤
+        DB->>AR: pick(pool, k=3, ctx)
+
+        AR->>AR: L0 计算 W_eff = weight × decay × talent_mult × ctx_mult
+        AR->>AR: 排除 seen_this_run ∪ cooldown>0 ∪ 条件不满足
+        alt 候选非空
+            AR->>AR: 加权无放回抽样 k 个（degraded=0）
+        else 候选为空
+            AR->>AR: L1 忽略 cooldown 重算（degraded=1）
+            alt 仍为空
+                AR->>AR: L2 忽略 seen，按 last_seen_run 升序取最久未见（degraded=2）
+                alt 仍为空
+                    AR->>AR: L3 返回内置 FALLBACK_CARD（degraded=3）
+                end
+            end
+        end
+        AR-->>DB: 选中卡 + degraded 级别
+
+        DB->>DB: _inject()：deepcopy 卡并写回<br/>dt.decision_cards = 选中卡列表
+        Note right of DB: ★ 零侵入核心：<br/>decision_cards 是普通 list 属性，<br/>直接赋值即可接管卡池
+        DB-->>UI: cards, degraded
+
+        alt degraded >= 2
+            UI-->>U: 提示「命运开始重复……」
+        end
+
+        UI->>DT: get_available_cards()
+        DT->>DT: _check_card_conditions() 复用存量逻辑
+        DT->>DT: 危机加权 ×2.0（存量逻辑）
+        DT-->>UI: 最终候选卡
+        UI-->>U: 展示卡面 + 左右选项
+        U->>UI: 选择 左/右
+        UI->>DT: apply_decision(card, choice_key)
+        DT->>DT: 记录 history、应用 effects 到 11 维
+        DT->>DT: _check_chain_reactions()<br/>存量 4 个 id 分支 + 🆕 数据驱动 chain_reactions
+        DT->>DT: advance_time() + _check_crisis()
+        DT-->>UI: speech / effects / chain_reactions
+
+        UI->>DB: on_decision_applied(dt, player, card)
+        DB->>AR: mark_seen(card.id)
+        AR->>AR: seen_this_run.add(id)
+        AR->>PF: decay[id] = max(FLOOR, decay[id] × 0.5)
+        AR->>PF: cooldown[id] = card.cooldown_runs or DEFAULT
+        AR->>PF: last_seen_run[id] = profile.total_runs
+        UI->>P: run_log.append({age, "card", title, choice})
+        UI->>AS: check(player, profile, phase="event")
+        AS-->>UI: 即时成就（flag_count / flag_streak / player_stat）
+        UI->>P: age += 1
+        UI->>DT: is_game_over()
+        DT-->>UI: (bool, message)
+    end
+    end
+
+    %% ═════════ 阶段 5：结算 ═════════
+    rect rgb(240, 250, 255)
+    Note over U,SM: 【阶段 5】结局判定 → 报告 → 天赋继承 → 落盘
+    UI->>ER: resolve(player, dt)
+    ER->>CL: endings()  → 60 个
+    ER->>ER: 逐个 _match()：stats / dimensions / age /<br/>career / education / relationships / traits / flags
+    ER->>ER: 命中集合按 priority 降序取首个
+    Note right of ER: 存量 6 个隐藏结局<br/>priority=60..55，保持原 if/elif 顺序
+    alt 无任何命中
+        ER->>ER: 返回兜底 end_ordinary_life（priority=-1）
+    end
+    ER-->>UI: Ending
+
+    UI->>RP: build(player, ending, dt)
+    RP->>RP: 7 项评级（财富/智慧/体魄/魅力/幸福/关系/成就）
+    RP->>RP: total_score = 属性分 + ending.score_bonus + 成就分
+    RP-->>UI: LifeReport
+    UI-->>U: 展示人生总结报告
+    opt 玩家点击导出
+        UI->>RP: export("exports/<name>_<ts>.txt")
+        RP-->>U: txt 文件路径
+    end
+
+    UI->>AS: check(player, profile, phase="run_end")
+    AS->>CL: achievements() → 40 个
+    AS->>AS: _eval_trigger() 逐条判定
+    AS->>PF: grant(key)：写 unlocked_talents /<br/>unlocked_card_pools / unlocked_background_options
+    AS-->>UI: 新解锁成就列表
+    UI-->>U: 弹出成就解锁提示（含"解锁了新天赋/新卡池"）
+
+    Note over U,TS: P0-3 天赋继承
+    UI-->>U: 从本局 3 个天赋中选 1 个继承
+    U->>UI: 选择
+    UI->>TS: inherit(profile, talent_id)
+    TS->>PF: inherited_talent = talent_id
+    Note right of TS: 校验 talent.inheritable == true
+
+    UI->>PF: end_run(result)
+    PF->>PF: seen_endings ∪= {ending.id}
+    PF->>PF: stats.best_score / longest_life 更新
+    PF->>PF: save() —— 写 .tmp 后 os.replace() 原子落盘
+
+    opt 玩家保存单局存档
+        UI->>SM: dump(player, canonical_mode)
+        SM->>P: to_dict()（含 schema_version=2 与 game_mode）
+        SM-->>UI: 写入 saves/<name>.json
+    end
+    end
+
+    %% ═════════ 阶段 6：旧存档读取（R5 验收）═════════
+    rect rgb(255, 250, 235)
+    Note over U,DT: 【阶段 6】读取 v1 旧存档（R5 硬验收：save_陈明_24.json）
+    U->>UI: 选择「加载游戏」→ save_陈明_24
+    UI->>SM: load(path)
+    SM->>SM: 读 JSON，schema_version 缺失 → 判定 v1
+    SM->>SM: migrate_v1_to_v2()：<br/>①不删不改任何现有键（R4）<br/>②normalize_mode("power") → "reigns"（BUG-1）<br/>③补 schema_version=2
+    SM->>P: Player.from_dict(data)
+    P->>P: hasattr 容错：未知键忽略，<br/>缺失键保留 __init__ 默认值（R2/R1）
+    SM-->>UI: (player, mode="reigns", migrated=True)
+    UI-->>U: 提示「存档已升级到 v2」
+    UI->>P: init_decision_tree()
+    UI->>DB: bind(dt, player)
+    UI-->>U: 恢复王权模式，可继续决策
+    end

@@ -1,0 +1,762 @@
+{
+  "event_templates": {
+    "generic": [
+      {
+        "id": "ev_gen_elevator_pitch",
+        "desc": "电梯里只有你和老板，还有 18 层要走。",
+        "options": {
+          "A": {"text": "汇报最近的项目进展 (魅力+2, 快乐-1)", "effects": {"charisma": 2, "happiness": -1}, "feedback": ["老板点了点头，你不知道那是什么意思。", "这 18 层从来没这么长过。"]},
+          "B": {"text": "假装低头看手机 (智力+1, 魅力-1)", "effects": {"intelligence": 1, "charisma": -1}, "feedback": ["信号满格，你自己也清楚。", "门开的那一刻你松了口气。"]},
+          "C": {"text": "聊天气 (魅力+1, 外向+1)", "effects": {"charisma": 1, "EI": 1}, "feedback": ["「今天挺冷。」「嗯。」", "不算精彩，但不算灾难。"]},
+          "D": {"text": "直接问加薪的事 (财富+1, 快乐-2, 幸运-1)", "effects": {"wealth": 1, "happiness": -2, "luck": -1}, "feedback": ["老板笑了，笑得比电梯还慢。", "后来这件事没有人再提起。"]}
+        }
+      },
+      {
+        "id": "ev_gen_group_redpacket",
+        "desc": "凌晨一点，五百人的公司群突然发红包，你正好醒着。",
+        "options": {
+          "A": {"text": "秒点，抢到三分钱 (幸运+1, 快乐+1)", "effects": {"luck": 1, "happiness": 1}, "feedback": ["三分钱，但你是第一个。", "手速还在，青春没走远。"]},
+          "B": {"text": "抢完补一句「谢谢老板」 (魅力+1, 快乐-1)", "effects": {"charisma": 1, "happiness": -1}, "feedback": ["后面跟了三十条复读。", "你成了那句话的原作者。"]},
+          "C": {"text": "关掉手机继续睡 (健康+2, 幸运-1)", "effects": {"health": 2, "luck": -1}, "feedback": ["第二天听说最佳手气是 88 元。", "睡眠比八十八块贵。"]}
+        }
+      },
+      {
+        "id": "ev_gen_used_bike",
+        "desc": "楼下二手自行车挂着「500 元转」的纸条，车链有点锈。",
+        "options": {
+          "A": {"text": "买下来，明天开始骑车通勤 (财富-1, 体力+2, 健康+2)", "effects": {"wealth": -1, "strength": 2, "health": 2}, "feedback": ["前三天你确实骑了。", "车链上的锈在第五天蹭上了裤脚。"]},
+          "B": {"text": "砍到 300 再考虑 (财富-1, 智力+1, 魅力-1)", "effects": {"wealth": -1, "intelligence": 1, "charisma": -1}, "feedback": ["卖家说「你要真心要就 350」。", "成交价 340，谁也没赢。"]},
+          "C": {"text": "拍张照发朋友圈，然后走了 (快乐+1)", "effects": {"happiness": 1}, "feedback": ["九个赞，其中三个是微商。", "那辆车第二天就不在了。"]},
+          "D": {"text": "追问来源，怀疑是赃车 (智力+2, 幸运-1, 快乐-1)", "effects": {"intelligence": 2, "luck": -1, "happiness": -1}, "feedback": ["卖家收起纸条走了。", "你没买到车，也没睡好觉。"]}
+        }
+      },
+      {
+        "id": "ev_gen_neighbor_leak",
+        "desc": "楼上漏水，把你贴了三个月的墙纸泡出一大片黄。",
+        "options": {
+          "A": {"text": "上门理论，要求赔偿 (财富+1, 快乐-2, 魅力-1)", "effects": {"wealth": 1, "happiness": -2, "charisma": -1}, "feedback": ["对方开门只留了一条缝。", "赔了 600，你们再没打过招呼。"]},
+          "B": {"text": "自己找师傅修，钱自己出 (财富-2, 快乐-1)", "effects": {"wealth": -2, "happiness": -1}, "feedback": ["师傅说墙里要干半个月。", "这半个月你都绕着那面墙走。"]},
+          "C": {"text": "报物业，等流程 (快乐-1, 幸运-1, 智力+1)", "effects": {"happiness": -1, "luck": -1, "intelligence": 1}, "feedback": ["工单号是 20240317-06。", "三周后系统显示「已完成」。"]}
+        }
+      },
+      {
+        "id": "ev_gen_gym_trial",
+        "desc": "健身房销售拦住你，说体验课只要 9.9 元。",
+        "options": {
+          "A": {"text": "去体验一次 (财富-1, 体力+1, 健康+2)", "effects": {"wealth": -1, "strength": 1, "health": 2}, "feedback": ["体验课本身很值。", "然后是四十分钟的年卡推销。"]},
+          "B": {"text": "当场办两年卡 3600 元 (财富-3, 体力+2, 快乐+1)", "effects": {"wealth": -3, "strength": 2, "happiness": 1}, "feedback": ["你一共打卡了十一次。", "第二年那家店变成了火锅店。"]},
+          "C": {"text": "礼貌拒绝，快步离开 (敏捷+1, 快乐-1)", "effects": {"agility": 1, "happiness": -1}, "feedback": ["销售追了半条街。", "回家路上你摸了摸自己的肚子。"]}
+        }
+      },
+      {
+        "id": "ev_gen_lost_wallet",
+        "desc": "地铁口捡到一个钱包，身份证和 800 块现金都在。",
+        "options": {
+          "A": {"text": "交给地铁站工作人员 (幸运+2, 快乐+1, 感性+1)", "effects": {"luck": 2, "happiness": 1, "TF": 1}, "feedback": ["登记表上你写了自己的名字。", "三天后失主发来一条很长的短信。"]},
+          "B": {"text": "按身份证地址寄回去 (财富-1, 魅力+2, 幸运+1)", "effects": {"wealth": -1, "charisma": 2, "luck": 1}, "feedback": ["顺丰花了 23 元。", "对方转来 200，你退了回去。"]},
+          "C": {"text": "现金留下，钱包丢进邮筒 (财富+2, 快乐-2, 幸运-2)", "effects": {"wealth": 2, "happiness": -2, "luck": -2}, "feedback": ["那 800 块你一直没舍得花。", "钱包夹层里有一张全家福。"]}
+        }
+      },
+      {
+        "id": "ev_gen_classmate_insurance",
+        "desc": "十年没联系的同学突然约饭，桌上掏出一份保险计划书。",
+        "options": {
+          "A": {"text": "签一份，就当买个人情 (财富-2, 魅力+1, 快乐-1)", "effects": {"wealth": -2, "charisma": 1, "happiness": -1}, "feedback": ["年缴 6800，交二十年。", "他说下次他请，没有下次。"]},
+          "B": {"text": "明确说不需要，饭钱 AA (快乐+1, 魅力-2)", "effects": {"happiness": 1, "charisma": -2}, "feedback": ["买单时两个人抢得都不太用力。", "出门他往左，你往右。"]},
+          "C": {"text": "认真问条款，问到他答不上来 (智力+2, 魅力-1)", "effects": {"intelligence": 2, "charisma": -1}, "feedback": ["「这个我回去查一下。」", "他没有回去查。"]},
+          "D": {"text": "介绍两个朋友给他 (魅力+2, 幸运-1, 快乐-1)", "effects": {"charisma": 2, "luck": -1, "happiness": -1}, "feedback": ["其中一个后来把你拉黑了。", "人情是有利息的。"]}
+        }
+      },
+      {
+        "id": "ev_gen_midnight_snack",
+        "desc": "凌晨两点，你站在冰箱前，手里是半盒隔夜的炸鸡。",
+        "options": {
+          "A": {"text": "吃了，明天的事明天说 (快乐+2, 健康-3)", "effects": {"happiness": 2, "health": -3}, "feedback": ["冷掉的炸鸡有一种颓废的香。", "凌晨三点你开始反胃。"]},
+          "B": {"text": "放回去，喝一杯温水 (健康+2, 快乐-1)", "effects": {"health": 2, "happiness": -1}, "feedback": ["水是温的，胃是空的。", "你躺回床上，盯了两小时天花板。"]},
+          "C": {"text": "扔掉，顺手把冰箱清了 (健康+1, 计划性+1, 财富-1)", "effects": {"health": 1, "JP": 1, "wealth": -1}, "feedback": ["清出四样过期的东西。", "冰箱空了，人也空了一点。"]}
+        }
+      },
+      {
+        "id": "ev_gen_recheck_report",
+        "desc": "体检报告上「建议进一步检查」被红笔圈了，你压在了快递单下。",
+        "options": {
+          "A": {"text": "第二天就去挂号 (财富-2, 健康+3, 快乐-2)", "effects": {"wealth": -2, "health": 3, "happiness": -2}, "feedback": ["专家号 300 元，等了两周。", "医生说「还好来得早」，你笑不出来。"]},
+          "B": {"text": "先忙完这个季度 (财富+1, 健康-4, 快乐-1)", "effects": {"wealth": 1, "health": -4, "happiness": -1}, "feedback": ["季度结束了，报告还压在下面。", "你偶尔会想起那个红圈。"]},
+          "C": {"text": "上网搜症状，自己判断 (智力+1, 健康-2, 快乐-2)", "effects": {"intelligence": 1, "health": -2, "happiness": -2}, "feedback": ["搜索结果从感冒排到绝症。", "凌晨四点你还在翻第七页。"]}
+        }
+      },
+      {
+        "id": "ev_gen_rain_taxi",
+        "desc": "暴雨天，打车软件显示前面排 47 人，你穿的是新皮鞋。",
+        "options": {
+          "A": {"text": "加 20 元调度费 (财富-1, 快乐+1, 敏捷+1)", "effects": {"wealth": -1, "happiness": 1, "agility": 1}, "feedback": ["排位跳到第 9，用了四分钟。", "司机说今天他已经跑了十七单。"]},
+          "B": {"text": "淌水走过去，两公里 (健康-2, 体力+1, 财富+1)", "effects": {"health": -2, "strength": 1, "wealth": 1}, "feedback": ["新皮鞋在第三个水坑阵亡。", "到公司时袜子能拧出水。"]},
+          "C": {"text": "在便利店等雨停 (快乐+1, 财富-1, 计划性-1)", "effects": {"happiness": 1, "wealth": -1, "JP": -1}, "feedback": ["关东煮六块钱一串。", "雨停在两小时后，会也散了。"]}
+        }
+      },
+      {
+        "id": "ev_gen_barking_dog",
+        "desc": "邻居的狗每天早上六点准时叫，物业说「养狗是自由」。",
+        "options": {
+          "A": {"text": "买耳塞，忍着 (快乐-2, 健康+1)", "effects": {"happiness": -2, "health": 1}, "feedback": ["硅胶耳塞 39 元两副。", "你开始在六点前自然醒。"]},
+          "B": {"text": "敲门当面沟通一次 (魅力+1, 快乐-1, 外向+1)", "effects": {"charisma": 1, "happiness": -1, "EI": 1}, "feedback": ["狗主人说「它也不想叫」。", "第二天，狗叫在五点五十。"]},
+          "C": {"text": "打 12345 投诉 (计划性+1, 快乐-1, 幸运-1)", "effects": {"JP": 1, "happiness": -1, "luck": -1}, "feedback": ["回访电话打了三次，都在上班时间。", "狗还在叫，档案里多了你的名字。"]},
+          "D": {"text": "自己也养一只，以毒攻毒 (快乐+2, 财富-2, 健康-1)", "effects": {"happiness": 2, "wealth": -2, "health": -1}, "feedback": ["你的狗叫得比楼下那只还早。", "现在这栋楼有两只狗。"]}
+        }
+      },
+      {
+        "id": "ev_gen_fake_courier_call",
+        "desc": "自称快递客服的人说你的包裹丢了，要给你三倍赔付。",
+        "options": {
+          "A": {"text": "按对方要求开屏幕共享 (财富-3, 智力-1, 快乐-2)", "effects": {"wealth": -3, "intelligence": -1, "happiness": -2}, "feedback": ["余额里 8600 元不见了。", "民警说这类案子当天有十九起。"]},
+          "B": {"text": "挂断，自己打官方客服核实 (智力+2, 幸运+1)", "effects": {"intelligence": 2, "luck": 1}, "feedback": ["包裹在驿站躺了三天。", "你顺手举报了那个号码。"]},
+          "C": {"text": "陪对方演，反问他的工号 (智力+1, 快乐+2, 魅力-1)", "effects": {"intelligence": 1, "happiness": 2, "charisma": -1}, "feedback": ["他报了个工号，然后挂断了。", "你把录音发进了业主群。"]}
+        }
+      }
+    ],
+    "by_wealth": {
+      "rich": [
+        {
+          "id": "ev_rich_relative_loan",
+          "desc": "表舅在家族群里@你：「就周转三个月，20 万。」",
+          "options": {
+            "A": {"text": "转账，不提借条 (财富-3, 魅力+2, 快乐-1)", "effects": {"wealth": -3, "charisma": 2, "happiness": -1}, "feedback": ["三个月后他换了新车，没提还钱。", "过年时他坐在主桌，你在角落。"]},
+            "B": {"text": "借，但要写借条按手印 (财富-2, 智力+1, 魅力-2)", "effects": {"wealth": -2, "intelligence": 1, "charisma": -2}, "feedback": ["他说「亲戚之间搞这套」。", "手印按了，群里安静了三天。"]},
+            "C": {"text": "只给 2 万，说是给的不是借的 (财富-1, 魅力-1, 快乐-1)", "effects": {"wealth": -1, "charisma": -1, "happiness": -1}, "feedback": ["他收了，备注写着「谢了」。", "从那以后他只在群里发链接。"]},
+            "D": {"text": "直接拒绝，退出家族群 (快乐-2, 魅力-3, 计划性+1)", "effects": {"happiness": -2, "charisma": -3, "JP": 1}, "feedback": ["妈打来电话讲了四十分钟。", "清静了，也空了。"]}
+          }
+        },
+        {
+          "id": "ev_rich_trust_product",
+          "desc": "私行经理推来一份年化 8% 的信托，起投 300 万。",
+          "options": {
+            "A": {"text": "全额认购 (财富+2, 幸运-2, 快乐-1)", "effects": {"wealth": 2, "luck": -2, "happiness": -1}, "feedback": ["第一年利息准时到账。", "第二年公告里出现了「延期兑付」。"]},
+            "B": {"text": "只投三分之一，其余买国债 (财富+1, 智力+2, 计划性+1)", "effects": {"wealth": 1, "intelligence": 2, "JP": 1}, "feedback": ["经理的表情礼貌了 0.5 个度。", "收益平淡，觉睡得很稳。"]},
+            "C": {"text": "让律师先看底层资产 (智力+2, 财富-1, 魅力-1)", "effects": {"intelligence": 2, "wealth": -1, "charisma": -1}, "feedback": ["律师费 2 万，报告 61 页。", "第 43 页写着「底层为房地产项目」。"]}
+          }
+        },
+        {
+          "id": "ev_rich_intl_school",
+          "desc": "国际学校面试结束，招生官委婉提到了「校董捐赠通道」。",
+          "options": {
+            "A": {"text": "捐 50 万，孩子当天录取 (财富-3, 快乐+1, 计划性+1)", "effects": {"wealth": -3, "happiness": 1, "JP": 1}, "feedback": ["录取通知第二天就到了邮箱。", "孩子问：「我是考上的吗？」"]},
+            "B": {"text": "不捐，让孩子重新排队面试 (财富+1, 快乐-2, 感性+1)", "effects": {"wealth": 1, "happiness": -2, "TF": 1}, "feedback": ["第二轮候补名单第 17 位。", "孩子说没关系，你听出了有关系。"]},
+            "C": {"text": "换一所公立，省下的钱做教育金 (财富+2, 智力+1, 快乐-1)", "effects": {"wealth": 2, "intelligence": 1, "happiness": -1}, "feedback": ["新班主任说「基础还行」。", "你妻子三天没和你说话。"]},
+            "D": {"text": "干脆送出国读初中 (财富-3, 快乐-2, 直觉+1)", "effects": {"wealth": -3, "happiness": -2, "SN": 1}, "feedback": ["视频通话有七小时时差。", "他开始说「我们那边」。"]}
+          }
+        },
+        {
+          "id": "ev_rich_driver_quits",
+          "desc": "开了六年的司机递上辞呈，说想回老家开民宿。",
+          "options": {
+            "A": {"text": "加薪 50% 挽留 (财富-2, 魅力+1, 快乐+1)", "effects": {"wealth": -2, "charisma": 1, "happiness": 1}, "feedback": ["他留下了，眼神却常看窗外。", "两年后他还是走了。"]},
+            "B": {"text": "包个红包送他走，还投他 10 万 (财富-2, 幸运+2, 快乐+1)", "effects": {"wealth": -2, "luck": 2, "happiness": 1}, "feedback": ["民宿开在莫干山，八间房。", "他每年寄一箱笋干过来。"]},
+            "C": {"text": "批准，立刻招新司机 (计划性+2, 快乐-1, 魅力-1)", "effects": {"JP": 2, "happiness": -1, "charisma": -1}, "feedback": ["新司机不知道你不喝冰水。", "六年的默契要从头攒。"]}
+          }
+        },
+        {
+          "id": "ev_rich_recognized_market",
+          "desc": "在菜市场被认出来：「你是不是上过财经杂志封面那个？」",
+          "options": {
+            "A": {"text": "承认，还合了影 (魅力+2, 快乐+1, 幸运-1)", "effects": {"charisma": 2, "happiness": 1, "luck": -1}, "feedback": ["照片当晚上了本地小号。", "评论区在猜你家住哪一栋。"]},
+            "B": {"text": "否认，说只是长得像 (魅力-1, 快乐-1, 内向+1)", "effects": {"charisma": -1, "happiness": -1, "EI": -1}, "feedback": ["对方将信将疑地走了。", "你把帽檐压得更低。"]},
+            "C": {"text": "笑笑，转身买了三斤排骨 (快乐+2, 魅力+1)", "effects": {"happiness": 2, "charisma": 1}, "feedback": ["老板娘多送了两根葱。", "排骨 42 块，你付了现金。"]}
+          }
+        },
+        {
+          "id": "ev_rich_charity_gala",
+          "desc": "公益晚宴的桌卡印着你的名字，建议捐赠额 50 万起。",
+          "options": {
+            "A": {"text": "举牌 80 万，全场鼓掌 (财富-3, 魅力+3, 快乐-1)", "effects": {"wealth": -3, "charisma": 3, "happiness": -1}, "feedback": ["主持人念了你的名字三遍。", "回家路上你算了算今晚的餐标。"]},
+            "B": {"text": "捐 5 万，剩下的直接打给山区学校 (财富-1, 感性+2, 魅力-2)", "effects": {"wealth": -1, "TF": 2, "charisma": -2}, "feedback": ["同桌问你「是不是最近现金紧」。", "两个月后收到 37 封手写信。"]},
+            "C": {"text": "称病早退 (快乐-1, 魅力-2, 健康-1)", "effects": {"happiness": -1, "charisma": -2, "health": -1}, "feedback": ["第二天有人在群里问你怎么了。", "桌卡被撤走时你已经在高速上。"]},
+            "D": {"text": "留下，但只捐时间不捐钱 (魅力-1, 快乐+2, 感性+1)", "effects": {"charisma": -1, "happiness": 2, "TF": 1}, "feedback": ["你在后厨帮了三小时忙。", "没人拍照，你反而睡得很好。"]}
+          }
+        },
+        {
+          "id": "ev_rich_tax_inquiry",
+          "desc": "税务局寄来《税务事项通知书》，要求说明三年前那笔股权转让。",
+          "options": {
+            "A": {"text": "请税务师事务所全面自查 (财富-3, 智力+2, 快乐-2)", "effects": {"wealth": -3, "intelligence": 2, "happiness": -2}, "feedback": ["自查报告 180 页，费用 26 万。", "结论是补税 41 万，滞纳金另算。"]},
+            "B": {"text": "自己写情况说明递上去 (财富-1, 智力-1, 快乐-2)", "effects": {"wealth": -1, "intelligence": -1, "happiness": -2}, "feedback": ["三页纸，改了九版。", "两周后来了第二份通知书。"]},
+            "C": {"text": "托人找关系问问 (财富-2, 幸运-2, 魅力+1)", "effects": {"wealth": -2, "luck": -2, "charisma": 1}, "feedback": ["中间人说「小事，我问问」。", "他再没接过你的电话。"]}
+          }
+        },
+        {
+          "id": "ev_rich_old_friend_watch",
+          "desc": "发小来家里做客，全程盯着你的表，临走说了句「你变了」。",
+          "options": {
+            "A": {"text": "把表摘下来送他 (财富-3, 魅力+1, 快乐-1)", "effects": {"wealth": -3, "charisma": 1, "happiness": -1}, "feedback": ["他推了两次，第三次收下了。", "他再也没戴着它出现过。"]},
+            "B": {"text": "认真解释这些年怎么过来的 (魅力+1, 快乐-1, 外向+1)", "effects": {"charisma": 1, "happiness": -1, "EI": 1}, "feedback": ["你讲到凌晨一点，他一直在点头。", "点头和听懂不是一回事。"]},
+            "C": {"text": "什么都不说，送他到楼下 (快乐-2, 内向-1, 智力+1)", "effects": {"happiness": -2, "EI": -1, "intelligence": 1}, "feedback": ["电梯里两个人看着不同的方向。", "他上车前拍了拍你的肩。"]}
+          }
+        }
+      ],
+      "poor": [
+        {
+          "id": "ev_poor_deposit_three",
+          "desc": "房东说下月起涨 300，押一付三，一次性要拿 6200。",
+          "options": {
+            "A": {"text": "咬牙续租，刷信用卡 (财富-3, 快乐-2, 健康-1)", "effects": {"wealth": -3, "happiness": -2, "health": -1}, "feedback": ["账单分了 12 期，手续费 7.2%。", "房间还是那间，只是更贵了。"]},
+            "B": {"text": "搬到更远的城中村 (财富-1, 健康-2, 快乐-1)", "effects": {"wealth": -1, "health": -2, "happiness": -1}, "feedback": ["通勤从 40 分钟变成 95 分钟。", "六点二十的公交上都是站着的人。"]},
+            "C": {"text": "找人合租，把主卧让出去 (财富+1, 快乐-2, 内向-1)", "effects": {"wealth": 1, "happiness": -2, "EI": -1}, "feedback": ["室友的闹钟设在五点半。", "你的书桌搬进了衣柜旁边。"]}
+          }
+        },
+        {
+          "id": "ev_poor_bargain_cut",
+          "desc": "砍价页面显示只差 0.01%，还需要再拉 3 个新用户。",
+          "options": {
+            "A": {"text": "发给所有微信群和亲戚 (财富+1, 魅力-2, 快乐-1)", "effects": {"wealth": 1, "charisma": -2, "happiness": -1}, "feedback": ["两个群把你禁言了。", "东西到手了，是个塑料收纳盒。"]},
+            "B": {"text": "放弃，直接原价买 (财富-2, 快乐+1, 计划性+1)", "effects": {"wealth": -2, "happiness": 1, "JP": 1}, "feedback": ["原价 39 元，你按了付款。", "省下的两小时你睡了一觉。"]},
+            "C": {"text": "拉小号自砍，被系统识别 (智力+1, 幸运-2, 快乐-2)", "effects": {"intelligence": 1, "luck": -2, "happiness": -2}, "feedback": ["页面弹出「存在异常行为」。", "进度条回到了 99.2%。"]},
+            "D": {"text": "干脆不要了，卸载 App (快乐+2, 财富+1, 幸运-1)", "effects": {"happiness": 2, "wealth": 1, "luck": -1}, "feedback": ["卸载页面问「真的不再想想」。", "第二天你又装了回来。"]}
+          }
+        },
+        {
+          "id": "ev_poor_medical_threshold",
+          "desc": "住院花了 4300，医保起付线 1800，报销比例 55%。",
+          "options": {
+            "A": {"text": "按流程报销，自己贴 2925 (财富-2, 快乐-1, 计划性+1)", "effects": {"wealth": -2, "happiness": -1, "JP": 1}, "feedback": ["窗口排队两小时，材料缺一张。", "第二次去补交了出院小结。"]},
+            "B": {"text": "提前出院，省两天床位费 (财富-1, 健康-4, 快乐-1)", "effects": {"wealth": -1, "health": -4, "happiness": -1}, "feedback": ["医生在病历上写了「自动出院」。", "第五天伤口有点渗。"]},
+            "C": {"text": "跟老家亲戚借 3000 (财富-1, 魅力-2, 快乐-2)", "effects": {"wealth": -1, "charisma": -2, "happiness": -2}, "feedback": ["电话打了四通才接通。", "对方说「先给你一千行不行」。"]}
+          }
+        },
+        {
+          "id": "ev_poor_ebike_stolen",
+          "desc": "早上下楼，电动车没了，地上只剩一把被剪断的锁。",
+          "options": {
+            "A": {"text": "报警，调监控 (快乐-2, 计划性+1, 幸运-1)", "effects": {"happiness": -2, "JP": 1, "luck": -1}, "feedback": ["监控正对着树，拍不到车棚。", "回执单编号很长，没有下文。"]},
+            "B": {"text": "咸鱼上买辆二手的，800 (财富-2, 敏捷+1, 快乐-1)", "effects": {"wealth": -2, "agility": 1, "happiness": -1}, "feedback": ["卖家说「电池还能跑 35 公里」。", "实际跑 22 公里就掉到红格。"]},
+            "C": {"text": "改骑共享单车上班 (财富-1, 体力+2, 健康+1)", "effects": {"wealth": -1, "strength": 2, "health": 1}, "feedback": ["月卡 16.8 元，两周瘦了三斤。", "下雨那天你格外想念那辆车。"]}
+          }
+        },
+        {
+          "id": "ev_poor_skipped_checkup",
+          "desc": "体检套餐里那项 380 元的加检，你在勾选框前停了很久。",
+          "options": {
+            "A": {"text": "勾上，这钱不能省 (财富-2, 健康+3, 快乐-1)", "effects": {"wealth": -2, "health": 3, "happiness": -1}, "feedback": ["结果一切正常。", "380 元买了一年的踏实。"]},
+            "B": {"text": "取消，反正年年都正常 (财富+1, 健康-3, 幸运-1)", "effects": {"wealth": 1, "health": -3, "luck": -1}, "feedback": ["报告上那一栏是空白的。", "空白比数字更让人惦记。"]},
+            "C": {"text": "问医生哪项最必要，只做一项 (智力+2, 财富-1, 健康+1)", "effects": {"intelligence": 2, "wealth": -1, "health": 1}, "feedback": ["医生说「你这个年纪先查这个」。", "省了 190，也没全省。"]}
+          }
+        },
+        {
+          "id": "ev_poor_good_news_only",
+          "desc": "妈在电话里问工资涨没涨，你说涨了两千。",
+          "options": {
+            "A": {"text": "继续圆谎，还转 500 回家 (财富-1, 魅力+1, 快乐-2)", "effects": {"wealth": -1, "charisma": 1, "happiness": -2}, "feedback": ["她说「够用就别往家寄」。", "挂了电话你看了眼余额：613。"]},
+            "B": {"text": "说实话，最近降薪了 (快乐-1, 感性+2, 魅力-1)", "effects": {"happiness": -1, "TF": 2, "charisma": -1}, "feedback": ["她沉默了三秒，说「回来吃饭」。", "第二天她寄了两箱腊肉。"]},
+            "C": {"text": "含糊过去，赶紧换话题 (智力+1, 快乐-1, 内向-1)", "effects": {"intelligence": 1, "happiness": -1, "EI": -1}, "feedback": ["你聊了半小时天气和菜价。", "她最后说「你自己注意身体」。"]},
+            "D": {"text": "说实话，还问她借 3000 (财富+2, 快乐-3, 魅力-2)", "effects": {"wealth": 2, "happiness": -3, "charisma": -2}, "feedback": ["钱两小时后到账，备注「别急」。", "你在楼道里蹲了很久。"]}
+          }
+        },
+        {
+          "id": "ev_poor_meal_allowance",
+          "desc": "公司加班餐补 20 元，楼下最便宜的盒饭 22 元。",
+          "options": {
+            "A": {"text": "自掏 2 块，吃热的 (财富-1, 健康+1, 快乐+1)", "effects": {"wealth": -1, "health": 1, "happiness": 1}, "feedback": ["两荤一素，米饭免费加。", "两块钱换一顿热饭，划算。"]},
+            "B": {"text": "买 8 块的面包，把餐补攒下 (财富+1, 健康-2, 快乐-1)", "effects": {"wealth": 1, "health": -2, "happiness": -1}, "feedback": ["一个月攒下 240 元。", "第三周你开始胃疼。"]},
+            "C": {"text": "在群里提议提高餐补 (魅力+1, 快乐-1, 幸运-1)", "effects": {"charisma": 1, "happiness": -1, "luck": -1}, "feedback": ["三个人点赞，行政说「反馈一下」。", "两个月后餐补变成了 21 元。"]}
+          }
+        },
+        {
+          "id": "ev_poor_heating_bill",
+          "desc": "供暖费催缴单塞在门缝里，1800 元，后天截止。",
+          "options": {
+            "A": {"text": "交了，这个冬天暖和 (财富-3, 健康+2, 快乐+1)", "effects": {"wealth": -3, "health": 2, "happiness": 1}, "feedback": ["屋里 21 度，能穿短袖。", "这个月的菜谱简单了很多。"]},
+            "B": {"text": "报停，靠电热毯和秋裤 (财富+2, 健康-3, 快乐-2)", "effects": {"wealth": 2, "health": -3, "happiness": -2}, "feedback": ["电热毯的档位一直开在 3。", "早上起床要下很大决心。"]},
+            "C": {"text": "申请分期，先交一半 (财富-1, 智力+1, 快乐-1)", "effects": {"wealth": -1, "intelligence": 1, "happiness": -1}, "feedback": ["窗口说「原则上不分期」。", "磨了四十分钟，答应了。"]}
+          }
+        }
+      ]
+    },
+    "by_personality": {
+      "introvert": [
+        {
+          "id": "ev_intro_forced_teambuilding",
+          "desc": "HR 说团建是「强制参加」，项目是两天一夜的破冰游戏。",
+          "options": {
+            "A": {"text": "去，全程配合鼓掌 (魅力+1, 快乐-3, 健康-1)", "effects": {"charisma": 1, "happiness": -3, "health": -1}, "feedback": ["你在「真心话」环节说了三次「都行」。", "回程大巴上你戴了两小时耳机。"]},
+            "B": {"text": "请病假，交一张挂号单 (快乐-1, 魅力-2, 幸运-1)", "effects": {"happiness": -1, "charisma": -2, "luck": -1}, "feedback": ["挂号费 15 元，医生只问了一句。", "周一 HR 特意来工位看了你一眼。"]},
+            "C": {"text": "去，但躲在后勤组搬水 (体力+2, 快乐-1, 内向-1)", "effects": {"strength": 2, "happiness": -1, "EI": -1}, "feedback": ["你搬了六箱矿泉水。", "至少没人叫你上台唱歌。"]},
+            "D": {"text": "直接和 HR 说不参加 (快乐+1, 魅力-3, 计划性+1)", "effects": {"happiness": 1, "charisma": -3, "JP": 1}, "feedback": ["HR 说「那我记一下」。", "年度评估里多了一行「团队融入度」。"]}
+          }
+        },
+        {
+          "id": "ev_intro_seat_by_pantry",
+          "desc": "工位换到茶水间旁，一天听 40 次「在忙吗」。",
+          "options": {
+            "A": {"text": "买降噪耳机，一直戴着 (财富-2, 智力+2, 魅力-1)", "effects": {"wealth": -2, "intelligence": 2, "charisma": -1}, "feedback": ["1299 元，第一天就回本了。", "有人说你「最近不太好接近」。"]},
+            "B": {"text": "找行政申请换位 (计划性+1, 快乐-1, 魅力-1)", "effects": {"JP": 1, "happiness": -1, "charisma": -1}, "feedback": ["行政说「等下季度工位调整」。", "下季度调整方案里你没被提到。"]},
+            "C": {"text": "算了，习惯就好 (快乐-2, 健康-1, 内向-1)", "effects": {"happiness": -2, "health": -1, "EI": -1}, "feedback": ["三个月后你能通过脚步声分辨来人。", "专注力像被咬碎的饼干。"]}
+          }
+        },
+        {
+          "id": "ev_intro_wedding_toast",
+          "desc": "同事婚礼上被点名上台说两句，麦克风已经递到手边。",
+          "options": {
+            "A": {"text": "站起来说三十秒 (魅力+2, 快乐-2, 外向+1)", "effects": {"charisma": 2, "happiness": -2, "EI": 1}, "feedback": ["你说了「祝百年好合」，然后卡住。", "掌声很热烈，你的手心全是汗。"]},
+            "B": {"text": "摆手推给旁边的人 (魅力-2, 快乐-1, 内向-1)", "effects": {"charisma": -2, "happiness": -1, "EI": -1}, "feedback": ["旁边那位讲了五分钟。", "新郎后来说「没关系」，说了两次。"]},
+            "C": {"text": "举杯，一句「干了」代替发言 (魅力+1, 健康-2, 快乐+1)", "effects": {"charisma": 1, "health": -2, "happiness": 1}, "feedback": ["一口闷，全桌叫好。", "散席时你扶着墙走。"]}
+          }
+        },
+        {
+          "id": "ev_intro_dinner_bill",
+          "desc": "聚餐十个人，只有你没说话，AA 时大家推你去买单。",
+          "options": {
+            "A": {"text": "去买单，回来收钱 (财富-1, 魅力+1, 快乐-2)", "effects": {"wealth": -1, "charisma": 1, "happiness": -2}, "feedback": ["总共 1180，八个人转了账。", "有两个人「回头补」，一直没补。"]},
+            "B": {"text": "拒绝，说自己不方便 (魅力-2, 快乐-1, 计划性+1)", "effects": {"charisma": -2, "happiness": -1, "JP": 1}, "feedback": ["桌上安静了两秒。", "另一个人站起来去了收银台。"]},
+            "C": {"text": "买单，还多付了缺席的两份 (财富-3, 魅力+2, 快乐-1)", "effects": {"wealth": -3, "charisma": 2, "happiness": -1}, "feedback": ["群里刷了一排「谢谢」。", "没有人问你为什么全程不说话。"]}
+          }
+        },
+        {
+          "id": "ev_intro_camera_on",
+          "desc": "线上会议第 12 分钟，领导说「大家都把摄像头打开吧」。",
+          "options": {
+            "A": {"text": "打开，背后是没叠的被子 (魅力-1, 快乐-2, 外向+1)", "effects": {"charisma": -1, "happiness": -2, "EI": 1}, "feedback": ["有人在聊天框发了个笑脸。", "你之后二十分钟一直坐得笔直。"]},
+            "B": {"text": "说网络不好，只开麦 (智力+1, 魅力-1, 快乐+1)", "effects": {"intelligence": 1, "charisma": -1, "happiness": 1}, "feedback": ["你把视频质量手动调成了「省流」。", "领导说「那你多说两句」。"]},
+            "C": {"text": "打开，还换了虚拟背景 (魅力+1, 智力+1, 快乐-1)", "effects": {"charisma": 1, "intelligence": 1, "happiness": -1}, "feedback": ["虚拟背景把你的耳朵吃掉了一半。", "会后有人问那是哪个海滩。"]}
+          }
+        }
+      ],
+      "extrovert": [
+        {
+          "id": "ev_extro_no_one_to_borrow",
+          "desc": "通讯录 2000 人，你翻到第三遍，没找到能开口借 5 万的。",
+          "options": {
+            "A": {"text": "群发一条求助消息 (魅力-3, 财富+1, 快乐-2)", "effects": {"charisma": -3, "wealth": 1, "happiness": -2}, "feedback": ["七个人回复「最近也紧」。", "一个不太熟的同事转来 2000。"]},
+            "B": {"text": "只问最铁的那一个 (魅力-1, 财富+2, 快乐-1)", "effects": {"charisma": -1, "wealth": 2, "happiness": -1}, "feedback": ["他没问用途，只问「够不够」。", "你把这句话记了很多年。"]},
+            "C": {"text": "谁都不问，去网贷 (财富+2, 健康-2, 快乐-3)", "effects": {"wealth": 2, "health": -2, "happiness": -3}, "feedback": ["日息万分之五，看着不多。", "第一期还款日你设了三个闹钟。"]},
+            "D": {"text": "卖掉那块攒了三年的表 (财富+2, 快乐-2, 感性+1)", "effects": {"wealth": 2, "happiness": -2, "TF": 1}, "feedback": ["回收价是原价的四成。", "手腕空了一圈白印。"]}
+          }
+        },
+        {
+          "id": "ev_extro_fourth_wedding",
+          "desc": "这个月第四场婚礼，随礼已经出去 3200 块。",
+          "options": {
+            "A": {"text": "照旧包 800，全场都去 (财富-3, 魅力+2, 快乐-1)", "effects": {"wealth": -3, "charisma": 2, "happiness": -1}, "feedback": ["四场喜糖堆在玄关柜上。", "月底你吃了六天挂面。"]},
+            "B": {"text": "只到场不随礼，说下次补 (财富+1, 魅力-2, 快乐-1)", "effects": {"wealth": 1, "charisma": -2, "happiness": -1}, "feedback": ["签到台的姑娘看了你一眼。", "「下次」这个词在你嘴里变轻了。"]},
+            "C": {"text": "挑最铁的一场去，其余转账 400 (财富-2, 计划性+2, 魅力-1)", "effects": {"wealth": -2, "JP": 2, "charisma": -1}, "feedback": ["三个人回了「人到就好」。", "你知道那不是真心话。"]}
+          }
+        },
+        {
+          "id": "ev_extro_party_no_show",
+          "desc": "又是你在群里张罗聚会，报名九个，到场三个。",
+          "options": {
+            "A": {"text": "照常玩，三个人也热闹 (快乐+2, 魅力+1, 财富-1)", "effects": {"happiness": 2, "charisma": 1, "wealth": -1}, "feedback": ["包间是六人桌，空了三把椅子。", "那晚聊到十一点半。"]},
+            "B": {"text": "在群里发火，@所有人 (魅力-3, 快乐-1, 外向+1)", "effects": {"charisma": -3, "happiness": -1, "EI": 1}, "feedback": ["六个人私聊道歉，三个装死。", "下次没人再报名。"]},
+            "C": {"text": "以后不组局了 (快乐-2, 计划性+1, 内向-1)", "effects": {"happiness": -2, "JP": 1, "EI": -1}, "feedback": ["群里安静了四个月。", "有人问「怎么好久没聚了」。"]}
+          }
+        },
+        {
+          "id": "ev_extro_talked_too_long",
+          "desc": "复盘会上你讲了 20 分钟，领导说「让别人也说说」。",
+          "options": {
+            "A": {"text": "立刻闭嘴，全程不再发言 (魅力-1, 快乐-2, 内向-1)", "effects": {"charisma": -1, "happiness": -2, "EI": -1}, "feedback": ["后半场你在本子上画格子。", "散会时没人跟你搭话。"]},
+            "B": {"text": "补一句「我总结完了」再收 (魅力+1, 智力+1, 快乐-1)", "effects": {"charisma": 1, "intelligence": 1, "happiness": -1}, "feedback": ["领导「嗯」了一声。", "那份纪要里你的名字出现了七次。"]},
+            "C": {"text": "会后私聊领导要反馈 (魅力+2, 智力+1, 快乐-1)", "effects": {"charisma": 2, "intelligence": 1, "happiness": -1}, "feedback": ["他说「你讲得对，就是太长」。", "你把发言稿从三页删到一页。"]}
+          }
+        },
+        {
+          "id": "ev_extro_lend_car_again",
+          "desc": "球友第三次开口借车，上次还回来时油表见底。",
+          "options": {
+            "A": {"text": "借，什么都不说 (魅力+1, 财富-1, 快乐-2)", "effects": {"charisma": 1, "wealth": -1, "happiness": -2}, "feedback": ["这次还回来时多了一道划痕。", "他说「本来就有吧」。"]},
+            "B": {"text": "借，但说清楚加满油还 (魅力-1, 财富+1, 计划性+2)", "effects": {"charisma": -1, "wealth": 1, "JP": 2}, "feedback": ["他笑着说「应该的」。", "油加满了，人疏远了。"]},
+            "C": {"text": "拒绝，说车送去保养了 (魅力-2, 快乐-1, 智力+1)", "effects": {"charisma": -2, "happiness": -1, "intelligence": 1}, "feedback": ["第二天他在球场看见了你的车。", "他什么都没说，你什么都懂了。"]}
+          }
+        }
+      ],
+      "nt_rational": [
+        {
+          "id": "ev_nt_logic_breakup",
+          "desc": "你用五条逻辑论证这段感情该结束，对方哭了四十分钟。",
+          "options": {
+            "A": {"text": "把第六条也讲完 (智力+1, 魅力-3, 快乐-2)", "effects": {"intelligence": 1, "charisma": -3, "happiness": -2}, "feedback": ["她说「你说得都对」。", "这是她那晚的最后一句话。"]},
+            "B": {"text": "停下，递纸巾，什么都不说 (感性+2, 智力-1, 快乐-1)", "effects": {"TF": 2, "intelligence": -1, "happiness": -1}, "feedback": ["纸巾用掉了大半包。", "你第一次觉得沉默比论证难。"]},
+            "C": {"text": "承认自己的表达方式有问题 (魅力+2, 感性+1, 快乐-1)", "effects": {"charisma": 2, "TF": 1, "happiness": -1}, "feedback": ["她抬头看了你三秒。", "结局没变，过程温和了一点。"]},
+            "D": {"text": "把五条逻辑写成文档发给她 (智力+2, 魅力-3, 快乐-2)", "effects": {"intelligence": 2, "charisma": -3, "happiness": -2}, "feedback": ["文档有目录，还有结论章节。", "她没打开，直接删了好友。"]}
+          }
+        },
+        {
+          "id": "ev_nt_efficient_gift",
+          "desc": "你送女友一台扫地机器人，附赠一句「每月省 8 小时」。",
+          "options": {
+            "A": {"text": "再补一份效率测算表 (智力+2, 魅力-2, 快乐-1)", "effects": {"intelligence": 2, "charisma": -2, "happiness": -1}, "feedback": ["表格里有折旧和时薪换算。", "她把表格截图发给了闺蜜。"]},
+            "B": {"text": "第二天再买一束花补救 (财富-1, 魅力+2, 感性+1)", "effects": {"wealth": -1, "charisma": 2, "TF": 1}, "feedback": ["花 168 元，她说「你终于开窍了」。", "机器人现在专门运猫。"]},
+            "C": {"text": "坚持认为自己送得很对 (智力+1, 魅力-1, 计划性+1)", "effects": {"intelligence": 1, "charisma": -1, "JP": 1}, "feedback": ["它确实每天工作两次。", "她确实三天没主动说话。"]}
+          }
+        },
+        {
+          "id": "ev_nt_flaw_in_meeting",
+          "desc": "领导的方案有个明显漏洞，会议室里坐着他的上级。",
+          "options": {
+            "A": {"text": "当场指出，附上数据 (智力+3, 魅力-2, 幸运-1)", "effects": {"intelligence": 3, "charisma": -2, "luck": -1}, "feedback": ["上级说「这个问题问得好」。", "领导整场再没看你一眼。"]},
+            "B": {"text": "会后单独找领导说 (魅力+2, 智力+1, 计划性+1)", "effects": {"charisma": 2, "intelligence": 1, "JP": 1}, "feedback": ["他说「我知道，先这么报」。", "两周后方案改了，署名不是你。"]},
+            "C": {"text": "什么都不说，等它自己爆 (智力-1, 快乐-2, 幸运-2)", "effects": {"intelligence": -1, "happiness": -2, "luck": -2}, "feedback": ["三个月后项目延期了六周。", "复盘会上你被问「当时怎么没提」。"]}
+          }
+        },
+        {
+          "id": "ev_nt_wedding_spreadsheet",
+          "desc": "你做了张表对比六个婚礼场地，未婚妻只想看花艺照片。",
+          "options": {
+            "A": {"text": "先讲完性价比排序 (智力+2, 魅力-2, 快乐-1)", "effects": {"intelligence": 2, "charisma": -2, "happiness": -1}, "feedback": ["加权得分第一的场地在郊区。", "她说「那个地方我看着就不开心」。"]},
+            "B": {"text": "关掉表格，陪她看照片 (魅力+2, 感性+1, 智力-1)", "effects": {"charisma": 2, "TF": 1, "intelligence": -1}, "feedback": ["她挑了得分第四的那家。", "那天她笑了很多次。"]},
+            "C": {"text": "把花艺也做成一列加进去 (智力+1, 计划性+2, 快乐-1)", "effects": {"intelligence": 1, "JP": 2, "happiness": -1}, "feedback": ["表格从 6 列变成 9 列。", "她说「你是不是把我也打了分」。"]}
+          }
+        },
+        {
+          "id": "ev_nt_lottery_probability",
+          "desc": "同事拉你合买彩票，你算出中奖概率是 1772 万分之一。",
+          "options": {
+            "A": {"text": "把概率讲给全办公室听 (智力+2, 魅力-2, 快乐-1)", "effects": {"intelligence": 2, "charisma": -2, "happiness": -1}, "feedback": ["有人说「你别扫兴」。", "他们还是买了，你没份。"]},
+            "B": {"text": "出 20 块，就当买个参与感 (财富-1, 魅力+2, 快乐+1)", "effects": {"wealth": -1, "charisma": 2, "happiness": 1}, "feedback": ["中了 10 元，被拿去买了雪糕。", "那天办公室很热闹。"]},
+            "C": {"text": "不参与，但帮他们选号 (智力+1, 魅力+1, 快乐-1)", "effects": {"intelligence": 1, "charisma": 1, "happiness": -1}, "feedback": ["你用了随机数生成器。", "他们说这样「没有灵气」。"]}
+          }
+        }
+      ],
+      "nf_idealist": [
+        {
+          "id": "ev_nf_reimbursement_maze",
+          "desc": "你自费 800 做的公益海报，财务说「没有对应科目，报不了」。",
+          "options": {
+            "A": {"text": "算了，当自己捐的 (财富-2, 感性+2, 快乐-1)", "effects": {"wealth": -2, "TF": 2, "happiness": -1}, "feedback": ["海报贴满了三个社区公告栏。", "发票你留着，一直没扔。"]},
+            "B": {"text": "改成「办公用品」重新提交 (财富+1, 智力+1, 快乐-2)", "effects": {"wealth": 1, "intelligence": 1, "happiness": -2}, "feedback": ["财务盖章的时候没抬头。", "你在报销单上撒了第一个谎。"]},
+            "C": {"text": "写邮件给总经理提议加科目 (魅力+1, 计划性+2, 快乐-2)", "effects": {"charisma": 1, "JP": 2, "happiness": -2}, "feedback": ["邮件抄送了六个人，回复零封。", "半年后制度真改了，没人记得为什么。"]},
+            "D": {"text": "把海报撕了，以后不做了 (快乐-3, 财富+1, 感性-1)", "effects": {"happiness": -3, "wealth": 1, "TF": -1}, "feedback": ["撕的时候手很稳。", "晚上你在阳台站到了十二点。"]}
+          }
+        },
+        {
+          "id": "ev_nf_mission_vs_layoff",
+          "desc": "公司新愿景是「用户第一」，同一周砍掉了整个售后团队。",
+          "options": {
+            "A": {"text": "在全员会上提问 (魅力+1, 智力+1, 幸运-2)", "effects": {"charisma": 1, "intelligence": 1, "luck": -2}, "feedback": ["CEO 说「这是两件事」。", "会后你的直属领导找你聊了一小时。"]},
+            "B": {"text": "沉默，但开始投简历 (计划性+2, 快乐-2, 财富-1)", "effects": {"JP": 2, "happiness": -2, "wealth": -1}, "feedback": ["三个月投了 40 份，面了 5 家。", "每天上班像在演戏。"]},
+            "C": {"text": "留下来，试着从内部改 (快乐-1, 魅力+2, 健康-1)", "effects": {"happiness": -1, "charisma": 2, "health": -1}, "feedback": ["你推动加回了两个客服岗。", "代价是连续三个月的加班。"]}
+          }
+        },
+        {
+          "id": "ev_nf_stray_cats",
+          "desc": "小区流浪猫生了四只，物业贴出通告说三天后清理。",
+          "options": {
+            "A": {"text": "自己全接回家 (财富-2, 快乐+2, 健康-1)", "effects": {"wealth": -2, "happiness": 2, "health": -1}, "feedback": ["猫砂盆摆在了洗衣机旁边。", "房东打电话来问「你养了几只」。"]},
+            "B": {"text": "在业主群发起领养接力 (魅力+2, 计划性+1, 快乐-1)", "effects": {"charisma": 2, "JP": 1, "happiness": -1}, "feedback": ["三只被领养，一只没人要。", "剩下那只现在睡在你床尾。"]},
+            "C": {"text": "掏 600 做绝育后放归 (财富-1, 感性+2, 快乐+1)", "effects": {"wealth": -1, "TF": 2, "happiness": 1}, "feedback": ["它们的耳朵被剪了一个小角。", "物业撕了通告，没再提。"]}
+          }
+        },
+        {
+          "id": "ev_nf_novel_vs_review",
+          "desc": "写了三年的小说卡在第 12 万字，明天还要交季度述职。",
+          "options": {
+            "A": {"text": "通宵写小说，述职随便糊 (快乐+2, 健康-3, 财富-1)", "effects": {"happiness": 2, "health": -3, "wealth": -1}, "feedback": ["那一夜写了 4000 字。", "述职 PPT 只有五页，第三页是空的。"]},
+            "B": {"text": "认真准备述职，小说先放 (财富+2, 快乐-2, 计划性+1)", "effects": {"wealth": 2, "happiness": -2, "JP": 1}, "feedback": ["述职拿了 B+，加薪 8%。", "文档修改时间停在了三月十一日。"]},
+            "C": {"text": "各分一半，两边都做不好 (智力-1, 快乐-2, 健康-2)", "effects": {"intelligence": -1, "happiness": -2, "health": -2}, "feedback": ["小说写了 600 字，全删了。", "述职时你把主角的名字念了出来。"]}
+          }
+        },
+        {
+          "id": "ev_nf_friend_bookstore",
+          "desc": "朋友说要开独立书店，差 3 万，眼睛亮得像十年前。",
+          "options": {
+            "A": {"text": "投 3 万，不要股份 (财富-3, 感性+2, 快乐+1)", "effects": {"wealth": -3, "TF": 2, "happiness": 1}, "feedback": ["书店开在巷子第三家，招牌很小。", "他在扉页上写了你的名字。"]},
+            "B": {"text": "借 1 万，剩下让他再想想 (财富-1, 智力+1, 魅力-1)", "effects": {"wealth": -1, "intelligence": 1, "charisma": -1}, "feedback": ["他说「够了够了」，笑得有点急。", "书店最后开了，比计划小一半。"]},
+            "C": {"text": "劝他别开，给他算了笔账 (智力+2, 魅力-2, 快乐-2)", "effects": {"intelligence": 2, "charisma": -2, "happiness": -2}, "feedback": ["月租 8000，客单价 45 元。", "他听完说「你算得对」，然后走了。"]}
+          }
+        }
+      ],
+      "strong_warrior": [
+        {
+          "id": "ev_warrior_office_useless",
+          "desc": "你能扛 80 公斤，但周报写不满一页，绩效是 C。",
+          "options": {
+            "A": {"text": "报个写作班，硬啃 (财富-2, 智力+2, 快乐-1)", "effects": {"wealth": -2, "intelligence": 2, "happiness": -1}, "feedback": ["980 元，十二节课，你去了九节。", "下季度周报有一页半了。"]},
+            "B": {"text": "申请调去仓储岗 (体力+2, 财富-1, 快乐+1)", "effects": {"strength": 2, "wealth": -1, "happiness": 1}, "feedback": ["工资少了 1200，觉多了两小时。", "你说这是你三年来最踏实的月份。"]},
+            "C": {"text": "找同事帮忙润色周报 (魅力-1, 智力+1, 财富-1)", "effects": {"charisma": -1, "intelligence": 1, "wealth": -1}, "feedback": ["润色费是每周一顿午饭。", "领导夸「文笔进步很大」。"]},
+            "D": {"text": "跟领导拍桌子理论 (体力+1, 魅力-3, 幸运-2)", "effects": {"strength": 1, "charisma": -3, "luck": -2}, "feedback": ["桌上的马克杯跳了一下。", "HR 当天下午找了你。"]}
+          }
+        },
+        {
+          "id": "ev_warrior_moving_help",
+          "desc": "同事又找你帮忙搬家，理由是「你力气大」，报酬是一顿烧烤。",
+          "options": {
+            "A": {"text": "去，一个人扛完全部家具 (体力+3, 健康-2, 魅力+1)", "effects": {"strength": 3, "health": -2, "charisma": 1}, "feedback": ["冰箱是你一个人抱上五楼的。", "第二天腰直不起来。"]},
+            "B": {"text": "去，但劝他叫搬家公司 (智力+1, 魅力-1, 体力+1)", "effects": {"intelligence": 1, "charisma": -1, "strength": 1}, "feedback": ["师傅报价 400，两小时搞定。", "他说「早知道就叫了」。"]},
+            "C": {"text": "拒绝，说周末有事 (快乐+1, 魅力-2, 体力-1)", "effects": {"happiness": 1, "charisma": -2, "strength": -1}, "feedback": ["他说「没事没事」，语气很平。", "之后半年他没再找过你。"]}
+          }
+        },
+        {
+          "id": "ev_warrior_gym_vs_overtime",
+          "desc": "健身卡还剩 47 次，这个月你加了 60 小时班。",
+          "options": {
+            "A": {"text": "下班后硬练，每次一小时 (体力+2, 健康+1, 快乐-2)", "effects": {"strength": 2, "health": 1, "happiness": -2}, "feedback": ["深夜十一点的跑步机只有你。", "回家洗完澡是一点二十。"]},
+            "B": {"text": "把卡转让，回本 800 (财富+2, 体力-2, 快乐-1)", "effects": {"wealth": 2, "strength": -2, "happiness": -1}, "feedback": ["接手的人是隔壁部门的实习生。", "他每周去三次。"]},
+            "C": {"text": "改成在家做徒手训练 (体力+1, 健康+2, 快乐-1)", "effects": {"strength": 1, "health": 2, "happiness": -1}, "feedback": ["瑜伽垫铺在电视前。", "楼下投诉了两次深蹲落地声。"]}
+          }
+        },
+        {
+          "id": "ev_warrior_street_fight",
+          "desc": "有人在路边推搡一个外卖员，你的拳头已经握紧了。",
+          "options": {
+            "A": {"text": "上去动手 (体力+2, 健康-3, 幸运-2)", "effects": {"strength": 2, "health": -3, "luck": -2}, "feedback": ["对方鼻子出了血，你手背破了。", "派出所的椅子很硬，你坐了四小时。"]},
+            "B": {"text": "报警，同时举手机录像 (智力+2, 计划性+1, 快乐-1)", "effects": {"intelligence": 2, "JP": 1, "happiness": -1}, "feedback": ["视频拍了 3 分 12 秒。", "外卖员后来加了你微信道谢。"]},
+            "C": {"text": "上前拉开，只挡不打 (体力+1, 魅力+2, 健康-1)", "effects": {"strength": 1, "charisma": 2, "health": -1}, "feedback": ["你挨了一肘子，在肋骨。", "围观的人这才开始劝架。"]}
+          }
+        }
+      ],
+      "smart_scholar": [
+        {
+          "id": "ev_scholar_eq_feedback",
+          "desc": "360 度评估里有一条：「专业能力强，但不太会说话」。",
+          "options": {
+            "A": {"text": "追查是谁写的 (智力+1, 魅力-3, 快乐-2)", "effects": {"intelligence": 1, "charisma": -3, "happiness": -2}, "feedback": ["匿名系统查不到，你猜了三个人。", "之后你对这三个人都客气得反常。"]},
+            "B": {"text": "报名沟通课，认真练 (财富-2, 魅力+2, 快乐-1)", "effects": {"wealth": -2, "charisma": 2, "happiness": -1}, "feedback": ["第一节课的作业是「夸三个人」。", "你写了两个小时。"]},
+            "C": {"text": "无所谓，专业强就够了 (智力+2, 魅力-2, 计划性-1)", "effects": {"intelligence": 2, "charisma": -2, "JP": -1}, "feedback": ["你的方案通过率仍然最高。", "晋升名单上仍然没有你。"]}
+          }
+        },
+        {
+          "id": "ev_scholar_overqualified",
+          "desc": "面试官问：「博士来做这个岗位，你会不会很快就走？」",
+          "options": {
+            "A": {"text": "坦白说这是过渡，先要收入 (智力+1, 魅力-2, 快乐-1)", "effects": {"intelligence": 1, "charisma": -2, "happiness": -1}, "feedback": ["面试官在纸上写了个字。", "第三天收到「不合适」的短信。"]},
+            "B": {"text": "承诺至少干三年 (财富+2, 快乐-2, 计划性+1)", "effects": {"wealth": 2, "happiness": -2, "JP": 1}, "feedback": ["offer 第二天就发了，薪资打了九折。", "你在合同上签字时手停了一下。"]},
+            "C": {"text": "反问岗位的成长路径 (智力+2, 魅力+1, 幸运-1)", "effects": {"intelligence": 2, "charisma": 1, "luck": -1}, "feedback": ["他愣了两秒，说「这个问题很好」。", "然后聊了四十分钟，还是没给 offer。"]},
+            "D": {"text": "把学历从简历里删掉重投 (智力-1, 财富+1, 快乐-2)", "effects": {"intelligence": -1, "wealth": 1, "happiness": -2}, "feedback": ["简历通过率翻了三倍。", "入职表上那一栏你填了「本科」。"]}
+          }
+        },
+        {
+          "id": "ev_scholar_too_deep",
+          "desc": "你给客户讲了 15 分钟原理，对方问：「所以能便宜点吗？」",
+          "options": {
+            "A": {"text": "继续讲，把成本结构也讲清楚 (智力+2, 魅力-2, 财富-1)", "effects": {"intelligence": 2, "charisma": -2, "wealth": -1}, "feedback": ["客户开始看手机。", "他后来签了竞争对手的合同。"]},
+            "B": {"text": "直接报个底价 (财富-2, 魅力+1, 智力-1)", "effects": {"wealth": -2, "charisma": 1, "intelligence": -1}, "feedback": ["降了 12%，当场成交。", "回公司后销售总监找你谈了话。"]},
+            "C": {"text": "换成一句话的比喻 (智力+1, 魅力+2, 财富+1)", "effects": {"intelligence": 1, "charisma": 2, "wealth": 1}, "feedback": ["你说「这就像给房子打地基」。", "客户点头，价格没再提。"]}
+          }
+        },
+        {
+          "id": "ev_scholar_paper_vs_defense",
+          "desc": "论文差最后一轮修改，晋升答辩排在同一周。",
+          "options": {
+            "A": {"text": "全力改论文，答辩裸讲 (智力+3, 财富-1, 快乐-1)", "effects": {"intelligence": 3, "wealth": -1, "happiness": -1}, "feedback": ["论文接收邮件在周四凌晨到。", "答辩现场你讲串了两页。"]},
+            "B": {"text": "全力准备答辩，论文延期 (财富+2, 智力-1, 快乐-2)", "effects": {"wealth": 2, "intelligence": -1, "happiness": -2}, "feedback": ["晋升过了，涨薪 15%。", "期刊那边转投，又等了七个月。"]},
+            "C": {"text": "两边都做，连熬五夜 (智力+1, 财富+1, 健康-5)", "effects": {"intelligence": 1, "wealth": 1, "health": -5}, "feedback": ["第五天你在工位上睡着了。", "两件事都成了，人瘦了六斤。"]}
+          }
+        }
+      ],
+      "adventurer": [
+        {
+          "id": "ev_adv_hike_return_no_job",
+          "desc": "徒步 40 天回来，HR 说你的岗位上周已经招到人了。",
+          "options": {
+            "A": {"text": "接受 N+1，重新找工作 (财富-1, 快乐-2, 计划性+1)", "effects": {"wealth": -1, "happiness": -2, "JP": 1}, "feedback": ["补偿是 2.6 个月工资。", "找工作用了四个月零九天。"]},
+            "B": {"text": "申请劳动仲裁 (财富+2, 快乐-3, 魅力-1)", "effects": {"wealth": 2, "happiness": -3, "charisma": -1}, "feedback": ["开庭那天下着雨，你自己去的。", "赔了 4.8 万，行业里传开了。"]},
+            "C": {"text": "干脆去做户外领队 (财富-2, 体力+2, 快乐+2)", "effects": {"wealth": -2, "strength": 2, "happiness": 2}, "feedback": ["带第一支队伍是七个人。", "收入不到从前的一半，你没后悔。"]}
+          }
+        },
+        {
+          "id": "ev_adv_motorcycle_locked",
+          "desc": "你想骑摩托进藏，家里把车钥匙锁进了保险柜。",
+          "options": {
+            "A": {"text": "配一把新钥匙，说走就走 (敏捷+2, 快乐+2, 魅力-3)", "effects": {"agility": 2, "happiness": 2, "charisma": -3}, "feedback": ["你在拉萨发了第一条朋友圈。", "家里群聊三天没人说话。"]},
+            "B": {"text": "谈判：先陪家人体检，再走 (魅力+2, 计划性+2, 快乐-1)", "effects": {"charisma": 2, "JP": 2, "happiness": -1}, "feedback": ["体检报告出来那天钥匙还给了你。", "出发晚了 26 天，秋天的路更好走。"]},
+            "C": {"text": "放弃，把摩托卖了 (财富+2, 快乐-3, 敏捷-1)", "effects": {"wealth": 2, "happiness": -3, "agility": -1}, "feedback": ["买家骑走时轰了三下油门。", "你在窗口站着听完了。"]}
+          }
+        },
+        {
+          "id": "ev_adv_startup_offer",
+          "desc": "老同事叫你去做第 3 号员工，工资砍半，期权 1%。",
+          "options": {
+            "A": {"text": "去，签四年成熟期 (财富-2, 快乐+2, 幸运-1)", "effects": {"wealth": -2, "happiness": 2, "luck": -1}, "feedback": ["办公室在一间民房，六张桌子。", "第 14 个月公司拿到了 A 轮。"]},
+            "B": {"text": "不去，但介绍一个人给他 (财富+1, 魅力+2, 快乐-1)", "effects": {"wealth": 1, "charisma": 2, "happiness": -1}, "feedback": ["那个人后来成了合伙人。", "你偶尔会看他们的融资新闻。"]},
+            "C": {"text": "要求提到 3% 才去 (智力+1, 财富+1, 魅力-2)", "effects": {"intelligence": 1, "wealth": 1, "charisma": -2}, "feedback": ["他说「我回去和另一个合伙人商量」。", "商量的结果是没有结果。"]},
+            "D": {"text": "兼职参与，主业不辞 (财富+1, 健康-3, 智力+1)", "effects": {"wealth": 1, "health": -3, "intelligence": 1}, "feedback": ["每天两份工作，睡五小时。", "两个月后主业的领导找你谈了话。"]}
+          }
+        },
+        {
+          "id": "ev_adv_yellow_alert_4200",
+          "desc": "山下气象台发了黄色预警，你已经爬到 4200 米。",
+          "options": {
+            "A": {"text": "继续冲顶，只剩 300 米 (体力+2, 健康-6, 快乐+2)", "effects": {"strength": 2, "health": -6, "happiness": 2}, "feedback": ["登顶照片里全是白雾。", "下撤时你的右手冻伤了两根手指。"]},
+            "B": {"text": "立刻下撤，明年再来 (计划性+2, 健康+1, 快乐-3)", "effects": {"JP": 2, "health": 1, "happiness": -3}, "feedback": ["下撤用了四小时，一路无话。", "第二年你确实回来了。"]},
+            "C": {"text": "原地扎营，等窗口期 (体力+1, 健康-3, 智力+1)", "effects": {"strength": 1, "health": -3, "intelligence": 1}, "feedback": ["帐篷被风压得贴住了脸。", "等了 19 小时，天真的晴了。"]}
+          }
+        }
+      ]
+    },
+    "by_age": {
+      "20s": [
+        {
+          "id": "ev_a20_first_salary",
+          "desc": "第一笔工资 4800 到账，妈发来消息问「够花吗」。",
+          "options": {
+            "A": {"text": "给爸妈转 2000 (财富-2, 魅力+2, 快乐+1)", "effects": {"wealth": -2, "charisma": 2, "happiness": 1}, "feedback": ["她退回来 1500，说「你自己留着」。", "剩下的 500 她给你买了双鞋。"]},
+            "B": {"text": "买一直想要的耳机 (财富-2, 快乐+2, 智力+1)", "effects": {"wealth": -2, "happiness": 2, "intelligence": 1}, "feedback": ["1299 元，你戴着走了三站路。", "月底最后五天你吃食堂。"]},
+            "C": {"text": "全部存定期 (财富+2, 快乐-1, 计划性+2)", "effects": {"wealth": 2, "happiness": -1, "JP": 2}, "feedback": ["一年期利率 1.55%。", "你截图存进了一个叫「起点」的相册。"]}
+          }
+        },
+        {
+          "id": "ev_a20_roommate_gaming",
+          "desc": "合租室友半夜开黑，隔音墙薄得像纸，你明早九点开会。",
+          "options": {
+            "A": {"text": "敲墙提醒 (快乐-1, 魅力-1, 健康+1)", "effects": {"happiness": -1, "charisma": -1, "health": 1}, "feedback": ["声音小了十分钟，又大了回来。", "第二天他在厨房假装没看见你。"]},
+            "B": {"text": "戴耳塞硬睡 (健康-2, 快乐-2, 智力-1)", "effects": {"health": -2, "happiness": -2, "intelligence": -1}, "feedback": ["三点二十你还醒着。", "会上你把「同比」说成了「环比」。"]},
+            "C": {"text": "起床，一起打两把 (快乐+2, 健康-3, 魅力+1)", "effects": {"happiness": 2, "health": -3, "charisma": 1}, "feedback": ["两把变成五把，四点收。", "你们从此成了朋友。"]},
+            "D": {"text": "第二天贴一张作息公约在客厅 (计划性+2, 魅力-1, 快乐-1)", "effects": {"JP": 2, "charisma": -1, "happiness": -1}, "feedback": ["A4 纸，宋体，加粗了「23:00」。", "他在下面用铅笔写了「收到」。"]}
+          }
+        },
+        {
+          "id": "ev_a20_grad_exam_gap",
+          "desc": "考研成绩差 4 分，同时有个 offer 让你后天入职。",
+          "options": {
+            "A": {"text": "接 offer，先工作 (财富+2, 快乐-1, 计划性+1)", "effects": {"wealth": 2, "happiness": -1, "JP": 1}, "feedback": ["月薪 6500，五险一金按最低档。", "你把参考书装进了纸箱，没扔。"]},
+            "B": {"text": "再战一年，回家备考 (财富-2, 智力+3, 快乐-2)", "effects": {"wealth": -2, "intelligence": 3, "happiness": -2}, "feedback": ["县城图书馆的座位要早上七点去抢。", "第二年你高了 31 分。"]},
+            "C": {"text": "边工作边准备调剂 (智力+1, 健康-3, 快乐-1)", "effects": {"intelligence": 1, "health": -3, "happiness": -1}, "feedback": ["调剂系统开放那天你在出差。", "手机连了两小时热点。"]}
+          }
+        },
+        {
+          "id": "ev_a20_long_distance",
+          "desc": "对象要去 2000 公里外读研，单程机票 1300 元。",
+          "options": {
+            "A": {"text": "异地，约定每月飞一次 (财富-3, 快乐+1, 感性+1)", "effects": {"wealth": -3, "happiness": 1, "TF": 1}, "feedback": ["第一个月飞了两次，第四个月零次。", "你们开始比较谁更累。"]},
+            "B": {"text": "辞职跟过去 (财富-2, 快乐+2, 幸运-2)", "effects": {"wealth": -2, "happiness": 2, "luck": -2}, "feedback": ["新城市的第一份工作降薪 30%。", "但周末是两个人的。"]},
+            "C": {"text": "和平分手 (快乐-3, 计划性+1, 魅力-1)", "effects": {"happiness": -3, "JP": 1, "charisma": -1}, "feedback": ["最后一顿饭吃的是火锅。", "送站时谁都没回头。"]}
+          }
+        }
+      ],
+      "30s": [
+        {
+          "id": "ev_a30_mortgage_lpr",
+          "desc": "房贷转 LPR 的短信来了，月供相差 380 块。",
+          "options": {
+            "A": {"text": "转成浮动利率 (财富+1, 幸运-2, 快乐-1)", "effects": {"wealth": 1, "luck": -2, "happiness": -1}, "feedback": ["头两年确实省了 9120 元。", "第三年重定价日，你盯着新闻看了很久。"]},
+            "B": {"text": "保持固定，图个安心 (财富-1, 快乐+1, 计划性+2)", "effects": {"wealth": -1, "happiness": 1, "JP": 2}, "feedback": ["月供数字二十年不变。", "同事说你亏了，你说我睡得着。"]},
+            "C": {"text": "提前还款 20 万 (财富-3, 快乐+2, 智力+1)", "effects": {"wealth": -3, "happiness": 2, "intelligence": 1}, "feedback": ["银行说要预约，排到 45 天后。", "还完那天你在 ATM 前站了一会儿。"]}
+          }
+        },
+        {
+          "id": "ev_a30_fertility_window",
+          "desc": "医生说 35 岁前生育风险更低，你手上的项目要做到明年。",
+          "options": {
+            "A": {"text": "现在要孩子，项目交出去 (快乐+2, 财富-2, 魅力-1)", "effects": {"happiness": 2, "wealth": -2, "charisma": -1}, "feedback": ["交接文档写了 27 页。", "接手的人三个月后升了职。"]},
+            "B": {"text": "先做完项目，明年再说 (财富+2, 健康-2, 快乐-2)", "effects": {"wealth": 2, "health": -2, "happiness": -2}, "feedback": ["项目验收那天你 35 岁零两个月。", "医生换了一套说辞。"]},
+            "C": {"text": "去做冻卵咨询 (财富-2, 智力+2, 快乐-1)", "effects": {"wealth": -2, "intelligence": 2, "happiness": -1}, "feedback": ["咨询费 600，医生讲了四十分钟政策。", "你在停车场里坐了半小时。"]}
+          }
+        },
+        {
+          "id": "ev_a30_career_ceiling",
+          "desc": "新来的总监比你小两岁，你在这个岗位待了六年。",
+          "options": {
+            "A": {"text": "留下来配合他 (财富+1, 快乐-2, 魅力+1)", "effects": {"wealth": 1, "happiness": -2, "charisma": 1}, "feedback": ["第一次汇报你准备了三版。", "他说「你比我熟，多担待」。"]},
+            "B": {"text": "跳槽，去小公司做总监 (财富-1, 快乐+2, 幸运-1)", "effects": {"wealth": -1, "happiness": 2, "luck": -1}, "feedback": ["名片上终于印了「总监」。", "团队一共四个人，含你。"]},
+            "C": {"text": "什么都不做，混着 (快乐-3, 智力-1, 财富+1)", "effects": {"happiness": -3, "intelligence": -1, "wealth": 1}, "feedback": ["工作量少了，会议也少了。", "你开始在下午三点感到困。"]},
+            "D": {"text": "主动要求转岗到新业务线 (智力+2, 财富-1, 健康-2)", "effects": {"intelligence": 2, "wealth": -1, "health": -2}, "feedback": ["新业务连办公室都还没有。", "半年后它成了公司增长最快的线。"]}
+          }
+        },
+        {
+          "id": "ev_a30_pregnant_relocation",
+          "desc": "怀孕八周那天，公司通知你外派上海两年。",
+          "options": {
+            "A": {"text": "接受外派，配偶留守 (财富+2, 快乐-3, 健康-2)", "effects": {"wealth": 2, "happiness": -3, "health": -2}, "feedback": ["外派补贴每月 8000。", "产检你一个人去了六次。"]},
+            "B": {"text": "拒绝外派，接受降级 (财富-2, 快乐+1, 魅力-2)", "effects": {"wealth": -2, "happiness": 1, "charisma": -2}, "feedback": ["职级从 P7 回到 P6。", "领导说「以后有机会」，没有以后。"]},
+            "C": {"text": "谈判改成半年短期 (智力+2, 魅力+1, 健康-2)", "effects": {"intelligence": 2, "charisma": 1, "health": -2}, "feedback": ["HR 说这是特例，不能声张。", "半年里你飞了 21 趟。"]}
+          }
+        },
+        {
+          "id": "ev_a30_parents_down_payment",
+          "desc": "爸妈说愿意出 40 万首付，条件是回老家买房。",
+          "options": {
+            "A": {"text": "接受，回老家定居 (财富+3, 快乐-2, 智力-1)", "effects": {"wealth": 3, "happiness": -2, "intelligence": -1}, "feedback": ["县城的房子 128 平，带院子。", "你原来的行业在这里没有岗位。"]},
+            "B": {"text": "拒绝，自己在这边慢慢攒 (财富-2, 快乐-1, 计划性+2)", "effects": {"wealth": -2, "happiness": -1, "JP": 2}, "feedback": ["首付目标还差 61 万。", "爸在电话里说「随你」，然后挂了。"]},
+            "C": {"text": "先收下钱，房子买在工作城市 (财富+2, 魅力-2, 快乐-1)", "effects": {"wealth": 2, "charisma": -2, "happiness": -1}, "feedback": ["签合同那天你没敢发家庭群。", "妈是从中介短信里知道的。"]}
+          }
+        }
+      ],
+      "40s": [
+        {
+          "id": "ev_a40_parent_hospital",
+          "desc": "爸在电话里说「小毛病」，你查到那家医院是肿瘤专科。",
+          "options": {
+            "A": {"text": "连夜订票回去 (财富-2, 快乐-2, 健康-1)", "effects": {"wealth": -2, "happiness": -2, "health": -1}, "feedback": ["最早的票是次日 6:15。", "推开病房门时他正在削苹果。"]},
+            "B": {"text": "先打电话给主治医生问清楚 (智力+2, 快乐-2, 财富-1)", "effects": {"intelligence": 2, "happiness": -2, "wealth": -1}, "feedback": ["医生说「家属最好当面谈」。", "这句话你在车上想了一路。"]},
+            "C": {"text": "转 2 万过去，周末再回 (财富-3, 快乐-3, 魅力-1)", "effects": {"wealth": -3, "happiness": -3, "charisma": -1}, "feedback": ["他把钱原封退了回来。", "周末你还是请了假。"]}
+          }
+        },
+        {
+          "id": "ev_a40_cost_cut_squeeze",
+          "desc": "上面要砍 20% 成本，下面八个人都在等你开口。",
+          "options": {
+            "A": {"text": "裁掉两个绩效最低的 (财富+1, 快乐-3, 魅力-2)", "effects": {"wealth": 1, "happiness": -3, "charisma": -2}, "feedback": ["谈话安排在周五下午四点。", "其中一个说「我理解」，你更难受。"]},
+            "B": {"text": "全员降薪 10%，一个不裁 (魅力+2, 财富-1, 快乐-2)", "effects": {"charisma": 2, "wealth": -1, "happiness": -2}, "feedback": ["八个人签了字，两个月后走了三个。", "留下的人比走的人更沉默。"]},
+            "C": {"text": "把自己的年终奖交出去顶指标 (财富-3, 魅力+3, 快乐-1)", "effects": {"wealth": -3, "charisma": 3, "happiness": -1}, "feedback": ["缺口补了 41%，还差一半。", "上面说「那剩下的呢」。"]},
+            "D": {"text": "把难题原样退回给上级 (智力+1, 幸运-2, 魅力-1)", "effects": {"intelligence": 1, "luck": -2, "charisma": -1}, "feedback": ["邮件写得很客气，附了三个方案。", "两周后换了个总监来做这件事。"]}
+          }
+        },
+        {
+          "id": "ev_a40_reunion_showoff",
+          "desc": "二十年同学会，当年的班长现在是副局长，坐在你旁边。",
+          "options": {
+            "A": {"text": "主动敬酒，交换名片 (魅力+2, 健康-2, 财富+1)", "effects": {"charisma": 2, "health": -2, "wealth": 1}, "feedback": ["他加了你微信，备注是你的全名。", "三个月后你有事找他，他回了「在忙」。"]},
+            "B": {"text": "只和后排几个老同学聊 (快乐+2, 魅力-1, 内向-1)", "effects": {"happiness": 2, "charisma": -1, "EI": -1}, "feedback": ["你们聊起高二那次逃课。", "散场时有人哭了。"]},
+            "C": {"text": "提前走，把 500 元 AA 转过去 (财富-1, 快乐-2, 魅力-2)", "effects": {"wealth": -1, "happiness": -2, "charisma": -2}, "feedback": ["群里有人问「怎么先走了」。", "你说单位有事，其实是回家睡觉。"]}
+          }
+        },
+        {
+          "id": "ev_a40_kid_grades_drop",
+          "desc": "孩子月考掉了 60 名，班主任让你「回去配合一下」。",
+          "options": {
+            "A": {"text": "报一对一补习，一小时 400 (财富-3, 智力+1, 快乐-1)", "effects": {"wealth": -3, "intelligence": 1, "happiness": -1}, "feedback": ["每周两次，排在周三和周日。", "两个月后成绩回来了 20 名。"]},
+            "B": {"text": "先问孩子发生了什么 (感性+2, 魅力+2, 快乐-1)", "effects": {"TF": 2, "charisma": 2, "happiness": -1}, "feedback": ["他说了句「同桌换了」。", "你才知道有件事他憋了六周。"]},
+            "C": {"text": "没收手机，严管三个月 (计划性+2, 快乐-2, 魅力-2)", "effects": {"JP": 2, "happiness": -2, "charisma": -2}, "feedback": ["他把门反锁了两天。", "成绩上去了 40 名，话少了一半。"]}
+          }
+        }
+      ],
+      "50s": [
+        {
+          "id": "ev_a50_social_security_gap",
+          "desc": "社保还差 3 年缴满，公司暗示要「优化」你这条线。",
+          "options": {
+            "A": {"text": "主动谈判，换个岗位待满三年 (财富-1, 魅力+1, 快乐-2)", "effects": {"wealth": -1, "charisma": 1, "happiness": -2}, "feedback": ["新岗位在后勤，月薪少 3000。", "工牌重新做了一张，颜色不一样。"]},
+            "B": {"text": "接受补偿，自己缴灵活就业 (财富-2, 计划性+2, 快乐-1)", "effects": {"wealth": -2, "JP": 2, "happiness": -1}, "feedback": ["每年自缴 1.4 万，缴三年。", "第一次去社保大厅你排了 90 分钟。"]},
+            "C": {"text": "什么都不做，等公司先开口 (快乐-3, 幸运-2, 财富+1)", "effects": {"happiness": -3, "luck": -2, "wealth": 1}, "feedback": ["等了七个月，通知在春节前一周来。", "补偿方案比年中那版低了两成。"]}
+          }
+        },
+        {
+          "id": "ev_a50_wedding_banquet",
+          "desc": "儿子说结婚不办酒，亲家那边已经订了 30 桌。",
+          "options": {
+            "A": {"text": "站儿子这边，去跟亲家谈 (魅力-2, 快乐-1, 感性+2)", "effects": {"charisma": -2, "happiness": -1, "TF": 2}, "feedback": ["亲家母说了句「随你们」，声音很轻。", "定金 2 万没退回来。"]},
+            "B": {"text": "劝儿子办，钱你出 (财富-3, 魅力+2, 快乐-2)", "effects": {"wealth": -3, "charisma": 2, "happiness": -2}, "feedback": ["婚宴一共 32 桌，收礼 18 万。", "儿子全程只笑了三次。"]},
+            "C": {"text": "两边各办一场小的 (财富-2, 计划性+2, 健康-2)", "effects": {"wealth": -2, "JP": 2, "health": -2}, "feedback": ["两场之间隔了 11 天。", "你在第二场上睡着了五分钟。"]}
+          }
+        },
+        {
+          "id": "ev_a50_blood_pressure",
+          "desc": "半夜心慌醒了两次，血压计上是 158/96。",
+          "options": {
+            "A": {"text": "第二天就去心内科 (财富-2, 健康+3, 快乐-1)", "effects": {"wealth": -2, "health": 3, "happiness": -1}, "feedback": ["医生开了每天一片的药。", "「这个药要吃很久」，他说。"]},
+            "B": {"text": "先戒烟戒酒，观察一个月 (健康+2, 快乐-2, 计划性+1)", "effects": {"health": 2, "happiness": -2, "JP": 1}, "feedback": ["第九天你在阳台闻了闻烟盒。", "一个月后是 146/90。"]},
+            "C": {"text": "不当回事，继续应酬 (健康-6, 财富+1, 快乐-1)", "effects": {"health": -6, "wealth": 1, "happiness": -1}, "feedback": ["那笔单子确实签下来了。", "血压计被收进了抽屉最里面。"]}
+          }
+        }
+      ],
+      "60+": [
+        {
+          "id": "ev_a60_empty_nest_spring",
+          "desc": "孩子今年又不回来过年，冰箱里还冻着去年的饺子。",
+          "options": {
+            "A": {"text": "订机票飞过去看他们 (财富-3, 快乐+2, 健康-2)", "effects": {"wealth": -3, "happiness": 2, "health": -2}, "feedback": ["行李箱里塞了八斤腊肉。", "儿子在机场说「你怎么不提前说」。"]},
+            "B": {"text": "报个夕阳红旅行团 (财富-2, 快乐+2, 体力+1)", "effects": {"wealth": -2, "happiness": 2, "strength": 1}, "feedback": ["同团 26 人，你是唯一一个独行的。", "导游给你多拍了三张照片。"]},
+            "C": {"text": "留在家带外孙，替女儿分担 (快乐+1, 健康-2, 魅力+2)", "effects": {"happiness": 1, "health": -2, "charisma": 2}, "feedback": ["外孙半夜哭了四次。", "女儿说「妈你别太累」，然后又出了差。"]},
+            "D": {"text": "把去年的饺子煮了，一个人吃 (快乐-3, 健康-1, 感性+1)", "effects": {"happiness": -3, "health": -1, "TF": 1}, "feedback": ["煮了十二个，吃了七个。", "电视里在放第 41 届春晚。"]}
+          }
+        },
+        {
+          "id": "ev_a60_obituary_chess",
+          "desc": "老同事群里发来讣告，是常和你下棋的老周。",
+          "options": {
+            "A": {"text": "去送最后一程 (快乐-3, 健康-1, 感性+2)", "effects": {"happiness": -3, "health": -1, "TF": 2}, "feedback": ["灵堂里放着他最爱的那首老歌。", "他老伴握着你的手说「他常提你」。"]},
+            "B": {"text": "在群里发一段回忆，人不去 (快乐-2, 魅力+1, 内向-1)", "effects": {"happiness": -2, "charisma": 1, "EI": -1}, "feedback": ["你写了 300 多字，删到 80 字发出。", "群里刷了一排蜡烛。"]},
+            "C": {"text": "把棋盘收起来，重新捡起书法 (快乐+1, 智力+2, 计划性+1)", "effects": {"happiness": 1, "intelligence": 2, "JP": 1}, "feedback": ["第一张写的是「安」字。", "笔是三十年前那支，还能用。"]}
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,2277 @@
+{
+  "cards": [
+    {
+      "id": "dyn_salt_monopoly",
+      "title": "盐铁之议",
+      "description": "户部呈报：两淮盐课岁入锐减三成，私盐船夜行如市。盐商三十六家联名上书，愿岁贡百万缗，换取沿海七州二十年专营特许。",
+      "left_choice": {
+        "text": "准其专营纳岁贡",
+        "effects": {
+          "WEALTH": 20,
+          "COMMONERS": -12,
+          "NOBLES": 8,
+          "MORALITY": -8
+        },
+        "speech": "国库空虚，先解燃眉之急。"
+      },
+      "right_choice": {
+        "text": "严查私盐官营",
+        "effects": {
+          "WEALTH": -10,
+          "COMMONERS": 12,
+          "NOBLES": -10,
+          "STABILITY": -5
+        },
+        "speech": "盐乃民生根本，岂容商贾把持。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "economy",
+        "salt",
+        "merchant"
+      ]
+    },
+    {
+      "id": "dyn_canal_crisis",
+      "title": "漕运风波",
+      "description": "江南三帮漕船于吕梁洪连翻十七艘，损粮八万石。漕运总督奏称河道淤塞五十里，御史台却参他三年吃空饷二十万缗。",
+      "left_choice": {
+        "text": "调夫疏浚通漕",
+        "effects": {
+          "WEALTH": -12,
+          "COMMONERS": 10,
+          "STABILITY": -6,
+          "STRENGTH": 5
+        },
+        "speech": "漕河不通，京师难安。"
+      },
+      "right_choice": {
+        "text": "拘总督勘其罪",
+        "effects": {
+          "NOBLES": -10,
+          "WEALTH": 8,
+          "STABILITY": -4,
+          "MORALITY": 6
+        },
+        "speech": "漕粮事大，先清蛀虫。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "canal",
+        "transport",
+        "corruption"
+      ]
+    },
+    {
+      "id": "dyn_debased_coin",
+      "title": "铸钱减重",
+      "description": "少府监奏：新钱掺铅三成，市井物价三月踊贵一倍，旧钱尽被私藏熔铸。京师商铺已罢市三日，百姓改以布帛交易。",
+      "left_choice": {
+        "text": "收旧钱更铸足值",
+        "effects": {
+          "WEALTH": -15,
+          "COMMONERS": 12,
+          "STABILITY": -6,
+          "MORALITY": 6
+        },
+        "speech": "币轻物重，民何以生。"
+      },
+      "right_choice": {
+        "text": "许恶钱行用便民",
+        "effects": {
+          "WEALTH": 8,
+          "COMMONERS": -10,
+          "STABILITY": 4,
+          "NOBLES": 6
+        },
+        "speech": "法久则弊，且从民便。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 20
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "coin",
+        "economy",
+        "inflation"
+      ]
+    },
+    {
+      "id": "dyn_military_colony",
+      "title": "屯田之策",
+      "description": "老将赵铎请于河西置军屯，发兵三万半耕半守，三年可省转饷百万缗。然边将上书力争：锄头握久了，刀就钝了。",
+      "left_choice": {
+        "text": "置军屯省转饷",
+        "effects": {
+          "WEALTH": 16,
+          "COMMONERS": 8,
+          "STRENGTH": -10,
+          "STABILITY": -5
+        },
+        "speech": "养兵之费，能从地出。"
+      },
+      "right_choice": {
+        "text": "专训不事耕",
+        "effects": {
+          "STRENGTH": 14,
+          "WEALTH": -16,
+          "COMMONERS": -8,
+          "NOBLES": 6
+        },
+        "speech": "兵即兵也，何劳种田。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 30
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "colony",
+        "farm",
+        "military"
+      ]
+    },
+    {
+      "id": "dyn_land_survey",
+      "title": "丈田清隐",
+      "description": "户部核账：二十年间登册民田减去四成，非荒废，乃勋贵寺观诡寄影占。有臣请履亩清丈天下，限一年追补隐田税。",
+      "left_choice": {
+        "text": "履亩清丈追税",
+        "effects": {
+          "WEALTH": 18,
+          "COMMONERS": 10,
+          "NOBLES": -15,
+          "CHURCH": -8
+        },
+        "speech": "田赋不均，国之大病。"
+      },
+      "right_choice": {
+        "text": "不改旧额增商税",
+        "effects": {
+          "WEALTH": 6,
+          "STABILITY": 8,
+          "COMMONERS": -10,
+          "NOBLES": 6
+        },
+        "speech": "清丈滋事，缓之为宜。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 40
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "reform_line",
+        "tax",
+        "land"
+      ]
+    },
+    {
+      "id": "dyn_exam_fraud",
+      "title": "科场舞弊",
+      "description": "礼部放榜次日，落第举子四百人聚哭阙下，揭发主考收黄金五百两，暗改三十二人甲乙。台谏请覆试，主考乃帝师门生。",
+      "left_choice": {
+        "text": "严鞫改榜雪屈",
+        "effects": {
+          "INTELLIGENCE": 12,
+          "COMMONERS": 15,
+          "NOBLES": -12,
+          "MORALITY": 8
+        },
+        "speech": "取士不公，何以服天下。"
+      },
+      "right_choice": {
+        "text": "维持原榜安众",
+        "effects": {
+          "STABILITY": 8,
+          "NOBLES": 10,
+          "COMMONERS": -15,
+          "INTELLIGENCE": -8
+        },
+        "speech": "覆榜再试，只会摇动国本。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 40
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "reform_line",
+        "exam",
+        "corruption"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_INTELLIGENCE": 55
+          },
+          "chance": 0.65,
+          "title": "寒俊登第",
+          "description": "覆试取寒俊三百，然及第者多怨家权贵。",
+          "effects": {
+            "STABILITY": -6,
+            "NOBLES": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_canal_strike",
+      "title": "漕丁哗变",
+      "description": "漕运加耗自每石三斗增至五斗，漕丁二千余人聚于清江闸口，扣船不发已五日。漕司请调兵驱散，或减耗以安其心。",
+      "left_choice": {
+        "text": "减耗安漕丁",
+        "effects": {
+          "WEALTH": -10,
+          "COMMONERS": 12,
+          "STABILITY": 6,
+          "NOBLES": -6
+        },
+        "speech": "漕丁亦赤子，不可逼反。"
+      },
+      "right_choice": {
+        "text": "发兵驱散立威",
+        "effects": {
+          "STRENGTH": 6,
+          "STABILITY": -10,
+          "COMMONERS": -12,
+          "NOBLES": 6
+        },
+        "speech": "玩法者众，不可不惩。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "canal",
+        "strike",
+        "transport"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_STABILITY": 45
+          },
+          "chance": 0.6,
+          "title": "沉舟塞河",
+          "description": "驱散之日新募漕丁触礁，沉舟塞河十一日。",
+          "effects": {
+            "STABILITY": -6,
+            "COMMONERS": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_famine_relief",
+      "title": "开仓赈灾",
+      "description": "河南大旱三月，流民日毙城外数十人。户部言常平仓尚余粮三十万石，然调拨须涉三省文书，车马往返逾千里，费时月余。",
+      "left_choice": {
+        "text": "开仓放粮活民",
+        "effects": {
+          "WEALTH": -20,
+          "COMMONERS": 22,
+          "MORALITY": 10,
+          "CHARISMA": 8,
+          "STABILITY": -5
+        },
+        "speech": "宁可府库空，不令白骨露。"
+      },
+      "right_choice": {
+        "text": "俟秋收后赈",
+        "effects": {
+          "WEALTH": -6,
+          "COMMONERS": -15,
+          "STABILITY": 10,
+          "MORALITY": -8,
+          "CHARISMA": -6
+        },
+        "speech": "骤然开仓，谷价崩则伤农。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 10
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "famine_line",
+        "relief",
+        "drought"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_MORALITY": 40
+          },
+          "chance": 0.55,
+          "title": "流民蚁聚",
+          "description": "三州饥民闻风蚁聚，京畿粮价一日三涨。",
+          "effects": {
+            "STABILITY": -8,
+            "COMMONERS": -10
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_border_war",
+      "title": "北疆告急",
+      "description": "兵部急报：北境三城已失，守将张肃战死城头。援军自陇右发，最快十五日方至，而城中粮草只够撑十日，守卒不足八千。",
+      "left_choice": {
+        "text": "死守待援焚粮",
+        "effects": {
+          "STRENGTH": 12,
+          "COMMONERS": 8,
+          "STABILITY": -6,
+          "NOBLES": -6
+        },
+        "speech": "城在人在，城破魂归。"
+      },
+      "right_choice": {
+        "text": "弃城退保锐卒",
+        "effects": {
+          "STRENGTH": -10,
+          "STABILITY": -12,
+          "COMMONERS": -10,
+          "NOBLES": 10
+        },
+        "speech": "留得青山，何愁无城。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 30
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "northern_war",
+        "war",
+        "border"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_STRENGTH": 61
+          },
+          "chance": 0.6,
+          "title": "白登之围",
+          "description": "白登之围：前军粮道被断，困七日杀马突围。",
+          "effects": {
+            "STRENGTH": -8,
+            "COMMONERS": -10,
+            "STABILITY": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_gan_sui",
+      "title": "甘陕换防",
+      "description": "甘陕戍卒逾三年未得更代，妻母倚闾而望。边将密报：营中卒多思归，已有百人夜聚私语，今冬恐有哗变之兆，请早定夺。",
+      "left_choice": {
+        "text": "赦罪即日换防",
+        "effects": {
+          "STABILITY": 12,
+          "COMMONERS": 15,
+          "STRENGTH": -8,
+          "NOBLES": -4
+        },
+        "speech": "士卒亦人子，不可久弃。"
+      },
+      "right_choice": {
+        "text": "诛倡首固防",
+        "effects": {
+          "STRENGTH": 6,
+          "STABILITY": -10,
+          "COMMONERS": -12,
+          "NOBLES": 6
+        },
+        "speech": "军法如山，情不可恕。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "northern_war",
+        "garrison",
+        "mutiny"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_STABILITY": 45
+          },
+          "chance": 0.6,
+          "title": "戍卒夜遁",
+          "description": "被诛者同乡夜遁漠北，泄我边防虚处。",
+          "effects": {
+            "STRENGTH": -6,
+            "NOBLES": -8,
+            "STABILITY": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_prisoner_general",
+      "title": "降将归朝",
+      "description": "北虏大将李泓率部八千来降，献上漠北牧场舆图一轴。谍者密报：其妻儿三口仍留敌庭王帐，此降恐是假意，欲为内应。",
+      "left_choice": {
+        "text": "纳降赐爵委边",
+        "effects": {
+          "STRENGTH": 16,
+          "STABILITY": 8,
+          "NOBLES": 6,
+          "MORALITY": -6
+        },
+        "speech": "英雄不问出处，用之即可。"
+      },
+      "right_choice": {
+        "text": "羁縻京中不授兵",
+        "effects": {
+          "STRENGTH": -4,
+          "STABILITY": 6,
+          "INTELLIGENCE": 8,
+          "COMMONERS": -4
+        },
+        "speech": "猛虎入圈，也须先观其锁。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "northern_war",
+        "defector",
+        "intel"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_STRENGTH": 61
+          },
+          "chance": 0.55,
+          "title": "降将献图",
+          "description": "李泓献图，我军收复两关，然其真伪仍悬。",
+          "effects": {
+            "STRENGTH": 8,
+            "STABILITY": 6,
+            "WEALTH": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_peace_treaty",
+      "title": "北虏请和",
+      "description": "北虏遣使入朝，索岁赐绢二十万匹、银十万两，请开三处边市，并求与我称兄弟之国。朝议纷然：忍辱换十年安，或续战。",
+      "left_choice": {
+        "text": "许和纳岁赐",
+        "effects": {
+          "STABILITY": 18,
+          "COMMONERS": 12,
+          "WEALTH": -18,
+          "STRENGTH": -10,
+          "NOBLES": 6
+        },
+        "speech": "十年生聚，胜一时忿。"
+      },
+      "right_choice": {
+        "text": "拒诏天下讨虏",
+        "effects": {
+          "STRENGTH": 12,
+          "STABILITY": -10,
+          "COMMONERS": -8,
+          "CHARISMA": -8,
+          "WEALTH": -10
+        },
+        "speech": "天朝威仪，岂可屈膝。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 20
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "northern_war",
+        "peace",
+        "tribute"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_STRENGTH": 55
+          },
+          "chance": 0.65,
+          "title": "征调迟滞",
+          "description": "诏下而府库空，征调迟滞，边将多观望。",
+          "effects": {
+            "STABILITY": -8,
+            "WEALTH": -8,
+            "COMMONERS": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_horse_affair",
+      "title": "马政败坏",
+      "description": "太仆寺奏：官马亏空三万匹。监牧使虚报牧地八百顷，以瘠马充数应点。御史请即刻查核诸监，太仆卿跪请宽限三月自补。",
+      "left_choice": {
+        "text": "遣使核马坐罪",
+        "effects": {
+          "WEALTH": 14,
+          "NOBLES": -10,
+          "STABILITY": -6,
+          "COMMONERS": 6
+        },
+        "speech": "国之大事在戎，不容虚冒。"
+      },
+      "right_choice": {
+        "text": "宽限责补额",
+        "effects": {
+          "STRENGTH": -8,
+          "NOBLES": 8,
+          "STABILITY": 4,
+          "COMMONERS": -4
+        },
+        "speech": "事缓则圆，且给其途。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "northern_war",
+        "horse",
+        "corruption"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_NOBLES": 45
+          },
+          "chance": 0.6,
+          "title": "核马使坠马",
+          "description": "诸监牧串联请托，核马使半途坠马而死，验尸竟无外伤。",
+          "effects": {
+            "STABILITY": -6,
+            "NOBLES": -6,
+            "COMMONERS": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_fengshan",
+      "title": "封禅泰山",
+      "description": "泰山守臣上表请封禅，言天下太平当告成功于天。然仪仗须万余人，沿途筑道八百里，耗国库银二百万两，工役经年不休。",
+      "left_choice": {
+        "text": "准封禅告天",
+        "effects": {
+          "WEALTH": -20,
+          "STABILITY": 12,
+          "CHURCH": 10,
+          "CHARISMA": 8,
+          "COMMONERS": -6
+        },
+        "speech": "天命所归，岂可不从。"
+      },
+      "right_choice": {
+        "text": "罢封禅修德",
+        "effects": {
+          "WEALTH": 8,
+          "STABILITY": -4,
+          "CHURCH": -6,
+          "MORALITY": 8,
+          "COMMONERS": 4
+        },
+        "speech": "德政即封禅，何必劳民。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 50
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "ritual",
+        "fengshan",
+        "heaven"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_WEALTH": 30
+          },
+          "chance": 0.7,
+          "title": "封禅道役",
+          "description": "封禅道途经州，征发民夫万数，沿途怨声载道。",
+          "effects": {
+            "COMMONERS": -10,
+            "STABILITY": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_ordain_deed",
+      "title": "鬻牒济军",
+      "description": "军兴乏饷，有僧献策：鬻度牒十万道，每道钱百缗，旬月可得千万济军需。然缁流由此滥溢，寺院田产愈富而不纳一粟。",
+      "left_choice": {
+        "text": "鬻度牒充军",
+        "effects": {
+          "WEALTH": 20,
+          "CHURCH": -12,
+          "COMMONERS": -8,
+          "STABILITY": -4
+        },
+        "speech": "权宜之计，先解兵饷。"
+      },
+      "right_choice": {
+        "text": "禁私度守制",
+        "effects": {
+          "WEALTH": -10,
+          "CHURCH": 10,
+          "COMMONERS": 6,
+          "STABILITY": 4
+        },
+        "speech": "佛门清净，不得鬻法。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "monk",
+        "deed",
+        "war"
+      ]
+    },
+    {
+      "id": "dyn_plague_edict",
+      "title": "罪己诏下",
+      "description": "连岁灾异不绝，太史令奏称天命有谴。儒臣三十人伏阙请下罪己诏，避正殿、减常膳、赦系囚八百人，以答天戒示悔。",
+      "left_choice": {
+        "text": "下诏罪己修省",
+        "effects": {
+          "MORALITY": 12,
+          "STABILITY": 8,
+          "CHURCH": 6,
+          "CHARISMA": 4,
+          "WEALTH": -4
+        },
+        "speech": "万方有罪，罪在朕躬。"
+      },
+      "right_choice": {
+        "text": "天变不足畏",
+        "effects": {
+          "STABILITY": -6,
+          "CHURCH": -10,
+          "INTELLIGENCE": 8,
+          "NOBLES": 6
+        },
+        "speech": "天人相分，何畏之有。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 30
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "edict",
+        "repent",
+        "heaven"
+      ]
+    },
+    {
+      "id": "dyn_temple_tax",
+      "title": "寺观免税",
+      "description": "天下寺观占田逾千万亩，僧道四十万人皆免赋役。度支使请课其田租十分之三，岁可增百五十万缗。僧录司称此举伤教化。",
+      "left_choice": {
+        "text": "课寺观田租",
+        "effects": {
+          "WEALTH": 16,
+          "CHURCH": -14,
+          "COMMONERS": 10,
+          "NOBLES": -4
+        },
+        "speech": "不稼不穑，何以逃赋。"
+      },
+      "right_choice": {
+        "text": "存免税优释",
+        "effects": {
+          "WEALTH": -6,
+          "CHURCH": 12,
+          "COMMONERS": -8,
+          "STABILITY": 4
+        },
+        "speech": "释教劝善，宜加优抚。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "temple",
+        "tax",
+        "church"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_CHURCH": 40
+          },
+          "chance": 0.65,
+          "title": "僧徒伏阙",
+          "description": "僧徒聚千人伏阙，言夺产则佛怒降灾。",
+          "effects": {
+            "STABILITY": -8,
+            "COMMONERS": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_heir_discord",
+      "title": "储位之争",
+      "description": "皇后所出嫡子方六岁，体弱多病；贵妃所出皇长子已十岁，善骑射。外朝连章请早定国本，两宫各有奥援，暗流已成汹涌。",
+      "left_choice": {
+        "text": "立嫡子为储",
+        "effects": {
+          "STABILITY": -8,
+          "NOBLES": 10,
+          "CHARISMA": -6,
+          "HAPPINESS": -6
+        },
+        "speech": "立嫡以长，古今正序。"
+      },
+      "right_choice": {
+        "text": "立皇长子为储",
+        "effects": {
+          "STABILITY": 6,
+          "COMMONERS": 8,
+          "NOBLES": -10,
+          "HAPPINESS": 4
+        },
+        "speech": "国赖长君，社稷之福。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "succession_line",
+        "heir",
+        "palace"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_STABILITY": 45
+          },
+          "chance": 0.6,
+          "title": "两宫攻讦",
+          "description": "夺嫡之议外泄，两宫近臣互相攻讦于朝。",
+          "effects": {
+            "STABILITY": -8,
+            "NOBLES": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_empress_depose",
+      "title": "废后之议",
+      "description": "皇后立七年无出，帝宠渐移椒房之外。三位大臣引汉光武故事上疏请废后，后党泣诉阶前：陛下岂忘贫贱结发之德乎。",
+      "left_choice": {
+        "text": "废后别立",
+        "effects": {
+          "STABILITY": -10,
+          "CHARISMA": -8,
+          "NOBLES": 10,
+          "HAPPINESS": -12
+        },
+        "speech": "皇后失德，理当废黜。"
+      },
+      "right_choice": {
+        "text": "优容不废",
+        "effects": {
+          "STABILITY": 8,
+          "CHARISMA": 6,
+          "NOBLES": -8,
+          "HAPPINESS": 8
+        },
+        "speech": "糟糠之妻，不可相忘。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 0
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "empress",
+        "depose",
+        "palace"
+      ]
+    },
+    {
+      "id": "dyn_prince_enfeoff",
+      "title": "诸王就藩",
+      "description": "诸皇子皆已年长，滞留京师结交台省大臣。宗正寺请依祖制就藩，各食一郡租税，以绝觊觎之心。五位亲王联名称疾不行。",
+      "left_choice": {
+        "text": "令就藩列国",
+        "effects": {
+          "STABILITY": 12,
+          "NOBLES": -10,
+          "HAPPINESS": -10,
+          "CHARISMA": 4
+        },
+        "speech": "藩屏王室，各安其分。"
+      },
+      "right_choice": {
+        "text": "留京开府",
+        "effects": {
+          "STABILITY": -8,
+          "NOBLES": 10,
+          "HAPPINESS": 8,
+          "CHARISMA": -4
+        },
+        "speech": "父子天伦，岂忍远别。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 30
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "succession_line",
+        "prince",
+        "feoff"
+      ]
+    },
+    {
+      "id": "dyn_imperial_tomb",
+      "title": "修陵之费",
+      "description": "寿陵工程已过半，少府奏用度超支三百万缗，尚需徙民万户凿石运土。工徒疫死者日以数十计，监工请增派役夫两万。",
+      "left_choice": {
+        "text": "加紧营缮完工",
+        "effects": {
+          "WEALTH": -22,
+          "STABILITY": -10,
+          "COMMONERS": -12,
+          "NOBLES": 8
+        },
+        "speech": "山陵大事，不敢稍懈。"
+      },
+      "right_choice": {
+        "text": "减制节用终工",
+        "effects": {
+          "WEALTH": -8,
+          "STABILITY": 6,
+          "COMMONERS": 8,
+          "NOBLES": -6
+        },
+        "speech": "俭以称先帝，亦足安魂。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "tomb",
+        "funeral",
+        "palace"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_WEALTH": 30
+          },
+          "chance": 0.65,
+          "title": "陵徒夜遁",
+          "description": "催工急，骊山徒役逃亡三百，陵垣夜闻哭声。",
+          "effects": {
+            "STABILITY": -6,
+            "COMMONERS": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_yellow_river",
+      "title": "黄河决口",
+      "description": "黄河决于曹村，灌四郡三十二县，田庐漂没十之七八。都水监言堵口需秸料百万束、役夫十万，然沿河州县仓廪多已空竭。",
+      "left_choice": {
+        "text": "发卒堵口",
+        "effects": {
+          "WEALTH": -20,
+          "COMMONERS": 18,
+          "STABILITY": -6,
+          "STRENGTH": 6
+        },
+        "speech": "水患当前，唯以身塞。"
+      },
+      "right_choice": {
+        "text": "迁民避水",
+        "effects": {
+          "WEALTH": -6,
+          "COMMONERS": -12,
+          "STABILITY": 8,
+          "MORALITY": -4
+        },
+        "speech": "水土无情，保民为上。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 10
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "famine_line",
+        "flood",
+        "yellow_river"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_WEALTH": 40
+          },
+          "chance": 0.6,
+          "title": "堵口不合",
+          "description": "堵口秸料用尽，决口未合，民夫没者千数。",
+          "effects": {
+            "COMMONERS": -12,
+            "STABILITY": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_locust",
+      "title": "飞蝗蔽天",
+      "description": "飞蝗蔽天自东而来，所过五州禾稼一空。有司请募民捕蝗，每斗给米一升；老臣却言蝗乃天灾不可捕，宜设坛禳之以谢天。",
+      "left_choice": {
+        "text": "募民捕蝗偿米",
+        "effects": {
+          "WEALTH": -12,
+          "COMMONERS": 14,
+          "STABILITY": -4,
+          "CHURCH": -6
+        },
+        "speech": "人定胜天，蝗可捕也。"
+      },
+      "right_choice": {
+        "text": "设坛禳灾禁捕",
+        "effects": {
+          "CHURCH": 12,
+          "COMMONERS": -16,
+          "STABILITY": -6,
+          "MORALITY": 4
+        },
+        "speech": "此天所以警朕，不可逆。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "famine_line",
+        "locust",
+        "disaster"
+      ]
+    },
+    {
+      "id": "dyn_epidemic",
+      "title": "时疫横行",
+      "description": "时疫起自岭南，四月传入京师，日死者数十。医官请于城南设病坊三所隔离病家；僧徒却大开法会，聚众数万于街衢祈禳。",
+      "left_choice": {
+        "text": "禁法会防疫",
+        "effects": {
+          "HEALTH": 18,
+          "STABILITY": -8,
+          "CHURCH": -10,
+          "COMMONERS": 6
+        },
+        "speech": "疫不待人，先断传染。"
+      },
+      "right_choice": {
+        "text": "许法会施药",
+        "effects": {
+          "HEALTH": 10,
+          "CHURCH": 12,
+          "COMMONERS": -10,
+          "STABILITY": 4
+        },
+        "speech": "药石与福田，皆不可废。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 0
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "famine_line",
+        "plague",
+        "health"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_HEALTH": 45
+          },
+          "chance": 0.7,
+          "title": "法会成疫",
+          "description": "法会聚处成疫窝，旬日又殁二千余口。",
+          "effects": {
+            "HEALTH": -10,
+            "COMMONERS": -8,
+            "STABILITY": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_earthquake",
+      "title": "地动之变",
+      "description": "关中地大震三日，坏庐舍万余区，压死者以千计。太史令奏此乃阴盛阳微之应，宜损膳撤乐三月；亦有臣言此天数，宜先赈。",
+      "left_choice": {
+        "text": "损膳恤灾",
+        "effects": {
+          "WEALTH": -14,
+          "COMMONERS": 16,
+          "MORALITY": 8,
+          "STABILITY": -4
+        },
+        "speech": "朕德不修，致此咎征。"
+      },
+      "right_choice": {
+        "text": "照常晏乐",
+        "effects": {
+          "WEALTH": -4,
+          "COMMONERS": -14,
+          "STABILITY": -10,
+          "CHARISMA": -8,
+          "NOBLES": 6
+        },
+        "speech": "天变无常，何自扰为。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "earthquake",
+        "disaster",
+        "relief"
+      ]
+    },
+    {
+      "id": "dyn_fire_tai",
+      "title": "太庙火起",
+      "description": "太庙夜半失火，延烧三室，祖宗神主几为煨烬。礼官请即日鸠工重建以安神灵，度支却言库中仅余八十万缗，宜权奉别殿。",
+      "left_choice": {
+        "text": "即日重建",
+        "effects": {
+          "WEALTH": -18,
+          "CHURCH": 14,
+          "NOBLES": 8,
+          "COMMONERS": -6
+        },
+        "speech": "宗庙不修，何以祀先。"
+      },
+      "right_choice": {
+        "text": "权奉别殿",
+        "effects": {
+          "WEALTH": 6,
+          "CHURCH": -12,
+          "COMMONERS": 6,
+          "STABILITY": -4
+        },
+        "speech": "神主在心，不在栋宇。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 10
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "fire",
+        "ancestor",
+        "ritual"
+      ]
+    },
+    {
+      "id": "dyn_war_levy",
+      "title": "助军加派",
+      "description": "北疆军费尚缺八十万缗，户部请每亩加派三升，谓之助军米。去岁已加派两次共七升，河北三州今春逃户已逾万家。",
+      "left_choice": {
+        "text": "照准加派",
+        "effects": {
+          "WEALTH": 20,
+          "COMMONERS": -20,
+          "STABILITY": -12,
+          "STRENGTH": 8
+        },
+        "speech": "田里再挤一升，胜城破全无。"
+      },
+      "right_choice": {
+        "text": "削宫用济军",
+        "effects": {
+          "WEALTH": -8,
+          "COMMONERS": 12,
+          "STABILITY": 6,
+          "STRENGTH": -4
+        },
+        "speech": "先减朕膳，再论民米。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_commoners": 25
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "northern_war",
+        "tax",
+        "levy"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_COMMONERS": 35
+          },
+          "chance": 0.7,
+          "title": "三县逃户",
+          "description": "加派诏下，三县逃户逾九千，田亩抛荒。",
+          "effects": {
+            "COMMONERS": -10,
+            "WEALTH": -12,
+            "STABILITY": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_relief_grain",
+      "title": "平粜之议",
+      "description": "京师米价旬日踊贵三倍，贫民乏食者塞道。有司请发常平仓储粮二十万石平粜；老吏却言今日粜尽，秋后荒歉将无以为赈。",
+      "left_choice": {
+        "text": "开仓平粜",
+        "effects": {
+          "WEALTH": -14,
+          "COMMONERS": 18,
+          "STABILITY": 6,
+          "MORALITY": 6
+        },
+        "speech": "谷贱伤农，谷贵伤民。"
+      },
+      "right_choice": {
+        "text": "禁粜保仓储",
+        "effects": {
+          "WEALTH": 6,
+          "COMMONERS": -14,
+          "STABILITY": -8,
+          "NOBLES": 6
+        },
+        "speech": "仓储者，荒政之本，不可轻动。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "famine_line",
+        "grain",
+        "relief"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "right_choice",
+          "conditions": {
+            "max_COMMONERS": 40
+          },
+          "chance": 0.65,
+          "title": "抢仓之变",
+          "description": "禁粜令下，米肆尽闭，贫民聚抢官仓。",
+          "effects": {
+            "COMMONERS": -10,
+            "STABILITY": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_border_market",
+      "title": "互市之利",
+      "description": "边将请于云中开马市，以茶砖绢帛易北虏战马五千匹。言官劾其资敌养寇，且互市之处多有私贩铁器弓弦，禁之不绝。",
+      "left_choice": {
+        "text": "开马市通易",
+        "effects": {
+          "WEALTH": 14,
+          "STRENGTH": 10,
+          "STABILITY": 6,
+          "NOBLES": -6
+        },
+        "speech": "市通则民富，马足则兵强。"
+      },
+      "right_choice": {
+        "text": "闭市绝互易",
+        "effects": {
+          "WEALTH": -10,
+          "STRENGTH": -6,
+          "STABILITY": -8,
+          "COMMONERS": 6
+        },
+        "speech": "茶绢易马，终是以兵械资寇。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 25
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "财政民生",
+      "tags": [
+        "northern_war",
+        "trade",
+        "border"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_STRENGTH": 61
+          },
+          "chance": 0.6,
+          "title": "良马万匹",
+          "description": "马市既开，岁得良马万匹，骑兵乃盛。",
+          "effects": {
+            "STRENGTH": 8,
+            "WEALTH": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_frontier_fort",
+      "title": "筑城屯兵",
+      "description": "边帅请于漠南新筑三城，徙内地民五千户实边，可断北虏南牧之路。然工费须百二十万缗，去岁筑城役夫已逃亡三成。",
+      "left_choice": {
+        "text": "筑城徙民实边",
+        "effects": {
+          "STRENGTH": 16,
+          "STABILITY": 6,
+          "WEALTH": -18,
+          "COMMONERS": -8
+        },
+        "speech": "据险立城，虏不敢窥。"
+      },
+      "right_choice": {
+        "text": "罢役守旧塞",
+        "effects": {
+          "STRENGTH": -6,
+          "WEALTH": 8,
+          "STABILITY": -6,
+          "COMMONERS": 6
+        },
+        "speech": "劳民兴役，不如养兵。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_strength": 30
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "northern_war",
+        "fort",
+        "frontier"
+      ]
+    },
+    {
+      "id": "dyn_pirate_coast",
+      "title": "海寇为患",
+      "description": "海寇连掠沿海三州，焚舟六十艘、夺盐货无算，官兵水战屡屡不利。水师提举请造楼船三十艘，岁费二十万缗，三年可成。",
+      "left_choice": {
+        "text": "造楼船讨寇",
+        "effects": {
+          "STRENGTH": 14,
+          "WEALTH": -16,
+          "COMMONERS": 10,
+          "STABILITY": 4
+        },
+        "speech": "海波不靖，何以威远。"
+      },
+      "right_choice": {
+        "text": "招安羁縻",
+        "effects": {
+          "STRENGTH": 4,
+          "WEALTH": -6,
+          "STABILITY": 8,
+          "COMMONERS": 6
+        },
+        "speech": "寇亦赤子，抚之则安。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 15
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "pirate",
+        "navy",
+        "coast"
+      ]
+    },
+    {
+      "id": "dyn_envoy_ritual",
+      "title": "番使不拜",
+      "description": "南国使臣入朝，立而不拜，称两国本为敌体。鸿胪卿请却其贡使以正朝仪；市舶司却言岁得舶税四十万缗，不宜为礼而绝。",
+      "left_choice": {
+        "text": "争礼却使",
+        "effects": {
+          "STABILITY": 8,
+          "NOBLES": 10,
+          "CHARISMA": -8,
+          "WEALTH": -6
+        },
+        "speech": "天朝威仪，不可枉屈。"
+      },
+      "right_choice": {
+        "text": "容其礼通市",
+        "effects": {
+          "WEALTH": 16,
+          "STABILITY": -4,
+          "CHARISMA": 6,
+          "COMMONERS": 4
+        },
+        "speech": "礼数可权变，舶税不可失。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_charisma": 20
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "diplomacy",
+        "envoy",
+        "ritual"
+      ]
+    },
+    {
+      "id": "dyn_spy_ring",
+      "title": "行间之计",
+      "description": "谍者以三年之功摸清北虏君臣嫌隙，请遣死士十人赍伪书离间其可汗与左贤王。事成则敌自乱，不成则死士尽没且激其怒。",
+      "left_choice": {
+        "text": "遣死士反间",
+        "effects": {
+          "INTELLIGENCE": 16,
+          "STRENGTH": 10,
+          "STABILITY": -4,
+          "MORALITY": -6
+        },
+        "speech": "兵者诡道，间为上策。"
+      },
+      "right_choice": {
+        "text": "坚守不妄动",
+        "effects": {
+          "INTELLIGENCE": 6,
+          "STRENGTH": 4,
+          "STABILITY": 6,
+          "MORALITY": 6,
+          "WEALTH": -6
+        },
+        "speech": "庙算已定，不假奇险。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 45
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "军事边防",
+      "tags": [
+        "northern_war",
+        "spy",
+        "intel"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_INTELLIGENCE": 61
+          },
+          "chance": 0.5,
+          "title": "二帅相疑",
+          "description": "反间行，北虏二帅相疑，自斩其骁将。",
+          "effects": {
+            "STRENGTH": 10,
+            "STABILITY": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_drought_pray",
+      "title": "雩祭求雨",
+      "description": "畿辅旱逾百日，禾苗尽焦，井泉半涸。太卜请行雩祭，天子曝身丹墀三日以祈雨。有臣却言：宜决滞囚、蠲今岁租以应天。",
+      "left_choice": {
+        "text": "行雩祭曝身",
+        "effects": {
+          "CHURCH": 14,
+          "STABILITY": 4,
+          "COMMONERS": 6,
+          "WEALTH": -4
+        },
+        "speech": "朕躬有罪，愿代民灾。"
+      },
+      "right_choice": {
+        "text": "决囚蠲租",
+        "effects": {
+          "WEALTH": -12,
+          "COMMONERS": 16,
+          "MORALITY": 8,
+          "STABILITY": -4
+        },
+        "speech": "实惠及于民，胜过空祷千场。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_church": 0
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "drought",
+        "pray",
+        "ritual"
+      ]
+    },
+    {
+      "id": "dyn_alchemy",
+      "title": "方士献丹",
+      "description": "方士献金丹九转，言服之可延寿百年。然去岁邻国王侯饵此丹而暴卒于座。太医令奏丹中含硫汞之毒，久服必伤脏腑。",
+      "left_choice": {
+        "text": "饵丹求长生",
+        "effects": {
+          "HEALTH": -14,
+          "CHURCH": 10,
+          "STABILITY": -6,
+          "MORALITY": -4
+        },
+        "speech": "神仙之道，朕愿一试。"
+      },
+      "right_choice": {
+        "text": "禁丹逐方士",
+        "effects": {
+          "HEALTH": 6,
+          "CHURCH": -8,
+          "STABILITY": 4,
+          "INTELLIGENCE": 6
+        },
+        "speech": "性命之重，岂托虚无。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 0
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "alchemy",
+        "daoist",
+        "health"
+      ]
+    },
+    {
+      "id": "dyn_ancestor_rite",
+      "title": "太庙祧祧",
+      "description": "太庙九室已满，礼官请祧迁四世远祖神主入夹室，以奉新崩之帝入庙。宗室二十人伏阙争之，言此乃废亲绝祀之始。",
+      "left_choice": {
+        "text": "依礼祧远祖",
+        "effects": {
+          "CHURCH": 10,
+          "NOBLES": 8,
+          "STABILITY": 4,
+          "COMMONERS": -4
+        },
+        "speech": "礼有隆杀，亲尽则祧。"
+      },
+      "right_choice": {
+        "text": "更建别庙",
+        "effects": {
+          "WEALTH": -14,
+          "CHURCH": 6,
+          "NOBLES": -6,
+          "STABILITY": 6
+        },
+        "speech": "亲亲之谊，不可薄也。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_church": 20
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "ancestor",
+        "rite",
+        "nobles"
+      ]
+    },
+    {
+      "id": "dyn_foreign_faith",
+      "title": "异教东来",
+      "description": "西域名僧携梵经三百卷、金像五躯入京，赁宅讲法，听者日逾千人。鸿胪寺奏其教殊于中土礼俗，恐惑愚民，请驱出关。",
+      "left_choice": {
+        "text": "许其传法",
+        "effects": {
+          "CHURCH": -10,
+          "INTELLIGENCE": 12,
+          "COMMONERS": 8,
+          "STABILITY": -4
+        },
+        "speech": "万道并行而不相悖，何惧之有。"
+      },
+      "right_choice": {
+        "text": "驱禁其教",
+        "effects": {
+          "CHURCH": 12,
+          "STABILITY": 6,
+          "INTELLIGENCE": -8,
+          "COMMONERS": -6
+        },
+        "speech": "用夏变夷，不可反被化。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_church": 0
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "宗教祭祀",
+      "tags": [
+        "foreign",
+        "faith",
+        "culture"
+      ]
+    },
+    {
+      "id": "dyn_prince_struggle",
+      "title": "夺嫡暗涌",
+      "description": "皇长子骤得宠臣赠田千顷、僮仆三百。次子党羽连夜具本，劾其私交外臣、图谋非分。东宫之位已危，夺嫡之局渐成。",
+      "left_choice": {
+        "text": "抑长立次",
+        "effects": {
+          "STABILITY": -8,
+          "NOBLES": 10,
+          "COMMONERS": 6,
+          "HAPPINESS": -6
+        },
+        "speech": "立贤不立长，古有之。"
+      },
+      "right_choice": {
+        "text": "护储黜党",
+        "effects": {
+          "STABILITY": 6,
+          "NOBLES": -10,
+          "HAPPINESS": 6,
+          "CHARISMA": 4
+        },
+        "speech": "国本已定，何容摇撼。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 30
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "succession_line",
+        "prince",
+        "struggle"
+      ]
+    },
+    {
+      "id": "dyn_crown_prince_study",
+      "title": "太子讲学",
+      "description": "太子年十二，讲官奏其好驰马击剑而厌章句，请择硕儒三人日侍经史。詹事却言储君当习钱谷刑名，不可徒为书生。",
+      "left_choice": {
+        "text": "重经史讲学",
+        "effects": {
+          "INTELLIGENCE": 14,
+          "MORALITY": 8,
+          "STABILITY": 4,
+          "NOBLES": -4
+        },
+        "speech": "储君德成，而后政举。"
+      },
+      "right_choice": {
+        "text": "习政务历练",
+        "effects": {
+          "INTELLIGENCE": 6,
+          "CHARISMA": 10,
+          "STABILITY": 6,
+          "NOBLES": 4,
+          "COMMONERS": -4
+        },
+        "speech": "纸上得来，不如躬行。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 20
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "succession_line",
+        "prince",
+        "study"
+      ]
+    },
+    {
+      "id": "dyn_consort_clan",
+      "title": "外戚用事",
+      "description": "太后之弟总揽三司使印，门生故吏遍布六部，岁入逾制十倍。御史台连上七章劾其专擅乱政，太后览奏，掷之于地。",
+      "left_choice": {
+        "text": "抑外戚收权",
+        "effects": {
+          "STABILITY": 12,
+          "NOBLES": -14,
+          "CHARISMA": 6,
+          "HAPPINESS": -8
+        },
+        "speech": "母族虽亲，不可代政。"
+      },
+      "right_choice": {
+        "text": "容其用事",
+        "effects": {
+          "WEALTH": 12,
+          "NOBLES": 12,
+          "STABILITY": -8,
+          "CHARISMA": -6
+        },
+        "speech": "亲舅辅国，亦社稷之利。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_nobles": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "consort",
+        "clan",
+        "power"
+      ]
+    },
+    {
+      "id": "dyn_eunuch_power",
+      "title": "阉党弄权",
+      "description": "掌印太监请代批寻常章奏，言陛下日阅四百本宜稍节劳。言官劾其渐侵主柄，实为祸端；然禁中晓事解意者，唯此一人。",
+      "left_choice": {
+        "text": "许其代批",
+        "effects": {
+          "STABILITY": 6,
+          "NOBLES": -10,
+          "INTELLIGENCE": -8,
+          "STRENGTH": 4
+        },
+        "speech": "批红小事，何妨假手。"
+      },
+      "right_choice": {
+        "text": "收印归内阁",
+        "effects": {
+          "STABILITY": -6,
+          "NOBLES": 10,
+          "INTELLIGENCE": 8,
+          "CHARISMA": 4
+        },
+        "speech": "乾纲独断，岂可假人。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "eunuch",
+        "power",
+        "court"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_INTELLIGENCE": 45
+          },
+          "chance": 0.6,
+          "title": "阉党矫诏",
+          "description": "阉党矫诏，连诛言官七人，朝野震怖。",
+          "effects": {
+            "STABILITY": -10,
+            "NOBLES": -8,
+            "CHARISMA": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_faction_clash",
+      "title": "党争日烈",
+      "description": "朝中分为新旧两党，凡议一事必先辨门户，三月不决者十有七事。首辅请尽黜异己二十四人以一事权，然此辈多有清望。",
+      "left_choice": {
+        "text": "黜异己定于一",
+        "effects": {
+          "STABILITY": 10,
+          "NOBLES": 8,
+          "INTELLIGENCE": -10,
+          "COMMONERS": -6
+        },
+        "speech": "政出一门，乃可图治。"
+      },
+      "right_choice": {
+        "text": "容两党并立",
+        "effects": {
+          "STABILITY": -8,
+          "INTELLIGENCE": 10,
+          "NOBLES": -8,
+          "CHARISMA": 4
+        },
+        "speech": "水至清则无鱼，朝亦如是。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 30
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "reform_line",
+        "faction",
+        "court"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "min_INTELLIGENCE": 61
+          },
+          "chance": 0.65,
+          "title": "新党易监司",
+          "description": "新党得志，尽易监司，旧党怨谤腾于道路。",
+          "effects": {
+            "STABILITY": -6,
+            "NOBLES": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_censor_impeach",
+      "title": "台谏风闻",
+      "description": "御史风闻奏事，劾兵部侍郎私通边将、受马二百匹。三司会查两月无实据，而物议已沸。或请反坐御史以妄言之罪。",
+      "left_choice": {
+        "text": "容言官直谏",
+        "effects": {
+          "STABILITY": -4,
+          "NOBLES": -8,
+          "INTELLIGENCE": 6,
+          "MORALITY": 8
+        },
+        "speech": "言者无罪，闻者足戒。"
+      },
+      "right_choice": {
+        "text": "罪妄言御史",
+        "effects": {
+          "STABILITY": 8,
+          "NOBLES": 10,
+          "MORALITY": -8,
+          "CHARISMA": -6
+        },
+        "speech": "风闻生事，不可不禁。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "censor",
+        "impeach",
+        "court"
+      ]
+    },
+    {
+      "id": "dyn_reform_edict",
+      "title": "变法之议",
+      "description": "宰相上变法三策：均田税、精禁军、课百官。奏称利在百年，可岁增课八百万缗。然三策皆触勋贵之利，怨谤汹汹将作。",
+      "left_choice": {
+        "text": "颁诏变法",
+        "effects": {
+          "WEALTH": 18,
+          "STRENGTH": 10,
+          "NOBLES": -16,
+          "STABILITY": -8
+        },
+        "speech": "非常之时，当行非常之法。"
+      },
+      "right_choice": {
+        "text": "徐图渐改",
+        "effects": {
+          "WEALTH": 6,
+          "STABILITY": 8,
+          "NOBLES": 8,
+          "INTELLIGENCE": -6
+        },
+        "speech": "为政有本，不可骤革。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_intelligence": 40
+      },
+      "weight": 0.8,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "reform_line",
+        "reform",
+        "policy"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_NOBLES": 45
+          },
+          "chance": 0.7,
+          "title": "宗室哭阙",
+          "description": "新法行，贵戚田产减半，宗室诣阙哭诉。",
+          "effects": {
+            "STABILITY": -8,
+            "NOBLES": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_prison_case",
+      "title": "诏狱冤案",
+      "description": "诏狱系大臣五人，以谋逆论罪，拷掠三十日皆已具狱画押。然密报称此乃仇家诬构，往来书信笔迹皆伪，证人已死其二。",
+      "left_choice": {
+        "text": "辨冤释放",
+        "effects": {
+          "NOBLES": 10,
+          "STABILITY": 6,
+          "MORALITY": 10,
+          "CHARISMA": 4,
+          "WEALTH": -6
+        },
+        "speech": "狱贵得情，不可滥刑。"
+      },
+      "right_choice": {
+        "text": "维持原狱",
+        "effects": {
+          "STABILITY": -6,
+          "NOBLES": -10,
+          "MORALITY": -12,
+          "STRENGTH": 4
+        },
+        "speech": "谋逆之狱，宁枉毋纵。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_morality": 0
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "prison",
+        "justice",
+        "court"
+      ]
+    },
+    {
+      "id": "dyn_succession_law",
+      "title": "封王之制",
+      "description": "宗正寺请定亲王之制：就藩者食一郡租税而不预政事，留京者开府置官属而无尺土。两议争辩逾半年，宗室与台省各执一词。",
+      "left_choice": {
+        "text": "定就藩之制",
+        "effects": {
+          "STABILITY": 10,
+          "NOBLES": -10,
+          "HAPPINESS": -6,
+          "CHARISMA": 4
+        },
+        "speech": "藩王就国，所以安宗社。"
+      },
+      "right_choice": {
+        "text": "许留京开府",
+        "effects": {
+          "STABILITY": -8,
+          "NOBLES": 10,
+          "HAPPINESS": 8,
+          "CHARISMA": -4
+        },
+        "speech": "骨肉在侧，朕心乃安。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 0.7,
+      "era": "dynasty",
+      "category": "朝堂权谋",
+      "tags": [
+        "succession_line",
+        "prince",
+        "law"
+      ]
+    },
+    {
+      "id": "dyn_imperial_illness",
+      "title": "圣体违和",
+      "description": "陛下寝疾已逾一月，百司章奏壅滞三千余本。后党请太后垂帘决事，东宫属官请太子监国，两议相持于阶前，竟日不决。",
+      "left_choice": {
+        "text": "太后垂帘",
+        "effects": {
+          "STABILITY": 8,
+          "NOBLES": 10,
+          "HAPPINESS": -8,
+          "CHARISMA": -4
+        },
+        "speech": "朕躬不豫，母后代劳。"
+      },
+      "right_choice": {
+        "text": "太子监国",
+        "effects": {
+          "STABILITY": 6,
+          "NOBLES": -8,
+          "HAPPINESS": 6,
+          "INTELLIGENCE": 4
+        },
+        "speech": "储君历练，正其时也。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_health": 0
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "palace",
+        "illness",
+        "regency"
+      ]
+    },
+    {
+      "id": "dyn_consort_birth",
+      "title": "皇子诞生",
+      "description": "贵妃诞下皇子，宗社之庆。内府请依旧例大赦天下、赐民爵一级、蠲京畿今岁租税，共费一百二十万缗。度支使面有难色。",
+      "left_choice": {
+        "text": "大赦赐民",
+        "effects": {
+          "WEALTH": -16,
+          "COMMONERS": 18,
+          "HAPPINESS": 14,
+          "STABILITY": 4
+        },
+        "speech": "皇嗣初诞，与民同乐。"
+      },
+      "right_choice": {
+        "text": "从俭举庆",
+        "effects": {
+          "WEALTH": 6,
+          "HAPPINESS": 6,
+          "STABILITY": 4,
+          "COMMONERS": -6
+        },
+        "speech": "庆在宗庙，不在糜费。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.6,
+      "era": "dynasty",
+      "category": "后宫宗室",
+      "tags": [
+        "palace",
+        "birth",
+        "celebrate"
+      ]
+    },
+    {
+      "id": "dyn_salt_riot",
+      "title": "盐徒暴动",
+      "description": "盐禁日急，私贩盐徒三千聚于泰州，劫县库米八千石，杀巡盐御史一人。州县请调兵三营剿之，转运使却请开禁招抚。",
+      "left_choice": {
+        "text": "发兵剿盐徒",
+        "effects": {
+          "STRENGTH": 10,
+          "STABILITY": -6,
+          "COMMONERS": -12,
+          "NOBLES": 6
+        },
+        "speech": "乱民抗法，不得不诛。"
+      },
+      "right_choice": {
+        "text": "赦其首领抚",
+        "effects": {
+          "STABILITY": 6,
+          "COMMONERS": 12,
+          "MORALITY": 6,
+          "STRENGTH": -4
+        },
+        "speech": "迫于饥寒，宜开其生路。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_stability": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "salt",
+        "riot",
+        "disaster"
+      ],
+      "chain_reactions": [
+        {
+          "when_choice": "left_choice",
+          "conditions": {
+            "max_STABILITY": 45
+          },
+          "chance": 0.55,
+          "title": "盐徒入海",
+          "description": "剿之不力，盐徒遁入海，勾连倭舶为患。",
+          "effects": {
+            "STABILITY": -8,
+            "STRENGTH": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "dyn_flood_south",
+      "title": "江南水患",
+      "description": "江淮并涨，圩堤溃决十七处，淹田百万亩，漂庐舍无算。漕臣请即日征夫八万修堤；州牧却言民方收晚稻，兴役则误农时。",
+      "left_choice": {
+        "text": "急修堤捍田",
+        "effects": {
+          "WEALTH": -16,
+          "COMMONERS": 16,
+          "STABILITY": 4,
+          "STRENGTH": 4
+        },
+        "speech": "堤固则民安，农不可误。"
+      },
+      "right_choice": {
+        "text": "俟秋后兴役",
+        "effects": {
+          "WEALTH": -6,
+          "COMMONERS": -12,
+          "STABILITY": 8,
+          "MORALITY": -4
+        },
+        "speech": "姑俟农隙，免伤岁功。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 10
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "flood",
+        "jiangnan",
+        "disaster"
+      ]
+    },
+    {
+      "id": "dyn_winter_cold",
+      "title": "苦寒冻馁",
+      "description": "今冬奇寒，京师冻死者日以百计，流民蔽道而卧。有司请开粥厂十二所、给薪炭三十万斤，需费四十万缗，仓中已不足支。",
+      "left_choice": {
+        "text": "开粥厂给炭",
+        "effects": {
+          "WEALTH": -18,
+          "COMMONERS": 20,
+          "MORALITY": 10,
+          "STABILITY": 4
+        },
+        "speech": "民有饥寒，朕食不安。"
+      },
+      "right_choice": {
+        "text": "量给遣归乡",
+        "effects": {
+          "WEALTH": -6,
+          "COMMONERS": -12,
+          "STABILITY": 8,
+          "MORALITY": -6
+        },
+        "speech": "廪有限而饥者众，宜节用。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 0.9,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "cold",
+        "relief",
+        "disaster"
+      ]
+    },
+    {
+      "id": "dyn_drought_famine",
+      "title": "赤地千里",
+      "description": "关中自春徂秋无雨，赤地千里，人相食之报已至御前。朝廷发太仓粟四十万石赈之，然道殣相望，粟至而民已死其半。",
+      "left_choice": {
+        "text": "倾库大赈",
+        "effects": {
+          "WEALTH": -22,
+          "COMMONERS": 22,
+          "MORALITY": 12,
+          "STABILITY": -6
+        },
+        "speech": "宁以官殉民，不以民殉官。"
+      },
+      "right_choice": {
+        "text": "节赈保根本",
+        "effects": {
+          "WEALTH": -8,
+          "COMMONERS": -14,
+          "STABILITY": 10,
+          "MORALITY": -6
+        },
+        "speech": "赈不可竭泽，留薪待春。"
+      },
+      "conditions": {
+        "required_traits": [],
+        "min_wealth": 0
+      },
+      "weight": 1.0,
+      "era": "dynasty",
+      "category": "天灾人祸",
+      "tags": [
+        "famine_line",
+        "drought",
+        "disaster"
+      ]
+    }
+  ]
+}

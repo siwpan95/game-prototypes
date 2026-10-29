@@ -1,0 +1,237 @@
+{
+  "title": "人生重开模拟器 - SBTI风格出身选择",
+  "description": "本测试不科学，很扎心，玻璃心慎入",
+  "steps": {
+    "name": {
+      "prompt": "请输入你的名字（不输就随机）：",
+      "random_names": ["王建国", "李翠花", "张伟", "刘芳", "陈明", "杨晓丽", "赵铁柱", "孙秀英", "周大壮", "吴美丽"]
+    },
+    "gender": {
+      "title": "【第2步：性别】",
+      "description": "请选择你的出厂设置：",
+      "options": [
+        {
+          "key": "A",
+          "text": "男（系统提示：选这个可能会被说'大男子主义'，但你可以不承认）",
+          "effects": {
+            "gender": "男",
+            "stats": {"strength": 1},
+            "mbti": {"EI": 1},
+            "traits": ["偶尔大男子主义"],
+            "feedback": "→ 获得特质：偶尔大男子主义"
+          }
+        },
+        {
+          "key": "B",
+          "text": "女（系统提示：选这个可能会被贴标签，但你可以说'关你屁事'）",
+          "effects": {
+            "gender": "女",
+            "stats": {"charisma": 1},
+            "mbti": {"TF": -1},
+            "traits": ["擅长翻白眼"],
+            "feedback": "→ 获得特质：擅长翻白眼"
+          }
+        },
+        {
+          "key": "C",
+          "text": "其他（系统提示：最政治正确的选择，但也最容易被议论）",
+          "effects": {
+            "gender": "其他",
+            "stats": {"luck": 1, "charisma": 1},
+            "traits": ["不被定义"],
+            "feedback": "→ 获得特质：不被定义"
+          }
+        }
+      ]
+    },
+    "father_job": {
+      "title": "【第3步：原生家庭剧本】",
+      "description": "你爸是干嘛的？（别骗自己）：",
+      "options": [
+        {
+          "key": "A",
+          "text": "贵族领主（开局SSR卡，但容易被骂'拼爹'）",
+          "effects": {
+            "stats": {"wealth": 3, "charisma": 2, "strength": 1},
+            "mbti": {"EI": 1, "JP": 1},
+            "traits": ["高贵血统", "天生贵族"],
+            "feedback": "→ 获得：高贵血统、天生贵族\n   系统评价：出生在罗马，但容易迷路"
+          }
+        },
+        {
+          "key": "B",
+          "text": "富商巨贾（钱多到花不完，但可能得继承家业）",
+          "effects": {
+            "stats": {"wealth": 4, "intelligence": 1, "agility": 1},
+            "mbti": {"SN": 1, "TF": 1},
+            "traits": ["商业头脑", "富二代"],
+            "feedback": "→ 获得：商业头脑、富二代\n   系统评价：钱能解决99%的问题，剩下1%需要更多钱"
+          }
+        },
+        {
+          "key": "C",
+          "text": "学者教授（书香门第，但过年总被亲戚问成绩）",
+          "effects": {
+            "stats": {"intelligence": 3, "wealth": -1},
+            "mbti": {"EI": -1, "SN": -1, "TF": 1},
+            "traits": ["博学多才", "书呆子"],
+            "feedback": "→ 获得：博学多才、书呆子\n   系统评价：懂得很多道理，但过不好这一生"
+          }
+        },
+        {
+          "key": "D",
+          "text": "猎人/农夫（开局困难模式，但故事性拉满）",
+          "effects": {
+            "stats": {"strength": 2, "agility": 2, "intelligence": -1},
+            "mbti": {"SN": 1, "JP": -1},
+            "traits": ["坚韧体魄", "草根"],
+            "feedback": "→ 获得：坚韧体魄、草根\n   系统评价：开局一把锄头，装备全靠打"
+          }
+        },
+        {
+          "key": "E",
+          "text": "盗贼/流浪汉（地狱开局，但适合写逆袭爽文）",
+          "effects": {
+            "stats": {"agility": 3, "luck": 1, "charisma": -1},
+            "mbti": {"EI": -1, "JP": -1},
+            "traits": ["街头智慧", "叛逆"],
+            "feedback": "→ 获得：街头智慧、叛逆\n   系统评价：在法律的边缘疯狂试探"
+          }
+        }
+      ]
+    },
+    "childhood": {
+      "title": "【第4步：童年阴影（划掉）童年】",
+      "description": "你的童年怎么过的？：",
+      "options": [
+        {
+          "key": "A",
+          "text": "埋头苦读（小镇做题家预备役）",
+          "effects": {
+            "stats": {"intelligence": 2, "strength": -1},
+            "mbti": {"EI": -1, "SN": -1, "JP": 1},
+            "feedback": "→ 效果：智力↑ 力量↓ 内向↑ 直觉↑ 判断↑\n   系统评价：别人在玩，你在刷题，卷王从小养起"
+          }
+        },
+        {
+          "key": "B",
+          "text": "街头玩耍（社交牛逼症早期症状）",
+          "effects": {
+            "stats": {"agility": 2, "charisma": 1, "strength": 1},
+            "mbti": {"EI": 1, "SN": 1, "JP": -1},
+            "feedback": "→ 效果：敏捷↑ 魅力↑ 力量↑ 外向↑ 实感↑ 知觉↑\n   系统评价：从小就是孩子王，社交悍匪从娃娃抓起"
+          }
+        },
+        {
+          "key": "C",
+          "text": "帮忙家务/农活（吃苦耐劳，但可能错过早恋）",
+          "effects": {
+            "stats": {"strength": 2, "agility": 1, "intelligence": -1},
+            "mbti": {"SN": 1, "JP": 1},
+            "feedback": "→ 效果：力量↑ 敏捷↑ 智力↓ 实感↑ 判断↑\n   系统评价：穷人的孩子早当家，但也可能早秃头"
+          }
+        },
+        {
+          "key": "D",
+          "text": "沉迷艺术与幻想（未来文艺青年/失业青年）",
+          "effects": {
+            "stats": {"charisma": 2, "intelligence": 1, "luck": 1},
+            "mbti": {"EI": -1, "SN": -1, "TF": -1},
+            "feedback": "→ 效果：魅力↑ 智力↑ 运气↑ 内向↑ 直觉↑ 情感↑\n   系统评价：白日梦想家，现实是啥？能吃吗？"
+          }
+        }
+      ]
+    },
+    "teenage": {
+      "title": "【第5步：中二期症状】",
+      "description": "少年，你选择了：",
+      "options": [
+        {
+          "key": "A",
+          "text": "成为骑士侍从（中二病：我要成为正义的伙伴！）",
+          "effects": {
+            "stats": {"strength": 3, "agility": 1, "charisma": 1},
+            "mbti": {"EI": 1, "JP": 1},
+            "traits": ["骑士训练", "中二病"],
+            "feedback": "→ 获得：骑士训练、中二病\n   系统评价：梦想是成为骑士，现实是成为保安"
+          }
+        },
+        {
+          "key": "B",
+          "text": "在商会做学徒（现实主义：搞钱才是硬道理）",
+          "effects": {
+            "stats": {"intelligence": 2, "wealth": 1},
+            "mbti": {"SN": 1, "TF": 1, "JP": 1},
+            "traits": ["精明强干", "现实"],
+            "feedback": "→ 获得：精明强干、现实\n   系统评价：别人谈理想，你谈工资，人间清醒"
+          }
+        },
+        {
+          "key": "C",
+          "text": "流浪四方（文艺病：世界那么大，我想去看看）",
+          "effects": {
+            "stats": {"agility": 2, "luck": 2},
+            "mbti": {"EI": 1, "JP": -1, "SN": -1},
+            "traits": ["冒险精神", "浪子"],
+            "feedback": "→ 获得：冒险精神、浪子\n   系统评价：身体和灵魂，总有一个在路上（没钱了）"
+          }
+        },
+        {
+          "key": "D",
+          "text": "在修道院/学院进修（卷王：我要学习，别打扰我）",
+          "effects": {
+            "stats": {"intelligence": 3, "charisma": -1},
+            "mbti": {"EI": -1, "SN": -1, "TF": 1, "JP": 1},
+            "traits": ["学术熏陶", "书呆子+"],
+            "feedback": "→ 获得：学术熏陶、书呆子+\n   系统评价：知识就是力量，但社交也是短板"
+          }
+        }
+      ]
+    },
+    "adulthood": {
+      "title": "【第6步：命运的转折点】",
+      "description": "成年礼是：",
+      "options": [
+        {
+          "key": "A",
+          "text": "继承了一笔意外遗产（天选之子，但可能被亲戚围攻）",
+          "effects": {
+            "stats": {"wealth": 4, "luck": 1},
+            "traits": ["天选之子"],
+            "feedback": "→ 获得：天选之子\n   系统评价：有时候，投胎是门技术活"
+          }
+        },
+        {
+          "key": "B",
+          "text": "遭遇灾难，失去亲人（虐文主角剧本）",
+          "effects": {
+            "stats": {"luck": -2, "strength": 2, "intelligence": 1},
+            "mbti": {"EI": -1, "TF": -1},
+            "traits": ["坚韧之心", "美强惨"],
+            "feedback": "→ 获得：坚韧之心、美强惨\n   系统评价：所有杀不死你的，都会让你更emo"
+          }
+        },
+        {
+          "key": "C",
+          "text": "拯救了一位贵人，获得赏识（爽文套路来了）",
+          "effects": {
+            "stats": {"charisma": 3, "luck": 2},
+            "mbti": {"EI": 1},
+            "traits": ["贵人相助"],
+            "feedback": "→ 获得：贵人相助\n   系统评价：出门遇贵人，但首先得...出门"
+          }
+        },
+        {
+          "key": "D",
+          "text": "发现了一本神秘古籍（奇幻小说开场）",
+          "effects": {
+            "stats": {"intelligence": 3, "luck": 1},
+            "mbti": {"SN": -1, "TF": -1},
+            "traits": ["神秘知识", "穿越者嫌疑"],
+            "feedback": "→ 获得：神秘知识、穿越者嫌疑\n   系统评价：知识改变命运，但有时会改变过头"
+          }
+        }
+      ]
+    }
+  }
+}
