@@ -1,0 +1,14 @@
+# 运行依赖（M5 打包）
+
+# 图形 / 输入（必需运行时依赖）
+pygame-ce>=2.1
+
+# 打包工具（M5 一键产出 exe）
+PyInstaller>=6.0
+
+# 开发 / 测试（非运行必需）
+pytest>=7.0
+
+# 注意：allin_engine 不在 PyPI，随本仓库分发（<仓库根>/allin_engine）。
+# 打包时由 build.spec 的 pathex 注入，无需 pip 安装；开发期通过 PYTHONPATH 注入：
+#   set PYTHONPATH=<仓库根>;<仓库根>\MC2

@@ -1,0 +1,8 @@
+[
+  {"id": 0, "name": "air",    "glyph": " ", "color": "white",  "solid": false, "transparent": true,  "props": {}},
+  {"id": 1, "name": "stone",  "glyph": "#", "color": "gray",   "solid": true,  "transparent": false, "props": {}},
+  {"id": 2, "name": "dirt",   "glyph": ".", "color": "brown",  "solid": true,  "transparent": false, "props": {}},
+  {"id": 3, "name": "grass",  "glyph": "\"", "color": "green", "solid": true,  "transparent": false, "props": {}},
+  {"id": 4, "name": "water",  "glyph": "~", "color": "blue",   "solid": false, "transparent": true,  "props": {}},
+  {"id": 5, "name": "sand",   "glyph": ":", "color": "yellow", "solid": true,  "transparent": false, "props": {}}
+]

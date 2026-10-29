@@ -1,0 +1,5 @@
+[
+  {"id": 9,  "name": "beef",         "glyph": "B", "color": "red",    "solid": false, "transparent": true, "props": {}},
+  {"id": 10, "name": "pork",         "glyph": "P", "color": "brown",  "solid": false, "transparent": true, "props": {}},
+  {"id": 11, "name": "rotten_flesh", "glyph": "R", "color": "green",  "solid": false, "transparent": true, "props": {}}
+]
