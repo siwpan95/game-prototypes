@@ -1,0 +1,1133 @@
+{
+  "ui": {
+    "window": {
+      "width": 960,
+      "height": 680
+    },
+    "canvas_top": {
+      "height": 62
+    },
+    "canvas_bottom": {
+      "height": 32
+    },
+    "canvas": {
+      "width": 960,
+      "height": 520
+    },
+    "panel_width": 400,
+    "colors": {
+      "bg": "#1a1a2e",
+      "panel": "#16213e",
+      "hero": "#e94560",
+      "gold": "#ffd369",
+      "dps": "#aaa",
+      "btn_bg": "#0f3460",
+      "btn_outline": "#e94560",
+      "btn_text": "white",
+      "float": "#ffd369",
+      "golden_btn": "#ffaa00",
+      "tooltip_bg": "#333355",
+      "tooltip_text": "#ddd",
+      "era_bar_bg": "#1a1a3e",
+      "era_bar_fill": "#e94560",
+      "era_text": "#ccc",
+      "era_label": "#ffd369",
+      "tab_active": "#e94560",
+      "tab_inactive": "#333355",
+      "tab_text": "#ccc",
+      "skill_ready": "#0ea5e9",
+      "skill_cooldown": "#555",
+      "skill_active": "#10b981",
+      "prestige_btn": "#f59e0b",
+      "locked": "#444",
+      "locked_text": "#888"
+    },
+    "era_bar": {
+      "x": 10,
+      "y": 4,
+      "width": 350,
+      "height": 16
+    },
+    "hero": {
+      "cx": 200,
+      "cy": 66,
+      "r": 40
+    },
+    "hud": {
+      "x": 20,
+      "y_gold": 24,
+      "y_dps": 44
+    },
+    "tabs": {
+      "x": 10,
+      "y": 46,
+      "width": 100,
+      "height": 20,
+      "spacing": 110
+    },
+    "shop": {
+      "x": 10,
+      "y": 6,
+      "width": 510,
+      "height": 26,
+      "spacing": 30
+    },
+    "float": {
+      "base_x": 200,
+      "base_y": 120,
+      "offset": 30,
+      "lifetime": 1.0,
+      "speed": 80
+    },
+    "skills": {
+      "x": 20,
+      "y": 146,
+      "width": 155,
+      "height": 28,
+      "cols": 2,
+      "rows": 3,
+      "gap_x": 10,
+      "gap_y": 4
+    },
+    "hero_panel": {
+      "x": 20,
+      "y": 248,
+      "width": 340,
+      "height": 24,
+      "spacing": 28
+    },
+    "prestige_btn": {
+      "x": 20,
+      "y": 370,
+      "width": 160,
+      "height": 30
+    },
+    "equip_panel": {
+      "y": 4,
+      "item_width": 140,
+      "spacing": 8,
+      "max_show": 6
+    }
+  },
+  "constants": {
+    "backpack_limit": 12,
+    "tick_dt_max": 1.0,
+    "game_loop_ms": 30,
+    "hero_panel_scroll_h": 420,
+    "shop_scroll_padding": 20,
+    "offline_cap_seconds": 28800,
+    "milestone_steps": [[25, 1.5], [50, 2.0], [100, 3.0], [200, 5.0]],
+    "daily_reward_seconds": 600,
+    "autosave_seconds": 30
+  },
+  "save_file": "idle_save.json",
+  "golden_buff": {
+    "strength": 1024,
+    "duration": 16,
+    "button_delay_min": 180,
+    "button_delay_max": 300,
+    "button_duration": 16
+  },
+  "categories": {
+    "all": {
+      "name": "全部",
+      "color": "#ccc",
+      "icon": "☰"
+    },
+    "click": {
+      "name": "点击",
+      "color": "#e94560",
+      "icon": "👆"
+    },
+    "dps": {
+      "name": "产出",
+      "color": "#0ea5e9",
+      "icon": "⚙"
+    },
+    "multiplier": {
+      "name": "乘数",
+      "color": "#f59e0b",
+      "icon": "✕"
+    },
+    "synergy": {
+      "name": "协同",
+      "color": "#8b5cf6",
+      "icon": "⟷"
+    },
+    "utility": {
+      "name": "功能",
+      "color": "#10b981",
+      "icon": "◆"
+    },
+    "golden": {
+      "name": "黄金",
+      "color": "#ffaa00",
+      "icon": "✨"
+    }
+  },
+  "eras": [
+    {
+      "key": "stone",
+      "name": "石器时代",
+      "threshold": 0,
+      "description": "基础的点击与采集",
+      "color": "#aaa",
+      "bonus_dps": 1.0,
+      "bonus_click": 1.0
+    },
+    {
+      "key": "bronze",
+      "name": "青铜时代",
+      "threshold": 10000,
+      "description": "工具与机械的萌芽",
+      "color": "#cd7f32",
+      "bonus_dps": 1.5,
+      "bonus_click": 1.3
+    },
+    {
+      "key": "iron",
+      "name": "铁器时代",
+      "threshold": 1000000,
+      "description": "工业化生产",
+      "color": "#888",
+      "bonus_dps": 3.0,
+      "bonus_click": 2.0
+    },
+    {
+      "key": "industrial",
+      "name": "工业时代",
+      "threshold": 100000000,
+      "description": "电力与自动化",
+      "color": "#eab308",
+      "bonus_dps": 8.0,
+      "bonus_click": 4.0
+    },
+    {
+      "key": "digital",
+      "name": "数字时代",
+      "threshold": 10000000000,
+      "description": "计算机与网络",
+      "color": "#0ea5e9",
+      "bonus_dps": 25.0,
+      "bonus_click": 10.0
+    },
+    {
+      "key": "space",
+      "name": "太空时代",
+      "threshold": 1000000000000,
+      "description": "跨越星辰",
+      "color": "#a78bfa",
+      "bonus_dps": 100.0,
+      "bonus_click": 30.0
+    }
+  ],
+  "skills": [
+    {
+      "key": "gold_rain",
+      "name": "金币雨",
+      "tip": "立刻获得 30 秒 DPS",
+      "cooldown": 300,
+      "era": "stone",
+      "icon": "💰",
+      "effect_type": "instant_dps",
+      "effect_value": 30
+    },
+    {
+      "key": "time_warp",
+      "name": "时间加速",
+      "tip": "DPS x3 持续 10 秒",
+      "cooldown": 240,
+      "era": "bronze",
+      "icon": "⏰",
+      "effect_type": "dps_mult",
+      "effect_value": 3,
+      "duration": 10
+    },
+    {
+      "key": "crit_strike",
+      "name": "暴击连击",
+      "tip": "下 10 次点击 x50",
+      "cooldown": 180,
+      "era": "iron",
+      "icon": "⚡",
+      "effect_type": "crit_clicks",
+      "effect_value": 50,
+      "charges": 10
+    },
+    {
+      "key": "auto_click",
+      "name": "自动连点",
+      "tip": "每秒自动点击 5 次，持续 15 秒",
+      "cooldown": 360,
+      "era": "industrial",
+      "icon": "🤖",
+      "effect_type": "auto_click",
+      "effect_value": 5,
+      "duration": 15
+    },
+    {
+      "key": "golden_storm",
+      "name": "黄金风暴",
+      "tip": "点击力 x1024 + DPS x5，持续 12 秒",
+      "cooldown": 480,
+      "era": "digital",
+      "icon": "🌟",
+      "effect_type": "combo",
+      "click_mult": 1024,
+      "dps_mult": 5,
+      "duration": 12
+    }
+  ],
+  "challenges": [
+    {
+      "key": "pacifist",
+      "name": "和平主义",
+      "tip": "无法手动点击，只能靠 DPS",
+      "restrict_click": true,
+      "prestige_mult": 1.5
+    },
+    {
+      "key": "speedrun",
+      "name": "极速挑战",
+      "tip": "30 分钟内达到青铜时代",
+      "time_limit": 1800,
+      "target_era": "bronze",
+      "prestige_mult": 2.0
+    },
+    {
+      "key": "no_dps",
+      "name": "纯手工",
+      "tip": "禁用 DPS 装备，纯点击",
+      "restrict_dps": true,
+      "prestige_mult": 2.5
+    }
+  ],
+  "prestige_upgrades": [
+    {
+      "key": "p_dps",
+      "name": "声望·产出",
+      "tip": "全局 DPS 提升",
+      "cost": 1,
+      "max_level": 10,
+      "effect_type": "dps_mult",
+      "effect_per_level": 0.1
+    },
+    {
+      "key": "p_click",
+      "name": "声望·点击",
+      "tip": "全局点击力提升",
+      "cost": 1,
+      "max_level": 10,
+      "effect_type": "click_mult",
+      "effect_per_level": 0.1
+    },
+    {
+      "key": "p_start",
+      "name": "声望·启动资金",
+      "tip": "转生后获得起始金币",
+      "cost": 2,
+      "max_level": 5,
+      "effect_type": "start_gold",
+      "effect_per_level": 1000
+    },
+    {
+      "key": "p_cooldown",
+      "name": "声望·冷却缩减",
+      "tip": "技能冷却时间减少",
+      "cost": 3,
+      "max_level": 5,
+      "effect_type": "skill_cd",
+      "effect_per_level": 0.1
+    }
+  ],
+  "heroes": [
+    {
+      "key": "mage",
+      "name": "法师",
+      "icon": "🧙",
+      "tier": 1,
+      "description": "元素魔法精通：DPS +10%/级",
+      "unlock_gold": 80,
+      "upgrade_cost": 25,
+      "upgrade_mult": 1.5,
+      "max_level": 50,
+      "passive_dps_bonus": 0.1,
+      "active_skill": {
+        "key": "mage_nova",
+        "name": "奥术新星",
+        "tip": "DPS x2 持续 8 秒",
+        "effect_type": "dps_mult",
+        "value": 2,
+        "duration": 8,
+        "cooldown": 90
+      }
+    },
+    {
+      "key": "paladin",
+      "name": "圣骑士",
+      "icon": "🛡️",
+      "tier": 2,
+      "description": "神圣光环庇护：点击力 +20%/级",
+      "unlock_gold": 500,
+      "upgrade_cost": 100,
+      "upgrade_mult": 1.5,
+      "max_level": 50,
+      "passive_click_bonus": 0.2,
+      "active_skill": {
+        "key": "paladin_aegis",
+        "name": "圣盾庇佑",
+        "tip": "点击力 x50 持续 10 秒",
+        "effect_type": "click_mult",
+        "value": 50,
+        "duration": 10,
+        "cooldown": 120
+      }
+    },
+    {
+      "key": "ranger",
+      "name": "游侠",
+      "icon": "🏹",
+      "tier": 3,
+      "description": "敏捷精准射击：DPS +25%/级，暴击 10%",
+      "unlock_gold": 2000,
+      "upgrade_cost": 300,
+      "upgrade_mult": 1.5,
+      "max_level": 50,
+      "passive_dps_bonus": 0.25,
+      "crit_chance": 0.1,
+      "active_skill": {
+        "key": "ranger_volley",
+        "name": "箭雨",
+        "tip": "立刻获得 25 秒 DPS",
+        "effect_type": "instant_dps",
+        "value": 25,
+        "cooldown": 100
+      }
+    },
+    {
+      "key": "berserker",
+      "name": "狂战士",
+      "icon": "⚔️",
+      "tier": 4,
+      "description": "狂暴双持：DPS +15%/级，点击力 +30%/级",
+      "unlock_gold": 8000,
+      "upgrade_cost": 800,
+      "upgrade_mult": 1.5,
+      "max_level": 50,
+      "passive_dps_bonus": 0.15,
+      "passive_click_bonus": 0.3,
+      "active_skill": {
+        "key": "berserker_rage",
+        "name": "狂暴",
+        "tip": "DPS x3 持续 10 秒",
+        "effect_type": "dps_mult",
+        "value": 3,
+        "duration": 10,
+        "cooldown": 120
+      }
+    }
+  ],
+  "equipment_tiers": [
+    {
+      "rarity": "common",
+      "name": "普通",
+      "color": "#aaa",
+      "drop_per_tick": 0.0005,
+      "bonus_min": 1,
+      "bonus_max": 5
+    },
+    {
+      "rarity": "magic",
+      "name": "魔法",
+      "color": "#0ea5e9",
+      "drop_per_tick": 0.0001,
+      "bonus_min": 5,
+      "bonus_max": 20
+    },
+    {
+      "rarity": "legendary",
+      "name": "传说",
+      "color": "#f59e0b",
+      "drop_per_tick": 2e-05,
+      "bonus_min": 20,
+      "bonus_max": 100
+    },
+    {
+      "rarity": "mythic",
+      "name": "神话",
+      "color": "#a78bfa",
+      "drop_per_tick": 4e-06,
+      "bonus_min": 100,
+      "bonus_max": 500
+    },
+    {
+      "rarity": "immortal",
+      "name": "不朽",
+      "color": "#e94560",
+      "drop_per_tick": 1e-06,
+      "bonus_min": 500,
+      "bonus_max": 5000
+    }
+  ],
+  "equipment_names": {
+    "common": [
+      "木制法杖",
+      "铁剑",
+      "皮甲",
+      "短弓",
+      "圆盾",
+      "布帽"
+    ],
+    "magic": [
+      "火焰法杖",
+      "寒冰之刃",
+      "闪电弓",
+      "魔力之书",
+      "附魔手套",
+      "暗影斗篷"
+    ],
+    "legendary": [
+      "龙息法杖",
+      "圣光之锤",
+      "雷霆之弓",
+      "贤者之石",
+      "凤凰羽毛",
+      "王者之盾"
+    ],
+    "mythic": [
+      "灭世之杖",
+      "审判之剑",
+      "命运之弓",
+      "创世法典",
+      "龙鳞铠甲",
+      "时空之戒"
+    ],
+    "immortal": [
+      "巴尔之眼",
+      "恶魔之心",
+      "天使之翼",
+      "世界树之枝",
+      "混沌之刃",
+      "不朽之魂"
+    ]
+  },
+  "upgrades": [
+    {
+      "key": "clicker",
+      "category": "click",
+      "era": "stone",
+      "name": "点击手",
+      "description": "点击手: ({cost}): {qty}",
+      "tip": "每升一级，点击力+1",
+      "costs": [
+        10
+      ],
+      "visibilities": [
+        1
+      ],
+      "per_second": 0
+    },
+    {
+      "key": "cursor",
+      "category": "dps",
+      "era": "stone",
+      "name": "光标",
+      "description": "自动光标: ({cost}): {qty}",
+      "tip": "自动帮你点击，每秒一次！",
+      "costs": [
+        25
+      ],
+      "visibilities": [
+        1
+      ],
+      "per_second": 0
+    },
+    {
+      "key": "noob_clicker",
+      "category": "dps",
+      "era": "stone",
+      "name": "菜鸟点击",
+      "description": "菜鸟点击: ({cost}): {qty}",
+      "tip": "一个菜鸟，但很努力！",
+      "costs": [
+        15
+      ],
+      "visibilities": [
+        15
+      ],
+      "per_second": 1,
+      "multiplier": "noob_training"
+    },
+    {
+      "key": "gremlin",
+      "category": "dps",
+      "era": "stone",
+      "name": "小妖精",
+      "description": "小妖精: ({cost}): {qty}",
+      "tip": "小妖精喜欢点击。真的。",
+      "costs": [
+        50
+      ],
+      "visibilities": [
+        50
+      ],
+      "per_second": 5
+    },
+    {
+      "key": "noob_training",
+      "category": "multiplier",
+      "era": "stone",
+      "name": "新手训练",
+      "description": "2x 菜鸟力量: ({cost}): {qty}",
+      "tip": "\"来，我教你怎么点。\"",
+      "costs": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "visibilities": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "limit": 5,
+      "requires": {
+        "key": "noob_clicker",
+        "level": 1
+      }
+    },
+    {
+      "key": "click_booster",
+      "category": "multiplier",
+      "era": "stone",
+      "name": "点击增幅",
+      "description": "2x 点击力: ({cost}): {qty}",
+      "tip": "让你的点击力翻倍！",
+      "costs": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "visibilities": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "limit": 5,
+      "requires": {
+        "key": "clicker",
+        "level": 3
+      }
+    },
+    {
+      "key": "cps_to_click",
+      "category": "click",
+      "era": "bronze",
+      "name": "产出转化",
+      "description": "产出转点击: ({cost}): {qty}",
+      "tip": "将每秒产出的百分比加到每次点击中！",
+      "costs": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "visibilities": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "limit": 10,
+      "requires": {
+        "key": "cursor",
+        "level": 5
+      }
+    },
+    {
+      "key": "goblin",
+      "category": "dps",
+      "era": "bronze",
+      "name": "哥布林",
+      "description": "哥布林: ({cost}): {qty}",
+      "tip": "哥布林比小妖精点得更多。",
+      "costs": [
+        200
+      ],
+      "visibilities": [
+        200
+      ],
+      "per_second": 30
+    },
+    {
+      "key": "orcish_pride",
+      "category": "synergy",
+      "era": "bronze",
+      "name": "兽人荣耀",
+      "description": "兽人荣耀: ({cost}): {qty}",
+      "tip": "有了小妖精兄弟，哥布林更勇敢了。",
+      "costs": [
+        1000
+      ],
+      "visibilities": [
+        1000
+      ],
+      "limit": 1,
+      "requires": {
+        "key": "goblin",
+        "level": 1
+      }
+    },
+    {
+      "key": "mobster",
+      "category": "click",
+      "era": "bronze",
+      "name": "黑帮",
+      "description": "黑帮: ({cost}): {qty}",
+      "tip": "每次点击时从每栋建筑中抽成。",
+      "costs": [
+        5000,
+        5000,
+        5000,
+        5000,
+        5000
+      ],
+      "visibilities": [
+        5000,
+        5000,
+        5000,
+        5000,
+        5000
+      ],
+      "limit": 5,
+      "requires": {
+        "key": "gremlin",
+        "level": 3
+      }
+    },
+    {
+      "key": "noob_gremlin",
+      "category": "synergy",
+      "era": "bronze",
+      "name": "妖精菜鸟",
+      "description": "妖精菜鸟: ({cost}): {qty}",
+      "tip": "妖精赋能菜鸟。菜鸟进化成妖精！",
+      "costs": [
+        300
+      ],
+      "visibilities": [
+        300
+      ],
+      "limit": 1,
+      "power_gear": "gremlin",
+      "empowers": "noob_clicker",
+      "requires": {
+        "key": "noob_clicker",
+        "level": 1
+      }
+    },
+    {
+      "key": "cps_multiplier",
+      "category": "multiplier",
+      "era": "bronze",
+      "name": "产出倍率",
+      "description": "产出倍率: ({cost}): {qty}",
+      "tip": "让你的每秒产出更上一层楼！",
+      "costs": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500
+      ],
+      "visibilities": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500
+      ],
+      "limit": 10
+    },
+    {
+      "key": "golden_click",
+      "category": "utility",
+      "era": "iron",
+      "name": "黄金点击",
+      "description": "黄金点击: ({cost}): {qty}",
+      "tip": "解锁黄金点击技能。",
+      "costs": [
+        2000
+      ],
+      "visibilities": [
+        2000
+      ],
+      "limit": 1,
+      "callback": "golden",
+      "requires": {
+        "key": "click_booster",
+        "level": 3
+      }
+    },
+    {
+      "key": "inclined_plane",
+      "category": "dps",
+      "era": "iron",
+      "name": "斜面",
+      "description": "斜面: ({cost}): {qty}",
+      "tip": "让你的点击滚滚而来。慢动作观赏！",
+      "costs": [
+        500
+      ],
+      "visibilities": [
+        500
+      ],
+      "per_second": 125
+    },
+    {
+      "key": "pulley",
+      "category": "dps",
+      "era": "iron",
+      "name": "滑轮",
+      "description": "滑轮: ({cost}): {qty}",
+      "tip": "不是无摩擦的。",
+      "costs": [
+        2000
+      ],
+      "visibilities": [
+        2000
+      ],
+      "per_second": 750
+    },
+    {
+      "key": "lever",
+      "category": "dps",
+      "era": "iron",
+      "name": "杠杆",
+      "description": "杠杆: ({cost}): {qty}",
+      "tip": "撬动那些点击，让阿基米德骄傲。",
+      "costs": [
+        10000
+      ],
+      "visibilities": [
+        10000
+      ],
+      "per_second": 5000
+    },
+    {
+      "key": "wedge",
+      "category": "dps",
+      "era": "iron",
+      "name": "楔子",
+      "description": "楔子: ({cost}): {qty}",
+      "tip": "能问你一个斧头问题吗？",
+      "costs": [
+        100000
+      ],
+      "visibilities": [
+        100000
+      ],
+      "per_second": 75000
+    },
+    {
+      "key": "elbow_grease",
+      "category": "dps",
+      "era": "iron",
+      "name": "力气活",
+      "description": "力气活: ({cost}): {qty}",
+      "tip": "老式点击法！出乎意料地简单。",
+      "costs": [
+        500000
+      ],
+      "visibilities": [
+        500000
+      ],
+      "per_second": 500000
+    },
+    {
+      "key": "steam_clicker",
+      "category": "dps",
+      "era": "industrial",
+      "name": "蒸汽点击器",
+      "description": "蒸汽点击器: ({cost}): {qty}",
+      "tip": "肯定是蒸汽朋克。至少看到了五个时钟。",
+      "costs": [
+        5000000
+      ],
+      "visibilities": [
+        5000000
+      ],
+      "per_second": 750000
+    },
+    {
+      "key": "coal_clicker",
+      "category": "dps",
+      "era": "industrial",
+      "name": "燃煤点击器",
+      "description": "燃煤点击器: ({cost}): {qty}",
+      "tip": "环保煤！",
+      "costs": [
+        10000000
+      ],
+      "visibilities": [
+        10000000
+      ],
+      "per_second": 20000000
+    },
+    {
+      "key": "electric_clicker",
+      "category": "dps",
+      "era": "industrial",
+      "name": "电动点击器",
+      "description": "电动点击器: ({cost}): {qty}",
+      "tip": "这电是驴子转磁铁发的。",
+      "costs": [
+        50000000
+      ],
+      "visibilities": [
+        50000000
+      ],
+      "per_second": 125000000
+    },
+    {
+      "key": "digital_clicker",
+      "category": "dps",
+      "era": "industrial",
+      "name": "数字点击器",
+      "description": "数字点击器: ({cost}): {qty}",
+      "tip": "计算机让点击更精确。数字分辨率！！！",
+      "costs": [
+        500000000
+      ],
+      "visibilities": [
+        500000000
+      ],
+      "per_second": 1500000000
+    },
+    {
+      "key": "floppy_disk",
+      "category": "dps",
+      "era": "digital",
+      "name": "软盘",
+      "description": "软盘: ({cost}): {qty}",
+      "tip": "1.44M次点击！其实远远不止。",
+      "costs": [
+        1000000000
+      ],
+      "visibilities": [
+        1000000000
+      ],
+      "per_second": 4000000000
+    },
+    {
+      "key": "zip_disk",
+      "category": "dps",
+      "era": "digital",
+      "name": "ZIP磁盘",
+      "description": "ZIP磁盘: ({cost}): {qty}",
+      "tip": "750MB！还记得吗？我也不记得。",
+      "costs": [
+        5000000000
+      ],
+      "visibilities": [
+        5000000000
+      ],
+      "per_second": 30000000000
+    },
+    {
+      "key": "cd",
+      "category": "dps",
+      "era": "digital",
+      "name": "光盘",
+      "description": "光盘: ({cost}): {qty}",
+      "tip": "30首歌的数据量！",
+      "costs": [
+        10000000000
+      ],
+      "visibilities": [
+        10000000000
+      ],
+      "per_second": 80000000000
+    },
+    {
+      "key": "dvd",
+      "category": "dps",
+      "era": "digital",
+      "name": "DVD",
+      "description": "DVD: ({cost}): {qty}",
+      "tip": "\"点击纪元\"：现已推出DVD版！",
+      "costs": [
+        20000000000
+      ],
+      "visibilities": [
+        20000000000
+      ],
+      "per_second": 200000000000
+    },
+    {
+      "key": "blu_ray",
+      "category": "dps",
+      "era": "digital",
+      "name": "蓝光",
+      "description": "蓝光: ({cost}): {qty}",
+      "tip": "1920x1080次点击！高清蓝光，哇！",
+      "costs": [
+        30000000000
+      ],
+      "visibilities": [
+        30000000000
+      ],
+      "per_second": 400000000000
+    },
+    {
+      "key": "usb_flash",
+      "category": "dps",
+      "era": "digital",
+      "name": "U盘",
+      "description": "U盘: ({cost}): {qty}",
+      "tip": "防震！",
+      "costs": [
+        100000000000
+      ],
+      "visibilities": [
+        100000000000
+      ],
+      "per_second": 2000000000000
+    },
+    {
+      "key": "hard_drive",
+      "category": "dps",
+      "era": "space",
+      "name": "硬盘",
+      "description": "硬盘: ({cost}): {qty}",
+      "tip": "上TB的点击！适合需要大量点击的你。",
+      "costs": [
+        500000000000
+      ],
+      "visibilities": [
+        500000000000
+      ],
+      "per_second": 15000000000000
+    },
+    {
+      "key": "server_rack",
+      "category": "dps",
+      "era": "space",
+      "name": "服务器机架",
+      "description": "服务器: ({cost}): {qty}",
+      "tip": "其实就是普通电脑。",
+      "costs": [
+        5000000000000
+      ],
+      "visibilities": [
+        5000000000000
+      ],
+      "per_second": 300000000000000
+    },
+    {
+      "key": "robot",
+      "category": "dps",
+      "era": "space",
+      "name": "机器人",
+      "description": "机器人: ({cost}): {qty}",
+      "tip": "哔哔啵啵。",
+      "costs": [
+        10000000000000
+      ],
+      "visibilities": [
+        10000000000000
+      ],
+      "per_second": 1000000000000000
+    },
+    {
+      "key": "cyborg",
+      "category": "dps",
+      "era": "space",
+      "name": "半机械人",
+      "description": "半机械人: ({cost}): {qty}",
+      "tip": "他为什么在点击？",
+      "costs": [
+        100000000000000
+      ],
+      "visibilities": [
+        100000000000000
+      ],
+      "per_second": 20000000000000000
+    },
+    {
+      "key": "android",
+      "category": "dps",
+      "era": "space",
+      "name": "仿生人",
+      "description": "仿生人: ({cost}): {qty}",
+      "tip": "她只为你点击！",
+      "costs": [
+        1000000000000000
+      ],
+      "visibilities": [
+        1000000000000000
+      ],
+      "per_second": 300000000000000000
+    },
+    {
+      "key": "hooloovoo",
+      "category": "dps",
+      "era": "space",
+      "name": "超智蓝",
+      "description": "超智蓝: ({cost}): {qty}",
+      "tip": "一种超级智能的蓝色。不知道怎么点的。",
+      "costs": [
+        5000000000000000
+      ],
+      "visibilities": [
+        5000000000000000
+      ],
+      "per_second": 2000000000000000000
+    },
+    {
+      "key": "hacker",
+      "category": "dps",
+      "era": "space",
+      "name": "黑客",
+      "description": "黑客: ({cost}): {qty}",
+      "tip": "感觉像作弊，但并不是。",
+      "costs": [
+        100000000000000000
+      ],
+      "visibilities": [
+        100000000000000000
+      ],
+      "per_second": 100000000000000000000
+    }
+  ]
+}

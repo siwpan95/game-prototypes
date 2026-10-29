@@ -1,0 +1,14 @@
+{
+  "id": "p1_events",
+  "description": "限时活动：按调度轮换触发，提供全局乘区（DPS/点击/金币/掉率/黄金频率）。",
+  "extend": {},
+  "add": {
+    "events": [
+      { "key": "carnival",       "name": "黄金狂欢", "icon": "🎉", "tip": "黄金按钮出现频率翻倍",       "duration": 300, "gap": 600, "effects": { "golden_freq_mult": 2.0 } },
+      { "key": "harvest_fest",   "name": "掉宝节",   "icon": "🎁", "tip": "装备掉率 x3",               "duration": 600, "gap": 600, "effects": { "drop_mult": 3.0 } },
+      { "key": "double_output",  "name": "双倍产出", "icon": "⚡", "tip": "DPS x2",                    "duration": 600, "gap": 900, "effects": { "dps_mult": 2.0 } },
+      { "key": "lucky_day",      "name": "财神日",   "icon": "💰", "tip": "金币收益 x2",               "duration": 600, "gap": 900, "effects": { "gold_mult": 2.0 } },
+      { "key": "berserk",        "name": "狂热时刻", "icon": "🔥", "tip": "点击力 x3",                  "duration": 300, "gap": 900, "effects": { "click_mult": 3.0 } }
+    ]
+  }
+}

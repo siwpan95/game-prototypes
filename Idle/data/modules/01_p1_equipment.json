@@ -1,0 +1,51 @@
+{
+  "id": "p1_equipment",
+  "description": "装备系统扩展：部位(插槽) / 随机词条 / 套装加成。",
+  "extend": {},
+  "add": {
+    "equipment_slots": [
+      { "key": "weapon",    "name": "武器", "icon": "⚔️" },
+      { "key": "armor",     "name": "护甲", "icon": "🛡️" },
+      { "key": "helmet",    "name": "头盔", "icon": "⛑️" },
+      { "key": "accessory", "name": "饰品", "icon": "💍" }
+    ],
+    "equipment_affixes": [
+      { "key": "dps_pct",     "name": "锋锐", "stat": "dps_pct",     "min": 0.02, "max": 0.10, "weight": 30 },
+      { "key": "click_pct",   "name": "精准", "stat": "click_pct",   "min": 0.03, "max": 0.15, "weight": 24 },
+      { "key": "crit_chance", "name": "致命", "stat": "crit_chance", "min": 0.01, "max": 0.05, "weight": 14 },
+      { "key": "gold_pct",    "name": "贪婪", "stat": "gold_pct",    "min": 0.05, "max": 0.25, "weight": 20 },
+      { "key": "drop_pct",    "name": "猎手", "stat": "drop_pct",    "min": 0.05, "max": 0.30, "weight": 8  },
+      { "key": "all_pct",     "name": "全能", "stat": "all_pct",     "min": 0.02, "max": 0.06, "weight": 10 }
+    ],
+    "equipment_sets": [
+      {
+        "id": "dragon", "name": "龙裔套装",
+        "bonuses": [
+          { "count": 2, "stat": "dps_pct", "value": 0.25 },
+          { "count": 4, "stat": "all_pct", "value": 0.20 }
+        ]
+      },
+      {
+        "id": "holy", "name": "圣光套装",
+        "bonuses": [
+          { "count": 2, "stat": "click_pct", "value": 0.30 },
+          { "count": 4, "stat": "gold_pct", "value": 0.50 }
+        ]
+      },
+      {
+        "id": "void", "name": "虚空套装",
+        "bonuses": [
+          { "count": 2, "stat": "crit_chance", "value": 0.05 },
+          { "count": 4, "stat": "drop_pct", "value": 0.60 }
+        ]
+      }
+    ],
+    "equipment_affix_rarity_mult": {
+      "common": 1.0, "magic": 1.4, "legendary": 2.2, "mythic": 3.5, "immortal": 6.0
+    },
+    "equipment_affix_count": {
+      "common": 1, "magic": 1, "legendary": 2, "mythic": 2, "immortal": 3
+    },
+    "equipment_set_chance": 0.4
+  }
+}

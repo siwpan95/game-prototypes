@@ -1,0 +1,30 @@
+{
+  "id": "p1_heroes",
+  "description": "第 5 位英雄：死灵法师（含主动技能）。其余英雄的主动技能在核心 heroes 中定义。",
+  "extend": {
+    "heroes": [
+      {
+        "key": "necromancer",
+        "name": "死灵法师",
+        "icon": "💀",
+        "tier": 5,
+        "description": "亡灵召唤：DPS +20%/级；主动召唤亡灵军团，临时附加大量 DPS",
+        "unlock_gold": 30000,
+        "upgrade_cost": 1500,
+        "upgrade_mult": 1.5,
+        "max_level": 50,
+        "passive_dps_bonus": 0.2,
+        "active_skill": {
+          "key": "necro_army",
+          "name": "亡灵军团",
+          "tip": "召唤亡灵，15 秒内附加 5×等级 的 DPS",
+          "effect_type": "summon",
+          "value": 5,
+          "duration": 15,
+          "cooldown": 150
+        }
+      }
+    ]
+  },
+  "add": {}
+}

@@ -1,0 +1,39 @@
+[
+  { "key": "first_click",      "name": "初次点击",      "desc": "完成第一次点击",            "icon": "👆", "condition": { "type": "clicks", "value": 1 },        "reward": { "type": "dps_mult",   "value": 0.01 } },
+  { "key": "click_100",        "name": "百次点击",      "desc": "累计点击 100 次",          "icon": "👆", "condition": { "type": "clicks", "value": 100 },      "reward": { "type": "click_mult", "value": 0.02 } },
+  { "key": "click_1000",       "name": "千次点击",      "desc": "累计点击 1000 次",         "icon": "👆", "condition": { "type": "clicks", "value": 1000 },     "reward": { "type": "click_mult", "value": 0.05 } },
+  { "key": "click_10000",      "name": "万次点击",      "desc": "累计点击 10000 次",        "icon": "👆", "condition": { "type": "clicks", "value": 10000 },    "reward": { "type": "click_mult", "value": 0.10 } },
+
+  { "key": "gold_1e4",         "name": "小有积蓄",      "desc": "累计获得 1 万金币",        "icon": "💰", "condition": { "type": "total_gold", "value": 1e4 },    "reward": { "type": "dps_mult",   "value": 0.02 } },
+  { "key": "gold_1e7",         "name": "富甲一方",      "desc": "累计获得 100 万金币",      "icon": "💰", "condition": { "type": "total_gold", "value": 1e7 },    "reward": { "type": "dps_mult",   "value": 0.03 } },
+  { "key": "gold_1e10",        "name": "富可敌国",      "desc": "累计获得 100 亿金币",      "icon": "💰", "condition": { "type": "total_gold", "value": 1e10 },   "reward": { "type": "dps_mult",   "value": 0.05 } },
+  { "key": "gold_1e13",        "name": "富倾天下",      "desc": "累计获得 10 万亿金币",     "icon": "💰", "condition": { "type": "total_gold", "value": 1e13 },   "reward": { "type": "dps_mult",   "value": 0.08 } },
+
+  { "key": "drop_1",           "name": "第一桶装备",    "desc": "掉落第一件装备",            "icon": "🎁", "condition": { "type": "drops", "value": 1 },         "reward": { "type": "dps_mult",   "value": 0.01 } },
+  { "key": "drop_10",          "name": "装备收藏家",    "desc": "累计掉落 10 件装备",        "icon": "🎁", "condition": { "type": "drops", "value": 10 },        "reward": { "type": "dps_mult",   "value": 0.02 } },
+  { "key": "drop_25",          "name": "后勤主管",      "desc": "累计掉落 25 件装备",        "icon": "🎁", "condition": { "type": "drops", "value": 25 },        "reward": { "type": "click_mult", "value": 0.03 } },
+  { "key": "drop_50",          "name": "军火商",        "desc": "累计掉落 50 件装备",        "icon": "🎁", "condition": { "type": "drops", "value": 50 },        "reward": { "type": "click_mult", "value": 0.05 } },
+  { "key": "drop_100",         "name": "装备帝国",      "desc": "累计掉落 100 件装备",       "icon": "🎁", "condition": { "type": "drops", "value": 100 },       "reward": { "type": "click_mult", "value": 0.08 } },
+
+  { "key": "era_bronze",       "name": "步入青铜",      "desc": "抵达青铜时代",              "icon": "🥉", "condition": { "type": "max_era", "value": 1 },         "reward": { "type": "dps_mult",   "value": 0.02 } },
+  { "key": "era_iron",         "name": "铁器大师",      "desc": "抵达铁器时代",              "icon": "⚒",  "condition": { "type": "max_era", "value": 2 },         "reward": { "type": "dps_mult",   "value": 0.03 } },
+  { "key": "era_industrial",   "name": "工业革命",      "desc": "抵达工业时代",              "icon": "🏭", "condition": { "type": "max_era", "value": 3 },         "reward": { "type": "dps_mult",   "value": 0.04 } },
+  { "key": "era_digital",      "name": "数字纪元",      "desc": "抵达数字时代",              "icon": "💻", "condition": { "type": "max_era", "value": 4 },         "reward": { "type": "dps_mult",   "value": 0.05 } },
+  { "key": "era_space",        "name": "星辰大海",      "desc": "抵达太空时代",              "icon": "🚀", "condition": { "type": "max_era", "value": 5 },         "reward": { "type": "dps_mult",   "value": 0.10 } },
+
+  { "key": "hero_1",           "name": "初遇英雄",      "desc": "招募第一位英雄",            "icon": "🧙", "condition": { "type": "heroes", "value": 1 },         "reward": { "type": "dps_mult",   "value": 0.02 } },
+  { "key": "hero_2",           "name": "英雄集结",      "desc": "招募两位英雄",              "icon": "🛡",  "condition": { "type": "heroes", "value": 2 },         "reward": { "type": "dps_mult",   "value": 0.03 } },
+  { "key": "hero_4",           "name": "全员到齐",      "desc": "招募全部四位英雄",          "icon": "⚔",  "condition": { "type": "heroes", "value": 4 },         "reward": { "type": "dps_mult",   "value": 0.05 } },
+  { "key": "hero_lv50",        "name": "英雄巅峰",      "desc": "任一英雄达到 50 级",        "icon": "🌟", "condition": { "type": "hero_max_level", "value": 50 }, "reward": { "type": "dps_mult",   "value": 0.05 } },
+
+  { "key": "prestige_1",       "name": "初次转生",      "desc": "完成第一次转生",            "icon": "♻",  "condition": { "type": "prestiges", "value": 1 },      "reward": { "type": "dps_mult",   "value": 0.05 } },
+  { "key": "prestige_5",       "name": "五次轮回",      "desc": "完成 5 次转生",             "icon": "♻",  "condition": { "type": "prestiges", "value": 5 },      "reward": { "type": "dps_mult",   "value": 0.05 } },
+  { "key": "prestige_25",      "name": "百世轮回",      "desc": "完成 25 次转生",            "icon": "♻",  "condition": { "type": "prestiges", "value": 25 },     "reward": { "type": "dps_mult",   "value": 0.10 } },
+
+  { "key": "challenge_1",      "name": "挑战者",        "desc": "完成一次挑战",              "icon": "🏅", "condition": { "type": "challenges", "value": 1 },     "reward": { "type": "dps_mult",   "value": 0.03 } },
+  { "key": "challenge_3",      "name": "三重试炼",      "desc": "完成 3 次挑战",             "icon": "🏅", "condition": { "type": "challenges", "value": 3 },     "reward": { "type": "dps_mult",   "value": 0.05 } },
+
+  { "key": "upg_25",           "name": "初具规模",      "desc": "累计购买 25 次升级",        "icon": "📈", "condition": { "type": "total_upgrades", "value": 25 }, "reward": { "type": "dps_mult",   "value": 0.02 } },
+  { "key": "upg_100",          "name": "工业矩阵",      "desc": "累计购买 100 次升级",       "icon": "📈", "condition": { "type": "total_upgrades", "value": 100 }, "reward": { "type": "dps_mult",   "value": 0.03 } },
+  { "key": "upg_300",          "name": "生产帝国",      "desc": "累计购买 300 次升级",       "icon": "📈", "condition": { "type": "total_upgrades", "value": 300 }, "reward": { "type": "click_mult", "value": 0.05 } }
+]

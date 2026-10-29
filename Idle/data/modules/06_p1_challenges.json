@@ -1,0 +1,32 @@
+{
+  "id": "p1_challenges",
+  "description": "挑战扩容：新增无尽轮回（全局 DPS 减半、需抵达数字时代、声望 x3）、禁金（禁用黄金按钮）、闪电战（限时抵达铁器）。",
+  "extend": {
+    "challenges": [
+      {
+        "key": "endless",
+        "name": "无尽轮回",
+        "tip": "DPS 减半，但需抵达数字时代，声望 x3",
+        "global_dps_mult": 0.5,
+        "target_era": "digital",
+        "prestige_mult": 3.0
+      },
+      {
+        "key": "no_golden",
+        "name": "禁金试炼",
+        "tip": "禁用黄金按钮，声望 x1.8",
+        "disable_golden": true,
+        "prestige_mult": 1.8
+      },
+      {
+        "key": "blitz",
+        "name": "闪电战",
+        "tip": "10 分钟内抵达铁器时代，声望 x2.2",
+        "time_limit": 600,
+        "target_era": "iron",
+        "prestige_mult": 2.2
+      }
+    ]
+  },
+  "add": {}
+}

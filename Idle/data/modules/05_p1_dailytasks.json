@@ -1,0 +1,15 @@
+{
+  "id": "p1_dailytasks",
+  "description": "日常任务：每日刷新，进度追踪 + 领取奖励（金币 / 声望）。独立于每日登录连击奖励。",
+  "extend": {},
+  "add": {
+    "daily_tasks": [
+      { "key": "dt_click",    "name": "点击达人", "desc": "今日点击 200 次",          "type": "clicks",     "target": 200, "reward": { "type": "gold",     "value": 5000 } },
+      { "key": "dt_upgrade",  "name": "采购狂",   "desc": "今日购买 10 次升级",        "type": "upgrades",   "target": 10,  "reward": { "type": "gold",     "value": 20000 } },
+      { "key": "dt_era",      "name": "纪元探索", "desc": "今日抵达青铜时代",          "type": "reach_era",  "target": 1,   "reward": { "type": "gold",     "value": 50000 } },
+      { "key": "dt_challenge","name": "试炼者",   "desc": "今日完成 1 次挑战",         "type": "challenges", "target": 1,   "reward": { "type": "prestige", "value": 1 } },
+      { "key": "dt_equip",    "name": "武装起来", "desc": "累计装备 4 件装备",          "type": "equip_count","target": 4,   "reward": { "type": "gold",     "value": 30000 } },
+      { "key": "dt_hero",     "name": "英雄成长", "desc": "任一英雄达到 10 级",         "type": "hero_level", "target": 10,  "reward": { "type": "prestige", "value": 1 } }
+    ]
+  }
+}

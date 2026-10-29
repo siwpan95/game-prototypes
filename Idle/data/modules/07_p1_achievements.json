@@ -1,0 +1,13 @@
+{
+  "id": "p1_achievements",
+  "description": "P1 成就扩展：复用既有条件类型（heroes/challenges/prestiges/total_upgrades），无需引擎改动。",
+  "extend": {
+    "achievements": [
+      { "key": "hero_5",           "name": "死灵降临", "desc": "招募全部五位英雄",          "icon": "💀", "condition": { "type": "heroes", "value": 5 },         "reward": { "type": "dps_mult",   "value": 0.05 } },
+      { "key": "challenge_5",      "name": "试炼大师", "desc": "完成 5 次挑战",              "icon": "🏅", "condition": { "type": "challenges", "value": 5 },     "reward": { "type": "dps_mult",   "value": 0.05 } },
+      { "key": "prestige_10",      "name": "十世修行", "desc": "完成 10 次转生",             "icon": "♻",  "condition": { "type": "prestiges", "value": 10 },    "reward": { "type": "click_mult", "value": 0.05 } },
+      { "key": "upg_500",          "name": "机械飞升", "desc": "累计购买 500 次升级",        "icon": "📈", "condition": { "type": "total_upgrades", "value": 500 }, "reward": { "type": "dps_mult",   "value": 0.03 } }
+    ]
+  },
+  "add": {}
+}

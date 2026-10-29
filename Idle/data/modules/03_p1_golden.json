@@ -1,0 +1,41 @@
+{
+  "id": "p1_golden",
+  "description": "黄金按钮扩展：多种增益变体（狂热/溢流/掠夺/丰收/幸运）+ 黄金升级（商店·黄金类目）。",
+  "extend": {
+    "upgrades": [
+      {
+        "key": "golden_duration", "category": "golden", "era": "iron", "name": "黄金延时",
+        "description": "黄金增益时长 +20%/级: ({cost}): {qty}", "tip": "延长黄金增益持续时间",
+        "costs": [5000, 5000, 5000, 5000, 5000], "visibilities": [5000, 5000, 5000, 5000, 5000],
+        "limit": 5, "requires": { "key": "golden_click", "level": 1 }
+      },
+      {
+        "key": "golden_power", "category": "golden", "era": "iron", "name": "黄金强化",
+        "description": "黄金增益强度 +25%/级: ({cost}): {qty}", "tip": "增强黄金增益的数值",
+        "costs": [8000, 8000, 8000, 8000, 8000], "visibilities": [8000, 8000, 8000, 8000, 8000],
+        "limit": 5, "requires": { "key": "golden_click", "level": 1 }
+      },
+      {
+        "key": "golden_freq", "category": "golden", "era": "bronze", "name": "黄金频现",
+        "description": "黄金按钮更频繁: ({cost}): {qty}", "tip": "缩短黄金按钮刷新间隔",
+        "costs": [3000, 3000, 3000, 3000, 3000], "visibilities": [3000, 3000, 3000, 3000, 3000],
+        "limit": 5, "requires": { "key": "golden_click", "level": 1 }
+      },
+      {
+        "key": "golden_luck", "category": "golden", "era": "iron", "name": "黄金幸运",
+        "description": "更易触发「幸运」黄金: ({cost}): {qty}", "tip": "提高幸运/即时黄金出现概率",
+        "costs": [8000, 8000, 8000, 8000, 8000], "visibilities": [8000, 8000, 8000, 8000, 8000],
+        "limit": 5, "requires": { "key": "golden_click", "level": 1 }
+      }
+    ]
+  },
+  "add": {
+    "golden_variants": [
+      { "key": "frenzy",   "name": "黄金狂热", "icon": "🔥", "tip": "点击力大幅提升",   "effect_type": "click_mult", "value": 1024, "duration": 16, "weight": 30, "color": "#ffaa00" },
+      { "key": "overflow", "name": "黄金溢流", "icon": "🌊", "tip": "DPS x5",          "effect_type": "dps_mult",   "value": 5,    "duration": 12, "weight": 25, "color": "#0ea5e9" },
+      { "key": "plunder",  "name": "黄金掠夺", "icon": "💰", "tip": "金币收益 x3",     "effect_type": "gold_mult",  "value": 3,    "duration": 20, "weight": 20, "color": "#f59e0b" },
+      { "key": "harvest",  "name": "黄金丰收", "icon": "🌟", "tip": "掉率 x8",         "effect_type": "drop_mult", "value": 8,    "duration": 30, "weight": 15, "color": "#10b981" },
+      { "key": "lucky",    "name": "黄金幸运", "icon": "🍀", "tip": "立刻获得大额金币", "effect_type": "instant",    "value": 300,  "duration": 0,  "weight": 10, "color": "#a78bfa" }
+    ]
+  }
+}
