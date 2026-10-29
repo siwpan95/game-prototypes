@@ -1,0 +1,23 @@
+OK  : value_noise 返回同形数组 (24,32)
+OK  : value_noise 浮点且范围 0..1
+OK  : perlin_noise 返回同形数组 (24,32)
+OK  : perlin_noise 浮点且范围 0..1
+OK  : fractal_noise 返回同形数组 (24,32)
+OK  : fractal_noise 范围 0..1
+OK  : value_noise 标量输入返回标量
+OK  : dungeon grid 形状 (30,50)
+OK  : dungeon grid 仅含 0/1
+OK  : dungeon 至少 1 个房间
+OK  : dungeon connections 为列表
+OK  : namegen 返回 12 个名称
+OK  : namegen 返回字符串且首字母大写
+OK  : namegen(sci) 返回 5 个名称
+OK  : loot roll 返回列表且数量>=20
+OK  : loot 元素均为字符串
+OK  : heightmap 形状 (64,96)
+OK  : heightmap 为 float32
+OK  : heightmap 范围 0..1
+OK  : classify 与 heightmap 同形
+OK  : classify 类别在 0..3
+
+全部冒烟测试通过 [OK]

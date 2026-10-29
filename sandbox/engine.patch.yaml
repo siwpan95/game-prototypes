@@ -1,0 +1,7 @@
+engine: alloy
+engine_version: 1.0.0
+synced_at: '2026-08-28 10:20:00'
+customized_files: []
+take_base: [*]
+upgrades_applied: [test\test_trpg.py, trpg\__init__.py, trpg\attributes.py, trpg\background.py, trpg\character.py, trpg\combat.py, trpg\context.py, trpg\data.py, trpg\derived.py, trpg\dice.py, trpg\equipment.py, trpg\feats.py, trpg\perks.py, trpg\preset.py, trpg\race.py, trpg\rest.py, trpg\sheet.py, trpg\skills.py, trpg\slots.py, trpg\techniques.py, .gitignore, LICENSE, __init__.py, ai\dialogue.py, ai\generator.py, ai\narrative.py, audio\audio_system.py, audio\synth.py, cli.py, core\config_loader.py, core\context.py, core\data_library.py, core\deps.py, core\ecs.py, core\event_bus.py, core\plugins.py, core\serializable.py, core\world_log.py, fx\particle.py, render\animation.py, render\color_system.py, render\formula_engine.py, systems\MOD_SCHEMA.md, systems\__init__.py, systems\combat\__init__.py, systems\combat\combat_engine.py, systems\command.py, systems\input.py, systems\inventory.py, systems\puzzle.py, systems\save_load.py, test\probe.py, test\run_all.py, test\runner.py, test\test_context.py, utils\font.py, utils\json_loader.py, utils\logger.py, utils\text_fmt.py, world\character.py, world\game_state.py, world\item.py, world\map_data.py, world\map_graph.py, world\room.py]
+config:

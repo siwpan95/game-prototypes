@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "procgen"
+version = "0.1.0"
+description = "程序化生成工具包：噪声/地牢/名字/掉落/地形（纯 Python + numpy）"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+cli = ["Pillow>=10.0.0"]
+
+[tool.setuptools]
+packages = ["procgen"]

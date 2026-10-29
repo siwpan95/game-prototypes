@@ -1,0 +1,7 @@
+# alloy dependencies (auto-generated 2026-08-20)
+asteval
+numpy
+ollama
+pygame-ce
+requests
+# local deps (sibling projects, not pip): alloy
