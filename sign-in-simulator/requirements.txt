@@ -1,0 +1,3 @@
+# qiandao dependencies (auto-generated 2026-08-20)
+pandas
+# local deps (sibling projects, not pip): qiandao
