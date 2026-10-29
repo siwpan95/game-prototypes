@@ -1,0 +1,28 @@
+# Python
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 虚拟环境
+.venv/
+venv/
+
+# 构建与 IDE
+build/
+dist/
+.vscode/
+.idea/
+
+# 系统文件
+Thumbs.db
+.DS_Store
+
+# 运行时产物：截图 / 录像 / 存档（可复现，不入库）
+shots/
+recordings/
+saves/
+*.mc3d
+
+# 资源包（Phase 3-D）：演示包由 `examples/make_pack.py` 当场算出来
+# （与 `textures.py` 的"磁盘上只有生成规则"同一条纪律：仓里不带二进制素材）
+packs/

@@ -1,0 +1,11 @@
+# mcclone3d 依赖
+#
+# 引擎 world3d 现在是 **PyPI 包**（发行名 `3dworld`）⇒ 写在这里，`pip install -r` 一步到位。
+# 实测：干净 venv 里只装这两行、**不设** MC3D_ENGINE_ROOT，
+#       18/18 模块 273 项单测 + 19 条 headless 验收全过。
+#
+# ⚠ 开发**引擎本身**（改 3dworld 源码 / 跑未发布的改动）时不要靠这一行：
+#   设 MC3D_ENGINE_ROOT 指向本地检出，它会盖住这里装的包
+#   （`mcclone3d/_engine.py` 里本地检出**优先**；设了却没生效会**响亮抛错**，不静默降级）。
+3dworld>=0.1.0,<0.2
+pyglet>=2.1,<3

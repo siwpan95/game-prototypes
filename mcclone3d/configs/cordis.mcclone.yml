@@ -1,0 +1,40 @@
+# mcclone3d · cordis.yml 配置树
+#
+# 本文件**同时是 demo 的实际挂载声明**：examples/mcclone3d.py 与 cli.py 都走
+#   _engine.setup()  →  registry.SERVICES['mcclone'] = mcclone3d.kernel:McCloneKernel
+#   host.tree.mount_tree(<本文件>, want=WANT_MCCLONE)
+# 即「demo 怎么挂的 = headless 验收怎么挂的」，接线只有这一份。
+#
+# 运行（headless 验收）：python -m mcclone3d.cli --all
+#
+# 字段说明：
+#   seed     —— 世界种子（同种子 ⇒ 同地形/同矿脉/同树，录制与验收可锁定）
+#   size     —— 世界水平边长（格），必须是 16 的整数倍
+#   height   —— 世界高度（格），必须是 16 的整数倍
+#   creative —— True = 创造模式（无限方块、可飞；Phase 0 的默认玩法）
+#   reach    —— 准星够得着的距离（格）
+#   hotbar   —— hotbar 里的方块名（顺序即 1-9 键的顺序）
+#   smooth   —— 顶点级 AO（平滑光照）；false = 关（截图拍对照用）
+#   pack     —— 资源包（Phase 3-D）：包 id（packs/<id>）或目录路径；不写 = 纯程序化
+- name: mcclone
+  id: mcclone                 # 与 name 一致：服务按 name 注册，id 只是本 entry 的标识
+  config:
+    seed: 20261014
+    size: 256
+    height: 64
+    creative: true
+    reach: 5.0
+    # pack: autumn            # 想固定用某个包就把这行放开；也可以命令行 `--pack <id>`
+    hotbar:
+      - grass
+      - dirt
+      - stone
+      - sand
+      - log
+      - planks
+      - glass
+      - cobble
+      # 第 9 格给附魔台（Phase 3-E）：demo 没有物品栏 GUI，合成出来的东西必须能在
+      # hotbar 里选到才放得下去。原第 9 格是 brick —— 砖块在创造模式下仍可从背包
+      # 取用（`START_STOCK`），而且它是这 9 个里唯一没有配方的装饰方块。
+      - enchant_table
