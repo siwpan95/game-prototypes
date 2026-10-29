@@ -1,0 +1,58 @@
+[
+  {
+    "event_id": "ch05_arrival",
+    "type": "story",
+    "title": "第五试炼：奥革阿斯牛棚",
+    "text": "三十年的污秽堆积如山。奥革阿斯王轻蔑地看着你：“一年都清不完的活，你想一日完成？”他的嘲笑在宫殿中回荡。污秽的气息令人作呕——但你必须在此工作。",
+    "options": [
+      {"text": "默默开始清理，拒绝争辩", "effects": {"智慧": 1}, "branch": "work"},
+      {"text": "要求王支付报酬，否则离去", "effects": {"荣耀": -1}, "branch": "bargain"}
+    ]
+  },
+  {
+    "event_id": "ch05_labor",
+    "type": "story",
+    "title": "污秽之海",
+    "text": "牛粪堆积如山，每铲都是煎熬。更糟糕的是，污秽似乎在侵蚀你的灵魂——你的神恩在流失。阿尔甫斯河就在不远处，也许……",
+    "options": [
+      {
+        "text": "引阿尔甫斯河水冲刷牛棚",
+        "effects": {"智慧": 3, "神恩": -3},
+        "required_stat": {"智慧": 6},
+        "fail_text": "河水冲垮了部分建筑，你被处罚。",
+        "fail_effects": {"生命": -1, "神恩": -2},
+        "branch": "flood",
+        "set_world_state": {"flooded_village": true, "filth_cleared": true}
+      },
+      {
+        "text": "一铲一铲，亲手清理",
+        "effects": {"神恩": 2, "疯狂": 1},
+        "required_stat": {"力量": 5},
+        "fail_text": "污秽太多，你累倒了。",
+        "fail_effects": {"生命": -2, "疯狂": 1},
+        "branch": "clean",
+        "set_world_state": {"filth_cleared": true, "active_mechanic": "filth"}
+      }
+    ]
+  },
+  {
+    "event_id": "ch05_twist",
+    "type": "story",
+    "title": "污秽之语",
+    "text": "清理过半，污秽中传来低语。“加入我们……”腐败之声钻入耳膜。这些粪便并非寻常之物——它们是奥革阿斯王献祭给冥神的祭品腐烂而成。污秽正侵蚀你的神恩，每呼吸一口都在远离神明。",
+    "options": [
+      {"text": "亵渎祭品，加速清理", "effects": {"神恩": -2, "智慧": 1}, "branch": "desecrate", "set_world_state": {"desecrated_offering": true}},
+      {"text": "净化祭品，再行清理", "effects": {"神恩": 1, "生命": -1}, "required_stat": {"神恩": 4}, "fail_text": "净化仪式失败，污秽反噬。", "fail_effects": {"疯狂": 1}, "branch": "purify"}
+    ]
+  },
+  {
+    "event_id": "ch05_aftermath",
+    "type": "story",
+    "title": "国王的承诺",
+    "text": "一日之内，牛棚焕然一新。奥革阿斯王震惊了——但他拒绝支付报酬，声称你事先不知情。这是欺骗！你转身离开，心中种下怨恨的种子。",
+    "options": [
+      {"text": "记下这笔账，总有一天会清算", "effects": {"疯狂": 1}, "branch": "continue"},
+      {"text": "放下怨恨，继续前行", "effects": {"神恩": 1}, "branch": "continue"}
+    ]
+  }
+]

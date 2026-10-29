@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "beowulf_ch01_arrival",
+    "type": "story",
+    "title": "格伦德尔的阴影",
+    "text": "赫罗特大殿笼罩在恐惧之中。十二年来，巨魔格伦德尔每夜侵袭，将战士们从睡梦中拖走撕碎。你站在殿外，感受到大地的战栗——它在靠近。北风呼啸，荣耀将在今夜接受检验。",
+    "options": [
+      {"text": "在殿中等待，徒手迎战格伦德尔", "effects": {"荣耀": 2}, "branch": "bold"},
+      {"text": "在黑暗中布置陷阱，以逸待劳", "effects": {"智慧": 1}, "branch": "plan"}
+    ]
+  },
+  {
+    "event_id": "beowulf_ch01_combat",
+    "type": "story",
+    "title": "黑夜中的搏斗",
+    "text": "格伦德尔如夜魇般闯入殿中，它的爪子可以撕裂钢铁。但你没有逃跑——你抓住了那只魔爪，紧紧不放。巨魔惊恐地挣扎，却发现无法逃脱你的铁握。这一刻，人类的意志压倒了古老的黑暗。",
+    "options": [
+      {
+        "text": "徒手扯断格伦德尔的臂膀",
+        "effects": {"荣耀": 4, "力量": 2, "生命": -2},
+        "difficulty": 14,
+        "check_stat": "力量",
+        "fail_text": "格伦德尔的力量超乎想象，你被甩出，肋骨断裂。",
+        "fail_effects": {"生命": -3, "疯狂": 1},
+        "branch": "strength",
+        "set_world_state": {"grendel_arm_torn": true}
+      },
+      {
+        "text": "利用殿柱的夹角固定住它，引兄弟们围攻",
+        "effects": {"荣耀": 2, "智慧": 1, "神恩": 1},
+        "difficulty": 10,
+        "check_stat": "智慧",
+        "fail_text": "战友们的阵型被格伦德尔打乱，你受到波及。",
+        "fail_effects": {"生命": -1},
+        "branch": "tactics"
+      }
+    ]
+  },
+  {
+    "event_id": "beowulf_ch01_aftermath",
+    "type": "story",
+    "title": "赫罗特的黎明",
+    "text": "格伦德尔的臂膀高悬于赫罗特殿顶，血迹像一幅残酷的旗帜。赫罗斯加王的泪水流淌，他握住你的双手许久无言。宴席开始了，诗人唱起了你的名字。但你知道——格伦德尔的母亲，还在等待复仇。",
+    "options": [
+      {"text": "享受荣耀，明日再战", "effects": {"荣耀": 2, "生命": 1}, "branch": "feast"},
+      {
+        "text": "主动出击，追杀格伦德尔之母",
+        "effects": {"荣耀": 3, "生命": -1},
+        "branch": "pursue",
+        "grant_relic": "golden_apple"
+      }
+    ]
+  }
+]

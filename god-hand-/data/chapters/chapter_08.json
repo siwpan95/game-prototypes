@@ -1,0 +1,58 @@
+[
+  {
+    "event_id": "ch08_arrival",
+    "type": "story",
+    "title": "第八试炼：狄俄墨得斯牝马",
+    "text": "色雷斯的悬崖上，巨大的马厩散发着血腥味。这些马——以人肉为食——比任何野兽都更加疯狂。它们的主人狄俄墨得斯是个残忍的暴君，用囚犯喂养他的怪物。",
+    "options": [
+      {"text": "制定作战计划，了解马厩布局", "effects": {"智慧": 1}, "branch": "plan"},
+      {"text": "趁夜色突袭，先解决守卫", "effects": {"力量": 1}, "branch": "attack"}
+    ]
+  },
+  {
+    "event_id": "ch08_combat",
+    "type": "story",
+    "title": "人肉之宴",
+    "text": "马厩的门打开了——里面关着十几匹食人巨马。它们嗅到了生人的气息，齐齐嘶鸣。更糟的是，狄俄墨得斯带着卫兵出现了。",
+    "options": [
+      {
+        "text": "将国王丢入马槽，以暴制暴",
+        "effects": {"疯狂": 3, "力量": 2},
+        "required_stat": {"力量": 8},
+        "fail_text": "你寡不敌众，被卫兵围攻。",
+        "fail_effects": {"生命": -2, "疯狂": 2},
+        "branch": "madness",
+        "set_world_state": {"fed_king_to_mares": true, "bloodlust_relic": true},
+        "grant_relic": "bloodlust_harness"
+      },
+      {
+        "text": "徒手制服马群，解救囚犯",
+        "effects": {"荣耀": 3, "生命": -2, "疯狂": 1},
+        "required_stat": {"力量": 7},
+        "fail_text": "马群太过狂暴，你被踢飞。",
+        "fail_effects": {"生命": -3},
+        "branch": "glory",
+        "set_world_state": {"horses_tamed": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch08_twist",
+    "type": "story",
+    "title": "人性的重量",
+    "text": "你带着马群离开。但它们的眼神变了——不再是野兽的凶光，而是人的悲悯。它们吃过国王，如今用国王的眼睛看着你。“你和我们，有什么区别？”那眼神在问。",
+    "options": [
+      {"text": "驱散马群，独自前行", "effects": {"疯狂": 1, "荣耀": -1}, "branch": "release", "set_world_state": {"mares_released": true}},
+      {"text": "驯服马群，带它们回去", "effects": {"力量": 1, "神恩": -1}, "branch": "keep", "set_world_state": {"mares_kept": true}}
+    ]
+  },
+  {
+    "event_id": "ch08_aftermath",
+    "type": "story",
+    "title": "暴君的终结",
+    "text": "狄俄墨得斯死了——被他自己的马分食。你带着牝马群离开，从未回头。那些马现在温顺如羊，嗅不出曾经的嗜血本性。嗜血缰绳缠在你腰间，吸收了马群的野性。",
+    "options": [
+      {"text": "带着战利品返回", "effects": {"荣耀": 2}, "branch": "continue"}
+    ]
+  }
+]

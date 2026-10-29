@@ -1,0 +1,57 @@
+[
+  {
+    "event_id": "ch09_arrival",
+    "type": "story",
+    "title": "第九试炼：希波吕忒腰带",
+    "text": "亚马逊女战士的马蹄声在远处回响。女王希波吕忒英姿飒爽，但她腰间那条战神 Ares 的腰带，是你此行的目标。赫拉的低语在你耳边响起：“她们会攻击你。先下手为强。”",
+    "options": [
+      {"text": "礼貌求见，请求和平商议", "effects": {"神恩": 1}, "branch": "peace"},
+      {"text": "保持警惕，观察亚马逊动向", "effects": {"智慧": 1}, "branch": "watch"}
+    ]
+  },
+  {
+    "event_id": "ch09_treachery",
+    "type": "story",
+    "title": "谣言与怀疑",
+    "text": "亚马逊人的态度在一天之内转变。希波吕忒的眼神从好奇变成了敌意——赫拉的谣言已经传开。“你是来偷我们的宝藏的！”女战士们举起了长矛。",
+    "options": [
+      {
+        "text": "突袭女王，用武力夺取腰带",
+        "effects": {"荣耀": 4, "神恩": -4},
+        "required_stat": {"力量": 8},
+        "fail_text": "你寡不敌众，被女战士们俘虏。",
+        "fail_effects": {"生命": -3, "疯狂": 2},
+        "branch": "war",
+        "set_world_state": {"amazon_massacre": true, "hippolyta_belt": true}
+      },
+      {
+        "text": "拆穿赫拉的诡计，请求对话",
+        "effects": {"神恩": 3, "智慧": 2},
+        "required_stat": {"智慧": 7},
+        "fail_text": "女王不相信你，命令你离开。",
+        "fail_effects": {"荣耀": -2},
+        "branch": "peace",
+        "set_world_state": {"hippolyta_respected": true, "hera_curse": true}
+      }
+    ]
+  },
+  {
+    "event_id": "ch09_twist",
+    "type": "story",
+    "title": "临终之言",
+    "text": "希波吕忒倒在血泊中（或被你尊重地送别）。她抓住你的手腕，气若游丝。“腰带……不是战利品，”她低语，“它是诅咒。每个拥有它的男人，都会被战争吞噬。”她的眼睛渐渐失去光芒。",
+    "options": [
+      {"text": "佩戴腰带，接受诅咒", "effects": {"力量": 2, "疯狂": 1}, "branch": "wear", "set_world_state": {"belt_worn": true}},
+      {"text": "封存腰带，拒绝诅咒", "effects": {"神恩": 1, "荣耀": -1}, "required_stat": {"智慧": 6}, "fail_text": "腰带的力量诱惑着你。", "fail_effects": {"疯狂": 1}, "branch": "seal", "set_world_state": {"belt_sealed": true}}
+    ]
+  },
+  {
+    "event_id": "ch09_aftermath",
+    "type": "story",
+    "title": "战神的礼物",
+    "text": "无论你选择了哪条路，腰带现在在你手中。它散发着血腥的气息，诉说着一场又一场战争。赫拉在云端冷笑——她从不放过挑拨离间的机会。",
+    "options": [
+      {"text": "带着战利品离开亚马逊", "effects": {"荣耀": 1}, "branch": "continue"}
+    ]
+  }
+]

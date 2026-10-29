@@ -1,0 +1,55 @@
+[
+  {
+    "event_id": "kratos_ch03_arrival",
+    "type": "story",
+    "title": "宙斯的审判",
+    "text": "奥林匹斯山颤抖着。宙斯站在王座上，闪电照亮了他愤怒的脸。\"我的儿子，\"他说——那两个字像刀一样割进你的心脏。\"你以为你能逃脱命运吗？奥林匹斯的毁灭者，是时候终结了。\"命运的三姐妹在旁低声窃笑。",
+    "options": [
+      {"text": "质问宙斯为何欺骗你", "effects": {"荣耀": 1, "疯狂": 1}, "branch": "confront"},
+      {"text": "沉默，让愤怒替你说话", "effects": {"力量": 1, "疯狂": 2}, "branch": "silent_rage"}
+    ]
+  },
+  {
+    "event_id": "kratos_ch03_combat",
+    "type": "story",
+    "title": "父与子的终战",
+    "text": "宙斯的闪电将大地劈裂，你的身躯在雷光中燃烧。但你还没有倒下。盘古之血——斯巴达人的顽强——你爬起来，又一次。宙斯的脸上出现了难以置信的神情。\"你……怎么还站着？\"你走向他，一步，一步，又一步。",
+    "options": [
+      {
+        "text": "以希望之力（而非仇恨）终结这一切",
+        "effects": {"荣耀": 5, "疯狂": -3, "神恩": 3},
+        "difficulty": 18,
+        "check_stat": "力量",
+        "fail_text": "希望的力量在仇恨面前几乎消散，宙斯的闪电击中了你。",
+        "fail_effects": {"生命": -3, "疯狂": 2},
+        "branch": "hope",
+        "set_world_state": {"zeus_slain": true, "hope_released": true}
+      },
+      {
+        "text": "用尽全部仇恨和力量，将他打倒",
+        "effects": {"力量": 3, "疯狂": 5, "神恩": -5, "荣耀": 2},
+        "difficulty": 15,
+        "check_stat": "力量",
+        "fail_text": "宙斯的力量远超想象，你几乎精尽力竭。",
+        "fail_effects": {"生命": -2, "疯狂": 3},
+        "branch": "rage_kill",
+        "set_world_state": {"zeus_slain": true, "world_destroyed": true}
+      }
+    ]
+  },
+  {
+    "event_id": "kratos_ch03_aftermath",
+    "type": "story",
+    "title": "奥林匹斯的沉默",
+    "text": "宙斯倒下了。奥林匹斯颤抖，随后崩塌。世界陷入了混沌——但你站着。混沌之刃落在地上，发出沉重的声响。你望着自己的双手——灰白色的，永远洗不去的。这就是你想要的吗？复仇已成，但空洞填满了一切。",
+    "options": [
+      {
+        "text": "将生命中最后的希望释放，赋予世界",
+        "effects": {"神恩": 5, "疯狂": -5, "荣耀": 3, "生命": -3},
+        "branch": "redemption",
+        "set_world_state": {"kratos_redeemed": true}
+      },
+      {"text": "离开，寻找新的开始", "effects": {"荣耀": 2, "疯狂": -2}, "branch": "exile"}
+    ]
+  }
+]

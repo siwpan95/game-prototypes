@@ -1,0 +1,32 @@
+[
+  {
+    "event_id": "ch13_arrival",
+    "type": "story",
+    "title": "第十三试炼：被遗忘的回响",
+    "text": "三场试炼已尽，你本该归来。但冥界之门在你身后并未合拢。一个没有面孔的身影从虚空中走出——它有着你的身形，你的呼吸，却没有你的名字。“我是你未曾走过的路，”它说，“第十三试炼，从未被记载。因为通过它的人，都选择了被遗忘。”",
+    "options": [
+      {"text": "直面无面者，质问其身份", "effects": {"智慧": 1}, "branch": "face"},
+      {"text": "转身逃离，拒绝这场试炼", "effects": {"疯狂": 2}, "branch": "flee", "set_world_state": {"fled_thirteenth": true}}
+    ]
+  },
+  {
+    "event_id": "ch13_confrontation",
+    "type": "story",
+    "title": "命运的镜像",
+    "text": "无面者化作你的模样——但它比你更完整。它拥有你没有做出的选择，承担了你逃避的代价。“你害怕成为我，”它说，“但你也害怕不成为我。”它递来一顶荆棘编织的王冠，戴上它，便能看见一切真相——代价是永恒的疯狂。",
+    "options": [
+      {"text": "戴上疯狂之冠，直视真相", "effects": {"疯狂": 3, "智慧": 3}, "branch": "crown", "grant_relic": "madness_crown", "set_world_state": {"wore_madness_crown": true}},
+      {"text": "拒绝王冠，以凡人之躯抗衡", "effects": {"生命": -2, "荣耀": 3}, "required_stat": {"荣耀": 10}, "fail_text": "你的凡人之躯无法承受它的存在。", "fail_effects": {"疯狂": 2}, "branch": "mortal", "set_world_state": {"rejected_crown": true}}
+    ]
+  },
+  {
+    "event_id": "ch13_aftermath",
+    "type": "story",
+    "title": "被遗忘的终章",
+    "text": "无面者消散了——或者，它从未存在过。你独自站在虚空之中，身后是十二试炼的辉煌，前方是无尽的遗忘。你做出了选择，但没有人会记得。这，就是第十三试炼。",
+    "options": [
+      {"text": "接受被遗忘的命运", "effects": {"神恩": 2}, "branch": "accept", "set_world_state": {"accepted_oblivion": true}},
+      {"text": "拒绝遗忘，留下自己的印记", "effects": {"荣耀": 2, "疯狂": 1}, "branch": "defy", "set_world_state": {"defied_oblivion": true}}
+    ]
+  }
+]

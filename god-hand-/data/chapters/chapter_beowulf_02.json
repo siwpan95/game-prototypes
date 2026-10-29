@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "beowulf_ch02_arrival",
+    "type": "story",
+    "title": "水下魔窟",
+    "text": "格伦德尔之母藏身于黑暗的水底魔窟。你跳入湖中，潜水半日才看到了她的巢穴。四周浸泡着战士的骨骸，墙上挂满锈蚀的武器。她比她的儿子更强大，更古老，更充满仇恨。",
+    "options": [
+      {"text": "检视周围的武器，寻找可用之物", "effects": {"智慧": 1}, "branch": "search"},
+      {"text": "直接发起攻击，趁她不备", "effects": {"荣耀": 1, "疯狂": 1}, "branch": "charge"}
+    ]
+  },
+  {
+    "event_id": "beowulf_ch02_combat",
+    "type": "story",
+    "title": "古剑的奇迹",
+    "text": "你的剑无法伤她分毫，她的爪子将你砸入地面。就在危急关头，你看见墙上挂着一把巨大的古剑——那是巨人时代的遗物，只有英雄才能举起。",
+    "options": [
+      {
+        "text": "奋力举起古剑，斩向她的颈项",
+        "effects": {"荣耀": 4, "力量": 1, "生命": -1},
+        "difficulty": 13,
+        "check_stat": "力量",
+        "fail_text": "古剑太重，你无法举起，她扑向了你。",
+        "fail_effects": {"生命": -2, "疯狂": 2},
+        "branch": "ancient_sword",
+        "set_world_state": {"grendel_mother_slain": true, "ancient_sword_used": true}
+      },
+      {
+        "text": "引她追逐，用水流旋涡困住她",
+        "effects": {"智慧": 3, "疯狂": -1},
+        "difficulty": 12,
+        "check_stat": "智慧",
+        "fail_text": "旋涡的力量不足，她挣脱了。",
+        "fail_effects": {"生命": -2},
+        "branch": "tactics"
+      }
+    ]
+  },
+  {
+    "event_id": "beowulf_ch02_aftermath",
+    "type": "story",
+    "title": "湖底的遗宝",
+    "text": "击败格伦德尔之母后，水底的魔法消散了，湖水开始净化。你在巢穴深处发现了格伦德尔家族世代积累的宝藏——还有一面看起来极为特别的盾牌。",
+    "options": [
+      {
+        "text": "带走盾牌，作为战利品",
+        "effects": {"荣耀": 1},
+        "branch": "take_shield",
+        "grant_relic": "athena_shield"
+      },
+      {"text": "留下财宝，只带走荣耀", "effects": {"荣耀": 2, "神恩": 2}, "branch": "honor"}
+    ]
+  }
+]

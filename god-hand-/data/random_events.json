@@ -1,0 +1,153 @@
+[
+  {
+    "event_id": "god_whisper",
+    "type": "random",
+    "title": "神祇的低语",
+    "text": "雅典娜的声音在你脑海响起，冰冷而甜美。“我看到了你的命运，孩子。虔诚聆听，我将指引你。”她的声音如丝般缠绕。",
+    "conditions": {"logic": "AND", "rules": [{"type": "stat", "name": "神恩", "op": ">=", "value": 5}]},
+    "options": [
+      {
+        "text": "虔诚聆听，请求雅典娜的指引",
+        "effects": {"神恩": 2, "疯狂": -1},
+        "set_world_state": {"pledged_to_athena": true}
+      },
+      {
+        "text": "捂住耳朵，凡人自决命运",
+        "effects": {"荣耀": 1, "神恩": -2}
+      },
+      {
+        "text": "向雅典娜索要更具体的帮助",
+        "effects": {"神恩": -1, "疯狂": 1},
+        "required_stat": {"智慧": 8},
+        "fail_text": "雅典娜对你索求无度感到不悦。",
+        "fail_effects": {"神恩": -3}
+      }
+    ]
+  },
+  {
+    "event_id": "nightmare",
+    "type": "random",
+    "title": "噩梦侵袭",
+    "text": "你梦见自己变成一头野兽，利爪撕裂你最爱的人的胸膛。血是温热的，梦是漫长的。当你尖叫着醒来，手上似乎还有余温。",
+    "conditions": {"logic": "AND", "rules": [{"type": "stat", "name": "疯狂", "op": ">=", "value": 8}]},
+    "options": [
+      {
+        "text": "从梦中惊醒，检查自己的双手",
+        "effects": {"生命": -1, "疯狂": 1}
+      },
+      {
+        "text": "沉溺于血腥的梦境，继续沉睡",
+        "effects": {"疯狂": 2, "荣耀": -1}
+      }
+    ]
+  },
+  {
+    "event_id": "wounded_soldier",
+    "type": "random",
+    "title": "垂死的士兵",
+    "text": "路边躺着一个濒死的战士，他的盔甲上刻着你熟悉的徽章——是你曾经的战友。他伸出沾血的手，向你要水。",
+    "options": [
+      {
+        "text": "将自己的水囊递给他",
+        "effects": {"生命": -1, "荣耀": 2}
+      },
+      {
+        "text": "取走他的剑，继续赶路",
+        "effects": {"荣耀": -2, "疯狂": 1}
+      },
+      {
+        "text": "让他安详离去，减轻痛苦",
+        "effects": {"神恩": 1, "疯狂": -1},
+        "set_world_state": {"merciful_act": true}
+      }
+    ]
+  },
+  {
+    "event_id": "merchant",
+    "type": "random",
+    "title": "神秘的商人",
+    "text": "一个黑袍人从阴影中现身，他的眼睛闪烁着金光。“英雄，”他沙哑地说，“我有一些……特殊商品。你愿意用什么来交换？”他从斗篷下取出一件泛着幽光的遗物。",
+    "conditions": {"logic": "AND", "rules": [{"type": "stat", "name": "疯狂", "op": ">=", "value": 5}]},
+    "options": [
+      {
+        "text": "用一部分人性换取遗物",
+        "effects": {"疯狂": 3},
+        "branch": "corruption",
+        "grant_relic": "shadow_amulet"
+      },
+      {
+        "text": "拒绝交易，继续前行",
+        "effects": {"神恩": 1},
+        "branch": "purity"
+      },
+      {
+        "text": "尝试欺骗商人",
+        "effects": {"疯狂": 1, "智慧": 1},
+        "required_stat": {"智慧": 7},
+        "fail_text": "商人识破了你的谎言，消失在阴影中。",
+        "fail_effects": {"疯狂": 2}
+      }
+    ]
+  },
+  {
+    "event_id": "graveyard",
+    "type": "random",
+    "title": "亡者的墓地",
+    "text": "你路过一片古老的墓地。墓碑上刻着你曾杀死的敌人的名字。他们的灵魂从地下升起，眼中燃烧着怨恨。",
+    "conditions": {"logic": "AND", "rules": [{"type": "stat", "name": "生命", "op": "<", "value": 3}]},
+    "options": [
+      {
+        "text": "请求亡者的宽恕",
+        "effects": {"疯狂": -2, "神恩": 2},
+        "set_world_state": {"ghost_forgiven": true}
+      },
+      {
+        "text": "无视他们，继续前行",
+        "effects": {"疯狂": 1, "荣耀": -1}
+      },
+      {
+        "text": "战斗，消灭这些怨灵",
+        "effects": {"生命": -1, "疯狂": 1},
+        "required_stat": {"力量": 8},
+        "fail_text": "怨灵太强，你被拖入黑暗。",
+        "fail_effects": {"生命": -2, "疯狂": 2},
+        "branch": "combat"
+      }
+    ]
+  },
+  {
+    "event_id": "hermes_blessing",
+    "type": "random",
+    "title": "赫尔墨斯的馈赠",
+    "text": "风神赫尔墨斯化作一道金光掠过你的头顶，一枚金色的凉鞋印留在你脚边。“快些走，”他的声音在风中回荡，“时间不等人。”",
+    "conditions": {"logic": "AND", "rules": [{"type": "stat", "name": "神恩", "op": ">=", "value": 3}]},
+    "options": [
+      {
+        "text": "感谢赫尔墨斯的恩赐",
+        "effects": {"神恩": 1, "智慧": 1}
+      },
+      {
+        "text": "请求更快的脚程",
+        "effects": {"荣耀": 1},
+        "set_world_state": {"hermes_blessed": true}
+      }
+    ]
+  },
+  {
+    "event_id": "cursed_spring",
+    "type": "random",
+    "title": "被诅咒的泉水",
+    "text": "你口渴了。眼前是一汪清澈的泉水——但水面倒映的不是你的脸，而是一头咆哮的野兽。喝，还是不喝？",
+    "options": [
+      {
+        "text": "饮下泉水",
+        "effects": {"疯狂": 2, "力量": 2},
+        "set_world_state": {"cursed_water_drank": true}
+      },
+      {
+        "text": "忍住口渴，继续前行",
+        "effects": {"生命": -1, "神恩": 1}
+      }
+    ]
+  }
+]

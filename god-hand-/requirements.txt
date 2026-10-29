@@ -1,0 +1,4 @@
+# TwelveLabors dependencies (auto-generated 2026-08-20)
+openpyxl
+pygame_ce
+pygame-ce

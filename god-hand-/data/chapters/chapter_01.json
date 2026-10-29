@@ -1,0 +1,59 @@
+[
+  {
+    "event_id": "ch01_arrival",
+    "type": "story",
+    "title": "第一试炼：涅墨亚雄狮",
+    "text": "涅墨亚山谷，刀枪不入的巨狮盘踞洞穴。血腥味在空气中弥漫。你的肌肉不自觉地绷紧——这是一场没有退路的战斗。狮皮坚硬如铁，寻常武器无法伤它分毫。",
+    "options": [
+      {"text": "检查周围环境，寻找弱点", "effects": {"智慧": 1}, "branch": "scout"},
+      {"text": "直接冲入洞穴迎战", "effects": {"荣耀": 1, "生命": -1}, "branch": "charge"}
+    ]
+  },
+  {
+    "event_id": "ch01_combat",
+    "type": "story",
+    "title": "狮子咆哮",
+    "text": "巨狮发现了你，琥珀色的眼睛燃烧着饥饿。它低吼着压低身体，准备扑击。你必须做出选择——这是一场关于力量与智慧的抉择。",
+    "options": [
+      {
+        "text": "徒手扼杀，让命运裁决",
+        "effects": {"荣耀": 3, "生命": -1},
+        "required_stat": {"力量": 7},
+        "fail_text": "你的力量不足以扼住狮喉，肋骨被利爪拍断。",
+        "fail_effects": {"生命": -2, "疯狂": 1},
+        "branch": "strength",
+        "set_world_state": {"lion_death": "violent", "lion_cape_obtained": true},
+        "grant_relic": "lion_cape"
+      },
+      {
+        "text": "诱入洞穴，用浓烟窒息",
+        "effects": {"智慧": 2, "神恩": 1},
+        "required_stat": {"智慧": 5},
+        "fail_text": "狮子识破了陷阱，纵身扑来。",
+        "fail_effects": {"生命": -1},
+        "branch": "wisdom",
+        "set_world_state": {"lion_death": "peaceful", "lion_cape_obtained": true},
+        "grant_relic": "lion_cape"
+      }
+    ]
+  },
+  {
+    "event_id": "ch01_twist",
+    "type": "story",
+    "title": "狮皮的代价",
+    "text": "狮皮剥下，却沉甸甸压在肩上——巨狮的怨念未散。一个披着鸦羽斗篷的老妪从岩石后走出，目光如炬。“狮皮认主，”她嘶哑道，“要么用你的血喂它，要么让它的灵魂啃噬你的梦。”",
+    "options": [
+      {"text": "以鲜血激活狮皮的力量", "effects": {"生命": -1, "力量": 1}, "branch": "blood", "set_world_state": {"lion_blood_pact": true}},
+      {"text": "拒绝献祭，承受狮魂低语", "effects": {"疯狂": 2, "神恩": 1}, "branch": "refuse", "set_world_state": {"lion_soul_whisper": true}}
+    ]
+  },
+  {
+    "event_id": "ch01_aftermath",
+    "type": "story",
+    "title": "狮皮披身",
+    "text": "狮子已死。它的皮毛——你剥下这不朽的铠甲，披在身上。刀枪不入的狮皮将成为你最坚实的护盾。",
+    "options": [
+      {"text": "继续前行，接受下一试炼", "effects": {}, "branch": "continue"}
+    ]
+  }
+]
