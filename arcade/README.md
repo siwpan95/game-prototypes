@@ -1,3 +1,8 @@
+> 📦 **已归档（Archived — 仅作参考）**
+> 本仓库已收入归档仓 **game-prototypes**（代码与完整 git 历史一并迁入，原仓冻结不再开发）。
+> 历史分支见归档仓的 `archive/arcade` 分支；活跃维护请前往 **game-prototypes**。
+> _This repo is archived into game-prototypes; development continues there. Do not commit here._
+
 # 街机合集 arcade
 
 > 仓库：<https://gitee.com/siwpan/arcade> ｜ 许可：MIT（见 [LICENSE](LICENSE)）
@@ -65,3 +70,18 @@ python make_release.py --only kid-a-walker --ver v1.1.0   # 单游戏 + 自定�
 ## 整合背景
 
 详见《单文件玩具整合方案_2026-08-25》：吸血鬼幸存者/公路驾驶/俄罗斯轮盘/贪吃蛇/文字传奇/挂机族等玩法重复重做已收敛（重复版删除，保留版独立成项目并登记平台）。
+
+## 独立仓收拢（2026-10-29）
+
+`games/` 下的玩法原先另有独立仓，现统一收进本仓，独立仓与远端一并撤销：
+
+| 原独立仓 | 收拢到 | 处理 |
+|---|---|---|
+| siwpan/calculator | games/calculator | 独立仓新一代（包化重构 `calculator/` + tests）已覆盖旧快照；selfcheck 退出 0、单测 77 通过 |
+| siwpan/happy-childrens-day | games/sixone | 源码本就同版；补齐 selfcheck.py / CHANGELOG.md / README.en.md / LICENSE |
+
+其余 8 个玩法（tetris/tictactoe/moyuxiaqi/kid-a-walker/ski/puzzle/2048/rider）在收拢前已无独立仓。
+归档落点：工作树 `G:\archive\<name>-retired-20261029\`，全引用 bundle `G:\archive\<name>-2026-10-29.bundle`；两侧远端已删除。
+
+> 说明：本节对应的 3 个提交落在归档声明（`905c15d`）**之后**，是冻结前的最后一笔资产收拢——
+> 按首屏归档声明「完整 git 历史一并迁入」，它们会随 `archive/arcade` 分支一并进入 game-prototypes。
