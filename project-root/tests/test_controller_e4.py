@@ -2,7 +2,7 @@
 # 控制器层无头测试（E4 存档/读档）。
 # 用 FakeGUI(ControllersMixin) 替代完整 GUI：只实现 add_log / refresh_all /
 # _draw_pathway_list 三个钩子，不实例化 tk.Tk()。gui.controllers 顶层 import
-# tkinter，因此须在带 tkinter 的 Python（F:\Python314）下运行。
+# tkinter，因此须在带 tkinter 的 Python（/Python314）下运行。
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

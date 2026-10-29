@@ -13,7 +13,7 @@ Python 3（pygame-ce + Pillow + tkinter），桌面 GUI 游戏。
 
 ## 运行方式与依赖
 ```
-F:\Python314\python.exe main.py
+/Python314/python.exe main.py
 ```
 依赖：`pygame-ce`、`Pillow`、tkinter（标准库）。GUI 窗口游戏，运行后会阻塞等待交互。
 
