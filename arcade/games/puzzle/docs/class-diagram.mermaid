@@ -1,0 +1,118 @@
+classDiagram
+    class Game {
+        +world: WorldMap
+        +renderer: Renderer
+        +synth: ZoneSynth
+        +energy: EnergySystem
+        +fragments: FragmentSystem
+        +interaction: InteractionSystem
+        +abilities: AbilitySystem
+        +exploration: ExplorationTracker
+        +sfx: SFXPlayer
+        +px: float
+        +py: float
+        +pang: float
+        +tick: int
+        +state: GameState
+        +show_fullmap: bool
+        +show_codex: bool
+        +survival_time: float
+        +run()
+        +_handle_playing(dt: float)
+        +_handle_game_over(dt: float)
+        +_restart()
+        +_update_zone()
+        +_render()
+    }
+
+    class EnergySystem {
+        +energy: float
+        +max_energy: float
+        +drain_move: float
+        +drain_red: float
+        +recover_glow: float
+        +shield_timer: float
+        +is_dead: bool
+        +update(dt: float, is_moving: bool, zone_type: int, near_glow: bool, drain_mult: float, shielded: bool)
+        +recover(amount: float)
+        +activate_shield(duration: float)
+        +is_shielded() bool
+        +get_ratio() float
+        +reset()
+    }
+
+    class FragmentSystem {
+        +collected: Dict~int, int~
+        +interacted: Dict~tuple, bool~
+        +total_types: int
+        +collect(deco_type: int, key: tuple)
+        +has_interacted(key: tuple) bool
+        +get_count(deco_type: int) int
+        +get_total() int
+        +get_unique_types() int
+        +is_all_types_collected() bool
+        +reset()
+    }
+
+    class InteractionSystem {
+        +interact_range: float
+        +find_nearest_deco(px: float, py: float, world: WorldMap, fragments: FragmentSystem) tuple
+        +is_in_range(px: float, py: float, world: WorldMap, fragments: FragmentSystem) bool
+        +interact(px: float, py: float, world: WorldMap, fragments: FragmentSystem, energy: EnergySystem) dict
+    }
+
+    class AbilitySystem {
+        +fragments: FragmentSystem
+        +danger_immune_timer: float
+        +get_depth_multiplier() float
+        +get_drain_multiplier() float
+        +get_speed_multiplier() float
+        +is_danger_immune() bool
+        +update(dt: float)
+        +_check_passives()
+    }
+
+    class ExplorationTracker {
+        +explored: Dict~tuple, bool~
+        +explore_radius: int
+        +check_and_mark(px: float, py: float, world: WorldMap)
+        +is_explored(cx: int, cy: int) bool
+        +get_explored_count() int
+        +reset()
+    }
+
+    class SFXPlayer {
+        +enabled: bool
+        +play_collect(deco_type: int)
+        +play_warning()
+        +play_shield()
+        +_synth_beep(freq: float, duration: float) Sound
+    }
+
+    class DeathScreen {
+        +calculate_score(fragments, survival_time, explored_count) int$
+        +draw(screen, f_sm, f_bg, fragments, survival_time, explored_count, tick)
+    }
+
+    class GameState {
+        <<enumeration>>
+        START_SCREEN
+        LOADING
+        PLAYING
+        PAUSED
+        GAME_OVER
+        QUIT
+    }
+
+    Game --> EnergySystem : energy
+    Game --> FragmentSystem : fragments
+    Game --> InteractionSystem : interaction
+    Game --> AbilitySystem : abilities
+    Game --> ExplorationTracker : exploration
+    Game --> SFXPlayer : sfx
+    Game --> DeathScreen : death_screen
+    Game --> GameState : state
+    AbilitySystem --> FragmentSystem : fragments
+    InteractionSystem --> WorldMap : world
+    InteractionSystem --> FragmentSystem : fragments
+    InteractionSystem --> EnergySystem : energy

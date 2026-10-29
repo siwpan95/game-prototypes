@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "game2048"
+version = "1.0.0"
+description = "分层实现的命令行 2048，含多种自动对弈策略"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+game2048 = "game2048.cli:main"
+
+[tool.setuptools]
+packages = [
+    "game2048",
+    "game2048.core",
+    "game2048.strategy",
+    "game2048.render",
+    "game2048.app",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

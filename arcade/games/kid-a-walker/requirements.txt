@@ -1,0 +1,5 @@
+# kid_a_walker dependencies (auto-generated 2026-08-20)
+numpy
+pygame-ce
+# 真 3D 渲染后端（RENDER_BACKEND="gl"）。仅在此后端启用；缺失时自动回退 enhanced。
+moderngl

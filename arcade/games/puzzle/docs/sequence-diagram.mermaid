@@ -1,0 +1,87 @@
+sequenceDiagram
+    participant Main as main()
+    participant Game as Game
+    participant ES as EnergySystem
+    participant FS as FragmentSystem
+    participant IS as InteractionSystem
+    participant AS as AbilitySystem
+    participant ET as ExplorationTracker
+    participant SFX as SFXPlayer
+    participant WM as WorldMap
+    participant R as Renderer
+    participant HUD as draw_hud()
+    participant DM as DeathScreen
+
+    Main->>Game: run()
+    loop 游戏主循环
+        alt PLAYING 状态
+            Game->>Game: _handle_playing(dt)
+            Note over Game: 1. 事件处理 (ESC/TAB/E)
+
+            alt E键按下
+                Game->>IS: interact(px, py, world, fragments, energy)
+                IS->>FS: collect(deco_type, key)
+                FS-->>IS: True (拾取成功)
+                IS-->>Game: effects dict
+                alt deco_type == 2 (发光柱)
+                    Game->>ES: recover(20)
+                else deco_type == 6 (能量核心)
+                    Game->>ES: activate_shield(10.0)
+                else deco_type == 7 (光源)
+                    Game->>ES: recover(5)
+                end
+                Game->>SFX: play_collect(deco_type)
+            end
+
+            Note over Game: 2. 移动计算 (含速度倍率)
+            Game->>AS: get_speed_multiplier()
+            AS-->>Game: speed_mult
+            Game->>Game: 计算新位置 (MOVE_SPEED * speed_mult)
+            Game->>WM: cell(nx, ny) 碰撞检测
+
+            Note over Game: 3. 能量更新
+            Game->>AS: get_drain_multiplier()
+            AS-->>Game: drain_mult
+            Game->>AS: is_danger_immune()
+            AS-->>Game: shielded
+            Game->>ES: update(dt, is_moving, zone_type, near_glow, drain_mult, shielded)
+            alt ES.is_dead
+                Game->>Game: state = GAME_OVER
+            end
+
+            Note over Game: 4. 探索追踪
+            Game->>ET: check_and_mark(px, py, world)
+
+            Note over Game: 5. 能力更新
+            Game->>AS: update(dt)
+
+            Note over Game: 6. 区域/音频/粒子
+            Game->>Game: _update_zone()
+            Game->>Game: _update_audio()
+            Game->>Game: _update_particles()
+
+            Note over Game: 7. 渲染
+            Game->>R: render_bg()
+            Game->>AS: get_depth_multiplier()
+            AS-->>Game: depth_mult
+            Game->>R: render_walls(px, py, pang, zbuf, world, effective_depth)
+            Game->>Game: 渲染粒子/扫描线/暗角
+            Game->>HUD: draw_hud(含能量/碎片/交互提示)
+            alt show_fullmap
+                Game->>Game: draw_fullmap(含探索标记/图鉴)
+            end
+
+        else GAME_OVER 状态
+            Game->>Game: _handle_game_over(dt)
+            Game->>DM: draw(screen, f_sm, f_bg, fragments, ...)
+            alt R键按下
+                Game->>Game: _restart()
+                Game->>ES: reset()
+                Game->>FS: reset()
+                Game->>ET: reset()
+                Game->>Game: state = START_SCREEN
+            else ESC键
+                Game->>Game: state = QUIT
+            end
+        end
+    end
