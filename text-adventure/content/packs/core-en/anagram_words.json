@@ -1,0 +1,205 @@
+{
+  "kind": "anagram_words",
+  "items": [
+    {
+      "id": "anagram-python",
+      "difficulty": "medium",
+      "word": "python"
+    },
+    {
+      "id": "anagram-puzzle",
+      "difficulty": "medium",
+      "word": "puzzle"
+    },
+    {
+      "id": "anagram-game",
+      "difficulty": "easy",
+      "word": "game"
+    },
+    {
+      "id": "anagram-code",
+      "difficulty": "easy",
+      "word": "code"
+    },
+    {
+      "id": "anagram-brain",
+      "difficulty": "medium",
+      "word": "brain"
+    },
+    {
+      "id": "anagram-think",
+      "difficulty": "medium",
+      "word": "think"
+    },
+    {
+      "id": "anagram-logic",
+      "difficulty": "medium",
+      "word": "logic"
+    },
+    {
+      "id": "anagram-smart",
+      "difficulty": "medium",
+      "word": "smart"
+    },
+    {
+      "id": "anagram-quick",
+      "difficulty": "medium",
+      "word": "quick"
+    },
+    {
+      "id": "anagram-solver",
+      "difficulty": "medium",
+      "word": "solver"
+    },
+    {
+      "id": "anagram-words",
+      "difficulty": "medium",
+      "word": "words"
+    },
+    {
+      "id": "anagram-letter",
+      "difficulty": "medium",
+      "word": "letter"
+    },
+    {
+      "id": "anagram-shift",
+      "difficulty": "medium",
+      "word": "shift"
+    },
+    {
+      "id": "anagram-mind",
+      "difficulty": "easy",
+      "word": "mind"
+    },
+    {
+      "id": "anagram-focus",
+      "difficulty": "medium",
+      "word": "focus"
+    },
+    {
+      "id": "anagram-spark",
+      "difficulty": "medium",
+      "word": "spark"
+    },
+    {
+      "id": "anagram-craft",
+      "difficulty": "medium",
+      "word": "craft"
+    },
+    {
+      "id": "anagram-digit",
+      "difficulty": "medium",
+      "word": "digit"
+    },
+    {
+      "id": "anagram-pixel",
+      "difficulty": "medium",
+      "word": "pixel"
+    },
+    {
+      "id": "anagram-stack",
+      "difficulty": "medium",
+      "word": "stack"
+    },
+    {
+      "id": "anagram-quest",
+      "difficulty": "medium",
+      "word": "quest"
+    },
+    {
+      "id": "anagram-riddle",
+      "difficulty": "medium",
+      "word": "riddle"
+    },
+    {
+      "id": "anagram-clue",
+      "difficulty": "easy",
+      "word": "clue"
+    },
+    {
+      "id": "anagram-hint",
+      "difficulty": "easy",
+      "word": "hint"
+    },
+    {
+      "id": "anagram-solve",
+      "difficulty": "medium",
+      "word": "solve"
+    },
+    {
+      "id": "anagram-grid",
+      "difficulty": "easy",
+      "word": "grid"
+    },
+    {
+      "id": "anagram-path",
+      "difficulty": "easy",
+      "word": "path"
+    },
+    {
+      "id": "anagram-find",
+      "difficulty": "easy",
+      "word": "find"
+    },
+    {
+      "id": "anagram-seek",
+      "difficulty": "easy",
+      "word": "seek"
+    },
+    {
+      "id": "anagram-match",
+      "difficulty": "medium",
+      "word": "match"
+    },
+    {
+      "id": "anagram-sort",
+      "difficulty": "easy",
+      "word": "sort"
+    },
+    {
+      "id": "anagram-flip",
+      "difficulty": "easy",
+      "word": "flip"
+    },
+    {
+      "id": "anagram-tile",
+      "difficulty": "easy",
+      "word": "tile"
+    },
+    {
+      "id": "anagram-turn",
+      "difficulty": "easy",
+      "word": "turn"
+    },
+    {
+      "id": "anagram-swap",
+      "difficulty": "easy",
+      "word": "swap"
+    },
+    {
+      "id": "anagram-link",
+      "difficulty": "easy",
+      "word": "link"
+    },
+    {
+      "id": "anagram-chain",
+      "difficulty": "medium",
+      "word": "chain"
+    },
+    {
+      "id": "anagram-step",
+      "difficulty": "easy",
+      "word": "step"
+    },
+    {
+      "id": "anagram-move",
+      "difficulty": "easy",
+      "word": "move"
+    },
+    {
+      "id": "anagram-play",
+      "difficulty": "easy",
+      "word": "play"
+    }
+  ]
+}

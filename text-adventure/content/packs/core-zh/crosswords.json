@@ -1,0 +1,228 @@
+{
+  "kind": "crosswords",
+  "items": [
+    {
+      "id": "crossword-01",
+      "difficulty": "medium",
+      "size": 5,
+      "words": [
+        {
+          "word": "SHALE",
+          "row": 0,
+          "col": 0,
+          "dir": "across",
+          "clue": "一种沉积岩"
+        },
+        {
+          "word": "HORSE",
+          "row": 0,
+          "col": 1,
+          "dir": "down",
+          "clue": "大型骑乘动物"
+        },
+        {
+          "word": "LEMON",
+          "row": 0,
+          "col": 3,
+          "dir": "down",
+          "clue": "酸酸的黄色水果"
+        },
+        {
+          "word": "CRAMP",
+          "row": 2,
+          "col": 0,
+          "dir": "across",
+          "clue": "疼痛的肌肉痉挛"
+        }
+      ],
+      "blocks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "crossword-02",
+      "difficulty": "medium",
+      "size": 5,
+      "words": [
+        {
+          "word": "WHELM",
+          "row": 0,
+          "col": 0,
+          "dir": "across",
+          "clue": "吞没或压倒"
+        },
+        {
+          "word": "HORSE",
+          "row": 0,
+          "col": 1,
+          "dir": "down",
+          "clue": "大型骑乘动物"
+        },
+        {
+          "word": "LEMON",
+          "row": 0,
+          "col": 3,
+          "dir": "down",
+          "clue": "酸酸的黄色水果"
+        },
+        {
+          "word": "CRAMP",
+          "row": 2,
+          "col": 0,
+          "dir": "across",
+          "clue": "疼痛的肌肉痉挛"
+        }
+      ],
+      "blocks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "crossword-03",
+      "difficulty": "medium",
+      "size": 5,
+      "words": [
+        {
+          "word": "CRANE",
+          "row": 0,
+          "col": 0,
+          "dir": "across",
+          "clue": "高大的鸟或机器"
+        },
+        {
+          "word": "RIDER",
+          "row": 0,
+          "col": 1,
+          "dir": "down",
+          "clue": "骑乘者"
+        },
+        {
+          "word": "NESTS",
+          "row": 0,
+          "col": 3,
+          "dir": "down",
+          "clue": "鸟的家"
+        },
+        {
+          "word": "DISH",
+          "row": 2,
+          "col": 1,
+          "dir": "across",
+          "clue": "盘子或碗"
+        }
+      ],
+      "blocks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          4
+        ]
+      ]
+    }
+  ]
+}

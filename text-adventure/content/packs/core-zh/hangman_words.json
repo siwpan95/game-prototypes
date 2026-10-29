@@ -1,0 +1,455 @@
+{
+  "kind": "hangman_words",
+  "items": [
+    {
+      "id": "hangman-easy-apple",
+      "difficulty": "easy",
+      "word": "apple"
+    },
+    {
+      "id": "hangman-easy-beach",
+      "difficulty": "easy",
+      "word": "beach"
+    },
+    {
+      "id": "hangman-easy-candy",
+      "difficulty": "easy",
+      "word": "candy"
+    },
+    {
+      "id": "hangman-easy-dance",
+      "difficulty": "easy",
+      "word": "dance"
+    },
+    {
+      "id": "hangman-easy-eagle",
+      "difficulty": "easy",
+      "word": "eagle"
+    },
+    {
+      "id": "hangman-easy-flame",
+      "difficulty": "easy",
+      "word": "flame"
+    },
+    {
+      "id": "hangman-easy-grape",
+      "difficulty": "easy",
+      "word": "grape"
+    },
+    {
+      "id": "hangman-easy-happy",
+      "difficulty": "easy",
+      "word": "happy"
+    },
+    {
+      "id": "hangman-easy-igloo",
+      "difficulty": "easy",
+      "word": "igloo"
+    },
+    {
+      "id": "hangman-easy-joker",
+      "difficulty": "easy",
+      "word": "joker"
+    },
+    {
+      "id": "hangman-easy-koala",
+      "difficulty": "easy",
+      "word": "koala"
+    },
+    {
+      "id": "hangman-easy-lemon",
+      "difficulty": "easy",
+      "word": "lemon"
+    },
+    {
+      "id": "hangman-easy-magic",
+      "difficulty": "easy",
+      "word": "magic"
+    },
+    {
+      "id": "hangman-easy-noble",
+      "difficulty": "easy",
+      "word": "noble"
+    },
+    {
+      "id": "hangman-easy-ocean",
+      "difficulty": "easy",
+      "word": "ocean"
+    },
+    {
+      "id": "hangman-easy-piano",
+      "difficulty": "easy",
+      "word": "piano"
+    },
+    {
+      "id": "hangman-easy-queen",
+      "difficulty": "easy",
+      "word": "queen"
+    },
+    {
+      "id": "hangman-easy-river",
+      "difficulty": "easy",
+      "word": "river"
+    },
+    {
+      "id": "hangman-easy-smile",
+      "difficulty": "easy",
+      "word": "smile"
+    },
+    {
+      "id": "hangman-easy-tiger",
+      "difficulty": "easy",
+      "word": "tiger"
+    },
+    {
+      "id": "hangman-easy-umbra",
+      "difficulty": "easy",
+      "word": "umbra"
+    },
+    {
+      "id": "hangman-easy-vivid",
+      "difficulty": "easy",
+      "word": "vivid"
+    },
+    {
+      "id": "hangman-easy-whale",
+      "difficulty": "easy",
+      "word": "whale"
+    },
+    {
+      "id": "hangman-easy-youth",
+      "difficulty": "easy",
+      "word": "youth"
+    },
+    {
+      "id": "hangman-easy-zebra",
+      "difficulty": "easy",
+      "word": "zebra"
+    },
+    {
+      "id": "hangman-easy-angel",
+      "difficulty": "easy",
+      "word": "angel"
+    },
+    {
+      "id": "hangman-easy-brave",
+      "difficulty": "easy",
+      "word": "brave"
+    },
+    {
+      "id": "hangman-easy-crane",
+      "difficulty": "easy",
+      "word": "crane"
+    },
+    {
+      "id": "hangman-easy-dream",
+      "difficulty": "easy",
+      "word": "dream"
+    },
+    {
+      "id": "hangman-easy-frost",
+      "difficulty": "easy",
+      "word": "frost"
+    },
+    {
+      "id": "hangman-medium-balloon",
+      "difficulty": "medium",
+      "word": "balloon"
+    },
+    {
+      "id": "hangman-medium-captain",
+      "difficulty": "medium",
+      "word": "captain"
+    },
+    {
+      "id": "hangman-medium-diamond",
+      "difficulty": "medium",
+      "word": "diamond"
+    },
+    {
+      "id": "hangman-medium-elephant",
+      "difficulty": "medium",
+      "word": "elephant"
+    },
+    {
+      "id": "hangman-medium-fortune",
+      "difficulty": "medium",
+      "word": "fortune"
+    },
+    {
+      "id": "hangman-medium-giraffe",
+      "difficulty": "medium",
+      "word": "giraffe"
+    },
+    {
+      "id": "hangman-medium-horizon",
+      "difficulty": "medium",
+      "word": "horizon"
+    },
+    {
+      "id": "hangman-medium-injury",
+      "difficulty": "medium",
+      "word": "injury"
+    },
+    {
+      "id": "hangman-medium-justice",
+      "difficulty": "medium",
+      "word": "justice"
+    },
+    {
+      "id": "hangman-medium-kitchen",
+      "difficulty": "medium",
+      "word": "kitchen"
+    },
+    {
+      "id": "hangman-medium-lantern",
+      "difficulty": "medium",
+      "word": "lantern"
+    },
+    {
+      "id": "hangman-medium-monster",
+      "difficulty": "medium",
+      "word": "monster"
+    },
+    {
+      "id": "hangman-medium-nursery",
+      "difficulty": "medium",
+      "word": "nursery"
+    },
+    {
+      "id": "hangman-medium-october",
+      "difficulty": "medium",
+      "word": "october"
+    },
+    {
+      "id": "hangman-medium-penguin",
+      "difficulty": "medium",
+      "word": "penguin"
+    },
+    {
+      "id": "hangman-medium-quality",
+      "difficulty": "medium",
+      "word": "quality"
+    },
+    {
+      "id": "hangman-medium-rainbow",
+      "difficulty": "medium",
+      "word": "rainbow"
+    },
+    {
+      "id": "hangman-medium-shelter",
+      "difficulty": "medium",
+      "word": "shelter"
+    },
+    {
+      "id": "hangman-medium-trouble",
+      "difficulty": "medium",
+      "word": "trouble"
+    },
+    {
+      "id": "hangman-medium-universe",
+      "difficulty": "medium",
+      "word": "universe"
+    },
+    {
+      "id": "hangman-medium-village",
+      "difficulty": "medium",
+      "word": "village"
+    },
+    {
+      "id": "hangman-medium-warrior",
+      "difficulty": "medium",
+      "word": "warrior"
+    },
+    {
+      "id": "hangman-medium-anxiety",
+      "difficulty": "medium",
+      "word": "anxiety"
+    },
+    {
+      "id": "hangman-medium-bracket",
+      "difficulty": "medium",
+      "word": "bracket"
+    },
+    {
+      "id": "hangman-medium-crystal",
+      "difficulty": "medium",
+      "word": "crystal"
+    },
+    {
+      "id": "hangman-medium-dolphin",
+      "difficulty": "medium",
+      "word": "dolphin"
+    },
+    {
+      "id": "hangman-medium-emerald",
+      "difficulty": "medium",
+      "word": "emerald"
+    },
+    {
+      "id": "hangman-medium-fantasy",
+      "difficulty": "medium",
+      "word": "fantasy"
+    },
+    {
+      "id": "hangman-medium-gravity",
+      "difficulty": "medium",
+      "word": "gravity"
+    },
+    {
+      "id": "hangman-medium-harmony",
+      "difficulty": "medium",
+      "word": "harmony"
+    },
+    {
+      "id": "hangman-hard-labyrinth",
+      "difficulty": "hard",
+      "word": "labyrinth"
+    },
+    {
+      "id": "hangman-hard-masterpiece",
+      "difficulty": "hard",
+      "word": "masterpiece"
+    },
+    {
+      "id": "hangman-hard-nightingale",
+      "difficulty": "hard",
+      "word": "nightingale"
+    },
+    {
+      "id": "hangman-hard-orchestra",
+      "difficulty": "hard",
+      "word": "orchestra"
+    },
+    {
+      "id": "hangman-hard-philosopher",
+      "difficulty": "hard",
+      "word": "philosopher"
+    },
+    {
+      "id": "hangman-hard-quarantine",
+      "difficulty": "hard",
+      "word": "quarantine"
+    },
+    {
+      "id": "hangman-hard-revolution",
+      "difficulty": "hard",
+      "word": "revolution"
+    },
+    {
+      "id": "hangman-hard-silhouette",
+      "difficulty": "hard",
+      "word": "silhouette"
+    },
+    {
+      "id": "hangman-hard-thermometer",
+      "difficulty": "hard",
+      "word": "thermometer"
+    },
+    {
+      "id": "hangman-hard-ultraviolet",
+      "difficulty": "hard",
+      "word": "ultraviolet"
+    },
+    {
+      "id": "hangman-hard-ventriloquy",
+      "difficulty": "hard",
+      "word": "ventriloquy"
+    },
+    {
+      "id": "hangman-hard-wonderland",
+      "difficulty": "hard",
+      "word": "wonderland"
+    },
+    {
+      "id": "hangman-hard-xylophone",
+      "difficulty": "hard",
+      "word": "xylophone"
+    },
+    {
+      "id": "hangman-hard-zoological",
+      "difficulty": "hard",
+      "word": "zoological"
+    },
+    {
+      "id": "hangman-hard-abominable",
+      "difficulty": "hard",
+      "word": "abominable"
+    },
+    {
+      "id": "hangman-hard-beneficial",
+      "difficulty": "hard",
+      "word": "beneficial"
+    },
+    {
+      "id": "hangman-hard-camouflage",
+      "difficulty": "hard",
+      "word": "camouflage"
+    },
+    {
+      "id": "hangman-hard-delinquent",
+      "difficulty": "hard",
+      "word": "delinquent"
+    },
+    {
+      "id": "hangman-hard-exaggerate",
+      "difficulty": "hard",
+      "word": "exaggerate"
+    },
+    {
+      "id": "hangman-hard-fashionable",
+      "difficulty": "hard",
+      "word": "fashionable"
+    },
+    {
+      "id": "hangman-hard-gentlemanly",
+      "difficulty": "hard",
+      "word": "gentlemanly"
+    },
+    {
+      "id": "hangman-hard-holographic",
+      "difficulty": "hard",
+      "word": "holographic"
+    },
+    {
+      "id": "hangman-hard-imaginative",
+      "difficulty": "hard",
+      "word": "imaginative"
+    },
+    {
+      "id": "hangman-hard-jurisdiction",
+      "difficulty": "hard",
+      "word": "jurisdiction"
+    },
+    {
+      "id": "hangman-hard-kaliedoscope",
+      "difficulty": "hard",
+      "word": "kaliedoscope"
+    },
+    {
+      "id": "hangman-hard-lamentation",
+      "difficulty": "hard",
+      "word": "lamentation"
+    },
+    {
+      "id": "hangman-hard-magnificent",
+      "difficulty": "hard",
+      "word": "magnificent"
+    },
+    {
+      "id": "hangman-hard-negotiation",
+      "difficulty": "hard",
+      "word": "negotiation"
+    },
+    {
+      "id": "hangman-hard-opposition",
+      "difficulty": "hard",
+      "word": "opposition"
+    },
+    {
+      "id": "hangman-hard-phenomenon",
+      "difficulty": "hard",
+      "word": "phenomenon"
+    }
+  ]
+}

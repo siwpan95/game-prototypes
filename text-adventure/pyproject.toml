@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "text-adventure"
+version = "0.1.0"
+description = "Puzzle-driven text adventure (pygame client + headless puzzle service + Cordis host)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "siwpan" }]
+dependencies = ["pygame-ce>=2.5"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+# Two front ends, two names: the desktop (pygame) client and the terminal client.
+text-adventure-cli = "puzzle_service.cli:main_cli"
+text-adventure-pygame-zh = "shared.cli:main_zh"
+text-adventure-pygame-en = "shared.cli:main_en"
+
+[tool.setuptools]
+# Explicit package list: these are the import roots the game and the puzzle
+# service actually use. Keeping it explicit stops setuptools from guessing.
+#
+# `gameplay_pool` is the unified puzzle implementation and `client` the unified
+# desktop client (M5): one copy of each, with the language as an argument. The
+# per-client directories were deleted once the merged clients were proven to render
+# identically.
+packages = [
+  "shared",
+  "gameplay_pool",
+  "client",
+  "puzzle_service",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
