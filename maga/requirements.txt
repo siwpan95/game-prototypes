@@ -1,0 +1,7 @@
+# maga dependencies
+# 安装: pip install -r requirements.txt
+# 注意：pygame 在 Python 3.14 无官方 wheel，3.14 请用 pygame-ce
+pandas>=2.0,<4
+openpyxl>=3.1,<4
+pygame-ce>=2.5,<3 ; python_version >= "3.14"  # BGM 后端（可选，缺失时静默）
+pygame>=2.5,<3 ; python_version < "3.14"      # BGM 后端（可选，缺失时静默）
