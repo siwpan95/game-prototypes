@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>PQ Multiverse 修复总结报告</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Microsoft YaHei UI', sans-serif; background: #f5f5f5; color: #222; line-height: 1.7; padding: 20px; }
+.container { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+.header { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; padding: 30px 40px; }
+.header h1 { font-size: 24px; margin-bottom: 6px; }
+.section { padding: 28px 40px; border-bottom: 1px solid #eee; }
+.section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e8e8e8; }
+.issue { margin-bottom: 12px; padding: 12px 16px; border-radius: 8px; border-left: 4px solid; }
+.fixed { background: #f0fff4; border-color: #27ae60; }
+.issue h3 { font-size: 15px; margin-bottom: 4px; }
+.issue p { font-size: 13px; color: #555; }
+.issue code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-family: Consolas, monospace; font-size: 12px; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+table th { background: #1a1a2e; color: white; padding: 8px 12px; text-align: left; }
+table td { padding: 8px 12px; border-bottom: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>PQ Multiverse 修复总结报告</h1>
+        <div style="opacity:0.7; font-size:13px;">修复时间：2026-06-29 | 项目路径：D:\allin\stay\pq_multiverse</div>
+    </div>
+
+    <div class="section">
+        <h2>已修复问题</h2>
+
+        <div class="issue fixed">
+            <h3>P0-1 章节解锁机制在主题模式下失效</h3>
+            <p>删除了 <code>ThemedGameEngine._trigger_plot_event()</code> 对父类逻辑的覆盖；在 <code>create_character()</code> 中补充了解锁章 I、生成活跃任务等父类初始化步骤。</p>
+        </div>
+
+        <div class="issue fixed">
+            <h3>P0-2 save_game() / load_game() 方法不存在</h3>
+            <p>在 <code>ThemedGameEngine</code> 中新增 <code>save_game()</code> / <code>load_game()</code> 便捷方法，默认保存到项目根目录 <code>saves/</code>。</p>
+        </div>
+
+        <div class="issue fixed">
+            <h3>P0-3 保存/加载不完整</h3>
+            <p>扩展 <code>GameEngine.save()</code> / <code>load()</code>，完整序列化/反序列化：章节、活跃任务、累计任务数、当前怪物、当前任务、法术书、行动条、全部属性。新增 <code>_item_to_dict</code>、<code>_monster_to_dict</code>、<code>_quest_to_dict</code> 等辅助方法处理 Item 嵌套。</p>
+        </div>
+
+        <div class="issue fixed">
+            <h3>P1-4 骨架/血肉分离不彻底</h3>
+            <p><code>GameTheme</code> 新增 <code>spell_pool</code> 和 <code>task_targets</code>；<code>Character</code> 新增 <code>spell_pool</code> 字段；<code>GameEngine._populate_active_tasks()</code> 优先使用主题数据；三个主题（魔兽/原神/宝可梦）分别填充主题化法术和任务目标。</p>
+        </div>
+
+        <div class="issue fixed">
+            <h3>P1-5 _buy_equipment 只支持 4 种装备槽</h3>
+            <p>删除了 <code>ThemedGameEngine._buy_equipment()</code> 覆盖；在 <code>__init__</code> 中将主题商店物品转换为引擎 Item 并赋值给 <code>self.shop_items</code>，直接复用父类完整的 11 槽 slot_map 逻辑。</p>
+        </div>
+
+        <div class="issue fixed">
+            <h3>P1-6 _init_game_data 默认数据冗余</h3>
+            <p><code>ThemedGameEngine.__init__</code> 中加载主题后清空 <code>self.monsters</code> 和 <code>self.shop_items</code> 的默认数据，避免主题模式下保留无用数据。</p>
+        </div>
+
+        <div class="issue fixed">
+            <h3>P1-7 经验获取方式不符原版 PQ</h3>
+            <p><code>_game_tick()</code> 中每 tick 增加 <code>exp_bar.max_value / 1000</code> 经验；<code>_kill_monster()</code> 不再直接给经验，符合原版"随时间自动获得经验"机制。</p>
+        </div>
+
+        <div class="issue fixed">
+            <h3>代码卫生：遗留文件和空目录</h3>
+            <p>将 9 个旧文件（game_engine.py、main_window.py 等，共 3251 行）移至 <code>src/_archive/</code>；删除空目录 <code>dist/</code> 和 <code>src/games/</code>。</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>验证结果</h2>
+        <table>
+            <tr><th>测试项</th><th>结果</th></tr>
+            <tr><td>三个主题加载与主题化数据</td><td>✅ 通过</td></tr>
+            <tr><td>创建角色后章节 I 自动解锁、活跃任务生成</td><td>✅ 通过</td></tr>
+            <tr><td>完成任务逐步解锁后续章节</td><td>✅ 通过</td></tr>
+            <tr><td>完整存档/加载（含怪物、任务、章节、法术书）</td><td>✅ 通过</td></tr>
+            <tr><td>商店装备填充 11 个槽位</td><td>✅ 通过</td></tr>
+            <tr><td>开始界面 → 主窗口完整流程</td><td>✅ 通过</td></tr>
+            <tr><td>UI 保存/加载按钮</td><td>✅ 通过</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>关于 src/games 目录</h2>
+        <p><code>src/games</code> 在清理时是一个空目录，没有文件残留。从项目当前架构看，它可能是早期规划"多个小游戏集合"时预留的目录，但 PQ Multiverse 的"多元宇宙"是通过主题系统（themes/）实现的，一个游戏框架 + 多组主题文案，因此 <code>src/games</code> 已失去作用，已删除。</p>
+    </div>
+</div>
+</body>
+</html>

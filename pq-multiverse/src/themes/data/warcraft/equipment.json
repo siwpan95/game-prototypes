@@ -1,0 +1,640 @@
+[
+  {
+    "name": "铁匠锤",
+    "value": 100,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 3
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "皮甲外套",
+    "value": 150,
+    "item_type": "armor",
+    "stat_bonus": {
+      "constitution": 2
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "旅行靴",
+    "value": 80,
+    "item_type": "boots",
+    "stat_bonus": {
+      "dexterity": 1
+    },
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "铁盔",
+    "value": 120,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "constitution": 1
+    },
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "符文之剑",
+    "value": 300,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 6,
+      "intelligence": 3
+    },
+    "level": 3,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "秘法长袍",
+    "value": 350,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 5
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "龙鳞护肩",
+    "value": 280,
+    "item_type": "shoulder",
+    "stat_bonus": {
+      "constitution": 3,
+      "strength": 2
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "疾风护手",
+    "value": 200,
+    "item_type": "gloves",
+    "stat_bonus": {
+      "dexterity": 4
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "法师之靴",
+    "value": 250,
+    "item_type": "boots",
+    "stat_bonus": {
+      "intelligence": 3,
+      "dexterity": 1
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "圣光头盔",
+    "value": 400,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "wisdom": 5,
+      "constitution": 2
+    },
+    "level": 6,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "暗影披风",
+    "value": 320,
+    "item_type": "armor",
+    "stat_bonus": {
+      "dexterity": 4,
+      "charm": 2
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "钢铁之剑",
+    "value": 250,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 7
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "秘银战斧",
+    "value": 350,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 9,
+      "constitution": 3
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "眩光法杖",
+    "value": 450,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "intelligence": 10,
+      "wisdom": 5
+    },
+    "level": 9,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "暗影匕首",
+    "value": 280,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "dexterity": 8,
+      "strength": 3
+    },
+    "level": 9,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "巨龙之弓",
+    "value": 380,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "dexterity": 9,
+      "strength": 4
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "圣光之锤",
+    "value": 420,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 8,
+      "wisdom": 6
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "霜狼护甲",
+    "value": 500,
+    "item_type": "armor",
+    "stat_bonus": {
+      "constitution": 10,
+      "strength": 5
+    },
+    "level": 11,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "雷鸣护腿",
+    "value": 450,
+    "item_type": "armor",
+    "stat_bonus": {
+      "dexterity": 7,
+      "constitution": 4
+    },
+    "level": 12,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "秘法护腕",
+    "value": 300,
+    "item_type": "gloves",
+    "stat_bonus": {
+      "intelligence": 6,
+      "wisdom": 3
+    },
+    "level": 12,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "巨龙之盾",
+    "value": 350,
+    "item_type": "armor",
+    "stat_bonus": {
+      "constitution": 8,
+      "strength": 4
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "暗影之戒",
+    "value": 280,
+    "item_type": "misc",
+    "stat_bonus": {
+      "dexterity": 5,
+      "intelligence": 3
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "圣光之戒",
+    "value": 320,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 6,
+      "constitution": 3
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "巨龙之心",
+    "value": 600,
+    "item_type": "misc",
+    "stat_bonus": {
+      "strength": 10,
+      "constitution": 8,
+      "intelligence": 6,
+      "wisdom": 6
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "冰霜宝石",
+    "value": 250,
+    "item_type": "misc",
+    "stat_bonus": {
+      "intelligence": 5,
+      "wisdom": 3
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "火焰宝石",
+    "value": 250,
+    "item_type": "misc",
+    "stat_bonus": {
+      "strength": 5,
+      "intelligence": 4
+    },
+    "level": 16,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "自然宝石",
+    "value": 250,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 5,
+      "constitution": 3
+    },
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "暗影宝石",
+    "value": 250,
+    "item_type": "misc",
+    "stat_bonus": {
+      "dexterity": 5,
+      "intelligence": 4
+    },
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "治疗药水",
+    "value": 50,
+    "item_type": "misc",
+    "level": 18,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "法力药水",
+    "value": 60,
+    "item_type": "misc",
+    "level": 18,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "强效治疗药水",
+    "value": 150,
+    "item_type": "misc",
+    "level": 19,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "强效法力药水",
+    "value": 180,
+    "item_type": "misc",
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "超级治疗药水",
+    "value": 300,
+    "item_type": "misc",
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "超级法力药水",
+    "value": 350,
+    "item_type": "misc",
+    "level": 21,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "卷轴·力量",
+    "value": 100,
+    "item_type": "misc",
+    "stat_bonus": {
+      "strength": 3
+    },
+    "level": 21,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "卷轴·敏捷",
+    "value": 100,
+    "item_type": "misc",
+    "stat_bonus": {
+      "dexterity": 3
+    },
+    "level": 22,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "卷轴·智力",
+    "value": 100,
+    "item_type": "misc",
+    "stat_bonus": {
+      "intelligence": 3
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "卷轴·精神",
+    "value": 100,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 3
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "卷轴·耐力",
+    "value": 100,
+    "item_type": "misc",
+    "stat_bonus": {
+      "constitution": 3
+    },
+    "level": 24,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "符文布卷轴",
+    "value": 200,
+    "item_type": "misc",
+    "stat_bonus": {
+      "intelligence": 5,
+      "wisdom": 3
+    },
+    "level": 25,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "秘银链甲",
+    "value": 600,
+    "item_type": "armor",
+    "stat_bonus": {
+      "constitution": 8,
+      "dexterity": 4
+    },
+    "level": 25,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "瑟银板甲",
+    "value": 800,
+    "item_type": "armor",
+    "stat_bonus": {
+      "constitution": 12,
+      "strength": 6
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "邪纹布甲",
+    "value": 450,
+    "item_type": "armor",
+    "stat_bonus": {
+      "intelligence": 8,
+      "wisdom": 4
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "猛爪皮甲",
+    "value": 550,
+    "item_type": "armor",
+    "stat_bonus": {
+      "dexterity": 8,
+      "strength": 4
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "狮心头盔",
+    "value": 700,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "strength": 8,
+      "constitution": 5
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "暗影面罩",
+    "value": 650,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "dexterity": 8,
+      "intelligence": 4
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "奥术头冠",
+    "value": 750,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "intelligence": 10,
+      "wisdom": 6
+    },
+    "level": 29,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "圣光头冠",
+    "value": 700,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "wisdom": 10,
+      "constitution": 5
+    },
+    "level": 30,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  }
+]

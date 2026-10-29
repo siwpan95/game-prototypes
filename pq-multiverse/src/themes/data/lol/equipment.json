@@ -1,0 +1,558 @@
+[
+  {
+    "name": "多兰剑",
+    "value": 450,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 8
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "多兰戒",
+    "value": 400,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 10
+    },
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "多兰盾",
+    "value": 450,
+    "item_type": "shield",
+    "stat_bonus": {
+      "defense": 8,
+      "hp": 30
+    },
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "无尽之刃",
+    "value": 3400,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 80,
+      "crit": 25
+    },
+    "level": 3,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "饮血剑",
+    "value": 3400,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 75,
+      "lifesteal": 20
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "夺萃之镰",
+    "value": 3200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 60,
+      "lifesteal": 15,
+      "mana": 20
+    },
+    "level": 4,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "幽梦之灵",
+    "value": 3000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 55,
+      "agility": 20
+    },
+    "level": 5,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "德拉克萨的暮刃",
+    "value": 3200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 60,
+      "armor_pen": 20
+    },
+    "level": 6,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "黑色切割者",
+    "value": 3000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 45,
+      "hp": 350,
+      "armor_pen": 15
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 75
+    },
+    "prefixes": []
+  },
+  {
+    "name": "三相之力",
+    "value": 3700,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 35,
+      "hp": 300,
+      "mana": 250,
+      "speed": 10
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "破败王者之刃",
+    "value": 3200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 40,
+      "speed": 15,
+      "lifesteal": 15
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "智慧末刃",
+    "value": 2800,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 35,
+      "magic_pen": 20,
+      "magic_res": 40
+    },
+    "level": 9,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "卢登的激荡",
+    "value": 3200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 80,
+      "mana": 350
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "灭世者的死亡之帽",
+    "value": 3600,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 120
+    },
+    "level": 10,
+    "base_stats": {
+      "attack": 125
+    },
+    "prefixes": []
+  },
+  {
+    "name": "虚空之杖",
+    "value": 2800,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 65,
+      "magic_pen": 40
+    },
+    "level": 11,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "炽天使之拥",
+    "value": 3000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 70,
+      "mana": 800
+    },
+    "level": 12,
+    "base_stats": {
+      "attack": 110
+    },
+    "prefixes": []
+  },
+  {
+    "name": "中娅沙漏",
+    "value": 3200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 75,
+      "armor": 40
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "莫雷洛秘典",
+    "value": 2500,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 60,
+      "hp": 250
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 75
+    },
+    "prefixes": []
+  },
+  {
+    "name": "法师之靴",
+    "value": 1100,
+    "item_type": "boots",
+    "stat_bonus": {
+      "magic": 18,
+      "speed": 12
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 50
+    },
+    "prefixes": []
+  },
+  {
+    "name": "明朗之靴",
+    "value": 900,
+    "item_type": "boots",
+    "stat_bonus": {
+      "speed": 12,
+      "cdr": 15
+    },
+    "level": 15,
+    "base_stats": {
+      "attack": 40
+    },
+    "prefixes": []
+  },
+  {
+    "name": "忍者足具",
+    "value": 1100,
+    "item_type": "boots",
+    "stat_bonus": {
+      "defense": 20,
+      "speed": 12
+    },
+    "level": 16,
+    "base_stats": {
+      "attack": 50
+    },
+    "prefixes": []
+  },
+  {
+    "name": "水银之靴",
+    "value": 1300,
+    "item_type": "boots",
+    "stat_bonus": {
+      "magic_res": 35,
+      "speed": 12
+    },
+    "level": 17,
+    "base_stats": {
+      "attack": 60
+    },
+    "prefixes": []
+  },
+  {
+    "name": "狂战士胫甲",
+    "value": 1100,
+    "item_type": "boots",
+    "stat_bonus": {
+      "attack": 15,
+      "speed": 12
+    },
+    "level": 17,
+    "base_stats": {
+      "attack": 50
+    },
+    "prefixes": []
+  },
+  {
+    "name": "守护天使",
+    "value": 2800,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 45,
+      "revive": 1
+    },
+    "level": 18,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "兰顿之兆",
+    "value": 2700,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 60,
+      "hp": 400
+    },
+    "level": 19,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "荆棘之甲",
+    "value": 2500,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 55,
+      "thorns": 30
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "冰霜之心",
+    "value": 2800,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 50,
+      "mana": 300,
+      "cdr": 20
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "狂徒铠甲",
+    "value": 3000,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 55,
+      "hp": 700,
+      "regen": 30
+    },
+    "level": 21,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "振奋盔甲",
+    "value": 2600,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 40,
+      "hp": 350,
+      "regen": 50
+    },
+    "level": 22,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "水银弯刀",
+    "value": 3200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 50,
+      "magic_res": 40,
+      "cleanse": 1
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 90
+    },
+    "prefixes": []
+  },
+  {
+    "name": "玛莫提乌斯之噬",
+    "value": 3000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "attack": 55,
+      "magic_res": 50,
+      "shield": 1
+    },
+    "level": 23,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  },
+  {
+    "name": "基克的聚合",
+    "value": 2200,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 35,
+      "mana": 200,
+      "cdr": 15
+    },
+    "level": 24,
+    "base_stats": {
+      "attack": 70
+    },
+    "prefixes": []
+  },
+  {
+    "name": "骑士之誓",
+    "value": 2300,
+    "item_type": "armor",
+    "stat_bonus": {
+      "defense": 40,
+      "hp": 250
+    },
+    "level": 25,
+    "base_stats": {
+      "attack": 70
+    },
+    "prefixes": []
+  },
+  {
+    "name": "救赎",
+    "value": 2100,
+    "item_type": "armor",
+    "stat_bonus": {
+      "mana": 150,
+      "regen": 40
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 60
+    },
+    "prefixes": []
+  },
+  {
+    "name": "米凯尔的坩埚",
+    "value": 2200,
+    "item_type": "armor",
+    "stat_bonus": {
+      "mana": 250,
+      "regen": 35,
+      "cleanse": 1
+    },
+    "level": 26,
+    "base_stats": {
+      "attack": 70
+    },
+    "prefixes": []
+  },
+  {
+    "name": "双生暗影",
+    "value": 2400,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 55,
+      "mana": 200
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 75
+    },
+    "prefixes": []
+  },
+  {
+    "name": "海克斯科技火箭腰带",
+    "value": 2800,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 65,
+      "hp": 250
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "暗影火焰",
+    "value": 2600,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 70,
+      "magic_pen": 20
+    },
+    "level": 29,
+    "base_stats": {
+      "attack": 80
+    },
+    "prefixes": []
+  },
+  {
+    "name": "纳什之牙",
+    "value": 3000,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "magic": 75,
+      "attack_speed": 40
+    },
+    "level": 30,
+    "base_stats": {
+      "attack": 100
+    },
+    "prefixes": []
+  }
+]

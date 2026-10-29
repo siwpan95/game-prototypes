@@ -1,0 +1,1452 @@
+[
+  {
+    "id": "chaos_space_marine",
+    "name": "混沌星际战士",
+    "hp": 120,
+    "attack": 35,
+    "defense": 30,
+    "desc": "堕落的星际战士，被混沌腐化，装备堕落武器",
+    "level": 8,
+    "exp_reward": 240,
+    "loot_table": [
+      {
+        "item": {
+          "name": "混沌星际战士材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 80,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "daemon_prince",
+    "name": "恶魔王子",
+    "hp": 200,
+    "attack": 50,
+    "defense": 40,
+    "desc": "被混沌诸神升华为恶魔的凡人，拥有恐怖力量",
+    "level": 12,
+    "exp_reward": 400,
+    "loot_table": [
+      {
+        "item": {
+          "name": "恶魔王子材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 133,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "bloodletter",
+    "name": "鲜血信徒",
+    "hp": 80,
+    "attack": 40,
+    "defense": 20,
+    "desc": "恐虐恶魔，手持巨斧，渴望鲜血与杀戮",
+    "level": 3,
+    "exp_reward": 160,
+    "loot_table": [
+      {
+        "item": {
+          "name": "鲜血信徒材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 53,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "daemonette",
+    "name": "色孽魅妖",
+    "hp": 70,
+    "attack": 35,
+    "defense": 25,
+    "desc": "色孽恶魔，迅捷而致命，以快感为食",
+    "level": 3,
+    "exp_reward": 140,
+    "loot_table": [
+      {
+        "item": {
+          "name": "色孽魅妖材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 46,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "plaguebearer",
+    "name": "纳垢烂哥",
+    "hp": 100,
+    "attack": 25,
+    "defense": 35,
+    "desc": "纳垢恶魔，传播瘟疫与疾病，坚韧不拔",
+    "level": 5,
+    "exp_reward": 200,
+    "loot_table": [
+      {
+        "item": {
+          "name": "纳垢烂哥材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 66,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "pink_horror",
+    "name": "奸奇粉怪",
+    "hp": 75,
+    "attack": 30,
+    "defense": 25,
+    "desc": "奸奇恶魔，施展魔法，死后分裂为蓝怪",
+    "level": 3,
+    "exp_reward": 150,
+    "loot_table": [
+      {
+        "item": {
+          "name": "奸奇粉怪材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 50,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "tyranid_warrior",
+    "name": "泰伦战士",
+    "hp": 110,
+    "attack": 40,
+    "defense": 25,
+    "desc": "泰伦虫族的主战生物，配备生化武器",
+    "level": 8,
+    "exp_reward": 220,
+    "loot_table": [
+      {
+        "item": {
+          "name": "泰伦战士材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 73,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "genestealer",
+    "name": "基因窃取者",
+    "hp": 90,
+    "attack": 45,
+    "defense": 20,
+    "desc": "泰伦先锋生物，灵巧而致命，能渗透人类社会",
+    "level": 5,
+    "exp_reward": 180,
+    "loot_table": [
+      {
+        "item": {
+          "name": "基因窃取者材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 60,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "tyranid_tyrant",
+    "name": "泰伦暴君",
+    "hp": 250,
+    "attack": 60,
+    "defense": 50,
+    "desc": "泰伦虫族的指挥官，巨大而恐怖",
+    "level": 15,
+    "exp_reward": 500,
+    "loot_table": [
+      {
+        "item": {
+          "name": "泰伦暴君材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 166,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "ork_boy",
+    "name": "欧克小子",
+    "hp": 85,
+    "attack": 30,
+    "defense": 20,
+    "desc": "欧克蛮人基础步兵，嗜战而野蛮",
+    "level": 5,
+    "exp_reward": 170,
+    "loot_table": [
+      {
+        "item": {
+          "name": "欧克小子材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 56,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "ork_warboss",
+    "name": "欧克军阀",
+    "hp": 180,
+    "attack": 55,
+    "defense": 40,
+    "desc": "欧克蛮人的领袖，最强最野蛮的战士",
+    "level": 12,
+    "exp_reward": 360,
+    "loot_table": [
+      {
+        "item": {
+          "name": "欧克军阀材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 120,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "ork_nob",
+    "name": "欧克头目",
+    "hp": 120,
+    "attack": 40,
+    "defense": 30,
+    "desc": "欧克蛮人的精英战士，装备更好的武器",
+    "level": 8,
+    "exp_reward": 240,
+    "loot_table": [
+      {
+        "item": {
+          "name": "欧克头目材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 80,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "tau_fire_warrior",
+    "name": "钛族火战士",
+    "hp": 75,
+    "attack": 35,
+    "defense": 25,
+    "desc": "钛族基础步兵，装备脉冲步枪，纪律严明",
+    "level": 3,
+    "exp_reward": 150,
+    "loot_table": [
+      {
+        "item": {
+          "name": "钛族火战士材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 50,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "tau_crisis_suit",
+    "name": "钛族危机战斗服",
+    "hp": 150,
+    "attack": 50,
+    "defense": 35,
+    "desc": "钛族重型机甲，装备多种武器系统",
+    "level": 10,
+    "exp_reward": 300,
+    "loot_table": [
+      {
+        "item": {
+          "name": "钛族危机战斗服材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 100,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "eldar_guardian",
+    "name": "灵族守护者",
+    "hp": 70,
+    "attack": 35,
+    "defense": 25,
+    "desc": "灵族基础步兵，装备星镖弹射器",
+    "level": 3,
+    "exp_reward": 140,
+    "loot_table": [
+      {
+        "item": {
+          "name": "灵族守护者材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 46,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "eldar_wraithlord",
+    "name": "灵族蜘蛛机甲",
+    "hp": 200,
+    "attack": 45,
+    "defense": 50,
+    "desc": "灵族重型机甲，由亡者灵魂驱动",
+    "level": 12,
+    "exp_reward": 400,
+    "loot_table": [
+      {
+        "item": {
+          "name": "灵族蜘蛛机甲材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 133,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "dark_eldar_wrack",
+    "name": "黑暗灵族虐杀者",
+    "hp": 80,
+    "attack": 40,
+    "defense": 22,
+    "desc": "黑暗灵族的战士，擅长折磨与暗杀",
+    "level": 3,
+    "exp_reward": 160,
+    "loot_table": [
+      {
+        "item": {
+          "name": "黑暗灵族虐杀者材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 53,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "necron_warrior",
+    "name": "死灵战士",
+    "hp": 100,
+    "attack": 35,
+    "defense": 35,
+    "desc": "死灵族基础士兵，拥有再生协议",
+    "level": 5,
+    "exp_reward": 200,
+    "loot_table": [
+      {
+        "item": {
+          "name": "死灵战士材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 66,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "necron_destroyer",
+    "name": "死灵毁灭者",
+    "hp": 130,
+    "attack": 45,
+    "defense": 30,
+    "desc": "死灵族重型步兵，装备粒子武器",
+    "level": 8,
+    "exp_reward": 260,
+    "loot_table": [
+      {
+        "item": {
+          "name": "死灵毁灭者材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 86,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "necron_overlord",
+    "name": "死灵冥王",
+    "hp": 220,
+    "attack": 55,
+    "defense": 45,
+    "desc": "死灵族的统治者，古老而强大",
+    "level": 15,
+    "exp_reward": 440,
+    "loot_table": [
+      {
+        "item": {
+          "name": "死灵冥王材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 146,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "chaos_spawn",
+    "name": "混沌卵",
+    "hp": 150,
+    "attack": 40,
+    "defense": 25,
+    "desc": "被混沌腐化的人类扭曲而成的怪物",
+    "level": 10,
+    "exp_reward": 300,
+    "loot_table": [
+      {
+        "item": {
+          "name": "混沌卵材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 100,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "tyranid_biovore",
+    "name": "泰伦炮虫",
+    "hp": 95,
+    "attack": 35,
+    "defense": 20,
+    "desc": "泰伦虫族远程支援生物，发射孢子地雷",
+    "level": 5,
+    "exp_reward": 190,
+    "loot_table": [
+      {
+        "item": {
+          "name": "泰伦炮虫材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 63,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "warp_daemon",
+    "name": "亚空间恶魔",
+    "hp": 90,
+    "attack": 40,
+    "defense": 25,
+    "desc": "来自亚空间的恶魔，难以被常规武器消灭",
+    "level": 5,
+    "exp_reward": 180,
+    "loot_table": [
+      {
+        "item": {
+          "name": "亚空间恶魔材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 60,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "krieg_soldier",
+    "name": "克里格死亡兵",
+    "hp": 80,
+    "attack": 30,
+    "defense": 30,
+    "desc": "帝国卫队克里格军团，无视伤亡冲锋",
+    "level": 3,
+    "exp_reward": 160,
+    "loot_table": [
+      {
+        "item": {
+          "name": "克里格死亡兵材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 53,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "sister_repentia",
+    "name": "修女悔罪者",
+    "desc": "修女会悔罪者，装备链锯刀，疯狂冲锋",
+    "hp": 95,
+    "attack": 45,
+    "defense": 20,
+    "level": 5,
+    "exp_reward": 190,
+    "loot_table": [
+      {
+        "item": {
+          "name": "修女悔罪者材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 63,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "inquisitor_henchman",
+    "name": "审判官打手",
+    "desc": "审判官的随从，装备特种武器",
+    "hp": 85,
+    "attack": 35,
+    "defense": 25,
+    "level": 5,
+    "exp_reward": 170,
+    "loot_table": [
+      {
+        "item": {
+          "name": "审判官打手材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 56,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "chaos_sorcerer",
+    "name": "混沌巫师",
+    "desc": "向混沌诸神祈求力量的巫师",
+    "hp": 90,
+    "attack": 45,
+    "defense": 25,
+    "level": 5,
+    "exp_reward": 180,
+    "loot_table": [
+      {
+        "item": {
+          "name": "混沌巫师材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 60,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "tyranid_zoanthrope",
+    "name": "泰伦灵能虫",
+    "desc": "泰伦虫族灵能生物，释放灵能冲击",
+    "hp": 85,
+    "attack": 50,
+    "defense": 20,
+    "level": 5,
+    "exp_reward": 170,
+    "loot_table": [
+      {
+        "item": {
+          "name": "泰伦灵能虫材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 56,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  },
+  {
+    "id": "ork_warbike",
+    "name": "欧克战车",
+    "desc": "骑着改装战车的欧克蛮人，高速冲锋",
+    "hp": 100,
+    "attack": 40,
+    "defense": 25,
+    "level": 5,
+    "exp_reward": 200,
+    "loot_table": [
+      {
+        "item": {
+          "name": "欧克战车材料",
+          "value": 10,
+          "item_type": "misc"
+        },
+        "drop_chance": 0.5
+      }
+    ],
+    "gold_reward": 66,
+    "prefixes": {
+      "sick": [
+        "Dead",
+        "Comatose",
+        "Crippled",
+        "Sick",
+        "Undernourished"
+      ],
+      "young": [
+        "Baby",
+        "Preadolescent",
+        "Teenage",
+        "Underage"
+      ],
+      "big": [
+        "Greater",
+        "Massive",
+        "Enormous",
+        "Giant",
+        "Titanic"
+      ],
+      "special": [
+        "Veteran",
+        "Cursed",
+        "Warrior",
+        "Undead",
+        "Demon"
+      ]
+    }
+  }
+]

@@ -1,0 +1,607 @@
+[
+  {
+    "name": "精灵球",
+    "value": 100,
+    "item_type": "misc",
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "超级球",
+    "value": 300,
+    "item_type": "misc",
+    "level": 1,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "高级球",
+    "value": 800,
+    "item_type": "misc",
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "大师球",
+    "value": 5000,
+    "item_type": "misc",
+    "level": 2,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "伤药",
+    "value": 50,
+    "item_type": "misc",
+    "level": 3,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "好伤药",
+    "value": 150,
+    "item_type": "misc",
+    "level": 3,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "全复药",
+    "value": 500,
+    "item_type": "misc",
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "活力块",
+    "value": 800,
+    "item_type": "misc",
+    "level": 4,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "全满药",
+    "value": 1200,
+    "item_type": "misc",
+    "level": 5,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "力量强化",
+    "value": 200,
+    "item_type": "weapon",
+    "stat_bonus": {
+      "strength": 4
+    },
+    "level": 6,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "防御强化",
+    "value": 200,
+    "item_type": "armor",
+    "stat_bonus": {
+      "constitution": 4
+    },
+    "level": 6,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "敏捷强化",
+    "value": 200,
+    "item_type": "boots",
+    "stat_bonus": {
+      "dexterity": 4
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "特攻强化",
+    "value": 250,
+    "item_type": "helmet",
+    "stat_bonus": {
+      "intelligence": 5
+    },
+    "level": 7,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "幸运蛋",
+    "value": 350,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 3,
+      "charm": 3
+    },
+    "level": 8,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "火之石",
+    "value": 500,
+    "item_type": "misc",
+    "level": 8,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "水之石",
+    "value": 500,
+    "item_type": "misc",
+    "level": 9,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "雷之石",
+    "value": 500,
+    "item_type": "misc",
+    "level": 9,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "叶之石",
+    "value": 500,
+    "item_type": "misc",
+    "level": 10,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "月之石",
+    "value": 500,
+    "item_type": "misc",
+    "level": 11,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "太阳之石",
+    "value": 600,
+    "item_type": "misc",
+    "level": 11,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "闪耀石",
+    "value": 600,
+    "item_type": "misc",
+    "level": 12,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "暗之石",
+    "value": 500,
+    "item_type": "misc",
+    "level": 12,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "觉醒石",
+    "value": 600,
+    "item_type": "misc",
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "学习装置",
+    "value": 400,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 2
+    },
+    "level": 13,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "安闲铃",
+    "value": 300,
+    "item_type": "misc",
+    "stat_bonus": {
+      "charm": 2
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "幸运香炉",
+    "value": 450,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 3
+    },
+    "level": 14,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "战斗记录",
+    "value": 200,
+    "item_type": "misc",
+    "level": 15,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "招式学习器01",
+    "value": 1000,
+    "item_type": "misc",
+    "level": 16,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "招式学习器02",
+    "value": 1000,
+    "item_type": "misc",
+    "level": 16,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "招式学习器03",
+    "value": 1000,
+    "item_type": "misc",
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "神奇糖果",
+    "value": 800,
+    "item_type": "misc",
+    "level": 17,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "基础经验值",
+    "value": 500,
+    "item_type": "misc",
+    "level": 18,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "努力值攻击",
+    "value": 600,
+    "item_type": "misc",
+    "stat_bonus": {
+      "strength": 3
+    },
+    "level": 18,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "努力值防御",
+    "value": 600,
+    "item_type": "misc",
+    "stat_bonus": {
+      "constitution": 3
+    },
+    "level": 19,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "努力值速度",
+    "value": 600,
+    "item_type": "misc",
+    "stat_bonus": {
+      "dexterity": 3
+    },
+    "level": 19,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "努力值特攻",
+    "value": 600,
+    "item_type": "misc",
+    "stat_bonus": {
+      "intelligence": 3
+    },
+    "level": 20,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "努力值特防",
+    "value": 600,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 3
+    },
+    "level": 21,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "努力值HP",
+    "value": 600,
+    "item_type": "misc",
+    "stat_bonus": {
+      "constitution": 3
+    },
+    "level": 21,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "树果·樱子果",
+    "value": 50,
+    "item_type": "misc",
+    "level": 22,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "树果·橙橙果",
+    "value": 50,
+    "item_type": "misc",
+    "level": 22,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "树果·桃桃果",
+    "value": 50,
+    "item_type": "misc",
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "树果·异奇果",
+    "value": 80,
+    "item_type": "misc",
+    "level": 23,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "树果·文旦果",
+    "value": 80,
+    "item_type": "misc",
+    "level": 24,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "金色王冠",
+    "value": 5000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "strength": 5,
+      "constitution": 5,
+      "intelligence": 5,
+      "wisdom": 5,
+      "dexterity": 5
+    },
+    "level": 24,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "银色王冠",
+    "value": 3000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "strength": 3,
+      "constitution": 3,
+      "intelligence": 3,
+      "wisdom": 3,
+      "dexterity": 3
+    },
+    "level": 25,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "PP提升剂",
+    "value": 1500,
+    "item_type": "misc",
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "PP最大提升剂",
+    "value": 3000,
+    "item_type": "misc",
+    "level": 26,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "个体值攻击",
+    "value": 2000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "strength": 6
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "个体值防御",
+    "value": 2000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "constitution": 6
+    },
+    "level": 27,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "个体值速度",
+    "value": 2000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "dexterity": 6
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "个体值特攻",
+    "value": 2000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "intelligence": 6
+    },
+    "level": 28,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "个体值特防",
+    "value": 2000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "wisdom": 6
+    },
+    "level": 29,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  },
+  {
+    "name": "个体值HP",
+    "value": 2000,
+    "item_type": "misc",
+    "stat_bonus": {
+      "constitution": 6
+    },
+    "level": 30,
+    "base_stats": {
+      "attack": 5
+    },
+    "prefixes": []
+  }
+]
