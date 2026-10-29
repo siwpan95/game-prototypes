@@ -1,0 +1,387 @@
+classDiagram
+    class Game {
+        -screen_width: int
+        -screen_height: int
+        -display: pygame.Surface
+        -clock: pygame.time.Clock
+        -state_machine: GameStateMachine
+        -event_bus: EventBus
+        -input_handler: InputHandler
+        -renderer: Renderer
+        -data_loader: DataLoader
+        -player: Player
+        -settings: dict
+        +__init__()
+        +run() None
+        -_init_pygame() None
+        -_game_loop() None
+        -_handle_global_input(event: pygame.Event) None
+    }
+
+    class GameStateMachine {
+        -states: dict
+        -current_state: State
+        +add_state(name: str, state: State) None
+        +transition(name: str, **kwargs) None
+        +get_current() State
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    class State {
+        <<abstract>>
+        +name: str
+        +enter(**kwargs) None
+        +exit() None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    class EventBus {
+        -listeners: dict
+        +subscribe(event: str, callback: Callable) None
+        +unsubscribe(event: str, callback: Callable) None
+        +emit(event: str, **kwargs) None
+    }
+
+    class InputHandler {
+        -key_bindings: dict
+        +bind(key: int, action: str) None
+        +unbind(key: int) None
+        +process(event: pygame.Event) str|None
+        +get_bindings() dict
+    }
+
+    class Player {
+        +name: str
+        +hp: int
+        +max_hp: int
+        +fp: int
+        +max_fp: int
+        +str: int
+        +dex: int
+        +vit: int
+        +fcs: int
+        +level: int
+        +attribute_points: int
+        +deck: DeckManager
+        +relics: list
+        +souls: int
+        +current_act: int
+        +block: int
+        +__init__(data_loader: DataLoader)
+        +take_damage(amount: int) None
+        +heal(amount: int) None
+        +gain_block(amount: int) None
+        +reset_fp() None
+        +spend_fp(cost: int) bool
+        +upgrade_stat(stat: str) None
+        +recalculate_derived() None
+        +add_relic(relic: Relic) bool
+        +add_card_to_deck(card: Card) None
+        +is_dead() bool
+    }
+
+    class Enemy {
+        +id: str
+        +name: str
+        +hp: int
+        +max_hp: int
+        +str: int
+        +dex: int
+        +ai: dict
+        +card_pool: list
+        +act: int
+        +intent: str
+        +intent_value: int
+        +block: int
+        +is_boss: bool
+        +stun_count: int
+        +vulnerable: int
+        +__init__(data: dict)
+        +take_damage(amount: int) None
+        +choose_action() str
+        +set_intent() None
+        +is_dead() bool
+        +apply_stun(turns: int) None
+        +apply_vulnerable(turns: int) None
+    }
+
+    class Card {
+        +id: str
+        +name: str
+        +cost: int
+        +type: str
+        +damage: str
+        +block: int
+        +keywords: dict
+        +description: str
+        +source: str
+        +__init__(data: dict)
+        +is_attack() bool
+        +is_skill() bool
+        +has_keyword(keyword: str) bool
+        +get_keyword_value(keyword: str) int
+    }
+
+    class Relic {
+        +id: str
+        +name: str
+        +trigger: str
+        +effect: dict
+        +description: str
+        +__init__(data: dict)
+    }
+
+    class RelicManager {
+        -player: Player
+        -event_bus: EventBus
+        +__init__(player: Player, event_bus: EventBus)
+        +add_relic(relic: Relic) bool
+        +remove_relic(relic_id: str) None
+        +on_battle_start(**kwargs) None
+        +on_card_played(**kwargs) None
+        +on_calculate_defense(**kwargs) int
+        +apply_effect(relic: Relic, **kwargs) None
+    }
+
+    class DeckManager {
+        +draw_pile: list
+        +discard_pile: list
+        +exhaust_pile: list
+        +hand: list
+        +__init__(cards: list)
+        +shuffle() None
+        +draw(n: int) list
+        +discard(card: Card) None
+        +exhaust(card: Card) None
+        +discard_hand() None
+        +move_to_draw() None
+        +add_card(card: Card) None
+        +remove_card(card_id: str) None
+        +get_pile_counts() dict
+    }
+
+    class DiceEngine {
+        +__init__()
+        +roll_d20(modifier: int) dict
+        +roll_3d6(modifier: int) dict
+        +roll_nd6(n: int, modifier: int) dict
+        -_resolve_d20(roll: int) str
+    }
+
+    class KeywordHandler {
+        -event_bus: EventBus
+        +__init__(event_bus: EventBus)
+        +resolve(card: Card, player: Player, enemy: Enemy, battle_ctx: dict) dict
+        -_handle_draw(value: int, deck: DeckManager) None
+        -_handle_exhaust(card: Card, deck: DeckManager) None
+        -_handle_repeat(card: Card, deck: DeckManager) None
+        -_handle_gain_strength(value: int, player: Player) None
+        -_handle_consume(card: Card, deck: DeckManager) None
+        -_handle_stun(value: int, enemy: Enemy) None
+        -_handle_lifesteal(value: int, player: Player, damage_dealt: int) None
+        -_handle_vulnerable(value: int, enemy: Enemy) None
+    }
+
+    class BattleController {
+        -player: Player
+        -enemies: list
+        -deck: DeckManager
+        -dice: DiceEngine
+        -keywords: KeywordHandler
+        -relic_mgr: RelicManager
+        -event_bus: EventBus
+        -state: str
+        +__init__(player, enemies, event_bus, data_loader)
+        +start_battle() None
+        +player_turn_start() None
+        +play_card(hand_index: int) dict
+        +end_player_turn() None
+        +enemy_turn() list
+        +check_battle_end() str|None
+        -_resolve_attack(card: Card, enemy: Enemy) dict
+        -_resolve_skill(card: Card, player: Player) dict
+        -_enemy_action(enemy: Enemy) dict
+        -_apply_damage_to_enemy(enemy: Enemy, amount: int) None
+        -_apply_damage_to_player(amount: int) None
+    }
+
+    class MapController {
+        -data_loader: DataLoader
+        -current_act: int
+        -nodes: list
+        -current_node: int
+        +__init__(data_loader, player)
+        +generate_act_map(act: int) dict
+        +select_node(direction: str) None
+        +confirm_node() dict
+        +get_current_map() dict
+        +advance_act() None
+    }
+
+    class EventController {
+        -data_loader: DataLoader
+        -player: Player
+        +__init__(data_loader, player, event_bus)
+        +resolve_event(event_id: str) dict
+        +apply_bonfire(effect: dict) None
+        +apply_shop(effect: dict) None
+        +apply_blacksmith(effect: dict) None
+    }
+
+    class DataLoader {
+        -data_dir: str
+        -cache: dict
+        +__init__(data_dir: str)
+        +load_cards() list
+        +load_enemies() list
+        +load_relics() list
+        +load_events() list
+        +load_acts() list
+        +get_card_by_id(card_id: str) dict
+        +get_enemy_by_id(enemy_id: str) dict
+        +get_relic_by_id(relic_id: str) dict
+        +get_enemies_by_act(act: int) list
+        +get_boss_by_act(act: int) dict
+        +create_card(card_id: str) Card
+        +create_enemy(enemy_id: str) Enemy
+        +create_relic(relic_id: str) Relic
+    }
+
+    class Renderer {
+        -screen: pygame.Surface
+        -font_cache: dict
+        -font_path: str
+        +__init__(screen: pygame.Surface, font_path: str)
+        +draw_text(text: str, pos: tuple, size: int, color: tuple) None
+        +draw_rect(rect: pygame.Rect, color: tuple, width: int) None
+        +draw_bar(pos: tuple, width: int, height: int, ratio: float, fg: tuple, bg: tuple) None
+        +draw_card(card: Card, pos: tuple, selected: bool) None
+        +draw_enemy(enemy: Enemy, pos: tuple) None
+        +draw_button(text: str, pos: tuple, selected: bool) None
+        +get_font(size: int) pygame.font.Font
+        +clear(color: tuple) None
+        +flip() None
+    }
+
+    class BaseScreen {
+        <<abstract>>
+        #renderer: Renderer
+        #input_handler: InputHandler
+        +__init__(renderer, input_handler)
+    }
+
+    class BattleScreen {
+        -battle_ctrl: BattleController
+        -selected_card: int
+        -anim_state: dict
+        +__init__(renderer, input_handler, battle_ctrl)
+        +enter(**kwargs) None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+        -_render_enemy_area() None
+        -_render_dice_area() None
+        -_render_hand_area() None
+        -_render_bottom_bar() None
+        -_render_battle_log() None
+    }
+
+    class MapScreen {
+        -map_ctrl: MapController
+        -selected_node: int
+        +__init__(renderer, input_handler, map_ctrl)
+        +enter(**kwargs) None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    class EventScreen {
+        -event_ctrl: EventController
+        -selected_option: int
+        +__init__(renderer, input_handler, event_ctrl)
+        +enter(**kwargs) None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    class LootScreen {
+        -cards: list
+        -selected: int
+        -player: Player
+        +__init__(renderer, input_handler, player)
+        +enter(**kwargs) None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    class TitleScreen {
+        -selected: int
+        +enter(**kwargs) None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    class SettingsScreen {
+        -settings: dict
+        -selected: int
+        +enter(**kwargs) None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    class GameOverScreen {
+        -victory: bool
+        +enter(**kwargs) None
+        +handle_input(event: pygame.Event) None
+        +update(dt: float) None
+        +render(surface: pygame.Surface) None
+    }
+
+    Game --> GameStateMachine : owns
+    Game --> EventBus : owns
+    Game --> InputHandler : owns
+    Game --> Renderer : owns
+    Game --> DataLoader : owns
+    Game --> Player : owns
+    GameStateMachine --> State : manages
+    State <|-- BaseScreen
+    BaseScreen <|-- BattleScreen
+    BaseScreen <|-- MapScreen
+    BaseScreen <|-- EventScreen
+    BaseScreen <|-- LootScreen
+    BaseScreen <|-- TitleScreen
+    BaseScreen <|-- SettingsScreen
+    BaseScreen <|-- GameOverScreen
+    BattleScreen --> BattleController : uses
+    MapScreen --> MapController : uses
+    EventScreen --> EventController : uses
+    BattleController --> Player : references
+    BattleController --> Enemy : references
+    BattleController --> DeckManager : uses
+    BattleController --> DiceEngine : uses
+    BattleController --> KeywordHandler : uses
+    BattleController --> RelicManager : uses
+    Player --> DeckManager : owns
+    Player --> Relic : collects
+    RelicManager --> EventBus : subscribes
+    RelicManager --> Player : references
+    KeywordHandler --> EventBus : emits events
+    DataLoader --> Card : creates
+    DataLoader --> Enemy : creates
+    DataLoader --> Relic : creates
+    MapController --> DataLoader : uses
+    EventController --> DataLoader : uses
+    EventController --> Player : references
+    Renderer ..> Card : renders
+    Renderer ..> Enemy : renders
+    DeckManager --> Card : manages
+    LootScreen --> Player : modifies

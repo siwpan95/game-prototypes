@@ -1,0 +1,14 @@
+[
+  {"act": 1, "name": "洛斯里克高墙", "nodes": 5, "enemies": ["E001", "E002", "E023", "E024"], "boss": "B012", "elite": ["E027"], "events": ["EV_FIRE_01", "EV_SHOP_01", "EV_SMITH_01", "EV_NPC_02", "EV_ELITE_01"]},
+  {"act": 2, "name": "冷冽谷的伊鲁席尔", "nodes": 6, "enemies": ["E003", "E004", "E025", "E026"], "boss": "B013", "elite": ["E025"], "events": ["EV_FIRE_01", "EV_SHOP_01", "EV_SMITH_01", "EV_CHEST_01", "EV_PUZZLE_01"]},
+  {"act": 3, "name": "传火祭祀场", "nodes": 7, "enemies": ["E005", "E006", "E027", "E028"], "boss": "B014", "elite": ["E005"], "events": ["EV_FIRE_01", "EV_SHOP_01", "EV_SMITH_01", "EV_SHRINE_01", "EV_NPC_03"]},
+  {"act": 4, "name": "大裂隙", "nodes": 8, "enemies": ["E007", "E008", "E029", "E030"], "boss": "B015", "elite": ["E030"], "events": ["EV_PORTAL_01", "EV_SMITH_01", "EV_SHRINE_03", "EV_CHEST_02"]},
+  {"act": 5, "name": "艾雷德尔绘画世界", "nodes": 5, "enemies": ["E009", "E031", "E032"], "boss": "B016", "elite": ["E031"], "events": ["EV_FIRE_01", "EV_SHOP_02", "EV_FIRE_02", "EV_NPC_01"]},
+  {"act": 6, "name": "白漫领", "nodes": 6, "enemies": ["E010", "E011", "E033", "E034"], "boss": "B017", "elite": ["E034"], "events": ["EV_DRAGON_01", "EV_SHOP_01", "EV_SHRINE_02", "EV_MINIBOSS_01"]},
+  {"act": 7, "name": "萨尔之城", "nodes": 9, "enemies": ["E012", "E013", "E035", "E036"], "boss": "B018", "elite": ["E035"], "events": ["EV_CARD_01", "EV_SHOP_01", "EV_SMITH_01", "EV_TRADE_01", "EV_RESCUE_01"]},
+  {"act": 8, "name": "宁姆格福", "nodes": 7, "enemies": ["E014", "E015", "E037", "E038"], "boss": "B019", "elite": ["E038"], "events": ["EV_GRACE_01", "EV_SHOP_03", "EV_SMITH_01", "EV_FIRE_03", "EV_NPC_01"]},
+  {"act": 9, "name": "黑色神殿", "nodes": 10, "enemies": ["E016", "E017", "E039", "E040"], "boss": "B020", "elite": ["E040"], "events": ["EV_POOL_01", "EV_SHOP_01", "EV_SMITH_01", "EV_SHRINE_01", "EV_FATE_01"]},
+  {"act": 10, "name": "黑暗之门", "nodes": 11, "enemies": ["E018", "E019", "E020", "E041", "E042"], "boss": "B021", "elite": ["E041"], "events": ["EV_PORTAL_01", "EV_SHOP_01", "EV_SMITH_01", "EV_CURSE_01", "EV_PUZZLE_02"]},
+  {"act": 11, "name": "幽暗地域", "nodes": 9, "enemies": ["E021", "E022", "E043", "E044"], "boss": "B022", "elite": ["E043"], "events": ["EV_SHOP_01", "EV_SMITH_01", "EV_POOL_01", "EV_REST_01", "EV_CLASS_TRAIN_01", "EV_CLASS_TRAIN_02", "EV_CLASS_TRAIN_03", "EV_CLASS_TRAIN_04"]},
+  {"act": 12, "name": "湮灭之墓", "nodes": 12, "enemies": ["E045", "E046", "E047"], "boss": "B023", "elite": ["E046"], "events": ["EV_PORTAL_01", "EV_CARD_01", "EV_SMITH_01", "EV_SHRINE_03", "EV_FIRE_02", "EV_FATE_01", "EV_REST_01"]}
+]

@@ -1,0 +1,184 @@
+这是基于我们所有讨论（d20判定、属性成长、三分牌库、遗物即被动卡牌）得出的最终、精简、高内聚的文件架构。
+
+它严格遵循了你的原则：不盲目拆分，使用 __init__.py 简化导入，依赖注入。
+
+📁 最终项目结构
+
+
+darksouls_cli/
+├── main.py                  # 程序唯一入口，初始化 curses 和 GameContext
+├── game.py                 # 全局上下文 (GameContext)，注入所有子系统
+├── config.py               # 全局配置（如存档路径、日志开关）
+├── data/
+│   └── game_data.xlsx      # 唯一数据源（Cards, Enemies, Stats, Events）
+├── core/                   # 核心机制（不依赖具体游戏逻辑）
+│   ├── __init__.py
+│   ├── state.py            # 数据类：Player, Enemy, Combatant (含STR/DEX/VIT)
+│   ├── dice.py             # 骰子引擎：d20判定, 3d6伤害, 优势/劣势
+│   └── events.py          # 事件总线 EventBus
+├── systems/                # 游戏系统（业务逻辑）
+│   ├── __init__.py
+│   ├── battle.py          # 战斗系统（核心：判定->结算）
+│   ├── map.py             # 地图生成与路线选择
+│   ├── loot.py            # 掉落系统（三选一）
+│   ├── level_up.py        # 升级系统（升级属性，而非卡牌）
+│   ├── relics.py          # 遗物管理器（监听事件，应用被动效果）
+│   └── save_load.py       # 临时存档（深度拷贝或序列化）
+├── ui/                    # 表现层
+│   ├── __init__.py
+│   ├── renderer.py        # ASCII 渲染器 (curses)
+│   ├── input_handler.py   # 键盘输入处理
+│   └── views/            # （可选拆分）不同界面的渲染函数
+│       ├── battle_view.py
+│       ├── map_view.py
+│       └── loot_view.py
+└── utils/
+    ├── __init__.py
+    └── excel_loader.py    # Excel 读取工具（只负责读表）
+
+
+📄 关键文件职责说明
+
+1. game.py (胶水层)
+
+这是最重要的文件，负责依赖注入，确保所有系统都能互相访问，且没有循环导入。
+# game.py
+from core.state import Player
+from core.events import EventBus
+from systems.battle import BattleSystem
+from systems.map import MapSystem
+from systems.loot import LootSystem
+from systems.level_up import LevelUpSystem
+from systems.relics import RelicManager
+from utils.excel_loader import ExcelLoader
+
+class GameContext:
+    def __init__(self):
+        # 数据
+        self.loader = ExcelLoader("data/game_data.xlsx")
+        self.state = Player()
+        self.bus = EventBus()
+        
+        # 子系统 (注入 self)
+        self.battle = BattleSystem(self)
+        self.map = MapSystem(self)
+        self.loot = LootSystem(self)
+        self.level_up = LevelUpSystem(self)
+        self.relics = RelicManager(self)
+        
+        # 初始化
+        self._init_player_stats()
+
+    def _init_player_stats(self):
+        # 从 Excel 的 Stats 表读取初始属性
+        base_stats = self.loader.stats['Base']
+        self.state.stats = base_stats.copy()
+
+
+2. core/dice.py (物理引擎)
+
+# core/dice.py
+import random
+
+class DiceRoller:
+    @staticmethod
+    def attack_roll(attacker_stat, defender_stat):
+        roll = random.randint(1, 20)
+        mod = (attacker_stat - 10) // 2
+        return roll + mod
+
+    @staticmethod
+    def damage_roll(formula, stat):
+        # 解析 "2d6+STR" 或 "3d6"
+        # ...
+        pass
+
+
+3. systems/battle.py (战斗核心)
+
+# systems/battle.py
+class BattleSystem:
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def resolve(self, attacker, defender, card):
+        # 1. 判定 (d20 + STR vs DEX)
+        to_hit = DiceRoller.attack_roll(
+            attacker.stats['STR'], 
+            defender.stats['DEX']
+        )
+        
+        if to_hit < defender.ac: # AC 由 DEX 决定
+            return "Miss"
+        
+        # 2. 结算 (3d6 + STR)
+        dmg = DiceRoller.damage_roll(card['Damage'], attacker.stats['STR'])
+        
+        # 3. 应用遗物效果
+        self.ctx.relics.on_damage_dealt(attacker, defender, dmg)
+        
+        defender.hp -= dmg
+
+
+4. utils/excel_loader.py (数据读取)
+
+# utils/excel_loader.py
+import pandas as pd
+
+class ExcelLoader:
+    def __init__(self, path):
+        self.cards = pd.read_excel(path, 'Cards').set_index('ID')
+        self.enemies = pd.read_excel(path, 'Enemies').set_index('ID')
+        self.stats = pd.read_excel(path, 'Stats').set_index('StatID')
+        self.events = pd.read_excel(path, 'Events').set_index('ID')
+
+
+5. main.py (主循环)
+
+# main.py
+import curses
+from game import GameContext
+from ui.renderer import AsciiRenderer
+from ui.input_handler import InputHandler
+
+def main(stdscr):
+    ctx = GameContext()
+    renderer = AsciiRenderer(stdscr)
+    input_handler = InputHandler(ctx)
+    
+    while True:
+        # 根据 ctx.map.current_node 决定渲染哪个界面
+        if ctx.map.is_battle:
+            renderer.render_battle(ctx)
+        elif ctx.map.is_loot:
+            renderer.render_loot(ctx)
+        # ...
+        
+        key = stdscr.getch()
+        input_handler.handle(key)
+
+if __name__ == "__main__":
+    curses.wrapper(main)
+
+
+📊 Excel 结构回顾 (最终版)
+
+Sheet名 关键列 作用
+
+Cards ID, Name, DeckType(Player/Encounter/Neutral), Cost, Check(d20+STR), Damage(2d6+STR), Keywords 所有卡牌/遗物数据
+
+Enemies ID, Name, HP, Stats(STR/DEX/VIT), Deck(关联Cards) 敌人数据与他们的牌库
+
+Stats StatID, Name, BaseValue 属性定义
+
+Events ID, Type(Rest/Shop/Boss), Options 地图节点事件
+
+✅ 架构优势总结
+
+1.  高内聚：core 纯逻辑，systems 纯业务，ui 纯表现。  
+2.  无循环依赖：game.py 作为中心枢纽，所有子系统只依赖 GameContext。  
+3.  数据驱动：除了 config.py，没有任何硬编码的数值或文本。  
+4.  易于测试：BattleSystem 可以脱离 UI 直接进行单元测试（传入假数据）。  
+5.  魂味十足：d20 + 属性 的判定让升级属性变得极其有意义。
+
+这就是最终的成品架构。你可以直接按这个结构开始编写代码了。🎮🔥

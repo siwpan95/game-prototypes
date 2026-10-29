@@ -1,0 +1,77 @@
+sequenceDiagram
+    participant BS as BattleScreen
+    participant BC as BattleController
+    participant IH as InputHandler
+    participant P as Player
+    participant DM as DeckManager
+    participant DE as DiceEngine
+    participant KH as KeywordHandler
+    participant EB as EventBus
+    participant RM as RelicManager
+    participant E as Enemy
+
+    Note over BC: Player Turn Start
+    BC->>P: reset_fp()
+    BC->>DM: draw(5)
+    BC->>E: set_intent()
+    Note over BC: Player selects card via keyboard
+
+    BS->>IH: process(event) → "confirm"
+    BS->>BC: play_card(hand_index=2)
+
+    BC->>P: spend_fp(card.cost)
+    alt FP insufficient
+        BC-->>BS: {success: False, reason: "insufficient_fp"}
+    else FP sufficient
+        BC->>BC: _resolve_attack(card, enemy)
+
+        Note over BC: d20 Attack Roll
+        BC->>DE: roll_d20(modifier=player.str)
+        DE-->>BC: {roll: 14, modifier: 1, total: 15, result: "hit"}
+
+        alt result == "miss" or "mishap"
+            BC->>DM: discard(card)
+            BC-->>BS: {success: True, hit: False, roll_result: ...}
+        else result == "hit" or "crit"
+            Note over BC: 3d6 Damage Roll
+            BC->>DE: roll_3d6(modifier=player.str)
+            DE-->>BC: {rolls: [3,4,2], total: 9, modifier: 1, damage: 10}
+
+            alt result == "crit"
+                BC->>BC: damage *= 2
+            end
+
+            BC->>E: take_damage(damage)
+
+            Note over BC: Keyword Resolution
+            BC->>KH: resolve(card, player, enemy, battle_ctx)
+
+            alt card has "Draw" keyword
+                KH->>DM: draw(n)
+            end
+            alt card has "Exhaust" keyword
+                KH->>DM: exhaust(card)
+            end
+            alt card has "Lifesteal" keyword
+                KH->>P: heal(lifesteal_amount)
+            end
+            alt card has "Stun" keyword
+                KH->>E: apply_stun(turns)
+            end
+            alt card has "Vulnerable" keyword
+                KH->>E: apply_vulnerable(turns)
+            end
+
+            Note over BC: Relic Trigger
+            BC->>EB: emit("on_card_played", card=card, player=player, enemy=enemy)
+            EB->>RM: on_card_played(**kwargs)
+            RM->>RM: apply_effect(relic, **kwargs)
+
+            alt card not Exhausted
+                BC->>DM: discard(card)
+            end
+
+            BC->>BC: check_battle_end()
+            BC-->>BS: {success: True, hit: True, damage: 10, roll_result: ...}
+        end
+    end
