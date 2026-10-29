@@ -1,0 +1,50 @@
+{
+  "mod_id": "dlc_forest",
+  "name": "枯林",
+  "version": "1.0.0",
+  "description": "宅邸外的枯木森林——树木的根须穿过亡者的记忆，每一片落叶都在低语着被遗忘的真名。",
+  "maps": [
+    {
+      "map_id": "forest_entrance",
+      "name": "枯林入口",
+      "map_file": "maps/forest_entrance.txt",
+      "player_start": {"col": 1, "row": 15},
+      "objects_file": "objects/forest_entrance.json",
+      "cards": {
+        "forest_spirit_01": [35, 5],
+        "withered_oak_01": [18, 12],
+        "glowing_mushroom_01": [28, 25],
+        "stone_tablet_01": [5, 28]
+      },
+      "portals": [
+        {
+          "col": 0, "row": 15,
+          "char": "←",
+          "target_mod": null,
+          "target_map": "mansion",
+          "target_col": 37, "target_row": 13
+        }
+      ],
+      "mechanisms": [
+        {
+          "id": "forest_light",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "forest_spirit_01",
+          "desc": "林中之灵从枯木中苏醒，它挥动枯枝般的手指——森林深处笼罩的黑暗开始消散。",
+          "actions": [
+            {"type": "replace_area", "col_start": 10, "col_end": 35, "row_start": 22, "row_end": 28, "target": ["暗"], "replacement": "░"}
+          ]
+        },
+        {
+          "id": "vine_wither",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "withered_oak_01",
+          "desc": "枯萎橡树的心脏中还残留着一丝温暖——缠绕在路上的藤蔓无声地枯萎了。",
+          "actions": [
+            {"type": "replace_area", "col_start": 0, "col_end": 39, "row_start": 8, "row_end": 15, "target": ["藤"], "replacement": "░"}
+          ]
+        }
+      ]
+    }
+  ]
+}

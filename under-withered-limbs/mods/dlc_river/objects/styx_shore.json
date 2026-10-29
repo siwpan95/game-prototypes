@@ -1,0 +1,11 @@
+{
+  "interactives": [
+    {"id": "lost_soul_01",      "col": 9,  "row": 5,  "char": "亡", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "river_stone_01",    "col": 25, "row": 5,  "char": "石", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "ferryman_01",       "col": 9,  "row": 13, "char": "摆", "hitbox_w": 2, "hitbox_h": 1},
+    {"id": "forgotten_name_01", "col": 3,  "row": 28, "char": "遗", "hitbox_w": 2, "hitbox_h": 1}
+  ],
+  "memory_questions": [
+    {"id": "q_your_name", "col": 28, "row": 28, "char": "◈", "text": "你的名字是什么？", "answer_card": "forgotten_name_01"}
+  ]
+}

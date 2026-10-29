@@ -1,0 +1,4 @@
+# carimara_py dependencies (auto-generated 2026-08-20)
+numpy
+pygame-ce
+pytest

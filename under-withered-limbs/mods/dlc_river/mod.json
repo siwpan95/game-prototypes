@@ -1,0 +1,41 @@
+{
+  "mod_id": "dlc_river",
+  "name": "冥河之畔",
+  "version": "1.0.0",
+  "description": "世界的边界——冥河之畔。摆渡人收取名字作为船费，河水倒映的不是天空，而是你忘记的一切。",
+  "maps": [
+    {
+      "map_id": "styx_shore",
+      "name": "冥河之畔",
+      "map_file": "maps/styx_shore.txt",
+      "player_start": {"col": 19, "row": 1},
+      "objects_file": "objects/styx_shore.json",
+      "cards": {
+        "ferryman_01": [19, 15],
+        "lost_soul_01": [5, 10],
+        "river_stone_01": [30, 10],
+        "forgotten_name_01": [19, 28]
+      },
+      "portals": [
+        {
+          "col": 19, "row": 0,
+          "char": "▲",
+          "target_mod": null,
+          "target_map": "mansion",
+          "target_col": 19, "target_row": 30
+        }
+      ],
+      "mechanisms": [
+        {
+          "id": "river_crossing",
+          "trigger_type": "CARD_COLLECTED",
+          "trigger_id": "ferryman_01",
+          "desc": "摆渡人收下了你的名字。他挥动长篙，冥河上笼罩的迷雾徐徐散开，露出对岸的轮廓——那里有一座和你见过的一模一样的宅邸。",
+          "actions": [
+            {"type": "replace_area", "col_start": 5, "col_end": 35, "row_start": 20, "row_end": 29, "target": ["暗"], "replacement": "░"}
+          ]
+        }
+      ]
+    }
+  ]
+}
