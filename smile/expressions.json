@@ -1,0 +1,692 @@
+{
+  "default": {
+    "face": {
+      "color": [255, 220, 80],
+      "size": 200,
+      "outline_color": [200, 160, 40],
+      "outline_width": 3
+    },
+    "eyes": {
+      "spacing": 60,
+      "size": 20,
+      "pupil_size": 8,
+      "offset_y": -30,
+      "color": [255, 255, 255],
+      "pupil_color": [40, 40, 40],
+      "eyebrow_color": [80, 60, 30],
+      "eyebrow_offset_y": -55,
+      "eyebrow_angle": 0
+    },
+    "mouth": {
+      "type": "neutral",
+      "width": 120,
+      "height": 40,
+      "offset_y": 50,
+      "color": [180, 60, 60],
+      "thickness": 3
+    },
+    "cheeks": {
+      "show": false,
+      "color": [255, 150, 150],
+      "size": 25,
+      "offset_x": 80,
+      "offset_y": 20
+    },
+    "animation": {
+      "bounce_speed": 0,
+      "blink_interval": 3.0,
+      "squish": 0,
+      "shake": 0,
+      "wobble_speed": 0,
+      "pulse_speed": 0
+    },
+    "sound": "sounds/default.wav"
+  },
+
+  "expressions": {
+    "happy": {
+      "face": {
+        "color": [255, 220, 50]
+      },
+      "eyes": {
+        "size": 18,
+        "eyebrow_angle": -10
+      },
+      "mouth": {
+        "type": "smile",
+        "curve": 1.0,
+        "width": 130,
+        "height": 50
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 130, 130]
+      },
+      "animation": {
+        "bounce_speed": 4,
+        "squish": 0.05
+      },
+      "sound": "sounds/happy.wav"
+    },
+
+    "sad": {
+      "face": {
+        "color": [150, 180, 230]
+      },
+      "eyes": {
+        "size": 22,
+        "eyebrow_angle": 20
+      },
+      "mouth": {
+        "type": "frown",
+        "curve": -1.0,
+        "width": 100,
+        "height": 40
+      },
+      "animation": {
+        "bounce_speed": 1.5,
+        "squish": 0.03
+      },
+      "sound": "sounds/sad.wav"
+    },
+
+    "surprised": {
+      "face": {
+        "color": [255, 230, 150]
+      },
+      "eyes": {
+        "size": 35,
+        "pupil_size": 12,
+        "eyebrow_angle": -25
+      },
+      "mouth": {
+        "type": "round",
+        "height": 60,
+        "width": 50
+      },
+      "animation": {
+        "bounce_speed": 8,
+        "squish": 0.1,
+        "shake": 3
+      },
+      "sound": "sounds/surprised.wav"
+    },
+
+    "angry": {
+      "face": {
+        "color": [255, 120, 80],
+        "outline_color": [200, 60, 30]
+      },
+      "eyes": {
+        "size": 16,
+        "pupil_size": 6,
+        "eyebrow_angle": 30,
+        "eyebrow_color": [120, 30, 10]
+      },
+      "mouth": {
+        "type": "straight",
+        "width": 80,
+        "color": [150, 30, 30]
+      },
+      "animation": {
+        "shake": 5,
+        "pulse_speed": 6
+      },
+      "sound": "sounds/angry.wav"
+    },
+
+    "laugh": {
+      "face": {
+        "color": [255, 230, 60]
+      },
+      "eyes": {
+        "size": 15,
+        "eyebrow_angle": -15
+      },
+      "mouth": {
+        "type": "big_smile",
+        "width": 140,
+        "height": 70
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 120, 120],
+        "size": 30
+      },
+      "animation": {
+        "bounce_speed": 6,
+        "squish": 0.08,
+        "wobble_speed": 3
+      },
+      "sound": "sounds/laugh.wav"
+    },
+
+    "wink": {
+      "eyes": {
+        "size": 18,
+        "right_closed": true
+      },
+      "mouth": {
+        "type": "smirk_side",
+        "width": 100,
+        "height": 40
+      },
+      "animation": {
+        "bounce_speed": 2
+      },
+      "sound": "sounds/wink.wav"
+    },
+
+    "love": {
+      "face": {
+        "color": [255, 200, 210]
+      },
+      "eyes": {
+        "type": "heart",
+        "size": 25,
+        "color": [255, 50, 80]
+      },
+      "mouth": {
+        "type": "smile",
+        "width": 100,
+        "height": 45
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 100, 130],
+        "size": 35
+      },
+      "animation": {
+        "pulse_speed": 3
+      },
+      "sound": "sounds/love.wav"
+    },
+
+    "cool": {
+      "face": {
+        "color": [255, 220, 80]
+      },
+      "eyes": {
+        "type": "sunglasses",
+        "size": 28,
+        "color": [30, 30, 30]
+      },
+      "mouth": {
+        "type": "smirk_side",
+        "width": 90,
+        "height": 35
+      },
+      "animation": {
+        "bounce_speed": 1
+      },
+      "sound": "sounds/cool.wav"
+    },
+
+    "sleepy": {
+      "face": {
+        "color": [220, 210, 255]
+      },
+      "eyes": {
+        "size": 10,
+        "half_closed": true,
+        "eyebrow_angle": 10
+      },
+      "mouth": {
+        "type": "yawn",
+        "width": 40,
+        "height": 50
+      },
+      "animation": {
+        "bounce_speed": 0.8,
+        "wobble_speed": 1
+      },
+      "sound": "sounds/sleepy.wav"
+    },
+
+    "confused": {
+      "face": {
+        "color": [230, 220, 180]
+      },
+      "eyes": {
+        "size": 22,
+        "left_offset_x": -5,
+        "right_offset_x": 5,
+        "eyebrow_angle_left": -15,
+        "eyebrow_angle_right": 15
+      },
+      "mouth": {
+        "type": "wavy",
+        "width": 80,
+        "height": 30
+      },
+      "animation": {
+        "wobble_speed": 4,
+        "shake": 2
+      },
+      "sound": "sounds/confused.wav"
+    },
+
+    "shy": {
+      "face": {
+        "color": [255, 210, 180]
+      },
+      "eyes": {
+        "size": 16,
+        "look_down": true,
+        "eyebrow_angle": 10
+      },
+      "mouth": {
+        "type": "small_smile",
+        "width": 60,
+        "height": 25
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 120, 120],
+        "size": 30
+      },
+      "animation": {
+        "squish": 0.04,
+        "pulse_speed": 2
+      },
+      "sound": "sounds/shy.wav"
+    },
+
+    "excited": {
+      "face": {
+        "color": [255, 240, 80]
+      },
+      "eyes": {
+        "size": 28,
+        "pupil_size": 10,
+        "eyebrow_angle": -20
+      },
+      "mouth": {
+        "type": "big_smile",
+        "width": 130,
+        "height": 60
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 140, 100],
+        "size": 25
+      },
+      "animation": {
+        "bounce_speed": 8,
+        "squish": 0.06,
+        "wobble_speed": 5
+      },
+      "sound": "sounds/excited.wav"
+    },
+
+    "thinking": {
+      "eyes": {
+        "size": 18,
+        "look_up_right": true,
+        "eyebrow_angle_left": 0,
+        "eyebrow_angle_right": -10
+      },
+      "mouth": {
+        "type": "tilted",
+        "width": 70,
+        "height": 30
+      },
+      "animation": {
+        "wobble_speed": 1.5
+      },
+      "sound": "sounds/thinking.wav"
+    },
+
+    "scared": {
+      "face": {
+        "color": [240, 240, 255]
+      },
+      "eyes": {
+        "size": 38,
+        "pupil_size": 6,
+        "eyebrow_angle": -30
+      },
+      "mouth": {
+        "type": "wavy",
+        "width": 70,
+        "height": 40,
+        "color": [180, 100, 100]
+      },
+      "animation": {
+        "shake": 6,
+        "bounce_speed": 5
+      },
+      "sound": "sounds/scared.wav"
+    },
+
+    "silly": {
+      "face": {
+        "color": [255, 240, 120]
+      },
+      "eyes": {
+        "size": 22,
+        "cross_eyed": true
+      },
+      "mouth": {
+        "type": "tongue_out",
+        "width": 100,
+        "height": 50
+      },
+      "animation": {
+        "wobble_speed": 5,
+        "bounce_speed": 3
+      },
+      "sound": "sounds/silly.wav"
+    },
+
+    "proud": {
+      "face": {
+        "color": [255, 210, 60]
+      },
+      "eyes": {
+        "size": 18,
+        "look_up": true,
+        "eyebrow_angle": -5
+      },
+      "mouth": {
+        "type": "smirk_side",
+        "width": 110,
+        "height": 40
+      },
+      "animation": {
+        "bounce_speed": 2,
+        "squish": 0.02
+      },
+      "sound": "sounds/proud.wav"
+    },
+
+    "bored": {
+      "face": {
+        "color": [210, 210, 210]
+      },
+      "eyes": {
+        "size": 14,
+        "half_closed": true,
+        "eyebrow_angle": 5
+      },
+      "mouth": {
+        "type": "straight",
+        "width": 90,
+        "height": 10
+      },
+      "animation": {
+        "bounce_speed": 0.5
+      },
+      "sound": "sounds/bored.wav"
+    },
+
+    "embarrassed": {
+      "face": {
+        "color": [255, 180, 180]
+      },
+      "eyes": {
+        "size": 14,
+        "look_down": true
+      },
+      "mouth": {
+        "type": "wavy",
+        "width": 60,
+        "height": 20
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 80, 80],
+        "size": 35
+      },
+      "animation": {
+        "squish": 0.05,
+        "shake": 2
+      },
+      "sound": "sounds/embarrassed.wav"
+    },
+
+    "determined": {
+      "face": {
+        "color": [255, 200, 60],
+        "outline_color": [200, 150, 30]
+      },
+      "eyes": {
+        "size": 18,
+        "pupil_size": 5,
+        "eyebrow_angle": 25,
+        "eyebrow_color": [100, 60, 20]
+      },
+      "mouth": {
+        "type": "straight",
+        "width": 100,
+        "color": [160, 60, 40]
+      },
+      "animation": {
+        "pulse_speed": 4,
+        "squish": -0.03
+      },
+      "sound": "sounds/determined.wav"
+    },
+
+    "blush": {
+      "face": {
+        "color": [255, 200, 200]
+      },
+      "eyes": {
+        "size": 16,
+        "look_down": true,
+        "eyebrow_angle": 8
+      },
+      "mouth": {
+        "type": "small_smile",
+        "width": 50,
+        "height": 20
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 80, 100],
+        "size": 40
+      },
+      "animation": {
+        "pulse_speed": 2.5
+      },
+      "sound": "sounds/blush.wav"
+    },
+
+    "smirk": {
+      "eyes": {
+        "size": 18,
+        "right_closed": true,
+        "eyebrow_angle_left": 0,
+        "eyebrow_angle_right": -10
+      },
+      "mouth": {
+        "type": "smirk_side",
+        "width": 100,
+        "height": 35
+      },
+      "animation": {
+        "bounce_speed": 1.5
+      },
+      "sound": "sounds/smirk.wav"
+    },
+
+    "worried": {
+      "face": {
+        "color": [220, 220, 240]
+      },
+      "eyes": {
+        "size": 24,
+        "eyebrow_angle": 15
+      },
+      "mouth": {
+        "type": "wavy",
+        "width": 80,
+        "height": 35
+      },
+      "animation": {
+        "wobble_speed": 3,
+        "shake": 2
+      },
+      "sound": "sounds/worried.wav"
+    },
+
+    "grateful": {
+      "face": {
+        "color": [255, 230, 140]
+      },
+      "eyes": {
+        "size": 20,
+        "eyebrow_angle": -12
+      },
+      "mouth": {
+        "type": "smile",
+        "width": 110,
+        "height": 50
+      },
+      "cheeks": {
+        "show": true,
+        "color": [255, 150, 130],
+        "size": 25
+      },
+      "animation": {
+        "pulse_speed": 2,
+        "bounce_speed": 2
+      },
+      "sound": "sounds/grateful.wav"
+    },
+
+    "mischievous": {
+      "face": {
+        "color": [255, 220, 100]
+      },
+      "eyes": {
+        "size": 20,
+        "cross_eyed": true,
+        "eyebrow_angle_left": -15,
+        "eyebrow_angle_right": 15
+      },
+      "mouth": {
+        "type": "smirk_side",
+        "width": 100,
+        "height": 40
+      },
+      "animation": {
+        "wobble_speed": 3,
+        "bounce_speed": 2
+      },
+      "sound": "sounds/mischievous.wav"
+    },
+
+    "disappointed": {
+      "face": {
+        "color": [200, 200, 210]
+      },
+      "eyes": {
+        "size": 16,
+        "half_closed": true,
+        "look_down": true,
+        "eyebrow_angle": 18
+      },
+      "mouth": {
+        "type": "frown",
+        "curve": -0.8,
+        "width": 90,
+        "height": 35
+      },
+      "animation": {
+        "bounce_speed": 0.5
+      },
+      "sound": "sounds/disappointed.wav"
+    },
+
+    "relieved": {
+      "face": {
+        "color": [220, 240, 220]
+      },
+      "eyes": {
+        "size": 14,
+        "half_closed": true,
+        "eyebrow_angle": -5
+      },
+      "mouth": {
+        "type": "small_smile",
+        "width": 70,
+        "height": 25
+      },
+      "cheeks": {
+        "show": true,
+        "color": [200, 255, 200],
+        "size": 20
+      },
+      "animation": {
+        "bounce_speed": 1
+      },
+      "sound": "sounds/relieved.wav"
+    },
+
+    "annoyed": {
+      "face": {
+        "color": [240, 180, 150]
+      },
+      "eyes": {
+        "size": 15,
+        "eyebrow_angle": 25,
+        "eyebrow_color": [120, 50, 20]
+      },
+      "mouth": {
+        "type": "straight",
+        "width": 70,
+        "color": [160, 50, 50]
+      },
+      "animation": {
+        "shake": 3,
+        "pulse_speed": 5
+      },
+      "sound": "sounds/annoyed.wav"
+    },
+
+    "amazed": {
+      "face": {
+        "color": [255, 240, 160]
+      },
+      "eyes": {
+        "size": 36,
+        "pupil_size": 10,
+        "eyebrow_angle": -25
+      },
+      "mouth": {
+        "type": "round",
+        "width": 60,
+        "height": 70
+      },
+      "animation": {
+        "bounce_speed": 6,
+        "squish": 0.08
+      },
+      "sound": "sounds/amazed.wav"
+    },
+
+    "nervous": {
+      "face": {
+        "color": [230, 220, 240]
+      },
+      "eyes": {
+        "size": 24,
+        "look_side": true,
+        "eyebrow_angle": 12
+      },
+      "mouth": {
+        "type": "wavy",
+        "width": 70,
+        "height": 30
+      },
+      "animation": {
+        "shake": 4,
+        "wobble_speed": 5,
+        "pulse_speed": 6
+      },
+      "sound": "sounds/nervous.wav"
+    }
+  }
+}
