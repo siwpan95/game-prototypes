@@ -1,0 +1,6 @@
+# bee dependencies (auto-generated 2026-08-20)
+numpy
+openpyxl
+Pillow
+pystray
+sounddevice

@@ -1,0 +1,122 @@
+[
+  {
+    "race": "",
+    "faction": "混沌阵营",
+    "category": "亡灵系",
+    "size": "小型"
+  },
+  {
+    "race": "",
+    "faction": "混沌阵营",
+    "category": "亡灵系",
+    "size": "小型"
+  },
+  {
+    "race": "",
+    "faction": "混沌阵营",
+    "category": "亡灵系",
+    "size": "小型"
+  },
+  {
+    "race": "",
+    "faction": "混沌阵营",
+    "category": "邪能系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "混沌阵营",
+    "category": "邪能系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "混沌阵营",
+    "category": "人形系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "混沌阵营",
+    "category": "人形系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "自然阵营",
+    "category": "自然系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "自然阵营",
+    "category": "自然系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "自然阵营",
+    "category": "自然系",
+    "size": "小型"
+  },
+  {
+    "race": "",
+    "faction": "自然阵营",
+    "category": "自然系",
+    "size": "小型"
+  },
+  {
+    "race": "",
+    "faction": "自然阵营",
+    "category": "自然系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "秩序阵营",
+    "category": "人形系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "秩序阵营",
+    "category": "人形系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "秩序阵营",
+    "category": "机械系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "秩序阵营",
+    "category": "龙系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "中立阵营",
+    "category": "龙系",
+    "size": "大型"
+  },
+  {
+    "race": "",
+    "faction": "中立阵营",
+    "category": "元素系",
+    "size": "中型"
+  },
+  {
+    "race": "",
+    "faction": "中立阵营",
+    "category": "人形系",
+    "size": "大型"
+  },
+  {
+    "race": "",
+    "faction": "中立阵营",
+    "category": "人形系",
+    "size": "大型"
+  }
+]

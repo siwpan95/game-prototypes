@@ -1,0 +1,34 @@
+[
+  {
+    "rarity_name": "普通",
+    "stat_mult": 1.0,
+    "min_affix": 1,
+    "max_affix": 3,
+    "threshold": 0.8,
+    "prefix": "None"
+  },
+  {
+    "rarity_name": "精英",
+    "stat_mult": 1.5,
+    "min_affix": 3,
+    "max_affix": 5,
+    "threshold": 0.95,
+    "prefix": "【精英】"
+  },
+  {
+    "rarity_name": "稀有",
+    "stat_mult": 2.5,
+    "min_affix": 5,
+    "max_affix": 7,
+    "threshold": 0.99,
+    "prefix": "【稀有】"
+  },
+  {
+    "rarity_name": "传说",
+    "stat_mult": 5.0,
+    "min_affix": 7,
+    "max_affix": 10,
+    "threshold": 1.0,
+    "prefix": "【传说】"
+  }
+]

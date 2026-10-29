@@ -1,0 +1,135 @@
+[
+  {
+    "recipe_id": "rcp_dragon_armor",
+    "name": "龙鳞甲",
+    "description": "",
+    "materials": {
+      "龙鳞": 3,
+      "龙牙": 1
+    },
+    "output_type": "equipment",
+    "output_quality": "EXCELLENT",
+    "output_effect": "None",
+    "output_value": 0
+  },
+  {
+    "recipe_id": "rcp_dragon_blade",
+    "name": "龙牙剑",
+    "description": "",
+    "materials": {
+      "龙牙": 2,
+      "龙鳞": 1
+    },
+    "output_type": "equipment",
+    "output_quality": "EXCELLENT",
+    "output_effect": "None",
+    "output_value": 0
+  },
+  {
+    "recipe_id": "rcp_soul_ring",
+    "name": "灵魂之戒",
+    "description": "",
+    "materials": {
+      "灵魂精华": 3,
+      "暗影碎片": 2
+    },
+    "output_type": "accessory",
+    "output_quality": "SUPERIOR",
+    "output_effect": "None",
+    "output_value": 0
+  },
+  {
+    "recipe_id": "rcp_elemental_neck",
+    "name": "元素护符",
+    "description": "",
+    "materials": {
+      "元素结晶": 3,
+      "魔力粉尘": 3
+    },
+    "output_type": "accessory",
+    "output_quality": "SUPERIOR",
+    "output_effect": "None",
+    "output_value": 0
+  },
+  {
+    "recipe_id": "rcp_life_potion",
+    "name": "高级生命药水",
+    "description": "",
+    "materials": {
+      "生命精华": 2,
+      "野兽毛皮": 3
+    },
+    "output_type": "consumable",
+    "output_quality": "None",
+    "output_effect": "heal",
+    "output_value": 80
+  },
+  {
+    "recipe_id": "rcp_poison_coat",
+    "name": "毒刃涂层",
+    "description": "",
+    "materials": {
+      "毒腺": 2,
+      "魔力粉尘": 1
+    },
+    "output_type": "consumable",
+    "output_quality": "None",
+    "output_effect": "poison_weapon",
+    "output_value": 10
+  },
+  {
+    "recipe_id": "rcp_ancient_core",
+    "name": "古代核心",
+    "description": "",
+    "materials": {
+      "古代零件": 2,
+      "魔力核心": 1,
+      "齿轮组件": 3
+    },
+    "output_type": "gold",
+    "output_quality": "None",
+    "output_effect": "None",
+    "output_value": 150
+  },
+  {
+    "recipe_id": "rcp_soul_stone",
+    "name": "灵魂石",
+    "description": "",
+    "materials": {
+      "灵魂精华": 5,
+      "混沌精华": 2,
+      "龙血精华": 1
+    },
+    "output_type": "consumable",
+    "output_quality": "None",
+    "output_effect": "auto_revive",
+    "output_value": 1
+  },
+  {
+    "recipe_id": "rcp_war_manual",
+    "name": "战术精要",
+    "description": "",
+    "materials": {
+      "战术手册": 3,
+      "破损武器": 5
+    },
+    "output_type": "exp",
+    "output_quality": "None",
+    "output_effect": "None",
+    "output_value": 500
+  },
+  {
+    "recipe_id": "rcp_demon_heart",
+    "name": "恶魔之心",
+    "description": "",
+    "materials": {
+      "恶魔之角": 5,
+      "混沌精华": 3,
+      "虚空碎片": 3
+    },
+    "output_type": "permanent",
+    "output_quality": "None",
+    "output_effect": "attack_boost",
+    "output_value": 5
+  }
+]

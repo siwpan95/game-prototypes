@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+
+# 游戏存档（仅根目录；src/resources/data 是游戏数据，需入库）
+/data/
+
+# 日志（仅根目录）
+/logs/
+crash.log
+
+# 虚拟环境
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# PyInstaller 打包产物（仅根目录）
+/build/
+/dist/
+*.spec
+*.exe
+
+# 其他构建产物
+/AA/
+# 运行产物/缓存（2026-09-23 移出版本控制）
+godot/.godot/

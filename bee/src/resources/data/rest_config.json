@@ -1,0 +1,82 @@
+[
+  {
+    "配置项": "short_rest_combat_interval",
+    "值": 3,
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "short_rest_on_room_clear",
+    "值": "是",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "short_rest_hp_restore_pct",
+    "值": 0.3,
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "short_rest_mp_restore_pct",
+    "值": 0.3,
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "long_rest_on_dungeon_clear",
+    "值": "是",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "long_rest_hp_restore_pct",
+    "值": 1,
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "long_rest_mp_restore_pct",
+    "值": 1,
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "long_rest_reset_cooldowns",
+    "值": "是",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  }
+]

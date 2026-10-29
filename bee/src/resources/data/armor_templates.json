@@ -1,0 +1,98 @@
+[
+  {
+    "type": "LIGHT",
+    "name": "皮甲"
+  },
+  {
+    "type": "LIGHT",
+    "name": "猎装"
+  },
+  {
+    "type": "LIGHT",
+    "name": "暗影皮甲"
+  },
+  {
+    "type": "LIGHT",
+    "name": "龙皮甲"
+  },
+  {
+    "type": "LIGHT",
+    "name": "凤凰皮甲"
+  },
+  {
+    "type": "LIGHT",
+    "name": "精灵皮甲·轻灵"
+  },
+  {
+    "type": "MEDIUM",
+    "name": "链甲"
+  },
+  {
+    "type": "MEDIUM",
+    "name": "鳞甲"
+  },
+  {
+    "type": "MEDIUM",
+    "name": "符文链甲"
+  },
+  {
+    "type": "MEDIUM",
+    "name": "秘银链甲"
+  },
+  {
+    "type": "MEDIUM",
+    "name": "龙鳞甲"
+  },
+  {
+    "type": "MEDIUM",
+    "name": "龙鳞甲·不朽"
+  },
+  {
+    "type": "HEAVY",
+    "name": "板甲"
+  },
+  {
+    "type": "HEAVY",
+    "name": "全身甲"
+  },
+  {
+    "type": "HEAVY",
+    "name": "符文板甲"
+  },
+  {
+    "type": "HEAVY",
+    "name": "秘银板甲"
+  },
+  {
+    "type": "HEAVY",
+    "name": "炎金甲"
+  },
+  {
+    "type": "HEAVY",
+    "name": "泰坦甲·擎天"
+  },
+  {
+    "type": "ROBE",
+    "name": "布袍"
+  },
+  {
+    "type": "ROBE",
+    "name": "法师袍"
+  },
+  {
+    "type": "ROBE",
+    "name": "奥术长袍"
+  },
+  {
+    "type": "ROBE",
+    "name": "元素长袍"
+  },
+  {
+    "type": "ROBE",
+    "name": "虚空法袍"
+  },
+  {
+    "type": "ROBE",
+    "name": "大法师袍·真理"
+  }
+]

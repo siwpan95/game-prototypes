@@ -1,0 +1,50 @@
+[
+  {
+    "type": "NECK",
+    "name": "铁项链"
+  },
+  {
+    "type": "NECK",
+    "name": "银项链"
+  },
+  {
+    "type": "NECK",
+    "name": "符文坠"
+  },
+  {
+    "type": "NECK",
+    "name": "护身符"
+  },
+  {
+    "type": "NECK",
+    "name": "龙心坠"
+  },
+  {
+    "type": "NECK",
+    "name": "灵魂坠·永恒"
+  },
+  {
+    "type": "RING",
+    "name": "铁戒指"
+  },
+  {
+    "type": "RING",
+    "name": "银戒指"
+  },
+  {
+    "type": "RING",
+    "name": "符文戒"
+  },
+  {
+    "type": "RING",
+    "name": "魔力戒"
+  },
+  {
+    "type": "RING",
+    "name": "元素戒"
+  },
+  {
+    "type": "RING",
+    "name": "命运戒·轮回"
+  }
+]

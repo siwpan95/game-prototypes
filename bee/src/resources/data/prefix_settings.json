@@ -1,0 +1,22 @@
+[
+  {
+    "配置项": "min_prefixes",
+    "值": 1,
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "配置项": "max_prefixes",
+    "值": 3,
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  }
+]

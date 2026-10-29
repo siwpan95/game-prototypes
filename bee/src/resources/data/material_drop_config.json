@@ -1,0 +1,128 @@
+[
+  {
+    "tag": "龙系",
+    "material_name": "龙鳞",
+    "base_value": 30,
+    "drop_chance": 0.25
+  },
+  {
+    "tag": "龙系",
+    "material_name": "龙牙",
+    "base_value": 40,
+    "drop_chance": 0.15
+  },
+  {
+    "tag": "龙系",
+    "material_name": "龙血精华",
+    "base_value": 60,
+    "drop_chance": 0.05
+  },
+  {
+    "tag": "亡灵系",
+    "material_name": "灵魂精华",
+    "base_value": 15,
+    "drop_chance": 0.25
+  },
+  {
+    "tag": "亡灵系",
+    "material_name": "暗影碎片",
+    "base_value": 12,
+    "drop_chance": 0.2
+  },
+  {
+    "tag": "亡灵系",
+    "material_name": "亡灵之骨",
+    "base_value": 10,
+    "drop_chance": 0.15
+  },
+  {
+    "tag": "邪能系",
+    "material_name": "恶魔之角",
+    "base_value": 20,
+    "drop_chance": 0.2
+  },
+  {
+    "tag": "邪能系",
+    "material_name": "虚空碎片",
+    "base_value": 18,
+    "drop_chance": 0.15
+  },
+  {
+    "tag": "邪能系",
+    "material_name": "混沌精华",
+    "base_value": 35,
+    "drop_chance": 0.05
+  },
+  {
+    "tag": "元素系",
+    "material_name": "元素结晶",
+    "base_value": 15,
+    "drop_chance": 0.25
+  },
+  {
+    "tag": "元素系",
+    "material_name": "魔力粉尘",
+    "base_value": 10,
+    "drop_chance": 0.2
+  },
+  {
+    "tag": "元素系",
+    "material_name": "元素之心",
+    "base_value": 50,
+    "drop_chance": 0.03
+  },
+  {
+    "tag": "自然系",
+    "material_name": "野兽毛皮",
+    "base_value": 8,
+    "drop_chance": 0.3
+  },
+  {
+    "tag": "自然系",
+    "material_name": "毒腺",
+    "base_value": 12,
+    "drop_chance": 0.15
+  },
+  {
+    "tag": "自然系",
+    "material_name": "生命精华",
+    "base_value": 25,
+    "drop_chance": 0.05
+  },
+  {
+    "tag": "机械系",
+    "material_name": "齿轮组件",
+    "base_value": 12,
+    "drop_chance": 0.25
+  },
+  {
+    "tag": "机械系",
+    "material_name": "魔力核心",
+    "base_value": 20,
+    "drop_chance": 0.15
+  },
+  {
+    "tag": "机械系",
+    "material_name": "古代零件",
+    "base_value": 30,
+    "drop_chance": 0.05
+  },
+  {
+    "tag": "人形系",
+    "material_name": "破损武器",
+    "base_value": 10,
+    "drop_chance": 0.2
+  },
+  {
+    "tag": "人形系",
+    "material_name": "金币袋",
+    "base_value": 15,
+    "drop_chance": 0.15
+  },
+  {
+    "tag": "人形系",
+    "material_name": "战术手册",
+    "base_value": 25,
+    "drop_chance": 0.03
+  }
+]

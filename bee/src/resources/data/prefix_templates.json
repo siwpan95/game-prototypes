@@ -1,0 +1,644 @@
+[
+  {
+    "type": "",
+    "prefix": "锋利的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "灼热的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "冰霜的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "暗影的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "圣光的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "狂暴的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "闪电的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "剧毒的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "吸血的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "破甲的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "残酷的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "迅捷的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "坚固的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "守护的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "龙鳞的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "符文的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "圣盾的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "灵巧的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "荆棘的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "魔纹的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "重铸的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "反射的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "不朽的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "魔力",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "守护",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "永恒",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "灵魂",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "命运",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "智慧",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "贪婪",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "活力",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "时空",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "元素",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "战意",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "深渊",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "致命打击的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "撕裂的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "祝福的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "恶魔猎手的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "屠龙者的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "亡魂的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "毁灭的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "天罚的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "噬魂的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "连击的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "虹吸的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "震击的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "重创的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "穿刺的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "弧光的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "辉光的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "血盾的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "坚如磐石的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "反伤的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "金刚的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "虚无的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "圣咒的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "壁垒的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "回生的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "魂甲的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "巨人之力的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "铁壁的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "龙甲的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "护盾的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "星光的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "幻影的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "暴走的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "天启的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "血族的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "灵体的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "命运的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "天眼的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "冥河的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "太阳的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "月光的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "暴风的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "大地的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "海洋的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "凤凰的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "神谕的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "血怒的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "铜肤的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "烈焰的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "霜冻的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "雷鸣的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "再生者",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "巨型的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "微小却凶狠的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "灵能的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "时空的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "诅咒的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "双倍伍基人的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "巫毒公主的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "圣骑士候补的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "半吊子的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "祖传的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "拼单的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "过期的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "大概也许的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "非酋的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "欧皇的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "自称大师的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "看上去很强的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "剧情需要的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "零充玩家的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "加班的",
+    "effect": "",
+    "value": 0.0
+  },
+  {
+    "type": "",
+    "prefix": "隔壁老王的",
+    "effect": "",
+    "value": 0.0
+  }
+]

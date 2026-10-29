@@ -1,0 +1,551 @@
+[
+  {
+    "特效名称": "生命恢复",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "法力恢复",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "暴击提升",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "速度提升",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "经验加成",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "吸血光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "荆棘光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "火焰光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "冰霜光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "连锁攻击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "致命一击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "护盾生成",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "金币掉落",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "物品掉落",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "召唤魔宠",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "时间减速",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "瞬移闪避",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "元素爆发",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "灵魂收割",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "无敌立场",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "金币磁铁",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "物品磁铁",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "幸运光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "力量光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "魔法光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "生命之泉",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "魔力之泉",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "迅捷光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "防御光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "勇气光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "复仇光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "反伤装甲",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "毒素光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "恐惧光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "净化光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "吸血光环",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "魔力汲取",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "疾风步",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "钢铁皮肤",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "巨人之力",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "魔力洪流",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "不屈",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "绝地反击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "最终防线",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "冰冻打击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "眩晕打击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "沉默打击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "破防打击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "毒液爆发",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "火焰爆发",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "冰霜爆发",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "幻影分身",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "弹射反射",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "击杀回血",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "击杀爆炸",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "击杀召唤",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "击杀加速",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "击杀连锁",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "旋风斩",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "暴风雪",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  },
+  {
+    "特效名称": "雷击",
+    "hp": 1,
+    "damage": 1,
+    "defense": 0,
+    "exp": 0,
+    "gold": 0,
+    "loot_table": ""
+  }
+]

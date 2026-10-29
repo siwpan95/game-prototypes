@@ -1,0 +1,84 @@
+[
+  {
+    "element": "fire_damage",
+    "env_tag": "毒雾",
+    "race_tag": "None",
+    "narrative": "{name}身上的火焰引爆了弥漫的毒雾！轰——！",
+    "effect": {
+      "bonus_dmg": 15
+    }
+  },
+  {
+    "element": "fire_damage",
+    "env_tag": "严寒",
+    "race_tag": "None",
+    "narrative": "冰火交融，{name}周围的空气发出刺耳的嘶嘶声——蒸汽弥漫！",
+    "effect": {
+      "debuff_def": -2
+    }
+  },
+  {
+    "element": "shock",
+    "env_tag": "None",
+    "race_tag": "机械系",
+    "narrative": "闪电在{name}的金属身躯上弹跳，电弧四溅！",
+    "effect": {
+      "bonus_dmg": 10,
+      "stun_bonus": 0.05
+    }
+  },
+  {
+    "element": "shock",
+    "env_tag": "雷暴",
+    "race_tag": "None",
+    "narrative": "雷暴环境放大了闪电的威力！{name}浑身火花四溅！",
+    "effect": {
+      "bonus_dmg": 12
+    }
+  },
+  {
+    "element": "poison",
+    "env_tag": "毒雾",
+    "race_tag": "None",
+    "narrative": "毒雾与{name}身上渗出的毒素混合，空气中弥漫着致命的绿色！",
+    "effect": {
+      "dot_bonus": 3
+    }
+  },
+  {
+    "element": "slow",
+    "env_tag": "高温",
+    "race_tag": "None",
+    "narrative": "{name}身上的冰霜在高温中嘶嘶蒸发，减速效果大打折扣！",
+    "effect": {
+      "slow_penalty": -1
+    }
+  },
+  {
+    "element": "slow",
+    "env_tag": "死灵",
+    "race_tag": "亡灵系",
+    "narrative": "寒气冻结了{name}的腐肉，它发出刺耳的咯吱声！",
+    "effect": {
+      "bonus_dmg": 8
+    }
+  },
+  {
+    "element": "life_steal",
+    "env_tag": "血域",
+    "race_tag": "None",
+    "narrative": "血域滋养了{name}的吸血欲望！它的眼中闪烁着贪婪的红光！",
+    "effect": {
+      "ls_bonus": 0.05
+    }
+  },
+  {
+    "element": "regen",
+    "env_tag": "暗影",
+    "race_tag": "亡灵系",
+    "narrative": "暗影能量涌入{name}的躯体，腐朽的血肉开始蠕动重生！",
+    "effect": {
+      "regen_bonus": 5
+    }
+  }
+]

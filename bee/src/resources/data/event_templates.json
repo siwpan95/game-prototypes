@@ -1,0 +1,58 @@
+[
+  {
+    "event_id": "evt_merchant",
+    "type": "",
+    "weight": 30,
+    "template": "一个背着巨大包裹的旅商出现在路口。『嘿，冒险者！我这有件{random_item}，只要{gold_cost}金币，要不要？』",
+    "effect": "offer_item",
+    "effect_value": 150
+  },
+  {
+    "event_id": "evt_portal",
+    "type": "",
+    "weight": 15,
+    "template": "空气中突然裂开一道紫色的裂缝——一座传送门！门的那边隐约能看到{random_region}的景象……但传送门在几秒后消失了。",
+    "effect": "none",
+    "effect_value": 0
+  },
+  {
+    "event_id": "evt_wanderer",
+    "type": "",
+    "weight": 20,
+    "template": "一位满身伤疤的流浪剑客拦住了你的去路。『我曾是{random_region}最强的剑士。来吧，让我看看你的实力！』",
+    "effect": "duel",
+    "effect_value": 50
+  },
+  {
+    "event_id": "evt_shrine",
+    "type": "",
+    "weight": 15,
+    "template": "你发现了一座被遗忘的古老神龛。石台上放着一枚散发着{random_element}光芒的徽章。",
+    "effect": "blessing",
+    "effect_value": 10
+  },
+  {
+    "event_id": "evt_campfire",
+    "type": "",
+    "weight": 20,
+    "template": "路边有一处熄灭的篝火，旁边丢着几个空瓶子和一本翻烂的日记。日记最后一页写着：『下一个地牢里，藏着{random_element}的秘密……』",
+    "effect": "rest_bonus",
+    "effect_value": 5
+  },
+  {
+    "event_id": "evt_rat_king",
+    "type": "",
+    "weight": 10,
+    "template": "一大群老鼠从墙角的裂缝中涌出——为首的一只戴着小小的王冠！鼠王叽叽喳喳叫了几声，鼠群又消失在黑暗中。",
+    "effect": "gold_drop",
+    "effect_value": 30
+  },
+  {
+    "event_id": "evt_ghost",
+    "type": "",
+    "weight": 8,
+    "template": "一个半透明的幽灵从墙壁中飘出，向你微微鞠躬。『勇者啊……请带着我的遗愿继续前进……』幽灵将一件物品放在地上，消散了。",
+    "effect": "ghost_gift",
+    "effect_value": 0
+  }
+]

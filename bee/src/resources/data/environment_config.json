@@ -1,0 +1,116 @@
+[
+  {
+    "env_tag": "高温",
+    "effect_field": "fire_bonus",
+    "effect_value": 0.2,
+    "description": ""
+  },
+  {
+    "env_tag": "高温",
+    "effect_field": "ice_penalty",
+    "effect_value": -0.2,
+    "description": ""
+  },
+  {
+    "env_tag": "严寒",
+    "effect_field": "ice_bonus",
+    "effect_value": 0.2,
+    "description": ""
+  },
+  {
+    "env_tag": "严寒",
+    "effect_field": "fire_penalty",
+    "effect_value": -0.2,
+    "description": ""
+  },
+  {
+    "env_tag": "雷暴",
+    "effect_field": "shock_bonus",
+    "effect_value": 1.0,
+    "description": ""
+  },
+  {
+    "env_tag": "雷暴",
+    "effect_field": "player_slow",
+    "effect_value": -0.1,
+    "description": ""
+  },
+  {
+    "env_tag": "毒雾",
+    "effect_field": "poison_bonus",
+    "effect_value": 3.0,
+    "description": ""
+  },
+  {
+    "env_tag": "毒雾",
+    "effect_field": "player_poison",
+    "effect_value": 1.0,
+    "description": ""
+  },
+  {
+    "env_tag": "死灵",
+    "effect_field": "undead_regen",
+    "effect_value": 5.0,
+    "description": ""
+  },
+  {
+    "env_tag": "死灵",
+    "effect_field": "holy_bonus",
+    "effect_value": 0.15,
+    "description": ""
+  },
+  {
+    "env_tag": "暗影",
+    "effect_field": "evasion_bonus",
+    "effect_value": 0.08,
+    "description": ""
+  },
+  {
+    "env_tag": "暗影",
+    "effect_field": "light_penalty",
+    "effect_value": -0.1,
+    "description": ""
+  },
+  {
+    "env_tag": "诅咒",
+    "effect_field": "player_hp_down",
+    "effect_value": -0.15,
+    "description": ""
+  },
+  {
+    "env_tag": "诅咒",
+    "effect_field": "player_dmg_down",
+    "effect_value": -0.1,
+    "description": ""
+  },
+  {
+    "env_tag": "混沌",
+    "effect_field": "random_bonus",
+    "effect_value": 0.1,
+    "description": ""
+  },
+  {
+    "env_tag": "血域",
+    "effect_field": "life_steal_bonus",
+    "effect_value": 0.08,
+    "description": ""
+  },
+  {
+    "env_tag": "破碎",
+    "effect_field": "defense_down",
+    "effect_value": -0.2,
+    "description": ""
+  },
+  {
+    "env_tag": "荒芜",
+    "effect_field": "regen_down",
+    "effect_value": -5.0,
+    "description": ""
+  },
+  {
+    "env_tag": "遗忘",
+    "effect_field": "crit_fluctuation",
+    "effect_value": 0.1,
+    "description": ""
+  }
+]

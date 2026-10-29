@@ -1,0 +1,58 @@
+[
+  {
+    "merchant_name": "独眼格鲁姆",
+    "refresh_interval": 300,
+    "min_items": 2,
+    "max_items": 4,
+    "price_coeff": 1.0
+  },
+  {
+    "merchant_name": "铁匠老陈",
+    "refresh_interval": 300,
+    "min_items": 2,
+    "max_items": 3,
+    "price_coeff": 0.9
+  },
+  {
+    "merchant_name": "流浪商人莉亚",
+    "refresh_interval": 240,
+    "min_items": 3,
+    "max_items": 5,
+    "price_coeff": 1.2
+  },
+  {
+    "merchant_name": "矮人锻造大师巴林",
+    "refresh_interval": 360,
+    "min_items": 1,
+    "max_items": 3,
+    "price_coeff": 0.8
+  },
+  {
+    "merchant_name": "神秘炼金术士",
+    "refresh_interval": 300,
+    "min_items": 2,
+    "max_items": 4,
+    "price_coeff": 1.1
+  },
+  {
+    "merchant_name": "精灵商贩艾琳",
+    "refresh_interval": 240,
+    "min_items": 3,
+    "max_items": 4,
+    "price_coeff": 1.0
+  },
+  {
+    "merchant_name": "退役冒险者汉克",
+    "refresh_interval": 300,
+    "min_items": 2,
+    "max_items": 3,
+    "price_coeff": 0.95
+  },
+  {
+    "merchant_name": "猫人商会的菲力克斯",
+    "refresh_interval": 240,
+    "min_items": 3,
+    "max_items": 5,
+    "price_coeff": 1.15
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "race": "",
+    "ability_type": "death_rattle",
+    "value": 1.0,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "death_rattle",
+    "value": 1.0,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "breath",
+    "value": 5.0,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "thorns_mod",
+    "value": 0.1,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "life_steal_mod",
+    "value": 0.15,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "web",
+    "value": 0.03,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "frenzy_hp_pct",
+    "value": 0.3,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "frenzy_hp_pct",
+    "value": 0.3,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "elemental_immune",
+    "value": 1.0,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "split_chance",
+    "value": 0.05,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "evasion_mod",
+    "value": 0.08,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "evasion_mod",
+    "value": 0.05,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "regen_mod",
+    "value": 5.0,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "stomp",
+    "value": 0.1,
+    "description": ""
+  },
+  {
+    "race": "",
+    "ability_type": "regen_mod",
+    "value": 3.0,
+    "description": ""
+  }
+]

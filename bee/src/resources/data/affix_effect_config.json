@@ -1,0 +1,442 @@
+[
+  {
+    "keyword": "锋利",
+    "effect_type": "crit_up",
+    "effect_value": 0.03
+  },
+  {
+    "keyword": "破甲",
+    "effect_type": "armor_pen",
+    "effect_value": 0.15
+  },
+  {
+    "keyword": "残酷",
+    "effect_type": "damage_up",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "重创",
+    "effect_type": "crit_up",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "穿刺",
+    "effect_type": "armor_pen",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "致命",
+    "effect_type": "crit_up",
+    "effect_value": 0.06
+  },
+  {
+    "keyword": "撕裂",
+    "effect_type": "crit_up",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "连击",
+    "effect_type": "attack_speed",
+    "effect_value": 0.2
+  },
+  {
+    "keyword": "弧光",
+    "effect_type": "attack_speed",
+    "effect_value": 0.15
+  },
+  {
+    "keyword": "灼热",
+    "effect_type": "fire_damage",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "烈焰",
+    "effect_type": "fire_damage",
+    "effect_value": 0.12
+  },
+  {
+    "keyword": "熔岩",
+    "effect_type": "fire_damage",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "炎",
+    "effect_type": "fire_damage",
+    "effect_value": 0.06
+  },
+  {
+    "keyword": "太阳",
+    "effect_type": "fire_damage",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "凤凰",
+    "effect_type": "fire_damage",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "辉光",
+    "effect_type": "fire_damage",
+    "effect_value": 0.06
+  },
+  {
+    "keyword": "冰霜",
+    "effect_type": "slow",
+    "effect_value": 1.0
+  },
+  {
+    "keyword": "寒冰",
+    "effect_type": "slow",
+    "effect_value": 1.0
+  },
+  {
+    "keyword": "冻结",
+    "effect_type": "freeze_chance",
+    "effect_value": 0.03
+  },
+  {
+    "keyword": "霜冻",
+    "effect_type": "slow",
+    "effect_value": 1.0
+  },
+  {
+    "keyword": "闪电",
+    "effect_type": "shock",
+    "effect_value": 1.0
+  },
+  {
+    "keyword": "震击",
+    "effect_type": "shock",
+    "effect_value": 1.0
+  },
+  {
+    "keyword": "雷鸣",
+    "effect_type": "shock",
+    "effect_value": 1.0
+  },
+  {
+    "keyword": "暴风",
+    "effect_type": "attack_speed",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "剧毒",
+    "effect_type": "poison",
+    "effect_value": 2.0
+  },
+  {
+    "keyword": "毒",
+    "effect_type": "poison",
+    "effect_value": 1.0
+  },
+  {
+    "keyword": "吸血",
+    "effect_type": "life_steal",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "虹吸",
+    "effect_type": "life_steal",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "噬魂",
+    "effect_type": "life_steal",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "血族",
+    "effect_type": "life_steal",
+    "effect_value": 0.12
+  },
+  {
+    "keyword": "血怒",
+    "effect_type": "life_steal",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "血",
+    "effect_type": "life_steal",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "迅捷",
+    "effect_type": "attack_speed",
+    "effect_value": 0.3
+  },
+  {
+    "keyword": "灵巧",
+    "effect_type": "attack_speed",
+    "effect_value": 0.2
+  },
+  {
+    "keyword": "暴走",
+    "effect_type": "attack_speed",
+    "effect_value": 0.25
+  },
+  {
+    "keyword": "坚固",
+    "effect_type": "defense_up",
+    "effect_value": 0.5
+  },
+  {
+    "keyword": "铁壁",
+    "effect_type": "defense_up",
+    "effect_value": 0.5
+  },
+  {
+    "keyword": "金刚",
+    "effect_type": "defense_up",
+    "effect_value": 0.6
+  },
+  {
+    "keyword": "龙甲",
+    "effect_type": "defense_up",
+    "effect_value": 0.4
+  },
+  {
+    "keyword": "壁垒",
+    "effect_type": "defense_up",
+    "effect_value": 0.4
+  },
+  {
+    "keyword": "铜肤",
+    "effect_type": "defense_up",
+    "effect_value": 0.3
+  },
+  {
+    "keyword": "龙鳞",
+    "effect_type": "defense_up",
+    "effect_value": 0.35
+  },
+  {
+    "keyword": "磐石",
+    "effect_type": "defense_up",
+    "effect_value": 0.55
+  },
+  {
+    "keyword": "魂甲",
+    "effect_type": "defense_up",
+    "effect_value": 0.35
+  },
+  {
+    "keyword": "护盾",
+    "effect_type": "shield",
+    "effect_value": 5.0
+  },
+  {
+    "keyword": "血盾",
+    "effect_type": "shield",
+    "effect_value": 3.0
+  },
+  {
+    "keyword": "圣盾",
+    "effect_type": "shield",
+    "effect_value": 5.0
+  },
+  {
+    "keyword": "重铸",
+    "effect_type": "defense_up",
+    "effect_value": 0.2
+  },
+  {
+    "keyword": "荆棘",
+    "effect_type": "thorns",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "反射",
+    "effect_type": "thorns",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "反伤",
+    "effect_type": "thorns",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "不朽",
+    "effect_type": "hp_up",
+    "effect_value": 0.3
+  },
+  {
+    "keyword": "回生",
+    "effect_type": "regen",
+    "effect_value": 3.0
+  },
+  {
+    "keyword": "再生",
+    "effect_type": "regen",
+    "effect_value": 5.0
+  },
+  {
+    "keyword": "守护",
+    "effect_type": "regen",
+    "effect_value": 2.0
+  },
+  {
+    "keyword": "活力",
+    "effect_type": "hp_up",
+    "effect_value": 0.2
+  },
+  {
+    "keyword": "符文",
+    "effect_type": "damage_up",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "魔纹",
+    "effect_type": "damage_up",
+    "effect_value": 0.15
+  },
+  {
+    "keyword": "魔力",
+    "effect_type": "damage_up",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "灵能",
+    "effect_type": "damage_up",
+    "effect_value": 0.15
+  },
+  {
+    "keyword": "狂暴",
+    "effect_type": "damage_up",
+    "effect_value": 0.3
+  },
+  {
+    "keyword": "毁灭",
+    "effect_type": "damage_up",
+    "effect_value": 0.4
+  },
+  {
+    "keyword": "天罚",
+    "effect_type": "crit_up",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "巨人之力",
+    "effect_type": "damage_up",
+    "effect_value": 0.25
+  },
+  {
+    "keyword": "天启",
+    "effect_type": "damage_up",
+    "effect_value": 0.2
+  },
+  {
+    "keyword": "战意",
+    "effect_type": "damage_up",
+    "effect_value": 0.15
+  },
+  {
+    "keyword": "亡魂",
+    "effect_type": "death_save_up",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "灵魂",
+    "effect_type": "life_steal",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "诅咒",
+    "effect_type": "all_down",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "灵体",
+    "effect_type": "evasion",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "暗影",
+    "effect_type": "evasion",
+    "effect_value": 0.1
+  },
+  {
+    "keyword": "幻影",
+    "effect_type": "evasion",
+    "effect_value": 0.15
+  },
+  {
+    "keyword": "星光",
+    "effect_type": "evasion",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "月光",
+    "effect_type": "evasion",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "虚无",
+    "effect_type": "evasion",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "暗",
+    "effect_type": "evasion",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "元素",
+    "effect_type": "all_up",
+    "effect_value": 0.05
+  },
+  {
+    "keyword": "大地",
+    "effect_type": "defense_up",
+    "effect_value": 0.3
+  },
+  {
+    "keyword": "海洋",
+    "effect_type": "regen",
+    "effect_value": 2.0
+  },
+  {
+    "keyword": "时空",
+    "effect_type": "attack_speed",
+    "effect_value": 0.15
+  },
+  {
+    "keyword": "巨型",
+    "effect_type": "hp_up",
+    "effect_value": 0.4
+  },
+  {
+    "keyword": "微小",
+    "effect_type": "attack_speed",
+    "effect_value": 0.4
+  },
+  {
+    "keyword": "恶魔猎手",
+    "effect_type": "species_dmg_demon",
+    "effect_value": 0.2
+  },
+  {
+    "keyword": "屠龙",
+    "effect_type": "species_dmg_dragon",
+    "effect_value": 0.2
+  },
+  {
+    "keyword": "深渊",
+    "effect_type": "damage_up",
+    "effect_value": 0.25
+  },
+  {
+    "keyword": "祝福",
+    "effect_type": "regen",
+    "effect_value": 2.0
+  },
+  {
+    "keyword": "神谕",
+    "effect_type": "all_up",
+    "effect_value": 0.08
+  },
+  {
+    "keyword": "禁咒",
+    "effect_type": "all_up",
+    "effect_value": 0.1
+  }
+]

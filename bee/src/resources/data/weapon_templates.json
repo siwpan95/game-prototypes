@@ -1,0 +1,194 @@
+[
+  {
+    "type": "SWORD",
+    "name": "铁剑"
+  },
+  {
+    "type": "SWORD",
+    "name": "钢剑"
+  },
+  {
+    "type": "SWORD",
+    "name": "符文剑"
+  },
+  {
+    "type": "SWORD",
+    "name": "秘银剑"
+  },
+  {
+    "type": "SWORD",
+    "name": "龙牙剑"
+  },
+  {
+    "type": "SWORD",
+    "name": "圣剑·断罪"
+  },
+  {
+    "type": "AXE",
+    "name": "铁斧"
+  },
+  {
+    "type": "AXE",
+    "name": "战斧"
+  },
+  {
+    "type": "AXE",
+    "name": "符文斧"
+  },
+  {
+    "type": "AXE",
+    "name": "双刃斧"
+  },
+  {
+    "type": "AXE",
+    "name": "裂地斧"
+  },
+  {
+    "type": "AXE",
+    "name": "破甲斧·碎星"
+  },
+  {
+    "type": "MACE",
+    "name": "铁锤"
+  },
+  {
+    "type": "MACE",
+    "name": "钉锤"
+  },
+  {
+    "type": "MACE",
+    "name": "符文锤"
+  },
+  {
+    "type": "MACE",
+    "name": "战锤"
+  },
+  {
+    "type": "MACE",
+    "name": "雷霆锤"
+  },
+  {
+    "type": "MACE",
+    "name": "圣锤·天罚"
+  },
+  {
+    "type": "DAGGER",
+    "name": "铁匕"
+  },
+  {
+    "type": "DAGGER",
+    "name": "淬毒匕"
+  },
+  {
+    "type": "DAGGER",
+    "name": "符文匕"
+  },
+  {
+    "type": "DAGGER",
+    "name": "暗影匕"
+  },
+  {
+    "type": "DAGGER",
+    "name": "虚空匕"
+  },
+  {
+    "type": "DAGGER",
+    "name": "噬魂匕·湮灭"
+  },
+  {
+    "type": "STAFF",
+    "name": "橡木杖"
+  },
+  {
+    "type": "STAFF",
+    "name": "法师杖"
+  },
+  {
+    "type": "STAFF",
+    "name": "符文杖"
+  },
+  {
+    "type": "STAFF",
+    "name": "奥术杖"
+  },
+  {
+    "type": "STAFF",
+    "name": "星辉杖"
+  },
+  {
+    "type": "STAFF",
+    "name": "图腾杖·创世"
+  },
+  {
+    "type": "BOW",
+    "name": "短弓"
+  },
+  {
+    "type": "BOW",
+    "name": "长弓"
+  },
+  {
+    "type": "BOW",
+    "name": "复合弓"
+  },
+  {
+    "type": "BOW",
+    "name": "符文弓"
+  },
+  {
+    "type": "BOW",
+    "name": "月神弓"
+  },
+  {
+    "type": "BOW",
+    "name": "精灵弓·永恒"
+  },
+  {
+    "type": "CROSSBOW",
+    "name": "轻弩"
+  },
+  {
+    "type": "CROSSBOW",
+    "name": "重弩"
+  },
+  {
+    "type": "CROSSBOW",
+    "name": "符文弩"
+  },
+  {
+    "type": "CROSSBOW",
+    "name": "连发弩"
+  },
+  {
+    "type": "CROSSBOW",
+    "name": "破魔弩"
+  },
+  {
+    "type": "CROSSBOW",
+    "name": "狙击弩·弑神"
+  },
+  {
+    "type": "POLEARM",
+    "name": "长枪"
+  },
+  {
+    "type": "POLEARM",
+    "name": "战戟"
+  },
+  {
+    "type": "POLEARM",
+    "name": "月牙戟"
+  },
+  {
+    "type": "POLEARM",
+    "name": "符文戟"
+  },
+  {
+    "type": "POLEARM",
+    "name": "龙脊枪"
+  },
+  {
+    "type": "POLEARM",
+    "name": "龙枪·裂空"
+  }
+]
