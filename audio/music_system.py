@@ -1,12 +1,13 @@
 """
 MusicSystem - Adaptive music system for Endless Highway.
 Implements Deja Vu style layered music with distance-based intensity control.
-Uses pygame.mixer for playback (no FMOD/Wwise dependency for this Pygame project).
+Playback backend: sounddevice (sd_mixer) —— 与 pyglet 同进程可用，无 SDL 冲突。
 """
 
-import pygame
 import os
 from pathlib import Path
+
+from . import sd_mixer as mixer  # 同名表面 API，零改动接入
 
 # ── Music layer configuration ──────────────────────────────────────
 # Each layer has: file key, fade-in distance (km), target volume
@@ -52,7 +53,7 @@ MUSIC_LAYERS = [
 class MusicSystem:
     """
     Manages adaptive music layers.
-    Each layer is a pygame.mixer.Sound played on its own channel.
+    Each layer is a mixer.Sound played on its own channel.
     Volume is controlled by DistanceIntensity (driven by state.distance_km).
     """
 
@@ -60,7 +61,7 @@ class MusicSystem:
         self.asset_paths = asset_paths
         self.num_channels = num_channels
         self.channels = {}       # layer_key -> channel_id
-        self.sounds = {}         # layer_key -> pygame.mixer.Sound
+        self.sounds = {}         # layer_key -> mixer.Sound
         self.current_intensity = 0.0
         self._initialized = False
 
@@ -70,7 +71,7 @@ class MusicSystem:
             return True
 
         # Ensure enough channels
-        pygame.mixer.set_num_channels(max(16, self.num_channels + 8))
+        mixer.set_num_channels(max(16, self.num_channels + 8))
 
         for layer in MUSIC_LAYERS:
             key = layer['key']
@@ -80,10 +81,10 @@ class MusicSystem:
                 continue
 
             try:
-                sound = pygame.mixer.Sound(path)
+                sound = mixer.Sound(path)
                 # Allocate a dedicated channel for this layer
                 ch_id = len(self.channels) + 1  # channel 0 reserved for SFX
-                channel = pygame.mixer.Channel(ch_id)
+                channel = mixer.Channel(ch_id)
                 channel.set_volume(0.0)  # start silent
                 self.sounds[key] = sound
                 self.channels[key] = ch_id
@@ -100,7 +101,7 @@ class MusicSystem:
             self.initialize()
 
         for key, ch_id in self.channels.items():
-            channel = pygame.mixer.Channel(ch_id)
+            channel = mixer.Channel(ch_id)
             # Play looping, at volume=0 (silent start)
             channel.play(self.sounds[key], loops=-1)
             channel.set_volume(0.0)
@@ -109,7 +110,7 @@ class MusicSystem:
     def stop(self, fade_ms: int = 1000):
         """Fade out and stop all music layers."""
         for key, ch_id in self.channels.items():
-            channel = pygame.mixer.Channel(ch_id)
+            channel = mixer.Channel(ch_id)
             channel.fadeout(fade_ms)
         print("[MusicSystem] Music stopped.")
 
@@ -152,7 +153,7 @@ class MusicSystem:
                 continue
 
             ch_id = self.channels[key]
-            channel = pygame.mixer.Channel(ch_id)
+            channel = mixer.Channel(ch_id)
             target_vol = self._calc_layer_volume(layer, intensity)
 
             # Smooth volume interpolation (avoid clicks)
@@ -165,11 +166,11 @@ class MusicSystem:
         """
         Deja Vu style: open a low-pass filter simulation on music
         by temporarily boosting bass+atmosphere layers.
-        (pygame.mixer has no real filter; we simulate via volume boost)
+        (mixer has no real filter; we simulate via volume boost)
         """
         for key in ['music_bass', 'music_atmosphere']:
             if key in self.channels:
-                ch = pygame.mixer.Channel(self.channels[key])
+                ch = mixer.Channel(self.channels[key])
                 boost = 1.30 if is_drifting else 1.0
                 current = ch.get_volume()
                 # Apply boost to max volume (not beyond base)
@@ -183,6 +184,6 @@ class MusicSystem:
         for layer in MUSIC_LAYERS:
             key = layer['key']
             if key in self.channels:
-                vol = pygame.mixer.Channel(self.channels[key]).get_volume()
+                vol = mixer.Channel(self.channels[key]).get_volume()
                 status['layers'][layer['name']] = round(vol, 3)
         return status

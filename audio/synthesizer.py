@@ -682,7 +682,7 @@ class AudioSynthesizer:
     """
     Enhanced WAV synthesizer for Endless Highway.
     Uses faatt engine: numpy oscillators, 6 envelopes, effects chain.
-    Generates all audio assets at startup for pygame.mixer playback.
+    Generates all audio assets at startup for sounddevice playback.
     """
 
     def __init__(self, output_dir: str):

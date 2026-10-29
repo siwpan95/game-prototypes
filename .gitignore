@@ -22,3 +22,7 @@ __pycache__/
 build/
 dist/
 *.spec
+
+# 虚拟环境（3D 重构后新增）
+.venv/
+venv/

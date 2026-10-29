@@ -2,10 +2,11 @@
 AudioManager — High-level audio facade for Endless Highway.
 Combines MusicSystem + SFXSystem with faatt-enhanced synthesis.
 Event-name driven SFX triggering, distance-based adaptive music.
+Playback backend: sounddevice (via sd_mixer).
 """
 
-import pygame
 import os
+from . import sd_mixer as mixer  # 同名表面 API，零改动接入
 from .music_system import MusicSystem
 from .sfx_system import SFXSystem
 
@@ -33,9 +34,9 @@ class AudioManager:
     def initialize(self, asset_paths: dict) -> bool:
         self.asset_paths = asset_paths
 
-        if not pygame.mixer.get_init():
-            pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
-            print("[AudioManager] pygame.mixer initialized.")
+        if not mixer.get_init():
+            mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
+            print("[AudioManager] sd_mixer (sounddevice) initialized.")
 
         self.music_sys = MusicSystem(asset_paths)
         self.sfx_sys = SFXSystem(asset_paths)

@@ -1,0 +1,6 @@
+# 开发/录制用依赖（运行游戏本身不需要）
+#
+# imageio-ffmpeg：自带 ffmpeg 7.1 二进制（win_amd64），供
+# scripts/record_demo.py 做实机录像与音视频封装使用。
+# 若本机已装 ffmpeg（或设了 WORLD3D_FFMPEG），则不需要它。
+imageio-ffmpeg

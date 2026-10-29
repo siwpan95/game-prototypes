@@ -2,11 +2,13 @@
 SFXSystem — Sound effects system for Endless Highway.
 Manages one-shot + looping SFX with faatt-engine generated assets.
 Channel allocation: 0-3 SFX, 4+ Music.
+Playback backend: sounddevice (sd_mixer).
 """
 
-import pygame
 import os
 import random
+
+from . import sd_mixer as mixer  # 同名表面 API，零改动接入
 
 # Channel allocation
 SFX_CHANNEL_ENGINE = 0
@@ -37,7 +39,7 @@ class SFXSystem:
         if self._initialized:
             return True
 
-        pygame.mixer.set_num_channels(max(24, 16))
+        mixer.set_num_channels(max(24, 16))
 
         sfx_keys = [
             'sfx_engine', 'sfx_drift', 'sfx_crash',
@@ -53,7 +55,7 @@ class SFXSystem:
             if not path or not os.path.isfile(path):
                 continue
             try:
-                sound = pygame.mixer.Sound(path)
+                sound = mixer.Sound(path)
                 self.sounds[key] = sound
                 loaded += 1
             except Exception as e:
@@ -69,45 +71,45 @@ class SFXSystem:
         if not self._initialized:
             self.initialize()
         if 'sfx_engine' in self.sounds and not self.engine_playing:
-            ch = pygame.mixer.Channel(SFX_CHANNEL_ENGINE)
+            ch = mixer.Channel(SFX_CHANNEL_ENGINE)
             ch.play(self.sounds['sfx_engine'], loops=-1)
             ch.set_volume(0.12)
             self.engine_playing = True
 
     def stop_engine(self):
         if self.engine_playing:
-            pygame.mixer.Channel(SFX_CHANNEL_ENGINE).stop()
+            mixer.Channel(SFX_CHANNEL_ENGINE).stop()
             self.engine_playing = False
 
     def play_drift(self):
         if 'sfx_drift' in self.sounds:
-            ch = pygame.mixer.Channel(SFX_CHANNEL_DRIFT)
+            ch = mixer.Channel(SFX_CHANNEL_DRIFT)
             ch.play(self.sounds['sfx_drift'])
             ch.set_volume(0.45)
 
     def play_crash(self):
         if 'sfx_crash' in self.sounds:
-            ch = pygame.mixer.Channel(SFX_CHANNEL_CRASH)
+            ch = mixer.Channel(SFX_CHANNEL_CRASH)
             ch.play(self.sounds['sfx_crash'])
             ch.set_volume(0.70)
             if self.engine_playing:
-                pygame.mixer.Channel(SFX_CHANNEL_ENGINE).fadeout(500)
+                mixer.Channel(SFX_CHANNEL_ENGINE).fadeout(500)
 
     def play_ui_pause(self):
         if 'sfx_ui_pause' in self.sounds:
-            ch = pygame.mixer.Channel(SFX_CHANNEL_UI_A)
+            ch = mixer.Channel(SFX_CHANNEL_UI_A)
             ch.play(self.sounds['sfx_ui_pause'])
             ch.set_volume(0.4)
 
     def play_ui_resume(self):
         if 'sfx_ui_resume' in self.sounds:
-            ch = pygame.mixer.Channel(SFX_CHANNEL_UI_B)
+            ch = mixer.Channel(SFX_CHANNEL_UI_B)
             ch.play(self.sounds['sfx_ui_resume'])
             ch.set_volume(0.4)
 
     def play_ui_quit(self):
         if 'sfx_ui_quit' in self.sounds:
-            ch = pygame.mixer.Channel(SFX_CHANNEL_UI_C)
+            ch = mixer.Channel(SFX_CHANNEL_UI_C)
             ch.play(self.sounds['sfx_ui_quit'])
             ch.set_volume(0.4)
 
@@ -118,7 +120,7 @@ class SFXSystem:
         if key in self.sounds:
             ch_id = SFX_CHANNEL_BONUS + (self._bonus_channel_round % 3)
             self._bonus_channel_round += 1
-            ch = pygame.mixer.Channel(ch_id)
+            ch = mixer.Channel(ch_id)
             ch.play(self.sounds[key])
             ch.set_volume(volume)
 
@@ -167,7 +169,7 @@ class SFXSystem:
     def update_engine_pitch(self, speed: float):
         """Simulate engine load via volume modulation."""
         if self.engine_playing:
-            ch = pygame.mixer.Channel(SFX_CHANNEL_ENGINE)
+            ch = mixer.Channel(SFX_CHANNEL_ENGINE)
             vol = 0.08 + min(0.12, speed * 0.02)
             ch.set_volume(vol)
 
@@ -176,7 +178,7 @@ class SFXSystem:
     def shutdown(self):
         for i in range(SFX_CHANNEL_LOOP + 4):
             try:
-                pygame.mixer.Channel(i).stop()
+                mixer.Channel(i).stop()
             except Exception:
                 pass
         self.engine_playing = False
