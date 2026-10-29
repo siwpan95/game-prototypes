@@ -1,0 +1,493 @@
+{
+  "rooms": {
+    "old_fish_close": {
+      "id": "old_fish_close",
+      "name": "老鱼巷",
+      "description": "一条狭窄的小巷，散发着海水的咸味和某种更甜的气息——一种令人不适的甜腻，像是泡在水里太久的鲜花。鹅卵石上覆盖着不反光的潮湿水汽。一扇锈蚀的门通向东边的伯恩茅斯公寓。小巷向南延伸，通往伦敦街道。北方的空气中飘来学术的灰尘味。",
+      "exits": {
+        "east": "bournemouth_flat",
+        "south": "london_streets",
+        "north": "edinburgh_university",
+        "west": "old_fish_sidestreet"
+      },
+      "items": [
+        "red_marlboro"
+      ],
+      "npcs": [
+        "graham"
+      ],
+      "first_visit_text": "你踏入老鱼巷，空气变了。上方城市的声响消退了，取而代之的是一种低沉的嗡鸣，仿佛来自墙壁本身。这就是一切开始的地方——下降。"
+    },
+    "bournemouth_flat": {
+      "id": "bournemouth_flat",
+      "name": "伯恩茅斯公寓",
+      "description": "一间散发着霉味和旧纸张气息的逼仄公寓。壁纸以螺旋状剥落，看起来像是故意的。一扇窗户向外望去什么也没有——只有灰色浓雾占据了外面应有的位置。有一张散落着笔记的书桌，和一个绝对过深的衣柜。",
+      "exits": {
+        "west": "old_fish_close",
+        "east": "coffin_room"
+      },
+      "items": [
+        "ex_altiora"
+      ],
+      "npcs": [
+        "delivery_men"
+      ],
+      "first_visit_text": "公寓的门卡了一下，然后发出一声被吞咽般的喘息打开了。里面，空气浓稠而温暖，仿佛房间本身在呼吸。"
+    },
+    "london_streets": {
+      "id": "london_streets",
+      "name": "伦敦街道",
+      "description": "被雨水打湿的街道在霓虹灯的倒映下闪闪发光。行人以某种假装人类的机械精确度移动着。汽车驶过，但它们的车灯在水洼中没有倒影。北边是老鱼巷。西边是诺丁山。东边是针孔书店。东南方弥漫着大麻烟味的暖意。西南方传来过量的香体剂气息。西北方的砂岩建筑在记忆中闪烁。",
+      "exits": {
+        "north": "old_fish_close",
+        "west": "notting_hill",
+        "east": "pinhole_books",
+        "south": "night_road",
+        "southeast": "amsterdam_coffeeshop",
+        "southwest": "grahams_apartment",
+        "northwest": "edinburgh_university",
+        "down": "mornington_crescent",
+        "east2": "cambridge_flat",
+        "bus": "night_bus"
+      },
+      "items": [],
+      "npcs": [
+        "mary_key"
+      ],
+      "first_visit_text": "你走到伦敦街道上。在这里，雨是向上落的——或者你只是倒过来了而还没注意到。"
+    },
+    "lancaster_93": {
+      "id": "lancaster_93",
+      "name": "兰开斯特路93号",
+      "description": "一栋不应存在的联排住宅——它占据了两栋建筑之间的空间，像楔子一样将现实撑开。门需要一把比应该更重的钥匙。里面，楼梯向下延伸，而非向上。",
+      "exits": {
+        "east": "notting_hill"
+      },
+      "items": [
+        "doll_head"
+      ],
+      "npcs": [
+        "gerard_key"
+      ],
+      "first_visit_text": "钥匙在锁中转动，发出骨头撞击石头的声音。门打开后是一片黑暗，吞没了你的手电筒光束。你踏了进去。"
+    },
+    "notting_hill": {
+      "id": "notting_hill",
+      "name": "诺丁山",
+      "description": "一个诺丁山的版本，这里的粉彩色房屋倾斜着让人直接注视就会疼痛的角度。市场摊位上出售的不是水果——它们在板条箱中微微脉动。东边是兰开斯特路93号。南边是伦敦街道。北边是一家乐施会慈善店，橱窗里摆着旧书。",
+      "exits": {
+        "east": "lancaster_93",
+        "south": "london_streets",
+        "north": "charity_shop"
+      },
+      "items": [
+        "sanskrit_book"
+      ],
+      "npcs": [
+        "iris"
+      ],
+      "first_visit_text": "你进入诺丁山，颜色不对。太饱和了，太有意识了。一个摊贩冲你咧嘴笑，牙齿太多了。"
+    },
+    "pinhole_books": {
+      "id": "pinhole_books",
+      "name": "针孔书店",
+      "description": "一家存在于空间褶皱中的书店。书架延伸到墙壁无法解释的距离。书籍在低语。店主也在低语回应。西边是伦敦街道。东边是玛丽·凯的书房。",
+      "exits": {
+        "west": "london_streets",
+        "east": "marys_study"
+      },
+      "items": [
+        "a5_notebook"
+      ],
+      "npcs": [
+        "alan_parfitt",
+        "jerold_kay"
+      ],
+      "first_visit_text": "门上的铃铛没有响——它尖叫了，轻柔地，以一种只有狗和刚死的人才能听到的音调。艾伦从他的书堆中抬起头来。"
+    },
+    "night_road": {
+      "id": "night_road",
+      "name": "夜路",
+      "description": "一条向两个方向延伸进黑暗的道路。没有天空——只有一层蠕动着的黑色穹顶。路面不是沥青，而是某种有机的、温暖的物质。北边是伦敦街道。南边是洗衣局总部。西南方的路面延伸得更远，通往温哥华公路。",
+      "exits": {
+        "north": "london_streets",
+        "south": "laundry_hq",
+        "southwest": "vancouver_highway"
+      },
+      "items": [
+        "ice_block"
+      ],
+      "npcs": [
+        "road_walker"
+      ],
+      "first_visit_text": "你踏上夜路，身后的世界像书一样合拢了。现在只有前方，以及与你同行的东西。"
+    },
+    "laundry_hq": {
+      "id": "laundry_hq",
+      "name": "洗衣局总部",
+      "description": "新附属楼——清洗部的正式办公地点。走廊里弥漫着漂白剂和旧文件的气味。墙上钉着R60表格的模板，公告栏上贴着红色标记的案件简报。一盏台灯在安格尔顿的桌上发出稳定的光。北边是夜路。东边是白教堂。",
+      "exits": {
+        "north": "night_road",
+        "east": "whitechapel",
+        "south": "sheffield_hospital",
+        "down": "props_department"
+      },
+      "items": [
+        "prayer_strip",
+        "metal_heart"
+      ],
+      "npcs": [
+        "angleton"
+      ],
+      "first_visit_text": "你念出祈祷文，结界闪烁着光芒，让你通过了。洗衣局——清洗部。他们处理这个世界还没准备好知道的东西。安格尔顿站在走廊尽头等你。他一直都知道你会来。"
+    },
+    "whitechapel": {
+      "id": "whitechapel",
+      "name": "白教堂",
+      "description": "一个将历史像开放性伤口一样展示的区域。狭窄的街道回响着不属于任何活人的脚步声。西边是洗衣局总部。南方的空气中有旧文件和微缩胶片的气味。这里的墙壁很薄——薄到另一边的东西能从墙上压出痕迹来。",
+      "exits": {
+        "west": "laundry_hq",
+        "south": "san_francisco_archives",
+        "east": "chinatown_sf"
+      },
+      "items": [
+        "green_ribbon"
+      ],
+      "npcs": [],
+      "first_visit_text": "白教堂。这个名字本身就是一个伤口。你感觉到墙壁在向内压迫，而另一边有东西在向外推。这就是一切结束的地方——或者开始。在这里很难分清两者的区别。"
+    },
+    "amsterdam_coffeeshop": {
+      "id": "amsterdam_coffeeshop",
+      "name": "阿姆斯特丹烟馆",
+      "description": "一间弥漫着大麻和陈旧烟草气味的昏暗房间。红色灯光像血管的颜色。一个不起眼的男人坐在角落里，他的面孔你越想回忆就越模糊。",
+      "exits": {
+        "north": "london_streets"
+      },
+      "items": [
+        "johns_envelope"
+      ],
+      "npcs": [
+        "john_amsterdam"
+      ],
+      "first_visit_text": "你推开门，烟馆的空气浓稠得像液体。角落里那个人正在等你——他一直在等你。"
+    },
+    "grahams_apartment": {
+      "id": "grahams_apartment",
+      "name": "格雷厄姆公寓",
+      "description": "一间弥漫着烟草味和过量香体剂气味的公寓。书柜占了整面墙，上面排列着上百本一模一样的黑色A5笔记本。客厅中央有一张奇怪的桌子——上面刻着迷宫图案，中央有一个方形的孔洞。",
+      "exits": {
+        "north": "london_streets",
+        "east": "street_opposite"
+      },
+      "items": [
+        "labyrinth_table",
+        "grahams_notebook"
+      ],
+      "npcs": [],
+      "first_visit_text": "格雷厄姆不在家。但那些笔记本在。它们在低语——不是用声音，而是用你尚未读到的文字。"
+    },
+    "edinburgh_university": {
+      "id": "edinburgh_university",
+      "name": "爱丁堡大学",
+      "description": "灰白色砂岩建筑爬满了常春藤。教室里的日光灯嗡嗡作响。公告栏上贴着一张逐渐褪色的寻人启事——一个叫约翰·菲罗斯的学生失踪了。",
+      "exits": {
+        "south": "old_fish_close",
+        "southeast": "london_streets"
+      },
+      "items": [
+        "fellowes_photo"
+      ],
+      "npcs": [],
+      "first_visit_text": "你回到爱丁堡大学。那些走廊还是老样子，但公告栏上那张寻人启事——你从没忘记过那包红万宝路。"
+    },
+    "vancouver_highway": {
+      "id": "vancouver_highway",
+      "name": "温哥华公路",
+      "description": "一条向两个方向延伸进无尽黑暗的公路。路面是某种有机的、温暖的物质。路肩的白线在车灯下闪烁，沿着白线行走的人影向你转头。",
+      "exits": {
+        "north": "night_road",
+        "south": "san_francisco_archives",
+        "west": "night_vale",
+        "east": "road_shoulder",
+        "northeast": "new_life"
+      },
+      "items": [
+        "nathans_warning"
+      ],
+      "npcs": [
+        "old_walker"
+      ],
+      "first_visit_text": "你踏上温哥华公路。路肩上有东西在移动。它们在看你——每一个都在看你。自从那个老妇人触碰了你。"
+    },
+    "san_francisco_archives": {
+      "id": "san_francisco_archives",
+      "name": "旧金山档案室",
+      "description": "一个充满旧文件和微缩胶片的地下室。有些文件的墨水还在移动。一台Memex机器在角落里嗡嗡作响，屏幕上显示着不该存在的面孔。",
+      "exits": {
+        "north": "vancouver_highway",
+        "northeast": "whitechapel",
+        "south": "chinatown_sf"
+      },
+      "items": [
+        "sf_file",
+        "memex_film"
+      ],
+      "npcs": [],
+      "first_visit_text": "旧金山的地下室。文件堆到了天花板。有人在某个地方整理着这个世界不该被知道的东西。"
+    },
+    "coffin_room": {
+      "id": "coffin_room",
+      "name": "棺材之间",
+      "description": "一口用淡黄色未上漆木头制成的棺材，被粗铁链捆着，铁链交叉成X形，用一把铁锁锁住。棺盖上刻着三个字：请勿打开。木头是温暖的——像活物。铁链是冰冷的。",
+      "exits": {
+        "west": "bournemouth_flat"
+      },
+      "items": [
+        "coffin_key"
+      ],
+      "npcs": [
+        "coffin_voice"
+      ],
+      "first_visit_text": "你走进了放棺材的房间。空气里没有腐烂的味道，但有一种更古老的东西——像被时间遗忘的气息。棺盖上的刻字在微光中似乎在移动。"
+    },
+    "mornington_crescent": {
+      "id": "mornington_crescent",
+      "name": "莫宁顿新月站",
+      "description": "伦敦地铁北线的末端站点，23:47之后空无一人。站台的瓷砖是乳白色的，灯光是橘黄色的，一切看起来正常得令人不安——直到你注意到隧道深处的红光。红马甲在轨道上移动。它不需要地铁。它自己就是一列车。",
+      "exits": {
+        "north": "london_streets",
+        "south": "hidden_mist_valley"
+      },
+      "items": [],
+      "npcs": [
+        "daniel_chung",
+        "red_vest"
+      ],
+      "first_visit_text": "你走下莫宁顿新月站的台阶。23:47的列车正在进站。站台是空的。列车也是空的。只有红马甲——在隧道深处的红光中行走。"
+    },
+    "sheffield_hospital": {
+      "id": "sheffield_hospital",
+      "name": "谢菲尔德废弃儿童医院",
+      "description": "一栋被遗弃的维多利亚式建筑，窗户用木板封死。但有些窗户的木板从内部被推开了——那些窗户里没有光，但有东西在呼吸。走廊里残留着消毒水和更古老的味道。墙上涂鸦写着：'不要往北看。'阈限空间在这里特别稀薄——你可以感觉到另一边在压过来。",
+      "exits": {
+        "north": "laundry_hq"
+      },
+      "items": [
+        "r60_form"
+      ],
+      "npcs": [
+        "jo_sullivan"
+      ],
+      "first_visit_text": "你推开儿童医院的侧门。铰链的尖叫声在空旷的走廊中回响。你闻到了消毒水——和某种不属于任何已知化学元素的气味。乔·苏利文站在走廊尽头等你。'你来了。R60表格准备好了吗？这里不是散步的地方。'"
+    },
+    "hidden_mist_valley": {
+      "id": "hidden_mist_valley",
+      "name": "雾隐谷",
+      "description": "群山之间的隐秘谷地，常年被雾气笼罩。谷底有一座石台，上面放着一盏快要熄灭的影灯。灯残件旁是一座义冢，墓碑上没有名字——只有水纹。排班表刻在石台侧面，最后一个格位是空的。空气中有水的声音——不是雨，是说话。",
+      "exits": {
+        "north": "mornington_crescent",
+        "east": "cape_horn_deep"
+      },
+      "items": [
+        "shadow_lamp",
+        "lin_zhiyuan_journal",
+        "duty_roster"
+      ],
+      "npcs": [
+        "lin_zhiyuan"
+      ],
+      "first_visit_text": "你走进雾隐谷。雾气在你身边分开，又在你身后合拢。石台上的影灯发出琥珀色的光——微弱，但还活着。林之远坐在灯旁，等了将近一个世纪。他在等你。他一直在等你。"
+    },
+    "cape_horn_deep": {
+      "id": "cape_horn_deep",
+      "name": "合恩角深海",
+      "description": "南纬55度，西经67度，海面以下3400米。你不知道自己是怎么到这里来的。你站在一个不应该存在的房间里——四面墙壁是透明的，外面是深海和黑暗。一台装置在房间中央运转，发出低沉的脉冲声。关闭程序就在你面前。问题是：谁来执行？",
+      "exits": {
+        "west": "hidden_mist_valley"
+      },
+      "items": [
+        "cape_horn_memo",
+        "sfc_files"
+      ],
+      "npcs": [
+        "cooper"
+      ],
+      "first_visit_text": "你站在合恩角以南的深海之中。装置的脉冲声像心跳。安格尔顿的声音在你耳边响起——也许不是幻觉。'关闭程序需要两个人。但我只需要一个。'他走向了装置。他让你留在了透明的墙壁这边。你看着他的身影被脉冲吞没。"
+    },
+    "cambridge_flat": {
+      "id": "cambridge_flat",
+      "name": "剑桥公寓",
+      "description": "一间堆满书籍和卷轴的公寓，窗户朝向剑河。书架上排列着晚清水文图、旗语对照表和甲骨拓片。书桌上摊着一卷丝绸卷轴，水纹在丝绸表面流淌。领口别着银鲤胸针的老人正在用毛笔蘸水写字。",
+      "exits": {
+        "west": "london_streets"
+      },
+      "items": [
+        "silk_scroll",
+        "silver_carp_pin"
+      ],
+      "npcs": [
+        "guo_mingde"
+      ],
+      "first_visit_text": "你敲开剑桥的公寓门。郭明德教授在等你。他手中的毛笔蘸的不是墨——是水。他在桌面上写的字停留了两秒就消失了。'水文篆。欢迎来到排帮。'"
+    },
+    "chinatown_sf": {
+      "id": "chinatown_sf",
+      "name": "旧金山唐人街",
+      "description": "唐人街的致公堂。红灯笼在屋檐下摇晃。红木椅上坐着一个风干的老人，手中转着两枚铜钱。空气中有檀香和更古老的气味——水的气味。堂口的神龛后面有一条暗道，通往不知名的水线。",
+      "exits": {
+        "north": "san_francisco_archives",
+        "west": "whitechapel"
+      },
+      "items": [
+        "water_foot_coin"
+      ],
+      "npcs": [
+        "chen_bo"
+      ],
+      "first_visit_text": "你走进致公堂。檀香和水的气味扑面而来。陈伯从红木椅上看了你一眼。铜钱在指间翻飞。它们落定的瞬间，他站了起来。'水脚。你来交水脚的。'"
+    },
+    "props_department": {
+      "id": "props_department",
+      "name": "道具部",
+      "description": "清洗部地下三层的装备库房。货架上排列着标有编号的木箱——每一箱都装有经受过实战检验的异常物品。锚-Ⅳ型、校准型乌木棒、袖珍信号灯——这些是让清洗部活过每个长夜的工具。沉默四人组在这里守护着一切。",
+      "exits": {
+        "south": "laundry_hq"
+      },
+      "items": [
+        "anchor_type4",
+        "calibrated_ebony_rod",
+        "desk_lamp"
+      ],
+      "npcs": [],
+      "first_visit_text": "你走进道具部。货架上整齐排列的木箱发出微弱的嗡鸣。标签上的编号是手写的，墨迹已经褪色。但箱子里的东西还活着。它们一直在等。"
+    },
+    "night_vale": {
+      "id": "night_vale",
+      "name": "夜谷",
+      "description": "一个不存在于任何地图上的小镇。街道干净，房屋整洁，但完全没有人。社区电台的喇叭里传出低沉的播报声——关于天气、关于暗月、关于'往北看'的警告。这里的太阳在错误的时间升起。这里的影子比它们的主人更老。",
+      "exits": {
+        "east": "vancouver_highway"
+      },
+      "items": [],
+      "npcs": [],
+      "first_visit_text": "你进入了一个不该存在的镇子。社区电台的声音从每个角落同时传来：'欢迎来到夜谷。今天天气……不适宜外出。请往南看。不要往北看。永远不要往北看。'"
+    },
+    "old_fish_sidestreet": {
+      "id": "old_fish_sidestreet",
+      "name": "老渔市巷小路",
+      "description": "老渔市巷对面的一条狭窄小路，一点灯光都没有。只有一小节向上的台阶，路口墙上有一个坏了的壁灯。壁灯的玻璃罩积满污垢，里面没有灯泡，只有一根生锈的灯座。在它下面，一根红万宝路香烟静静躺着——唯一证明那个身影存在过的东西。黑暗从这里开始，也在这里等待。",
+      "exits": {
+        "west": "old_fish_close"
+      },
+      "items": [
+        "red_marlboro_cigarette",
+        "broken_wall_lamp"
+      ],
+      "npcs": [
+        "anglerfish_figure"
+      ],
+      "first_visit_text": "你走向那条小路。空气变得更冷了。台阶上站着一个身影——深色连帽衫，帽子拉得很低。它在轻轻晃悠着，像一棵被风吹动的枯草。然后你听到了那个声音——不带任何语调变化：'我能借根烟吗？'在黑暗中晃悠着的一点光，隐藏着正在引诱着路人的那个东西。安康鱼。你想起了那种深海中的鱼。"
+    },
+    "night_bus": {
+      "id": "night_bus",
+      "name": "夜间公交",
+      "description": "伦敦的夜间双层公交，上层空无一人。车窗上结着厚厚的水汽，外面的街灯被模糊成一片片黄色的光晕。前排有一个人把头贴在窗玻璃上，密切地扫视着街道，似乎正在寻找什么东西。每当水汽遮住窗户，他就立刻擦掉——一种近乎偏执的、机械的擦拭。",
+      "exits": {
+        "down": "street_opposite"
+      },
+      "items": [],
+      "npcs": [
+        "graham_bus"
+      ],
+      "first_visit_text": "你上了夜间公交的上层。整个车厢只有两个人——你和最前排的那个身影。他背对着你，头贴在窗户上，手掌在玻璃上反复擦拭。你认出了那个气味——烟草味和过量的香体剂。是格雷厄姆。他在寻找什么。"
+    },
+    "street_opposite": {
+      "id": "street_opposite",
+      "name": "街道对面",
+      "description": "克拉珀姆寒冷的夜色中，两栋面对面的公寓楼。一栋是你的家。另一栋住着格雷厄姆。你们走在同一条街道上，同一个方向。格雷厄姆的窗户在对面楼四楼亮着灯，窗台上的花草在灯光下投下长长的影子。窗帘在动，像有人在窗帘后面看着你。这里就是那条分隔'已知'和'未知'的街道——而你正站在中间。",
+      "exits": {
+        "north": "london_streets",
+        "south": "grahams_apartment"
+      },
+      "items": [],
+      "npcs": [],
+      "first_visit_text": "你下了公交，和格雷厄姆走进了同一个方向。同一条街道。同一栋楼——不，对面的那栋。他住在街对面。比你低两层。你想起他公寓里那面墙的笔记本，那张刻着迷宫图案的桌子，那个方形的孔洞。格雷厄姆说：'我没记过任何笔记。'但那些笔记本里写满了什么？"
+    },
+    "charity_shop": {
+      "id": "charity_shop",
+      "name": "乐施会慈善店",
+      "description": "诺丁山门的一家小型慈善二手店。比想象中要小，多数是褪色的T恤和破损的餐具。但书架上有一本书——红色皮革封面，书脊上褪色的烫金字写着：Ex Altiora。标价四英镑。价值可能是它的几百倍。当你拿起它的时候，封面摸起来像皮肤一样温暖。",
+      "exits": {
+        "south": "notting_hill"
+      },
+      "items": [],
+      "npcs": [],
+      "first_visit_text": "你走进乐施会慈善店。店里弥漫着旧衣物和灰尘的气味。你在书架上找到了一本书——红色皮革封面，手工装订，书脊上写着'Ex Altiora'——从高处来。标价四英镑。当你翻到那幅空旷夜空的插画时，你的胃猛地抽痛——像是在坠落。"
+    },
+    "marys_study": {
+      "id": "marys_study",
+      "name": "玛丽·凯的书房",
+      "description": "一间狭小拥挤的房间，每面墙都是书架，书堆成了小山、城墙和迷宫。墙上挂着一幅巨大的眼睛画作，下方写着三行绿色的花体字：'赐予吾等破开无视之视。赐予吾等察觉异香之嗅。赐予吾等知悉潜音之觉。'桌上放着鱼线和刀片。灯泡没有灯罩，投下清晰而冰冷的阴影。当你把梵文书放在阴影中，骨头从书页间掉落。",
+      "exits": {
+        "west": "pinhole_books"
+      },
+      "items": [
+        "sanskrit_leitner_book",
+        "eye_painting",
+        "litchenberg_print"
+      ],
+      "npcs": [
+        "mary_kay_ritual"
+      ],
+      "first_visit_text": "你跟着玛丽·凯走进书房。死亡重金属的轰鸣突然消失了。只有寂静——像一床厚重的毯子把你们包裹在里面。她拿出一本和你的Ex Altiora几乎一模一样的书，但里面是梵文。她把书放在阴影中等了几秒——骨头从书页间掉落出来。小小的、弯曲的、不自然的骨头。然后她让你试试你自己的那本。你翻到空旷夜空的插画——背景里出现了像树枝一样扩散开来的形状。李庭博图。和你童年朋友迈克尔背上的雷击疤痕一模一样。"
+    },
+    "road_shoulder": {
+      "id": "road_shoulder",
+      "name": "路肩",
+      "description": "5号公路的路肩。白线在车灯下闪烁，沿着白线行走的人影在黑暗中移动。它们穿着不同时代、不同风格的衣服——蓝色洋装、医院病服、老式西装、孩子的睡衣。它们沿着那条白线走，像火车沿着铁轨前进。自从那个老妇人触碰了你，它们开始转头看你。路面上有一圈青紫色的指印——在你脚踝的位置。",
+      "exits": {
+        "north": "vancouver_highway"
+      },
+      "items": [
+        "flashlight"
+      ],
+      "npcs": [
+        "old_walker",
+        "road_shoulders"
+      ],
+      "first_visit_text": "你停下了拖车。你不知道自己为什么会停下。一个穿着医院病服的老妇人在路肩上走着。她的微笑慈祥得让人毛骨悚然。沙、沙、沙——拖鞋摩擦路面的声音。她看到了你。她朝你走来。她伸出了手——那只满是皱纹的、枯瘦的手。她触碰了你的脚踝。冰冷。坚硬。像被一具尸体抓住了一样。从那以后，路肩上的每一个身影都会转头看你。它们记得你。你是那个曾经停下来过的人。"
+    },
+    "recruitment_room": {
+      "id": "recruitment_room",
+      "name": "招募室",
+      "description": "新附属楼里一间没有窗户的房间。三把椅子、一张桌子、一台嗡嗡作响的饮水机。墙上没有挂画，没有时钟，没有任何能告诉你时间流逝的东西。门开了。走进来的是一个穿着黑色长款皮大衣的男人。他的头发被染成了不自然的黑色，胡子拉碴。你认出了他——杰洛德·凯。",
+      "exits": {
+        "north": "laundry_hq"
+      },
+      "items": [
+        "recruitment_letter",
+        "employment_contract"
+      ],
+      "npcs": [
+        "jerold_recruiter"
+      ],
+      "first_visit_text": "你在一间没有窗户的房间里等了二十分钟。门开了。杰洛德·凯拉开椅子坐在你对面。'你长大了。'他看着你。'你把那本书交给了我，我处理掉了。你帮了我们一个忙。所以我也来给你一个机会——加入我们。清洗部。'他告诉你，你是一种叫做'显影者'的人——那些在超自然事件面前不会崩溃、不会逃跑、不会假装没看到的人。更罕见的是，那些会去接触、会去记录、会活下来讲述的人。"
+    },
+    "new_life": {
+      "id": "new_life",
+      "name": "新的生活",
+      "description": "温哥华东区的一间狭小公寓，窗户朝北。这是你人生中最接近'空白'的时期。窗外是加拿大巨大的天空——大到足以容纳所有的孤独。拖车公司的人沉默寡言，只谈论天气和路况。你学会了处理拖车绳索，学会了在结冰的公路上保持稳定，学会了在深夜的加油站用一杯热咖啡维持体温。但那种被注视的感觉从未完全消失——它只是变得更低沉了，像一种背景噪音。然后，路肩上的身影出现了。",
+      "exits": {
+        "south": "vancouver_highway",
+        "east": "recruitment_room"
+      },
+      "items": [
+        "one_way_ticket"
+      ],
+      "npcs": [
+        "vancouver_colleague"
+      ],
+      "first_visit_text": "你用三个月处理了离开伦敦的事宜。退掉公寓，卖掉家具。在希思罗机场的候机大厅里，你感到一种几乎像是解脱的东西。你就要离开那些巷子、那些公寓、那些垃圾路线了。或者，至少，你以为你可以。加拿大最初几个月是空白的——直到路肩上的身影出现了。直到那封来自J. Carpenter的邮件出现在你的收件箱里。你知道你等这一刻已经很久了。你给J. Carpenter回了电话。然后你订了一张飞往伦敦的机票。"
+    }
+  }
+}

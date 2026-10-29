@@ -1,0 +1,99 @@
+[
+  {
+    "char_id": "alen",
+    "name": "艾伦·阿博特（艾慕伦）",
+    "description": "六十七岁的伦敦大学亚非学院荣休教授，专攻中国中古诗歌，尤精杜甫。中文名'艾慕伦'——'慕'是仰慕，是向往。仰慕东方之道的人。",
+    "role": "protagonist",
+    "dialogues": [
+      "dialog_prologue_lecture",
+      "dialog_wanqing_dufu",
+      "dialog_wanqing_hospital",
+      "dialog_wanqing_last_words",
+      "dialog_xiaochen_morning",
+      "dialog_young_alen"
+    ],
+    "is_hostile": false,
+    "is_alive": true
+  },
+  {
+    "char_id": "wanqing",
+    "name": "林婉清",
+    "description": "艾伦的妻子。伦敦大学比较文学博士，论文题目是李商隐诗歌中的隐喻系统。声音轻柔，但每个字都清清楚楚，像玉珠落盘。2003年因乳腺癌去世。",
+    "role": "memory",
+    "dialogues": [
+      "dialog_prologue_wanqing",
+      "dialog_wanqing_dufu",
+      "dialog_wanqing_hospital",
+      "dialog_wanqing_last_words",
+      "dialog_wanqing_letter_hangzhou",
+      "dialog_wanqing_letter_home"
+    ],
+    "is_hostile": false,
+    "is_alive": false
+  },
+  {
+    "char_id": "wang_teacher",
+    "name": "王老师",
+    "description": "艾伦在中国时的老师。五十多岁，厚厚的近视眼镜，典型的老派文人，写得一手古典诗词，书法极好。他给艾伦取了中文名'艾慕伦'，临别时送了一幅手书的《春望》。他说：'我只是一个摆渡人。'",
+    "role": "mentor",
+    "dialogues": [
+      "dialog_wang_naming",
+      "dialog_wang_regrets",
+      "dialog_wang_farewell",
+      "dialog_wang_wisdom"
+    ],
+    "is_hostile": false,
+    "is_alive": false
+  },
+  {
+    "char_id": "xiaochen",
+    "name": "小陈",
+    "description": "艾伦在杭州的年轻朋友。灰色连帽衫，旧背包，步子不快。他给艾伦看了意象矩阵乘法的便条，在艾伦'死后'的病床边读着杜甫，说：'西湖是一首不需要翻译的诗。'",
+    "role": "companion",
+    "dialogues": [
+      "dialog_xiaochen_hospital",
+      "dialog_xiaochen_morning",
+      "dialog_xiaochen_liushu"
+    ],
+    "is_hostile": false,
+    "is_alive": true
+  },
+  {
+    "char_id": "arthur_waley",
+    "name": "亚瑟·韦利",
+    "description": "伟大的汉学家，翻译了大量中国和日本诗歌，却从未踏上过东方的土地。有人问他为什么不去，韦利说：'我害怕。'怕真实的东方毁掉心中的东方。晚年去了日本，回来后几乎不再翻译。",
+    "role": "reference",
+    "dialogues": [],
+    "is_hostile": false,
+    "is_alive": false
+  },
+  {
+    "char_id": "dufu",
+    "name": "杜甫",
+    "description": "不是画像里的杜甫——不是课本上那张消瘦焦虑的脸——而是一个瘦弱的存在，几乎溶进了光里。他的诗穿越一千二百年，像子弹，像闪电，正中灵魂的某个脆弱部位。",
+    "role": "spirit",
+    "dialogues": [],
+    "is_hostile": false,
+    "is_alive": false
+  },
+  {
+    "char_id": "shimu",
+    "name": "师母",
+    "description": "王老师的妻子。矮矮的，胖胖的，说话带着浓重的山东口音。总是在厨房里忙，端出来的菜一盘接一盘。她不上桌，只是靠在厨房门框上，用围裙擦着手，笑眯眯地看着他们吃：'吃，吃，甭管我。'",
+    "role": "memory",
+    "dialogues": [],
+    "is_hostile": false,
+    "is_alive": false
+  },
+  {
+    "char_id": "noodle_boss",
+    "name": "面馆老板",
+    "description": "北京西单附近那家面馆的老板，河北人，脸上有疤。每次艾伦去都点炸酱面，老板看他笨拙地用筷子，总会笑：'洋同志，慢慢来。'后来熟了，会给他多舀一勺酱。",
+    "role": "narrator",
+    "dialogues": [
+      "dialog_noodle_boss"
+    ],
+    "is_hostile": false,
+    "is_alive": true
+  }
+]

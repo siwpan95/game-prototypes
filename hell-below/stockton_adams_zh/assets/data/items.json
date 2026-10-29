@@ -1,0 +1,74 @@
+{
+  "items": {
+    "slipper": {
+      "item_id": "slipper",
+      "name": "绒面拖鞋",
+      "description": "那双跟了你十年的棕色绒面拖鞋。被你踢飞后卡在风车基座下。",
+      "item_type": "story",
+      "source_node": "story_slipper"
+    },
+    "jersey_30": {
+      "item_id": "jersey_30",
+      "name": "30号球衣",
+      "description": "褪色的、还带着更衣室汗味的旧战袍。",
+      "item_type": "story",
+      "source_node": "story_slipper"
+    },
+    "notebook": {
+      "item_id": "notebook",
+      "name": "笔记本",
+      "description": "你写了一整本。关于莱纳德，关于风车，关于那些铁肘和铁锈。",
+      "item_type": "key",
+      "source_node": "choice_leonard"
+    },
+    "letter_to_leonard": {
+      "item_id": "letter_to_leonard",
+      "name": "给莱纳德的信",
+      "description": "那封你写了一百次开头、从未写完的信。",
+      "item_type": "quest",
+      "source_node": "a2_letter"
+    },
+    "letter_from_leonard": {
+      "item_id": "letter_from_leonard",
+      "name": "莱纳德的回信",
+      "description": "来自圣安东尼奥的信。字迹谨慎、克制。",
+      "item_type": "quest",
+      "source_node": "a2_letter_leonard"
+    },
+    "old_basketball": {
+      "item_id": "old_basketball",
+      "name": "旧篮球",
+      "description": "车库里翻出来的。打上气还能用。",
+      "item_type": "story",
+      "source_node": "a3_teach_sancho"
+    },
+    "shotgun": {
+      "item_id": "shotgun",
+      "name": "旧猎枪",
+      "description": "车库深处的旧猎枪。枪托上有被砂纸磨过的痕迹。那是父亲的。",
+      "item_type": "story",
+      "source_node": "a3_father"
+    },
+    "orange_tree": {
+      "item_id": "orange_tree",
+      "name": "橘子树",
+      "description": "桑丘种在你后院的橘子树。已经长到了你肩膀高。",
+      "item_type": "story",
+      "source_node": "a3_orange_tree"
+    },
+    "wrench": {
+      "item_id": "wrench",
+      "name": "旧扳手",
+      "description": "桑丘留下的旧扳手。他走的时候没有带走。",
+      "item_type": "story",
+      "source_node": "a3_orange_tree"
+    },
+    "enamel_cup": {
+      "item_id": "enamel_cup",
+      "name": "搪瓷杯",
+      "description": "印着\"世界最好园丁\"的搪瓷杯。从加油站花三块钱买的。",
+      "item_type": "story",
+      "source_node": "a3_orange_tree"
+    }
+  }
+}

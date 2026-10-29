@@ -1,0 +1,148 @@
+[
+  {
+    "id": "room_ferry_landing",
+    "name": "渡口",
+    "description": "雾气笼罩的码头，七盏灯笼在风中摇曳。渡船静候，但水面异常平静。",
+    "room_type": "event",
+    "dialog_ref": "dialog_day1_intro",
+    "encounters": [],
+    "choices": []
+  },
+  {
+    "id": "room_mountain_path",
+    "name": "山道",
+    "description": "穿过杉树林的蜿蜒小径。远方传来犬灵的嚎叫。",
+    "room_type": "event",
+    "dialog_ref": "dialog_day2_mountain",
+    "encounters": [],
+    "choices": []
+  },
+  {
+    "id": "room_hase_temple",
+    "name": "长谷寺",
+    "description": "阴阳界在此变薄的古寺。一尊巨大的熔炉妖怪守护着大门。",
+    "room_type": "event",
+    "dialog_ref": "dialog_day3_hase",
+    "encounters": [],
+    "choices": []
+  },
+  {
+    "id": "room_sasudani",
+    "name": "笹谷",
+    "description": "旅人休憩的静谧山谷。空气中弥漫着竹叶与雨水的气味。",
+    "room_type": "event",
+    "dialog_ref": "dialog_day4_valley",
+    "encounters": [],
+    "choices": []
+  },
+  {
+    "id": "room_ise_shrine",
+    "name": "伊势大神宫",
+    "description": "这片土地上最神圣的神社。选别试炼等待着那些寻求通行之人。",
+    "room_type": "event",
+    "dialog_ref": "dialog_day5_ise",
+    "encounters": [],
+    "choices": []
+  },
+  {
+    "id": "room_itsukushima",
+    "name": "严岛",
+    "description": "浮御鸟居之岛。潮汐涨落，揭露与遮蔽着同等的秘密。",
+    "room_type": "event",
+    "dialog_ref": "dialog_day6_itsukushima",
+    "encounters": [],
+    "choices": []
+  },
+  {
+    "id": "room_tokoyo_depths",
+    "name": "常世深渊",
+    "description": "生者之界与死者之地的边界。先祖的罪孽在此等候着它的清算。",
+    "room_type": "event",
+    "dialog_ref": "dialog_day7_tokoyo",
+    "encounters": [],
+    "choices": []
+  },
+  {
+    "id": "room_horigawa_ferry",
+    "name": "堀川渡场",
+    "description": "堀川水上的一座旧渡场。番屋檐下风铎叮当，切形树上願札如叶，栈桥延伸入川面。七盏献灯彻夜不灭，唐柜静置缘侧。这是远坂凛世守了半生的渡口——来者不究，去者不追。",
+    "room_type": "event",
+    "dialog_ref": "dialog_ferry_grounds",
+    "encounters": [],
+    "choices": [],
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "room_azuchi_castle",
+    "name": "安土城天守",
+    "description": "琵琶湖畔的五重天守。御幸之间内，八盏南蛮玻璃灯排列如北斗。第八盏灯焰色轮转不定——暖橙、赤、黑、暗紫、青、金，随信长之业而变。铜镜立于北壁，镜后壁龛藏着母上遗刀。",
+    "room_type": "event",
+    "dialog_ref": "dialog_azuchi_lantern",
+    "encounters": [],
+    "choices": [],
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "room_iga_valley",
+    "name": "伊贺黄泉之谷",
+    "description": "百地旧邸所在的深谷。柿树如伞，树下空蝉削木剑。第二道封印——伊贺黄泉之谷——守护着不死之核的中层。",
+    "room_type": "event",
+    "dialog_ref": "dialog_iga_valley",
+    "encounters": [],
+    "choices": [],
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "room_tokoyo_seabed",
+    "name": "常世之渊海底",
+    "description": "第三道封印所在。濑户内海深处，海水如墨。玉藻两千年前抱不死之核沉没之处。勾玉、黄泉之谷与海底三重封印共鸣时，核之所在方才显现。",
+    "room_type": "event",
+    "dialog_ref": "dialog_tokoyo_seabed",
+    "encounters": [],
+    "choices": [],
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "room_xianyang_dream",
+    "name": "咸阳殿梦境",
+    "description": "不死之核第四层中的梦境。始皇帝之影在咸阳殿中等待回答。金碧辉煌的宫殿已显颓色，帝影端坐龙椅，三道未答之问悬于殿中。",
+    "room_type": "event",
+    "dialog_ref": "dialog_emperor_dream",
+    "encounters": [],
+    "choices": [],
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "room_underground_shrine",
+    "name": "渡场地下暗室",
+    "description": "渡场番屋地板下的隐秘空间。石阶向下延伸，尽头是一间低矮的石室。灵石悬于石壁之上，发出幽冷的青光。墙上刻有远坂永胤的罪与封印铭文。凛世十三岁时在此发现灵石，独脚踏鞴来袭，瑟夏守护灵印记觉醒——掌心青色印记自此显现。",
+    "room_type": "event",
+    "dialog_ref": "dialog_spirit_stone_vision",
+    "encounters": ["enemy_katatagane_solo"],
+    "choices": [],
+    "day": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第零集 天正残照（上）"
+  },
+  {
+    "id": "room_hase_dera",
+    "name": "長谷越山道·长谷寺",
+    "description": "奈良長谷越的山道与古寺。山道雾行时道标矢被篡改、地藏菩萨头部被更换、炭窑处留有凶案痕迹。长谷寺本堂前枯死菩提树下埋有铁盒——菊姬血书、八咫镜碎片、六瓣桔梗梳皆在其中。阿绣（刘绣）持刀对峙于本堂前，冒牌凛世的命代铜牌在此首现。",
+    "room_type": "event",
+    "dialog_ref": "dialog_axiu_confrontation",
+    "encounters": ["encounter_mountain_fog", "encounter_inugami_pack", "encounter_fake_rinyo_trace"],
+    "choices": [],
+    "day": 2,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "room_hase_dera_main_hall",
+    "name": "长谷寺本堂",
+    "description": "长谷寺本堂。两个凛世在此对峙——一个灯明已燃，一个未燃。服部暗码提示藏于供桌之下。悬镜照心时，真凛世照出\u201c业之锁\u201d，冒牌凛世照出\u201c碎片之镜\u201d。冒牌凛世身份揭示：远坂分家后裔，\u201c影之座\u201d组织成员，拥有复制能力与情报窃取之术。",
+    "room_type": "event",
+    "dialog_ref": "dialog_true_vs_fake",
+    "encounters": ["encounter_mirror_confrontation"],
+    "choices": [],
+    "day": 3,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第三集 双面之影（一）"
+  }
+]

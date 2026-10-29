@@ -1,0 +1,189 @@
+{
+  "puzzles": [
+    {
+      "id": "smoking_ritual",
+      "name": "吸烟仪式",
+      "description": "用红万宝路和 Ex Altiora 执行仪式。",
+      "required_items": [
+        "red_marlboro",
+        "ex_altiora"
+      ],
+      "required_flags": [],
+      "required_room": "bournemouth_flat",
+      "result_flag": "ritual_complete",
+      "result_text": "你点燃最后一根红万宝路，将 Ex Altiora 翻到正确的页面。烟雾缭绕成符号的形状。房间温度骤降。有什么东西在回应。你身上现在带着它的印记。",
+      "corruption_delta": 10
+    },
+    {
+      "id": "unlock_lancaster",
+      "name": "打开兰开斯特路93号",
+      "description": "用链条钥匙进入兰开斯特路93号。",
+      "required_items": [
+        "chain_key"
+      ],
+      "required_flags": [],
+      "required_room": "notting_hill",
+      "result_flag": "lancaster_unlocked",
+      "result_text": "链条钥匙在一个不应存在的锁中转动。兰开斯特路93号在你面前打开——一栋被压缩在现实之间的建筑。里面的楼梯一直向下，永不停歇。",
+      "corruption_delta": 5
+    },
+    {
+      "id": "doll_assembly",
+      "name": "娃娃组装",
+      "description": "找到娃娃头，发现它需要什么。",
+      "required_items": [
+        "doll_head"
+      ],
+      "required_flags": [],
+      "required_room": "lancaster_93",
+      "result_flag": "doll_assembled",
+      "result_text": "娃娃头开始低语。它缺失的眼睛睁开了——不是画上去的，而是真实的，在看着人类不该看的东西。它告诉你关于地窖的事。关于居住在地底之下的地底的东西。",
+      "corruption_delta": 8
+    },
+    {
+      "id": "freezing_memory",
+      "name": "冻结记忆",
+      "description": "用冰块冻结一段创伤性的幻象。",
+      "required_items": [
+        "ice_block"
+      ],
+      "required_flags": [],
+      "required_room": "night_road",
+      "result_flag": "memory_frozen",
+      "result_text": "当记忆涌来时，你将冰块按在额头上。寒冷是绝对的——一种完美的静止，让幻象在成形中途停止。冻结了。被控制了。但没有被消灭。它在冰中等待着，充满耐心。",
+      "corruption_delta": 3
+    },
+    {
+      "id": "sanskrit_translation",
+      "name": "梵文翻译",
+      "description": "让艾伦·帕菲特翻译梵文书。",
+      "required_items": [
+        "sanskrit_book"
+      ],
+      "required_flags": [],
+      "required_room": "pinhole_books",
+      "result_flag": "translation_complete",
+      "result_text": "艾伦的手在颤抖，一边读着。那些文字在改变他——你能看到这个过程正在发生。当他读完时，他把书递还给你，避开了你的目光。'现在你知道了那个名字。那个能打开不该被打开的门的。'",
+      "corruption_delta": 12
+    },
+    {
+      "id": "prayer_seal",
+      "name": "祈祷封印",
+      "description": "用祈祷布条绕过洗衣局的结界。",
+      "required_items": [
+        "prayer_strip"
+      ],
+      "required_flags": [],
+      "required_room": "night_road",
+      "result_flag": "prayer_accepted",
+      "result_text": "你诵读血迹布条上的祈祷文。洗衣局的结界闪烁着光芒，像幕布一样分开。你感觉到他们的系统在登记你的存在——并允许了。你现在获准进入。",
+      "corruption_delta": 5
+    },
+    {
+      "id": "laundry_infiltration",
+      "name": "潜入洗衣局",
+      "description": "用A5笔记本在洗衣局总部导航。",
+      "required_items": [
+        "a5_notebook"
+      ],
+      "required_flags": [],
+      "required_room": "laundry_hq",
+      "result_flag": "laundry_infiltrated",
+      "result_text": "A5笔记本中预知未来的条目引导你穿过洗衣局的走廊。你走过监控摄像头将会空闲的位置。你打开将会被解锁的门。笔记本知道你会来。它一直都知道。",
+      "corruption_delta": 15
+    },
+    {
+      "id": "heart_replacement",
+      "name": "心脏替换",
+      "description": "在白教堂深处替换机械心脏。",
+      "required_items": [
+        "metal_heart"
+      ],
+      "required_flags": [],
+      "required_room": "whitechapel",
+      "result_flag": "heart_replaced",
+      "result_text": "你将滴答作响的金属心脏按在白教堂的墙上。墙壁接受了它——围绕它生长——一瞬间，一切都停止了。低语声。压迫感。违和感。然后另一边的某个东西开始以机械的节奏跳动。你给了它一颗心脏。",
+      "corruption_delta": 20
+    },
+    {
+      "id": "amsterdam_deal",
+      "name": "阿姆斯特丹交易",
+      "description": "在阿姆斯特丹烟馆接受约翰的信封。",
+      "required_items": [
+        "johns_envelope"
+      ],
+      "required_flags": [],
+      "required_room": "amsterdam_coffeeshop",
+      "result_flag": "deal_accepted",
+      "result_text": "你接过了信封。一万英镑。你告诉自己这是暂时的，你不会花这笔钱，你会还回去。但你已经知道了——在你打开信封的那一刻——你做了错误的选择。就像那些被安康鱼引诱的鱼一样，你走向了光。",
+      "corruption_delta": 8
+    },
+    {
+      "id": "graham_discovery",
+      "name": "格雷厄姆的发现",
+      "description": "在格雷厄姆公寓发现笔记本和迷宫桌的秘密。",
+      "required_items": [
+        "grahams_notebook"
+      ],
+      "required_flags": [],
+      "required_room": "grahams_apartment",
+      "result_flag": "graham_found",
+      "result_text": "你翻开A5笔记本。里面的文字记录着尚未发生的事件——包括你正在翻开这本笔记本的动作。迷宫桌中央的孔洞亮了一下，像是另一边的什么东西在回应。格雷厄姆说的没错——他确实在记东西。只是不是笔记。",
+      "corruption_delta": 10
+    },
+    {
+      "id": "missing_student",
+      "name": "失踪的学生",
+      "description": "将菲罗斯的寻人启事与红万宝路联系。",
+      "required_items": [
+        "fellowes_photo",
+        "red_marlboro"
+      ],
+      "required_flags": [],
+      "required_room": "edinburgh_university",
+      "result_flag": "fellowes_connected",
+      "result_text": "你看着寻人启事上约翰·菲罗斯口袋里露出的红万宝路。和你捡到的那根一模一样。时间线吻合——你离开派对，他在之后离开，经过老渔市巷，然后失踪。你握着那根香烟，手指发抖。你是唯一知道真相的人。但你永远无法证明。",
+      "corruption_delta": 5
+    },
+    {
+      "id": "coffin_seal",
+      "name": "封印棺材",
+      "description": "用冰块冻住棺材钥匙，防止梦游打开。",
+      "required_items": [
+        "coffin_key",
+        "ice_block"
+      ],
+      "required_flags": [],
+      "required_room": "coffin_room",
+      "result_flag": "coffin_sealed",
+      "result_text": "你将钥匙放入一碗水中，然后连同冰块一起冻结。钥匙被封在透明的牢笼中——至少在你梦游时，冰的寒意会把你唤醒。棺材内的声音停了，像是在表示某种……尊重？不。是耐心。",
+      "corruption_delta": 3
+    },
+    {
+      "id": "archive_discovery",
+      "name": "档案发现",
+      "description": "在旧金山档案室发现关于自己的文件。",
+      "required_items": [
+        "sf_file"
+      ],
+      "required_flags": [],
+      "required_room": "san_francisco_archives",
+      "result_flag": "archive_found",
+      "result_text": "你打开文件。里面有你的名字。有爱丁堡的地址。有阿姆斯特丹的航班号。有伯恩茅斯那口棺材的物流编号。有人一直在看着你——比路肩漫步者更系统、更冷酷地注视着你。他们知道你的一切。而你现在知道了他们的存在。",
+      "corruption_delta": 12
+    },
+    {
+      "id": "public_warning",
+      "name": "公开警告",
+      "description": "将内森的经历写成警告发布。",
+      "required_items": [
+        "nathans_warning"
+      ],
+      "required_flags": [],
+      "required_room": "vancouver_highway",
+      "result_flag": "warning_published",
+      "result_text": "你点击了'发布'。帖子的标题是'不要停车'。你写下了每一个细节——老渔市巷的陌生人、阿姆斯特丹的信封、伯恩茅斯的棺材、兰开斯特路的牙齿、路肩上的漫步者。也许有人会嘲笑你。但也许——也许——有人会读到你写的东西，在黑暗中停车之前犹豫一下。这是你能做的最勇敢的事。",
+      "corruption_delta": -5
+    }
+  ]
+}

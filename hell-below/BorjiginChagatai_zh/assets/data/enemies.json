@@ -1,0 +1,192 @@
+[
+  {
+    "id": "helswen_striker",
+    "name": "赫尔文前锋",
+    "hp": 40,
+    "max_hp": 40,
+    "armor": 0,
+    "is_boss": false,
+    "intents": [
+      {"name": "施压", "damage": 8, "effect_tag": "", "description": "攻击造成8点伤害。"},
+      {"name": "虚晃", "damage": 0, "effect_tag": "STAGGER", "description": "施加踉跄——下次格挡减半。"},
+      {"name": "施压", "damage": 8, "effect_tag": "", "description": "攻击造成8点伤害。"}
+    ]
+  },
+  {
+    "id": "blackrock_midfielder",
+    "name": "黑岩中场",
+    "hp": 35,
+    "max_hp": 35,
+    "armor": 2,
+    "is_boss": false,
+    "intents": [
+      {"name": "穿透传球", "damage": 6, "effect_tag": "", "description": "攻击造成6点伤害（2护甲）。"},
+      {"name": "高位逼抢", "damage": 10, "effect_tag": "HIGH_PRESS", "description": "攻击造成10点伤害并使你下回合AP减少1。"}
+    ]
+  },
+  {
+    "id": "ferndale_winger",
+    "name": "蕨谷边锋",
+    "hp": 30,
+    "max_hp": 30,
+    "armor": 0,
+    "is_boss": false,
+    "intents": [
+      {"name": "冲刺", "damage": 7, "effect_tag": "", "description": "攻击造成7点伤害。"},
+      {"name": "盘带", "damage": 0, "effect_tag": "SWIFT", "description": "获得迅捷——下次攻击伤害+4。"},
+      {"name": "传中", "damage": 9, "effect_tag": "", "description": "攻击造成9点伤害。"}
+    ]
+  },
+  {
+    "id": "moorgate_fullback",
+    "name": "穆尔门后卫",
+    "hp": 45,
+    "max_hp": 45,
+    "armor": 4,
+    "is_boss": false,
+    "intents": [
+      {"name": "身体对抗", "damage": 5, "effect_tag": "", "description": "攻击造成5点伤害。"},
+      {"name": "筑墙", "damage": 0, "effect_tag": "BLOCK", "description": "获得8点护甲。"},
+      {"name": "身体对抗", "damage": 5, "effect_tag": "", "description": "攻击造成5点伤害。"},
+      {"name": "解围", "damage": 10, "effect_tag": "", "description": "攻击造成10点伤害。"}
+    ]
+  },
+  {
+    "id": "league_top_scorer",
+    "name": "联赛最佳射手",
+    "hp": 70,
+    "max_hp": 70,
+    "armor": 3,
+    "is_boss": false,
+    "intents": [
+      {"name": "精准射门", "damage": 15, "effect_tag": "", "description": "攻击造成15点伤害。"},
+      {"name": "无视蓝环", "damage": 0, "effect_tag": "IGNORE_RING", "description": "蓝环本回合不提供防御加成。"},
+      {"name": "精准射门", "damage": 15, "effect_tag": "", "description": "攻击造成15点伤害。"},
+      {"name": "帽子戏法", "damage": 18, "effect_tag": "HIGH_PRESS", "description": "攻击造成18点伤害并使你AP减少1。"}
+    ]
+  },
+  {
+    "id": "cup_goalkeeper",
+    "name": "杯赛门将",
+    "hp": 55,
+    "max_hp": 55,
+    "armor": 5,
+    "is_boss": false,
+    "intents": [
+      {"name": "拳击球", "damage": 8, "effect_tag": "", "description": "攻击造成8点伤害。"},
+      {"name": "稳接", "damage": 0, "effect_tag": "BLOCK", "description": "获得10点护甲。"},
+      {"name": "拳击球", "damage": 8, "effect_tag": "", "description": "攻击造成8点伤害。"},
+      {"name": "冲出", "damage": 12, "effect_tag": "HIGH_PRESS", "description": "攻击造成12点伤害并使AP减少1。"}
+    ]
+  },
+  {
+    "id": "matthews_forward",
+    "name": "马修斯前锋",
+    "hp": 42,
+    "max_hp": 42,
+    "armor": 0,
+    "is_boss": false,
+    "intents": [
+      {"name": "马修斯变向", "damage": 9, "effect_tag": "", "description": "攻击造成9点伤害。"},
+      {"name": "假动作", "damage": 0, "effect_tag": "STAGGER", "description": "施加踉跄——下次格挡减半。"},
+      {"name": "内切射门", "damage": 12, "effect_tag": "", "description": "攻击造成12点伤害。"}
+    ]
+  },
+  {
+    "id": "castilla_winger",
+    "name": "卡斯蒂利亚边锋",
+    "hp": 50,
+    "max_hp": 50,
+    "armor": 2,
+    "is_boss": false,
+    "intents": [
+      {"name": "皇马式突破", "damage": 10, "effect_tag": "", "description": "攻击造成10点伤害。"},
+      {"name": "快速反击", "damage": 7, "effect_tag": "SWIFT", "description": "攻击造成7点伤害，下次攻击伤害+5。"},
+      {"name": "传中助攻", "damage": 14, "effect_tag": "HIGH_PRESS", "description": "攻击造成14点伤害并使AP减少1。"}
+    ]
+  },
+  {
+    "id": "whitby_defender",
+    "name": "惠特比后卫",
+    "hp": 48,
+    "max_hp": 48,
+    "armor": 5,
+    "is_boss": false,
+    "intents": [
+      {"name": "贴身盯防", "damage": 6, "effect_tag": "", "description": "攻击造成6点伤害。"},
+      {"name": "人墙", "damage": 0, "effect_tag": "BLOCK", "description": "获得12点护甲。"},
+      {"name": "凶狠铲断", "damage": 13, "effect_tag": "STAGGER", "description": "攻击造成13点伤害并施加踉跄。"}
+    ]
+  },
+  {
+    "id": "walsall_midfielder",
+    "name": "沃尔索尔中场",
+    "hp": 38,
+    "max_hp": 38,
+    "armor": 1,
+    "is_boss": false,
+    "intents": [
+      {"name": "直塞球", "damage": 8, "effect_tag": "", "description": "攻击造成8点伤害。"},
+      {"name": "控球节奏", "damage": 0, "effect_tag": "SLOW", "description": "降低节奏——你下回合AP减少1。"},
+      {"name": "远射", "damage": 11, "effect_tag": "", "description": "攻击造成11点伤害。"}
+    ]
+  },
+  {
+    "id": "iron_hammer_defender",
+    "name": "铁锤堡后卫",
+    "hp": 55,
+    "max_hp": 55,
+    "armor": 6,
+    "is_boss": false,
+    "intents": [
+      {"name": "铁桶阵", "damage": 0, "effect_tag": "BLOCK", "description": "获得15点护甲。"},
+      {"name": "暴力解围", "damage": 10, "effect_tag": "", "description": "攻击造成10点伤害。"},
+      {"name": "定位球冲击", "damage": 16, "effect_tag": "HIGH_PRESS", "description": "攻击造成16点伤害并使AP减少1。"}
+    ]
+  },
+  {
+    "id": "north_bridge_fullback",
+    "name": "北桥联后卫",
+    "hp": 52,
+    "max_hp": 52,
+    "armor": 4,
+    "is_boss": false,
+    "intents": [
+      {"name": "区域防守", "damage": 7, "effect_tag": "", "description": "攻击造成7点伤害。"},
+      {"name": "封堵", "damage": 0, "effect_tag": "BLOCK", "description": "获得10点护甲。"},
+      {"name": "反击长传", "damage": 12, "effect_tag": "", "description": "攻击造成12点伤害。"},
+      {"name": "全场紧逼", "damage": 14, "effect_tag": "HIGH_PRESS", "description": "攻击造成14点伤害并使AP减少1。"}
+    ]
+  },
+  {
+    "id": "the_horse",
+    "name": "天马——明鉴显化",
+    "hp": 120,
+    "max_hp": 120,
+    "armor": 5,
+    "is_boss": true,
+    "intents": [
+      {"name": "旧血", "damage": 0, "effect_tag": "COPY", "description": "复制你最后打出的卡牌并以其反制你。"},
+      {"name": "命运碾压", "damage": 20, "effect_tag": "", "description": "攻击造成20点伤害。"},
+      {"name": "旧血", "damage": 0, "effect_tag": "COPY", "description": "复制你最后打出的卡牌。"},
+      {"name": "幽灵群", "damage": 14, "effect_tag": "HIGH_PRESS", "description": "攻击造成14点伤害并使AP减少1。"},
+      {"name": "命运碾压", "damage": 20, "effect_tag": "", "description": "攻击造成20点伤害。"}
+    ]
+  },
+  {
+    "id": "the_collector",
+    "name": "收藏家——命格终极显化",
+    "hp": 180,
+    "max_hp": 180,
+    "armor": 8,
+    "is_boss": true,
+    "intents": [
+      {"name": "收藏", "damage": 0, "effect_tag": "STEAL", "description": "从你的牌组中随机移除1张非STATUS卡牌。"},
+      {"name": "命格收割", "damage": 25, "effect_tag": "", "description": "攻击造成25点伤害。"},
+      {"name": "容器检测", "damage": 0, "effect_tag": "IGNORE_RING", "description": "蓝环无效。你的命格技能本回合消耗翻倍。"},
+      {"name": "五代的重量", "damage": 18, "effect_tag": "HIGH_PRESS", "description": "攻击造成18点伤害并使AP减少2。"},
+      {"name": "命格收割", "damage": 25, "effect_tag": "", "description": "攻击造成25点伤害。"},
+      {"name": "绝对压制", "damage": 30, "effect_tag": "PENETRATE", "description": "攻击造成30点伤害，无视格挡。"}
+    ]
+  }
+]

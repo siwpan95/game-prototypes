@@ -1,0 +1,160 @@
+{
+  "items": {
+    "jersey_13": {
+      "item_id": "jersey_13",
+      "name": "13号球衣",
+      "description": "蓝白竖条纹球衣，背后印着13号，名字栏空着。老胡安的木盒里放着四块破碎的号码布，最旧的那块只能隐约辨认出数字13。穿上它的那一刻，你的瞳孔变成金色。盒底刻着褪色的字——赢要赢得漂亮，输要输得像英雄。",
+      "item_type": "quest"
+    },
+    "wooden_box": {
+      "item_id": "wooden_box",
+      "name": "铜角木盒",
+      "description": "边缘包着铜角的旧木盒，被打开过无数次。里面是四块破碎的号码布。老胡安把它推到你面前的长凳上。木盒被磨得发亮，表面有不知多少代容器触碰过的痕迹。",
+      "item_type": "quest"
+    },
+    "fragment_1_joao": {
+      "item_id": "fragment_1_joao",
+      "name": "第一块号码布——若昂",
+      "description": "最旧的一块，已经看不清原来的颜色，只能隐约辨认数字13。触碰它的瞬间——暴雨，一个穿着蓝色球衣的人在泥泞的球场上跪着，双手抠进泥里，指甲断裂。他在哭。",
+      "item_type": "quest"
+    },
+    "fragment_2_diego": {
+      "item_id": "fragment_2_diego",
+      "name": "第二块号码布——斗牛士",
+      "description": "略微完整，边缘有烧焦的痕迹，背面写着日期：1989。斗牛士之子在国王杯半决赛的禁区里跳了一段完整的斗牛舞。",
+      "item_type": "quest"
+    },
+    "fragment_3_john": {
+      "item_id": "fragment_3_john",
+      "name": "第三块号码布——约翰",
+      "description": "红色的，数字也是13，布料很新，几乎没怎么磨损，但正中间有一道水平的裂口，像被锋利的刀刃划开过。背面写满了字——有人在上面反复写过同一个句子。笔迹颤抖，墨水颜色深浅不一。",
+      "item_type": "quest"
+    },
+    "fragment_4_paul": {
+      "item_id": "fragment_4_paul",
+      "name": "第四块号码布——保罗",
+      "description": "白色的，看起来很普通，只是右下角缺了一个三角形。保罗用它改写了安全阈值——从25岁延长到32岁。",
+      "item_type": "quest"
+    },
+    "fragment_5_briz": {
+      "item_id": "fragment_5_briz",
+      "name": "第五块号码布——布里兹",
+      "description": "烧焦的号码布。老胡安把它放在你手心：'替我把它带到伯纳乌。告诉那些人，这十多年来不是一个实验。是一个老头给四个死人守墓，直到第五个人从墓里走出来。'",
+      "item_type": "quest"
+    },
+    "pepsi_cola": {
+      "item_id": "pepsi_cola",
+      "name": "百事可乐",
+      "description": "绿洲竞技更衣室门口的十箱碳酸饮料。布里兹的命格燃料——不是物理意义上的，是心理锚定物。桑蒂偷了第五罐，后来还了回去。布里兹说：'我需要有人替我留着它。'账簿记录了每一罐的日期和价格。",
+      "item_type": "consumable"
+    },
+    "training_chalk": {
+      "item_id": "training_chalk",
+      "name": "训练墙粉笔",
+      "description": "绿洲竞技更衣室战术板标配的白色粉笔。布里兹把它从正常长度用到只剩拇指指甲盖那么长。粉笔表面被手指磨得发亮，有些地方印着指纹。他在世界杯决赛前夜用它在停车场承重墙上写过于4783。那截粉笔头最后搁在长生天训练墙所有圆的底部。",
+      "item_type": "misc"
+    },
+    "silver_scissors": {
+      "item_id": "silver_scissors",
+      "name": "银色剪刀",
+      "description": "老胡安从布包里取出的旧剪刀，刀刃有些旧，握柄上的橡胶已经磨得发亮。用来替容器剪去白发。咔嚓咔嚓地响。白发和蓝发混在一起，被地砖缝隙里渗出来的水浸湿，粘成一团。",
+      "item_type": "misc"
+    },
+    "saren_iron_piece": {
+      "item_id": "saren_iron_piece",
+      "name": "萨仁的铁片",
+      "description": "一小块被反复打磨过的铁片，边缘被磨圆了。铁片上刻着蒙语单词——額爾德尼，珍宝。这是萨仁当年用来割断脐带的刀片。她没有给它锋利，只把它磨成了可以佩戴的圆。布里兹把它装进右口袋，贴在心脏位置。",
+      "item_type": "quest"
+    },
+    "thermos_juan": {
+      "item_id": "thermos_juan",
+      "name": "老胡安的保温杯",
+      "description": "杯壁上贴着标签：胡安·马丁内斯，1978。标签下面还有一行小字，被磨得只剩几个字母——...toria。保温杯里装的不是水。老胡安在关键时刻把它搁在布里兹旁边的空位上。",
+      "item_type": "misc"
+    },
+    "infinite_brand": {
+      "item_id": "infinite_brand",
+      "name": "命格烙印",
+      "description": "后颈的反∞符号。不可使用。命格侵蚀+1。当命格侵蚀达到上限时，此牌变为最后一舞。布里兹的母亲萨仁把烙印的方向改变了——右边那道弧线延伸到了和左边完全对称的位置，构成一个正向的无限符号。",
+      "item_type": "quest"
+    },
+    "archive_combo_lock": {
+      "item_id": "archive_combo_lock",
+      "name": "档案柜转盘锁",
+      "description": "右转三次到37，左转两次到08，右转一次到13。37+08+13。不是所有的密码都有秘密。有些密码只是替死去的人记住他们没能走完的年份。",
+      "item_type": "quest"
+    },
+    "johns_letter": {
+      "item_id": "johns_letter",
+      "name": "约翰的信",
+      "description": "一封没写完的信。笔迹的最后一道横线上有一个被水渍晕开的墨点。他写道：'替我告诉下一个。不是命格不能退。是马不让。'然后笔被搁下了。",
+      "item_type": "quest"
+    },
+    "pauls_report": {
+      "item_id": "pauls_report",
+      "name": "保罗的四十七页报告",
+      "description": "三年数据。一条曲线从25岁延伸到32岁。保罗用自己的身体数据证明：如果没有人的情况可以走得更远，那所有的努力只会重演第一代宿主的惨剧。最后一页空白处用铅笔画了一个圆，被橡皮擦过，但没擦干净。",
+      "item_type": "quest"
+    },
+    "freedom_horse": {
+      "item_id": "freedom_horse",
+      "name": "自由——灰马",
+      "description": "矮脚灰马，右前蹄有白斑。从布里兹十七岁起在梦境中反复出现的马。若昂在精神病院听到它的蹄声，斗牛士感受到它的缰绳，约翰写下了'马不让'。布里兹最终给它命了名——自由。它在被命名的瞬间安静下来。",
+      "item_type": "quest"
+    },
+    "old_juans_lesson_item": {
+      "item_id": "old_juans_lesson_item",
+      "name": "老胡安的教导",
+      "description": "一张被汗渍浸过太多次的纸条，纸面磨得起了一层细密的毛边，但字迹还在。老胡安的铅笔字斜而潦草——'基本功不是一种技能。是他的锚。拿走这个锚，他会漂走。'",
+      "item_type": "equipment"
+    },
+    "mayas_analysis_item": {
+      "item_id": "mayas_analysis_item",
+      "name": "玛雅的分析笔记本",
+      "description": "摊开在膝盖上的笔记本。上面圈了无数个'联觉'。她在第七次回放第八十四分钟的片段时注意到了蓝色光圈——冷蓝，二十帧中时隐时现。",
+      "item_type": "equipment"
+    },
+    "moros_cover_item": {
+      "item_id": "moros_cover_item",
+      "name": "莫罗的掩护",
+      "description": "莫罗的拳头抵在你的胸口上。你把自己的拳头抵在他的胸口上。这是一种不需要语言的协议——他替你跑完你不能跑的区间。",
+      "item_type": "equipment"
+    },
+    "santis_cross_item": {
+      "item_id": "santis_cross_item",
+      "name": "桑蒂的传中",
+      "description": "桑蒂的右脚。他的速度是花活，但他正在学会什么时候该用基本功。他在温布利决赛时终于学会了——23岁，基本功终于及格了。",
+      "item_type": "equipment"
+    },
+    "ledgers_account_item": {
+      "item_id": "ledgers_account_item",
+      "name": "账簿的账本",
+      "description": "一本永远摊开在膝盖上的账簿。每一页都写着日期和数字。最后一页的最后一行写着'已付清'，字迹歪歪扭扭。",
+      "item_type": "equipment"
+    },
+    "milos_gloves_item": {
+      "item_id": "milos_gloves_item",
+      "name": "米洛的手套",
+      "description": "被撕破的门将手套。在温布利壁走那球里，门将的手指碰到了球，手套破了，但球继续飞。",
+      "item_type": "equipment"
+    },
+    "archive_discovery_item": {
+      "item_id": "archive_discovery_item",
+      "name": "第八号档案柜",
+      "description": "四个文件夹。#13-1若昂的幻视症诊断书，#13-2斗牛士之子的肌肉活检报告，#13-3约翰没写完的信，#13-4保罗的三年数据。",
+      "item_type": "quest"
+    },
+    "pepsi_moment_item": {
+      "item_id": "pepsi_moment_item",
+      "name": "桑蒂偷来的百事可乐",
+      "description": "一罐贴着便利贴的可乐，上面写着'对不起'。桑蒂的声音发干：'我昨晚多拿了一罐。我不知道你今天不能没有它。'",
+      "item_type": "consumable"
+    },
+    "training_wall_item": {
+      "item_id": "training_wall_item",
+      "name": "凌晨四点训练墙",
+      "description": "红砖砌的旧训练墙，上面画着六个不同大小的圆。2000次触球的基本功。你在墙上踢了一万脚——数过去所有这些年加起来的总和也没有今天多。",
+      "item_type": "equipment"
+    }
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "rooms": {
+    "oasis_dressing_room": {
+      "room_id": "oasis_dressing_room",
+      "name": "绿洲竞技更衣室",
+      "description": "预制板搭建的破旧更衣室。灯管嗡嗡响，水管在墙壁深处轰鸣。长凳上放着老胡安的保温杯，角落里堆着十箱百事可乐。四块破碎的号码布躺在木盒里，盒底刻着褪色的字——赢要赢得漂亮，输要输得像英雄。",
+      "chapter": "第一集~第二集",
+      "characters": [
+        "briz",
+        "old_juan",
+        "morrow",
+        "santi",
+        "maya",
+        "ledger"
+      ],
+      "events": [
+        "four_fragments",
+        "thirteen_awakening",
+        "withdrawal_bench",
+        "moros_notebook"
+      ]
+    },
+    "training_wall": {
+      "room_id": "training_wall",
+      "name": "凌晨四点训练墙",
+      "description": "红砖砌的旧训练墙，水泥抹面上画着六个不同大小的圆。油漆发黄，边缘模糊，被无数次触球击打得连颜色都怯了。1967年一个退役矿工中卫用仅剩的七根手指手绘的圆。草皮上残留着二十个磨出线头的旧足球。每一下触球的声音都像钝刃劈草席。",
+      "chapter": "第二集",
+      "characters": [
+        "briz",
+        "old_juan",
+        "morrow"
+      ],
+      "events": [
+        "wall_at_four_am"
+      ]
+    },
+    "oasis_pitch": {
+      "room_id": "oasis_pitch",
+      "name": "绿洲竞技主场",
+      "description": "预制板搭建的破旧球场，看台只有一侧有顶棚，顶棚下挂着褪色的横幅——'绿洲竞技，1888年建队，零顶级联赛冠军'。球场建在废弃煤矿的填埋层上，每年冬天草皮下的地面都会轻微沉降，禁区线的白漆永远画不直。镇上的人管这座球场叫'矿井'。",
+      "chapter": "第三集",
+      "characters": [
+        "briz",
+        "morrow",
+        "santi",
+        "maya",
+        "ledger",
+        "milo"
+      ],
+      "events": [
+        "landing_point",
+        "causality_goal"
+      ]
+    },
+    "blackrock_pitch": {
+      "room_id": "blackrock_pitch",
+      "name": "黑岩镇球场",
+      "description": "矿渣色的天空笼罩着泥泞的球场上。木质广告牌刷着褪色的白漆，上面写着'我们挖走了煤，留下了骨气'。广告牌是矿井里拆出来的枕木做的，在煤渣里泡了五十年，比花岗岩还硬。球迷的嘘声和跺脚声通过预制板传遍整个球场。",
+      "chapter": "第四集",
+      "characters": [
+        "briz",
+        "morrow",
+        "santi",
+        "old_juan",
+        "matthews"
+      ],
+      "events": [
+        "black_rock_rain"
+      ]
+    },
+    "whitby_pitch": {
+      "room_id": "whitby_pitch",
+      "name": "惠特比球场",
+      "description": "海风把雨丝吹得横过来飘，草皮上积了一层薄薄的水膜。这是足总杯的客场，对手是联赛排名更高的球队。北海岸的盐雾让球衣贴在身上，每一脚触球都带着潮湿的沙粒感。",
+      "chapter": "第五集",
+      "characters": [
+        "briz",
+        "morrow"
+      ],
+      "events": [
+        "whitby_s_curve"
+      ]
+    },
+    "hotel_room": {
+      "room_id": "hotel_room",
+      "name": "酒店房间·赛后",
+      "description": "泛光灯暗了之后才能安静的地方。镜子映出变了色的头发——白得像被什么东西从内部抽干了所有色素。洗手池里断成碎末的头发被水浸湿，粘成一团。老胡安的银色剪刀从布包里取出来，咔嚓咔嚓地响。",
+      "chapter": "第六集",
+      "characters": [
+        "briz",
+        "old_juan"
+      ],
+      "events": [
+        "hair_turns_white"
+      ]
+    },
+    "archive_room": {
+      "room_id": "archive_room",
+      "name": "第八号档案柜·温德米尔",
+      "description": "凌晨一点过三分。曼彻斯特郊外十七公里，谷歌地图上写着'已注销'。老式转盘锁——右转三次到37，左转两次到08，右转一次到13。四个文件夹：#13-1若昂的幻视症诊断书、#13-2斗牛士之子的肌肉活检报告、#13-3约翰没写完的信、#13-4保罗的三年数据。",
+      "chapter": "第八集",
+      "characters": [
+        "briz",
+        "old_juan",
+        "maya"
+      ],
+      "events": [
+        "archive_eight"
+      ]
+    },
+    "substitute_bench": {
+      "room_id": "substitute_bench",
+      "name": "替补席",
+      "description": "命格像一潭死水——不响应、不闪烁、不标记任何落点。这是戒断反应。替补席上的冷板凳，头顶是嗡嗡响的灯管，脚下是踢不出去的焦躁。六罐百事可乐的位置，第五罐是空的。你在数触球——4783，4784，4785。",
+      "chapter": "第九集",
+      "characters": [
+        "briz",
+        "santi"
+      ],
+      "events": [
+        "withdrawal_bench"
+      ]
+    },
+    "singularity_zone": {
+      "room_id": "singularity_zone",
+      "name": "奇点链接空间",
+      "description": "意识脱离身体的瞬间。左脚从毯子边缘滑出来，球鞋在草皮上拖出一道细线。凌晨四点十七分开始说话，用两种已经消亡的语言——东罗马时期通俗希腊语和13世纪蒙古语族察合台方言。手指在床单上反复画∞，∞，∞，但画的方向是反的。",
+      "chapter": "第十集",
+      "characters": [
+        "briz",
+        "old_juan",
+        "maya"
+      ],
+      "events": [
+        "singularity_link"
+      ]
+    },
+    "wembley_stadium": {
+      "room_id": "wembley_stadium",
+      "name": "温布利球场",
+      "description": "九万人的温布利。决赛。草皮下的灌溉系统在渗水，和诺坎普一样。泛光灯从四面八方砸下来，亮得连影子都无处可藏。加时赛是体能的屠宰场——对手有整支职业青训梯队的体能储备，你们只有莫罗的腿、桑蒂的肺、和你已经燃烧到临界状态的身体。",
+      "chapter": "第十二集~第十四集",
+      "characters": [
+        "briz",
+        "morrow",
+        "santi",
+        "old_juan"
+      ],
+      "events": [
+        "wembley_eve",
+        "wembley_wall_walk",
+        "wembley_dragon_flash"
+      ]
+    },
+    "wembley_underground": {
+      "room_id": "wembley_underground",
+      "name": "温布利地下停车场",
+      "description": "决赛前十二小时。混凝土墙在空旷的停车场里回荡着球撞击的声音，像某种古老的计时器。你数到第两千三百四十七次。莫罗从消防楼梯口走过来，背靠着承重墙。两个人，一面墙，一整夜。",
+      "chapter": "第十二集",
+      "characters": [
+        "briz",
+        "morrow"
+      ],
+      "events": [
+        "wembley_eve"
+      ]
+    },
+    "kowloon_sand": {
+      "room_id": "kowloon_sand",
+      "name": "九龙城寨·沙地",
+      "description": "九龙城寨的旧址。沙土地，一面红砖旧墙，上面画满了圆。圆的排列方式和绿洲竞技训练场那面墙一模一样。史蒂芬·周在这里踢了四十三脚，每一脚踢在一个不同的脑区。球摆在这里，站进圈里，踢第四十四脚。",
+      "chapter": "第十五集",
+      "characters": [
+        "briz",
+        "stephen_zhou"
+      ],
+      "events": [
+        "hong_kong_kick_back"
+      ]
+    },
+    "bernebau_decision": {
+      "room_id": "bernebau_decision",
+      "name": "绿洲竞技训练场·决定",
+      "description": "训练场空无一人，你站在所有人面前。白发在午后的阳光下映出银色。'我决定把我的天赋带到伯纳乌去。'没有人鼓掌。桑蒂的泪、账簿的账单、莫罗抵在胸口的拳头、老胡安手心里的第五块号码布。告别是一种不需要翻译的语言。",
+      "chapter": "第十六集",
+      "characters": [
+        "briz",
+        "old_juan",
+        "morrow",
+        "santi",
+        "ledger"
+      ],
+      "events": [
+        "decision_bernabeu"
+      ]
+    },
+    "paris_stage": {
+      "room_id": "paris_stage",
+      "name": "巴黎·金球奖舞台",
+      "description": "灯光砸下来。金球奖的奖杯比想象中轻。你从西装内袋里掏出五样东西——若昂烧焦的13号碎布、斗牛士1989年的号码片、约翰衬衣上的纽扣、保罗的训练报告、老胡安那封始终没写完的信。灯光透过碎布焦黑的边缘，把13这个数字投射在穹顶上。",
+      "chapter": "第十七集",
+      "characters": [
+        "briz"
+      ],
+      "events": [
+        "golden_ball_speech"
+      ]
+    },
+    "world_cup_final": {
+      "room_id": "world_cup_final",
+      "name": "世界杯决赛场",
+      "description": "2026年7月19日。2:1法国领先。第86分钟，终场前两分钟，任意球。距离球门约二十六米，偏左。你的小腿在抽筋，第三指关节脱臼复位后开始肿胀，鼻梁被撞断的位置在钝痛。白发被风吹到额前，遮住了一只眼睛。搏克的虎蹲姿势。蹴鞠的'拽'。",
+      "chapter": "第十八集",
+      "characters": [
+        "briz",
+        "morrow"
+      ],
+      "events": [
+        "last_dance"
+      ]
+    },
+    "new_york_street": {
+      "room_id": "new_york_street",
+      "name": "纽约凌晨街头",
+      "description": "世界杯决赛后的第三天。凌晨四点零三分的纽约酒店。手机震动——老胡安的消息：'收藏家昨晚联系我了。他想让你接任。'你走出酒店，在一面普通的砖墙前停下。墙根堆着被踩扁的易拉罐，墙上有人用白色粉笔画了一个歪歪扭扭的圈。你没有球，但你做了那个动作。",
+      "chapter": "第十九集",
+      "characters": [
+        "briz",
+        "old_juan",
+        "the_collector"
+      ],
+      "events": [
+        "your_story"
+      ]
+    },
+    "the_steppe": {
+      "room_id": "the_steppe",
+      "name": "草原·命格根源",
+      "description": "没有草，只有冻土。冻土上有蹄印。蹄印尽头站着一匹矮脚灰马，右前蹄有白斑。马背上没有骑手，但缰绳在风中绷直，像被什么东西攥着。这是所有容器在梦境中反复抵达的地方——若昂听到的马蹄声、斗牛士感受到的缰绳、约翰写下的'马不让'、保罗试图驯服的微弱信号，都指向这片草原。",
+      "chapter": "第二十八集",
+      "characters": [
+        "briz",
+        "saren",
+        "joao",
+        "diego",
+        "john",
+        "paul"
+      ],
+      "events": [
+        "singularity_link"
+      ]
+    },
+    "eternal_blue_training_wall": {
+      "room_id": "eternal_blue_training_wall",
+      "name": "长生天训练墙",
+      "description": "从绿洲竞技的图纸复制而来，尺寸扩大了一倍。墙面上画满了圆——若昂从边界往内画的、斗牛士用剑尖剜出的、约翰的纽扣大的圆、保罗用橡皮擦掉但故意没擦干净的、史蒂芬·周的四十三个凹陷、艾登的歪圆、查干在畜棚门板上的第一个圆、莫罗的'歪了的圆也是圆'、老胡安极小的圈。最下面还有空白的角落，留给下一个人。",
+      "chapter": "第二十九集~第三十集",
+      "characters": [
+        "briz",
+        "chagan",
+        "aiden",
+        "morrow",
+        "old_juan",
+        "luca"
+      ],
+      "events": [
+        "your_story"
+      ]
+    }
+  }
+}

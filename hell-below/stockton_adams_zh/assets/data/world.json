@@ -1,0 +1,1510 @@
+{
+  "nodes": {
+    "start": {
+      "node_id": "start",
+      "node_type": "start",
+      "name": "家",
+      "icon": "H",
+      "description": "山丘上的白房子",
+      "narrative": "晨光洒满核桃溪。你站在白房子的门廊上，手里端着咖啡，\n看着风车的叶片在加利福尼亚的天空下缓缓转动。\n\n三十年的职业生涯。三座总冠军。一个如影随形的名声：\n\"恶人\"。\n\n你现在六十二岁了。左膝每天早上都在提醒你。\n但你的笔记本摊开在厨房桌上，桑丘——\n你的园丁，你意想不到的朋友——已经在后院修剪玫瑰，\n一边哼着歌。\n\n今天，你需要做一个选择。",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [
+        "story_slipper",
+        "a1_afternoon",
+        "rest_home",
+        "windmill_1"
+      ],
+      "required_flags": [],
+      "x": 1,
+      "y": 3,
+      "act": 1
+    },
+    "a1_afternoon": {
+      "node_id": "a1_afternoon",
+      "node_type": "story",
+      "name": "午后",
+      "icon": "S",
+      "description": "一个恶汉的午后——日常与重量",
+      "narrative": "你上午十一点才醒来。左膝深处那块碎骨又从午夜\n开始絮叨——像一座微型档案馆，用疼痛的方式记录\n着你每一次的防守动作。\n\n埃琳娜已经出门了。床头柜上压着一张纸条：\n\"我去镇上买番茄苗。冰箱里有鸡蛋和培根。\n别再去踢风车了。\"末尾画了一个叉号——\n那是你们用了二十年的暗号，意思是\"我说真的\"。\n\n你推门出去。桑丘正蹲在橘子树下，\n用一把旧牙刷小心翼翼地刷着什么。\n他举起手——那是你昨天踢飞的那只绒面拖鞋，\n此刻已经被刷得干干净净。\n\n\"我在山坡上找了四十分钟，\"他的语气\n既抱怨又自豪，\"最后发现它卡在风车基座下面。\"\n\n你坐在他旁边的草地上。\n\"你知道我醒来想到的第一件事是什么吗？\"\n\"膝盖？\"\n\"不是。是——我还在乎。还在乎那些年我做过的事。\n还在乎那些我伤害过的人。如果有一天我连这都\n不在乎了，那我就真的不剩什么了。\"\n\n桑丘把刷干净的拖鞋放在你旁边。\n\"一个真正不在乎的人，不会用拖鞋去踢风车。\"\n\n这番话没有逻辑上的说服力，却击中了你心中\n某个非常柔软的位置。",
+      "choices": [],
+      "stat_effects": {
+        "peace": 8,
+        "insight": 2
+      },
+      "connected_to": [
+        "reading_origin",
+        "windmill_1"
+      ],
+      "required_flags": [],
+      "x": 2,
+      "y": 4,
+      "act": 1
+    },
+    "reading_origin": {
+      "node_id": "reading_origin",
+      "node_type": "reading",
+      "name": "街区",
+      "icon": "B",
+      "description": "芝加哥南区的记忆",
+      "narrative": "你在车库翻到一盒旧照片。最底下那张——\n芝加哥南区，六月的空气又湿又热，\n混凝土院子里那只钉在电线杆上的篮筐。\n\n你五岁那年被父亲扔进了社区拳馆。\n\"去学会挨打，\"那个脖子上有刀疤的男人说，\n\"然后学会让别人挨打。\"\n\n十二岁，你在巷口的那场架里比任何人都冷静。\n不是因为勇敢。是因为那种安静——\n挨打时的安静，让人害怕的安静。\n\n大学的时候，你在内线用铁肘击打托马斯的面部。\n赛后新闻发布会上你面无表情。\n那种安静又出现了。记者们不再提问。\n\n你把照片放回盒子里。\n那些铁肘不是钢铁。也许从一开始就不是。\n它们只是铁锈——从一个没有光的街区长出来的。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 2,
+        "peace": -5
+      },
+      "connected_to": [
+        "talk_sancho",
+        "choice_leonard"
+      ],
+      "required_flags": [],
+      "x": 4,
+      "y": 5,
+      "act": 1
+    },
+    "story_slipper": {
+      "node_id": "story_slipper",
+      "node_type": "story",
+      "name": "拖鞋",
+      "icon": "S",
+      "description": "穿上旧球衣冲向风车",
+      "narrative": "你在车库深处找到了那件30号球衣——褪色的、\n还带着更衣室汗味的旧战袍。你套上了它。\n\n然后是拖鞋。那双棕色绒面拖鞋，跟了你十年，\n鞋底已经磨得比纸还薄。\n\n你看见风车在山丘上缓缓转动。\n一种不可遏制的冲动攫住了你——\n\"我要去挑战它们。\"\n\n你穿着拖鞋冲了出去。\n第一只拖鞋在第三个跨步时飞了出去，\n划出一道笨拙的弧线，落在玫瑰花丛里。\n第二只在你试图急停的时候也走了。\n\n你摔倒了。膝盖撞在碎石地上。\n风车不在乎你曾经是谁。\n它只是继续转动。\n\n桑丘从门廊看着你，手里还端着咖啡。\n\"老板，\"他慢吞吞地说，\"你看起来像个堂吉诃德。\"\n\n你仰面朝天躺在草地上。一只拖鞋不见了，\n另一只挂在了篱笆上。你开始笑。",
+      "choices": [],
+      "stat_effects": {
+        "knee": -5,
+        "insight": 1
+      },
+      "connected_to": [
+        "rest_home",
+        "windmill_1"
+      ],
+      "required_flags": [],
+      "x": 2,
+      "y": 3,
+      "act": 1
+    },
+    "rest_home": {
+      "node_id": "rest_home",
+      "node_type": "rest",
+      "name": "休息",
+      "icon": "R",
+      "description": "休息和恢复",
+      "narrative": "你把自己安顿在那把你最爱的扶手椅里——那把靠窗、\n俯瞰花园的椅子。桑丘给你端来了新鲜的柠檬水。\n\n\"你知道吗，老板，\"他把杯子放下，说，\"一个人如果能\n安静地坐着并且感到满足——那就是已经赢了。\"\n\n你给膝盖敷上冰袋。你呼吸。那一瞬间，过去那些球场的\n幽灵都安静了下来。",
+      "choices": [],
+      "stat_effects": {
+        "peace": 15,
+        "knee": 10
+      },
+      "connected_to": [
+        "talk_sancho",
+        "choice_leonard"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 1,
+      "act": 1
+    },
+    "windmill_1": {
+      "node_id": "windmill_1",
+      "node_type": "windmill",
+      "name": "风车",
+      "icon": "W",
+      "description": "挑战：膝盖 -10",
+      "narrative": "老风车随着你爬上木梯而发出呻吟。你已经很多年\n没有亲手维修它了——平时你会叫修理工。但今天，\n你需要感受那份酸痛。\n\n你的膝盖在第三级横档上就发出尖叫。三十英尺高的\n顶端，风吹打着你的脸。你用那双曾经投进一千个\n跳投的手，拧紧了松动的叶片。\n\n下面，桑丘抱着双臂看着。\"你可能会摔下来的，\"他\n朝上喊。\"但你没有。\"\n\n你没有。这算是一个安慰。\n\n你为什么这么做？也许因为风车不在乎你曾经是谁。",
+      "choices": [],
+      "stat_effects": {
+        "knee": -10,
+        "peace": 5,
+        "insight": 1
+      },
+      "connected_to": [
+        "reading_origin",
+        "talk_sancho",
+        "choice_leonard",
+        "reading_paul"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 5,
+      "act": 1
+    },
+    "talk_sancho": {
+      "node_id": "talk_sancho",
+      "node_type": "talk",
+      "name": "桑丘",
+      "icon": "T",
+      "description": "和你的园丁聊聊",
+      "narrative": "桑丘在你身边的花园长凳上坐了下来。他跟着你\n五年了——从你退休之前就开始了。在认识你之前，\n他从来没看过篮球。\n\n\"老板，\"他拔着一根杂草说，\"你为什么还扛着\n那份重量？联盟已经跟你没关系了。是你还放不下它。\"\n\n他当然是对的。桑丘几乎总是对的。",
+      "choices": [
+        {
+          "text": "向他敞开心扉（内心+10，羁绊+5）",
+          "result_text": "\"我伤害过别人，桑丘。那是我的工作。有时候，\n我做得太过了。\"你盯着自己的手。\"自从那次季后\n赛之后，莱纳德就再也不是从前那个他了。我一直\n放不下这件事。\"\n\n桑丘把手搭在你的肩上。\"那不是我所认识的那个人。\n我所认识的那个人维护着一座风车，还写诗。\"\n\n你们俩静静地坐着。那是一种很好的沉默。",
+          "peace_delta": 10,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 0,
+          "sancho_delta": 5,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "用幽默岔开话题（内心-5，羁绊+10）",
+          "result_text": "\"重量？\"你笑了。\"我巅峰时卧推三百一十五磅。\n这不算什么。\"\n\n桑丘摇着头笑了。\"卧推对心脏可不管用，老板。\"\n\n他继续拔草。但你注意到他离得比平时更近，\n好像在守护着你。",
+          "peace_delta": -5,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 0,
+          "sancho_delta": 10,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {
+        "peace": 5
+      },
+      "connected_to": [
+        "choice_leonard",
+        "reading_paul"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 1,
+      "act": 1
+    },
+    "choice_leonard": {
+      "node_id": "choice_leonard",
+      "node_type": "choice",
+      "name": "愧疚",
+      "icon": "C",
+      "description": "面对你的过去",
+      "narrative": "第六场，2017年西部半决赛。你依然能看见那个画面：\n莱纳德沿底线突破，你横移过来，膝盖——他的膝盖——\n以一种错误的方式扭了一下。那声音。那寂静。\n\n他当时场均二十五分。那次犯规之后，他再也不一样了。\n你也是。\n\n媒体称之为\"肮脏\"。你称之为\"季后赛篮球\"。\n但在核桃溪的寂静中，这个辩护站不住脚。\n\n你的笔记本摊开着。是时候了。",
+      "choices": [
+        {
+          "text": "写下真相（内心+15，笔记本+20）",
+          "result_text": "你的笔在你能停下来之前就动了起来。你写下那个\n夜晚——不是为自己开脱，不是为自己辩解。只是记录。\n教练事后看你的眼神。你整整一周无法入睡。\n那封你从未寄出的信。\n\n凌晨三点，2017年终于在纸上有了名字和形状。\n这不是宽恕。但这是一个开始。",
+          "peace_delta": 15,
+          "knee_delta": 0,
+          "notebook_delta": 20,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "confessed_leonard",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "还没法面对（内心-10，洞察+1）",
+          "result_text": "你合上笔记本。你的手在颤抖。\n\n今晚不行。也许永远不行。但至少，那份觉察\n现在在那里了。你知道自己在逃避什么。\n\n你盯着天花板直到天亮。",
+          "peace_delta": -10,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 1,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "avoided_confession",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "reading_paul",
+        "boss_windmill"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 3,
+      "act": 1
+    },
+    "reading_paul": {
+      "node_id": "reading_paul",
+      "node_type": "reading",
+      "name": "阅读",
+      "icon": "B",
+      "description": "读一位导师的故事",
+      "narrative": "你从书架上抽出一本泛黄的平装书。这是保罗的——\n你的高中教练，那个教会你篮球不只是关于输赢的男人。\n《网球的内心游戏》。\n\n他的字迹填满了页边空白。\"斯托克顿——相信你的\n直觉。相信你的队友。相信你自己。\"\n\n保罗教练十年前去世了。你每个赛季仍然想念他。\n他的笔记就像来自另一边的信。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 3,
+        "peace": 10,
+        "notebook": 5
+      },
+      "connected_to": [
+        "reading_steel",
+        "boss_windmill"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 5,
+      "act": 1
+    },
+    "reading_steel": {
+      "node_id": "reading_steel",
+      "node_type": "reading",
+      "name": "钢铁",
+      "icon": "B",
+      "description": "读《钢铁是怎样炼成的》——钢铁、锈迹与灵魂",
+      "narrative": "你在书架角落找到那本平装书，封面已经卷了边。\n《钢铁是怎样炼成的》。保罗教练的遗物之一。\n\n你翻到保尔·柯察金在暴风雪中修铁路的那段。\n零下四十度，冻土，饥饿，伤寒。\n他没有停下来。不是因为他不想——\n是因为他不知道怎么停。\n\n然后是瘫痪。失明。用牙齿咬住铅笔写字。\n那些字，你突然意识到，是钢铁。\n不是拳头，不是铁肘，不是犯规。\n是这种——在什么都做不了的时候，\n仍然在做着什么的东西。\n\n你翻到保尔和冬妮亚重逢的那段。\n多年以后，穿着破旧工作服的保尔，\n在暴风雪中修铁路。年少时的恋人冬妮亚，\n穿着考究的皮草大衣从旁边路过。\n她认出了他。但她不敢相信。\n保尔认出了她，但他没有停下手中的镐。\n他只说了一句话——\n\n\"告诉她，我的灵魂从来没有像现在这样干净过。\"\n\n你合上书。手指在封面上停了很久。\n你的铁肘不是钢铁。你一直都知道。\n那些铁肘、垫脚、锁喉——它们是铁锈。\n铁锈不是坚强。铁锈是腐蚀。\n\n但那些在凌晨三点写的文字——\n也许它们是。\n\n你拿起笔记本。这一章，你决定，\n要用保尔的方式来写。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 3,
+        "notebook": 5,
+        "peace": -3
+      },
+      "connected_to": [
+        "boss_windmill"
+      ],
+      "required_flags": [],
+      "x": 6,
+      "y": 5,
+      "act": 1
+    },
+    "boss_windmill": {
+      "node_id": "boss_windmill",
+      "node_type": "boss",
+      "name": "面对",
+      "icon": "X",
+      "description": "第一幕首领：艰难抉择（膝盖-12）",
+      "narrative": "暴风雨要来了。乌云在风车上空聚集，你知道这不止\n是天气。这是你一直在逃避的一切——那次犯规，\n那名声，那沉默。\n\n风车在呻吟。你站在它面前，疼痛的膝盖在颤抖。\n\n\"你要我怎么样？\"你对着风大喊。\n\n叶片继续转动。没有回应。但也许你已经不需要了。",
+      "choices": [
+        {
+          "text": "还是爬上去（膝盖-12，笔记本+30，洞察+3）",
+          "result_text": "你爬了。每一级横档都是煎熬，但你爬了。\n\n在顶端，暴风雨在你周围炸开。雨水浸透你的\n衣服，风撕扯着你的头发。你大喊——对着莱纳德，\n对着媒体，对着你自己——而风把一切都带走了。\n\n当你爬下来的时候，浑身湿透，精疲力竭，桑丘\n拿着毯子等着你。\"那，\"他轻声说，\"是我见过\n最勇敢的事。\"\n\n你的笔记本变得更重了。装满了真相。",
+          "peace_delta": 0,
+          "knee_delta": -12,
+          "notebook_delta": 30,
+          "insight_delta": 3,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "faced_windmill",
+          "add_item": "",
+          "windmill_delta": 1,
+          "next_node": ""
+        },
+        {
+          "text": "暂时离开（内心-5，笔记本+10）",
+          "result_text": "你转身回去。暴风雨可以等。你还没准备好，\n这没什么可耻的。\n\n回到屋里，你写下你能写的东西。不是全部，\n但已经是一些东西了。外面狂风呼啸。明天吧。",
+          "peace_delta": -5,
+          "knee_delta": 0,
+          "notebook_delta": 10,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "avoided_windmill",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "act2_start"
+      ],
+      "required_flags": [],
+      "x": 7,
+      "y": 3,
+      "act": 1
+    },
+    "act2_start": {
+      "node_id": "act2_start",
+      "node_type": "story",
+      "name": "第二幕",
+      "icon": "S",
+      "description": "第二幕：从未寄出的信",
+      "narrative": "几周过去了。笔记本越来越厚。你写了风车，写了保罗，\n写了八岁那年第一次摸到篮球的那个下午。\n\n但有些页面你一直在跳过。有些你需要面对的人。\n有些需要写的信。\n\n桑丘拿着邮件过来，问了一个问题：\"老板，你写这些，\n到底是为了谁？\"",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [
+        "a2_reading_books",
+        "a2_writing_desk",
+        "a2_talk_sancho"
+      ],
+      "required_flags": [],
+      "x": 1,
+      "y": 3,
+      "act": 2
+    },
+    "a2_reading_books": {
+      "node_id": "a2_reading_books",
+      "node_type": "reading",
+      "name": "书房",
+      "icon": "B",
+      "description": "阅读和反思",
+      "narrative": "你在书房里度过了一个下午，周围全是那些重新定义\n自己的运动员传记。阿里，乔丹，阿什。\n\n他们有一个共同点：没有人被他们在巅峰时期所做\n的事情所定义。他们成为了别的东西。\n\n\"第二幕，\"你喃喃自语。这就是你在写的。不是回忆录。\n是第二幕。\n\n这个想法像温暖一样沉入你的骨子里。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 3,
+        "peace": 5
+      },
+      "connected_to": [
+        "a2_reading_dark",
+        "a2_writing_desk",
+        "a2_letter"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 0,
+      "act": 2
+    },
+    "a2_reading_dark": {
+      "node_id": "a2_reading_dark",
+      "node_type": "reading",
+      "name": "暗影寓言",
+      "icon": "B",
+      "description": "书页间的暗影——九篇寓言与系统的崩塌",
+      "narrative": "你在书房里翻开那本没有书名的旧册子。\n九篇寓言。每一篇都在讲同一件事，\n但用了不同的面具。\n\n第一篇《狂猎之王》——一个骑在鹿背上永不停止的猎手，\n他的猎犬全是自己影子的一部分。他追的不是猎物，\n是停止的许可。但神话不允许他停下。\n\n第二篇《三位一体》——三个共享同一条命的兄弟，\n一个负责挥拳，一个负责流血，一个负责遗忘。\n有一天遗忘的那个死了，挥拳的就开始打自己。\n\n第三篇《神之机器》——一座永不停歇的钟塔，\n齿轮全是人的骨头。它报时的声音很美，\n但每报一次就碎掉一颗牙齿。\n\n第七篇《行动代号：安息日》——系统对人类的判决：\n\"我们，是墙。你们，是墙内的画。\n祂们，是看画的人。\"那道墙不是为了压迫谁，\n只是因为它必须存在才能维持稳定。\n\n第九篇《黄金黎明》——一台失去操作系统的超级计算机，\n硬件完好，却不知道运行什么程序。\n一个\"充满可能性的空白状态\"。\n\n你读到末尾，天已经黑了。你站起来，\n走到窗前。风车的轮廓在暮色中像一具骨架。\n\n你忽然明白了。你一直在等——等一个完美的系统，\n一个能安放过去的框架，一个能解释一切的逻辑。\n但框架从来不存在。寓言里没有一个有答案。\n它们只是在说：这件事发生了。你还在这里。\n而那个坐在废墟里的技师——他不需要框架。\n他只需要开始编写第一个不属于任何系统的启动协议。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 4,
+        "peace": -5
+      },
+      "connected_to": [
+        "a2_story_rain",
+        "a2_rust_honey",
+        "a2_writing_desk"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 1,
+      "act": 2
+    },
+    "a2_rust_honey": {
+      "node_id": "a2_rust_honey",
+      "node_type": "story",
+      "name": "蜜",
+      "icon": "S",
+      "description": "铁锈上的蜜——退役生活中的甜",
+      "narrative": "有些日子是甜的。\n\n不是那种轰轰烈烈的甜——不是冠军游行的甜，\n不是绝杀后全场欢呼的甜。是一种更安静的、\n更不习惯的甜。像铁锈上偶然凝结的一滴蜜。\n\n早晨。埃琳娜在厨房煎蛋，哼着一首你从来没\n听过的歌。桑丘在草坪上和那只叫\"将军\"的\n流浪猫对峙——猫蹲在玫瑰花丛里，桑丘蹲在\n花丛外面，两个脑袋几乎一样圆。\n\n你站在门廊上，端着咖啡。风吹过来，\n带着橘子树和割过的草的味道。\n远处的风车在转。它们总是在转。\n\n但今天你看着它们，不再觉得那是嘲讽。\n也许它们只是在转。不需要理由，不需要对手。\n只是因为风来了，所以转了。\n\n桑丘放弃了和猫的对峙，走过来接过你的咖啡杯，\n往里面加了四勺糖——他自己的那杯已经加了四勺了。\n\"先生，\"他说，\"甜的东西总能让沉重的话题变轻。\"\n\n你喝了一口。太甜了。甜得你鼻子发酸。\n但你没有说出来。有些甜，说出来就没了。",
+      "choices": [],
+      "stat_effects": {
+        "peace": 12,
+        "sancho_delta": 5
+      },
+      "connected_to": [
+        "a2_writing_desk",
+        "a2_letter"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 2,
+      "act": 2
+    },
+    "a2_story_rain": {
+      "node_id": "a2_story_rain",
+      "node_type": "story",
+      "name": "雨中",
+      "icon": "S",
+      "description": "用系统逃避写作的雨季",
+      "narrative": "连续第七天。雨打在屋顶上，节奏单一而固执。\n你在电脑前坐了一整天，屏幕上是你的\"球员技能\n分类系统\"——第七版。你已经为每个技能设了五个\n子类别，每个子类别又分三个等级，每个等级配有\n颜色编码和热键。\n\n你的笔记本在桌角，翻开在同一页。空白的。\n已经空了七页。每一页的日期都不一样。\n\n你盯着分类系统。你忽然看到它了——\n那些层级和标签不是在组织内容，它们是在替代内容。\n你在用\"系统构建\"逃避真正的写作。就像三十年前\n用训练日程逃避更衣室里的沉默。就像用铁肘\n逃避每一次被人看穿的恐惧。\n\n你关掉电脑。你从挂钩上取下旧雨衣——\n那个在圣安东尼奥最后一场客场时穿的那件，\n内衬上还有酒店洗衣房的编号。\n\n你走进雨中。山丘上风车的叶片在水雾里\n转得比平时慢。你走上前，让雨水打在脸上。\n它不在乎你的分类系统。它不在乎你的逃避。\n雨只是下着。风车只是转着。你只是站着。",
+      "choices": [],
+      "stat_effects": {
+        "knee": -3,
+        "insight": 2
+      },
+      "connected_to": [
+        "a2_writing_desk",
+        "a2_letter"
+      ],
+      "required_flags": [],
+      "x": 4,
+      "y": 2,
+      "act": 2
+    },
+    "a2_writing_desk": {
+      "node_id": "a2_writing_desk",
+      "node_type": "writing",
+      "name": "写作",
+      "icon": "W",
+      "description": "诚实书写",
+      "narrative": "你坐在书桌前，手握钢笔。空白的页面回望着你。\n这是关于最黑暗岁月的章节——那些恶意犯规，\n禁赛，每一个客场的嘘声。\n\n你写下了第一行：\"他们叫我恶人，也许我确实是——\n但这不是全部的故事。\"",
+      "choices": [
+        {
+          "text": "毫不退缩地写（洞察-3，笔记本+15）",
+          "result_text": "\"我挥过肘子。我越过了底线。我在一个四月的周二\n晚上终结了一个人的职业生涯，直到三年后才为此\n失眠哪怕一分钟。\"\n\n写下这些话令人痛苦。你的手抽筋了。但到午夜时分，\n这一章写完了。它丑陋，但它是真的。",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 15,
+          "insight_delta": -3,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "wrote_honestly",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "只写表面（笔记本+5）",
+          "result_text": "你写了冠军，写了荣誉，写了奖杯。这些都是真的，\n但不是全部。\n\n\"今天就到这里吧，\"你对自己说。但页面上那些\n空白的地方在谴责你。",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 5,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a2_talk_sancho",
+        "a2_letter"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 3,
+      "act": 2
+    },
+    "a2_talk_sancho": {
+      "node_id": "a2_talk_sancho",
+      "node_type": "talk",
+      "name": "桑丘",
+      "icon": "T",
+      "description": "更深入的对话",
+      "narrative": "桑丘在花园里找到了你，你正盯着虚空发呆。他没有\n多问就坐了下来。\n\n\"你知道吗，我爷爷打过一场战争，\"他说。\"他从没\n跟人说过。带着一切都走了。\"\n\n\"我不是士兵，\"你说。\n\n\"对。你比那更难。你是一个在学着原谅自己的人。\"",
+      "choices": [
+        {
+          "text": "接受他的智慧（内心+10，羁绊+10，洞察+1）",
+          "result_text": "\"也许你说得对，桑丘。也许从我到这里的第一天起，\n我做的就一直是这个。\"\n\n他点点头，满意了。花园里飘着迷迭香的香味。",
+          "peace_delta": 10,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 1,
+          "sancho_delta": 10,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "换个话题（内心+5）",
+          "result_text": "你转而问起玫瑰花。桑丘迁就着你。\n但他的眼神在说：等你准备好了，我会在这里。",
+          "peace_delta": 5,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {
+        "knee": -5
+      },
+      "connected_to": [
+        "a2_hoop",
+        "a2_mirror_gardener",
+        "a2_letter"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 5,
+      "act": 2
+    },
+    "a2_mirror_gardener": {
+      "node_id": "a2_mirror_gardener",
+      "node_type": "talk",
+      "name": "镜中",
+      "icon": "T",
+      "description": "桑丘的往事——墨西哥的橡树",
+      "narrative": "那天下午特别安静。桑丘没有修剪草坪，\n没有修理割草机，甚至没有哼歌。\n他就坐在花园的长凳上，看着远处的风车。\n\n你在他旁边坐下。\n\n\"桑丘，你今天怎么了？\"\n\n他沉默了很久。然后他说——\n\n\"我以前在墨西哥的时候，给一个牧场主干活。\n牧场里有一棵很大的橡树，树干粗得五个人都抱不住。\n我每次从树下经过，都会想，这棵树比我们所有人都老。\n它看着那些牧场主出生，看着他们死去。\n它也会看着我们离开。\"\n\n他停顿了一下。\n\n\"那棵树不会管谁在放牛，不会管今天有没有刮风。\n它不是不在乎，它是根本不知道有'在乎'这回事。\n它只是在那里长着。\"\n\n你看着你的园丁。这个矮胖的、连奥本山宫殿事件\n都没听说过的墨西哥人，刚刚说出了一句比他读过的\n所有黑暗寓言都更让他震动的话。\n\n系统不针对任何人。它只是在那里。\n就像那棵橡树。就像那些风车。就像重力本身。\n\n那么，你一直在对抗的是什么？",
+      "choices": [
+        {
+          "text": "承认你一直在对抗自己（内心+15，羁绊+10，洞察+3）",
+          "result_text": "\"我一直在对抗的不是风车，桑丘。\n不是联盟，不是裁判，不是那些被我伤害过的人。\n是我自己。是我那张被塑造成'恶汉'的面具。\n面具戴得太久，摘下来的时候，脸已经和面具\n长在一起了。\"\n\n桑丘没有说话。他只是把手放在你的肩膀上。\n那个重量——矮胖的、沾着草汁的、粗糙的手掌——\n比任何奖杯都更让你觉得踏实。",
+          "peace_delta": 15,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 3,
+          "sancho_delta": 10,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "admitted_self_opposition",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "保持沉默（洞察+1，羁绊+5）",
+          "result_text": "你没有回答。但桑丘不需要你回答。\n他只是又往咖啡里加了三勺糖，然后递给你。\n\n\"甜的东西能让沉重的话题变轻，先生。\"\n这是他第二次说这句话了。",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 1,
+          "sancho_delta": 5,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {
+        "peace": 5,
+        "insight": 2
+      },
+      "connected_to": [
+        "a2_hoop",
+        "a2_letter"
+      ],
+      "required_flags": [],
+      "x": 4,
+      "y": 4,
+      "act": 2
+    },
+    "a2_hoop": {
+      "node_id": "a2_hoop",
+      "node_type": "story",
+      "name": "篮球架",
+      "icon": "S",
+      "description": "在后院装篮球架",
+      "narrative": "你决定在院子里装个篮球架。不是因为怀旧——好吧，\n也许有一点。但主要是因为桑丘说了一句\"投篮是什么感觉\"，\n你忽然想让他知道。\n\n你们开皮卡去镇上的五金店挑架子。桑丘在货架之间\n走来走去，敲敲这块板、摇摇那根杆，像一个在挑\n嫁妆的老匠人。最后他指着一个最结实的说：\n\"这个。能扛住你的那些故事。\"\n\n你们一起挖坑。加州的土硬得像旧球鞋的鞋底，\n你挖了半小时就喘上了。桑丘接过铲子，\n一言不发地又挖了四十分钟。灌水泥的时候\n你举着标杆，他往坑里倒灰浆。你们的手都沾满了\n白色的粉尘，在阳光里看起来像两个老人在施魔法。\n\n三天后水泥干了。你站在罚球线上——一条你用红漆\n在水泥地上画的线——投出了第一球。空心入网。\n那种声音。你忘了那个声音有多好听。\n\n你把球递给桑丘。他接过去，双手捧着，\n像捧一个鸡蛋。然后他举过头顶，扔了出去——\n球在空中画了一个巨大的弧线，砸在篮板上弹回来，\n差点打中你的脸。\n\n你们笑了很久。很久很久。",
+      "choices": [],
+      "stat_effects": {
+        "peace": 10,
+        "knee": -3
+      },
+      "connected_to": [
+        "a2_letter"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 6,
+      "act": 2
+    },
+    "a2_letter": {
+      "node_id": "a2_letter",
+      "node_type": "choice",
+      "name": "信件",
+      "icon": "C",
+      "description": "写一封信",
+      "narrative": "你起草了一封给莱纳德的信。你已经写了一百次开头，\n从来没有写完过。废纸篓里塞满了揉皱的道歉。\n\n这一次感觉不一样。这一次也许真的会寄出去。\n\n你写道：\"我不期待原谅。我只想让你知道，\n没有一天我不在想……\"\n\n然后你停住了。接下来该写什么？",
+      "choices": [
+        {
+          "text": "寄出去（内心+10，笔记本+15，信件已寄）",
+          "result_text": "\"……那天晚上。对不起。\"\n你签上了名字。你填好了信封地址。\n\n桑丘没有等你说就把信拿到了邮筒前。\n\"你要写的信里最难的一封，\"他说。",
+          "peace_delta": 10,
+          "knee_delta": 0,
+          "notebook_delta": 15,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 1,
+          "insight_delta_extra": 0,
+          "set_flag": "wrote_to_leonard",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "秘密保存（笔记本+5）",
+          "result_text": "你把信折好，夹进笔记本里。也许有一天。\n但不是今天。\n\n能写出来就够了。现在的话。",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 5,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a2_letter_leonard",
+        "a2_windmill",
+        "a2_talk_elena"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 1,
+      "act": 2
+    },
+    "a2_letter_leonard": {
+      "node_id": "a2_letter_leonard",
+      "node_type": "choice",
+      "name": "回信",
+      "icon": "C",
+      "description": "来自圣安东尼奥的信",
+      "narrative": "一封信。它躺在门口的信件堆里，夹在水费账单和\n园艺目录之间。信封上没有寄件人姓名，\n但邮戳显示那座安静的城市——圣安东尼奥。\n\n你拿起信。手在颤抖。六个月前你寄出去的那封信，\n你从未期待回应。你只是需要把它寄出去。\n但有人回信了。\n\n信封很轻。也许只有一页纸。也许只有一句话。\n也许什么都没有——也许只是退信。你的手心在出汗，\n这让你想起2003年总决赛第七场站上罚球线之前的\n那种感觉。所有的噪音都消失了。只剩下你和这个。",
+      "choices": [
+        {
+          "text": "拆开读（内心+10，洞察+3）",
+          "result_text": "你拆开信封。只有一页纸。字迹谨慎、克制——\n一个斟酌了每个词的人的笔迹。\n\n你读了。然后你又读了一遍。然后你坐在门廊上，\n看着风车，把那页纸按在胸口。\n\n信上写了什么——那是你和莱纳德之间的事。\n但你的眼泪告诉你，那个重量轻了一点。",
+          "peace_delta": 10,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 3,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "read_leonard_reply",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "放回抽屉（内心-5，笔记本+5）",
+          "result_text": "你把信放进抽屉。没有拆。\n不是因为不想知道——而是因为有些东西\n需要等到你配得上的时候再打开。\n\n你回到桌前写笔记本。你写的是关于等待。",
+          "peace_delta": -5,
+          "knee_delta": 0,
+          "notebook_delta": 5,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a2_windmill",
+        "a2_european_adams",
+        "a2_talk_elena"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 3,
+      "act": 2
+    },
+    "a2_european_adams": {
+      "node_id": "a2_european_adams",
+      "node_type": "story",
+      "name": "远房",
+      "icon": "S",
+      "description": "番外：其他亚当斯们——迷路的同姓者",
+      "narrative": "你在电视上看到他——一个欧洲联赛的白人大个子，\n也叫亚当斯，站在罚球线上，两罚不中。\n罚丢第二个球之后，他的表情不是愤怒，不是沮丧——\n是那种迷路的表情。\n一个站在罚球线上，却不知道自己为什么会站在那里\n的人的表情。\n\n你开始搜索。叫亚当斯的前锋，叫亚当斯的后卫，\n甚至还有一个身高只有一米七八的控卫，在以色列打球。\n你在笔记本上歪歪扭扭地写下他们的名字——\n胡安·亚当斯，阿赫梅特·亚当斯，谢尔盖·亚当斯。\n\n你盯着这三个名字，忽然意识到一件荒谬的事：\n你正在组建一支由\"亚当斯\"们构成的篮球队。\n一个由迷路者组成的队伍。\n\n然后你意识到——你真正想做的不是分析他们的弱点，\n不是组织一支纸上的球队，不是设计一个漂亮的系统。\n你真正想做的，是面对自己遗留在联盟里的那些残骸，\n把它们一件一件地说清楚。\n\n那些\"亚当斯\"们只是你的镜像。\n而你一直在逃避的，是镜子里那个\n和你共用同一个姓氏的人——你自己。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 4,
+        "peace": -3
+      },
+      "connected_to": [
+        "a2_windmill",
+        "a2_talk_elena"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 2,
+      "act": 2
+    },
+    "a2_windmill": {
+      "node_id": "a2_windmill",
+      "node_type": "windmill",
+      "name": "风车",
+      "icon": "W",
+      "description": "挑战：膝盖-10",
+      "narrative": "风车又需要维护了。它总是这样。这就是风车的特性\n——也是愧疚的特性。它们不会自己修理自己。\n\n\"这次让我帮你，\"桑丘说。你生平第一次，\n说了好。",
+      "choices": [],
+      "stat_effects": {
+        "knee": -10,
+        "peace": 8,
+        "insight": 2
+      },
+      "connected_to": [
+        "a2_talk_elena"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 5,
+      "act": 2
+    },
+    "a2_talk_elena": {
+      "node_id": "a2_talk_elena",
+      "node_type": "talk",
+      "name": "埃琳娜",
+      "icon": "T",
+      "description": "和你的妻子谈心",
+      "narrative": "埃琳娜在厨房里煮咖啡。她嫁给这个男人已经二十年——\n看过他在总决赛中锁喉拉里·伯德，看过他在奥本山宫殿\n的看台上挥舞拳头，看过他在镜头前用最平淡的语调\n说出\"无论你跳多高你都会落下\"。\n\n但她从没问过\"你为什么要在镜头前说那句话\"，\n就像她从没问过\"你为什么要立一个篮球架\"。\n她有一种近乎植物学家的耐心：种子发芽需要水，\n长成需要时间，开出什么花来取决于种子自己的品种。\n她能做的，只是浇水。\n\n\"听说你在写作，\"她把咖啡杯放在你面前。\n\"也是时候了。我早就说过，你有一个值得讲的故事。\"\n\n\"是吗？还是你只是希望我别在凌晨两点\n在车库哭？\"\n\n她笑了。\"大概两者都有吧。\"\n\n她没有再追问。她知道有些东西会在沉默中\n自己发生变化，就像面团在静置时会自己发酵。",
+      "choices": [
+        {
+          "text": "向她坦白内心的重量（内心+15，埃琳娜羁绊+10）",
+          "result_text": "\"我花了四十年让自己变成一块硬的东西。\n我以为硬的就不会被折断。但埃琳娜——\n我今天坐在风车底下的时候，有那么一小会儿，\n我觉得我的膝盖不痛了。不是因为不痛，\n是因为我终于接受了我就是会痛这件事。\"\n\n她没有说话。她只是把你的手握在她的手心里——\n那双每天修剪橘子枝条、给番茄苗浇水的手，\n温暖、粗糙、带着泥土的气味。\n\n\"你以前从来不说这种话。\"\n\n\"以前我太忙了。忙着打架，忙着做恶棍。\n我没有时间告诉你，你那杯咖啡对我意味着什么。\"\n\n窗外，风车还在转。但这一次，你没有去看它们。\n你看着她。这就够了。",
+          "peace_delta": 15,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 10,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "opened_to_elena",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "关注当下的温暖（内心+10，膝盖+5）",
+          "result_text": "\"咖啡不错。\"你端起杯子。\n\n她翻了个白眼，但嘴角翘了起来。\n\"你这个人啊。说了二十年的情话，\n最浪漫的一句永远是'咖啡不错'。\"\n\n但你注意到，她给你续杯的时候，\n多加了一块方糖。那是她无声的方式。",
+          "peace_delta": 10,
+          "knee_delta": 5,
+          "notebook_delta": 0,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a2_boss"
+      ],
+      "required_flags": [],
+      "x": 7,
+      "y": 3,
+      "act": 2
+    },
+    "a2_boss": {
+      "node_id": "a2_boss",
+      "node_type": "boss",
+      "name": "接纳",
+      "icon": "X",
+      "description": "第二幕首领",
+      "narrative": "今天是莱纳德受伤的周年纪念日。每年这一天都\n让你陷入深渊。但今年，你有了笔记本。今年，\n你有了那封信。\n\n\"他可能永远也不会回复，\"埃琳娜温柔地说。\n\n\"我知道。\"而且你真的知道。这就是重点。你不是\n为了得到回应才这么做的。你是为了镜子里那个人。\n\n远方的风车吱吱作响。不再是威胁了。几乎像一个朋友。\n\n\"我想我准备好了，\"你说。准备好什么，你不太确定。\n但准备好了。",
+      "choices": [
+        {
+          "text": "完全拥抱你的过去（膝盖-15，笔记本+35，洞察+5）",
+          "result_text": "\"我曾经是斯托克顿·亚当斯。恶人。我伤害过别人。\n我也是斯托克顿·亚当斯。写作者。风车守护者。\n桑丘的朋友。这两者都是真的。\"\n\n埃琳娜在哭。你发现你也是。\n\n\"这是你说过的最诚实的话。\"她拥抱了你。\n你的膝盖阵阵抽痛。你不在乎。",
+          "peace_delta": 0,
+          "knee_delta": -15,
+          "notebook_delta": 35,
+          "insight_delta": 5,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "accepted_past",
+          "add_item": "",
+          "windmill_delta": 1,
+          "next_node": ""
+        },
+        {
+          "text": "私下接受（内心-5，笔记本+15）",
+          "result_text": "你点点头。你明白了。但有些话不需要说出口。\n你把它写进了笔记本里。\n\n埃琳娜看着你，一如既往地耐心。她懂。",
+          "peace_delta": -5,
+          "knee_delta": 0,
+          "notebook_delta": 15,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "act3_start"
+      ],
+      "required_flags": [],
+      "x": 9,
+      "y": 3,
+      "act": 2
+    },
+    "act3_start": {
+      "node_id": "act3_start",
+      "node_type": "story",
+      "name": "第三幕",
+      "icon": "S",
+      "description": "第三幕：空椅子",
+      "narrative": "春天来到了核桃溪。笔记本快要写满了。\n你的膝盖更糟了——但你的心比过去三十年\n任何时候都要轻松。\n\n\"下个月球馆要给九三年那支球队办纪念活动，\"桑丘\n随口提起。太随口了。\n\n邀请函在你桌上放了一周。你还没打开。",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [
+        "a3_teach_sancho",
+        "a3_elena_silence",
+        "a3_rest_home"
+      ],
+      "required_flags": [],
+      "x": 1,
+      "y": 3,
+      "act": 3
+    },
+    "a3_elena_silence": {
+      "node_id": "a3_elena_silence",
+      "node_type": "talk",
+      "name": "沉默",
+      "icon": "T",
+      "description": "埃琳娜的二十年——沉默之下",
+      "narrative": "那天晚上，埃琳娜坐在你对面，没有说话。\n这不是她的沉默——她平时话不多，但总会有回应。\n这种沉默是不同的。这是一种装满了东西、\n马上就要溢出来的沉默。\n\n你放下笔记本，看着她。灯光下她的头发有些灰白了，\n你没注意到是从什么时候开始的。\n\n\"你写了一整本关于你自己的故事，\"她终于开口，\n声音很轻，\"但你从来没有问过我——\n这二十年，我是怎么过的。\"\n\n你不知道该怎么回答。你甚至不知道该怎么开始。\n\n\"你受伤的时候，我在急诊室外面等你。\n你被禁赛的时候，我替你接那些匿名威胁电话。\n你在镜头前说'无论你跳多高你都会落下'的那天晚上，\n我一个人坐在客厅里，关掉了所有的灯。\"\n\n她的眼眶红了，但没有流泪。\n\n\"我不是在怪你，斯托克顿。我只是——\n你的笔记本里，有没有一页是写给我的？\"",
+      "choices": [
+        {
+          "text": "为她写一页（内心+20，埃琳娜羁绊+15，笔记本+10）",
+          "result_text": "你拿起笔记本，翻到最后一页空白。\n你写——\n\n\"给埃琳娜：你问我这二十年是怎么过的。\n我不知道。我只知道，每次我推开家门，\n灯还亮着。每次我凌晨三点在车库醒来，\n毯子不知什么时候被盖在了身上。\n每次我把世界搞得一团糟，\n总有一个人没有离开。\n那是你。一直都是你。\"\n\n她读完那页，把它从笔记本上小心地撕下来，\n折好，放进了自己的口袋里。\n\n\"谢谢，\"她说。\"我等了二十年。值了。\"",
+          "peace_delta": 20,
+          "knee_delta": 0,
+          "notebook_delta": 10,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 15,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "wrote_for_elena",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "握住她的手（内心+10，埃琳娜羁绊+10）",
+          "result_text": "你走过去，坐在她旁边，握住了她的手。\n你没有说话。你只是握着。\n\n过了很久，她把头靠在你的肩膀上。\n\"你不用什么都写下来，\"她轻声说，\n\"有些事情，写在手上就够了。\"\n\n窗外，风车的叶片在月光下缓缓转动。\n你的手和她的手交握在一起——\n两双都布满了岁月的痕迹。",
+          "peace_delta": 10,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 10,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {
+        "peace": 5
+      },
+      "connected_to": [
+        "a3_teach_sancho",
+        "a3_rest_home"
+      ],
+      "required_flags": [],
+      "x": 2,
+      "y": 4,
+      "act": 3
+    },
+    "a3_rest_home": {
+      "node_id": "a3_rest_home",
+      "node_type": "rest",
+      "name": "休息",
+      "icon": "R",
+      "description": "休息和反思",
+      "narrative": "你休息了一天。不写作，不修风车，不做决定。\n只有你、花园和膝盖上的冰袋。\n\n桑丘给你端来茶。\"有时候什么都不做，才是最难的\n工作，\"他说。你开始相信他了。",
+      "choices": [],
+      "stat_effects": {
+        "peace": 15,
+        "knee": 15
+      },
+      "connected_to": [
+        "a3_teach_sancho"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 1,
+      "act": 3
+    },
+    "a3_teach_sancho": {
+      "node_id": "a3_teach_sancho",
+      "node_type": "choice",
+      "name": "传授",
+      "icon": "C",
+      "description": "传承你的所学",
+      "narrative": "桑丘读了你的笔记本。你没有允许他——但你并不生气。\n\n\"我想理解，\"他说。\"那项运动。它对你意味着什么。\n你要留下什么。\"\n\n\"没有什么要留下的，\"你开口。但这不是真的。",
+      "choices": [
+        {
+          "text": "教他打篮球（内心+10，羁绊+10，笔记本+10）",
+          "result_text": "你从车库里翻出那个旧球。打上气。\n\"这个，\"你把球放到桑丘手中说，\"是一切的\n起点。当你握着这颗球的时候，什么都不重要了。\"\n\n你花了一个小时教他投篮。他的姿势糟透了。\n这是你几个月来最快乐的一个小时。",
+          "peace_delta": 10,
+          "knee_delta": 0,
+          "notebook_delta": 10,
+          "insight_delta": 0,
+          "sancho_delta": 10,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "通过笔记本教他（内心+5，笔记本+15，洞察+2）",
+          "result_text": "你们坐在一起读。\"这里。这一段。这是关于九七年\n总决赛。中场时我们落后了十八分。\"\n\n桑丘听着，眼睛睁得大大的。他从没听过这些故事。\n\"那后来呢？\"\n\n\"我们输了。但那是我打过最好的比赛。\"\n\n\"那就把这段写下来，老板。\"",
+          "peace_delta": 5,
+          "knee_delta": 0,
+          "notebook_delta": 15,
+          "insight_delta": 2,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a3_auburn",
+        "a3_sancho_knee",
+        "a3_windmill_final"
+      ],
+      "required_flags": [],
+      "x": 3,
+      "y": 5,
+      "act": 3
+    },
+    "a3_auburn": {
+      "node_id": "a3_auburn",
+      "node_type": "choice",
+      "name": "奥本山",
+      "icon": "C",
+      "description": "重返底特律",
+      "narrative": "你独自驱车三小时回到底特律。奥本山宫殿球馆\n——或者它现在的名字，你拒绝记——在暮色中\n像一个沉睡的巨兽。停车场的沥青上还有旧漆线的痕迹。\n\n2004年11月19日。那杯啤酒。\n你站在看台上方，那个球迷掷出啤酒杯的精确位置。\n风从湖面吹来，带着十一月的冷。\n\n球馆换了名字。城市换了面孔。\n但那杯啤酒的冰凉还在你脸上。永远在。",
+      "choices": [
+        {
+          "text": "走进去面对（内心-10，洞察+3）",
+          "result_text": "你走进空荡荡的球馆。座椅全部收起来了，\n只剩下混凝土地板和头顶的灯。\n\n你站在那排座椅前。你的手攥紧了。\n然后你松开了。\n\n不是因为原谅。是因为你终于明白了——\n那个扔啤酒的人不是你的敌人。\n他只是一个在黑暗中做出错误选择的人。\n就像你。",
+          "peace_delta": -10,
+          "knee_delta": 0,
+          "notebook_delta": 0,
+          "insight_delta": 3,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "faced_auburn",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "开车离开（内心-5，笔记本+5）",
+          "result_text": "你坐回车里，发动引擎。\n后视镜里，球馆越来越小。\n\n你不会忘记。但今晚你选择离开。\n笔记本摊在副驾驶座上。\n你在空白页上写了一个词：\"奥本山。\"\n然后你驱车返回核桃溪。",
+          "peace_delta": -5,
+          "knee_delta": 0,
+          "notebook_delta": 5,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a3_father",
+        "a3_sancho_knee"
+      ],
+      "required_flags": [],
+      "x": 4,
+      "y": 3,
+      "act": 3
+    },
+    "a3_father": {
+      "node_id": "a3_father",
+      "node_type": "reading",
+      "name": "父亲",
+      "icon": "B",
+      "description": "车库里的猎枪",
+      "narrative": "你在车库深处发现了它——那把旧猎枪。\n枪管上的油垢已经干结成黑色的硬壳，\n枪托上有一道被砂纸磨过的痕迹。\n\n你想起那个男人。脖子上有一条从耳根\n延伸到锁骨的刀疤。他从来不说那道疤的来历。\n他只说了一件事——\n\n\"去学会挨打，然后学会让别人挨打。\"\n\n你一直以为那是前半句。是命令。\n你花了四十年执行前半句，又花了二十年\n理解后半句——它不是命令。是警告。\n\n\"然后学会让别人挨打。\"——然后你就停不下来了。\n你让别人挨了打。你让别人再也站不起来。\n你以为自己在执行命令，其实你在继承伤疤。\n\n你把猎枪放回原处。\n那个男人的刀疤终于不再只是别人的故事。\n它也是你的。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 4,
+        "peace": 5
+      },
+      "connected_to": [
+        "a3_sancho_knee"
+      ],
+      "required_flags": [],
+      "x": 4,
+      "y": 5,
+      "act": 3
+    },
+    "a3_sancho_knee": {
+      "node_id": "a3_sancho_knee",
+      "node_type": "choice",
+      "name": "照护",
+      "icon": "C",
+      "description": "你的膝盖——以及桑丘的担忧",
+      "narrative": "你的膝盖在楼梯上撑不住了。桑丘在你跌倒前\n接住了你。他脸上的担忧赤裸而真实。\n\n\"你需要去看医生，老板。\"\n\n\"我看过一百个医生了。他们说的都一样。\"\n\n但你知道他是对的。你已经忽视太久了。",
+      "choices": [
+        {
+          "text": "让桑丘帮你（羁绊+15，内心+10，笔记本+5）",
+          "result_text": "\"好吧，桑丘。好吧。我让你帮我。\"\n\n他几乎是把你扛到了车上。在诊所，他二话不说\n就帮你填好了所有表格。那一小时里，你不是\n斯托克顿·亚当斯，退役NBA球星。你只是一个\n膝盖不好的老男人，有一个在乎他的朋友。\n\n这感觉出奇地好。",
+          "peace_delta": 10,
+          "knee_delta": 0,
+          "notebook_delta": 5,
+          "insight_delta": 0,
+          "sancho_delta": 15,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "cared_for_sancho",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "独自硬撑（内心-10，笔记本+5）",
+          "result_text": "\"我没事。\"你甩开他，自己一瘸一拐地走到车上。\n你一个人开车去了诊所。\n\n候诊室很冷。你多希望桑丘在这里。",
+          "peace_delta": -10,
+          "knee_delta": 0,
+          "notebook_delta": 5,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a3_orange_tree",
+        "a3_heal_knee",
+        "a3_write_final"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 1,
+      "act": 3
+    },
+    "a3_orange_tree": {
+      "node_id": "a3_orange_tree",
+      "node_type": "story",
+      "name": "橘子树",
+      "icon": "S",
+      "description": "桑丘留下了什么",
+      "narrative": "桑丘走了。\n\n不是那种戏剧性的告别。只是一个清晨，\n他的皮卡不在车道上了。厨房桌上留着一张\n纸条，上面只有一行字——\n\n\"橘子树要每天浇水。\"\n\n他在后院种了一棵橘子树。你不知道他什么时候\n种的。也许是他来之后的第一个春天。\n它已经长到了你的肩膀高。\n\n他留下了一把旧扳手。一只搪瓷杯——上面印着\n\"世界最好园丁\"，是你从加油站花三块钱买的。\n和那棵橘子树。\n\n三周后，橘子成熟了。\n你摘下一颗，坐在那把你平时坐的椅子里——\n隔壁那把空椅子旁边——慢慢剥开。\n\n果汁甜中带酸。和桑丘说过的所有话一样。",
+      "choices": [],
+      "stat_effects": {
+        "peace": 10,
+        "insight": 2,
+        "knee": 5
+      },
+      "connected_to": [
+        "a3_heal_knee",
+        "a3_write_final"
+      ],
+      "required_flags": [],
+      "x": 6,
+      "y": 3,
+      "act": 3
+    },
+    "a3_heal_knee": {
+      "node_id": "a3_heal_knee",
+      "node_type": "rest",
+      "name": "疗伤",
+      "icon": "R",
+      "description": "让膝盖休息",
+      "narrative": "医生开了休息、冰敷、加压包扎。你这辈子第一次\n听从医嘱。桑丘给你带来书和茶，没有说\"我早说过\"\n——尽管你能从他眼里看出来。\n\n你的膝盖慢慢好转。你的耐心也是。",
+      "choices": [],
+      "stat_effects": {
+        "knee": 20,
+        "peace": 10
+      },
+      "connected_to": [
+        "a3_windmill_final"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 3,
+      "act": 3
+    },
+    "a3_windmill_final": {
+      "node_id": "a3_windmill_final",
+      "node_type": "windmill",
+      "name": "最后的风车",
+      "icon": "W",
+      "description": "最终挑战：膝盖-15",
+      "narrative": "风车已经完全变成了别的东西。你不再把它看作是\n惩罚、赎罪或者隐喻。\n\n它只是一座风车。它需要修理。\n\n你爬了上去。你的膝盖强烈抗议——但你爬了。\n桑丘在下面，随时准备接住掉下来的你。\n\n在顶端，你拧紧最后一颗螺栓，望着核桃溪。\n景色与往常一样。你却不一样了。",
+      "choices": [],
+      "stat_effects": {
+        "knee": -15,
+        "peace": 10,
+        "insight": 3
+      },
+      "connected_to": [
+        "a3_tenth_shot",
+        "a3_empty_chair"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 5,
+      "act": 3
+    },
+    "a3_write_final": {
+      "node_id": "a3_write_final",
+      "node_type": "writing",
+      "name": "写作",
+      "icon": "W",
+      "description": "最后一章",
+      "narrative": "最后一章。最难的一章。它不是关于莱纳德，\n不是关于风车，也不是关于冠军。\n\n它是关于接下来的一切。你想成为什么样的人。\n\n\"我不知道怎么收尾，\"你告诉桑丘。\n\n\"没有人知道，\"他说。\"这就是你要写它的原因。\"",
+      "choices": [
+        {
+          "text": "保持开放结局（洞察-5，笔记本+25，额外洞察+3）",
+          "result_text": "你写道：\"这不是结尾。这是一个逗号。句子继续\n延伸，越过最后一页，越过核桃溪，超越我所知的\n一切。\"\n\n桑丘读完了。\"这很美，老板。也很可怕。\"\n\n\"好。它应该两者都是。\"",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 25,
+          "insight_delta": -5,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 3,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "写一个充满希望的结局（笔记本+10）",
+          "result_text": "\"于是，在六十二岁的时候，斯托克顿·亚当斯终于\n明白了：风车从来不是敌人——它是他一直逃避的\n镜子。\"\n\n\"全文完，\"桑丘在你肩后读道。\"暂时。\"",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 10,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a3_empty_chair"
+      ],
+      "required_flags": [],
+      "x": 7,
+      "y": 3,
+      "act": 3
+    },
+    "a3_tenth_shot": {
+      "node_id": "a3_tenth_shot",
+      "node_type": "windmill",
+      "name": "第十球",
+      "icon": "W",
+      "description": "罚球线上的永恒",
+      "narrative": "清晨五点。你站在后院的罚球线上。\n红漆画的那条线已经被太阳晒得有些褪色。\n\n前九个都进了。每一个。空心入网。\n肌肉记忆完美地复刻了一千次练习的动作。\n你的身体还记得。它永远记得。\n\n第十个。\n\n你站在那里，球在指尖旋转。\n你举过头顶。屈膝。发力。释放。\n球飞出你的手指——弧线完美——\n旋转完美——速度完美——\n\n弹了出来。\n\n你站在那里，手臂还举着。\n风车在山丘上转着。橘子树在晨光里发着银色的光。\n球滚进了玫瑰花丛——那丛桑丘种的玫瑰。\n\n有些球注定不会进。也许这不是缺陷。\n也许这就是那个让你继续站在这里的东西。",
+      "choices": [],
+      "stat_effects": {
+        "knee": -8,
+        "peace": 5,
+        "insight": 3
+      },
+      "connected_to": [
+        "a3_important_shot",
+        "a3_empty_chair"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 7,
+      "act": 3
+    },
+    "a3_important_shot": {
+      "node_id": "a3_important_shot",
+      "node_type": "windmill",
+      "name": "那一球",
+      "icon": "W",
+      "description": "最重要的那一球——不是冠军球",
+      "narrative": "你回到罚球线上。红漆褪色的那条线。\n桑丘曾经问过你：\"你职业生涯投进的最重要的球\n是哪一个？\"\n\n不是97年总决赛那个。不是任何绝杀。\n是现在这个。清晨五点，后院，\n只有风车和橘子树看着的那个。\n\n你投出去。球在空中旋转——\n这一次你没有看它进不进。\n你在看风车。你在看天空。\n你在看那个站在罚球线上的自己——\n一个六十二岁的男人，穿着旧球衣，\n膝盖里有一块碎骨，心里有一本写满了的笔记本。\n\n球进了还是没进，你不知道。\n但你站在那里。你投了。\n这就是最重要的那一球。\n\n下一球呢？\n你弯腰捡起球。你站回线后。\n永远有下一球。",
+      "choices": [],
+      "stat_effects": {
+        "knee": -5,
+        "peace": 15,
+        "insight": 5
+      },
+      "connected_to": [
+        "a3_empty_chair"
+      ],
+      "required_flags": [],
+      "x": 5,
+      "y": 8,
+      "act": 3
+    },
+    "a3_empty_chair": {
+      "node_id": "a3_empty_chair",
+      "node_type": "choice",
+      "name": "那把椅子",
+      "icon": "C",
+      "description": "重聚",
+      "narrative": "你去了聚会。球馆的气味和以前一样——爆米花，\n地板蜡，还有历史。昔日队友用温暖、惊讶或警惕\n的尊重问候你。\n\n桌子上有一把空椅子。莱纳德的。他没来。\n\n\"他从来不来，\"有人说。但你注意到那把椅子是\n特意放在那里的。有人在期待。\n\n\"我给他写过信，\"你轻声说。\"不知道他读了没有。\"",
+      "choices": [
+        {
+          "text": "向空椅子致敬（内心+20，笔记本+30）",
+          "result_text": "整个晚宴你都坐在空椅子旁边。没有人质疑。\n到了晚上，你的几个老对手也加入了那里。\n\n\"他应该在这里，\"其中一个人说。\"但你来了。\n这很重要。\"\n\n你不知道是谁先哭的。可能是你。",
+          "peace_delta": 20,
+          "knee_delta": 0,
+          "notebook_delta": 30,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "honored_empty_chair",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "关注来了的人（笔记本+10）",
+          "result_text": "椅子只是椅子。你转而看向那些出现的人。\n故事流淌。笑声真诚。你很高兴你来了。",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 10,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a3_boss_court"
+      ],
+      "required_flags": [],
+      "x": 9,
+      "y": 1,
+      "act": 3
+    },
+    "a3_boss_court": {
+      "node_id": "a3_boss_court",
+      "node_type": "boss",
+      "name": "最终首领",
+      "icon": "X",
+      "description": "第三幕首领：球场",
+      "narrative": "他们在球馆地下室搭了一个球场——和你打了三十年\n的那个一模一样的复制品。有人提议来个投篮热身。\n只限老家伙们。\n\n你的膝盖发出警告的尖叫。你的心却说了别的话。\n\n\"最后一次，\"你说。你是认真的。",
+      "choices": [
+        {
+          "text": "全力上场（膝盖-20，笔记本+40，洞察+5）",
+          "result_text": "你打了。你的膝盖十五分钟就撑不住了，但\n那十五分钟是纯粹的魔法。每个跳投都进了。\n每次传球都找到目标。短暂闪耀的一刻，\n你又回到了三十岁，世界充满了意义。\n\n当你倒下——大笑着——倒在底线上，你的队友\n围了过来。\"宝刀未老，老家伙。\"\n\n你没有老。而现在，你可以放下了。",
+          "peace_delta": 0,
+          "knee_delta": -20,
+          "notebook_delta": 40,
+          "insight_delta": 5,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "completed_notebook",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        },
+        {
+          "text": "在场边观看（笔记本+15）",
+          "result_text": "你坐在板凳上看别人打球。不一样了，但依然\n很美。比赛没有你也在继续。它一直都是。\n而这没有关系。",
+          "peace_delta": 0,
+          "knee_delta": 0,
+          "notebook_delta": 15,
+          "insight_delta": 0,
+          "sancho_delta": 0,
+          "elena_delta": 0,
+          "letters_written": 0,
+          "insight_delta_extra": 0,
+          "set_flag": "",
+          "add_item": "",
+          "windmill_delta": 0,
+          "next_node": ""
+        }
+      ],
+      "stat_effects": {},
+      "connected_to": [
+        "a3_ggo",
+        "ending"
+      ],
+      "required_flags": [],
+      "x": 9,
+      "y": 5,
+      "act": 3
+    },
+    "a3_ggo": {
+      "node_id": "a3_ggo",
+      "node_type": "story",
+      "name": "铁锈与芒果",
+      "icon": "S",
+      "description": "番外：GGO篮球赛",
+      "narrative": "六年后。\n\n桑丘已经不在了。空椅子还在。\n橘子树长到了二楼那么高，果实压弯了枝条。\n\nGGO席卷全球。三对三微型机器人篮球赛。\n每个人都在玩。连便利店收银台都摆着入门套装。\n\n你组了\"橘子树队\"。\n\n铁锈——用二手零件和桑丘留下的旧扳手组装的GGO。\n外壳上有三道锈蚀痕迹，你试过打磨，但它们总会长回来。\n就像某些东西。\n\n芒果——桑丘留下的半成品壳体。他自己调的深绿色漆，\n你在工具箱里找到了那罐漆。标签上他的字迹：\"备用。\"\n你涂了三层。每一层都等了整整一天才干透。\n\n友谊赛。对手是\"深渊队\"，量子锁链防守阵型。\n第四节最后三十秒。你落后一分。\n\n铁锈后撤。出手。\n球穿过篮网。\n\n你坐在空椅子旁边，看着两个小机器人在球场上庆祝。\n那个后撤步的投篮——从来不是故障。\n那是一个恶汉花了四十年，才学会的让步。",
+      "choices": [],
+      "stat_effects": {
+        "insight": 5,
+        "peace": 15,
+        "notebook": 10
+      },
+      "connected_to": [
+        "ending"
+      ],
+      "required_flags": [],
+      "x": 10,
+      "y": 3,
+      "act": 3
+    },
+    "ending": {
+      "node_id": "ending",
+      "node_type": "end",
+      "name": "笔记本",
+      "icon": "*",
+      "description": "结局",
+      "narrative": "回到核桃溪。太阳在风车背后落下。\n你的笔记本——现在写满了，每一页都填好了——\n放在厨房桌上。\n\n桑丘在给玫瑰浇水。风车叶片缓缓转动。\n\n你是斯托克顿·亚当斯。你曾经是个恶人。你也\n曾经是个冠军。但今晚，你只是一个写完了\n自己故事的男人。\n\n--- 终 ---",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [],
+      "required_flags": [],
+      "x": 11,
+      "y": 3,
+      "act": 3
+    },
+    "ending_best": {
+      "node_id": "ending_best",
+      "node_type": "end",
+      "name": "最佳结局：回信已至",
+      "icon": "*",
+      "description": "",
+      "narrative": "莱纳德的信在一个周二寄到。六页纸。\n他的字迹谨慎、克制——一个斟酌了每个词的人的\n笔迹。\n\n\"我带着愤怒活了很久，\"信的开头写道。\"我以为\n那是唯一能让我站住的东西。但你的信让我想起了\n一件我忘掉的事：我们俩都是同一场战争的伤员。\"\n\n他没有原谅你——没有用那么多话。但他理解了。\n而你意识到，这已经超出了你敢奢望的一切。\n\n那晚，风车叶片正好抓住了月光。桑丘在门廊上\n弹吉他。三十年来第一次，一切都在正确的位置上。\n\n你在笔记本上加了最后一页。只有一个词：\n\"安宁。\"\n\n--- 终 ---",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [],
+      "required_flags": [],
+      "x": 11,
+      "y": 1,
+      "act": 3
+    },
+    "ending_complete": {
+      "node_id": "ending_complete",
+      "node_type": "end",
+      "name": "结局：写满的笔记本",
+      "icon": "*",
+      "description": "",
+      "narrative": "笔记本写完了。一百页，正反两面，\n装满了一生。\n\n你不知道有没有人会读它。你不知道这有没有\n意义。但你写了，而这就改变了一切。\n\n\"接下来呢？\"桑丘问。\n\n\"接下来我买一本新笔记本。\"\n\n他笑了。风车吱吱作响。世界继续转动。\n\n--- 终 ---",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [],
+      "required_flags": [],
+      "x": 11,
+      "y": 2,
+      "act": 3
+    },
+    "ending_lost_peace": {
+      "node_id": "ending_lost_peace",
+      "node_type": "end",
+      "name": "结局：失去安宁",
+      "icon": "*",
+      "description": "",
+      "narrative": "黑暗不是一下到来的。它慢慢渗入——\n通过那些不眠之夜，通过那些不肯安息的记忆，\n通过一切未曾说出口的重压。\n\n你停止了写作。笔记本蒙上了灰尘。风车\n荒废了。\n\n桑丘还在照料花园，但他的哼歌声停了。\n他用担忧的眼神看着你。\n\n\"你跑不过它的，老板。\"但也许，这一次，\n它跑过了你。\n\n--- 终 ---",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [],
+      "required_flags": [],
+      "x": 11,
+      "y": 4,
+      "act": 3
+    },
+    "ending_lost_knee": {
+      "node_id": "ending_lost_knee",
+      "node_type": "end",
+      "name": "结局：膝盖崩毁",
+      "icon": "*",
+      "description": "",
+      "narrative": "膝盖在一个周四下午彻底不行了。不是什么戏剧性\n的场景——只是走下门廊的一步，一扭，一摔。\n\n医生说你需要手术。几个月的康复。你可能再也\n爬不上风车了。\n\n\"只是一个膝盖，\"桑丘说。\"你还有一个。\"\n\n但这不止是一个膝盖。这是三十年的跳跃、落地\n和犯规——施与的和承受的。它是你曾经的一切\n的物理记录。\n\n笔记本半途停在床头柜上。有些故事，你意识到，\n不会有结局。\n\n--- 终 ---",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [],
+      "required_flags": [],
+      "x": 11,
+      "y": 5,
+      "act": 3
+    },
+    "ending_rust_mango": {
+      "node_id": "ending_rust_mango",
+      "node_type": "end",
+      "name": "结局：铁锈与芒果",
+      "icon": "*",
+      "description": "",
+      "narrative": "GGO全球大赛的特邀名额寄到了。\n信封上印着联盟的标志。你盯着它看了很久。\n\n你走到后院。橘子树对面，那个你用红漆画的\n罚球线还在。你站了上去。\n\n左手按住膝盖外侧。那里有一道旧疤——\n不是球场的疤，是爬风车时摔的。\n你对着空椅子说：\"我开始了。\"\n\n风车在远处转动。叶片在阳光下闪着银色的光。\n铁锈和芒果站在发球线上。\n铁锈——三道锈痕，永远打磨不完。\n芒果——深绿色漆，是桑丘调的颜色。\n\n那个后撤步的投篮，从来不是故障。\n那是一个恶汉花了四十年，才学会的让步。\n\n--- 终 ---",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [],
+      "required_flags": [],
+      "x": 11,
+      "y": 6,
+      "act": 3
+    },
+    "ending_hall_of_fame": {
+      "node_id": "ending_hall_of_fame",
+      "node_type": "end",
+      "name": "结局：名人堂",
+      "icon": "*",
+      "description": "",
+      "narrative": "斯普林菲尔德。篮球名人堂的演讲台。\n\n你穿着那件洗不干净的旧运动外套——\n口袋里装着一张被折了无数次的便利店收据，\n上面写着\"世界最好园丁，3美元\"。\n\n你没有讲那些铁肘和垫脚。\n你讲了风车。讲了拖鞋冲锋。\n讲了保尔·柯察金在暴雪中修铁路。\n讲了那个投不进的第十球。\n\n你讲了一个矮胖的园丁，\n怎么用旧牙刷把一只绒面拖鞋刷得干干净净。\n你讲了橘子树。讲了搪瓷杯。讲了扳手。\n讲了每个清晨五点的罚球线。\n\n你在台上说了那个名字：\n桑丘·罗德里格斯。\n\n台下有人哭了。也许是埃琳娜。\n也许是所有曾经站在罚球线上的人。\n\n也许是你自己。\n\n--- 终 ---",
+      "choices": [],
+      "stat_effects": {},
+      "connected_to": [],
+      "required_flags": [],
+      "x": 11,
+      "y": 7,
+      "act": 3
+    }
+  }
+}

@@ -1,0 +1,169 @@
+[
+  {
+    "id": "whiskey",
+    "name": "威士忌",
+    "item_type": "CONSUMABLE",
+    "description": "一杯烈酒，获得2点力量但施加1层醉步。",
+    "effect": {
+      "apply_buff": {"name": "strength", "stacks": 2},
+      "apply_debuff": {"name": "drunken_stumble", "stacks": 1}
+    },
+    "gold_value": 15
+  },
+  {
+    "id": "silver_bullets",
+    "name": "银弹",
+    "item_type": "CONSUMABLE",
+    "description": "受祝福的弹药。对当前敌人造成15点伤害。",
+    "effect": {
+      "damage": 15
+    },
+    "gold_value": 25
+  },
+  {
+    "id": "cipher_notes_1",
+    "name": "密码笔记（第一页）",
+    "item_type": "KEY_ITEM",
+    "description": "一页密文。是一个更大密码的一部分。",
+    "effect": {
+      "cipher_fragment": "act1_fragment_1"
+    },
+    "gold_value": 0
+  },
+  {
+    "id": "cipher_notes_2",
+    "name": "密码笔记（第二页）",
+    "item_type": "KEY_ITEM",
+    "description": "又一张密文页。拼图正在渐渐完整。",
+    "effect": {
+      "cipher_fragment": "act2_fragment_1"
+    },
+    "gold_value": 0
+  },
+  {
+    "id": "bandages",
+    "name": "绷带",
+    "item_type": "CONSUMABLE",
+    "description": "干净的绷带。恢复15%完整度。",
+    "effect": {
+      "heal_integrity": 15
+    },
+    "gold_value": 20
+  },
+  {
+    "id": "antidote",
+    "name": "解毒剂",
+    "item_type": "CONSUMABLE",
+    "description": "一瓶万灵药。移除自身所有减益效果。",
+    "effect": {
+      "remove_debuffs": true
+    },
+    "gold_value": 30
+  },
+  {
+    "id": "lockbox",
+    "name": "神秘锁盒",
+    "item_type": "CONSUMABLE",
+    "description": "打开它可获得一张随机稀有牌。",
+    "effect": {
+      "random_rare_card": true
+    },
+    "gold_value": 40
+  },
+  {
+    "id": "desert_herb",
+    "name": "沙漠草药",
+    "item_type": "CONSUMABLE",
+    "description": "一株苦涩的草药。恢复8%完整度并获得1层人工制品。",
+    "effect": {
+      "heal_integrity": 8,
+      "apply_buff": {"name": "artifact", "stacks": 1}
+    },
+    "gold_value": 25
+  },
+  {
+    "id": "old_map",
+    "name": "旧地图",
+    "item_type": "CONSUMABLE",
+    "description": "一张褪色的地图。使用时获得30金币。",
+    "effect": {
+      "gold": 30
+    },
+    "gold_value": 15
+  },
+  {
+    "id": "holy_water",
+    "name": "圣水",
+    "item_type": "CONSUMABLE",
+    "description": "受祝福的水。恢复20%完整度并移除所有减益效果。",
+    "effect": {
+      "heal_integrity": 20,
+      "remove_debuffs": true
+    },
+    "gold_value": 50
+  },
+  {
+    "id": "hawthorns_holster_item",
+    "name": "霍桑的空枪套",
+    "item_type": "KEY_ITEM",
+    "description": "三十年前帕金森留给霍桑的枪套。内侧烫金字母P.P.。霍桑死前交由以西结带回。",
+    "effect": {
+      "apply_buff": {"name": "strength", "stacks": 1},
+      "apply_buff_second": {"name": "dexterity", "stacks": 1}
+    },
+    "gold_value": 0
+  },
+  {
+    "id": "iron_sand_item",
+    "name": "铁砂",
+    "item_type": "CONSUMABLE",
+    "description": "三十年仇恨凝成的铁砂。每粒承载着一个不该被遗忘的名字。造成8点伤害并获得1层人工制品。",
+    "effect": {
+      "damage": 8,
+      "apply_buff": {"name": "artifact", "stacks": 1}
+    },
+    "gold_value": 20
+  },
+  {
+    "id": "fist_lockbox_item",
+    "name": "铁拳铁匣子",
+    "item_type": "KEY_ITEM",
+    "description": "密码F-I-S-T，三十年未改。里面是圣丹尼斯靛蓝街四号仓库的地址和铁拳账本。",
+    "effect": {
+      "cipher_fragment": "act2_fragment_2"
+    },
+    "gold_value": 0
+  },
+  {
+    "id": "grace_fragment_item",
+    "name": "格蕾丝的金属片",
+    "item_type": "KEY_ITEM",
+    "description": "从第三大桥白骨指骨间取出的金属片。正面刻F.I.S.T.，背面马麟长的留言。",
+    "effect": {
+      "cipher_fragment": "act2_fragment_4"
+    },
+    "gold_value": 0
+  },
+  {
+    "id": "tequila_vintage",
+    "name": "二十年陈龙舌兰",
+    "item_type": "CONSUMABLE",
+    "description": "双旗镇客栈瘸子珍藏的最后一壶。恢复20%完整度，获得2点力量，施加1层醉步。",
+    "effect": {
+      "heal_integrity": 20,
+      "apply_buff": {"name": "strength", "stacks": 2},
+      "apply_debuff": {"name": "drunken_stumble", "stacks": 1}
+    },
+    "gold_value": 60
+  },
+  {
+    "id": "infinity_blade_shard",
+    "name": "无极刀碎片",
+    "item_type": "CONSUMABLE",
+    "description": "一刀仙遗落在双旗镇泥土中的刀刃碎片。刃口依然锋利。对所有敌人造成12点伤害。",
+    "effect": {
+      "damage_all": 12
+    },
+    "gold_value": 35
+  }
+]

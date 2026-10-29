@@ -1,0 +1,247 @@
+[
+  {
+    "room_id": "prologue",
+    "name": "最后一课",
+    "description": "记忆始于一种轻盈。",
+    "chapter": "序章：最后一课",
+    "items": [
+      "item_blue_book",
+      "item_春望"
+    ],
+    "characters": [
+      "alen",
+      "wanqing"
+    ],
+    "exits": {
+      "next": "ch1"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch1",
+    "name": "西湖秋色",
+    "description": "艾伦·阿博特站在断桥一端，手里拿着一本泛黄的宋词选，书页停在苏轼那一页——\"水光潋滟晴方好\"。他合上书，抬头望向面前的湖水。心中剩下的那些诗意，如这个深秋日的薄雾般散去。",
+    "chapter": "第一章：西湖秋色",
+    "items": [
+      "item_songci",
+      "item_lotus_seed",
+      "item_断桥栏杆",
+      "item_空心柳"
+    ],
+    "characters": [
+      "alen"
+    ],
+    "exits": {
+      "next": "ch2",
+      "back": "prologue"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch2",
+    "name": "残山剩水",
+    "description": "从杭州飞往伦敦的航班上，艾伦一直闭着眼睛。",
+    "chapter": "第二章：残山剩水",
+    "items": [
+      "item_chunwang_calligraphy",
+      "item_wang_teacher_letter"
+    ],
+    "characters": [
+      "alen",
+      "wang_teacher",
+      "wanqing",
+      "shimu"
+    ],
+    "exits": {
+      "next": "ch3",
+      "back": "ch1"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch3",
+    "name": "酒与沙鸥",
+    "description": "在伦敦的书房里，艾伦·阿博特翻来覆去地看着一个想法。这个想法从西湖回来后一直占据着他——不是学术洞见，不是那种可以写进论文的东西。它更轻，也更重。轻得像梦醒后的余味。重得像一个六十七岁老人回望一生的全...",
+    "chapter": "第三章：酒与沙鸥",
+    "items": [
+      "item_matrix_note",
+      "item_zhaji_notebook",
+      "item_矩阵乘法"
+    ],
+    "characters": [
+      "alen",
+      "dufu"
+    ],
+    "exits": {
+      "next": "ch4",
+      "back": "ch2"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch4",
+    "name": "死后",
+    "description": "艾伦·阿博特没有死。",
+    "chapter": "第四章：死后",
+    "items": [],
+    "characters": [
+      "alen",
+      "xiaochen",
+      "dufu"
+    ],
+    "exits": {
+      "next": "ch5",
+      "back": "ch3"
+    },
+    "is_dark": true,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch5",
+    "name": "未完成的计划",
+    "description": "艾伦·阿博特在杭州一家酒店的床上醒来。",
+    "chapter": "第五章：未完成的计划",
+    "items": [
+      "item_headphone",
+      "item_空心柳"
+    ],
+    "characters": [
+      "alen",
+      "xiaochen"
+    ],
+    "exits": {
+      "next": "ch6",
+      "back": "ch4"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch6",
+    "name": "枕边物",
+    "description": "从杭州回来之后，艾伦·阿博特把他的书房重新收拾了一遍。说是收拾，其实不过是把桌上那摞堆了半年的期刊挪了个地方，又把窗台上那盆半死不活的文竹浇了浇水。文竹是婉清在世时买的，她喜欢这种细碎的、像雾一样的植...",
+    "chapter": "第六章：枕边物",
+    "items": [
+      "item_tea_cup",
+      "item_春望",
+      "item_老橡树"
+    ],
+    "characters": [
+      "alen"
+    ],
+    "exits": {
+      "next": "ch7",
+      "back": "ch5"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch7",
+    "name": "纸上音",
+    "description": "艾伦·阿博特是在一个极寻常的星期三早晨，开始着手整理那些信札的。",
+    "chapter": "第七章：纸上音",
+    "items": [
+      "item_wanqing_letter",
+      "item_wanqing_photo",
+      "item_wang_teacher_letter"
+    ],
+    "characters": [
+      "alen",
+      "wanqing",
+      "wang_teacher"
+    ],
+    "exits": {
+      "next": "ch8",
+      "back": "ch6"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch8",
+    "name": "日常",
+    "description": "艾伦·阿博特从杭州回来后的日子，像一杯放凉了的茶。",
+    "chapter": "第八章：日常",
+    "items": [
+      "item_tea_cup",
+      "item_面馆"
+    ],
+    "characters": [
+      "alen",
+      "noodle_boss"
+    ],
+    "exits": {
+      "next": "ch9",
+      "back": "ch7"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch9",
+    "name": "残山剩水之间",
+    "description": "艾伦·阿博特坐在伦敦书房那把墨绿色扶手椅里，灯没有开。暮色从窗外渗进来，一层一层地涂上去，先是把书的轮廓涂成灰色，再把桌子的棱角涂掉，最后把整面墙的书脊溶成一条模糊的、深浅不一的色带。他坐在这片渐深的...",
+    "chapter": "第九章：残山剩水之间",
+    "items": [
+      "item_空船",
+      "item_挥手",
+      "item_玉简"
+    ],
+    "characters": [
+      "alen",
+      "arthur_waley"
+    ],
+    "exits": {
+      "next": "ch10",
+      "back": "ch8"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "ch10",
+    "name": "莲子",
+    "description": "艾伦·阿博特第一次注意到那纹样，是在断桥上。",
+    "chapter": "第十章：莲子",
+    "items": [
+      "item_lotus_seed",
+      "item_断桥栏杆",
+      "item_莲子"
+    ],
+    "characters": [
+      "alen",
+      "wanqing"
+    ],
+    "exits": {
+      "next": "epilogue",
+      "back": "ch9"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  },
+  {
+    "room_id": "epilogue",
+    "name": "醒来之后",
+    "description": "入睡前的最后一个时辰，艾伦·阿博特躺在杭州酒店床上，望着天花板。房间是暗的。窗外，西湖沉入又一个安静的夜——千年以来承载着无数诗人倒影的同一片水域，此刻只映着二十一世纪城市散落的灯光。",
+    "chapter": "尾声：醒来之后",
+    "items": [
+      "item_沙鸥",
+      "item_灯笼倒影",
+      "item_西湖"
+    ],
+    "characters": [
+      "alen",
+      "dufu"
+    ],
+    "exits": {
+      "back": "ch10"
+    },
+    "is_dark": false,
+    "ambient_text": "寂静中弥漫着深沉的思绪"
+  }
+]

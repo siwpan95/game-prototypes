@@ -1,0 +1,359 @@
+{
+  "rooms": {
+    "act1_entrance": {
+      "room_id": "act1_entrance",
+      "name": "冥界入口",
+      "description": "冥界上层入口，霸主的领地边缘。烁灭的余波尚未消散，空气中弥漫着恐惧与暗纹的共振。",
+      "first_visit_text": "冥界上层入口，霸主的领地边缘。烁灭的余波尚未消散，空气中弥漫着恐惧与暗纹的共振。关键事件：烁灭危机、天台首战。",
+      "chapter": "act1",
+      "encounters": [
+        "enc_shadow_ambush",
+        "enc_hellhound_pack",
+        "enc_iron_wraith",
+        "enc_lost_souls",
+        "enc_flayed_ones",
+        "enc_puzzle_rune",
+        "enc_dialog_old_man",
+        "enc_dialog_ghost",
+        "enc_intro_snapture",
+        "enc_skyline_battle",
+        "enc_dialog_banner_lab"
+      ],
+      "enemies": [
+        "shadow_lurker",
+        "wailing_spirit",
+        "hellhound",
+        "iron_wraith",
+        "lost_soul",
+        "flayed_one",
+        "optimizer_soldier",
+        "optimizer_elite"
+      ],
+      "npcs": [
+        "old_keeper",
+        "ghost_whisper",
+        "bruce_banner"
+      ]
+    },
+    "act1_hallway": {
+      "room_id": "act1_hallway",
+      "name": "上层走廊",
+      "description": "霸主统治下的长廊，巡逻兵与暗影潜伏在每一个转角。走廊尽头有符文之门和数字之锁。",
+      "first_visit_text": "霸主统治下的长廊，巡逻兵与暗影潜伏在每一个转角。走廊尽头有符文之门和数字之锁。关键事件：堕化武僧、魔刃、天台首战。",
+      "chapter": "act1",
+      "encounters": [
+        "enc_shadow_ambush",
+        "enc_hellhound_pack",
+        "enc_iron_wraith",
+        "enc_lost_souls",
+        "enc_flayed_ones",
+        "enc_corrupted_monk",
+        "enc_demon_blade",
+        "enc_puzzle_rune",
+        "enc_puzzle_sequence",
+        "enc_dialog_old_man",
+        "enc_dialog_ghost",
+        "enc_skyline_battle",
+        "enc_dialog_banner_lab"
+      ],
+      "enemies": [
+        "shadow_lurker",
+        "wailing_spirit",
+        "hellhound",
+        "iron_wraith",
+        "lost_soul",
+        "flayed_one",
+        "corrupted_monk",
+        "demon_blade",
+        "optimizer_soldier",
+        "optimizer_elite"
+      ],
+      "npcs": [
+        "old_keeper",
+        "ghost_whisper",
+        "bruce_banner"
+      ]
+    },
+    "act1_throne": {
+      "room_id": "act1_throne",
+      "name": "霸主王座",
+      "description": "冥界霸主的骨座矗立在黑暗大厅的尽头。空气中弥漫着压迫感——他的领地到此为止，或者你的到此为止。",
+      "first_visit_text": "冥界霸主的骨座矗立在黑暗大厅的尽头。空气中弥漫着压迫感——他的领地到此为止，或者你的到此为止。关键事件：堕化武僧、魔刃、霸主。",
+      "chapter": "act1",
+      "encounters": [
+        "enc_shadow_ambush",
+        "enc_hellhound_pack",
+        "enc_iron_wraith",
+        "enc_lost_souls",
+        "enc_flayed_ones",
+        "enc_corrupted_monk",
+        "enc_demon_blade",
+        "enc_kingpin",
+        "enc_puzzle_rune",
+        "enc_puzzle_sequence",
+        "enc_dialog_old_man",
+        "enc_dialog_ghost"
+      ],
+      "enemies": [
+        "shadow_lurker",
+        "wailing_spirit",
+        "hellhound",
+        "iron_wraith",
+        "lost_soul",
+        "flayed_one",
+        "corrupted_monk",
+        "demon_blade",
+        "kingpin"
+      ],
+      "npcs": [
+        "old_keeper",
+        "ghost_whisper"
+      ]
+    },
+    "act2_fracture_edge": {
+      "room_id": "act2_fracture_edge",
+      "name": "裂隙边缘",
+      "description": "现实开始破碎的区域。倒影从碎镜中走出，深渊爬行者从墙壁裂缝中涌出。优化者实验室的入口就在附近。",
+      "first_visit_text": "现实开始破碎的区域。倒影从碎镜中走出，深渊爬行者从墙壁裂缝中涌出。优化者实验室的入口就在附近。关键事件：虚空猎手。",
+      "chapter": "act2",
+      "encounters": [
+        "enc_fractured_mirror",
+        "enc_abyss_crawlers",
+        "enc_void_stalker",
+        "enc_dialog_rebel",
+        "enc_optimizer_lab",
+        "enc_hand_ninja_ambush",
+        "enc_puzzle_bone",
+        "enc_underground_lab",
+        "enc_human_factory",
+        "enc_dialog_ran_min_dream"
+      ],
+      "enemies": [
+        "fractured_mirror",
+        "abyss_crawler",
+        "phantom_thief",
+        "void_stalker",
+        "optimizer_soldier",
+        "hand_ninja",
+        "dark_vein_infected",
+        "optimizer_elite"
+      ],
+      "npcs": [
+        "rebel",
+        "ran_min"
+      ]
+    },
+    "act2_underground_passage": {
+      "room_id": "act2_underground_passage",
+      "name": "地下通道",
+      "description": "哈德逊河下废弃核避难所的通道。暗纹孢子在潮湿的墙壁上扩散，人体工厂的灯光永不熄灭。捍卫者在这里集结。",
+      "first_visit_text": "哈德逊河下废弃核避难所的通道。暗纹孢子在潮湿的墙壁上扩散，人体工厂的灯光永不熄灭。捍卫者在这里集结。关键事件：虚空猎手、梦魇编织者、哨兵巡逻队、潘多拉装甲、哈林区遭遇战、奥斯本突袭。",
+      "chapter": "act2",
+      "encounters": [
+        "enc_fractured_mirror",
+        "enc_abyss_crawlers",
+        "enc_void_stalker",
+        "enc_nightmare_weaver",
+        "enc_dialog_rebel",
+        "enc_optimizer_lab",
+        "enc_hand_ninja_ambush",
+        "enc_dark_vein_outbreak",
+        "enc_sentinel_patrol",
+        "enc_pandora_armor",
+        "enc_puzzle_bone",
+        "enc_underground_lab",
+        "enc_human_factory",
+        "enc_harlem_k9",
+        "enc_pandora_osborn_attack",
+        "enc_dialog_ran_min_dream",
+        "enc_dialog_daredevil",
+        "enc_dialog_jessica",
+        "enc_dialog_luke_cage",
+        "enc_dialog_iron_fist",
+        "enc_dialog_punisher"
+      ],
+      "enemies": [
+        "fractured_mirror",
+        "abyss_crawler",
+        "phantom_thief",
+        "void_stalker",
+        "nightmare_weaver",
+        "optimizer_soldier",
+        "hand_ninja",
+        "dark_vein_infected",
+        "sentinel_prototype",
+        "pandora_armor",
+        "optimizer_elite",
+        "optimizer_k9",
+        "pandora_osborn"
+      ],
+      "npcs": [
+        "rebel",
+        "ran_min",
+        "matt_murdock",
+        "jessica_jones",
+        "luke_cage",
+        "danny_rand",
+        "frank_castle"
+      ]
+    },
+    "act2_shattered_realm": {
+      "room_id": "act2_shattered_realm",
+      "name": "破碎领域",
+      "description": "堕落幻象的领地核心。现实在此扭曲，空间折叠，时间循环。金并·暗纹强化形态在这里等待。",
+      "first_visit_text": "堕落幻象的领地核心。现实在此扭曲，空间折叠，时间循环。金并·暗纹强化形态在这里等待。关键事件：虚空猎手、梦魇编织者、堕落幻象、哨兵巡逻队、潘多拉装甲、金并·暗纹强化。",
+      "chapter": "act2",
+      "encounters": [
+        "enc_fractured_mirror",
+        "enc_abyss_crawlers",
+        "enc_void_stalker",
+        "enc_nightmare_weaver",
+        "enc_corrupted_vision",
+        "enc_dialog_rebel",
+        "enc_dark_vein_outbreak",
+        "enc_sentinel_patrol",
+        "enc_pandora_armor",
+        "enc_kingpin_dark_vein",
+        "enc_puzzle_bone"
+      ],
+      "enemies": [
+        "fractured_mirror",
+        "abyss_crawler",
+        "phantom_thief",
+        "void_stalker",
+        "nightmare_weaver",
+        "corrupted_vision",
+        "dark_vein_infected",
+        "sentinel_prototype",
+        "pandora_armor",
+        "kingpin_enhanced"
+      ],
+      "npcs": [
+        "rebel"
+      ]
+    },
+    "act3_gym_dojo": {
+      "room_id": "act3_gym_dojo",
+      "name": "无界健身馆",
+      "description": "无界健身馆的铁门永远开着。刘敬宣在铁桩上二指倒立，彼得在沙袋下系鞋带，山姆的振金盾牌靠在倒立桩边缘。这里是最后的避风港。",
+      "first_visit_text": "无界健身馆的铁门永远开着。刘敬宣在铁桩上二指倒立，彼得在沙袋下系鞋带，山姆的振金盾牌靠在倒立桩边缘。这里是最后的避风港。关键事件：仿造雷霆。",
+      "chapter": "act3",
+      "encounters": [
+        "enc_ragnar",
+        "enc_void_plague",
+        "enc_hudson_underground",
+        "enc_latvia_fortress",
+        "enc_dialog_liu",
+        "enc_dialog_peter",
+        "enc_dialog_sam",
+        "enc_puzzle_x_lock",
+        "enc_puzzle_seal"
+      ],
+      "enemies": [
+        "heavenly_emperor",
+        "dark_vein_infected",
+        "optimizer_soldier",
+        "iron_wraith",
+        "sentinel_prototype"
+      ],
+      "npcs": [
+        "liu_jingxuan",
+        "peter_parker",
+        "sam_wilson"
+      ]
+    },
+    "act3_war_front": {
+      "room_id": "act3_war_front",
+      "name": "战火前线",
+      "description": "从地狱厨房到拉脱维亚工事，战火蔓延。X学院废墟上哨兵苏醒，沃特大厦的灯光永不熄灭。捍卫者在地面和地下同时作战。",
+      "first_visit_text": "从地狱厨房到拉脱维亚工事，战火蔓延。X学院废墟上哨兵苏醒，沃特大厦的灯光永不熄灭。捍卫者在地面和地下同时作战。关键事件：仿造雷霆、X学院保卫战、沃特大厦、地面捍卫战、地狱之心·核心。",
+      "chapter": "act3",
+      "encounters": [
+        "enc_ragnar",
+        "enc_void_plague",
+        "enc_hudson_underground",
+        "enc_x_academy_defense",
+        "enc_latvia_fortress",
+        "enc_wacht_tower",
+        "enc_dialog_liu",
+        "enc_dialog_peter",
+        "enc_dialog_sam",
+        "enc_dialog_deadpool",
+        "enc_dialog_white_vision",
+        "enc_puzzle_x_lock",
+        "enc_puzzle_seal",
+        "enc_surface_battle",
+        "enc_underground_heart",
+        "enc_salvage_team",
+        "enc_dialog_zemo",
+        "enc_dialog_steve_rogers"
+      ],
+      "enemies": [
+        "heavenly_emperor",
+        "dark_vein_infected",
+        "optimizer_soldier",
+        "iron_wraith",
+        "sentinel_prototype",
+        "hand_ninja",
+        "pandora_armor",
+        "bullseye",
+        "kingpin_enhanced",
+        "hydra_remnant"
+      ],
+      "npcs": [
+        "liu_jingxuan",
+        "peter_parker",
+        "sam_wilson",
+        "deadpool",
+        "white_vision",
+        "baron_zemo",
+        "steve_rogers"
+      ]
+    },
+    "act3_final_stand": {
+      "room_id": "act3_final_stand",
+      "name": "终局之战",
+      "description": "联合国大厅与哈德逊河底封印同时告急。金并的立法计划与地狱之心的脉动——捍卫者的最后一战。",
+      "first_visit_text": "联合国大厅与哈德逊河底封印同时告急。金并的立法计划与地狱之心的脉动——捍卫者的最后一战。关键事件：X学院保卫战、沃特大厦、联合国换届会议。",
+      "chapter": "act3",
+      "encounters": [
+        "enc_void_plague",
+        "enc_hudson_underground",
+        "enc_x_academy_defense",
+        "enc_latvia_fortress",
+        "enc_wacht_tower",
+        "enc_dialog_liu",
+        "enc_dialog_peter",
+        "enc_dialog_sam",
+        "enc_dialog_deadpool",
+        "enc_dialog_white_vision",
+        "enc_puzzle_x_lock",
+        "enc_puzzle_seal",
+        "enc_salvage_team",
+        "enc_un_committee",
+        "enc_dialog_zemo",
+        "enc_dialog_steve_rogers",
+        "enc_dialog_valentina"
+      ],
+      "enemies": [
+        "dark_vein_infected",
+        "optimizer_soldier",
+        "iron_wraith",
+        "sentinel_prototype",
+        "hand_ninja",
+        "pandora_armor",
+        "hydra_remnant"
+      ],
+      "npcs": [
+        "liu_jingxuan",
+        "peter_parker",
+        "sam_wilson",
+        "deadpool",
+        "white_vision",
+        "valentina",
+        "baron_zemo",
+        "steve_rogers"
+      ]
+    }
+  }
+}

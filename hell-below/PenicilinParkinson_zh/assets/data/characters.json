@@ -1,0 +1,142 @@
+[
+  {
+    "id": "the_collector_npc",
+    "name": "收藏家",
+    "description": "一个高大消瘦的身影，身披黑色大衣。他搜罗禁忌神器，囤积窃取来的知识。他的眼中闪烁着异界的饥渴。",
+    "role": "boss",
+    "act": 1
+  },
+  {
+    "id": "sh_npc",
+    "name": "S.H.",
+    "description": "一位神秘的盟友，通过密码信息交流。她的真实身份隐藏在密文的帷幕之后。她声称自己是盘尼西林骑士团最后的幸存者。",
+    "role": "ally",
+    "act": 1
+  },
+  {
+    "id": "ezekiel_npc",
+    "name": "以西结",
+    "description": "一位年迈的探矿者，曾是骑士团的抄写员。当铁拳团崛起掌权时，他离开了骑士团，但仍携带着旧密码的残片。",
+    "role": "npc",
+    "act": 2
+  },
+  {
+    "id": "doc_holliday_npc",
+    "name": "霍利迪医生",
+    "description": "一位浪迹天涯的枪手，嗜烈酒更爱狠话。他将骑士团的信条视为愚蠢的遗物，却敬重那份胆识。",
+    "role": "npc",
+    "act": 2
+  },
+  {
+    "id": "fist_captain_npc",
+    "name": "铁拳队长",
+    "description": "铁拳团沙漠师的铁腕指挥官。冷酷、精明，对首领绝对忠诚。她亲手粉碎了骑士团的西部分会。",
+    "role": "boss",
+    "act": 2
+  },
+  {
+    "id": "the_seer_npc",
+    "name": "先知",
+    "description": "一位居住在旧教堂废墟中的盲眼预言家。她曾预见骑士团的覆灭，如今只以谜语和密码说话。",
+    "role": "npc",
+    "act": 2
+  },
+  {
+    "id": "iron_fist_leader_npc",
+    "name": "铁拳首领",
+    "description": "铁拳团幕后的主谋。一个从未展露真容的阴影人物。他对西部的铁腕统治无可撼动，对盘尼西林骑士团的仇恨无穷无尽。",
+    "role": "boss",
+    "act": 3
+  },
+  {
+    "id": "knight_ghost_npc",
+    "name": "骑士之魂",
+    "description": "一位陨落骑士的幽魂。它被束缚在纪念祭坛之上，向那些敬仰旧日信条的人提供隐晦的指引。",
+    "role": "npc",
+    "act": 3
+  },
+  {
+    "id": "ezekiel_hawthorn_npc",
+    "name": "以西结·霍桑·史密斯",
+    "description": "霍桑爵士的养子兼弟子，绰号\u201c骑士侍从\u201d。拔枪速度极快，但心中燃烧的不是杀意，是六个月的丧父之痛。",
+    "role": "ally",
+    "act": 1
+  },
+  {
+    "id": "wilson_grey_npc",
+    "name": "威尔逊·格雷",
+    "description": "铁拳会黑水镇联络人。妻子在巴尔的摩做裁缝，三年未归。小人物也有活下去的理由。",
+    "role": "npc",
+    "act": 1
+  },
+  {
+    "id": "haige_npc",
+    "name": "孩哥",
+    "description": "双旗镇少年刀客，腿绑两柄无极刀。十六年前旗杆下挖出的遗孤，刀法来自血脉而非师父。",
+    "role": "ally",
+    "act": 1
+  },
+  {
+    "id": "marshal_moss_npc",
+    "name": "凯莱布·莫斯法警",
+    "description": "联邦法警，密西西比河东岸巡回法庭。手持双管猎枪，左臂缠着止血带。旧时代的规矩比法律好用。",
+    "role": "ally",
+    "act": 2
+  },
+  {
+    "id": "captain_brian_npc",
+    "name": "布莱恩上尉",
+    "description": "第七有色人种骑兵团最后的幸存者。左眼罩下是完好的眼球，围裙底下是联邦军上尉的铜星勋章。",
+    "role": "ally",
+    "act": 2
+  },
+  {
+    "id": "lafontaine_npc",
+    "name": "奥古斯特·德·拉方丹",
+    "description": "新奥尔良剑客，前铁拳会成员。细剑剑柄上的红宝石是真的，剑鞘内侧的杀人刻痕也是真的。为妹妹之死叛出铁拳。",
+    "role": "npc",
+    "act": 2
+  },
+  {
+    "id": "kelly_bradford_npc",
+    "name": "凯莉·布雷福德",
+    "description": "圣丹尼斯精神康复医院档案管理员。一头黑卷发，紫灰罩衫，伞尖当拐杖。保护着六十年的铁拳罪证。",
+    "role": "ally",
+    "act": 2
+  },
+  {
+    "id": "victoria_dupont_npc",
+    "name": "维多利亚·杜邦",
+    "description": "凯莉的学生兼搭档，格蕾丝·马洛莉的后代。金属细链连接的铜盘仪器从不离身。祖母的白骨在第三桥下。",
+    "role": "ally",
+    "act": 2
+  },
+  {
+    "id": "eastwood_npc",
+    "name": "伊斯特伍德",
+    "description": "\u201c无名客\u201d。最后一位拒绝投降的南军游击队员。枪还在手上，人就是一把上了膛的枪。",
+    "role": "ally",
+    "act": 3
+  },
+  {
+    "id": "ma_linchang_npc",
+    "name": "马麟长",
+    "description": "铁拳前档案室主任。三十七年前在新奥尔良教帕金森拆枪管。伪装成灰狼镇墨西哥老瘸子等了三十年。S.H.——Sacred Haunting，神佑的冤魂。",
+    "role": "ally",
+    "act": 1
+  },
+  {
+    "id": "one_slash_immortal_npc",
+    "name": "一刀仙",
+    "description": "双旗镇守门人。刀脊刻着\u201c血\u00b7沙\u00b7旗\u00b7斩\u201d。等了十六年，只等一个能配得上十二粒铁砂的人。",
+    "role": "boss",
+    "act": 1
+  },
+  {
+    "id": "night_walker_npc",
+    "name": "夜行者",
+    "description": "铁拳会首席杀手。双手白得不似活人，指尖淬着幽蓝剧毒。习惯切下被害者左手小指当收藏品。",
+    "role": "boss",
+    "act": 1
+  }
+]

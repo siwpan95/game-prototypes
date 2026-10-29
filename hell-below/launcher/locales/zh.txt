@@ -1,0 +1,27 @@
+# Hell Below Launcher - Chinese (zh) translations
+# Platform
+app_title = 地狱之下
+platform_name = 超级宇宙综合游戏网络平台
+language = 语言
+quit = 退出
+back = 返回
+
+# Main Menu
+menu_title = 地 狱 之 下
+menu_subtitle = 超级宇宙综合游戏网络平台
+menu_enter = 进 入
+menu_language = 语言
+menu_quit = 退出
+
+# Game Grid
+grid_title = 选 择 游 戏
+grid_subtitle = 以意志为武器，以记忆为燃料，以存在为赌注
+grid_footer = 点击游戏卡片启动 | ESC: 返回 | F11: 全屏
+not_available = 未安装
+
+# Controls
+controls_fullscreen = F11: 全屏
+controls_back = ESC: 返回
+
+# Footer
+footer = F11: 全屏 | ESC: 返回

@@ -1,0 +1,764 @@
+[
+  {
+    "node_id": "act1_layer0_pos0",
+    "type": "EVENT",
+    "act": 1,
+    "layer": 0,
+    "position": 0,
+    "connections": ["act1_layer1_pos0", "act1_layer1_pos1"],
+    "content_id": "evt_rust_01",
+    "tooltip": "一块褪色的招牌写道：档案馆"
+  },
+  {
+    "node_id": "act1_layer1_pos0",
+    "type": "EVENT",
+    "act": 1,
+    "layer": 1,
+    "position": 0,
+    "connections": ["act1_layer2_pos0", "act1_layer2_pos1"],
+    "content_id": "evt_rust_02",
+    "tooltip": "装配线回响"
+  },
+  {
+    "node_id": "act1_layer1_pos1",
+    "type": "PUZZLE",
+    "act": 1,
+    "layer": 1,
+    "position": 1,
+    "connections": ["act1_layer2_pos1", "act1_layer2_pos2"],
+    "content_id": "pz_cipher_1_01",
+    "tooltip": "加密终端"
+  },
+  {
+    "node_id": "act1_layer2_pos0",
+    "type": "ENCOUNTER",
+    "act": 1,
+    "layer": 2,
+    "position": 0,
+    "connections": ["act1_layer3_pos0"],
+    "content_id": "npc_fisher",
+    "tooltip": "休息室里一张熟悉的脸"
+  },
+  {
+    "node_id": "act1_layer2_pos1",
+    "type": "EVENT",
+    "act": 1,
+    "layer": 2,
+    "position": 1,
+    "connections": ["act1_layer3_pos0", "act1_layer3_pos1"],
+    "content_id": "evt_rust_03",
+    "tooltip": "辞职桌"
+  },
+  {
+    "node_id": "act1_layer2_pos2",
+    "type": "PUZZLE",
+    "act": 1,
+    "layer": 2,
+    "position": 2,
+    "connections": ["act1_layer3_pos1"],
+    "content_id": "pz_evidence_1_01",
+    "tooltip": "散落的文件"
+  },
+  {
+    "node_id": "act1_layer3_pos0",
+    "type": "REST",
+    "act": 1,
+    "layer": 3,
+    "position": 0,
+    "connections": ["act1_layer4_pos0"],
+    "content_id": "rst_act1_01",
+    "tooltip": "警卫室 — 片刻宁静"
+  },
+  {
+    "node_id": "act1_layer3_pos1",
+    "type": "EVENT",
+    "act": 1,
+    "layer": 3,
+    "position": 1,
+    "connections": ["act1_layer4_pos0"],
+    "content_id": "evt_rust_04",
+    "tooltip": "夜班发现"
+  },
+  {
+    "node_id": "act1_layer4_pos0",
+    "type": "BOSS",
+    "act": 1,
+    "layer": 4,
+    "position": 0,
+    "connections": [],
+    "content_id": "npc_foreman",
+    "tooltip": "工厂工头 — 对峙"
+  },
+  {
+    "node_id": "act1_layer1_pos2",
+    "type": "PUZZLE",
+    "act": 1,
+    "layer": 1,
+    "position": 2,
+    "connections": ["act1_layer2_pos0"],
+    "content_id": "pz_cipher_1_02",
+    "tooltip": "无线电截获"
+  },
+  {
+    "node_id": "act1_layer2_pos3",
+    "type": "ENCOUNTER",
+    "act": 1,
+    "layer": 2,
+    "position": 3,
+    "connections": ["act1_layer3_pos1"],
+    "content_id": "npc_janitor",
+    "tooltip": "老管理员"
+  },
+  {
+    "node_id": "act1_layer3_pos2",
+    "type": "SHOP",
+    "act": 1,
+    "layer": 3,
+    "position": 2,
+    "connections": ["act1_layer4_pos0"],
+    "content_id": "shp_act1_01",
+    "tooltip": "掮客 — 交易站"
+  },
+  {
+    "node_id": "act1_layer1_pos3",
+    "type": "EVENT",
+    "act": 1,
+    "layer": 1,
+    "position": 3,
+    "connections": ["act1_layer2_pos2", "act1_layer2_pos3"],
+    "content_id": "evt_rust_05",
+    "tooltip": "警卫室里的自学"
+  },
+  {
+    "node_id": "act1_layer3_pos3",
+    "type": "ENCOUNTER",
+    "act": 1,
+    "layer": 3,
+    "position": 3,
+    "connections": ["act1_layer4_pos0"],
+    "content_id": "npc_worker",
+    "tooltip": "惊恐的工人"
+  },
+  {
+    "node_id": "act1_layer1_pos4",
+    "type": "PUZZLE",
+    "act": 1,
+    "layer": 1,
+    "position": 4,
+    "connections": ["act1_layer2_pos0", "act1_layer2_pos3"],
+    "content_id": "pz_lie_1_01",
+    "tooltip": "审讯室"
+  },
+  {
+    "node_id": "act1_layer2_pos4",
+    "type": "REST",
+    "act": 1,
+    "layer": 2,
+    "position": 4,
+    "connections": ["act1_layer3_pos0"],
+    "content_id": "rst_act1_02",
+    "tooltip": "锅炉房 — 短暂的温暖"
+  },
+  {
+    "node_id": "act1_layer3_pos4",
+    "type": "EVENT",
+    "act": 1,
+    "layer": 3,
+    "position": 4,
+    "connections": ["act1_layer4_pos0"],
+    "content_id": "evt_rust_06",
+    "tooltip": "离开的决定"
+  },
+
+  {
+    "node_id": "act2_layer0_pos0",
+    "type": "EVENT",
+    "act": 2,
+    "layer": 0,
+    "position": 0,
+    "connections": ["act2_layer1_pos0", "act2_layer1_pos1"],
+    "content_id": "evt_murk_01",
+    "tooltip": "接近 Massive 山"
+  },
+  {
+    "node_id": "act2_layer1_pos0",
+    "type": "PUZZLE",
+    "act": 2,
+    "layer": 1,
+    "position": 0,
+    "connections": ["act2_layer2_pos0", "act2_layer2_pos1"],
+    "content_id": "pz_cipher_2_01",
+    "tooltip": "Murkoff 邮件拦截"
+  },
+  {
+    "node_id": "act2_layer1_pos1",
+    "type": "EVENT",
+    "act": 2,
+    "layer": 1,
+    "position": 1,
+    "connections": ["act2_layer2_pos1", "act2_layer2_pos2"],
+    "content_id": "evt_murk_02",
+    "tooltip": "潜入点"
+  },
+  {
+    "node_id": "act2_layer2_pos0",
+    "type": "ENCOUNTER",
+    "act": 2,
+    "layer": 2,
+    "position": 0,
+    "connections": ["act2_layer3_pos0"],
+    "content_id": "npc_orderly",
+    "tooltip": "紧张的护工"
+  },
+  {
+    "node_id": "act2_layer2_pos1",
+    "type": "PUZZLE",
+    "act": 2,
+    "layer": 2,
+    "position": 1,
+    "connections": ["act2_layer3_pos0", "act2_layer3_pos1"],
+    "content_id": "pz_evidence_2_01",
+    "tooltip": "患者记录关联"
+  },
+  {
+    "node_id": "act2_layer2_pos2",
+    "type": "EVENT",
+    "act": 2,
+    "layer": 2,
+    "position": 2,
+    "connections": ["act2_layer3_pos1"],
+    "content_id": "evt_murk_03",
+    "tooltip": "观察病房"
+  },
+  {
+    "node_id": "act2_layer3_pos0",
+    "type": "REST",
+    "act": 2,
+    "layer": 3,
+    "position": 0,
+    "connections": ["act2_layer4_pos0"],
+    "content_id": "rst_act2_01",
+    "tooltip": "废弃实验室 — 短暂安全"
+  },
+  {
+    "node_id": "act2_layer3_pos1",
+    "type": "PUZZLE",
+    "act": 2,
+    "layer": 3,
+    "position": 1,
+    "connections": ["act2_layer4_pos0"],
+    "content_id": "pz_lie_2_01",
+    "tooltip": "审讯实习生"
+  },
+  {
+    "node_id": "act2_layer4_pos0",
+    "type": "BOSS",
+    "act": 2,
+    "layer": 4,
+    "position": 0,
+    "connections": [],
+    "content_id": "npc_trager",
+    "tooltip": "理查德·特拉格 — 外科医生"
+  },
+  {
+    "node_id": "act2_layer1_pos2",
+    "type": "EVENT",
+    "act": 2,
+    "layer": 1,
+    "position": 2,
+    "connections": ["act2_layer2_pos0"],
+    "content_id": "evt_murk_04",
+    "tooltip": "地下通道"
+  },
+  {
+    "node_id": "act2_layer2_pos3",
+    "type": "ENCOUNTER",
+    "act": 2,
+    "layer": 2,
+    "position": 3,
+    "connections": ["act2_layer3_pos1"],
+    "content_id": "npc_patient",
+    "tooltip": "迷失的患者"
+  },
+  {
+    "node_id": "act2_layer3_pos2",
+    "type": "SHOP",
+    "act": 2,
+    "layer": 3,
+    "position": 2,
+    "connections": ["act2_layer4_pos0"],
+    "content_id": "shp_act2_01",
+    "tooltip": "走私者秘藏"
+  },
+  {
+    "node_id": "act2_layer1_pos3",
+    "type": "PUZZLE",
+    "act": 2,
+    "layer": 1,
+    "position": 3,
+    "connections": ["act2_layer2_pos0", "act2_layer2_pos3"],
+    "content_id": "pz_timeline_2_01",
+    "tooltip": "重建时间线"
+  },
+  {
+    "node_id": "act2_layer3_pos3",
+    "type": "EVENT",
+    "act": 2,
+    "layer": 3,
+    "position": 3,
+    "connections": ["act2_layer4_pos0"],
+    "content_id": "evt_murk_05",
+    "tooltip": "实验室"
+  },
+
+  {
+    "node_id": "act3_layer0_pos0",
+    "type": "EVENT",
+    "act": 3,
+    "layer": 0,
+    "position": 0,
+    "connections": ["act3_layer1_pos0", "act3_layer1_pos1"],
+    "content_id": "evt_solo_01",
+    "tooltip": "降入蛇窝"
+  },
+  {
+    "node_id": "act3_layer1_pos0",
+    "type": "PUZZLE",
+    "act": 3,
+    "layer": 1,
+    "position": 0,
+    "connections": ["act3_layer2_pos0", "act3_layer2_pos1"],
+    "content_id": "pz_lie_3_01",
+    "tooltip": "审讯走私犯"
+  },
+  {
+    "node_id": "act3_layer1_pos1",
+    "type": "EVENT",
+    "act": 3,
+    "layer": 1,
+    "position": 1,
+    "connections": ["act3_layer2_pos1", "act3_layer2_pos2"],
+    "content_id": "evt_solo_02",
+    "tooltip": "蛇头账本"
+  },
+  {
+    "node_id": "act3_layer2_pos0",
+    "type": "ENCOUNTER",
+    "act": 3,
+    "layer": 2,
+    "position": 0,
+    "connections": ["act3_layer3_pos0"],
+    "content_id": "npc_snakehead",
+    "tooltip": "蛇头中尉"
+  },
+  {
+    "node_id": "act3_layer2_pos1",
+    "type": "PUZZLE",
+    "act": 3,
+    "layer": 2,
+    "position": 1,
+    "connections": ["act3_layer3_pos0", "act3_layer3_pos1"],
+    "content_id": "pz_timeline_3_01",
+    "tooltip": "重建贩运链条"
+  },
+  {
+    "node_id": "act3_layer2_pos2",
+    "type": "EVENT",
+    "act": 3,
+    "layer": 2,
+    "position": 2,
+    "connections": ["act3_layer3_pos1"],
+    "content_id": "evt_solo_03",
+    "tooltip": "与母亲的通话"
+  },
+  {
+    "node_id": "act3_layer3_pos0",
+    "type": "REST",
+    "act": 3,
+    "layer": 3,
+    "position": 0,
+    "connections": ["act3_layer4_pos0"],
+    "content_id": "rst_act3_01",
+    "tooltip": "屋顶 — 孤寂"
+  },
+  {
+    "node_id": "act3_layer3_pos1",
+    "type": "PUZZLE",
+    "act": 3,
+    "layer": 3,
+    "position": 1,
+    "connections": ["act3_layer4_pos0"],
+    "content_id": "pz_photo_3_01",
+    "tooltip": "影像记忆测试"
+  },
+  {
+    "node_id": "act3_layer4_pos0",
+    "type": "BOSS",
+    "act": 3,
+    "layer": 4,
+    "position": 0,
+    "connections": [],
+    "content_id": "npc_valkyrie",
+    "tooltip": "女武神蜂群意识 — 内心对峙"
+  },
+  {
+    "node_id": "act3_layer1_pos2",
+    "type": "PUZZLE",
+    "act": 3,
+    "layer": 1,
+    "position": 2,
+    "connections": ["act3_layer2_pos0"],
+    "content_id": "pz_cipher_3_01",
+    "tooltip": "加密贩运清单"
+  },
+  {
+    "node_id": "act3_layer2_pos3",
+    "type": "ENCOUNTER",
+    "act": 3,
+    "layer": 2,
+    "position": 3,
+    "connections": ["act3_layer3_pos1"],
+    "content_id": "npc_informant",
+    "tooltip": "绝望的线人"
+  },
+  {
+    "node_id": "act3_layer3_pos2",
+    "type": "SHOP",
+    "act": 3,
+    "layer": 3,
+    "position": 2,
+    "connections": ["act3_layer4_pos0"],
+    "content_id": "shp_act3_01",
+    "tooltip": "黑市商人"
+  },
+  {
+    "node_id": "act3_layer1_pos3",
+    "type": "EVENT",
+    "act": 3,
+    "layer": 1,
+    "position": 3,
+    "connections": ["act3_layer2_pos2", "act3_layer2_pos3"],
+    "content_id": "evt_solo_04",
+    "tooltip": "记录 vs. 审判"
+  },
+  {
+    "node_id": "act3_layer3_pos3",
+    "type": "PUZZLE",
+    "act": 3,
+    "layer": 3,
+    "position": 3,
+    "connections": ["act3_layer4_pos0"],
+    "content_id": "pz_judgment_3_01",
+    "tooltip": "最终审判"
+  },
+  {
+    "node_id": "act4_layer0_pos0",
+    "type": "EVENT",
+    "act": 4,
+    "layer": 0,
+    "position": 0,
+    "connections": ["act4_layer1_pos0", "act4_layer1_pos1"],
+    "content_id": "evt_foundation_01",
+    "tooltip": "---- 小说扩充 ---- 斯克兰顿基金会·阁楼办公室"
+  },
+  {
+    "node_id": "act4_layer1_pos0",
+    "type": "ENCOUNTER",
+    "act": 4,
+    "layer": 1,
+    "position": 0,
+    "connections": ["act4_layer2_pos0", "act4_layer2_pos1"],
+    "content_id": "npc_maggie_chen",
+    "tooltip": "---- 小说扩充 ---- 麦琪·陈·方格围巾"
+  },
+  {
+    "node_id": "act4_layer1_pos1",
+    "type": "ENCOUNTER",
+    "act": 4,
+    "layer": 1,
+    "position": 1,
+    "connections": ["act4_layer2_pos1", "act4_layer2_pos2"],
+    "content_id": "npc_lawrence_fisher",
+    "tooltip": "---- 小说扩充 ---- 劳伦斯·费希尔·在场感"
+  },
+  {
+    "node_id": "act4_layer2_pos0",
+    "type": "PUZZLE",
+    "act": 4,
+    "layer": 2,
+    "position": 0,
+    "connections": ["act4_layer3_pos0"],
+    "content_id": "pz_foundation_4_01",
+    "tooltip": "---- 小说扩充 ---- 基金会架构设计"
+  },
+  {
+    "node_id": "act4_layer2_pos1",
+    "type": "ENCOUNTER",
+    "act": 4,
+    "layer": 2,
+    "position": 1,
+    "connections": ["act4_layer3_pos0", "act4_layer3_pos1"],
+    "content_id": "npc_ink_man",
+    "tooltip": "---- 小说扩充 ---- 墨迹人·老屠宰场"
+  },
+  {
+    "node_id": "act4_layer2_pos2",
+    "type": "EVENT",
+    "act": 4,
+    "layer": 2,
+    "position": 2,
+    "connections": ["act4_layer3_pos1"],
+    "content_id": "evt_foundation_02",
+    "tooltip": "---- 小说扩充 ---- 基金会正式成立·2024.5.15"
+  },
+  {
+    "node_id": "act4_layer3_pos0",
+    "type": "REST",
+    "act": 4,
+    "layer": 3,
+    "position": 0,
+    "connections": ["act4_layer4_pos0"],
+    "content_id": "rst_act4_01",
+    "tooltip": "---- 小说扩充 ---- 基金会安全屋"
+  },
+  {
+    "node_id": "act4_layer3_pos1",
+    "type": "ENCOUNTER",
+    "act": 4,
+    "layer": 3,
+    "position": 1,
+    "connections": ["act4_layer4_pos0"],
+    "content_id": "npc_grace_ashcroft",
+    "tooltip": "---- 小说扩充 ---- 格蕾丝·阿什克罗夫特·收割者"
+  },
+  {
+    "node_id": "act4_layer4_pos0",
+    "type": "EVENT",
+    "act": 4,
+    "layer": 4,
+    "position": 0,
+    "connections": ["act5_layer0_pos0"],
+    "content_id": "evt_foundation_03",
+    "tooltip": "---- 小说扩充 ---- 鹪木旅馆·阴影降临"
+  },
+  {
+    "node_id": "act4_layer1_pos2",
+    "type": "ENCOUNTER",
+    "act": 4,
+    "layer": 1,
+    "position": 2,
+    "connections": ["act4_layer2_pos0"],
+    "content_id": "npc_eleanor_watson",
+    "tooltip": "---- 小说扩充 ---- 埃莉诺·沃森·法务"
+  },
+  {
+    "node_id": "act4_layer1_pos3",
+    "type": "ENCOUNTER",
+    "act": 4,
+    "layer": 1,
+    "position": 3,
+    "connections": ["act4_layer2_pos2"],
+    "content_id": "npc_saul",
+    "tooltip": "---- 小说扩充 ---- 索尔·财务"
+  },
+  {
+    "node_id": "act4_layer2_pos3",
+    "type": "SHOP",
+    "act": 4,
+    "layer": 2,
+    "position": 3,
+    "connections": ["act4_layer3_pos1"],
+    "content_id": "shp_act4_01",
+    "tooltip": "---- 小说扩充 ---- 基金会装备室"
+  },
+  {
+    "node_id": "act4_layer3_pos2",
+    "type": "PUZZLE",
+    "act": 4,
+    "layer": 3,
+    "position": 2,
+    "connections": ["act4_layer4_pos0"],
+    "content_id": "pz_inn_4_01",
+    "tooltip": "---- 小说扩充 ---- 鹪木旅馆·密室解谜"
+  },
+  {
+    "node_id": "act5_layer0_pos0",
+    "type": "EVENT",
+    "act": 5,
+    "layer": 0,
+    "position": 0,
+    "connections": ["act5_layer1_pos0", "act5_layer1_pos1"],
+    "content_id": "evt_inn_01",
+    "tooltip": "---- 小说扩充 ---- 鹪木旅馆·艾丽莎的遗产"
+  },
+  {
+    "node_id": "act5_layer1_pos0",
+    "type": "PUZZLE",
+    "act": 5,
+    "layer": 1,
+    "position": 0,
+    "connections": ["act5_layer2_pos0", "act5_layer2_pos1"],
+    "content_id": "pz_inn_5_01",
+    "tooltip": "---- 小说扩充 ---- 黑斑死亡·T病毒追踪"
+  },
+  {
+    "node_id": "act5_layer1_pos1",
+    "type": "EVENT",
+    "act": 5,
+    "layer": 1,
+    "position": 1,
+    "connections": ["act5_layer2_pos1", "act5_layer2_pos2"],
+    "content_id": "evt_inn_02",
+    "tooltip": "---- 小说扩充 ---- 罗德山疗养院"
+  },
+  {
+    "node_id": "act5_layer2_pos0",
+    "type": "ENCOUNTER",
+    "act": 5,
+    "layer": 2,
+    "position": 0,
+    "connections": ["act5_layer3_pos0"],
+    "content_id": "npc_edna_preston",
+    "tooltip": "---- 小说扩充 ---- 埃德娜·普雷斯顿·现实锚"
+  },
+  {
+    "node_id": "act5_layer2_pos1",
+    "type": "PUZZLE",
+    "act": 5,
+    "layer": 2,
+    "position": 1,
+    "connections": ["act5_layer3_pos0", "act5_layer3_pos1"],
+    "content_id": "pz_reality_5_01",
+    "tooltip": "---- 小说扩充 ---- 石溪镇图书馆·现实裂缝"
+  },
+  {
+    "node_id": "act5_layer2_pos2",
+    "type": "EVENT",
+    "act": 5,
+    "layer": 2,
+    "position": 2,
+    "connections": ["act5_layer3_pos1"],
+    "content_id": "evt_inn_03",
+    "tooltip": "---- 小说扩充 ---- 变异生物追击"
+  },
+  {
+    "node_id": "act5_layer3_pos0",
+    "type": "REST",
+    "act": 5,
+    "layer": 3,
+    "position": 0,
+    "connections": ["act5_layer4_pos0"],
+    "content_id": "rst_act5_01",
+    "tooltip": "---- 小说扩充 ---- 石溪镇·短暂安宁"
+  },
+  {
+    "node_id": "act5_layer3_pos1",
+    "type": "EVENT",
+    "act": 5,
+    "layer": 3,
+    "position": 1,
+    "connections": ["act5_layer4_pos0"],
+    "content_id": "evt_new_horizon_01",
+    "tooltip": "---- 小说扩充 ---- 新地平线生物科技·协议C"
+  },
+  {
+    "node_id": "act5_layer4_pos0",
+    "type": "EVENT",
+    "act": 5,
+    "layer": 4,
+    "position": 0,
+    "connections": ["act6_layer0_pos0"],
+    "content_id": "evt_anchor_01",
+    "tooltip": "---- 小说扩充 ---- 诸神黄昏·现实裂缝爆发"
+  },
+  {
+    "node_id": "act6_layer0_pos0",
+    "type": "EVENT",
+    "act": 6,
+    "layer": 0,
+    "position": 0,
+    "connections": ["act6_layer1_pos0", "act6_layer1_pos1"],
+    "content_id": "evt_anchor_02",
+    "tooltip": "---- 小说扩充 ---- 悖谬之塔·石溪镇图书馆"
+  },
+  {
+    "node_id": "act6_layer1_pos0",
+    "type": "ENCOUNTER",
+    "act": 6,
+    "layer": 1,
+    "position": 0,
+    "connections": ["act6_layer2_pos0", "act6_layer2_pos1"],
+    "content_id": "npc_falcone_maroni",
+    "tooltip": "---- 小说扩充 ---- 法尔科内·马罗尼·代理人"
+  },
+  {
+    "node_id": "act6_layer1_pos1",
+    "type": "ENCOUNTER",
+    "act": 6,
+    "layer": 1,
+    "position": 1,
+    "connections": ["act6_layer2_pos1", "act6_layer2_pos2"],
+    "content_id": "npc_maroni_falcone",
+    "tooltip": "---- 小说扩充 ---- 马罗尼·法尔科内·镜像审判者"
+  },
+  {
+    "node_id": "act6_layer2_pos0",
+    "type": "PUZZLE",
+    "act": 6,
+    "layer": 2,
+    "position": 0,
+    "connections": ["act6_layer3_pos0"],
+    "content_id": "pz_anchor_6_01",
+    "tooltip": "---- 小说扩充 ---- 蜂群传承·锚点编织"
+  },
+  {
+    "node_id": "act6_layer2_pos1",
+    "type": "EVENT",
+    "act": 6,
+    "layer": 2,
+    "position": 1,
+    "connections": ["act6_layer3_pos0", "act6_layer3_pos1"],
+    "content_id": "evt_anchor_03",
+    "tooltip": "---- 小说扩充 ---- 斯克兰顿现实稳定锚·连接裂缝"
+  },
+  {
+    "node_id": "act6_layer2_pos2",
+    "type": "PUZZLE",
+    "act": 6,
+    "layer": 2,
+    "position": 2,
+    "connections": ["act6_layer3_pos1"],
+    "content_id": "pz_mirror_6_01",
+    "tooltip": "---- 小说扩充 ---- 镜像对决·裁决vs审判"
+  },
+  {
+    "node_id": "act6_layer3_pos0",
+    "type": "REST",
+    "act": 6,
+    "layer": 3,
+    "position": 0,
+    "connections": ["act6_layer4_pos0"],
+    "content_id": "rst_act6_01",
+    "tooltip": "---- 小说扩充 ---- 裂缝边缘·最后的宁静"
+  },
+  {
+    "node_id": "act6_layer3_pos1",
+    "type": "EVENT",
+    "act": 6,
+    "layer": 3,
+    "position": 1,
+    "connections": ["act6_layer4_pos0"],
+    "content_id": "evt_anchor_04",
+    "tooltip": "---- 小说扩充 ---- 矮牵牛花的低语·图腾传承"
+  },
+  {
+    "node_id": "act6_layer4_pos0",
+    "type": "BOSS",
+    "act": 6,
+    "layer": 4,
+    "position": 0,
+    "connections": [],
+    "content_id": "npc_valkyrie",
+    "tooltip": "---- 小说扩充 ---- 斯克兰顿现实稳定锚·化为锚点"
+  }
+]

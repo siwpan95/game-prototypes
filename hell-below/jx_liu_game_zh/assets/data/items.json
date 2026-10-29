@@ -1,0 +1,231 @@
+{
+  "items": [
+    {
+      "id": "health_potion",
+      "name": "生命药水",
+      "description": "一瓶深红色液体，可恢复15点生命值。",
+      "item_type": "consumable",
+      "effect_id": "heal_15",
+      "value": 15,
+      "usable_in_combat": true,
+      "consumable": true
+    },
+    {
+      "id": "energy_potion",
+      "name": "能量药水",
+      "description": "一瓶噼啪作响的蓝色灵药，可提供2点能量。",
+      "item_type": "consumable",
+      "effect_id": "energy_2",
+      "value": 2,
+      "usable_in_combat": true,
+      "consumable": true
+    },
+    {
+      "id": "block_potion",
+      "name": "格挡药水",
+      "description": "一杯浓稠的灰色药液，可提供12点格挡。",
+      "item_type": "consumable",
+      "effect_id": "block_12",
+      "value": 12,
+      "usable_in_combat": true,
+      "consumable": true
+    },
+    {
+      "id": "rusty_key",
+      "name": "锈蚀钥匙",
+      "description": "一把锈迹斑斑的旧钥匙。也许能打开什么东西。",
+      "item_type": "key",
+      "effect_id": "",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "coded_message",
+      "name": "密文信笺",
+      "description": "一张写满奇异符号的破旧羊皮纸。",
+      "item_type": "clue",
+      "effect_id": "",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "ancient_talisman",
+      "name": "远古护符",
+      "description": "一枚护身符，可增加5点最大生命值。",
+      "item_type": "relic",
+      "effect_id": "max_hp_5",
+      "value": 5,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "demon_heart",
+      "name": "恶魔之心",
+      "description": "一颗仍在跳动的心脏，可增加2点攻击伤害。",
+      "item_type": "relic",
+      "effect_id": "attack_2",
+      "value": 2,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "shadow_cloak",
+      "name": "暗影斗篷",
+      "description": "一件由活体暗影编织的斗篷。每场战斗开始时获得3点格挡。",
+      "item_type": "relic",
+      "effect_id": "start_block_3",
+      "value": 3,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "_comment": "---- 小说扩充 ----",
+      "id": "heart_of_hell_fragment",
+      "name": "地狱之心碎片",
+      "description": "一块暗红色的骨质断层，触感如远古化石。上面刻着不可辨识的铭文。",
+      "item_type": "relic",
+      "effect_id": "resonance_reject",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "reverse_resonance_device",
+      "name": "逆向共振装置",
+      "description": "班纳博士设计的便携式频率干扰仪，可暂时隔绝骨骼共鸣的影响。",
+      "item_type": "relic",
+      "effect_id": "anti_resonance",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "registration_chip",
+      "name": "注册器",
+      "description": "一枚直径仅两毫米的微芯片，薄如蝉翼，表面刻着细密回路。可监测生物电信号并实时定位。",
+      "item_type": "key",
+      "effect_id": "",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "mutant_refuge_map",
+      "name": "变种人避难地图",
+      "description": "一份从X学院服务器上打印的加密地图，标注了全球变种人地下避难网的坐标。",
+      "item_type": "clue",
+      "effect_id": "",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "tony_arc_fragment",
+      "name": "托尼胸甲碎片",
+      "description": "马克系列胸甲的一枚碎片，边缘早已冷却。承载着一位已逝英雄最后的余温。",
+      "item_type": "relic",
+      "effect_id": "stark_legacy",
+      "value": 3,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "x_academy_badge",
+      "name": "X学院校徽",
+      "description": "一枚锈蚀的X标志徽章，来自格雷马林庄园的废墟。代表着变种人永不熄灭的希望。",
+      "item_type": "relic",
+      "effect_id": "x_hope",
+      "value": 5,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "dark_vein_spore",
+      "name": "暗纹孢子",
+      "description": "一种来自地底深处的微观颗粒，携带远古诅咒的残余频率。",
+      "item_type": "consumable",
+      "effect_id": "dark_power",
+      "value": 0,
+      "usable_in_combat": true,
+      "consumable": true
+    },
+    {
+      "id": "dragon_breath_elixir",
+      "name": "龙息灵药",
+      "description": "一瓶散发金色微光的灵药，蕴含昆仑铁拳的气之残韵。恢复20点生命并抽2张牌。",
+      "item_type": "consumable",
+      "effect_id": "dragon_heal_20_draw_2",
+      "value": 20,
+      "usable_in_combat": true,
+      "consumable": true
+    },
+    {
+      "_comment": "---- 小说扩充 Phase3 ----",
+      "id": "wujie_door_key",
+      "name": "无界铁门钥匙",
+      "description": "三百斤铁门的钥匙。无界健身馆永远不关门——但如果你需要锁上它，这是唯一的钥匙。",
+      "item_type": "key",
+      "effect_id": "",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false
+    },
+    {
+      "id": "ancient_anchor_shard",
+      "name": "远古之锚碎片",
+      "description": "一块暗金色的骨质碎片，来自哈德逊河底最深层。它曾是封印地狱之心的锚点之一，如今只剩残余频率。",
+      "item_type": "relic",
+      "effect_id": "anchor_resonance",
+      "value": 3,
+      "usable_in_combat": false,
+      "consumable": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "dragon_breath_elixir_upgrade",
+      "name": "龙息灵药·加强",
+      "description": "丹尼·兰德用龙息重新炼制的灵药，金色微光更加凝练。恢复30点生命并抽3张牌。",
+      "item_type": "consumable",
+      "effect_id": "dragon_heal_30_draw_3",
+      "value": 30,
+      "usable_in_combat": true,
+      "consumable": true,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "seal_bearing_upgraded",
+      "name": "封印轴承·加强",
+      "description": "经过龙息修复的封印轴承，三道铭文完整再现：以血为引、以魂为薪、缚此地将。在封印修复时效果加倍。",
+      "item_type": "relic",
+      "effect_id": "seal_bearing_enhanced",
+      "value": 8,
+      "usable_in_combat": false,
+      "consumable": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "defender_badge",
+      "name": "捍卫者徽章",
+      "description": "一枚由马特·默多克亲手刻制的铜质徽章，正面是纽约天际线，背面刻着四个字：共赴无悔。",
+      "item_type": "relic",
+      "effect_id": "defender_unity",
+      "value": 5,
+      "usable_in_combat": false,
+      "consumable": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "zemo_file",
+      "name": "泽莫档案",
+      "description": "一份详细记录索科维亚协议'睡眠传输'秘密条款的机密文件。泽莫用它证明了法律的另一面——那些被写入却从未被宣读的条文。",
+      "item_type": "clue",
+      "effect_id": "",
+      "value": 0,
+      "usable_in_combat": false,
+      "consumable": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    }
+  ]
+}

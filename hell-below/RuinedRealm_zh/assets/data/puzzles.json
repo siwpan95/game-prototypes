@@ -1,0 +1,70 @@
+{
+  "puzzles": [
+    {
+      "id": "puzzle_L0_6",
+      "solution": "delete",
+      "hints": [
+        "当你按下删除键时，数据会怎样？它并不会真正消失……",
+        "想想被删除的东西去了哪里。你就站在那个地方。",
+        "答案是回收器做的事。那个动词。那个动作。"
+      ],
+      "reward": "lightbulb",
+      "max_attempts": 3
+    },
+    {
+      "id": "puzzle_L1_4",
+      "solution": "firewall",
+      "hints": [
+        "什么既保护又囚禁？",
+        "在数字世界中，这道屏障会灼烧未经邀请就试图通过的人。",
+        "城隍庙就是用这种安全措施的残骸建造的。"
+      ],
+      "reward": "cable",
+      "max_attempts": 3
+    },
+    {
+      "id": "puzzle_L2_3",
+      "solution": "recycle",
+      "hints": [
+        "回收器对墟境中的一切做了什么？",
+        "这里没有什么是真正被摧毁的。它只是……被处理了。",
+        "数字存在的循环：删除、处理、重复。"
+      ],
+      "reward": "firewall_shard",
+      "max_attempts": 3
+    },
+    {
+      "id": "puzzle_L2_8",
+      "solution": "balance",
+      "hints": [
+        "天平需要平衡。四种颜色代表四种记忆。",
+        "白色是天真，黑色是痛苦，金色是承诺，蓝色是回溯。",
+        "把最重的放在左边，最轻的放在右边，其余均分。答案是\u201cbalance\u201d——天平的本质。"
+      ],
+      "reward": "block_blue",
+      "max_attempts": 3
+    },
+    {
+      "id": "puzzle_L3_1",
+      "solution": "YanLuo",
+      "hints": [
+        "一百级台阶，每一级都是一个名字的字母。",
+        "阎罗王管理这里的一切。他的名字就是钥匙。",
+        "从第100级往上读：Y-A-N-L-U-O。答案是他的名字。"
+      ],
+      "reward": "crow_feather",
+      "max_attempts": 3
+    },
+    {
+      "id": "puzzle_recipe",
+      "solution": "soup",
+      "hints": [
+        "菜谱用COBOL和FORTRAN写成，但最后一页是空白的。",
+        "孟姐说：\u201c真正的汤，不是让人遗忘，而是让做汤的人记得。\u201d",
+        "一碗汤需要什么？盐、水、火、还有……答案是一个简单的英文单词。"
+      ],
+      "reward": "recipe",
+      "max_attempts": 3
+    }
+  ]
+}

@@ -1,0 +1,1240 @@
+{
+  "encounters": [
+    {
+      "id": "enc_shadow_ambush",
+      "name": "暗影伏击",
+      "encounter_type": "combat",
+      "description": "暗影凝聚，从黑暗中向你袭来！",
+      "enemy_ids": [
+        "shadow_lurker",
+        "wailing_spirit"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_hellhound_pack",
+      "name": "地狱犬群",
+      "encounter_type": "combat",
+      "description": "一群地狱犬挡住了你的去路，眼中燃烧着炼狱之火。",
+      "enemy_ids": [
+        "hellhound",
+        "hellhound"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_iron_wraith",
+      "name": "铁甲亡灵",
+      "encounter_type": "combat",
+      "description": "一个身披铠甲的亡灵从地面升起，手执兵器。",
+      "enemy_ids": [
+        "iron_wraith"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_lost_souls",
+      "name": "迷失之魂",
+      "encounter_type": "combat",
+      "description": "哀号之魂从墙壁中伸出双手，拼命要拉你一同坠入深渊。",
+      "enemy_ids": [
+        "lost_soul",
+        "lost_soul",
+        "wailing_spirit"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_flayed_ones",
+      "name": "剥皮者",
+      "encounter_type": "combat",
+      "description": "皮囊紧绷在不可能的身形上的怪物向你蹒跚而来。",
+      "enemy_ids": [
+        "flayed_one",
+        "flayed_one"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_corrupted_monk",
+      "name": "堕化武僧",
+      "encounter_type": "elite",
+      "description": "一个被黑暗扭曲了武艺的武僧挡在你面前。",
+      "enemy_ids": [
+        "corrupted_monk"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        2,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true
+    },
+    {
+      "id": "enc_demon_blade",
+      "name": "魔刃",
+      "encounter_type": "elite",
+      "description": "一把被附魔的武器在空中飞舞，渴望着鲜血。",
+      "enemy_ids": [
+        "demon_blade"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        3,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true
+    },
+    {
+      "id": "enc_kingpin",
+      "name": "霸主",
+      "encounter_type": "boss",
+      "description": "冥界霸主从骨座上站起。他的领地到此为止，或者你的到此为止。",
+      "enemy_ids": [
+        "kingpin"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        6,
+        6
+      ],
+      "is_boss": true,
+      "is_elite": false
+    },
+    {
+      "id": "enc_fractured_mirror",
+      "name": "破碎倒影",
+      "encounter_type": "combat",
+      "description": "你自己的倒影从碎镜中走出，眼中燃烧着恶意。",
+      "enemy_ids": [
+        "fractured_mirror"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_abyss_crawlers",
+      "name": "深渊爬行者",
+      "encounter_type": "combat",
+      "description": "长着太多腿的东西从墙壁的裂缝中爬出。",
+      "enemy_ids": [
+        "abyss_crawler",
+        "phantom_thief"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_void_stalker",
+      "name": "虚空猎手",
+      "encounter_type": "elite",
+      "description": "在维度之间猎食的东西嗅到了你的气息。",
+      "enemy_ids": [
+        "void_stalker"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        2,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true
+    },
+    {
+      "id": "enc_nightmare_weaver",
+      "name": "梦魇编织者",
+      "encounter_type": "elite",
+      "description": "一只纯由噩梦构成的蜘蛛在你的路上织出绝望之网。",
+      "enemy_ids": [
+        "nightmare_weaver"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true
+    },
+    {
+      "id": "enc_corrupted_vision",
+      "name": "堕落幻象",
+      "encounter_type": "boss",
+      "description": "堕落幻象——这个破碎领域的裂碎神灵——降临。现实在它周围扭曲。",
+      "enemy_ids": [
+        "corrupted_vision"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        6,
+        6
+      ],
+      "is_boss": true,
+      "is_elite": false
+    },
+    {
+      "id": "enc_puzzle_rune",
+      "name": "符文之门",
+      "encounter_type": "puzzle",
+      "description": "一扇刻满古老符文的封闭大门挡住了你的去路。",
+      "enemy_ids": [],
+      "puzzle_id": "puzzle_rune_cipher",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        1,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_puzzle_sequence",
+      "name": "数字之锁",
+      "encounter_type": "puzzle",
+      "description": "一把机械锁显示着一串数字。下一个是什么？",
+      "enemy_ids": [],
+      "puzzle_id": "puzzle_number_sequence",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        2,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_dialog_old_man",
+      "name": "老看守者",
+      "encounter_type": "dialog",
+      "description": "一个古老的人在黑暗中守着一团小小的火焰。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_old_keeper",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_dialog_ghost",
+      "name": "幽魂低语",
+      "encounter_type": "dialog",
+      "description": "一个半透明的身影向你招手，声音几乎不可闻。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_ghostly_whisper",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        1,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_dialog_rebel",
+      "name": "叛逆者",
+      "encounter_type": "dialog",
+      "description": "一个满身伤疤的战士从阴影中现身，举手致意。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_rebel",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_optimizer_lab",
+      "name": "优化者实验室",
+      "encounter_type": "combat",
+      "description": "你进入了金并的优化者实验室，铁床上躺着失败的实验体……",
+      "enemy_ids": [
+        "optimizer_soldier",
+        "optimizer_soldier"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        0,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_hand_ninja_ambush",
+      "name": "手合会伏击",
+      "encounter_type": "combat",
+      "description": "阴影中闪出数道黑影，手合会忍者无声地逼近。",
+      "enemy_ids": [
+        "hand_ninja",
+        "hand_ninja",
+        "hand_ninja"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        1,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_dark_vein_outbreak",
+      "name": "暗纹感染潮",
+      "encounter_type": "combat",
+      "description": "地下涌出的暗纹孢子将恐惧化作武器，感染者不再分辨敌友。",
+      "enemy_ids": [
+        "dark_vein_infected",
+        "dark_vein_infected"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_sentinel_patrol",
+      "name": "哨兵巡逻队",
+      "encounter_type": "elite",
+      "description": "拉脱维亚的废弃工事中，哨兵的红色眼瞳正在苏醒……",
+      "enemy_ids": [
+        "sentinel_prototype"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_pandora_armor",
+      "name": "潘多拉装甲",
+      "encounter_type": "elite",
+      "description": "一台从沃特国际废弃仓库中启动的实验型装甲挡住了去路。",
+      "enemy_ids": [
+        "pandora_armor"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        4,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_kingpin_dark_vein",
+      "name": "金并·暗纹强化",
+      "encounter_type": "boss",
+      "description": "冥界霸主吞下了暗纹孢子的残液，他的身形比记忆中更大、更暗。",
+      "enemy_ids": [
+        "kingpin_enhanced"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        6,
+        6
+      ],
+      "is_boss": true,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_ragnar",
+      "name": "仿造雷霆",
+      "encounter_type": "boss",
+      "description": "一道雷光从天而降——不是雷神。是拉格纳，一具没有灵魂的躯壳，握着被科技仿造的妙尔尼尔。",
+      "enemy_ids": [
+        "heavenly_emperor"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        2,
+        4
+      ],
+      "is_boss": true,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_void_plague",
+      "name": "虚空瘟疫",
+      "encounter_type": "combat",
+      "description": "恐惧从太空深处发射到地球，被感染者的身体正在从内向外变形。",
+      "enemy_ids": [
+        "dark_vein_infected",
+        "dark_vein_infected",
+        "optimizer_soldier"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        0,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_hudson_underground",
+      "name": "哈德逊河地下",
+      "encounter_type": "combat",
+      "description": "哈德逊河下的黑暗中，远古的振动正在召唤……",
+      "enemy_ids": [
+        "dark_vein_infected",
+        "iron_wraith"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        1,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_x_academy_defense",
+      "name": "X学院保卫战",
+      "encounter_type": "elite",
+      "description": "格雷马林庄园的废墟上，X学院重新开放了。但哨兵正在靠近。",
+      "enemy_ids": [
+        "sentinel_prototype",
+        "hand_ninja"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        3,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_latvia_fortress",
+      "name": "拉脱维亚工事",
+      "encounter_type": "combat",
+      "description": "拉脱维亚的废弃工事中，哨兵的红色眼瞳正在苏醒……",
+      "enemy_ids": [
+        "optimizer_soldier",
+        "sentinel_prototype"
+      ],
+      "puzzle_id": "puzzle_gene_scan",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        2,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_wacht_tower",
+      "name": "沃特大厦",
+      "encounter_type": "elite",
+      "description": "沃特国际大厦的玻璃幕墙后，新星计划的灯光永不熄灭。",
+      "enemy_ids": [
+        "pandora_armor",
+        "optimizer_soldier"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        4,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": true,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_dialog_liu",
+      "name": "刘敬宣",
+      "encounter_type": "dialog",
+      "description": "一个身影站在铁桩上，二指倒立。他在等你。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_liu_jingxuan",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_dialog_peter",
+      "name": "彼得·帕克",
+      "encounter_type": "dialog",
+      "description": "一个蹲在沙袋下面系鞋带的年轻人，面罩搁在膝盖上。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_peter_parker",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_dialog_sam",
+      "name": "山姆·威尔逊",
+      "encounter_type": "dialog",
+      "description": "振金盾牌靠在倒立桩边缘，它的主人没有穿制服，但站姿是军人的。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_sam_wilson",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        0,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_dialog_deadpool",
+      "name": "死侍",
+      "encounter_type": "dialog",
+      "description": "铁门被一脚踢开了。一个红黑相间的身影站在门口，一手拿着墨西哥卷饼。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_deadpool",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        3,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_dialog_white_vision",
+      "name": "白幻视",
+      "encounter_type": "dialog",
+      "description": "一道白色的身影从天而降，落在铁门前的雪地上。他拒绝坐下。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_white_vision",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        4,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_puzzle_bone",
+      "name": "骨质密码",
+      "encounter_type": "puzzle",
+      "description": "一块从哈德逊河底捞出的骨质断层上刻满了无法辨识的古老符号。",
+      "enemy_ids": [],
+      "puzzle_id": "puzzle_bone_cipher",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        2,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_puzzle_x_lock",
+      "name": "X学院密码锁",
+      "encounter_type": "puzzle",
+      "description": "X学院大门上安装了一套只有变种人基因才能解锁的复合密码系统。",
+      "enemy_ids": [],
+      "puzzle_id": "puzzle_x_academy_lock",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        2,
+        6
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "id": "enc_puzzle_seal",
+      "name": "封印修复",
+      "encounter_type": "puzzle",
+      "description": "哈德逊河底的远古封印正在松动，需要以正确顺序重新排列符文石。",
+      "enemy_ids": [],
+      "puzzle_id": "puzzle_seal_repair",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        1,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 ----"
+    },
+    {
+      "_comment": "---- 小说扩充 Phase3 ----",
+      "id": "enc_intro_snapture",
+      "name": "烁灭危机",
+      "encounter_type": "event",
+      "description": "无界健身馆的铁桩上，刘敬宣二指倒立。世界突然安静了一半——烁灭发生了。他感知到“缺席”，灵雪从体内涌出，铁桩凹陷。他念出：“吾与汝等——共赴！”",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "一半人口消失。铁门仍在。灵雪涌出。你念出了那四个字。",
+      "choices": [
+        {
+          "text": "吾与汝等——共赴！",
+          "effects": [
+            {
+              "type": "add_card",
+              "card_id": "spirit_snow_upgraded"
+            },
+            {
+              "type": "add_flag",
+              "flag": "snapture_survivor"
+            },
+            {
+              "type": "heal",
+              "amount": 10
+            }
+          ]
+        },
+        {
+          "text": "沉默。只是沉默。",
+          "effects": [
+            {
+              "type": "add_flag",
+              "flag": "snapture_silent"
+            },
+            {
+              "type": "gold",
+              "amount": 20
+            }
+          ]
+        }
+      ],
+      "act": 1,
+      "episode_range": [
+        0,
+        0
+      ],
+      "is_boss": false,
+      "is_elite": false
+    },
+    {
+      "id": "enc_skyline_battle",
+      "name": "天台首战",
+      "encounter_type": "combat",
+      "description": "三人登上曼哈顿天台，金并的改造士兵正从对面建筑跃来。风很大。灯很暗。这是刘敬宣与彼得并肩的第一战。",
+      "enemy_ids": [
+        "optimizer_soldier",
+        "optimizer_elite"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        1,
+        2
+      ],
+      "is_boss": false,
+      "is_elite": true,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_underground_lab",
+      "name": "地下实验室",
+      "encounter_type": "combat",
+      "description": "哈德逊河下的废弃核避难所深处，班纳的扫描仪探测到了生命信号。不是人类的——是失败的实验体。",
+      "enemy_ids": [
+        "dark_vein_infected",
+        "optimizer_soldier"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        2,
+        3
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_human_factory",
+      "name": "人体工厂",
+      "encounter_type": "combat",
+      "description": "十六张铁床整齐排列，每一张上面都绑着一具失败的改造品。墙上的监测仪器还在闪烁——这里仍在运作。",
+      "enemy_ids": [
+        "optimizer_elite",
+        "optimizer_soldier",
+        "optimizer_soldier"
+      ],
+      "puzzle_id": "puzzle_seal_frequency",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        2,
+        3
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_harlem_k9",
+      "name": "哈林区遭遇战",
+      "encounter_type": "combat",
+      "description": "哈林区理发店外，一只机械战犬从阴影中扑出，背脊上的暗纹正在扩散。卢克·凯奇挡在了前面。",
+      "enemy_ids": [
+        "optimizer_k9"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": true,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_pandora_osborn_attack",
+      "name": "奥斯本突袭",
+      "encounter_type": "boss",
+      "description": "诺曼·奥斯本驾驶“潘多拉”装甲从天而降，地面震裂。捍卫者必须同时应对地面和地下的威胁。",
+      "enemy_ids": [
+        "pandora_osborn"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": true,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_surface_battle",
+      "name": "地面捍卫战",
+      "encounter_type": "combat",
+      "description": "马特、卢克、彼得、弗兰克在地面上与手合会、靶眼和奥斯本的部队展开巷战。曼哈顿的天际线在燃烧。",
+      "enemy_ids": [
+        "hand_ninja",
+        "hand_ninja",
+        "bullseye"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": true,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_underground_heart",
+      "name": "地狱之心·核心",
+      "encounter_type": "boss",
+      "description": "杰茜卡、丹尼、刘敬宣深入地下。地狱之心的核心正在脉动，封印锁链断裂。丹尼用龙息修补锁链，刘敬宣以肉身为支点——封印。",
+      "enemy_ids": [
+        "kingpin_enhanced"
+      ],
+      "puzzle_id": "puzzle_seal_chain",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": true,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_salvage_team",
+      "name": "装甲残骸回收队",
+      "encounter_type": "combat",
+      "description": "山姆追踪金并装甲残骸回收队至码头。九头蛇残部正在回收暗纹技术——战争机器的引擎声划破夜空。",
+      "enemy_ids": [
+        "hydra_remnant",
+        "hydra_remnant",
+        "optimizer_soldier"
+      ],
+      "puzzle_id": "",
+      "dialog_id": "",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        4,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_un_committee",
+      "name": "联合国换届会议",
+      "encounter_type": "event",
+      "description": "联合国大厅。金并正在提交《纽约超人类活动管理特别条例》。山姆推门而入——“谁愿意站在这位市长对面？”",
+      "enemy_ids": [],
+      "puzzle_id": "puzzle_legal_loophole",
+      "dialog_id": "dialog_valentina",
+      "event_text": "法案附则第三十七条：所有超人类须在72小时内接受注册芯片植入。马特·默多克逐条反驳。",
+      "choices": [
+        {
+          "text": "逐条反驳——法律的漏洞就是我们的武器。",
+          "effects": [
+            {
+              "type": "add_card",
+              "card_id": "stand_guard"
+            },
+            {
+              "type": "add_flag",
+              "flag": "bill_rejected"
+            },
+            {
+              "type": "gold",
+              "amount": 30
+            }
+          ]
+        },
+        {
+          "text": "非致命缴械——让弗兰克去处理安保。",
+          "effects": [
+            {
+              "type": "add_flag",
+              "flag": "frank_disarm"
+            },
+            {
+              "type": "heal",
+              "amount": 15
+            }
+          ]
+        }
+      ],
+      "act": 3,
+      "episode_range": [
+        5,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_banner_lab",
+      "name": "班纳实验室",
+      "encounter_type": "dialog",
+      "description": "一间被铅板包裹的地下实验室，布鲁斯·班纳正在调试逆向共振装置。他的眼镜上反射着频率图谱。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_banner_lab",
+      "event_text": "",
+      "choices": [],
+      "act": 1,
+      "episode_range": [
+        1,
+        2
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_ran_min_dream",
+      "name": "冉闵之梦",
+      "encounter_type": "dialog",
+      "description": "在哈德逊河底的暗纹共振中，刘敬宣的意识被拉入千年前的邺城。屠城之火，冉闵之怒，武悼天王最后的怒吼。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_ran_min_dream",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        2,
+        3
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_daredevil",
+      "name": "夜魔侠",
+      "encounter_type": "dialog",
+      "description": "地狱厨房的暗巷中，一个盲人律师站在雨里。他的耳朵在听整条街的呼吸。“我需要你的耳朵。”刘敬宣说。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_daredevil_recruit",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_jessica",
+      "name": "杰茜卡·琼斯",
+      "encounter_type": "dialog",
+      "description": "_alias调查所的门牌歪着。杰茜卡·琼斯坐在办公桌后面，威士忌瓶比案卷还多。“我听到了地下的呼吸声。”她说。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_jessica_recruit",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_luke_cage",
+      "name": "卢克·凯奇",
+      "encounter_type": "dialog",
+      "description": "哈林区理发店。一个男人坐在转椅上，围布还没解开。他的皮肤在钨丝灯下闪着钢铁般的光泽。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_luke_cage_recruit",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_iron_fist",
+      "name": "铁拳归来",
+      "encounter_type": "dialog",
+      "description": "昆仑的山门在身后关闭。丹尼·兰德赤足踏上纽约的积雪，拳头中仍残留着龙息的余温。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_iron_fist_return",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_punisher",
+      "name": "惩罚者",
+      "encounter_type": "dialog",
+      "description": "仓库角落。一个男人在擦拭一把不需要擦拭的步枪。他抬头看了你一眼——那一眼比枪口还冷。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_punisher_join",
+      "event_text": "",
+      "choices": [],
+      "act": 2,
+      "episode_range": [
+        3,
+        4
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_zemo",
+      "name": "泽莫",
+      "encounter_type": "dialog",
+      "description": "废墟中央。一个男人摘下了紫色面罩，将一份文件放在碎砖上。泽莫——索科维亚的幽灵——就在你面前。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_zemo_reveal",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        4,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_steve_rogers",
+      "name": "老史蒂夫",
+      "encounter_type": "dialog",
+      "description": "瓦坎达的阳光照进一间草屋。一个白发老人坐在门廊上，身旁放着一面褪色的旧盾。他不再年轻，但坐姿是军人的。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_steve_rogers",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        4,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    },
+    {
+      "id": "enc_dialog_valentina",
+      "name": "瓦伦蒂娜",
+      "encounter_type": "dialog",
+      "description": "一个穿深色套装的女人站在联合国外交厅的阴影中。她的眼神比她的口红更锋利。瓦伦蒂娜——她带来了金并立法计划的全部情报。",
+      "enemy_ids": [],
+      "puzzle_id": "",
+      "dialog_id": "dialog_valentina",
+      "event_text": "",
+      "choices": [],
+      "act": 3,
+      "episode_range": [
+        5,
+        5
+      ],
+      "is_boss": false,
+      "is_elite": false,
+      "_comment": "---- 小说扩充 Phase3 ----"
+    }
+  ]
+}

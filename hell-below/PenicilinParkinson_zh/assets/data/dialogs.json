@@ -1,0 +1,380 @@
+[
+  {
+    "id": "sh_intro",
+    "character": "sh_npc",
+    "trigger": "first_combat_victory",
+    "lines": [
+      {"speaker": "S.H.", "text": "你打得不错，陌生人。但仅凭蛮力拯救不了西部。"},
+      {"speaker": "S.H.", "text": "盘尼西林骑士团曾守护这片土地。铁拳团毁灭了他们。"},
+      {"speaker": "S.H.", "text": "我一直在观察你。你的右手……承载着古老的力量。"},
+      {"speaker": "S.H.", "text": "找到密码碎片。破译真相。唯有如此，骑士团才能重生。"}
+    ]
+  },
+  {
+    "id": "sh_act1_end",
+    "character": "sh_npc",
+    "trigger": "act1_boss_defeated",
+    "lines": [
+      {"speaker": "S.H.", "text": "收藏家已倒，但他不过是一枚棋子。"},
+      {"speaker": "S.H.", "text": "真正的敌人在前方。铁拳团对沙漠之路的掌控正在收紧。"},
+      {"speaker": "S.H.", "text": "你现在携带着更多密码碎片了。信息变得越来越清晰。"},
+      {"speaker": "S.H.", "text": "继续前行，枪手。骑士们指望你了。"}
+    ]
+  },
+  {
+    "id": "ezekiel_meeting",
+    "character": "ezekiel_npc",
+    "trigger": "act2_start",
+    "lines": [
+      {"speaker": "以西结", "text": "又一个敢于穿越沙漠之路的灵魂。"},
+      {"speaker": "以西结", "text": "我曾为骑士团担任抄写员。在铁拳降临之前。"},
+      {"speaker": "以西结", "text": "我将密码碎片藏在了沙漠各处。它们必须被找到。"},
+      {"speaker": "以西结", "text": "小心铁拳团。他们的队长以恐怖统治着这片沙地。"}
+    ]
+  },
+  {
+    "id": "doc_holliday_tavern",
+    "character": "doc_holliday_npc",
+    "trigger": "tavern_visit",
+    "lines": [
+      {"speaker": "霍利迪医生", "text": "哦，一个持枪的骑士。好久没见到了。"},
+      {"speaker": "霍利迪医生", "text": "我对密码和暗号不感兴趣。我更爱威士忌和快枪。"},
+      {"speaker": "霍利迪医生", "text": "但我可以免费告诉你一件事——铁拳团在害怕什么。"},
+      {"speaker": "霍利迪医生", "text": "恐惧的人会犯错。善加利用。"}
+    ]
+  },
+  {
+    "id": "seer_prophecy",
+    "character": "the_seer_npc",
+    "trigger": "prophet_crossroads",
+    "lines": [
+      {"speaker": "先知", "text": "我预见了你的到来，枪手。右手之力在你体内燃烧。"},
+      {"speaker": "先知", "text": "三条道路摆在你面前：重生、救赎、或毁灭。"},
+      {"speaker": "先知", "text": "密码碎片握着钥匙。收集它们全部，骑士团将重新崛起。"},
+      {"speaker": "先知", "text": "但救赎之路……需要的不仅仅是知识。"},
+      {"speaker": "先知", "text": "明智地选择吧。西部的命运系于你的右手。"}
+    ]
+  },
+  {
+    "id": "knight_ghost_memorial",
+    "character": "knight_ghost_npc",
+    "trigger": "knights_memorial",
+    "lines": [
+      {"speaker": "骑士之魂", "text": "你携带着我们的密码。我们的信条。我们的灵魂。"},
+      {"speaker": "骑士之魂", "text": "我们之所以覆灭，是因为轻信。铁拳团策反了我们自己人。"},
+      {"speaker": "骑士之魂", "text": "若你想成为骑士，仅有力量是不够的。"},
+      {"speaker": "骑士之魂", "text": "你必须完整。身心皆然。守护你的完整度。"},
+      {"speaker": "骑士之魂", "text": "你收集的碎片是我们的传承。不要让它们再次失落。"}
+    ]
+  },
+  {
+    "id": "fist_captain_pre_combat",
+    "character": "fist_captain_npc",
+    "trigger": "act2_boss_combat",
+    "lines": [
+      {"speaker": "铁拳队长", "text": "哦，自封的骑士来了。"},
+      {"speaker": "铁拳队长", "text": "我亲手粉碎了西部分会的骑士团。"},
+      {"speaker": "铁拳队长", "text": "你的右手完整度在铁拳面前毫无意义！"},
+      {"speaker": "铁拳队长", "text": "准备加入你们骑士团的亡魂吧！"}
+    ]
+  },
+  {
+    "id": "iron_fist_leader_pre_combat",
+    "character": "iron_fist_leader_npc",
+    "trigger": "act3_boss_combat",
+    "lines": [
+      {"speaker": "铁拳首领", "text": "终于。那个想成为骑士的枪手。"},
+      {"speaker": "铁拳首领", "text": "你知道我为何要毁灭他们吗？因为他们的信条就是软弱。"},
+      {"speaker": "铁拳首领", "text": "密码碎片？远古秘密？在绝对力量面前毫无意义。"},
+      {"speaker": "铁拳首领", "text": "你的完整度已经在崩塌。我在你手上看得一清二楚。"},
+      {"speaker": "铁拳首领", "text": "让我完成未竟之事。骑士团在此终结！"}
+    ]
+  },
+  {
+    "id": "ezekiel_hawthorn_intro",
+    "character": "ezekiel_hawthorn_npc",
+    "trigger": "grey_wolf_tavern",
+    "lines": [
+      {"speaker": "以西结", "text": "霍桑爵士是我的导师，也是我的养父。他派我去送信，我因此逃过一劫。"},
+      {"speaker": "以西结", "text": "这个空枪套是你三十五年前留给他的。你说，等你配得上它了，你会回来取。"},
+      {"speaker": "以西结", "text": "信的背面有四个字母——F.I.S.T. 他让我告诉你：'白石雪寒'。"},
+      {"speaker": "以西结", "text": "我拔枪的速度不慢，但面对夜行者……我连他的影子都没看清。"}
+    ]
+  },
+  {
+    "id": "wilson_grey_confession",
+    "character": "wilson_grey_npc",
+    "trigger": "blackwater_stronghold",
+    "lines": [
+      {"speaker": "威尔逊", "text": "我只是一个最底层的联络人，连拿枪的资格都没有……"},
+      {"speaker": "威尔逊", "text": "我老婆在巴尔的摩做裁缝，她会做嵌珠子的婚纱。三年没见了。"},
+      {"speaker": "威尔逊", "text": "我哥就是在双旗镇附近失踪的。铁拳档案里打了红叉——'建议绕行'。"},
+      {"speaker": "威尔逊", "text": "我是个小人物。但小人物也是人。"}
+    ]
+  },
+  {
+    "id": "haige_blade",
+    "character": "haige_npc",
+    "trigger": "double_flag_inn",
+    "lines": [
+      {"speaker": "孩哥", "text": "这两柄刀是我爹留给我的。从旗杆底下挖出来的。"},
+      {"speaker": "孩哥", "text": "瘸子说，我爹死在了路上。但一刀仙临死前告诉我——我爹死在客栈后厨。"},
+      {"speaker": "孩哥", "text": "无极刀法第三式——红旗卷沙。这一刀不是为了杀人，是为了把人从刀锋手里救回来。"},
+      {"speaker": "孩哥", "text": "真正的刀法，不允许两个人同时在面前受伤。"}
+    ]
+  },
+  {
+    "id": "kelly_victoria_archive",
+    "character": "kelly_bradford_npc",
+    "trigger": "indigo_street_archive",
+    "lines": [
+      {"speaker": "凯莉", "text": "四号仓库不是铁拳的分舵——它以前是关人质的地方。关的是那些见过不该见的东西的人。"},
+      {"speaker": "凯莉", "text": "这份病历的收治日期是一八五五年。病人声称有人要她在某个坐标上建造建筑物。"},
+      {"speaker": "维多利亚", "text": "格蕾丝·马洛莉——她是我的祖母。铁拳用她换了一座桥的地基。"},
+      {"speaker": "凯莉", "text": "这份档案记录的不是精神病。是铁拳。"}
+    ]
+  },
+  {
+    "id": "lafontaine_duel",
+    "character": "lafontaine_npc",
+    "trigger": "crescent_moon_ferry",
+    "lines": [
+      {"speaker": "拉方丹", "text": "我妹妹没死在红石镇——她因为偷了铁拳的面粉，被巴雷特亲自下令勒毙。"},
+      {"speaker": "拉方丹", "text": "我从松林镇档案室偷走了骑兵团阵亡者的坐标名单，寄给了联邦调查局。铁拳从那时起追杀我。"},
+      {"speaker": "拉方丹", "text": "这把剑不是为了救铁拳才挥，是为了杀巴雷特才练成今天这一步。"},
+      {"speaker": "拉方丹", "text": "跪下不算完。起来。"}
+    ]
+  },
+  {
+    "id": "ma_linchang_reveal",
+    "character": "ma_linchang_npc",
+    "trigger": "grey_wolf_tavern",
+    "lines": [
+      {"speaker": "马麟长", "text": "心弹，三十年不用，一出手还是这么利索。不愧是当年和霍桑爵士齐名的圣枪男爵。"},
+      {"speaker": "马麟长", "text": "枪已出，速备战。——S.H."},
+      {"speaker": "马麟长", "text": "Sacred Haunting。神佑的冤魂。三十年前在血泊中假死逃生的第十二个骑士。"},
+      {"speaker": "马麟长", "text": "去吧，老伙计。我在这里等了你三十年，不差这最后几天。"}
+    ]
+  },
+  {
+    "id": "eastwood_silence",
+    "character": "eastwood_npc",
+    "trigger": "tumbleweed_town",
+    "lines": [
+      {"speaker": "伊斯特伍德", "text": "……"},
+      {"speaker": "伊斯特伍德", "text": "现在你正好有八个，还差四个。"},
+      {"speaker": "伊斯特伍德", "text": "你的枪法和我见过的人都不一样。那不是手上的功夫，是心里的。"},
+      {"speaker": "伊斯特伍德", "text": "有些事拂不去。就像这密西西比河的水，你可以在岸上走二十年，但水流永远在你脚下。"}
+    ]
+  },
+  {
+    "id": "night_walker_challenge",
+    "character": "night_walker_npc",
+    "trigger": "grey_wolf_tavern",
+    "lines": [
+      {"speaker": "夜行者", "text": "帕金森男爵，三十年不见，你的鼻子还是这么灵。"},
+      {"speaker": "夜行者", "text": "三十年前，霍桑替你挡了第一刀。如今霍桑死了，承诺自然作废。"},
+      {"speaker": "夜行者", "text": "枪斗术——'心弹'。你竟然练成了。霍桑那个老东西一直说这只是传说……"},
+      {"speaker": "夜行者", "text": "你骗过了所有人。但骗不过铁拳。"}
+    ]
+  },
+  {
+    "id": "moss_sheriff_law_dialog",
+    "character": "moss_sheriff_npc",
+    "trigger": "crescent_moon_ferry",
+    "lines": [
+      {"speaker": "莫斯", "text": "退休法警，退休的规矩——谁杀人，我杀谁。"},
+      {"speaker": "莫斯", "text": "松林镇三百二十七具阵亡者的遗体，铁拳放火之后留下的那股味道——我这辈子都忘不掉。"},
+      {"speaker": "莫斯", "text": "我这把猎枪从没收过一分钱的赏金。但铁拳欠的账，不是用钱还的。"},
+      {"speaker": "莫斯", "text": "旧时代的规矩，比法律好用。因为旧时代的人说一句话就是一句话。"}
+    ]
+  },
+  {
+    "id": "captain_bryan_oath_dialog",
+    "character": "captain_bryan_npc",
+    "trigger": "crescent_moon_ferry",
+    "lines": [
+      {"speaker": "布莱恩", "text": "弗雷德里克·R·布莱恩上尉，第七有色人种骑兵团。"},
+      {"speaker": "布莱恩", "text": "松林之战前夜，情报原稿上有一个代号——'Francis'。标注者的签名是S.H.。"},
+      {"speaker": "布莱恩", "text": "铁拳欠我一条命。我替三百二十七个人要三百二十七条。"},
+      {"speaker": "布莱恩", "text": "有些东西比军衔重——比如那些再也不能站起来的战友的名字。"}
+    ]
+  },
+  {
+    "id": "shalifei_wind_blade",
+    "character": "shalifei_npc",
+    "trigger": "crescent_moon_ferry",
+    "lines": [
+      {"speaker": "沙里飞", "text": "我活了半辈子，今天才发现我会讲三个词的法语：'救命''饶了我'和'这全都怪那个卡津人'。"},
+      {"speaker": "沙里飞", "text": "我的刀是从双旗镇的沙子里祭过旗的。别看你新奥尔良的金链子晃眼。"},
+      {"speaker": "沙里飞", "text": "这把搅风刀缺了两枚齿，剩下的全是从铁拳手里抢回来的。每一枚缺口，都是我还没还完的债。"},
+      {"speaker": "沙里飞", "text": "维多利亚……你刚才像头水獭，扑他。"}
+    ]
+  },
+  {
+    "id": "kelly_archive_dialog",
+    "character": "kelly_npc",
+    "trigger": "indigo_street_archive",
+    "lines": [
+      {"speaker": "凯莉", "text": "你们是从北边来的。带火药味的那个，你的右手老茧是老枪手。"},
+      {"speaker": "凯莉", "text": "这间医院的档案室保管了圣丹尼斯六十年来所有超自然受害者的记录。铁拳烧毁了一部分，我们藏了一部分。"},
+      {"speaker": "凯莉", "text": "二十三个从四号仓库移送过来的幸存者——没有一个人能说出他们看到的那个东西叫什么。"},
+      {"speaker": "凯莉", "text": "这份档案记录的不是精神病。是铁拳。"}
+    ]
+  },
+  {
+    "id": "victoria_dupont_dialog",
+    "character": "victoria_dupont_npc",
+    "trigger": "indigo_street_archive",
+    "lines": [
+      {"speaker": "维多利亚", "text": "格蕾丝·马洛莉——她是一名测量师和超心理学研究者。她是我的祖母。"},
+      {"speaker": "维多利亚", "text": "铁拳用一个活着的测量师交换了第三座桥的地基坐标。他们杀了她，却没能毁尸。"},
+      {"speaker": "维多利亚", "text": "她用法文在血书上写：'这个世界的末日不会由铁与血降临。它会从被遗忘了百年的骨头缝里开始皲裂。'"},
+      {"speaker": "维多利亚", "text": "我祖母发的不是求救信号——是求救坐标。她把自己的坐标当诱饵，引天上那些东西来杀铁拳。"}
+    ]
+  },
+  {
+    "id": "faulkner_dialog",
+    "character": "faulkner_npc",
+    "trigger": "tumbleweed_town",
+    "lines": [
+      {"speaker": "福克纳", "text": "鄙人雷金纳德·福克纳三世，西弗斯白银开采公司的总经理。"},
+      {"speaker": "福克纳", "text": "这片土地上的一切——包括你们脚下的尘土和你呼吸的空气——都是我的财产。"},
+      {"speaker": "福克纳", "text": "风滚草镇没有'路过'这回事。方圆两百里没有水源，没有驿道，没有铁路。"},
+      {"speaker": "福克纳", "text": "你们这些游侠从来不知道什么时候该收手。那就和这座矿一起死吧。"}
+    ]
+  },
+  {
+    "id": "barrett_dialog",
+    "character": "barrett_npc",
+    "trigger": "san_francisco_approach",
+    "lines": [
+      {"speaker": "巴雷特", "text": "帕金森男爵。三十年前在阿肯色河渡口，我替铁拳抄写了那十二个骑士的死亡日期。"},
+      {"speaker": "巴雷特", "text": "黑水镇联络人失踪。残月渡内卫全体覆灭。圣丹尼斯码头全部被联邦法警逮捕……"},
+      {"speaker": "巴雷特", "text": "霍桑三十年前说过——总有一天会有人带着不是子弹的东西破开我们总部的大门。"},
+      {"speaker": "巴雷特", "text": "现在门外的不是帕金森。是帕金森引来的星。"}
+    ]
+  },
+  {
+    "id": "old_monk_temple",
+    "character": "old_monk_npc",
+    "trigger": "tin_hau_temple",
+    "lines": [
+      {"speaker": "老僧", "text": "很多年前，有个广东来的皮影戏班班主说，天破了是有人在织布。"},
+      {"speaker": "老僧", "text": "Sacred Haunting。神佑的冤魂。三十年前在血泊中假死逃生的第十二个骑士。"},
+      {"speaker": "老僧", "text": "格蕾丝·马洛莉把铁拳的磁力坐标发给了它们——她不是在求神，她把自己的坐标当诱饵。"},
+      {"speaker": "老僧", "text": "这不是战争。战争需要有双方。这是收割。它们把恐惧当成燃料。"},
+      {"speaker": "老僧", "text": "但收割机不会只收甘蔗——它会连甘蔗田旁边的野草一起收走。整个旧金山的人都会变成空壳。"}
+    ]
+  },
+  {
+    "id": "one_knife_immortal_dialog",
+    "character": "one_knife_immortal_npc",
+    "trigger": "double_flag_inn",
+    "lines": [
+      {"speaker": "一刀仙", "text": "真正的快与不快，不是你能学的。是有人替你守阵守久了传下来的。"},
+      {"speaker": "一刀仙", "text": "这刀，两辈子拔了两刀。一刀在双旗镇的天井里给马王爷送酒；另一刀，现在拔给你。"},
+      {"speaker": "一刀仙", "text": "无极刀法第三式——红旗卷沙。这一刀不是为了杀人，是为了把人从刀锋手里救回来。"},
+      {"speaker": "一刀仙", "text": "你爹死在了客栈后厨。不是路上。记住这个。"}
+    ]
+  },
+  {
+    "id": "ezekiel_journey",
+    "character": "ezekiel_npc",
+    "trigger": "act2_start",
+    "lines": [
+      {"speaker": "以西结", "text": "男爵，霍桑教过我——快不是最重要的，最重要的是准。"},
+      {"speaker": "以西结", "text": "我亲眼看到了心弹。那已经超出了我对枪法的所有认知。"},
+      {"speaker": "以西结", "text": "但霍桑还欠我一句话——想好了打在哪里，还不够。你要想清楚，为什么打。"},
+      {"speaker": "以西结", "text": "六个月了。从白石城的废墟前跪地痛哭的那一刻起，我就等着有人对我说出那句话——去旧金山。"}
+    ]
+  },
+  {
+    "id": "haige_red_flag_dialog",
+    "character": "haige_npc",
+    "trigger": "red_flag_secret",
+    "lines": [
+      {"speaker": "孩哥", "text": "帕金森先生，要是我爹还活着，他会让我跟着你走吗？"},
+      {"speaker": "孩哥", "text": "他没活下来，但我知道他想让你怎么活。你心里有答案。"},
+      {"speaker": "孩哥", "text": "红旗卷沙——那一刀不是为了杀人，是为了把人从刀锋手里救回来。"},
+      {"speaker": "孩哥", "text": "我用了半招无极刀法的翻腕推鞘接住了你的枪身。从此以后，你的枪和我的刀走同一条路。"}
+    ]
+  },
+  {
+    "id": "ma_linchang_double_flag",
+    "character": "ma_linchang_npc",
+    "trigger": "double_flag_inn",
+    "lines": [
+      {"speaker": "马麟长", "text": "东方的法师用鞋盒塑偶，西方的骑士用铁盒封魂。铁盒是拿活人的噩梦当货币。"},
+      {"speaker": "马麟长", "text": "告诉那个从灰狼镇出发的蓝眼枪手——他对着自己开枪的那天晚上，有人用一只木雕锁住了那一枪打进沙漠的热量。"},
+      {"speaker": "马麟长", "text": "我在双旗镇冒充瘸腿墨西哥老头混了二十年。三十七年前在新奥尔良码头教帕金森拆枪管的那个小子，就是我。"},
+      {"speaker": "马麟长", "text": "靛蓝街无碍，档案保住了。第三根支撑柱的金属片是铁匣子的钥匙——正面F.I.S.T.，背面我刻了一匹四蹄朝天的马。"}
+    ]
+  },
+  {
+    "id": "eastwood_death_valley",
+    "character": "eastwood_npc",
+    "trigger": "death_valley_wall",
+    "lines": [
+      {"speaker": "伊斯特伍德", "text": "我找了那堵墙二十年。最后在风滚草镇的矿井底下找到了。"},
+      {"speaker": "伊斯特伍德", "text": "福克纳不是来挖银子的——他是来替铁拳看守坟场的。"},
+      {"speaker": "伊斯特伍德", "text": "我在田纳西传道时说'上帝在天上看着一切'。现在天上破了一个洞。牧师的上帝不在那洞里。"},
+      {"speaker": "伊斯特伍德", "text": "子弹打不穿那层光——但如果是里面有人打开的门，从里面打。最慢的才是真快。"}
+    ]
+  },
+  {
+    "id": "bryan_shalin_dialog",
+    "character": "captain_bryan_npc",
+    "trigger": "faulkner_mine",
+    "lines": [
+      {"speaker": "布莱恩", "text": "松林镇那晚，铁拳放火之后也有一股怪味——那是石油、燃烧的马肉和军装的味道。"},
+      {"speaker": "布莱恩", "text": "圣丹尼斯码头的铁拳全部被联邦法警逮捕。威尔逊的档案编号用蓝色。"},
+      {"speaker": "布莱恩", "text": "伊斯特伍德那份没被铁拳烧掉的素描，是我们团唯一存世的墓碑图纸。"},
+      {"speaker": "布莱恩", "text": "我见过这东西——三十年前白石城那个打不死的圣枪骑士。他死前也说过，总有一天会有人带着不是子弹的东西破开他们总部的大门。"}
+    ]
+  },
+  {
+    "id": "wilson_archive_dialog",
+    "character": "wilson_grey_npc",
+    "trigger": "fist_lockbox_discovery",
+    "lines": [
+      {"speaker": "威尔逊", "text": "我叫威尔逊·格雷。我老婆在巴尔的摩做裁缝。"},
+      {"speaker": "威尔逊", "text": "你们杀了我在猎角失踪的亲哥。你们把我的档案室变成了裹尸布。"},
+      {"speaker": "威尔逊", "text": "档案部不会再有墨水写死人的名字了。我发誓。"},
+      {"speaker": "威尔逊", "text": "从现在开始，我不再是铁拳的档案部。我替这十二个骑士补完他们所有的文件。写完了我陪你回巴尔的摩。"}
+    ]
+  },
+  {
+    "id": "grace_mallory_blood_writing",
+    "character": "grace_mallory_npc",
+    "trigger": "grace_mallory_testament",
+    "lines": [
+      {"speaker": "格蕾丝（血书）", "text": "他们在我身体里种了一颗弹壳，说弹壳里装着圣丹尼斯的第三座桥。"},
+      {"speaker": "格蕾丝（血书）", "text": "这个世界的末日不会由铁与血降临。它会从被遗忘了百年的骨头缝里开始皲裂。"},
+      {"speaker": "格蕾丝（血书）", "text": "我把所有的测量公式都刻进了四个不睡觉的活人的梦里：一个叫马，一个姓以，一个忘了自己是黑人，还有一个贵族的后代。"},
+      {"speaker": "帕金森", "text": "铁匣封魂桥作坟，第三桥下未安身。百骨不知杀她者，指向旧金山顶云。"}
+    ]
+  },
+  {
+    "id": "parkinson_act2_mid",
+    "character": "parkinson_npc",
+    "trigger": "st_denis_lights",
+    "lines": [
+      {"speaker": "帕金森", "text": "霍桑教会了你什么？快不是最重要的。最重要的是准。"},
+      {"speaker": "帕金森", "text": "想好了打在哪里，还不够。你要想清楚，为什么打。"},
+      {"speaker": "帕金森", "text": "三十年前我朝自己的手开了一枪。手指断了没关系，扣不动扳机也没关系。真正的枪手，不需要手指。"},
+      {"speaker": "帕金森", "text": "银鞍照白马，飒沓如流星。骑士不死，他只是暂时离鞍。"}
+    ]
+  },
+  {
+    "id": "parkinson_act3_entry",
+    "character": "parkinson_npc",
+    "trigger": "san_francisco_approach",
+    "lines": [
+      {"speaker": "帕金森", "text": "那东西不是冲着铁拳来的。铁拳的分量不够吸引天上的东西。"},
+      {"speaker": "帕金森", "text": "天上那些东西把恐惧当成燃料。它们不是在杀那些人——它在收割他们的痛苦。"},
+      {"speaker": "帕金森", "text": "霍桑知道这事。三十七年前，新奥尔良码头，他说——如果有一天你看见天空裂开了，别怕。"},
+      {"speaker": "帕金森", "text": "那不是末日。那是有些账算得太久了，连天上的人也坐不住了。"}
+    ]
+  }
+]

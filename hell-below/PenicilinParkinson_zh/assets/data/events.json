@@ -1,0 +1,1661 @@
+[
+  {
+    "id": "frontier_stranger",
+    "name": "边塞异客",
+    "act": 1,
+    "description": "一个披着斗篷的身影从尘土中出现，提出交易。",
+    "choices": [
+      {
+        "text": "接受那瓶奇怪的药剂",
+        "outcome": {
+          "integrity_change": -8,
+          "gold": 30,
+          "story_flag": "stranger_potion",
+          "message": "苦涩的液体灼烧你的喉咙，但那袋金币沉甸甸的。"
+        }
+      },
+      {
+        "text": "递出你的水壶代替",
+        "outcome": {
+          "integrity_change": 5,
+          "item_reward": "cipher_notes_1",
+          "message": "陌生人微笑着递给你一张破旧的纸条，随后消失不见。"
+        }
+      },
+      {
+        "text": "谨慎地走开",
+        "outcome": {
+          "gold": 5,
+          "message": "你在陌生人站过的地方发现了沙中掉落的几枚硬币。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "abandoned_coach",
+    "name": "遗弃马车",
+    "act": 1,
+    "description": "一辆翻倒的驿马车躺在尘土中。你听到里面有呜咽声。",
+    "choices": [
+      {
+        "text": "搜索马车寻找物资",
+        "outcome": {
+          "integrity_change": -5,
+          "item_reward": "bandages",
+          "gold": 15,
+          "message": "是个陷阱！弹簧刀划伤了你，但你找到了补给。"
+        }
+      },
+      {
+        "text": "救助被困的乘客",
+        "outcome": {
+          "integrity_change": 5,
+          "card_reward": "desert_survival",
+          "message": "感激的乘客教你沙漠求生技巧。"
+        }
+      },
+      {
+        "text": "不要管它",
+        "outcome": {
+          "message": "你继续前行。呜咽声在你身后渐渐消散。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "desert_mirage",
+    "name": "沙漠海市蜃楼",
+    "act": 1,
+    "description": "地平线上出现一片闪烁的绿洲。它是真的吗？",
+    "choices": [
+      {
+        "text": "冲向绿洲",
+        "outcome": {
+          "integrity_change": -10,
+          "apply_debuff": "drunken_stumble:1",
+          "message": "那是海市蜃楼！酷热让你付出代价，头脑发晕。"
+        }
+      },
+      {
+        "text": "小心接近",
+        "outcome": {
+          "integrity_change": 8,
+          "gold": 10,
+          "message": "一汪清泉！你痛饮甘泉，在水边发现了金币。"
+        }
+      },
+      {
+        "text": "无视它，继续赶路",
+        "outcome": {
+          "message": "自律让你留在正途。幻影渐渐消散。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "old_graveyard",
+    "name": "古老墓地",
+    "act": 1,
+    "description": "风化的墓碑属于被遗忘的骑士。一座坟墓正微微发光。",
+    "choices": [
+      {
+        "text": "挖掘发光的坟墓",
+        "outcome": {
+          "integrity_change": -5,
+          "cipher_fragment": "act1_fragment_1",
+          "message": "土壤之下，一块密码碎片正脉动着古老的光芒。"
+        }
+      },
+      {
+        "text": "祈祷后继续前行",
+        "outcome": {
+          "integrity_change": 3,
+          "message": "温暖的光芒笼罩着你。骑士们的灵魂安息了。"
+        }
+      },
+      {
+        "text": "拿墓碑当盾牌",
+        "outcome": {
+          "card_reward": "fortify",
+          "integrity_change": -3,
+          "message": "石头碎裂了，但留下了一道守护之咒。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "traveling_merchant_event",
+    "name": "旅行商人",
+    "act": 1,
+    "description": "一个快活的商人推着满载奇货的货车挡住了去路。",
+    "choices": [
+      {
+        "text": "购买神秘神器（30金币）",
+        "outcome": {
+          "gold_change": -30,
+          "item_reward": "silver_bullets",
+          "message": "商人咧嘴笑着，递给你一盒银弹。"
+        },
+        "gold_cost": 30
+      },
+      {
+        "text": "用故事换取补给",
+        "outcome": {
+          "item_reward": "bandages",
+          "card_reward": "quick_draw",
+          "message": "商人被你的故事打动，分享了补给和一个诀窍。"
+        }
+      },
+      {
+        "text": "抢劫商人",
+        "outcome": {
+          "gold": 50,
+          "integrity_change": -5,
+          "story_flag": "merchant_robbed",
+          "message": "你拿走了需要的东西，但愧疚感压在心头。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "grey_wolf_tavern",
+    "name": "灰狼镇酒馆",
+    "act": 1,
+    "description": "一个雨夜，灰狼镇的无名酒馆。灯忽然全灭了，一双手白得不像活人的黑衣人推门而入。",
+    "choices": [
+      {
+        "text": "以心弹回应",
+        "outcome": {
+          "integrity_change": -5,
+          "card_reward": "heart_bullet",
+          "story_flag": "heart_bullet_awakened",
+          "message": "你扣动了虚空中的扳机。三十年未出膛的一枪，今夜终于响彻荒野。"
+        }
+      },
+      {
+        "text": "握紧铁砂静观",
+        "outcome": {
+          "integrity_change": 5,
+          "gold": 15,
+          "story_flag": "iron_sand_resolved",
+          "message": "你没有先出手。铁砂在掌心发烫，但你的心比铁砂更重。"
+        }
+      },
+      {
+        "text": "接受以西结的空枪套",
+        "outcome": {
+          "item_reward": "hawthorns_holster_item",
+          "integrity_change": -3,
+          "message": "枪套内侧烫金的P.P.字母灼烧着你的掌心。三十年前的承诺，今日兑现。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "hawthorns_letter",
+    "name": "霍桑遗信",
+    "act": 1,
+    "description": "油布包裹里的信纸已经泛黄。\u201c银鞍照白马，飒沓如流星。\u201d背面是四个字母——F.I.S.T.",
+    "choices": [
+      {
+        "text": "读完全信",
+        "outcome": {
+          "cipher_fragment": "act1_fragment_1",
+          "card_reward": "silver_saddle_crest",
+          "story_flag": "fist_revealed",
+          "message": "铁拳。三十年埋藏的秘密。霍桑用死亡保存了这个答案。"
+        }
+      },
+      {
+        "text": "将信烧掉",
+        "outcome": {
+          "integrity_change": 8,
+          "gold": 10,
+          "story_flag": "letter_burned",
+          "message": "有些秘密知道了就够了。灰烬中你看到了帕金森的影子。"
+        }
+      },
+      {
+        "text": "把信交给以西结",
+        "outcome": {
+          "integrity_change": 3,
+          "item_reward": "iron_sand_item",
+          "message": "年轻人攥紧了信。这是他养父最后的嘱托。他交给你三粒铁砂作为信任。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "blackwater_stronghold",
+    "name": "黑水镇据点",
+    "act": 1,
+    "description": "地下室的墙壁上挂满了画像和地图。你的脸也在上面——赏金五千美元。",
+    "choices": [
+      {
+        "text": "搜查铁拳档案",
+        "outcome": {
+          "cipher_fragment": "act1_fragment_2",
+          "gold": 25,
+          "message": "铁拳的西部全图上，红点几乎覆盖了所有城镇。你的心越看越寒。"
+        }
+      },
+      {
+        "text": "审问威尔逊",
+        "outcome": {
+          "card_reward": "wilsons_note",
+          "story_flag": "wilson_interrogated",
+          "message": "\u201c我老婆在巴尔的摩做裁缝。\u201d威尔逊说。你记住了一件事——小人物也是人。"
+        }
+      },
+      {
+        "text": "毁掉据点",
+        "outcome": {
+          "gold": 30,
+          "integrity_change": -5,
+          "story_flag": "stronghold_destroyed",
+          "message": "火焰吞噬了画像和地图。但铁拳的网太大了，一间地下室烧不尽。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "double_flag_inn",
+    "name": "双旗镇客栈",
+    "act": 1,
+    "description": "客栈掌柜是个瘸子，用拇指和食指夹抹布的方式像握刀。少年腿上绑着两柄短刀。",
+    "choices": [
+      {
+        "text": "以铁砂换酒",
+        "outcome": {
+          "integrity_change": 8,
+          "card_reward": "apron_shield",
+          "message": "瘸子收了铁砂，给了你二十年陈的龙舌兰。\u201c重得能让旗杆倒下来。\u201d"
+        }
+      },
+      {
+        "text": "与少年对视",
+        "outcome": {
+          "card_reward": "red_flag_sand",
+          "integrity_change": -3,
+          "message": "两双行家的眼睛在昏暗中相遇。他的刀意和你的枪意，在同一刻微微震动。"
+        }
+      },
+      {
+        "text": "查看旗杆",
+        "outcome": {
+          "cipher_fragment": "act1_fragment_3",
+          "message": "黄旗和红旗在无风中纹丝不动。旗杆底下，埋着某个等了十六年的秘密。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "desert_oasis",
+    "name": "沙漠绿洲",
+    "act": 2,
+    "description": "一个真正的绿洲，棕榈树和清凉的水。一个身影在岸边冥想。",
+    "choices": [
+      {
+        "text": "休息恢复",
+        "outcome": {
+          "integrity_change": 15,
+          "message": "清凉的水恢复了你的身体和精神。"
+        }
+      },
+      {
+        "text": "与冥想的人交谈",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_1",
+          "card_reward": "sixth_sense",
+          "message": "僧人睁开眼，分享了一块密码碎片和智慧。"
+        }
+      },
+      {
+        "text": "搜索棕榈林",
+        "outcome": {
+          "gold": 25,
+          "item_reward": "whiskey",
+          "message": "棕榈树后藏着暗窖！金币和一瓶威士忌。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ruined_outpost",
+    "name": "废弃哨站",
+    "act": 2,
+    "description": "一座前骑士团哨站，如今已被烧毁洗劫。到处是战斗的痕迹。",
+    "choices": [
+      {
+        "text": "在废墟中搜寻幸存者",
+        "outcome": {
+          "integrity_change": -5,
+          "cipher_fragment": "act2_fragment_2",
+          "story_flag": "outpost_searched",
+          "message": "没有幸存者，但你在灰烬中找到了一块密码碎片。"
+        }
+      },
+      {
+        "text": "回收可用之物",
+        "outcome": {
+          "gold": 20,
+          "card_reward": "iron_will",
+          "message": "在残骸中，你发现了金币和一把完好的武器。"
+        }
+      },
+      {
+        "text": "留下标记后继续前行",
+        "outcome": {
+          "integrity_change": 3,
+          "story_flag": "outpost_marked",
+          "message": "你标记此地以志纪念。一种使命感使你更加坚强。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "sandstorm_shelter",
+    "name": "沙暴庇护所",
+    "act": 2,
+    "description": "一场巨大的沙暴迫使你进入一个洞穴。墙壁上刻着奇怪的符号。",
+    "choices": [
+      {
+        "text": "研究墙上的符号",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_3",
+          "apply_debuff": "vulnerable:1",
+          "message": "符号揭示了秘密，但洞穴的魔法削弱了你的防御。"
+        }
+      },
+      {
+        "text": "等待沙暴过去",
+        "outcome": {
+          "integrity_change": 10,
+          "message": "你安全地度过了沙暴，精神焕发地走了出来。"
+        }
+      },
+      {
+        "text": "深入探索洞穴",
+        "outcome": {
+          "integrity_change": -8,
+          "gold": 35,
+          "item_reward": "whiskey",
+          "message": "深处有陷阱！但再往里，有一个暗藏的宝库。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "prophets_crossroads",
+    "name": "先知十字路口",
+    "act": 2,
+    "description": "十字路口站着一位盲先知。'选择你的重担，'她说。",
+    "choices": [
+      {
+        "text": "承受知识的重担",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_4",
+          "apply_debuff": "drunken_stumble:2",
+          "message": "知识涌入你的头脑。你的手因沉重而颤抖。"
+        }
+      },
+      {
+        "text": "承受力量的重担",
+        "outcome": {
+          "card_reward": "whiskey_shots",
+          "integrity_change": -5,
+          "message": "力量涌过你的身体，代价是消耗你的肉体。"
+        }
+      },
+      {
+        "text": "不承受任何重担",
+        "outcome": {
+          "integrity_change": 5,
+          "message": "先知点头。'克制的智慧。'"
+        }
+      }
+    ]
+  },
+  {
+    "id": "hidden_cave",
+    "name": "隐秘洞穴",
+    "act": 2,
+    "description": "瀑布后面，一个洞穴发出奇异的光芒。",
+    "choices": [
+      {
+        "text": "触摸发光的水晶",
+        "outcome": {
+          "integrity_change": 10,
+          "apply_debuff": "vulnerable:2",
+          "message": "水晶的能量治愈了你，但也让你变得脆弱。"
+        }
+      },
+      {
+        "text": "阅读铭文",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_2",
+          "message": "古老的骑士铭文中藏有一块密码碎片。"
+        }
+      },
+      {
+        "text": "取一块水晶碎片",
+        "outcome": {
+          "item_reward": "silver_bullets",
+          "gold": 15,
+          "message": "碎片可以锻造出有用的东西。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "caravan_ambush",
+    "name": "车队伏击",
+    "act": 2,
+    "description": "强盗伏击了一支补给车队。车夫们在呼救。",
+    "choices": [
+      {
+        "text": "击退强盗",
+        "outcome": {
+          "integrity_change": -8,
+          "gold": 40,
+          "card_reward": "rattlesnake_strike",
+          "story_flag": "saved_caravan",
+          "message": "你赶走了强盗！感激的车夫们酬谢了你。"
+        }
+      },
+      {
+        "text": "趁乱溜过",
+        "outcome": {
+          "gold": 10,
+          "message": "你悄然溜过，在混乱中捡到了掉落的硬币。"
+        }
+      },
+      {
+        "text": "加入强盗",
+        "outcome": {
+          "gold": 30,
+          "integrity_change": -5,
+          "story_flag": "joined_bandits",
+          "message": "你分到了你的份额，但车夫们的呼喊萦绕在心头。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "crescent_moon_ferry",
+    "name": "残月渡驿站",
+    "act": 2,
+    "description": "驿站里两个男人对坐如棋局。法警、剑客，还有一个从暗门里走出的黑衣人。",
+    "choices": [
+      {
+        "text": "与法警结盟",
+        "outcome": {
+          "card_reward": "sheriffs_badge",
+          "gold": 15,
+          "story_flag": "allied_with_moss",
+          "message": "莫斯法警收起猎枪。\u201c旧时代的规矩，比法律好用。\u201d"
+        }
+      },
+      {
+        "text": "拔剑与拉方丹对话",
+        "outcome": {
+          "integrity_change": -5,
+          "card_reward": "iron_will",
+          "story_flag": "lafontaine_spared",
+          "message": "\u201c跪下不算完。起来。\u201d南方剑客的剑尖指向了铁拳的方向。"
+        }
+      },
+      {
+        "text": "破开暗门",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_3",
+          "item_reward": "fist_lockbox_item",
+          "message": "铁匣子密码F-I-S-T——三十年未改。里面是\u201c圣丹尼斯·靛蓝街·四号仓库\u201d。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "indigo_street_archive",
+    "name": "靛蓝街档案室",
+    "act": 2,
+    "description": "精神康复医院的档案室保管了六十年来的秘密。病历上的名字：凯莉·马洛莉。地址：双旗。",
+    "choices": [
+      {
+        "text": "协助凯莉整理档案",
+        "outcome": {
+          "integrity_change": 10,
+          "cipher_fragment": "act2_fragment_4",
+          "story_flag": "archive_helped",
+          "message": "凯莉把圣丹尼斯六十年的血泪编成了索引。每一个名字，都指向铁拳。"
+        }
+      },
+      {
+        "text": "查看格蕾丝的血书",
+        "outcome": {
+          "integrity_change": -8,
+          "card_reward": "sacred_revolver",
+          "story_flag": "grace_revealed",
+          "message": "\u201c他们在我身体里种了一颗弹壳，说弹壳里装着圣丹尼斯的第三座桥。\u201d"
+        }
+      },
+      {
+        "text": "潜入四号仓库",
+        "outcome": {
+          "gold": 35,
+          "item_reward": "silver_bullets",
+          "message": "仓库里的铁链和残存的人质束缚告诉你——这里关过活人。铁拳从不怕鬼，怕的是活着的证人。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "grace_bones_bridge",
+    "name": "格蕾丝之骨",
+    "act": 2,
+    "description": "第三大桥的第三根支撑柱内，一具白骨攥着刻有F.I.S.T.的金属片。背面写着：\u201c靛蓝街无碍，档案保住了。——马麟长\u201d。",
+    "choices": [
+      {
+        "text": "将铁砂洒入河中祭奠",
+        "outcome": {
+          "integrity_change": 12,
+          "story_flag": "grace_honored",
+          "message": "铁砂沉入密西西比河。帕金森用中文念了一首诗。\u201c铁匣封魂桥作坟，第三桥下未安身。\u201d"
+        }
+      },
+      {
+        "text": "取走金属片作为钥匙",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_2",
+          "card_reward": "silver_saddle",
+          "story_flag": "grace_key_taken",
+          "message": "金属片正面F.I.S.T.，背面马麟长的马蹄勾。这把钥匙能打开旧金山的大门。"
+        }
+      },
+      {
+        "text": "炸毁支撑柱",
+        "outcome": {
+          "integrity_change": -10,
+          "gold": 40,
+          "message": "爆炸声在河面回荡。柱子碎裂，格蕾丝的骨灰随河水流向大海。有些债不需要清算，只需要释放。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "city_gates",
+    "name": "城门",
+    "act": 3,
+    "description": "旧金山的城门耸立在前方。铁拳会士兵在城墙上巡逻。",
+    "choices": [
+      {
+        "text": "贿赂守卫（40金币）",
+        "outcome": {
+          "gold_change": -40,
+          "integrity_change": 5,
+          "message": "守卫收起金币，挥手放行。",
+          "story_flag": "bribed_guard"
+        },
+        "gold_cost": 40
+      },
+      {
+        "text": "寻找暗道",
+        "outcome": {
+          "integrity_change": -5,
+          "cipher_fragment": "act3_fragment_1",
+          "message": "穿过下水道，你在一面旧墙上发现了一块密码碎片。"
+        }
+      },
+      {
+        "text": "杀出一条血路",
+        "outcome": {
+          "integrity_change": -12,
+          "gold": 15,
+          "card_reward": "purifying_round",
+          "message": "鲜血飞溅，但你带着金币和信念走了出来，更加坚强。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "underground_tavern",
+    "name": "地下酒馆",
+    "act": 3,
+    "description": "城市地下的秘密酒馆。情报和酒水自由流通。",
+    "choices": [
+      {
+        "text": "买酒收集情报（20金币）",
+        "outcome": {
+          "gold_change": -20,
+          "cipher_fragment": "act3_fragment_2",
+          "story_flag": "tavern_intel",
+          "message": "一个醉酒的前士兵低声说出了铁拳会的秘密，并递给你一块碎片。"
+        },
+        "gold_cost": 20
+      },
+      {
+        "text": "挑战掰手腕冠军",
+        "outcome": {
+          "integrity_change": -5,
+          "gold": 30,
+          "card_reward": "whiskey_shots",
+          "message": "你赢了！勉强赢的。人群向你洒下金币和敬意。"
+        }
+      },
+      {
+        "text": "悄悄观察",
+        "outcome": {
+          "item_reward": "cipher_notes_2",
+          "message": "在阴影中，你发现了一张遗落的密码纸条。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "knights_memorial",
+    "name": "骑士纪念祠",
+    "act": 3,
+    "description": "一座隐藏的圣地，献给陨落的盘尼西林骑士团。他们的灵魂在此徘徊。",
+    "choices": [
+      {
+        "text": "跪下宣誓效忠",
+        "outcome": {
+          "integrity_change": 10,
+          "cipher_fragment": "act3_fragment_3",
+          "story_flag": "knight_pledge",
+          "message": "亡灵认可了你的誓言。一块密码碎片在你的掌心凝聚成形。"
+        }
+      },
+      {
+        "text": "献出你的右手完整度",
+        "outcome": {
+          "integrity_change": -15,
+          "card_reward": "paladins_resolve",
+          "story_flag": "sacrificed_to_knights",
+          "message": "你将精华注入神殿。作为回报，古老的力量回流而来。"
+        }
+      },
+      {
+        "text": "致敬后离开",
+        "outcome": {
+          "integrity_change": 5,
+          "message": "当你向陨落者致哀时，一种平静感笼罩着你。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "final_cipher",
+    "name": "终极密码",
+    "act": 3,
+    "description": "城墙上刻着一个巨大的密码轮。它需要一个密语。",
+    "choices": [
+      {
+        "text": "用你的密码知识破译它",
+        "outcome": {
+          "cipher_fragment": "act3_fragment_4",
+          "message": "你积累的知识豁然贯通。最后的碎片到手了。"
+        },
+        "requires_fragments": 6
+      },
+      {
+        "text": "强行打开机关",
+        "outcome": {
+          "integrity_change": -10,
+          "gold": 20,
+          "message": "机关坏了，露出了一些金币，但碎片已损毁。"
+        }
+      },
+      {
+        "text": "先放着吧",
+        "outcome": {
+          "message": "你记在心中。也许你会带着更多智慧回来。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "betrayal",
+    "name": "背叛",
+    "act": 3,
+    "description": "你信任的人竟是铁拳会的间谍！",
+    "choices": [
+      {
+        "text": "与叛徒战斗",
+        "outcome": {
+          "integrity_change": -10,
+          "gold": 25,
+          "story_flag": "traitor_fought",
+          "message": "你击败了叛徒，在他身上发现了铁拳会的情报。"
+        }
+      },
+      {
+        "text": "听听他们怎么说",
+        "outcome": {
+          "cipher_fragment": "act3_fragment_1",
+          "integrity_change": -3,
+          "story_flag": "traitor_spared",
+          "message": "叛徒给了你重要的密码情报后逃走了。这是诡计吗？"
+        }
+      },
+      {
+        "text": "从窗户逃走",
+        "outcome": {
+          "integrity_change": -5,
+          "message": "碎玻璃割伤了你，但你活了下来，改日再战。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "tumbleweed_town",
+    "name": "风滚草镇",
+    "act": 3,
+    "description": "矿渣堆顶端，一个瘦削的身影持枪而立。\u201c现在你正好有八个，还差四个。\u201d",
+    "choices": [
+      {
+        "text": "与伊斯特伍德并肩",
+        "outcome": {
+          "card_reward": "ambush",
+          "integrity_change": 5,
+          "story_flag": "eastwood_allied",
+          "message": "无名客没有握手。他只是点了点头，然后枪口指向了福克纳的枪手们。"
+        }
+      },
+      {
+        "text": "正面挑战福克纳",
+        "outcome": {
+          "integrity_change": -8,
+          "gold": 50,
+          "card_reward": "iron_curtain",
+          "message": "八个半月弹匣的快枪同时开火。你用铁幕挡住了弹雨，但完整度在消耗。"
+        }
+      },
+      {
+        "text": "破坏矿井设备",
+        "outcome": {
+          "gold": 30,
+          "story_flag": "mine_sabotaged",
+          "message": "蒸汽破碎机停转了。矿工们沉默地看着你，有人默默摘下了铁拳的臂章。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "white_stone_snow",
+    "name": "白石雪寒",
+    "act": 3,
+    "description": "霍桑三十年前的遗信终于被念了出来。\u201c银鞍照白马，飒沓如流星。事了拂衣去，深藏身与名。\u201d",
+    "choices": [
+      {
+        "text": "集结所有盟友",
+        "outcome": {
+          "integrity_change": 15,
+          "story_flag": "allies_assembled",
+          "message": "法警、上尉、剑客、少年刀客、档案管理员、无名客——骑士不死，只是暂时离鞍。"
+        }
+      },
+      {
+        "text": "以铁砂铭刻十二个名字",
+        "outcome": {
+          "card_reward": "iron_sand_bullet",
+          "cipher_fragment": "act3_fragment_3",
+          "message": "十二粒铁砂，十二个兄弟的名字。你的心弹从不为恨而出膛——为的是不被遗忘。"
+        }
+      },
+      {
+        "text": "独自前行",
+        "outcome": {
+          "integrity_change": -5,
+          "gold": 20,
+          "message": "有些路一个人走更快。但帕金森回头看了看身后——他不是一个人了。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "one_knife_immortal_duel",
+    "name": "一刀仙决斗",
+    "act": 2,
+    "description": "双旗镇天井，一个白发老者盘膝而坐，膝上横刀。\u201c真正的快与不快，不是你能学的。\u201d",
+    "choices": [
+      {
+        "text": "以心弹回应刀意",
+        "outcome": {
+          "integrity_change": -8,
+          "card_reward": "heart_bullet",
+          "story_flag": "immortal_duel_gun",
+          "message": "心弹遇上无极刀意，天井的石板裂成蛛网。你读懂了——他的刀不是为杀人，是为替人守阵。"
+        }
+      },
+      {
+        "text": "用铁砂接住刀锋",
+        "outcome": {
+          "integrity_change": -5,
+          "item_reward": "iron_sand_item",
+          "story_flag": "immortal_duel_sand",
+          "message": "三粒铁砂在刀锋上弹开，每一粒都在空中留下一道金线。一刀仙的眼中掠过一丝惊异。\u201c三十年，铁砂没变重。\u201d"
+        }
+      },
+      {
+        "text": "旁观，等待时机",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_5",
+          "integrity_change": 3,
+          "message": "你看了整场刀意。一刀仙的第三式\u201c红旗卷沙\u201d——那一刀不是为了杀人，是为了把人从刀锋手里救回来。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "haige_blade_awakening",
+    "name": "孩哥刀意",
+    "act": 2,
+    "description": "十六岁的少年腿上绑着两柄短刀，双手握住父亲的遗刀。\u201c我爹死在了客栈后厨。\u201d",
+    "choices": [
+      {
+        "text": "教他心弹的呼吸法",
+        "outcome": {
+          "integrity_change": -5,
+          "card_reward": "red_flag_sand",
+          "story_flag": "haige_taught",
+          "message": "你把心弹的呼吸节奏告诉他——不是教你开枪，是教你收刀。\u201c真正的刀法，不允许两个人同时在面前受伤。\u201d"
+        }
+      },
+      {
+        "text": "与他并肩对练",
+        "outcome": {
+          "card_reward": "apron_shield",
+          "integrity_change": 5,
+          "message": "少年的双刀翻飞如燕，你的虚枪划出银线。两种功夫在夕阳下交汇，像两条河终于认出了彼此。"
+        }
+      },
+      {
+        "text": "将铁砂放进他刀鞘",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_6",
+          "item_reward": "iron_sand_item",
+          "message": "铁砂在刀鞘里发出清响。孩哥拔刀时，刀锋上多了一丝不属于铁的重量——那是你三十年未还的债。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "red_flag_secret",
+    "name": "红旗之谜",
+    "act": 2,
+    "description": "双旗镇客栈门口，黄旗和红旗在无风中纹丝不动。旗杆底下，瘸子在磨刀。",
+    "choices": [
+      {
+        "text": "挖掘旗杆下的秘密",
+        "outcome": {
+          "integrity_change": -5,
+          "cipher_fragment": "act2_fragment_5",
+          "story_flag": "flag_secret_dug",
+          "message": "铁匣子从沙中露出——F.I.S.T.的烙印，三十年前的骑士团信物。马麟长这老东西，在这里埋了二十年。"
+        }
+      },
+      {
+        "text": "与瘸子对饮龙舌兰",
+        "outcome": {
+          "integrity_change": 10,
+          "card_reward": "whiskey_shots",
+          "message": "\u201c重得能让旗杆倒下来。\u201d二十年陈的龙舌兰灼烧你的喉咙。瘸子的拇指和食指夹杯的方式——像握刀。"
+        }
+      },
+      {
+        "text": "在旗杆上刻下银鞍徽记",
+        "outcome": {
+          "integrity_change": 3,
+          "story_flag": "silver_saddle_marked",
+          "message": "你用铁砂在旗杆上刻了一匹四蹄朝天的马。瘸子看了很久，没有说话。你走后他磨了一夜刀。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "moss_sheriff_law",
+    "name": "法警莫斯",
+    "act": 2,
+    "description": "退休法警坐在残月渡驿站的角落，双管猎枪枪口朝下。\u201c旧时代的规矩，比法律好用。\u201d",
+    "choices": [
+      {
+        "text": "与法警交换情报",
+        "outcome": {
+          "gold": 20,
+          "cipher_fragment": "act2_fragment_6",
+          "story_flag": "moss_intel",
+          "message": "莫斯从猎枪枪托的暗格里抽出一封密信。\u201c松林镇——三百二十七具遗体——铁拳干的。\u201d他的左臂在颤抖。"
+        }
+      },
+      {
+        "text": "请求法警加入",
+        "outcome": {
+          "card_reward": "sheriffs_badge",
+          "integrity_change": 8,
+          "story_flag": "allied_with_moss",
+          "message": "莫斯站起来，单手换弹。那条伤了的左臂在止血带上绑得结实。\u201c退休的法警，退休的规矩——谁杀人，我杀谁。\u201d"
+        }
+      },
+      {
+        "text": "给法警一瓶威士忌",
+        "outcome": {
+          "integrity_change": 5,
+          "gold_change": -10,
+          "message": "老法警接过酒，喝了一口，长长地叹了口气。\u201c好酒。三十年没喝过这么好的了。\u201d",
+          "gold_cost": 10
+        }
+      }
+    ]
+  },
+  {
+    "id": "lafontaine_confession",
+    "name": "拉方丹之剑",
+    "act": 2,
+    "description": "南方剑客的刺剑插在地下，剑锋上红宝石映着残月渡的灯火。\u201c我妹妹没死在红石镇——她被巴雷特亲自下令勒毙。\u201d",
+    "choices": [
+      {
+        "text": "听他讲完故事",
+        "outcome": {
+          "integrity_change": -3,
+          "cipher_fragment": "act2_fragment_7",
+          "story_flag": "lafontaine_truth",
+          "message": "\u201c跪下不算完。起来。\u201d拉方丹收剑入鞘，红宝石在残月下如一滴血。南方贵族的剑终于指向了铁拳的方向。"
+        }
+      },
+      {
+        "text": "与剑客比试",
+        "outcome": {
+          "integrity_change": -8,
+          "card_reward": "iron_will",
+          "message": "刺剑如闪电，心弹如惊雷。两种功夫在你和他之间交汇——他的剑意里有恨，你的枪意里有悔。你平分秋色，各退一步。"
+        }
+      },
+      {
+        "text": "告诉他巴雷特在旧金山",
+        "outcome": {
+          "card_reward": "lafontaine_rapier",
+          "integrity_change": 3,
+          "story_flag": "lafontaine_directed",
+          "message": "拉方丹的眼神变得锋利。\u201c旧金山。那么这把剑，终于有去处了。\u201d他拔起刺剑，在空中划了一道银弧。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "fist_lockbox_discovery",
+    "name": "铁拳密匣",
+    "act": 2,
+    "description": "残月渡暗门后的铜皮保险箱，密码四个字母——F-I-S-T。三十年未改。",
+    "choices": [
+      {
+        "text": "打开密匣",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_7",
+          "item_reward": "fist_lockbox_item",
+          "story_flag": "lockbox_opened",
+          "message": "铁匣子最上方叠着一张发黄的电报底稿——\u201c圣丹尼斯·靛蓝街·四号仓库\u201d。三十年的线索，在这一刻全部连上了。"
+        }
+      },
+      {
+        "text": "将密匣交给威尔逊归档",
+        "outcome": {
+          "gold": 25,
+          "story_flag": "lockbox_archived",
+          "message": "威尔逊的手不抖了。他用铁拳档案部的编号方式给密匣贴上了蓝色标签——\u201c第一百零一条，跨州密运，档案编号蓝-\u03b1。\u201d"
+        }
+      },
+      {
+        "text": "销毁密匣内容",
+        "outcome": {
+          "integrity_change": -5,
+          "gold": 40,
+          "message": "火焰吞噬了铁拳的账本和名单。帕金森的手在火光中投下长长的影子——烧掉的是证据，留下的是债。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "st_denis_lights",
+    "name": "圣丹尼斯灯火",
+    "act": 2,
+    "description": "密西西比河畔，无数烟囱冒着黑烟。圣丹尼斯的灯火在夕阳中闪烁。\u201c靛蓝街不是铁拳的地方。\u201d",
+    "choices": [
+      {
+        "text": "穿过法属区潜入",
+        "outcome": {
+          "integrity_change": -3,
+          "cipher_fragment": "act2_fragment_8",
+          "story_flag": "st_denis_infiltrated",
+          "message": "靛蓝街的油纸伞、草药铺和广东洗衣工。铁拳的暗哨没认出你——因为这里有比铁拳更古老的东西在保护着这片街区。"
+        }
+      },
+      {
+        "text": "在河港码头收集情报",
+        "outcome": {
+          "gold": 30,
+          "card_reward": "rattlesnake_strike",
+          "message": "码头上到处是铁拳的蒸汽运兵船。你从一个喝醉的水手口中套出了港务局的暗号。"
+        }
+      },
+      {
+        "text": "去找拉方丹的线人",
+        "outcome": {
+          "item_reward": "silver_bullets",
+          "story_flag": "lafontaine_contact",
+          "message": "黎巴嫩老头的茶叶铺后门通向法属区的暗巷。他给了你一盒银弹——\u201c拉方丹上次救了我一命。这算是还的。\u201d"
+        }
+      }
+    ]
+  },
+  {
+    "id": "victoria_dupont_truth",
+    "name": "维多利亚的真相",
+    "act": 2,
+    "description": "金发女人蹲在雨中整理散落的病历。她的手指停留在一张泛黄的纸上——\u201c格蕾丝·马洛莉……她是我的祖母。\u201d",
+    "choices": [
+      {
+        "text": "帮她整理病历",
+        "outcome": {
+          "integrity_change": 8,
+          "cipher_fragment": "act2_fragment_8",
+          "story_flag": "victoria_allied",
+          "message": "维多利亚用法文和英文交替念着病历上的名字。每一个名字背后都是铁拳的一桩罪行。你帮她把六十年的血泪编成了索引。"
+        }
+      },
+      {
+        "text": "询问格蕾丝的下落",
+        "outcome": {
+          "integrity_change": -10,
+          "card_reward": "sacred_revolver",
+          "story_flag": "grace_location",
+          "message": "\u201c他们在我身体里种了一颗弹壳，说弹壳里装着圣丹尼斯的第三座桥。\u201d维多利亚的眼眶红了。铁拳用一个活人换了一座桥的地基。"
+        }
+      },
+      {
+        "text": "保护她免受暗哨袭击",
+        "outcome": {
+          "integrity_change": -5,
+          "card_reward": "sixth_sense",
+          "story_flag": "victoria_saved",
+          "message": "雨中的铁拳暗哨出刀时，你的心弹先一步截断了刀锋。维多利亚没有回头，只是继续整理病历——她的手不再发抖。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "warehouse_four",
+    "name": "四号仓库",
+    "act": 2,
+    "description": "靛蓝街尽头的两层砖石建筑，铁门紧闭，没有窗户。极安静——和周围的洗衣店与茶叶铺相比，安静得反常。",
+    "choices": [
+      {
+        "text": "潜入仓库",
+        "outcome": {
+          "gold": 35,
+          "item_reward": "silver_bullets",
+          "story_flag": "warehouse_infiltrated",
+          "message": "仓库里的铁链和残存的人质束缚告诉你——这里关过活人。铁拳从不怕鬼，怕的是活着的证人。"
+        }
+      },
+      {
+        "text": "从档案室寻找入口",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_9",
+          "story_flag": "archive_entry_found",
+          "message": "凯莉在精神康复医院的档案室里找到了四号仓库的暗门图纸——一条从地下室通往仓库的铁轨通道。铁拳用这条轨道运送\u201c货物\u201d。"
+        }
+      },
+      {
+        "text": "放火烧毁仓库",
+        "outcome": {
+          "integrity_change": -12,
+          "gold": 20,
+          "message": "火焰吞噬了铁链和束缚。有些东西烧得比木头更慢——那些刻在墙壁上的指甲痕迹。你无法烧掉那些。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "grace_mallory_testament",
+    "name": "格蕾丝的遗言",
+    "act": 2,
+    "description": "草纸上密密麻麻写满了血书。\u201c这个世界的末日不会由铁与血降临。它会从被遗忘了百年的骨头缝里开始皲裂。\u201d",
+    "choices": [
+      {
+        "text": "将血书交给维多利亚",
+        "outcome": {
+          "integrity_change": 12,
+          "story_flag": "grace_testament_delivered",
+          "message": "维多利亚把祖母的工具箱摊开在阳光里，从夹层里取出那张残旧的桩位图。一百二十个血字姓名，每一个都是铁拳活埋进桥桩的人。"
+        }
+      },
+      {
+        "text": "破译血书中的坐标",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_9",
+          "integrity_change": -5,
+          "message": "血书的字迹在药水处理后显出精确的经纬度——指向第三大桥第三根支撑柱。铁拳用活人做了桥桩的地基。"
+        }
+      },
+      {
+        "text": "将血书藏入铁匣",
+        "outcome": {
+          "card_reward": "iron_sand_bullet",
+          "story_flag": "testament_locked",
+          "message": "铁匣子关上了。有些真相不是现在就能面对的。但铁匣密码F-I-S-T.——总有一天会被再次打开。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "faulkner_mine",
+    "name": "福克纳矿井",
+    "act": 3,
+    "description": "风滚草镇的矿井冒着硫磺烟。穿昂贵西装的男人站在酒馆门口。\u201c这片土地上的一切——包括你们脚下的尘土——都是我的财产。\u201d",
+    "choices": [
+      {
+        "text": "与福克纳对峙",
+        "outcome": {
+          "integrity_change": -8,
+          "gold": 40,
+          "story_flag": "faulkner_confronted",
+          "message": "福克纳的八个枪手同时按住枪柄。但你没有动——因为矿渣堆顶端，一个瘦削的身影已经举起了步枪。"
+        }
+      },
+      {
+        "text": "潜入矿井探查",
+        "outcome": {
+          "integrity_change": -5,
+          "cipher_fragment": "act3_fragment_5",
+          "story_flag": "mine_explored",
+          "message": "矿井底下是死亡谷——十二个石台围成一个圈，每一张石台上包着粗麻袋。那是骑士团第一批阵亡者的遗骸。霍桑到死都以为他们埋在白石城附近。"
+        }
+      },
+      {
+        "text": "收买矿工获取情报",
+        "outcome": {
+          "gold_change": -25,
+          "card_reward": "iron_will",
+          "story_flag": "miners_bribed",
+          "message": "矿工们用铁拳配发的半月形快枪换了你的金币。他们说的第一句话：\u201c福克纳不是来挖银子的——他是来替铁拳看守坟场的。\u201d",
+          "gold_cost": 25
+        }
+      }
+    ]
+  },
+  {
+    "id": "eastwood_staredown",
+    "name": "无名客对峙",
+    "act": 3,
+    "description": "矿渣堆顶端，瘦削的身影持枪而立。他的杠杆步枪打断了一截正在燃烧的导火索。",
+    "choices": [
+      {
+        "text": "与伊斯特伍德并肩",
+        "outcome": {
+          "card_reward": "ambush",
+          "integrity_change": 8,
+          "story_flag": "eastwood_allied",
+          "message": "\u201c你老了。\u201d\u201c你也是。\u201d两个老枪手在沙漠夜色中并肩而立，像两棵被同一阵风沙磨了几十年的枯树。沉默就是答应。"
+        }
+      },
+      {
+        "text": "请他讲述死亡谷的真相",
+        "outcome": {
+          "cipher_fragment": "act3_fragment_5",
+          "integrity_change": -3,
+          "story_flag": "death_valley_revealed",
+          "message": "\u201c那堵墙把整座山谷变成了停尸房。\u201d伊斯特伍德把雪茄按灭。\u201c我找了那堵墙二十年——最后在风滚草镇的矿井底下找到了。\u201d"
+        }
+      },
+      {
+        "text": "以心弹打断矿井引爆线",
+        "outcome": {
+          "integrity_change": -10,
+          "card_reward": "heart_bullet",
+          "story_flag": "mine_defused",
+          "message": "心弹钻进燃烧的导火索皮下，沿着火药填充层逆向推进，把正在燃烧的化学链一个一个锁死。火焰灭了。伊斯特伍德的雪茄烧到了手指，他浑然不觉。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "death_valley_wall",
+    "name": "死亡谷之墙",
+    "act": 3,
+    "description": "矿井底下，铁壁围成的溶洞中，十二个石台围着一只木箱。木箱上挂着骑士团的银鞍徽记。",
+    "choices": [
+      {
+        "text": "打开木箱",
+        "outcome": {
+          "cipher_fragment": "act3_fragment_6",
+          "integrity_change": -5,
+          "story_flag": "knights_remains_found",
+          "message": "防潮麻布里包着文件和一把长刀——刀鞘上刻着精确的标尺坐标，是一位不知名囚犯用最后的力气刻下的。威尔逊接过刀：\u201c档案部不会再有墨水写死人的名字了。我发誓。\u201d"
+        }
+      },
+      {
+        "text": "在十二个石台前默哀",
+        "outcome": {
+          "integrity_change": 15,
+          "story_flag": "twelve_mourned",
+          "message": "帕金森站在那十二个石台前，站了很久。他的肩膀在微不可查地颤抖。十二个兄弟——霍桑到死都以为他们埋在白石城附近。到死都以为。"
+        }
+      },
+      {
+        "text": "取走银鞍徽记",
+        "outcome": {
+          "card_reward": "silver_saddle_crest",
+          "gold": 25,
+          "message": "徽记上的银色骏马在黑暗中泛着微光。你把十二枚徽记一一收入怀中——这些名字，不该再被遗忘在地下。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "shalifei_encounter",
+    "name": "沙里飞的搅风刀",
+    "act": 2,
+    "description": "一个歪歪斜斜的男人挡在路中央，搅风刀用草绳缠在手掌上，缺了两枚齿。\u201c我的刀是从双旗镇的沙子里祭过旗的。\u201d",
+    "choices": [
+      {
+        "text": "与沙里飞交易情报",
+        "outcome": {
+          "gold_change": -15,
+          "cipher_fragment": "act2_fragment_10",
+          "message": "沙里飞收了金币，咧嘴笑了。\u201c残月渡驿站——有个铁拳的暗门，密码三十年没换过。\u201d他从牙缝里挤出情报的样子像在嚼沙子。",
+          "gold_cost": 15
+        }
+      },
+      {
+        "text": "给他一瓶威士忌",
+        "outcome": {
+          "card_reward": "whiskey_shots",
+          "story_flag": "shalifei_friended",
+          "message": "沙里飞接过酒瓶灌了一大口，用袖子抹嘴。\u201c我活了半辈子，今天才发现我会讲三个词的法语：\u2018救命\u2019\u2018饶了我\u2019和\u2018这全都怪那个卡津人\u2019。\u201d"
+        }
+      },
+      {
+        "text": "无视他继续赶路",
+        "outcome": {
+          "integrity_change": -3,
+          "message": "沙里飞在身后喊：\u201c嘿！你的铁砂少了三粒——不是我偷的，是刚才那阵风刮的！\u201d你回头时他已经消失在风沙里。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "captain_bryan_oath",
+    "name": "布莱恩上尉之誓",
+    "act": 2,
+    "description": "残月渡驿站的后厨，一个穿着围裙的黑人男人摘下围裙，露出里面别着联邦军上尉铜星的深色外套。\u201c松林镇三百二十七人——铁拳欠我一条命，我替他们要三百二十七条。\u201d",
+    "choices": [
+      {
+        "text": "邀请布莱恩加入",
+        "outcome": {
+          "card_reward": "iron_curtain",
+          "integrity_change": 5,
+          "story_flag": "bryan_allied",
+          "message": "布莱恩敬了一个标准的军礼。\u201c弗雷德里克·R·布莱恩上尉，第七有色人种骑兵团。\u201d黄铜星徽在残月渡的灯火中格外刺眼。"
+        }
+      },
+      {
+        "text": "与他交换松林镇的情报",
+        "outcome": {
+          "cipher_fragment": "act2_fragment_10",
+          "gold": 15,
+          "story_flag": "pine_grove_intel",
+          "message": "\u201c松林之战前夜，情报原稿上有一个代号——\u2018Francis\u2019。标注者的签名是S.H.\u201d布莱恩闭上眼睛，\u201c我找了那个签名三十年。\u201d"
+        }
+      },
+      {
+        "text": "给他威尔逊的铁拳档案",
+        "outcome": {
+          "integrity_change": 8,
+          "story_flag": "bryan_given_files",
+          "message": "威尔逊颤抖着把档案袋递过去。布莱恩翻到松林镇那一页时手指僵住了——三百二十七个名字，每一个都是他曾经的战友。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "san_francisco_approach",
+    "name": "旧金山城外",
+    "act": 3,
+    "description": "旧金山的轮廓在蓝绿色极光中浮现。天空被撕开了一道裂缝，不属于人间的飞行器悬浮在城市正上方。",
+    "choices": [
+      {
+        "text": "从唐人街潜入",
+        "outcome": {
+          "integrity_change": -8,
+          "cipher_fragment": "act3_fragment_6",
+          "story_flag": "chinatown_entry",
+          "message": "唐人街的牌坊被从正中间剖开——切口光滑如镜。街上躺满了人，没有伤口，没有血，但他们的眼球是灰色的。"
+        }
+      },
+      {
+        "text": "沿港口暗道前进",
+        "outcome": {
+          "integrity_change": -5,
+          "gold": 20,
+          "message": "码头上被蓝光蚀成金属箔的帆船还在冒烟。你在废弃的港务局里找到了铁拳的兵力部署图。"
+        }
+      },
+      {
+        "text": "直奔天后古庙",
+        "outcome": {
+          "card_reward": "sixth_sense",
+          "integrity_change": 3,
+          "story_flag": "temple_approach",
+          "message": "古庙前，灰色僧袍的老者背对众人，面前一只青铜香炉，上方飘着流转的星图。他说了一句让所有人血液凝固的话。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "tin_hau_temple",
+    "name": "天后宫老僧",
+    "act": 3,
+    "description": "灰色僧袍的老人坐在古庙前。香炉上方飘着星图，僧袍左袖别着一枚银鞍徽记——下方多了一道铭文：S.H.",
+    "choices": [
+      {
+        "text": "询问S.H.的真名",
+        "outcome": {
+          "cipher_fragment": "act3_fragment_7",
+          "integrity_change": -3,
+          "story_flag": "sh_identity",
+          "message": "\u201cSacred Haunting。神佑的冤魂。\u201d老僧说。\u201c三十年前在血泊中假死逃生的第十二个骑士。\u201d——他一直活着。等了三十年。"
+        }
+      },
+      {
+        "text": "聆听星图的秘密",
+        "outcome": {
+          "card_reward": "paladins_resolve",
+          "integrity_change": 5,
+          "story_flag": "starmap_revealed",
+          "message": "星图上五颗亮星组成一只五指张开的手掌。老僧说：\u201c格蕾丝·马洛莉把铁拳的坐标发给了它们。她不是在求神——她把自己的坐标当诱饵，引天上那些东西来杀铁拳。\u201d"
+        }
+      },
+      {
+        "text": "请老僧指引去路",
+        "outcome": {
+          "integrity_change": 10,
+          "story_flag": "monk_guidance",
+          "message": "老僧将星图翻转——变成旧金山地图，四个红点闪烁。\u201c铁拳总部在地下四层，位于五条大地磁力线交汇点。天上那些东西从三百万年前就用磁力导航。\u201d"
+        }
+      }
+    ]
+  },
+  {
+    "id": "star_fall_assault",
+    "name": "星落突袭",
+    "act": 3,
+    "description": "旧金山上空，不属于人间的飞行器降下数百条蓝色光索。巴雷特的地下掩体暴露在磁力线的回流圈里。",
+    "choices": [
+      {
+        "text": "引导星辰之力攻击铁拳总部",
+        "outcome": {
+          "integrity_change": -15,
+          "cipher_fragment": "act3_fragment_7",
+          "story_flag": "star_assault_launched",
+          "message": "帕金森右手虎口的蓝光与天穹裂缝的脉动同步。维多利亚将发报机的铜线绕在他手上——格蕾丝六十年前的信号，今天由帕金森再发一条。\u201c第三根桩基下面，有你们的同类。\u201d"
+        }
+      },
+      {
+        "text": "从钟楼突入地下",
+        "outcome": {
+          "integrity_change": -10,
+          "card_reward": "purifying_round",
+          "story_flag": "clocktower_entry",
+          "message": "钟楼里的厄运敲钟被伊斯特伍德的步枪一枪打断铜缆。通风管道暴露——那是唯一能进巴雷特掩体的通道。老牛仔的烟熏嗓音：\u201c从里面打。\u201d"
+        }
+      },
+      {
+        "text": "保护平民撤离",
+        "outcome": {
+          "integrity_change": 5,
+          "story_flag": "civilians_saved",
+          "message": "孩哥用\u201c红旗卷沙\u201d将蓝光光索从倒地的人身上拍开——那一刀不是为了杀人，是为了把人从收割者的触须里救回来。好妹发信号的手腕又勒出了青紫。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "barrett_bunker",
+    "name": "巴雷特掩体",
+    "act": 3,
+    "description": "地下四层的钢筋混凝土掩体。六英尺厚的墙壁，独立的空气循环系统。巴雷特端着茶杯，手指在颤抖。",
+    "choices": [
+      {
+        "text": "正面突破掩体大门",
+        "outcome": {
+          "integrity_change": -12,
+          "gold": 50,
+          "card_reward": "iron_curtain",
+          "story_flag": "bunker_breached",
+          "message": "布莱恩上尉用铁拳留下的炸药炸开了大门。莫斯法警的散弹覆盖了走廊。帕金森没有拔枪——他只是走进去，蓝光在他右手虎口一明一暗。"
+        }
+      },
+      {
+        "text": "从通风管道潜入",
+        "outcome": {
+          "integrity_change": -5,
+          "cipher_fragment": "act3_fragment_8",
+          "story_flag": "bunker_infiltrated",
+          "message": "通风管里的铜缆已经被伊斯特伍德打断。你沿着管道滑下去——巴雷特的保险库里堆着金砖和面粉。但他没有拔过枪。他这辈子只听一个人说过要亲手朝自己手上开枪。"
+        }
+      },
+      {
+        "text": "引导蓝光涌入掩体",
+        "outcome": {
+          "integrity_change": -8,
+          "story_flag": "blue_light_flooded",
+          "message": "帕金森将右手按在掩体的通风口上。蓝光从他虎口的旧伤中涌出，顺着管道灌入地下四层。巴雷特听到通风管发出的声音时——他终于明白了霍桑三十年前那句话：\u201c总有一天会有人带着不是子弹的东西破开你们总部的大门。\u201d"
+        }
+      }
+    ]
+  },
+  {
+    "id": "allies_assembly",
+    "name": "骑士集结令",
+    "act": 3,
+    "description": "旧金山地下，铁拳总部外。帕金森转身看向每一个人——法警、上尉、剑客、少年刀客、档案管理员、无名客。",
+    "choices": [
+      {
+        "text": "以霍桑的遗信为号",
+        "outcome": {
+          "integrity_change": 15,
+          "cipher_fragment": "act3_fragment_8",
+          "story_flag": "allies_assembled",
+          "message": "\u201c银鞍照白马，飒沓如流星。事了拂衣去，深藏身与名。\u201d帕金森念出霍桑三十年前写下的暗号。每一个人都站了起来。骑士不死，只是暂时离鞍。"
+        }
+      },
+      {
+        "text": "分发铁砂给每位战友",
+        "outcome": {
+          "card_reward": "iron_sand_bullet",
+          "integrity_change": 5,
+          "story_flag": "iron_sand_shared",
+          "message": "十二粒铁砂，分给身边的战友。帕金森手上还留了三粒——一粒给霍桑，一粒给格蕾丝，一粒给那个在灰狼镇等了三十年的老瘸子。"
+        }
+      },
+      {
+        "text": "独自面对最后的战斗",
+        "outcome": {
+          "integrity_change": -8,
+          "gold": 30,
+          "story_flag": "lone_final_battle",
+          "message": "帕金森一个人走进了铁拳总部的废墟。身后传来马蹄声——所有人都跟了上来。有些人你要赶也赶不走。这就是骑士团的规矩。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "long_river_sunset",
+    "name": "长河落日",
+    "act": 3,
+    "description": "旧金山的战斗结束了。天空的裂缝在缓缓愈合，蓝绿色的极光像退潮的海水渐渐消散。帕金森的右手虎口还在渗血。",
+    "choices": [
+      {
+        "text": "在废墟中寻找巴雷特的档案",
+        "outcome": {
+          "cipher_fragment": "act3_fragment_9",
+          "gold": 40,
+          "story_flag": "barrett_archives_found",
+          "message": "巴雷特的保险库被炸开了。威尔逊走进去，用袖子把每一份文件的封面擦干净。他面无表情地说：\u201c从现在开始，我不再是铁拳的档案部。我替这十二个骑士补完他们所有的文件。\u201d"
+        }
+      },
+      {
+        "text": "救治受伤的同伴",
+        "outcome": {
+          "integrity_change": 15,
+          "story_flag": "allies_healed",
+          "message": "凯莉和维多利亚用圣丹尼斯带来的医疗箱处理伤口。沙里飞的搅风刀缺了更多牙口，但他在笑——\u201c维多利亚，你刚才像头水獭，扑他。\u201d"
+        }
+      },
+      {
+        "text": "面向太平洋沉默",
+        "outcome": {
+          "integrity_change": 5,
+          "story_flag": "pacific_silence",
+          "message": "帕金森站在废墟边缘，面朝太平洋。风里有盐腥味，和三十七年前新奥尔良码头上的风一样。霍桑曾说过：有些事拂不去。就像这密西西比河的水，你可以在岸上走二十年，但水流永远在你脚下。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "grey_wolf_no_funeral",
+    "name": "灰狼镇没有葬礼",
+    "act": 3,
+    "description": "灰狼镇的无名酒馆，招牌依旧光秃秃的。拴马桩上的弹孔还在，但老板的腿不瘸了。",
+    "choices": [
+      {
+        "text": "回到灰狼镇酒馆",
+        "outcome": {
+          "integrity_change": 20,
+          "story_flag": "returned_to_grey_wolf",
+          "message": "老瘸子站在酒馆门口，佝偻了十几年的脊背笔直如枪。\u201c酒钱挂在账上。\u201d帕金森说。马麟长笑了：\u201c果然还是喝最便宜的酒。这个混账男爵。\u201d"
+        }
+      },
+      {
+        "text": "在镇外为霍桑立碑",
+        "outcome": {
+          "cipher_fragment": "act3_fragment_9",
+          "integrity_change": 10,
+          "story_flag": "hawthorn_memorial",
+          "message": "帕金森用铁砂在石碑上刻下霍桑的名字。十二粒铁砂，十二个兄弟。\u201c银鞍照白马，飒沓如流星。\u201d石碑在夕阳下泛着银光，像一面永远不会倒下的旗帜。"
+        }
+      },
+      {
+        "text": "与马麟长喝一杯",
+        "outcome": {
+          "card_reward": "whiskey_shots",
+          "integrity_change": 8,
+          "message": "马麟长从柜台后面取出两只杯子。二十年的龙舌兰。\u201c去吧，老伙计。我在这里等了你三十年，不差这最后几天。\u201d杯中的酒液在夕阳中泛着金光。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "parkinsons_choice",
+    "name": "帕金森的抉择",
+    "act": 3,
+    "description": "旧金山的硝烟散尽。帕金森站在十字路口——西去太平洋，东回密西西比，北返白石城，南归灰狼镇。",
+    "choices": [
+      {
+        "text": "回到灰狼镇，继续做一个酒鬼",
+        "outcome": {
+          "integrity_change": 10,
+          "gold": 30,
+          "story_flag": "retired_again",
+          "message": "帕金森把圣银左轮挂在灰狼镇酒馆的墙上。他又要了一壶最便宜的龙舌兰。但这一次，他的手不再发抖了。有些账已经还了。"
+        }
+      },
+      {
+        "text": "重建白石城",
+        "outcome": {
+          "integrity_change": 15,
+          "cipher_fragment": "act3_fragment_4",
+          "story_flag": "white_stone_rebuilt",
+          "message": "十二粒铁砂被铸成白石城新门上的铆钉。帕金森站在城堡二层的窗前，看着落基山的大雪把世界填成一张白纸。这一次，窗台上没有冰冷的枪，只有一杯热咖啡。"
+        }
+      },
+      {
+        "text": "策马西行，消失在夕阳中",
+        "outcome": {
+          "integrity_change": 5,
+          "card_reward": "silver_saddle_crest",
+          "story_flag": "rode_into_sunset",
+          "message": "\u201c事了拂衣去，深藏身与名。\u201d帕金森拉下帽檐，策马向西。他的背影在夕阳中渐渐拉长，像一匹银鞍上的白马，踏着白川与风雪，奔向远方。骑士不死，他只是暂时离鞍。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "kelly_archive_discovery",
+    "name": "凯莉的档案发现",
+    "act": 2,
+    "description": "靛蓝街诊所楼前，一黑一白两个年轻女人扛着装满病历的帆布包。黑皮肤的凯莉目光锐利：\u201c你们是从北边来的。\u201d",
+    "choices": [
+      {
+        "text": "帮助凯莉抢救档案",
+        "outcome": {
+          "integrity_change": 8,
+          "cipher_fragment": "act2_fragment_9",
+          "story_flag": "kelly_archive_saved",
+          "message": "凯莉的帆布包摔在地上，文件散了一地。你帮她一张张捡起来——每一张病历都是铁拳的罪证。\u201c这份档案记录的不是精神病。是铁拳。\u201d"
+        }
+      },
+      {
+        "text": "询问夜游者的记录",
+        "outcome": {
+          "card_reward": "sixth_sense",
+          "story_flag": "nightwalker_intel",
+          "message": "\u201c他每晚都沿着别人指定的路线行走——那条路线，就是铁拳走私面粉的地下输送路线。\u201d凯莉的声音很轻，像金属撞击。两条暗线在同一张地图上走了十年，从未撞在一起。"
+        }
+      },
+      {
+        "text": "与维多利亚交换情报",
+        "outcome": {
+          "item_reward": "cipher_notes_2",
+          "gold": 15,
+          "message": "维多利亚用法语低低念了一句格蕾丝血书上的话。你听不太懂，但你看到了她眼眶里的红——那不是恐惧，比恐惧更深。铁拳用一个活着的测量师换了一座桥的地基。"
+        }
+      }
+    ]
+  },
+  {
+    "id": "st_denis_bridge_battle",
+    "name": "圣丹尼斯桥之战",
+    "act": 2,
+    "description": "密西西比河上，铁拳的炮艇逼近第三大桥。四十盏信号灯在雾中闪烁——铁拳海军封锁了南北两端水域。",
+    "choices": [
+      {
+        "text": "以心弹破开弹幕",
+        "outcome": {
+          "integrity_change": -12,
+          "card_reward": "heart_bullet",
+          "story_flag": "bridge_heart_bullet",
+          "message": "帕金森虚握右手——那道白线把河面上所有晨雾搅成一个巨大的涡眼。四十发速射弹全部打歪。但虎口的旧伤终于撕裂，深可见骨。"
+        }
+      },
+      {
+        "text": "配合伊斯特伍德截击炮艇",
+        "outcome": {
+          "integrity_change": -5,
+          "gold": 35,
+          "card_reward": "ambush",
+          "message": "伊斯特伍德的杠杆步枪一枪打偏了炮艇的航向。莫斯的散弹覆盖了操纵室。拉方丹从侧舷翻身上了甲板——他的细剑在河风里像一根闪电。"
+        }
+      },
+      {
+        "text": "引爆码头蒸汽管道掩护",
+        "outcome": {
+          "integrity_change": -8,
+          "story_flag": "steam_cover",
+          "message": "凯莉用铜制压印器将管道的剩余气压定向引爆。蒸汽在码头上空炸开一团四十英尺的白幕，遮住了铁拳的视野。布莱恩趁机引爆了废弃货棚。"
+        }
+      }
+    ]
+  }
+]

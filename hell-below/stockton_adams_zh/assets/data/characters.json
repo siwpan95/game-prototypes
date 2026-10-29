@@ -1,0 +1,59 @@
+{
+  "characters": {
+    "sancho": {
+      "char_id": "sancho",
+      "name": "桑丘",
+      "description": "桑丘在你身边的花园长凳上坐了下来。他跟着你\n五年了——从你退休之前就开始了。在认识你之前，\n他从来没看过篮球。\n\n\"老板，\"他拔着一根杂草说，\"你为什么还扛着\n那份重量？联盟已经跟你没关系了。是你还放不下它。\"\n\n他当然是对的。桑丘几乎总是对的。",
+      "role": "companion",
+      "related_nodes": [
+        "talk_sancho",
+        "a2_talk_sancho",
+        "a2_mirror_gardener"
+      ]
+    },
+    "elena": {
+      "char_id": "elena",
+      "name": "埃琳娜",
+      "description": "埃琳娜在厨房里煮咖啡。她嫁给这个男人已经二十年——\n看过他在总决赛中锁喉拉里·伯德，看过他在奥本山宫殿\n的看台上挥舞拳头，看过他在镜头前用最平淡的语调\n说出\"无论你跳多高你都会落下\"。\n\n但她从没问过\"你为什么要在镜头前说那句话\"，\n就像她从没问过\"你为什么要立一个篮球架\"。\n她有一种近乎植物学家的耐心：种子发芽需要水，\n长成需要时间，开出什么花来取决于种子自己的品种。\n她能做的，只是浇水。\n\n\"",
+      "role": "family",
+      "related_nodes": [
+        "a2_talk_elena",
+        "a3_elena_silence"
+      ]
+    },
+    "leonard": {
+      "char_id": "leonard",
+      "name": "莱纳德",
+      "description": "那个在2017年西部半决赛中被你犯规的球员。你终结了他的巅峰。",
+      "role": "rival",
+      "related_nodes": [
+        "choice_leonard",
+        "a2_letter",
+        "a2_boss",
+        "a3_write_final",
+        "a3_empty_chair",
+        "ending_best"
+      ]
+    },
+    "coach_paul": {
+      "char_id": "coach_paul",
+      "name": "保罗教练",
+      "description": "你的高中教练，教会你篮球不只是关于输赢。十年前去世了。",
+      "role": "mentor",
+      "related_nodes": [
+        "reading_paul",
+        "reading_steel",
+        "act2_start"
+      ]
+    },
+    "father": {
+      "char_id": "father",
+      "name": "父亲",
+      "description": "脖子上有刀疤的男人。让你去学会挨打。",
+      "role": "family",
+      "related_nodes": [
+        "reading_origin"
+      ]
+    }
+  }
+}

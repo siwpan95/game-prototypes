@@ -1,0 +1,144 @@
+{
+  "dialogs": {
+    "dialog_prologue_lecture": [
+      {
+        "speaker": "alen",
+        "text": "我认为杜甫什么都不提供。"
+      },
+      {
+        "speaker": "alen",
+        "text": "我们总是期望伟大的文学'提供'些什么——智慧、慰藉、认同。但真正的诗歌，像杜甫的那种，不是提供。是要求。它要求你的专注、你的谦卑、你愿意放下文化预设的勇气。"
+      },
+      {
+        "speaker": "alen",
+        "text": "有些苦难不可翻译，有些经验无法被充分理解。你只能站在它的边缘，像隔着结了霜的窗户看炉火。你能感觉到暖意，但你知道自己永远无法进入。"
+      }
+    ],
+    "dialog_prologue_wanqing": [
+      {
+        "speaker": "wanqing",
+        "text": "艾伦，你有没有想过，你爱上的不是杜甫，而是一个叫'杜甫'的符号？"
+      },
+      {
+        "speaker": "wanqing",
+        "text": "诗是语言，但诗感，是心。心与心之间，没有他者。"
+      }
+    ],
+    "dialog_wang_naming": [
+      {
+        "speaker": "wang_teacher",
+        "text": "既然来了中国，就入乡随俗。你姓Abbott——艾博特。'艾'是香草。'伦'是人伦，是伦常。叫'艾伦'怎么样——再加一个字——'艾慕伦'。'慕'是仰慕，是向往。仰慕东方之道的人。"
+      }
+    ],
+    "dialog_wang_regrets": [
+      {
+        "speaker": "wang_teacher",
+        "text": "慕伦，你知道吗？我有两个遗憾。第一个是我从来没有写出过一本真正属于自己的好书。我注了那么多古人，编了那么多版本——但自己的话，都藏在注脚里了。注脚是给人踩的。我这一辈子，都在做垫脚石。"
+      },
+      {
+        "speaker": "wang_teacher",
+        "text": "第二个遗憾是我教了那么多外国学生。他们会读《论语》，会背《离骚》，论文里引用《文心雕龙》。但我常常想——他们真的懂了吗？"
+      },
+      {
+        "speaker": "wang_teacher",
+        "text": "我只是一个摆渡人。我把他们送到岸上，然后一个人划回去。一辈子，就是这样。"
+      }
+    ],
+    "dialog_wang_farewell": [
+      {
+        "speaker": "wang_teacher",
+        "text": "走吧。别回头。回头就不想走了。"
+      }
+    ],
+    "dialog_wang_wisdom": [
+      {
+        "speaker": "wang_teacher",
+        "text": "慕伦，你要记住。我们做学问的人，最怕的不是无知，是自以为知。以为自己懂了杜甫，懂了东方——其实你懂的，不过是自己心里的那个'东方'罢了。带着这种'不懂'活下去。承认自己不懂，才是真的开始懂。"
+      }
+    ],
+    "dialog_wanqing_dufu": [
+      {
+        "speaker": "wanqing",
+        "text": "我读过你的《杜甫与时间》。我觉得你对'国破山河在'的解读，可能太哲学化了。"
+      },
+      {
+        "speaker": "wanqing",
+        "text": "我外公经历过战争。他说真的是那样——家没了，人死了，但那座山还是那座山，那条河还是那条河。那种感觉不是哲学。是肉里的疼。"
+      }
+    ],
+    "dialog_wanqing_hospital": [
+      {
+        "speaker": "wanqing",
+        "text": "你是在把我比作一匹马吗？"
+      },
+      {
+        "speaker": "alen",
+        "text": "杜甫写的是马，也是写自己。还在奔波，还在疼。但马还在走。人还在活。"
+      },
+      {
+        "speaker": "wanqing",
+        "text": "艾伦，如果我走了，你一定要继续研究。不是为我。是为那些诗。它们需要一个真正懂的人。"
+      }
+    ],
+    "dialog_wanqing_last_words": [
+      {
+        "speaker": "wanqing",
+        "text": "艾伦，你知道吗，我现在才明白，语言不是用来沟通的。是用来伸出手的。你说话，就像伸出手，你不知道会不会有人握住。但你还是要伸。因为如果你不伸，你就已经是一个人了。"
+      },
+      {
+        "speaker": "alen",
+        "text": "你不是一个人。"
+      },
+      {
+        "speaker": "wanqing",
+        "text": "我知道。因为你握住了。"
+      }
+    ],
+    "dialog_xiaochen_hospital": [
+      {
+        "speaker": "xiaochen",
+        "text": "教授，我不知道你能不能听见。但我想告诉你——我去了西湖。上次您来杭州，您说湖是'看不见的'。当时我不懂。现在我懂了。不是湖变了。是我们变了。西湖是一首不需要翻译的诗。只是我们太喧闹了，听不见它。"
+      }
+    ],
+    "dialog_xiaochen_morning": [
+      {
+        "speaker": "xiaochen",
+        "text": "教授！您起这么早啊。我刚想发消息问您吃早饭。"
+      },
+      {
+        "speaker": "alen",
+        "text": "好。去吃早饭。"
+      }
+    ],
+    "dialog_xiaochen_liushu": [
+      {
+        "speaker": "xiaochen",
+        "text": "那棵树很有名的。据说有几百年了。树干空了，灌了水泥。"
+      }
+    ],
+    "dialog_noodle_boss": [
+      {
+        "speaker": "noodle_boss",
+        "text": "洋同志，慢慢来。"
+      }
+    ],
+    "dialog_young_alen": [
+      {
+        "speaker": "alen",
+        "text": "你终于来了。"
+      }
+    ],
+    "dialog_wanqing_letter_hangzhou": [
+      {
+        "speaker": "wanqing",
+        "text": "不是诗跨越了距离。是滚烫的东西，从来都不懂得畏惧距离。"
+      }
+    ],
+    "dialog_wanqing_letter_home": [
+      {
+        "speaker": "wanqing",
+        "text": "你为什么要跨越那道距离呢？……这个'之间'不是空的，不是需要被填满的。它就是我们的家。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,154 @@
+[
+  {
+    "character_id": "npc_fisher",
+    "name": "保罗·费舍",
+    "description": "前同事，知情甚多。谈起夜班时双手颤抖。",
+    "dialog_tree_id": "dlg_fisher_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_janitor",
+    "name": "老管理员",
+    "description": "他在这里待得比任何人都久。他知道哪些门被锁上，以及原因。",
+    "dialog_tree_id": "dlg_janitor_encounter",
+    "encounter_behavior": "FRIENDLY",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_worker",
+    "name": "惊恐的工人",
+    "description": "年轻工人，刚出校门。她紧攥着一张皱巴巴的纸条，不敢与你对视。",
+    "dialog_tree_id": "dlg_worker_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_foreman",
+    "name": "工厂工头",
+    "description": "负责监督“特殊任务”的工头。他的微笑从未到达眼底。",
+    "dialog_tree_id": "dlg_foreman_boss",
+    "encounter_behavior": "HOSTILE",
+    "is_hostile": true
+  },
+  {
+    "character_id": "npc_orderly",
+    "name": "紧张的护工",
+    "description": "Murkoff 的护工，显然没料到会卷入此事。他不停地瞥向监控摄像头。",
+    "dialog_tree_id": "dlg_orderly_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_patient",
+    "name": "迷失的患者",
+    "description": "穿着污迹斑斑的病号服。他们低语着“那台机器”和“蜂群”。",
+    "dialog_tree_id": "dlg_patient_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_trager",
+    "name": "理查德·特拉格",
+    "description": "前外科医生，现为囚犯。他行动从容不迫，剪刀寒光一闪。",
+    "dialog_tree_id": "dlg_trager_encounter",
+    "encounter_behavior": "HOSTILE",
+    "is_hostile": true
+  },
+  {
+    "character_id": "npc_snakehead",
+    "name": "蛇头中尉",
+    "description": "贩运集团的行动指挥官。冷酷、精准，毫无悔意。",
+    "dialog_tree_id": "dlg_snakehead_encounter",
+    "encounter_behavior": "HOSTILE",
+    "is_hostile": true
+  },
+  {
+    "character_id": "npc_informant",
+    "name": "绝望的线人",
+    "description": "前走私犯，试图买通出路。信息是他们唯一的货币。",
+    "dialog_tree_id": "dlg_informant_encounter",
+    "encounter_behavior": "FRIENDLY",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_valkyrie",
+    "name": "女武神蜂群意识",
+    "description": "不是一个人——而是由 Walrider 实验诞生的集体意识。它像戴面具一样披着你的怀疑。",
+    "dialog_tree_id": "dlg_valkyrie_boss",
+    "encounter_behavior": "HOSTILE",
+    "is_hostile": true
+  },
+  {
+    "character_id": "npc_maggie_chen",
+    "name": "麦琪·陈",
+    "description": "---- 小说扩充 ---- 设计师，斯克兰顿基金会联合创始人。永远围着方格围巾，用设计思维解构系统性暴力。",
+    "dialog_tree_id": "dlg_maggie_chen_encounter",
+    "encounter_behavior": "FRIENDLY",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_lawrence_fisher",
+    "name": "劳伦斯·费希尔",
+    "description": "---- 小说扩充 ---- 前编辑，《图书世界》的编者按“在场感”倡导者。教会安娜新闻的真正力量。现为基金会架构师。",
+    "dialog_tree_id": "dlg_lawrence_fisher_encounter",
+    "encounter_behavior": "FRIENDLY",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_eleanor_watson",
+    "name": "埃莉诺·沃森",
+    "description": "---- 小说扩充 ---- 律师，斯克兰顿基金会法务。冷静到近乎冰冷，但每一个条款背后都是对受害者的承诺。",
+    "dialog_tree_id": "dlg_eleanor_watson_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_saul",
+    "name": "索尔",
+    "description": "---- 小说扩充 ---- 基金会财务专家。真名无人知晓，只知代号“索尔”。种子资金870万美元的操盘手。",
+    "dialog_tree_id": "dlg_saul_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_grace_ashcroft",
+    "name": "格蕾丝·阿什克罗夫特",
+    "description": "---- 小说扩充 ---- FBI技术分析师，浣熊市幸存者艾丽莎之女。代号“收割者”，追踪T病毒变体与黑斑死亡事件。",
+    "dialog_tree_id": "dlg_grace_ashcroft_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_ink_man",
+    "name": "墨迹人",
+    "description": "---- 小说扩充 ---- 芝加哥义警，面部被流动的墨迹覆盖。真实身份疑似托马斯·“铁锤”拉金。记录者与裁决者的哲学对立面。",
+    "dialog_tree_id": "dlg_ink_man_encounter",
+    "encounter_behavior": "NEUTRAL",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_edna_preston",
+    "name": "埃德娜·普雷斯顿",
+    "description": "---- 小说扩充 ---- 石溪镇图书馆管理员，现实扰动的第一位受害者。她记得特拉格1995年的论文——'现实锚'。",
+    "dialog_tree_id": "dlg_edna_preston_encounter",
+    "encounter_behavior": "FRIENDLY",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_falcone_maroni",
+    "name": "法尔科内·马罗尼",
+    "description": "---- 小说扩充 ---- 安娜从锚点选中的代理人，代号Mo.Fouth.Ker。左手两根断指转化为银灰色纳米截面，蜂群传承的继承者。",
+    "dialog_tree_id": "dlg_falcone_maroni_encounter",
+    "encounter_behavior": "FRIENDLY",
+    "is_hostile": false
+  },
+  {
+    "character_id": "npc_maroni_falcone",
+    "name": "马罗尼·法尔科内",
+    "description": "---- 小说扩充 ---- 镜像反派。安娜曾拒绝他成为代理人，扭曲的传承使他走向裁决的极端——开膛手杰克式的审判者。",
+    "dialog_tree_id": "dlg_maroni_falcone_boss",
+    "encounter_behavior": "HOSTILE",
+    "is_hostile": true
+  }
+]

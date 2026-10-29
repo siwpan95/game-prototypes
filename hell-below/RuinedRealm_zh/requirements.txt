@@ -1,0 +1,3 @@
+# Ruined Realm - A Digital Underworld Text Adventure
+# Python 3.13 + Tkinter (included with Python)
+# No external dependencies required - uses only standard library

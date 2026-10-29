@@ -1,0 +1,981 @@
+[
+  {
+    "id": "strike",
+    "name": "打击",
+    "card_type": "ATTACK",
+    "cost": 1,
+    "description": "造成6点伤害。",
+    "upgraded_description": "造成9点伤害。",
+    "effects": [{"effect_type": "damage", "value": 6, "target": "enemy"}],
+    "upgraded_effects": [{"effect_type": "damage", "value": 9, "target": "enemy"}],
+    "rarity": "STARTER",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "defend",
+    "name": "防御",
+    "card_type": "DEFENSE",
+    "cost": 1,
+    "description": "获得5点格挡。",
+    "upgraded_description": "获得8点格挡。",
+    "effects": [{"effect_type": "block", "value": 5, "target": "self"}],
+    "upgraded_effects": [{"effect_type": "block", "value": 8, "target": "self"}],
+    "rarity": "STARTER",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "focus",
+    "name": "专注",
+    "card_type": "SKILL",
+    "cost": 0,
+    "description": "获得1点专注。",
+    "upgraded_description": "获得2点专注。",
+    "effects": [{"effect_type": "draw", "value": 1, "target": "self"}],
+    "upgraded_effects": [{"effect_type": "draw", "value": 2, "target": "self"}],
+    "rarity": "STARTER",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "heart_bullet",
+    "name": "心灵子弹",
+    "card_type": "HEART_BULLET",
+    "cost": 1,
+    "description": "造成10点伤害。消耗：5%完整度。",
+    "upgraded_description": "造成15点伤害。消耗：5%完整度。",
+    "effects": [{"effect_type": "damage", "value": 10, "target": "enemy"}],
+    "upgraded_effects": [{"effect_type": "damage", "value": 15, "target": "enemy"}],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 5.0
+  },
+  {
+    "id": "silver_bullet",
+    "name": "银弹",
+    "card_type": "HEART_BULLET",
+    "cost": 1,
+    "description": "造成15点伤害。消耗：8%完整度。",
+    "upgraded_description": "造成20点伤害。消耗：8%完整度。",
+    "effects": [{"effect_type": "damage", "value": 15, "target": "enemy"}],
+    "upgraded_effects": [{"effect_type": "damage", "value": 20, "target": "enemy"}],
+    "rarity": "RARE",
+    "integrity_cost": 8.0
+  },
+  {
+    "id": "paladins_resolve",
+    "name": "圣骑士的决心",
+    "card_type": "HEART_BULLET",
+    "cost": 1,
+    "description": "造成12点伤害，获得5点格挡。消耗：10%完整度。",
+    "upgraded_description": "造成16点伤害，获得8点格挡。消耗：10%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 12, "target": "enemy"},
+      {"effect_type": "block", "value": 5, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 16, "target": "enemy"},
+      {"effect_type": "block", "value": 8, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 10.0
+  },
+  {
+    "id": "knights_sacrifice",
+    "name": "骑士的牺牲",
+    "card_type": "HEART_BULLET",
+    "cost": 2,
+    "description": "造成25点伤害。消耗：15%完整度。",
+    "upgraded_description": "造成35点伤害。消耗：15%完整度。",
+    "effects": [{"effect_type": "damage", "value": 25, "target": "enemy"}],
+    "upgraded_effects": [{"effect_type": "damage", "value": 35, "target": "enemy"}],
+    "rarity": "RARE",
+    "integrity_cost": 15.0
+  },
+  {
+    "id": "hollow_point",
+    "name": "空尖弹",
+    "card_type": "HEART_BULLET",
+    "cost": 1,
+    "description": "造成8点伤害。施加1层易伤。消耗：6%完整度。",
+    "upgraded_description": "造成11点伤害。施加2层易伤。消耗：6%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 8, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "enemy", "buff_name": "vulnerable"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 11, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 2, "target": "enemy", "buff_name": "vulnerable"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 6.0
+  },
+  {
+    "id": "quick_draw",
+    "name": "快拔",
+    "card_type": "ATTACK",
+    "cost": 1,
+    "description": "造成4点伤害。抽1张牌。",
+    "upgraded_description": "造成7点伤害。抽1张牌。",
+    "effects": [
+      {"effect_type": "damage", "value": 4, "target": "enemy"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 7, "target": "enemy"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "dust_cover",
+    "name": "尘幕",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "对所有敌人造成10点伤害。",
+    "upgraded_description": "对所有敌人造成14点伤害。",
+    "effects": [{"effect_type": "damage", "value": 10, "target": "all_enemies"}],
+    "upgraded_effects": [{"effect_type": "damage", "value": 14, "target": "all_enemies"}],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "six_shooter",
+    "name": "六连发",
+    "card_type": "ATTACK",
+    "cost": 1,
+    "description": "造成3点伤害2次。",
+    "upgraded_description": "造成5点伤害2次。",
+    "effects": [
+      {"effect_type": "damage", "value": 3, "target": "enemy"},
+      {"effect_type": "damage", "value": 3, "target": "enemy"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 5, "target": "enemy"},
+      {"effect_type": "damage", "value": 5, "target": "enemy"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "iron_will",
+    "name": "钢铁意志",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "造成14点伤害。获得5点格挡。",
+    "upgraded_description": "造成18点伤害。获得8点格挡。",
+    "effects": [
+      {"effect_type": "damage", "value": 14, "target": "enemy"},
+      {"effect_type": "block", "value": 5, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 18, "target": "enemy"},
+      {"effect_type": "block", "value": 8, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "rattlesnake_strike",
+    "name": "响尾蛇出击",
+    "card_type": "ATTACK",
+    "cost": 1,
+    "description": "造成7点伤害。施加1层虚弱。",
+    "upgraded_description": "造成10点伤害。施加2层虚弱。",
+    "effects": [
+      {"effect_type": "damage", "value": 7, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "enemy", "buff_name": "weak"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 10, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 2, "target": "enemy", "buff_name": "weak"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "frontier_justice",
+    "name": "边疆正义",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "造成12点伤害。若敌人生命值<=50%，额外造成6点伤害。",
+    "upgraded_description": "造成16点伤害。若敌人生命值<=50%，额外造成9点伤害。",
+    "effects": [
+      {"effect_type": "damage", "value": 12, "target": "enemy"},
+      {"effect_type": "execute_damage", "value": 6, "target": "enemy"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 16, "target": "enemy"},
+      {"effect_type": "execute_damage", "value": 9, "target": "enemy"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "wild_shot",
+    "name": "乱射",
+    "card_type": "ATTACK",
+    "cost": 0,
+    "description": "造成3点伤害。将一张随机牌加入手牌。",
+    "upgraded_description": "造成5点伤害。将一张随机牌加入手牌。",
+    "effects": [
+      {"effect_type": "damage", "value": 3, "target": "enemy"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 5, "target": "enemy"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "double_tap",
+    "name": "双重射击",
+    "card_type": "ATTACK",
+    "cost": 1,
+    "description": "造成5点伤害。若击杀敌人，获得1点专注。",
+    "upgraded_description": "造成8点伤害。若击杀敌人，获得1点专注。",
+    "effects": [
+      {"effect_type": "damage", "value": 5, "target": "enemy"},
+      {"effect_type": "kill_bonus_focus", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 8, "target": "enemy"},
+      {"effect_type": "kill_bonus_focus", "value": 1, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "cyclone_slash",
+    "name": "旋风斩",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "对所有敌人造成8点伤害。获得4点格挡。",
+    "upgraded_description": "对所有敌人造成11点伤害。获得6点格挡。",
+    "effects": [
+      {"effect_type": "damage", "value": 8, "target": "all_enemies"},
+      {"effect_type": "block", "value": 4, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 11, "target": "all_enemies"},
+      {"effect_type": "block", "value": 6, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "blessed_shot",
+    "name": "祝福之弹",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "造成9点伤害。恢复5%完整度。",
+    "upgraded_description": "造成13点伤害。恢复8%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 9, "target": "enemy"},
+      {"effect_type": "heal_integrity", "value": 5, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 13, "target": "enemy"},
+      {"effect_type": "heal_integrity", "value": 8, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "purifying_round",
+    "name": "净化之弹",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "造成8点伤害。移除自身所有负面状态。",
+    "upgraded_description": "造成12点伤害。移除自身所有负面状态。",
+    "effects": [
+      {"effect_type": "damage", "value": 8, "target": "enemy"},
+      {"effect_type": "remove_debuffs", "value": 0, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 12, "target": "enemy"},
+      {"effect_type": "remove_debuffs", "value": 0, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "guard_stance",
+    "name": "守卫姿态",
+    "card_type": "DEFENSE",
+    "cost": 1,
+    "description": "获得8点格挡。",
+    "upgraded_description": "获得11点格挡。",
+    "effects": [{"effect_type": "block", "value": 8, "target": "self"}],
+    "upgraded_effects": [{"effect_type": "block", "value": 11, "target": "self"}],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "dust_shield",
+    "name": "沙尘之盾",
+    "card_type": "DEFENSE",
+    "cost": 1,
+    "description": "获得6点格挡。抽1张牌。",
+    "upgraded_description": "获得9点格挡。抽1张牌。",
+    "effects": [
+      {"effect_type": "block", "value": 6, "target": "self"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 9, "target": "self"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "fortify",
+    "name": "加固",
+    "card_type": "DEFENSE",
+    "cost": 1,
+    "description": "获得4点格挡。下回合获得4点格挡。",
+    "upgraded_description": "获得6点格挡。下回合获得6点格挡。",
+    "effects": [
+      {"effect_type": "block", "value": 4, "target": "self"},
+      {"effect_type": "apply_buff", "value": 4, "target": "self", "buff_name": "plated_armor"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 6, "target": "self"},
+      {"effect_type": "apply_buff", "value": 6, "target": "self", "buff_name": "plated_armor"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "iron_curtain",
+    "name": "铁幕",
+    "card_type": "DEFENSE",
+    "cost": 2,
+    "description": "获得15点格挡。失去1点力量。",
+    "upgraded_description": "获得20点格挡。失去1点力量。",
+    "effects": [
+      {"effect_type": "block", "value": 15, "target": "self"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "self", "buff_name": "strength_down"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 20, "target": "self"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "self", "buff_name": "strength_down"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "mirage_step",
+    "name": "幻影步",
+    "card_type": "DEFENSE",
+    "cost": 1,
+    "description": "获得3点格挡。获得1层人工制品。",
+    "upgraded_description": "获得5点格挡。获得1层人工制品。",
+    "effects": [
+      {"effect_type": "block", "value": 3, "target": "self"},
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 5, "target": "self"},
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "sixth_sense",
+    "name": "第六感",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "获得2点专注。抽2张牌。",
+    "upgraded_description": "获得2点专注。抽3张牌。",
+    "effects": [
+      {"effect_type": "draw", "value": 2, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "draw", "value": 3, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "concentrate",
+    "name": "集中",
+    "card_type": "SKILL",
+    "cost": 0,
+    "description": "丢弃3张牌。获得2点专注。",
+    "upgraded_description": "丢弃3张牌。获得3点专注。",
+    "effects": [
+      {"effect_type": "discard_for_focus", "value": 2, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "discard_for_focus", "value": 3, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "whiskey_shots",
+    "name": "威士忌烈饮",
+    "card_type": "SKILL",
+    "cost": 0,
+    "description": "获得1点力量。对自身施加1层醉步。",
+    "upgraded_description": "获得2点力量。对自身施加1层醉步。",
+    "effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "strength"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "self", "buff_name": "drunken_stumble"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "apply_buff", "value": 2, "target": "self", "buff_name": "strength"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "self", "buff_name": "drunken_stumble"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "sheriffs_badge",
+    "name": "警长徽章",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "获得1点力量和1层人工制品。",
+    "upgraded_description": "获得2点力量和1层人工制品。",
+    "effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "strength"},
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "apply_buff", "value": 2, "target": "self", "buff_name": "strength"},
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "cipher_decode",
+    "name": "密码破译",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "抽3张牌。消耗。",
+    "upgraded_description": "抽4张牌。消耗。",
+    "effects": [
+      {"effect_type": "draw", "value": 3, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "draw", "value": 4, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "tactical_retreat",
+    "name": "战术撤退",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "获得5点格挡。抽1张牌。消耗。",
+    "upgraded_description": "获得8点格挡。抽1张牌。消耗。",
+    "effects": [
+      {"effect_type": "block", "value": 5, "target": "self"},
+      {"effect_type": "draw", "value": 1, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 8, "target": "self"},
+      {"effect_type": "draw", "value": 1, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "bandage_up",
+    "name": "包扎",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "恢复7%完整度。消耗。",
+    "upgraded_description": "恢复10%完整度。消耗。",
+    "effects": [
+      {"effect_type": "heal_integrity", "value": 7, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "heal_integrity", "value": 10, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "desert_survival",
+    "name": "荒野求生",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "获得6点格挡。恢复3%完整度。",
+    "upgraded_description": "获得9点格挡。恢复5%完整度。",
+    "effects": [
+      {"effect_type": "block", "value": 6, "target": "self"},
+      {"effect_type": "heal_integrity", "value": 3, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 9, "target": "self"},
+      {"effect_type": "heal_integrity", "value": 5, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "unwavering_gaze",
+    "name": "坚定注视",
+    "card_type": "SKILL",
+    "cost": 0,
+    "description": "对敌人施加1层易伤。抽1张牌。",
+    "upgraded_description": "对敌人施加2层易伤。抽1张牌。",
+    "effects": [
+      {"effect_type": "apply_debuff", "value": 1, "target": "enemy", "buff_name": "vulnerable"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "apply_debuff", "value": 2, "target": "enemy", "buff_name": "vulnerable"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "dust_devil",
+    "name": "沙尘魔",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "对所有敌人造成7点伤害。对所有敌人施加1层虚弱。",
+    "upgraded_description": "对所有敌人造成10点伤害。对所有敌人施加1层虚弱。",
+    "effects": [
+      {"effect_type": "damage", "value": 7, "target": "all_enemies"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "all_enemies", "buff_name": "weak"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 10, "target": "all_enemies"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "all_enemies", "buff_name": "weak"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "reload",
+    "name": "装填",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "将弃牌堆中最多2张牌放回抽牌堆。",
+    "upgraded_description": "将弃牌堆中最多3张牌放回抽牌堆。",
+    "effects": [
+      {"effect_type": "recycle", "value": 2, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "recycle", "value": 3, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "last_stand",
+    "name": "背水一战",
+    "card_type": "ATTACK",
+    "cost": 3,
+    "description": "造成30点伤害。仅在完整度<=30%时可打出。",
+    "upgraded_description": "造成40点伤害。仅在完整度<=30%时可打出。",
+    "effects": [
+      {"effect_type": "damage", "value": 30, "target": "enemy"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 40, "target": "enemy"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "redeemers_grip",
+    "name": "救赎之握",
+    "card_type": "HEART_BULLET",
+    "cost": 2,
+    "description": "造成18点伤害。自身每个负面状态恢复3%完整度。消耗：8%完整度。",
+    "upgraded_description": "造成24点伤害。自身每个负面状态恢复5%完整度。消耗：8%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 18, "target": "enemy"},
+      {"effect_type": "heal_per_debuff", "value": 3, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 24, "target": "enemy"},
+      {"effect_type": "heal_per_debuff", "value": 5, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 8.0
+  },
+  {
+    "id": "flashbang",
+    "name": "闪光弹",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "对所有敌人施加1层易伤和1层虚弱。",
+    "upgraded_description": "对所有敌人施加2层易伤和2层虚弱。",
+    "effects": [
+      {"effect_type": "apply_debuff", "value": 1, "target": "all_enemies", "buff_name": "vulnerable"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "all_enemies", "buff_name": "weak"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "apply_debuff", "value": 2, "target": "all_enemies", "buff_name": "vulnerable"},
+      {"effect_type": "apply_debuff", "value": 2, "target": "all_enemies", "buff_name": "weak"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "saddle_up",
+    "name": "上马",
+    "card_type": "DEFENSE",
+    "cost": 1,
+    "description": "获得4点格挡。若无负面状态，额外获得4点格挡。",
+    "upgraded_description": "获得6点格挡。若无负面状态，额外获得6点格挡。",
+    "effects": [
+      {"effect_type": "block", "value": 4, "target": "self"},
+      {"effect_type": "block_if_clean", "value": 4, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 6, "target": "self"},
+      {"effect_type": "block_if_clean", "value": 6, "target": "self"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "ambush",
+    "name": "伏击",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "造成20点伤害。若为战斗首回合，费用为0。",
+    "upgraded_description": "造成27点伤害。若为战斗首回合，费用为0。",
+    "effects": [
+      {"effect_type": "damage", "value": 20, "target": "enemy"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 27, "target": "enemy"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "med_kit",
+    "name": "急救包",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "恢复10%完整度。对自身施加1层脆弱。",
+    "upgraded_description": "恢复14%完整度。对自身施加1层脆弱。",
+    "effects": [
+      {"effect_type": "heal_integrity", "value": 10, "target": "self"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "self", "buff_name": "frail"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "heal_integrity", "value": 14, "target": "self"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "self", "buff_name": "frail"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "sandstorm",
+    "name": "沙暴",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "对所有敌人造成5点伤害2次。",
+    "upgraded_description": "对所有敌人造成7点伤害2次。",
+    "effects": [
+      {"effect_type": "damage", "value": 5, "target": "all_enemies"},
+      {"effect_type": "damage", "value": 5, "target": "all_enemies"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 7, "target": "all_enemies"},
+      {"effect_type": "damage", "value": 7, "target": "all_enemies"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "knights_oath",
+    "name": "骑士誓约",
+    "card_type": "SKILL",
+    "cost": 0,
+    "description": "获得1层人工制品。失去5%完整度。",
+    "upgraded_description": "获得1层人工制品。失去3%完整度。",
+    "effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"},
+      {"effect_type": "heal_integrity", "value": -5, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"},
+      {"effect_type": "heal_integrity", "value": -3, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "heavenly_arrow",
+    "name": "天降之箭",
+    "card_type": "HEART_BULLET",
+    "cost": 2,
+    "description": "造成14点伤害。获得1点力量。消耗：12%完整度。",
+    "upgraded_description": "造成20点伤害。获得2点力量。消耗：12%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 14, "target": "enemy"},
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "strength"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 20, "target": "enemy"},
+      {"effect_type": "apply_buff", "value": 2, "target": "self", "buff_name": "strength"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 12.0
+  },
+  {
+    "id": "true_shot",
+    "name": "精准射击",
+    "card_type": "ATTACK",
+    "cost": 1,
+    "description": "造成9点伤害。此攻击不受虚弱影响。",
+    "upgraded_description": "造成13点伤害。此攻击不受虚弱影响。",
+    "effects": [
+      {"effect_type": "damage", "value": 9, "target": "enemy"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 13, "target": "enemy"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "shadow_step",
+    "name": "暗影步",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "获得1层人工制品和3点格挡。抽1张牌。",
+    "upgraded_description": "获得1层人工制品和5点格挡。抽1张牌。",
+    "effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"},
+      {"effect_type": "block", "value": 3, "target": "self"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"},
+      {"effect_type": "block", "value": 5, "target": "self"},
+      {"effect_type": "draw", "value": 1, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "reapers_mark",
+    "name": "死神印记",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "造成6点伤害。施加2层易伤。消耗。",
+    "upgraded_description": "造成10点伤害。施加3层易伤。消耗。",
+    "effects": [
+      {"effect_type": "damage", "value": 6, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 2, "target": "enemy", "buff_name": "vulnerable"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 10, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 3, "target": "enemy", "buff_name": "vulnerable"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "silver_saddle",
+    "name": "银鞍照白马",
+    "card_type": "HEART_BULLET",
+    "cost": 3,
+    "description": "造成35点伤害。此攻击无视护甲。消耗：20%完整度。消耗。",
+    "upgraded_description": "造成45点伤害。此攻击无视护甲。消耗：20%完整度。消耗。",
+    "effects": [
+      {"effect_type": "damage", "value": 35, "target": "enemy"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 45, "target": "enemy"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 20.0
+  },
+  {
+    "id": "iron_sand_bullet",
+    "name": "铁砂弹",
+    "card_type": "HEART_BULLET",
+    "cost": 1,
+    "description": "造成7点伤害。若手中有其他心弹牌，额外造成4点伤害。消耗：4%完整度。",
+    "upgraded_description": "造成10点伤害。若手中有其他心弹牌，额外造成6点伤害。消耗：4%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 7, "target": "enemy"},
+      {"effect_type": "conditional_damage", "value": 4, "target": "enemy", "condition": "has_heart_bullet"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 10, "target": "enemy"},
+      {"effect_type": "conditional_damage", "value": 6, "target": "enemy", "condition": "has_heart_bullet"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 4.0
+  },
+  {
+    "id": "hawthorns_holster",
+    "name": "霍桑的空枪套",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "获得12点格挡。若完整度低于50%，额外获得1点力量。消耗。",
+    "upgraded_description": "获得16点格挡。若完整度低于50%，额外获得2点力量。消耗。",
+    "effects": [
+      {"effect_type": "block", "value": 12, "target": "self"},
+      {"effect_type": "conditional_buff", "value": 1, "target": "self", "buff_name": "strength", "condition": "integrity_below_50"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 16, "target": "self"},
+      {"effect_type": "conditional_buff", "value": 2, "target": "self", "buff_name": "strength", "condition": "integrity_below_50"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "wilsons_note",
+    "name": "威尔逊的字条",
+    "card_type": "SKILL",
+    "cost": 0,
+    "description": "恢复5%完整度。移除1个负面状态。消耗。",
+    "upgraded_description": "恢复8%完整度。移除1个负面状态。抽1张牌。消耗。",
+    "effects": [
+      {"effect_type": "heal_integrity", "value": 5, "target": "self"},
+      {"effect_type": "remove_debuffs", "value": 1, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "heal_integrity", "value": 8, "target": "self"},
+      {"effect_type": "remove_debuffs", "value": 1, "target": "self"},
+      {"effect_type": "draw", "value": 1, "target": "self"},
+      {"effect_type": "exhaust", "value": 1, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "apron_shield",
+    "name": "围裙之盾",
+    "card_type": "DEFENSE",
+    "cost": 2,
+    "description": "获得10点格挡。自身每有一个负面状态，额外获得2点格挡。",
+    "upgraded_description": "获得14点格挡。自身每有一个负面状态，额外获得3点格挡。",
+    "effects": [
+      {"effect_type": "block", "value": 10, "target": "self"},
+      {"effect_type": "block_per_debuff", "value": 2, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "block", "value": 14, "target": "self"},
+      {"effect_type": "block_per_debuff", "value": 3, "target": "self"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "red_flag_sand",
+    "name": "红旗卷沙",
+    "card_type": "ATTACK",
+    "cost": 2,
+    "description": "对所有敌人造成9点伤害。每有一个敌人额外造成2点伤害。",
+    "upgraded_description": "对所有敌人造成12点伤害。每有一个敌人额外造成3点伤害。",
+    "effects": [
+      {"effect_type": "damage", "value": 9, "target": "all_enemies"},
+      {"effect_type": "bonus_damage_per_enemy", "value": 2, "target": "all_enemies"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 12, "target": "all_enemies"},
+      {"effect_type": "bonus_damage_per_enemy", "value": 3, "target": "all_enemies"}
+    ],
+    "rarity": "UNCOMMON",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "sacred_revolver",
+    "name": "圣银左轮",
+    "card_type": "HEART_BULLET",
+    "cost": 2,
+    "description": "造成16点伤害。若击杀敌人，恢复8%完整度。消耗：10%完整度。",
+    "upgraded_description": "造成22点伤害。若击杀敌人，恢复12%完整度。消耗：10%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 16, "target": "enemy"},
+      {"effect_type": "kill_bonus_heal", "value": 8, "target": "self"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 22, "target": "enemy"},
+      {"effect_type": "kill_bonus_heal", "value": 12, "target": "self"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 10.0
+  },
+  {
+    "id": "silver_saddle_crest",
+    "name": "银鞍徽记",
+    "card_type": "SKILL",
+    "cost": 1,
+    "description": "获得1层人工制品和1点力量。若完整度高于70%，额外抽1张牌。",
+    "upgraded_description": "获得1层人工制品和2点力量。若完整度高于70%，额外抽1张牌。",
+    "effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"},
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "strength"},
+      {"effect_type": "conditional_draw", "value": 1, "target": "self", "condition": "integrity_above_70"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "apply_buff", "value": 1, "target": "self", "buff_name": "artifact"},
+      {"effect_type": "apply_buff", "value": 2, "target": "self", "buff_name": "strength"},
+      {"effect_type": "conditional_draw", "value": 1, "target": "self", "condition": "integrity_above_70"}
+    ],
+    "rarity": "RARE",
+    "integrity_cost": 0.0
+  },
+  {
+    "id": "heart_fire",
+    "name": "心火",
+    "card_type": "HEART_BULLET",
+    "cost": 1,
+    "description": "造成6点伤害。施加1层灼烧。消耗：3%完整度。",
+    "upgraded_description": "造成9点伤害。施加2层灼烧。消耗：3%完整度。",
+    "effects": [
+      {"effect_type": "damage", "value": 6, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 1, "target": "enemy", "buff_name": "burn"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 9, "target": "enemy"},
+      {"effect_type": "apply_debuff", "value": 2, "target": "enemy", "buff_name": "burn"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 3.0
+  },
+  {
+    "id": "shalis_broken_blade",
+    "name": "沙里飞的断刀",
+    "card_type": "ATTACK",
+    "cost": 0,
+    "description": "造成4点伤害。若此牌被消耗，造成8点伤害代替。",
+    "upgraded_description": "造成6点伤害。若此牌被消耗，造成12点伤害代替。",
+    "effects": [
+      {"effect_type": "damage", "value": 4, "target": "enemy"},
+      {"effect_type": "exhaust_bonus_damage", "value": 8, "target": "enemy"}
+    ],
+    "upgraded_effects": [
+      {"effect_type": "damage", "value": 6, "target": "enemy"},
+      {"effect_type": "exhaust_bonus_damage", "value": 12, "target": "enemy"}
+    ],
+    "rarity": "COMMON",
+    "integrity_cost": 0.0
+  }
+]

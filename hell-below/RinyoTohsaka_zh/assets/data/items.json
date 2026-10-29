@@ -1,0 +1,302 @@
+[
+  {
+    "id": "item_hyourougan",
+    "name": "兵粮丸",
+    "description": "一种军用干粮丸。食用后回复20点生命。",
+    "item_type": "consumable",
+    "effect": {"effect_type": "heal", "value": 20, "target": "self", "special": null},
+    "value": 30
+  },
+  {
+    "id": "item_jufu",
+    "name": "除符",
+    "description": "临时护符。下一场战斗开始时，将一张“驱邪”加入你的手牌。",
+    "item_type": "consumable",
+    "effect": {"effect_type": "add_card", "value": 1, "target": "self", "special": "ofuda_banish"},
+    "value": 25
+  },
+  {
+    "id": "item_magatama_shard",
+    "name": "勾玉碎片",
+    "description": "神圣宝石的碎片。最大生命值增加5点。",
+    "item_type": "equipment",
+    "effect": {"effect_type": "buff", "value": 5, "target": "self", "special": "max_hp_5"},
+    "value": 60
+  },
+  {
+    "id": "item_choufukurin",
+    "name": "调伏铃（调伏之铃）",
+    "description": "增强结界牌的仪式铃。格挡牌额外提供+2点格挡。",
+    "item_type": "equipment",
+    "effect": {"effect_type": "buff", "value": 2, "target": "self", "special": "block_bonus_2"},
+    "value": 80
+  },
+  {
+    "id": "item_shichiseiketsu_1",
+    "name": "七星玉（1/7）",
+    "description": "刻有被封印星辰之名的七块玉碎片之一。集齐七块可解封先祖之刃。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_shichiseiketsu_2",
+    "name": "七星玉（2/7）",
+    "description": "第二块玉碎片。它发出微弱而规律的光芒，如心跳一般。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_shichiseiketsu_3",
+    "name": "七星玉（3/7）",
+    "description": "第三块玉碎片。当你握着它时，掌心传来温暖。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_shichiseiketsu_4",
+    "name": "七星玉（4/7）",
+    "description": "第四块玉碎片。你听到来自遥远时代的低语。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_shichiseiketsu_5",
+    "name": "七星玉（5/7）",
+    "description": "第五块玉碎片。七个名字在你脑海中愈发清晰。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_shichiseiketsu_6",
+    "name": "七星玉（6/7）",
+    "description": "第六块玉碎片。先祖的罪孽已近在咫尺。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_shichiseiketsu_7",
+    "name": "七星玉（7/7）",
+    "description": "最后一块玉碎片。七个名字均已知晓。可以解封刀刃了。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_shakukai",
+    "name": "赦解环（赦免之戒）",
+    "description": "刻有赦免封印的戒指。赎罪选项效果+1。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 1, "target": "self", "special": "atonement_bonus"},
+    "value": 0
+  },
+  {
+    "id": "item_taizan_fragments",
+    "name": "泰山府君仪式残卷",
+    "description": "泰山府君复活仪式的部分抄本。危险的知识。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0
+  },
+  {
+    "id": "item_mitsugashira_tsukuyomi",
+    "name": "圣刃“月读”",
+    "description": "被封印的神刀。当七块玉集齐时，其力量觉醒。所有攻击牌伤害+3。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 3, "target": "self", "special": "attack_bonus_3"},
+    "value": 0
+  },
+  {
+    "id": "item_spirit_water",
+    "name": "灵水",
+    "description": "来自神社的圣水。在战斗外回复30点灵力。",
+    "item_type": "consumable",
+    "effect": {"effect_type": "spirit_power", "value": 30, "target": "self", "special": null},
+    "value": 20
+  },
+  {
+    "id": "item_shakukai_ring",
+    "name": "赦戒",
+    "description": "远坂永胤之戒。刻有\u201c赦\u201d字封印，与罚戒成对。现已归入唐柜，不再佩戴。渡场选择赦免路线时效果+1。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 1, "target": "self", "special": "atonement_bonus"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_bakukai_ring",
+    "name": "罚戒",
+    "description": "远坂永贞之戒。刻有\u201c罚\u201d字封印，与赦戒成对。现已归入唐柜，不再佩戴。渡场选择惩戒路线时效果+1。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 1, "target": "self", "special": "sin_bonus"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_kikyou_ken_shinuchi",
+    "name": "桔梗怀剑（真打）",
+    "description": "永贞公遗剑之真打。六瓣桔梗纹锷，刀身如桔梗花瓣般清冽。与影打成对，现为远坂影所持。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 2, "target": "self", "special": "attack_bonus_2"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_kikyou_ken_shadow",
+    "name": "桔梗怀剑（影打）",
+    "description": "永贞公遗剑之影打。与真打成对，刀身略短。远坂影以左手持此剑，习得左右手拔刀术。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 2, "target": "self", "special": "defense_bonus_2"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_taishou_ketsu",
+    "name": "待星珏",
+    "description": "辅星珏旁新增的暖金色珏。与待灯的掌心桥纹共鸣，可传递念波与画桥。灯焰为暖金色。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_kakukaku",
+    "name": "核壳",
+    "description": "不死之核的外壳。信长选择承载后，壳内缠绕业丝。壳随业力变化而裂开或愈合——\u201c以业为核，业尽壳碎\u201d，后又显\u201c业尽壳愈，愈者非无业也，乃不再独承\u201d。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_tamamo_kanzashi",
+    "name": "玉藻簪子",
+    "description": "玉藻生前所用簪子。待灯以其认出母亲。释放玉藻封印的关键之一。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_wooden_sword_shouki",
+    "name": "木剑\u201c承柿\u201d",
+    "description": "空蝉亲手削制的木剑。剑身刻\u201c柿·承·待\u201d三字，后改刻\u201c承师之道\u201d。空蝉以此完成《忍者掟》第五条。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_shin_copper",
+    "name": "秦半两铜钱",
+    "description": "秦代方孔铜钱。常世之渊卜卦所用，可感应封印共鸣。三枚同掷占卜前路吉凶。",
+    "item_type": "consumable",
+    "effect": {"effect_type": "spirit_power", "value": 10, "target": "self", "special": "divination"},
+    "value": 15,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_todo_clan_tanto",
+    "name": "土田氏守刀",
+    "description": "信长生母土田氏遗物。刀柄勾玉中封存咸阳桔梗枯种——两千年前卢生在咸阳殿外种的第一株桔梗的种子。信长将其寄存于渡场桔梗丛旁。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_yata_mirror_shadow",
+    "name": "八咫镜之影",
+    "description": "映照真实与虚妄的镜影。凛世以灵视透过此镜观察核壳裂痕与业丝。不可装备——只在特定剧情中使用。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_ninja_okite",
+    "name": "《忍者掟》",
+    "description": "空蝉所著忍者戒律。第五条\u201c承师之道\u201d于渡场完成。此卷代表空蝉的忏悔与新生。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 ----": "第十卷 远坂凛世"
+  },
+  {
+    "id": "item_magatama_fragment_awakened",
+    "name": "勾玉碎片·已觉醒",
+    "description": "凛世十三岁在渡场地下暗室发现的灵石碎片。瑟夏守护灵印记觉醒后，勾玉碎片与掌心青色印记共鸣，灵力大幅增幅。灵视范围扩大，可感应灵石封印与暗室共鸣。",
+    "item_type": "equipment",
+    "effect": {"effect_type": "buff", "value": 8, "target": "self", "special": "max_hp_8_spirit_sight"},
+    "value": 80,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第零集 天正残照（上）"
+  },
+  {
+    "id": "item_seven_star_jade",
+    "name": "七星珏",
+    "description": "逆七星夺灵阵的核心法器。七枚玉片合为一体时，可引动七魂苏醒之兆。百鬼夜行的真正原因——不是妖邪作乱，而是七星珏被启动。菊姬的命代铜牌是其钥匙之一。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第一集 桔梗渡异闻"
+  },
+  {
+    "id": "item_kikuhime_hairpin",
+    "name": "菊姬发簪",
+    "description": "菊姬生前所用的六瓣桔梗纹发簪。命代铜牌的附庸品——发簪触血即可激活命代铜牌的替死功能。凛世在枯死菩提树下铁盒中找到。发簪上的桔梗纹与远坂家纹相呼应。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第一集 桔梗渡异闻"
+  },
+  {
+    "id": "item_kikuhime_blood_letter",
+    "name": "菊姬血书",
+    "description": "菊姬以血写就的书信。记录了逆七星夺灵阵的真相与远坂氏为秦影众末裔的秘密。枯死菩提树下铁盒中保存。血书末尾：\u201c何者为罪？何者为赎？答案不在纸上——在打开纸的人心中。\u201d",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "item_mirror_shard",
+    "name": "八咫镜碎片",
+    "description": "八咫镜的碎片。长谷寺枯死菩提树下铁盒中所藏。碎片中残留的记忆可被读取——映出冒牌凛世的现身画面。与凛世所持的八咫镜之影产生共鸣。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "memory_read"},
+    "value": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "item_copy_comb",
+    "name": "六瓣桔梗复制梳",
+    "description": "冒牌凛世所用的梳子。与菊姬发簪的桔梗纹极为相似，但六瓣花纹中暗藏\u201c影之座\u201d的印记。识别冒牌凛世的关键物证之一——真凛世从不使用此梳。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "key_item"},
+    "value": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第二集 奈良之径"
+  },
+  {
+    "id": "item_mirror_of_heart",
+    "name": "悬镜·照心法器",
+    "description": "长谷寺本堂所藏的照心之镜。悬于本堂正中，映照来者内心之业。真凛世照出\u201c业之锁\u201d，冒牌凛世照出\u201c碎片之镜\u201d。辨真伪的最终法器——但镜不判善恶，只映真实。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "reveal_true_self"},
+    "value": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第三集 双面之影（一）"
+  },
+  {
+    "id": "item_red_thread",
+    "name": "红线·操控者联系线索",
+    "description": "从冒牌凛世身上发现的红色丝线。连接至\u201c影之座\u201d操控者的灵力丝线。与业丝外观相似，但颜色为深红而非暗金。沿红线可追踪至操控者的位置——但也会暴露持有者的灵力行踪。",
+    "item_type": "key_item",
+    "effect": {"effect_type": "buff", "value": 0, "target": "self", "special": "trace_caster"},
+    "value": 0,
+    "---- 小说扩充 Phase3 ----": "第十卷 远坂凛世 第三集 双面之影（一）"
+  }
+]

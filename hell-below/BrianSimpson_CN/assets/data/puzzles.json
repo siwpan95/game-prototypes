@@ -1,0 +1,360 @@
+{
+  "puzzles": [
+    {
+      "id": "examine_yellowed_paper",
+      "trigger": "examine:yellowed_paper",
+      "flags_set": [
+        "found_rabbits",
+        "childhood_memory",
+        "unlocked_study",
+        "unlocked_photo_gallery"
+      ],
+      "narrative": "childhood_memory",
+      "description": "检查泛黄的纸触发童年记忆"
+    },
+    {
+      "id": "examine_chess_set",
+      "trigger": "examine:chess_set",
+      "flags_set": [
+        "found_chess",
+        "examined_chess",
+        "unlocked_bedroom",
+        "unlocked_wind_passage"
+      ],
+      "description": "检查象棋残局"
+    },
+    {
+      "id": "examine_oak_desk",
+      "trigger": "examine:oak_desk",
+      "flags_set": [
+        "found_xin_carving",
+        "unlocked_geology_room"
+      ],
+      "requires": [
+        "examined_chess"
+      ],
+      "description": "检查橡木书桌发现辛字"
+    },
+    {
+      "id": "examine_radio",
+      "trigger": "examine:radio",
+      "flags_set": [
+        "found_radio",
+        "opened_radio",
+        "found_shard_radio",
+        "unlocked_deep_time_studio"
+      ],
+      "narrative": "",
+      "description": "检查收音机发现第一块碎片"
+    },
+    {
+      "id": "examine_window_shard",
+      "trigger": "examine:window_shard",
+      "flags_set": [
+        "found_shard_window"
+      ],
+      "requires": [
+        "first_dream"
+      ],
+      "description": "拾取窗台碎片"
+    },
+    {
+      "id": "examine_short_cabinet",
+      "trigger": "examine:short_cabinet",
+      "flags_set": [
+        "found_blueprint",
+        "read_blueprint",
+        "unlocked_attic"
+      ],
+      "narrative": "found_blueprint",
+      "description": "检查矮柜发现图纸"
+    },
+    {
+      "id": "examine_brown_bundle",
+      "trigger": "examine:brown_bundle",
+      "flags_set": [
+        "found_manuscript",
+        "found_baiyan_tome",
+        "read_manuscript",
+        "unlocked_blueprint_room"
+      ],
+      "description": "检查牛皮纸包裹"
+    },
+    {
+      "id": "examine_baiyan_tome",
+      "trigger": "examine:baiyan_tome",
+      "flags_set": [
+        "read_baiyan_tome"
+      ],
+      "description": "检查白炎册子"
+    },
+    {
+      "id": "examine_shisui_tree",
+      "trigger": "examine:shisui_tree",
+      "flags_set": [
+        "found_tree",
+        "found_shard_tree"
+      ],
+      "description": "检查史髓之树获得第三块碎片"
+    },
+    {
+      "id": "use_shard_first",
+      "trigger": "use_shard:1",
+      "flags_set": [
+        "shard_to_forehead",
+        "first_dream",
+        "unlocked_dreamland"
+      ],
+      "narrative": "first_dream",
+      "description": "一块碎片贴眉心"
+    },
+    {
+      "id": "use_shard_second",
+      "trigger": "use_shard:2",
+      "flags_set": [
+        "second_dream",
+        "unlocked_cavity"
+      ],
+      "requires": [
+        "first_dream"
+      ],
+      "narrative": "second_dream",
+      "description": "两块碎片合一"
+    },
+    {
+      "id": "use_shard_third",
+      "trigger": "use_shard:3",
+      "flags_set": [
+        "three_shards_merged",
+        "final_realization",
+        "returned_city",
+        "unlocked_mortal_sanctuary"
+      ],
+      "requires": [
+        "second_dream"
+      ],
+      "narrative": "final_realization",
+      "description": "三块碎片合一→最终领悟"
+    },
+    {
+      "id": "trace_xin",
+      "trigger": "trace:xin",
+      "flags_set": [
+        "traced_xin",
+        "found_shard_desk",
+        "unlocked_attic"
+      ],
+      "requires": [
+        "read_baiyan_tome",
+        "found_xin_carving"
+      ],
+      "narrative": "traced_xin",
+      "description": "描摹辛字获得第二块碎片"
+    },
+    {
+      "id": "ep0_examine_schedule",
+      "trigger": "examine:ep0_schedule",
+      "flags_set": [
+        "ep0_read_warning",
+        "ep0_inspected_wellhead"
+      ],
+      "requires": [],
+      "narrative": "",
+      "description": "检查作息表上的附注，发现深井口"
+    },
+    {
+      "id": "ep0_examine_grey_stone",
+      "trigger": "examine:ep0_grey_stone",
+      "flags_set": [
+        "ep0_found_stone",
+        "ep0_stone_breathes"
+      ],
+      "requires": [
+        "ep0_inspected_wellhead"
+      ],
+      "narrative": "ep0_stone_breathes",
+      "description": "检查灰色岩心样本，发现它在呼吸"
+    },
+    {
+      "id": "ep0_listen_stone",
+      "trigger": "listen:ep0_grey_stone",
+      "flags_set": [
+        "ep0_heard_voice",
+        "ep0_deep_time_awakening"
+      ],
+      "requires": [
+        "ep0_stone_breathes"
+      ],
+      "narrative": "ep0_deep_time_voice",
+      "description": "将灰色石头贴在耳边，听到深时之声"
+    },
+    {
+      "id": "ep2_examine_willow",
+      "trigger": "examine:ep2_willow_branch",
+      "flags_set": [
+        "ep2_saw_willow",
+        "ep2_photo_memory"
+      ],
+      "requires": [],
+      "narrative": "",
+      "description": "检查垂柳枝条，触发照片记忆"
+    },
+    {
+      "id": "ep2_examine_light",
+      "trigger": "examine:ep2_light_spot",
+      "flags_set": [
+        "ep2_saw_light_through_leaves"
+      ],
+      "requires": [
+        "ep2_saw_willow"
+      ],
+      "narrative": "ep2_photo_revelation",
+      "description": "透过树冠看光影，回忆照片中的瞬间"
+    },
+    {
+      "id": "ep4_turn_on_radio",
+      "trigger": "examine:ep4_old_radio",
+      "flags_set": [
+        "ep4_radio_activated",
+        "ep4_heard_melody"
+      ],
+      "requires": [],
+      "narrative": "ep4_radio_melody",
+      "description": "打开老收音机，听到口琴旋律"
+    },
+    {
+      "id": "ep4_find_hidden_letter",
+      "trigger": "examine:ep4_hidden_letter",
+      "flags_set": [
+        "ep4_found_letter",
+        "ep4_read_letter",
+        "ep4_found_shard"
+      ],
+      "requires": [
+        "ep4_heard_melody"
+      ],
+      "narrative": "",
+      "description": "在收音机旁发现牛皮纸盒子和信"
+    },
+    {
+      "id": "ep5_examine_window_shard",
+      "trigger": "examine:ep5_window_shard",
+      "flags_set": [
+        "ep5_touched_shard",
+        "ep5_shard_awake"
+      ],
+      "requires": [],
+      "narrative": "ep5_shard_awakening",
+      "description": "检查窗台上的灰色碎片"
+    },
+    {
+      "id": "ep5_read_manuscript",
+      "trigger": "examine:ep5_manuscript",
+      "flags_set": [
+        "ep5_read_journal",
+        "ep5_knows_grandfather_past"
+      ],
+      "requires": [
+        "ep5_shard_awake"
+      ],
+      "narrative": "ep5_grandfather_journal",
+      "description": "阅读外公1957年的手稿"
+    },
+    {
+      "id": "ep6_approach_rabbits",
+      "trigger": "examine:ep6_two_rabbits",
+      "flags_set": [
+        "ep6_touched_rabbits",
+        "ep6_rabbit_plea"
+      ],
+      "requires": [],
+      "narrative": "",
+      "description": "走近两只兔子，触碰它们"
+    },
+    {
+      "id": "ep6_declare_presence",
+      "trigger": "say:我在这里",
+      "flags_set": [
+        "ep6_declared_presence"
+      ],
+      "requires": [
+        "ep6_rabbit_plea"
+      ],
+      "narrative": "ep6_tree_revelation",
+      "description": "在洞穴边缘宣告自己的存在"
+    },
+    {
+      "id": "ep7_find_blueprint",
+      "trigger": "examine:ep7_oil_paper_wrapping",
+      "flags_set": [
+        "ep7_found_blueprint",
+        "ep7_unwrapped"
+      ],
+      "requires": [],
+      "narrative": "",
+      "description": "从矮柜后的缝隙中取出油纸包裹的图纸"
+    },
+    {
+      "id": "ep7_read_blueprint",
+      "trigger": "examine:ep7_kn3_blueprint",
+      "flags_set": [
+        "ep7_read_kn3",
+        "ep7_saw_cavity"
+      ],
+      "requires": [
+        "ep7_unwrapped"
+      ],
+      "narrative": "ep7_blueprint_revelation",
+      "description": "阅读KN-3号地质剖面图"
+    },
+    {
+      "id": "ep7_read_anomaly_notes",
+      "trigger": "examine:ep7_anomaly_notes",
+      "flags_set": [
+        "ep7_read_anomalies"
+      ],
+      "requires": [
+        "ep7_saw_cavity"
+      ],
+      "narrative": "",
+      "description": "阅读手写的异常注释"
+    },
+    {
+      "id": "ep7_find_rabbit_cracks",
+      "trigger": "examine:ep7_rabbit_cracks",
+      "flags_set": [
+        "ep7_saw_rabbit_signature"
+      ],
+      "requires": [
+        "ep7_read_anomalies"
+      ],
+      "narrative": "ep7_rabbit_signature",
+      "description": "在特定光线下发现裂缝形成两只兔子"
+    },
+    {
+      "id": "ep10_merge_shards",
+      "trigger": "use:ep10_three_shards",
+      "flags_set": [
+        "ep10_shards_merged",
+        "ep10_saw_tree_youth"
+      ],
+      "requires": [],
+      "narrative": "ep10_shards_merge",
+      "description": "将三块碎片合在一起，看到琥珀之树的全貌"
+    },
+    {
+      "id": "ep10_write_notebook",
+      "trigger": "examine:ep10_open_notebook",
+      "flags_set": [
+        "ep10_wrote_baiyan",
+        "ep10_mortal_choice"
+      ],
+      "requires": [
+        "ep10_shards_merged"
+      ],
+      "narrative": "ep10_mortal_realization",
+      "description": "在笔记本上写下「白炎考异」，选择做凡人"
+    }
+  ],
+  "_comment": "---- 小说扩充 ----"
+}

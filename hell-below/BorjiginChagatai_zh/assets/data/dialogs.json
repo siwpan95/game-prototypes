@@ -1,0 +1,396 @@
+{
+  "dialogs": {
+    "d_four_fragments": {
+      "speaker": "old_juan",
+      "lines": [
+        {
+          "text": "在你之前，有四个人拥有过它。第一个，1975年，巴西人，外号'鬼步'，后来进了精神病院。第二个，1989年，西班牙人，精神解离，再也没踢过球。第三个，2003年，欧冠赛前失踪了，留下了叠好的球衣。第四个——你不必知道。",
+          "choices": []
+        },
+        {
+          "text": "怕什么？",
+          "choices": []
+        }
+      ]
+    },
+    "d_thirteen_awakening": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "我可以不选吗？",
+          "choices": []
+        }
+      ]
+    },
+    "d_thirteen_juan": {
+      "speaker": "old_juan",
+      "lines": [
+        {
+          "text": "坐。",
+          "choices": []
+        },
+        {
+          "text": "你已经在选了。",
+          "choices": []
+        }
+      ]
+    },
+    "d_wall_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "基本功不扎实的人，命格不会回应他。",
+          "choices": []
+        },
+        {
+          "text": "如果我踢不准了，我还是不是我？",
+          "choices": []
+        },
+        {
+          "text": "如果我没有足球了，我还剩下什么。",
+          "choices": []
+        }
+      ]
+    },
+    "d_wall_juan": {
+      "speaker": "old_juan",
+      "lines": [
+        {
+          "text": "一匹马的命，和它的腿。",
+          "choices": []
+        },
+        {
+          "text": "木头比铁软。你记住这个就行。",
+          "choices": []
+        }
+      ]
+    },
+    "d_landing_maya": {
+      "speaker": "maya",
+      "lines": [
+        {
+          "text": "你怎么知道球会到那个位置？",
+          "choices": []
+        },
+        {
+          "text": "看到？看到什么？",
+          "choices": []
+        }
+      ]
+    },
+    "d_landing_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "我看到它会到那里。",
+          "choices": []
+        },
+        {
+          "text": "球。它要去的地方。蓝色的。球场是蓝色的。",
+          "choices": []
+        }
+      ]
+    },
+    "d_blackrock_morrow": {
+      "speaker": "morrow",
+      "lines": [
+        {
+          "text": "别他妈听他们的。都是故意的。",
+          "choices": []
+        },
+        {
+          "text": "兄弟，你在哪儿？",
+          "choices": []
+        },
+        {
+          "text": "进了。",
+          "choices": []
+        }
+      ]
+    },
+    "d_blackrock_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "进了吗。",
+          "choices": []
+        }
+      ]
+    },
+    "d_hair_juan": {
+      "speaker": "old_juan",
+      "lines": [
+        {
+          "text": "你知道鬼步吗？第一代宿主，1975年。他在国王杯决赛前也掉头发。不是几根几根地掉，是一把一把地掉。赛后他跪在地上，头发在一分钟内全白了。",
+          "choices": []
+        },
+        {
+          "text": "这次很快。",
+          "choices": []
+        }
+      ]
+    },
+    "d_hair_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "你就不能直接剃光吗。",
+          "choices": []
+        }
+      ]
+    },
+    "d_moros_notebook_morrow": {
+      "speaker": "morrow",
+      "lines": [
+        {
+          "text": "学着做个普通人。普通人能退役。能拿到纪念赛、一条坏膝盖和村里的一间酒吧。",
+          "choices": []
+        },
+        {
+          "text": "为什么？",
+          "choices": []
+        },
+        {
+          "text": "你不知道？我已经死了。",
+          "choices": []
+        }
+      ]
+    },
+    "d_moros_notebook_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "基本功不扎实。怕不够格。怕我死了以后，没人记得马的名字。",
+          "choices": []
+        },
+        {
+          "text": "我已经不怕了。",
+          "choices": []
+        }
+      ]
+    },
+    "d_singularity_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "马。",
+          "choices": []
+        }
+      ]
+    },
+    "d_archive_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "我从来不是天才。我是一个渠道，是那些死去的人留在人世间的最后一条电话线。",
+          "choices": []
+        }
+      ]
+    },
+    "d_withdrawal_santi": {
+      "speaker": "santi",
+      "lines": [
+        {
+          "text": "还给你。我昨晚多拿了一罐。我不知道你今天不能没有它。",
+          "choices": []
+        },
+        {
+          "text": "可是你需要——",
+          "choices": []
+        }
+      ]
+    },
+    "d_withdrawal_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "留着它。",
+          "choices": []
+        },
+        {
+          "text": "我需要有人替我留着它。",
+          "choices": []
+        }
+      ]
+    },
+    "d_wembley_eve_morrow": {
+      "speaker": "morrow",
+      "lines": [
+        {
+          "text": "你小时候也这样？凌晨不睡觉对着墙踢球？",
+          "choices": []
+        },
+        {
+          "text": "那你为什么后来不踢了？",
+          "choices": []
+        },
+        {
+          "text": "如果我们明天赢了——或者输了——你能不能答应我一件事？",
+          "choices": []
+        },
+        {
+          "text": "在更衣室里别跳舞了。",
+          "choices": []
+        }
+      ]
+    },
+    "d_wembley_eve_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "对。",
+          "choices": []
+        },
+        {
+          "text": "十七岁那年我第一次激活命格，后来发现它的代价不是当场付清的。利息会从未来扣除。所以十七岁之后主要做一件事——存钱。基本功就是我存的钱。",
+          "choices": []
+        }
+      ]
+    },
+    "d_wembley_wall_morrow": {
+      "speaker": "morrow",
+      "lines": [
+        {
+          "text": "你还好吗？",
+          "choices": []
+        }
+      ]
+    },
+    "d_wembley_wall_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "好。",
+          "choices": []
+        }
+      ]
+    },
+    "d_kowloon_stephen": {
+      "speaker": "stephen_zhou",
+      "lines": [
+        {
+          "text": "他不是容器。他是漏洞。",
+          "choices": []
+        },
+        {
+          "text": "命格不是你的债主。你才是。",
+          "choices": []
+        }
+      ]
+    },
+    "d_bernebau_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "我决定把我的天赋带到伯纳乌去。加入皇家马德里。",
+          "choices": []
+        }
+      ]
+    },
+    "d_bernebau_santi": {
+      "speaker": "santi",
+      "lines": [
+        {
+          "text": "（使劲点头，眼睛里全是泪，但他忍住了。）",
+          "choices": []
+        }
+      ]
+    },
+    "d_bernebau_ledger": {
+      "speaker": "ledger",
+      "lines": [
+        {
+          "text": "你欠我的，算清了。皇马的百事你自己买。",
+          "choices": []
+        }
+      ]
+    },
+    "d_bernebau_morrow": {
+      "speaker": "morrow",
+      "lines": [
+        {
+          "text": "如果有一天你回到绿洲竞技，你会看到我把这面墙踢凹得比你当年更深。",
+          "choices": []
+        }
+      ]
+    },
+    "d_bernebau_juan": {
+      "speaker": "old_juan",
+      "lines": [
+        {
+          "text": "替我把它带到伯纳乌。告诉那些人，这十多年来不是一个实验。是一个老头给四个死人守墓，直到第五个人从墓里走出来。",
+          "choices": []
+        }
+      ]
+    },
+    "d_golden_ball_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "我来自一个没有顶级联赛冠军的球队。但它有一面墙。那面墙上画着几个圆。有些是我画的，有些是我不认识的人在很久以前画的。我对着那些圆踢了很长时间。我以为我在练习基本功。后来我知道我不是在练习——我是在还债。",
+          "choices": []
+        },
+        {
+          "text": "鬼步。斗牛士。约翰。保罗。若昂——你给自己取的名字意思是'还在呼吸'。他们还在呼吸。他们只是换了一个胸口进气。",
+          "choices": []
+        }
+      ]
+    },
+    "d_last_dance_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "奥义——最后一舞！！！",
+          "choices": []
+        }
+      ]
+    },
+    "d_your_story_juan": {
+      "speaker": "old_juan",
+      "lines": [
+        {
+          "text": "收藏家昨晚联系我了。他想让你接任。不是当球员。是接他的位置。布里兹。四十年我带了五个人。你是唯一一个还没被我写进档案柜的。我不在乎你赢不赢得到世界杯。我只是不想再收到一块烧焦的号码布了。",
+          "choices": []
+        }
+      ]
+    },
+    "d_steppe_saren": {
+      "speaker": "saren",
+      "lines": [
+        {
+          "text": "你来了。",
+          "choices": []
+        },
+        {
+          "text": "你没有做过错事。",
+          "choices": []
+        },
+        {
+          "text": "你一直以为它在追你。它不是在追你。它是在等你给它一个名字。",
+          "choices": []
+        },
+        {
+          "text": "给它名字。这不是利息，这是你终于要回的本金。",
+          "choices": []
+        }
+      ]
+    },
+    "d_steppe_briz": {
+      "speaker": "briz",
+      "lines": [
+        {
+          "text": "阿妈。",
+          "choices": []
+        },
+        {
+          "text": "阿妈——这匹马的名字叫自由。",
+          "choices": []
+        },
+        {
+          "text": "阿妈。睡吧。",
+          "choices": []
+        }
+      ]
+    }
+  }
+}
