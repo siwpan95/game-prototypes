@@ -1,0 +1,821 @@
+pack:
+  id: beacon
+  name: 灰烬信标
+  version: 1.0.0
+  entry: prologue
+  description: dse-core 管叙事 · allin-engine 管规则的双引擎 demo
+  author: siwpan
+  modes: [battle]
+  requires:
+    plugins: [allin]
+    state: [allin.hp, allin.item.scrap]
+
+scenes:
+
+  # ═══════════════════════════════════════════════ 第一章 · 醒来
+
+  prologue:
+    title: 清晨 · 路基下的涵洞
+    text: |
+      你在一辆侧翻的罐车底下醒来，脸上盖着半张旧报纸。
+      报纸头条那年印得很用力：《第七号电台恢复广播》。字被雨泡开了，剩下"电台"两个字还算清楚。
+
+      背囊还在，水壶不在。你记得自己是从北边一路走过来的，也记得为什么往北走——
+      有人说地平线尽头那座塔，还在响。
+
+      你钻出涵洞。风里有铁锈和烧焦的塑料味。好几条路摊在你面前。
+
+      （随时可以输入 stats 看自己还剩几两力气，输入 help 看命令。）
+    choices:
+      - text: 往北，沿着没被沙埋掉的那截公路走
+        goto: road-north
+
+  road-north:
+    title: 北方公路
+    # 每次回到这个 hub 看到的不一样（cycle：按访问次数轮转，重绘不重抽）
+    variantMode: cycle
+    variants:
+      - |
+        公路在这儿断成几截，剩下的部分像被谁啃过。
+        路面加热过的沥青泛白，踩上去有细碎的响声。
+      - |
+        风起了。沙从路面上横着走，走到护栏那边堆成一小道埂。
+        你眯着眼走，沙子打在冲锋衣上有声音，像下雨。
+      - |
+        天阴了一层。远处的塔尖看不见了，只剩下铁架子那么一点轮廓。
+        这种天气走路最省力气，也最容易走错。
+      - |
+        太阳偏西了，影子拉得很长。你自己的影子走在你前面，
+        看起来比你有精神。
+    text: |
+      公路在这儿断成几截，剩下的部分像被谁啃过。
+      路面加热过的沥青泛白，踩上去有细碎的响声。
+
+      往北能看见哨站的轮廓，两个塔尖，塌了左边一个。
+      再往北一点，有座水塔立在那儿，孤零零的。
+      东北方向竖着一座信号中继塔，风大的时候能听见它在响。
+      东边昨天夜里塌了半面墙，说不定还有零碎可拣。
+      西边那座山上有块图书馆的招牌，字掉了一半。
+      南边有烟。有人在生火。
+    # 注意：条件表达式会把点路径里的连字符当成减号求值，
+    #       所以这里不能用 visits.road-north，改用自定义计数。
+    onEnter: { roadTrips: +1 }
+    extraText:
+      - if: 'roadTrips > 2'
+        text: 你已经在这儿来回走了几趟，石子和你互相都认熟了。
+    choices:
+      - text: 进哨站
+        goto: outpost-gate
+      - text: 去东边的塌方工地翻翻
+        do: { 'flags.looting': true }
+        goto: wreck-site
+      - text: 上西边那座山
+        goto: library-hill
+      - text: 往南，找有烟的地方
+        goto: scav-camp
+      - text: 去北边那座水塔
+        goto: water-tower
+      - text: 往东北，铁架子那边
+        goto: relay-station
+      - text: 蹲下来歇一会儿，处理一下伤口
+        goto: rest-fire
+      - text: 下到公路下方的凹槽里去（那边有点动静）
+        goto: road-hollow
+
+  rest-fire:
+    title: 路边的火
+    text: |
+      你捡了点枯枝和一块没烧透的塑料板，蹲在背风处点着了。
+      火不大，够暖一只手。你趁着这点光把纱布重新缠了一圈。
+    onEnter: { emit: allin/rest }
+    choices:
+      - text: 站起来，拍掉裤子上的灰
+        goto: road-north
+
+  # ═══════════════════════════════════════════════ 东 · 塌方工地
+
+  wreck-site:
+    title: 塌方工地
+    text: |
+      半面楼塌在马路上，混凝土板底下压着三辆车。
+      早有人来过，来得比你勤——值钱的东西都在第一批人手里。
+
+      后备箱撬开的那辆，里面还剩点零碎。
+    choices:
+      - text: 蹲进去，把手伸到看不见的地方摸一摸
+        once: 'wreck-first-search'
+        goto: wreck-trunk
+      - text: 抠出卡在混凝土里的废钢筋
+        do: { emit: 'allin/gain:scrap' }
+        goto: wreck-site
+      - text: 掀开那块翘起来的水泥板（下面有风）
+        once: 'wreck-cellar-open'
+        goto: wreck-cellar
+      - text: 这儿没什么了，回公路
+        goto: road-north
+
+  wreck-trunk:
+    title: 后备箱
+    text: |
+      手指碰到了金属棱角，然后是纸。
+
+      一个测绘员的皮夹子泡得发胀，里面是本手记。封面内侧写着一行小字——
+      「第 4 区 · 173 号」，下面还有一行：「给还听得见电台的人。」
+      最后一页夹着一块电池，居然还有电。
+    onEnter:
+      emit: ['allin/gain:mapbook', 'allin/gain:battery']
+    choices:
+      - text: 把东西塞进背囊，回公路
+        goto: road-north
+
+  # ═══════════════════════════════════════════════ 西 · 山上图书馆
+
+  library-hill:
+    title: 山上 · 旧图书馆
+    text: |
+      招牌还剩三个字和一个偏旁。门早没了，风穿堂而过。
+
+      阅览室的书在三十年里烂了大半，剩下的被埋在天花板掉下来的东西底下。
+      西墙那排书架往后缩了一截 —— 后面有空气流通的感觉。
+    choices:
+      - text: '（输入 check 历史 13，认认天花板上那幅画是谁）'
+        goto: chk-library-lore
+      - text: 把西墙那排书架推开
+        goto: library-sealed
+      - text: 下回再说，回公路
+        goto: road-north
+
+  chk-library-lore:
+    title: 天花板上的画
+    text: |
+      一块褪色的壁画，画的是座塔，塔顶有灯。
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:历史:13' }
+    choices:
+      - text: '你认出来了 —— 这是一座航标塔，画的正是你要去的那座'
+        if: 'allin.ok'
+        goto: library-sealed
+      - text: '认不出来，但你记下了塔的形状'
+        if: 'not allin.ok'
+        goto: library-hill
+
+  library-sealed:
+    title: 封存的阅览室
+    text: |
+      书架后面是个不到六平米的小房间，门关不严，三十年没开过。
+      地上躺着两个旧铁柜和一个上锁的木箱。
+
+      空气净化系统居然还转着，只是频率不太稳，嗡嗡响。
+    choices:
+      - text: '（输入 check 手上功夫 12，撬那个木箱）'
+        once: 'lib-chest'
+        goto: chk-library-chest
+      - text: '（输入 check 奥术施法 11，读柜子上那卷烧了一半的纸）'
+        once: 'lib-scroll'
+        goto: chk-library-scroll
+      - text: '试着增厚一点自己的本事（消耗 CP）'
+        once: 'lib-train'
+        goto: { call: camp-train }      # 隧道调用 —— camp-train 的 @return 才有栈可弹
+      - text: 地板有一块敲上去发闷 —— 掀开看看
+        once: 'lib-under'
+        goto: library-under
+      - text: 出去，回公路
+        goto: road-north
+
+  chk-library-chest:
+    title: 木箱
+    text: |
+      锁是老式的黄铜锁，铜绿都长到舌头上了。
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:手上功夫:12' }
+    choices:
+      - text: '开了。里面是一根信号棒和两块备件'
+        if: 'allin.ok'
+        do:
+          emit: ['allin/gain:flare', 'allin/gain:scrap']
+        goto: library-sealed
+      - text: '舌头断在锁孔里了。你把它拔出来，装作无事发生'
+        if: 'not allin.ok'
+        goto: library-sealed
+
+  chk-library-scroll:
+    title: 烧剩的半卷纸
+    text: |
+      上半截烧没了，剩下的是一段发音指导和一个手绘的手势。
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:奥术施法:11' }
+    choices:
+      - text: '你照着念了一遍，指尖有点发烫 —— 学会了「火焰箭」'
+        if: 'allin.ok'
+        do:
+          emit: 'allin/learn:火焰箭'
+        goto: library-sealed
+      - text: '念错了。纸在你手里碎成了灰'
+        if: 'not allin.ok'
+        goto: library-sealed
+
+  # ═══════════════════════════════════════════════ 南 · 拾荒者营地
+
+  scav-camp:
+    title: 拾荒者营地
+    text: |
+      七八顶帐篷围着火堆，人和狗一样多。
+      你一进来就有三双眼睛从不同的方向上抬起来，又懒懒地垂下去——你不是他们要等的人。
+
+      火上架着口锅，锅里煮的东西看不出原料。
+    choices:
+      - text: 找那个吃饭的家伙打听消息
+        goto: { call: camp-rumor }
+      - text: 去看看那个抽烟的婆娘的摊子
+        goto: camp-trade
+      - text: '（输入 check 恐吓 12，问清楚前哨到底有什么）'
+        once: 'camp-intim'
+        goto: chk-camp-intim
+      - text: 花点时间打磨自己（消耗 CP）
+        once: 'camp-train'
+        goto: { call: camp-train }
+      - text: 找老陈坐下来聊聊
+        once: 'camp-talk-once'
+        goto: camp-talk
+      - text: '三日集正开着，去看看行情'
+        goto: camp-market
+      - text: 头子朝你招手（丢药的事）
+        if: 'not allin.solved.camp_dilemma'
+        once: 'camp-dilemma-once'
+        goto: camp-dilemma
+      - text: 转身走人，回公路
+        goto: road-north
+
+  camp-rumor:
+    title: 火堆边的一问一答
+    text: |
+      「你也是冲那个响去的？」
+      他把锅里的东西捞了块给你。「去了十几个了。回来两个。一个走回来的一个爬回来的。」
+      「不骗你 —— 那地方，铁壳子里还有东西在转。你要是真要去，弄张卡。」
+
+      「卡？」
+      「前哨B-3，值班室的终端里锁着的那种。终端要口令。」
+    extraText:
+      - if: 'allin.item.mapbook >= 1'
+        text: |
+          你把手记掏出来给他看一眼封面。他眯着眼看了半天，忽然乐了：
+          「4 区 173 号？伙计，你要找的口令八成就是这个数。」
+    choices:
+      - text: 把话说完，站起来
+        goto: '@return'
+
+  camp-trade:
+    title: 摊子
+    text: |
+      一块防水布上摆着：三卷绷带、半瓶不明液体、两根还算直的钢筋。
+      婆娘头也不抬：「三块废铁，任何一样。」
+    choices:
+      - text: 买绷带和药（3 废铁）
+        if: 'allin.item.scrap >= 3'
+        do:
+          emit: ['allin/pay:scrap:3', 'allin/gain:medkit']
+        goto: scav-camp
+      - text: 买那块电池（2 废铁）
+        if: 'allin.item.scrap >= 2'
+        do:
+          emit: ['allin/pay:scrap:2', 'allin/gain:battery']
+        goto: scav-camp
+      - text: 问问她在路上最怕什么
+        goto: { call: camp-rumor }
+      - text: 买不起，回头再说
+        goto: scav-camp
+      - text: 回公路
+        goto: road-north
+
+  chk-camp-intim:
+    title: 蹲下来的追问
+    text: |
+      你把手按在刀柄上，把声音压低。
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:恐吓:12' }
+    choices:
+      - text: '他咽了口唾沫，全招了：值班终端口令可以猜，箱子里的东西能开所有的门'
+        if: 'allin.ok'
+        do: { 'flags.campTold': true }
+        goto: scav-camp
+      - text: '他站起来走了。锅还没开'
+        if: 'not allin.ok'
+        goto: scav-camp
+
+  camp-train:
+    title: 一段没人打扰的时间
+    text: |
+      你把这段时间花在自己身上。刀磨快了，绳子打结的手法换了，走路的下盘稳了点。
+      这种进步说不清，但会在某次生死关头替你说话。
+    choices:
+      - text: '练刀（近战攻击）'
+        do: { emit: 'allin/train:近战攻击' }
+        goto: camp-train
+      - text: '练眼（侦察）'
+        do: { emit: 'allin/train:侦察' }
+        goto: camp-train
+      - text: '练手（手上功夫）'
+        do: { emit: 'allin/train:手上功夫' }
+        goto: camp-train
+      - text: '练身体（活力）'
+        do: { emit: 'allin/train:活力' }
+        goto: camp-train
+      - text: '练咒（奥术施法）'
+        do: { emit: 'allin/train:奥术施法' }
+        goto: camp-train
+      - text: 差不多了
+        goto: '@return'
+
+  # ═══════════════════════════════════════════════ 凹槽 · 遭遇战
+
+  road-hollow:
+    title: 公路下的凹槽
+    text: |
+      凹槽里停了辆没牌照的皮卡，车斗里堆着不知道从哪弄来的东西。
+      一个瘦高个蹲在车斗边上翻，听见你的脚步声，慢慢直起身。
+
+      「这没你的份。」他手里多了根钢管。
+    choices:
+      - text: 什么都不说，把背囊甩到地上，拉开架势
+        goto: fight-raider
+      - text: 后退一步，客客气气地退出这块地方
+        do: { 'flags.sparedRaider': true }   # 记一笔：他记住你了，塔下还会再见
+        goto: road-north
+
+  fight-raider:
+    title: 动手
+    text: 他把钢管在掌心敲了两下，等你先动。
+    mode: battle
+    battle:
+      enemy: raider_scav
+      onWin: hollow-loot
+      onLose: down
+      onFlee: road-north
+
+  hollow-loot:
+    title: 车斗
+    text: |
+      他躺在自己的车斗边上，喘气。
+      你没再动手 —— 这点道理你还是有的。
+
+      车斗里有些好东西：两块还能用的配电模块，一卷绷带，一小沓写了字的纸。
+    onEnter:
+      'flags.raiderDown': true
+      emit: ['allin/gain:scrap', 'allin/gain:medkit', 'allin/award:stim']
+    choices:
+      - text: 拿上该拿的，回公路
+        goto: road-north
+
+  # ═══════════════════════════════════════════════ 第二章 · 哨站
+
+  outpost-gate:
+    title: 哨站门口
+    text: |
+      铁丝网破了个洞，洞边缘的锈说明这洞比这站还老。
+
+      院子里有狗叫 —— 不是养出来的那种叫声，是饿久了以后的那种。
+    choices:
+      - text: 从破洞钻进去
+        goto: fight-dog
+      - text: 先在外面扔块石头试试深浅
+        do: { 'flags.threwRock': true }
+        goto: fight-dog
+      - text: 算了，回公路
+        goto: road-north
+
+  fight-dog:
+    title: 院子里的东西
+    text: |
+      瘸着一条后腿从阴影里挪出来的东西，比狗大，比狗瘦，肋骨排得像搓板。
+      它绕着你走了半圈，没有叫 —— 它在选位置。
+    mode: battle
+    battle:
+      enemy: cur_dog
+      onWin: outpost-yard
+      onLose: down
+      onFlee: road-north
+
+  outpost-yard:
+    title: 哨站院子
+    text: |
+      院子当中是一口井，井上架着辘轳。西角堆着三个油桶，东边是通向地堡的水泥坡道。
+      坡道口的铁门虚掩着，铁门旁边是一扇矮得多的小门 —— B-3 值班室。
+
+      你听见自己在呼吸。这地方安静得过分。
+    onEnter: { 'flags.dogDown': true }
+    choices:
+      - text: '（输入 check 侦察 11，先把周围看明白）'
+        once: 'yard-scout'
+        goto: chk-yard-scout
+      - text: 推开 B-3 值班室的小门
+        goto: outpost-bunker
+      - text: 摇那口辘轳，看看井里还有什么
+        once: 'yard-well'
+        goto: yard-well
+      - text: 沿水泥坡道往下，去真正的地堡
+        goto: collapse-tunnel
+      - text: 爬那个塌了一半的塔尖（上面有声音）
+        once: 'yard-upper'
+        goto: outpost-upper
+      - text: 退出院子，回公路
+        goto: road-north
+
+  chk-yard-scout:
+    title: 站在院子里转一圈
+    text: |
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:侦察:11' }
+    choices:
+      - text: '你先看见了它 —— 坡道顶上那台摄像头还在慢慢转，红色的灯还亮着'
+        if: 'allin.ok'
+        do: { 'flags.sawCamera': true }
+        goto: outpost-yard
+      - text: '看不出什么。风把沙子吹成了各种形状'
+        if: 'not allin.ok'
+        goto: outpost-yard
+
+  yard-well:
+    title: 井
+    text: |
+      辘轳转起来干涩得像骨头在磨。桶下去，上来的时候没什么值钱的 ——
+      底下沉着一小块没化透的脏冰、一副鹿的骨架，和一块还没锈穿的太阳能板。
+      你把太阳能板掰了下来。这东西在南边值两顿饭。
+    onEnter: { emit: 'allin/gain:scrap' }
+    choices:
+      - text: 把绳子绑回去，站起来
+        goto: outpost-yard
+
+  outpost-bunker:
+    title: B-3 值班室
+    text: |
+      小门里面是一间不到四平米的值班室。桌子、椅子、一台还通着电的终端。
+
+      屏幕是那种三十年前的绿色。它在滚一行字：
+      「请输入值班口令（4 位）」
+    extraText:
+      - if: 'allin.solved.bunker_terminal'
+        text: 终端已经开着了 —— 抽屉弹在外面，空的。
+      - if: 'allin.item.keycard >= 1'
+        text: 你口袋里那张卡还沉甸甸的。
+    onEnter: { emit: 'allin/puzzle:bunker_terminal' }
+    choices:
+      - text: '（输入 answer 后面跟你要试的四位数，例如 answer 4173）'
+        if: 'not allin.solved.bunker_terminal'
+        goto: outpost-bunker
+      - text: '带上之前拿到的东西，去真正的地堡'
+        if: 'allin.item.keycard >= 1'
+        goto: collapse-tunnel
+      - text: 先出去，回院子
+        goto: outpost-yard
+
+  # ═══════════════════════════════════════════════ 第三章 · 往下
+
+  collapse-tunnel:
+    title: 水泥坡道尽头
+    text: |
+      坡道尽头是一扇厚铁门，门上有读卡槽，红灯亮着。
+      旁边是一道被撬得乱七八糟的缝隙 —— 有人试过，没成功，也可能是被什么东西弄开的。
+    extraText:
+      - if: 'allin.item.keycard >= 1'
+        text: 你手里那张卡理论上能刷这道门。
+    choices:
+      - text: '（输入 use keycard 刷这张卡）'
+        if: 'allin.item.keycard >= 1'
+        goto: tunnel-inside
+      - text: '（输入 check 手上功夫 13，用钢筋撬）'
+        goto: chk-tunnel-pry
+      - text: '（输入 check 运动 14，硬撞）'
+        goto: chk-tunnel-force
+      - text: '（输入 check 调查 12，看看锁本身）'
+        goto: chk-tunnel-repair
+      - text: 回去，再从长计议
+        goto: outpost-yard
+
+  chk-tunnel-pry:
+    title: 撬
+    text: |
+      钢筋卡进缝里，你整个人压上去。
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:手上功夫:13' }
+    choices:
+      - text: '锁舌让了半寸，再使劲 —— 门开了'
+        if: 'allin.ok'
+        goto: tunnel-inside
+      - text: '钢筋弯了。手上多了两道口子'
+        if: 'not allin.ok'
+        do: { 'flags.wounded': true }
+        goto: collapse-tunnel
+
+  chk-tunnel-force:
+    title: 撞
+    text: |
+      你退到坡道上，肩膀对着铁门撞过去。
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:运动:14' }
+    choices:
+      - text: '第三下的时候门开了。你摔进门里，肩膀热辣辣的'
+        if: 'allin.ok'
+        do: { 'flags.wounded': true }
+        goto: tunnel-inside
+      - text: '门没动。你的肩膀动过头了'
+        if: 'not allin.ok'
+        goto: collapse-tunnel
+
+  chk-tunnel-repair:
+    title: 看锁
+    text: |
+      你蹲下来看那道缝，看翘起来的漆，看锁孔的加工痕迹。
+      {allin.rollLine}
+    onEnter: { emit: 'allin/check:调查:12' }
+    choices:
+      - text: '这是老型号的电磁锁 —— 电池拔了就能开。你不是第一百年想到这个的人'
+        if: 'allin.ok'
+        goto: tunnel-inside
+      - text: '看不出所以然。它就是一道打不开的门'
+        if: 'not allin.ok'
+        goto: collapse-tunnel
+
+  tunnel-inside:
+    title: 门后
+    text: |
+      门后面不是地堡 —— 是一条向下的楼梯，很陡，年头很久，每一级都被水磨圆了边缘。
+
+      下面有风上来。风是暖的，带着点电器的味道。
+
+      三十一级台阶到底，再往前，空间忽然大得不像地下。
+    choices:
+      - text: 往下走
+        goto: watcher-hall
+      - text: 先在这儿坐一会儿，把背囊里的东西归置一下
+        goto: deep-stair
+
+  deep-stair:
+    title: 三十一级台阶
+    text: |
+      你盘腿坐下，把东西一样一样摊开，又一样一样塞回去。
+      这种时候人容易想明白事：你其实可以不下去。谁也没指望你下去。
+    choices:
+      - text: '（输入 use 加上物品编号，补一口东西再走）'
+        goto: deep-stair
+      - text: 站起来，下去
+        goto: watcher-hall
+
+  watcher-hall:
+    title: 地下大厅
+    text: |
+      大厅比一整个球场还大。屋顶是弧形的，上面还有画 —— 和图书馆那幅一模一样：
+      一座塔，塔顶一盏灯。
+
+      大厅正中央坐着一台机器。它比你高，通体覆着灰，只有一个位置被擦得发亮 ——
+      那是一排已经不太亮的接收模块。
+
+      它没有动。但它的面板亮了，橙色的小字跳出来一行：
+      「RM-07 · 检测到未授权人员。执行三十年零七个月来的第一条指令。」
+    choices:
+      - text: 把刀抽出来
+        goto: fight-watcher
+      - text: '再往前走一步，看看它到底要干什么'
+        goto: fight-watcher
+
+  fight-watcher:
+    title: RM-07
+    text: |
+      它站起来了。三十年没动过的关节一路往外掉灰。
+      惯性的未必是恶意 —— 但你此刻没有别的选项。
+    mode: battle
+    battle:
+      enemy: watcher
+      onWin: hall-after
+      onLose: down
+      onFlee: tunnel-inside
+
+  hall-after:
+    title: 断电之前
+    text: |
+      它倒下去的时候没发出多大的声音，只是把自己摊成了一地零件。
+      那排接收模块还亮着 —— 它在用自己的最后一点电，维持那一排灯。
+
+      模块的抽屉开了，不是你开的。里面躺着一块掌心大小的东西，
+      温的。它在你手心里跳了一下，像心跳，也像秒针。
+    onEnter:
+      'flags.watcherDown': true
+      emit: ['allin/gain:core', 'allin/gain:battery']
+    choices:
+      - text: 往里走。这后面大概是核心室
+        goto: core-room
+
+  # ═══════════════════════════════════════════════ 终章
+
+  core-room:
+    title: 核心室
+    text: |
+      核心室的墙上有一整排开关，每一个下面都写着地名。
+      大部分被划掉了。没被划掉的那一个，字是新的 —— 像昨天才写上去的。
+
+      房间正中是一台还能用的发射机。功率表指针在红线上轻轻抖。
+      你把那块温热的东西握在手里。它和这台机器是对配套的 —— 它是钥匙，也是心脏。
+
+      你可以把它插进去。那时候，这座塔会用剩下的所有电，向外面广播一次：
+      「这里还有人。」
+
+      你也可以带着它走出去。它是这世界上最值钱的东西，能换一条命，或者十条。
+
+      你也可以什么都不做。把它放回抽屉里，转身爬那三十一级台阶。
+
+      还有第四种：把它带出去，交给别人 —— 交给那些比你更知道该拿它怎么办的人。
+      以及第五种：哪儿也不去，留在这儿。
+    extraText:
+      - if: 'flags.sparedRaider'
+        text: |
+          身后的楼梯上有脚步声。很轻，但一直在。
+          那个瘦高个跟了你一路 —— 公路下那次你让他走了，他记住了你这张脸，
+          也记住了你往哪儿走。
+      - if: 'flags.answeredCall'
+        text: |
+          墙上那排开关里有一个在闪。你认得那个闪法 —— 那是有人在那头按着发射键不放。
+          二层上那个人等了三十年，等的就是这个。
+    choices:
+      - text: 把它按进发射机
+        if: 'allin.item.core >= 1'
+        goto: end-beacon
+      - text: 把它塞进背囊最深处
+        if: 'allin.item.core >= 1'
+        goto: end-core
+      - text: '带出去，交给别人决定（你认识该交给谁）'
+        if: 'allin.item.core >= 1 and (flags.savedCamp or flags.freedKid or flags.knowsHer)'
+        goto: end-handoff
+      - text: '哪儿也不去。留在这儿，接他的班'
+        if: 'flags.answeredCall'
+        goto: end-stay
+      - text: 放回抽屉，转身
+        goto: end-walk
+      - text: '先解决身后那个人'
+        if: 'flags.sparedRaider'
+        goto: fight-below
+
+  end-beacon:
+    title: 结局 · 一次广播
+    text: |
+      插进去的时候没有火花，没有警报，只有一声很轻的"咔"。
+
+      功率表的指针向右走到底，然后停在那儿不动了。机器开始响 ——
+      不是我们能听见的那种响，是那种让你的牙根发麻的响。
+
+      你三十一级台阶爬到一半的时候，广播开始了。你听见自己的名字被念出来，
+      念得很旧，是别人录的，很多年前。
+
+      你没听见自己是谁。你只知道 —— 从今天起，天底下所有还转得动的接收机，
+      都能听见这座塔在说话。
+
+      它在说：这儿还有人。
+
+      （完）
+    extraText:
+      - if: 'allin.signal >= 6'
+        text: |
+          你带下来的那些零碎 —— 天线、电池、镜片、铜线 —— 全用上了。
+          功率表的指针走到红线右边，还往右走了一格。
+          后来很远的地方有人听见了。比你想的远得多。
+      - if: 'allin.signal < 3'
+        text: |
+          功率表的指针走到红线就停住了。你没带够东西上来 ——
+          这台机器剩下的电只够喊一声，喊得出去多远，看天意。
+      - if: 'flags.savedCamp'
+        text: 三个月后南边来人了。他们说井里有水了，问是不是你干的。你说是水泵自己好的。
+
+  end-core:
+    title: 结局 · 带走
+    text: |
+      你把东西裹了三层布，压在背囊最底下。
+
+      往外走的一路上你把遇见的每一个岔口都记牢了 —— 你需要记住它们，因为你还会回来，
+      带着能付得起价钱的人。
+
+      三个月后你在南边换了半辆车和一整年的药品。你把车开到能看见塔尖的地方，
+      停下，坐了很久。
+
+      那座塔从那天起再没响过。
+
+      （完）
+    extraText:
+      - if: 'flags.strippedPump'
+        text: |
+          你路过南边的时候营地已经空了。井没水，人得跟着水走。
+          你在空灶里看见半截铜线，认得那是你抽走的那截 ——
+          不对，你抽走的那截在你背囊里。这半截是别人抽的。
+      - if: 'flags.handedKid'
+        text: |
+          换东西那家人问你：北边还有没有人。你说有。
+          他们又问：那你为什么回来了。你没答上来。
+
+  end-walk:
+    title: 结局 · 转身
+    text: |
+      你把东西放回抽屉，把抽屉推回去。
+
+      上去的路比下来长。走到第二十级的时候你停下来，坐了一会儿，
+      听下面的机器自己冷却的声音。
+
+      你走出院子的时候天快亮了。铁丝网那个破洞还在老地方，
+      以前你从这里钻进去，现在你从这里钻出来。
+
+      你往南走了三公里，才想起自己忘了件事：
+      你始终不知道自己叫什么名字。
+
+      （完）
+    extraText:
+      - if: 'flags.freedKid'
+        text: |
+          往南的路上你碰见个瘦得像柴的丫头，一个人走，脚上没鞋。
+          她看了你一眼，认出你了，什么也没说，往北去了。
+          你也没说话。你们错身的时候她轻轻碰了一下你的袖子。
+      - if: 'flags.walkedAway'
+        text: |
+          营地丢药那件事后来怎么样了，你没打听。
+          有些事你不插手，它就永远停在你没插手的那一秒，谁也不用负责。
+
+  # ── 延迟后果：公路下你放过的那个人，在塔下堵你
+
+  fight-below:
+    title: 楼梯上的人
+    text: |
+      「我跟着你走了两天。」他把枪从背后转到前面，动作很慢，像怕你误会。
+      「公路那次你没下死手。我记着这个。但我也记着 —— 你要拿的那个东西，
+      能换我一条命，也能换我全家。」
+
+      他往前挪了半步。「所以要么你给我，要么我动手。你挑。」
+
+      你说不上来他是不是在道歉。也许这就是他的道歉方式。
+    mode: battle
+    battle:
+      enemy: raider_vet
+      onWin: below-after
+      onLose: down
+      onFlee: core-room
+
+  below-after:
+    title: 他躺在台阶上
+    text: |
+      他倒下去以后手还张着，像是要接什么东西。
+      你把他的枪踢到一边，蹲下来翻他的口袋 ——
+      一张照片，边角磨白了，照片上是四个人，站在一栋还没塌的楼前面。
+      背面写着一行字：「等我们回来拍第二张。」
+
+      你没拿他的东西。你只是把照片塞回他手里，把他的手合上。
+    onEnter:
+      'flags.sparedRaider': false
+      emit: 'allin/gain:scrap:2'
+    choices:
+      - text: 回到核心室
+        goto: core-room
+
+  # ── 结局光谱：不是好坏排序，是五种不同的活法
+
+  end-handoff:
+    title: 结局 · 交给别人
+    text: |
+      你把它带出了三十一级台阶，带出了院子，带到了南边。
+
+      老陈看了很久，没伸手。「这玩意儿我不敢接。」
+      「那就别接。」你说，「找个敢的。」
+
+      后来是那个婆娘接的。她捧着它坐在摊子后面，坐了一整个下午，
+      谁买东西她都不抬头。第二天她收了摊，往北去了 ——
+      她说她男人是往北那十几个里的一个，她要去把他那份也发了。
+
+      你留在营地，替她看着摊子。有人来问她去哪儿了，你说：往北了。
+
+      三个月以后，塔响了。响的不是你发出来的，但你听见了。
+
+      （完）
+
+  end-stay:
+    title: 结局 · 接他的班
+    text: |
+      你把发射机旁边那把椅子拉出来，坐上去。椅子还是温的。
+
+      第一个月你每天呼叫两次，早上一次，晚上一次，没有回音。
+      第二个月你把二层那台电台搬了下来，两台并着用，功率大了一倍。
+      第三个月的一个夜里，底噪里有个东西动了一下。你按下发射键，说：「收到。」
+
+      你不知道那头是谁。也许是一台机器，也许是另一个像你一样坐下来的人。
+      但你们对上了。
+
+      你在这儿待了很多年。后来有人管这座塔叫「灰烬信标」，
+      管塔里那个人叫「守塔的」。没人知道他叫什么，包括他自己。
+
+      （完）
+
+  down:
+    title: 停在这儿了
+    text: |
+      你最后看见的是自己的手 —— 摊在地上，指甲缝里全是黑的东西。
+
+      风从破了的铁丝网那边过来，照旧吹翻了几张旧报纸。
+      第      七号电台的事登在头版，字被雨泡开，谁也看不清到底写的什么。
+    # 挂在离场时 —— @restart 之前结算，让 allin 的角色跟着一起重开，
+    # 否则读档/重来时会一路带着 0 HP 走。
+    onExit: { emit: allin/rebirth }
+    choices:
+      - text: 再来一次
+        goto: '@restart'
