@@ -1,0 +1,339 @@
+%% 懒人桌面养鱼模拟器 — 数据结构与接口类图
+%% 来源：docs/ARCHITECTURE.md §4  作者：高见远（架构师）
+%% 图例：★ 核心   ◆ 双端对偶（Python ↔ C++ 必须逐行对齐）
+
+classDiagram
+    %% ============ L1 内核：纯函数模块（无状态，双端对偶）============
+    class economy {
+        <<module 纯函数>>
+        +stage_of(age_sec, cycle_sec, thresholds) str
+        +stage_coef(stage, coef_table) float
+        +quality_factor(water, wmin, wmax) float
+        +bonus_multiplier(decor_sum, group_sum, cap) float
+        +income_rate_milli(fishes, species_tbl, bal, water) int
+        +water_delta_per_min(fish_count, filter_level, bal, offline) float
+        +round_half_up(x) int
+    }
+    class offline {
+        <<module 纯函数>>
+        +efficiency_at(minute, segments) float
+        +settle_offline(state, now_utc, bal, species_lib, decor_lib) (GameState, OfflineReport)
+        +advance_step(state, step_sec, now, bal, species_lib, decor_lib, rng, efficiency, offline, do_breed) dict
+    }
+    class OfflineReport {
+        +int away_sec
+        +int equivalent_min
+        +int gain_milli
+        +int upkeep_milli
+        +float water_after
+        +float satiety_after
+        +list~dict~ fish_deltas
+        +list~int~ born_uids
+    }
+    economy <.. offline : 调用
+
+    %% ============ L2 领域：状态与数据 ============
+    class FishTankState {
+        +int schema
+        +int saved_at_utc
+        +int carry_sec
+        +int coins_milli
+        +int next_uid
+        +int rng_seed
+        +TankInfo tank
+        +list~FishRec~ fishes
+        +list~DecorRec~ decors
+        +CodexRec codex
+        +SettingsRec settings
+        +to_dict() dict
+        +from_dict(d)$ FishTankState
+        +validate() list~str~
+        +migrate(d)$ dict
+    }
+    class TankInfo {
+        +int capacity_level
+        +int capacity
+        +float water
+        +int filter_level
+        +bool feeder
+    }
+    class FishRec {
+        +int uid
+        +str species
+        +int born_at_utc
+        +int age_sec
+        +float nx
+        +float ny
+        +float heading
+        +str variant
+    }
+    class DecorRec {
+        +str id
+        +float nx
+        +float ny
+    }
+    class CodexRec {
+        +list~str~ unlocked
+        +list~str~ groups_done
+    }
+    class SettingsRec {
+        +bool topmost
+        +bool click_through
+        +bool sound
+        +str mode
+        +int win_x
+        +int win_y
+    }
+    FishTankState *-- TankInfo
+    FishTankState *-- "0..36" FishRec
+    FishTankState *-- "0..12" DecorRec
+    FishTankState *-- CodexRec
+    FishTankState *-- SettingsRec
+
+    class FishSpeciesDef {
+        +str id
+        +str name_zh
+        +str name_la
+        +str rarity
+        +str group
+        +dict color
+        +dict shape
+        +dict behavior
+        +str science
+        +str codex_unlock
+    }
+    class DecorDef {
+        +str id
+        +str name
+        +float bonus
+        +int price
+        +str draw
+    }
+    class BalanceTable {
+        +dict raw
+        +get(path, default) any
+        +base_income(rarity) float
+        +growth_cycle_sec(rarity) int
+        +offline_segments() list
+        +validate()$ list~str~
+    }
+    class FishLibrary {
+        +load_from_json(path)
+        +get(id) FishSpeciesDef
+        +by_rarity(r) list
+        +by_group(g) list
+    }
+    FishLibrary o-- FishSpeciesDef
+    economy ..> BalanceTable : 读参数
+    offline ..> BalanceTable : 读参数
+
+    %% ============ L2 领域：ECS ============
+    class World {
+        <<alloy 只读>>
+        +create_entity() Entity
+        +add_system(s)
+        +each(*types) iter
+        +update(dt)
+    }
+    class CFish {
+        +int uid
+        +str species
+        +str rarity
+    }
+    class CGrowth {
+        +int age_sec
+        +str stage
+    }
+    class CTransform {
+        +float nx
+        +float ny
+        +float heading
+        +float speed
+    }
+    class CAppearance {
+        +dict color
+        +dict shape
+        +float tail_phase
+    }
+    class CIncome {
+        +float base_per_min
+    }
+    class CDecor {
+        +str id
+        +float bonus
+    }
+    CFish --|> Component
+    CGrowth --|> Component
+    CTransform --|> Component
+    CAppearance --|> Component
+    CIncome --|> Component
+    CDecor --|> Component
+
+    class MovementSystem {
+        +int priority = 30
+        +update(world, dt)
+    }
+    class GrowthSystem {
+        +int priority = 40
+        +update(world, dt)
+    }
+    class WaterSystem {
+        +int priority = 45
+        +ReactiveTracker tracker
+        +update(world, dt)
+        +_band(water) int
+    }
+    class IncomeSystem {
+        +int priority = 50
+        +float acc_sec
+        +update(world, dt)
+    }
+    class AutoFeederSystem {
+        +int priority = 47
+        +update(world, dt)
+    }
+    class BreedingSystem {
+        +int priority = 60
+        +update(world, dt)
+    }
+    MovementSystem --|> System
+    GrowthSystem --|> System
+    WaterSystem --|> System
+    IncomeSystem --|> System
+    AutoFeederSystem --|> System
+    BreedingSystem --|> System
+    World o-- System
+
+    %% ============ L2 门面 ============
+    class FishTankGame {
+        +World world
+        +FishTankState state
+        +BalanceTable balance
+        +FishLibrary species
+        +EventBus bus
+        +SaveGateway save
+        +load_or_new() OfflineReport
+        +step(dt)
+        +buy_fish(species_id) bool
+        +buy_decor(id) bool
+        +buy_upgrade(kind) bool
+        +claim_offline(result)
+        +snapshot() FishTankState
+        +shutdown()
+    }
+    class SaveGateway {
+        +SaveLoadManager mgr
+        +save(state)
+        +load() dict
+        +_atomic_write(p, data)
+    }
+    FishTankGame *-- World
+    FishTankGame *-- FishTankState
+    FishTankGame *-- SaveGateway
+    FishTankGame ..> offline : 启动时调用
+    FishTankGame ..> FishLibrary
+    FishTankGame ..> BalanceTable
+    SaveGateway ..> SaveLoadManager : 包装
+
+    %% ============ 行为树 ============
+    class BrainFactory {
+        +make_fish_brain(cfg)$ BehaviorTree
+        +act_wander(bb)$ Status
+        +act_seek_food(bb)$ Status
+        +act_avoid_edge(bb)$ Status
+        +act_idle(bb)$ Status
+    }
+    BrainFactory ..> BehaviorTree : 每鱼新建一棵
+    BrainFactory ..> Blackboard
+
+    %% ============ L4 Python GUI ============
+    class FishTankApp {
+        +Tk root
+        +FishTankGame game
+        +PetWindow pet
+        +PanelWindow panel
+        +TrayController tray
+        +FixedTimestepLoop loop
+        +run()
+        +_tick()
+        +_logic_step(dt)
+        +_render(alpha)
+    }
+    class PetWindow {
+        +Tk root
+        +Canvas canvas
+        +bool topmost
+        +bool click_through
+        +set_transparent()
+        +enable_click_through(on)
+        +snap_to_edge()
+        +on_drag(e)
+    }
+    class PanelWindow {
+        +Toplevel top
+        +show(tab)
+        +_build_codex()
+        +_build_shop()
+        +_build_upgrade()
+        +_build_settings()
+    }
+    class CanvasRenderer {
+        +dict item_map
+        +draw(world, alpha)
+        +_sync_items()
+    }
+    class FishPainter {
+        +geometry(species, stage)$ list~Prim~
+        +draw(canvas, fish, alpha)
+    }
+    class TrayController {
+        <<interface>>
+        +start()
+        +stop()
+        +set_menu(items)
+    }
+    class PystrayTray
+    class NullTray
+    PystrayTray ..|> TrayController
+    NullTray ..|> TrayController
+    FishTankApp *-- PetWindow
+    FishTankApp *-- PanelWindow
+    FishTankApp *-- TrayController
+    FishTankApp *-- FishTankGame
+    PetWindow *-- CanvasRenderer
+    CanvasRenderer ..> FishPainter
+
+    %% ============ L4 XJ380 C++ ============
+    class SoftCanvas {
+        <<C++>>
+        +XCOLORA* buf
+        +int w
+        +int h
+        +Rect dirty
+        +clear(c)
+        +blend_px(x, y, c)
+        +fill_rect(r, c)
+        +draw_line(x0,y0,x1,y1,c)
+        +draw_circle(cx,cy,r,c)
+        +fill_circle(cx,cy,r,c)
+        +fill_ellipse(cx,cy,rx,ry,c)
+        +fill_tri(p0,p1,p2,c)
+        +mark_dirty(r)
+        +present(XWINDOW*)
+    }
+    class XjWindow {
+        <<C++>>
+        +create(w,h,title)
+        +on_msg(type,h,l)
+        +read_buffer_a(...)
+    }
+    class XjApp {
+        <<C++>>
+        +SoftCanvas cv
+        +TankSim sim
+        +boot()
+        +frame(dt)
+    }
+    XjApp *-- SoftCanvas
+    XjApp *-- XjWindow
+    XjApp ..> offline : 对偶实现 economy.cpp/offline.cpp

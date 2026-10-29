@@ -1,0 +1,76 @@
+ld.lld: error: undefined symbol: xapi_CreateWindow
+>>> referenced by window.cpp
+>>>               build_epf/window.o:(ft::gui::window_create(unsigned long long*))
+
+ld.lld: error: undefined symbol: xapi_RefreshWindow
+>>> referenced by main.cpp
+>>>               build_epf/main.o:(main)
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_run())
+
+ld.lld: error: undefined symbol: xapi_DrawText
+>>> referenced by hud.cpp
+>>>               build_epf/hud.o:(ft::gui::render_hud(unsigned long long, ft::GameState const&, ft::BalanceTable const&))
+>>> referenced by hud.cpp
+>>>               build_epf/hud.o:(ft::gui::render_hud(unsigned long long, ft::GameState const&, ft::BalanceTable const&))
+
+ld.lld: error: undefined symbol: xapi_DrawRect
+>>> referenced by render_decor.cpp
+>>>               build_epf/render_decor.o:(ft::gui::render_all_decor(unsigned long long, ft::GameState const&, ft::DecorLibrary const&))
+>>> referenced by canvas_render.cpp
+>>>               build_epf/canvas_render.o:(ft::gui::canvas_render_background(unsigned long long, ft::GameState const&, ft::BalanceTable const&))
+>>> referenced by render_decor.cpp
+>>>               build_epf/render_decor.o:(ft::gui::render_all_decor(unsigned long long, ft::GameState const&, ft::DecorLibrary const&))
+>>> referenced 8 more times
+
+ld.lld: error: undefined symbol: environ
+>>> referenced by start.cpp:28 (/mnt/c/XJ380/XJ380/user/xapi\start.cpp:28)
+>>>               G:/soft/XJ380_XACT_2026v4_windows/depend/obj-gui/start.cpp.o:(xapi_start)
+
+ld.lld: error: undefined symbol: exit
+>>> referenced by start.cpp:52 (/mnt/c/XJ380/XJ380/user/xapi\start.cpp:52)
+>>>               G:/soft/XJ380_XACT_2026v4_windows/depend/obj-gui/start.cpp.o:(xapi_start)
+>>> referenced by start.cpp:57 (/mnt/c/XJ380/XJ380/user/xapi\start.cpp:57)
+>>>               G:/soft/XJ380_XACT_2026v4_windows/depend/obj-gui/start.cpp.o:(xapi_start)
+>>> referenced by start.cpp:60 (/mnt/c/XJ380/XJ380/user/xapi\start.cpp:60)
+>>>               G:/soft/XJ380_XACT_2026v4_windows/depend/obj-gui/start.cpp.o:(xapi_start)
+
+ld.lld: error: undefined symbol: _binary_data_balance_json_start
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_init())
+
+ld.lld: error: undefined symbol: _binary_data_balance_json_end
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_init())
+
+ld.lld: error: undefined symbol: _binary_data_fish_data_json_start
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_init())
+
+ld.lld: error: undefined symbol: _binary_data_fish_data_json_end
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_init())
+
+ld.lld: error: undefined symbol: _binary_data_decor_data_json_start
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_init())
+
+ld.lld: error: undefined symbol: _binary_data_decor_data_json_end
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_init())
+
+ld.lld: error: undefined symbol: SetMsgPrcor
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_init())
+
+ld.lld: error: undefined symbol: xapi_CloseWindow
+>>> referenced by app.cpp
+>>>               build_epf/app.o:(ft::gui::app_shutdown())
+
+ld.lld: error: undefined symbol: xapi_DrawLine
+>>> referenced by render_fish.cpp
+>>>               build_epf/render_fish.o:(ft::gui::render_prim(unsigned long long, ft::Prim const&, double, double, bool, ft::FishSpeciesDef const*))
+
+ld.lld: error: undefined symbol: xapi_DrawSvg
+>>> referenced by render_fish.cpp
+>>>               build_epf/render_fish.o:(ft::gui::render_prim(unsigned long long, ft::Prim const&, double, double, bool, ft::FishSpeciesDef const*))

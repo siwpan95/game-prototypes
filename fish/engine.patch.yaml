@@ -1,0 +1,7 @@
+engine: allin_engine
+engine_version: 1.0.0
+synced_at: '2026-08-23 21:14:31'
+customized_files: []
+take_base: [*]
+upgrades_applied: [__main__.py, cli.py, core\config_loader.py, core\context.py, core\plugins.py, core\profiles.py, core\world_log.py, requirements.txt, systems\MOD_SCHEMA.md, test\test_context.py, test\test_data_library.py, test\test_pathfinding.py, test\test_serializable.py, test\test_world_log.py, ai\narrative.py, core\data_library.py, core\event_bus.py, core\serializable.py, render\formula_engine.py, systems\__init__.py, systems\combat\__init__.py, systems\save_load.py, test\runner.py, utils\json_loader.py, __init__.py, ai\__init__.py, core\__init__.py, core\ecs.py, pyproject.toml, systems\mod_loader.py, test\run_all.py, test\test_ai.py, test\test_font.py, utils\font.py]
+config:

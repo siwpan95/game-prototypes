@@ -1,0 +1,197 @@
+{
+  "_meta": {
+    "version": 1,
+    "note": "所有数值的唯一来源，双端共读。修改此文件无需改代码。"
+  },
+
+  "economy": {
+    "base_income": { "R1": 1.0, "R2": 3.5, "R3": 12.0, "R4": 40.0, "R5": 130.0 },
+    "bonus_cap": 0.40,
+    "coin_scale": 1000,
+    "online_step_sec": 1.0,
+    "_experimental_formula": null
+  },
+
+  "growth": {
+    "cycle_sec": { "R1": 7200, "R2": 21600, "R3": 50400, "R4": 100800, "R5": 172800 },
+    "thresholds": { "fry": 0.15, "juvenile": 0.45, "adult": 1.45 },
+    "stage_coef": { "fry": 0.30, "juvenile": 0.60, "adult": 1.00, "mature": 1.25 },
+    "stage_scale": { "fry": 0.45, "juvenile": 0.70, "adult": 1.00, "mature": 1.10 },
+    "stage_order": ["fry", "juvenile", "adult", "mature"]
+  },
+
+  "water": {
+    "min": 50.0,
+    "max": 100.0,
+    "init": 100.0,
+    "decay_per_fish": 0.03,
+    "filter_gain": [0.0, 0.2, 0.5, 1.2],
+    "offline_scale": 0.5,
+    "quality_floor": 0.5,
+    "bands": [50, 60, 70, 80, 90, 100]
+  },
+
+  "offline": {
+    "segments": [[0, 480, 1.00], [480, 1440, 0.60], [1440, null, 0.35]],
+    "fine_step_sec": 60,
+    "fine_limit_sec": 86400,
+    "coarse_step_sec": 3600,
+    "hard_cap_sec": 315360000
+  },
+
+  "shop": {
+    "fry_price": { "R1": 50, "R2": 300, "R3": 2000, "R4": 15000, "R5": 100000 },
+    "feeder_price": 300,
+    "filter_price": [0, 800, 6000, 45000],
+    "capacity": [6, 10, 16, 24, 36],
+    "capacity_price": [0, 1500, 12000, 80000, 400000],
+    "sale_rarities": ["R1", "R2", "R3"]
+  },
+
+  "feeder": {
+    "upkeep_per_fish_per_min": 0.05,
+    "satiety_max": 1.0,
+    "satiety_min": 0.0,
+    "decay_per_min": 0.012,
+    "feed_gain": 0.5,
+    "auto_feed_level": 0.6,
+    "output_floor": 0.85
+  },
+
+  "codex": { "group_bonus": 0.08 },
+
+  "breeding": {
+    "same_species_cooldown_sec": 10800,
+    "same_species_chance": 0.12,
+    "cross_species_chance": 0.03,
+    "rarity_up_chance": 0.15,
+    "variant_chance": 0.05,
+    "check_interval_sec": 600,
+    "min_parent_stage": "adult"
+  },
+
+  "autosell": {
+    "enabled": true,
+    "check_interval_sec": 300,
+    "min_fish_before_sell": 3,
+    "sell_threshold_pct": 0.80,
+    "stage_multiplier": {
+      "fry": 1.0,
+      "juvenile": 1.5,
+      "adult": 3.0,
+      "mature": 5.0
+    },
+    "age_bonus_per_hour": 0.02,
+    "max_age_bonus": 3.0
+  },
+
+  "ai": {
+    "speed": { "slow": 0.010, "normal": 0.018, "fast": 0.030 },
+    "turn_rate": 2.2,
+    "idle_chance": 0.06,
+    "idle_sec": [1.5, 4.0],
+    "edge_margin": 0.08,
+    "edge_push": 1.4,
+    "tail_hz": { "slow": 1.2, "normal": 1.8, "fast": 2.6 },
+    "food_speed_mul": 1.8,
+    "food_tail_mul": 2.0,
+    "idle_speed_mul": 0.15,
+    "idle_tail_mul": 0.5,
+    "wander_retarget_sec": [2.5, 6.5],
+    "arrive_radius": 0.035,
+    "food_life_sec": 12.0,
+    "food_sink_speed": 0.045,
+    "interest_life_sec": 3.0,
+    "layer_y": { "底": 0.80, "中": 0.50, "上": 0.22 },
+    "layer_bias": 0.30,
+    "school_attract": { "高": 0.35, "中": 0.15, "低": 0.0 },
+    "school_radius": 0.32,
+    "bounds": { "x_min": 0.05, "x_max": 0.95, "y_min": 0.08, "y_max": 0.94 }
+  },
+
+  "fx": {
+    "max_particles": 60,
+    "bubble_rate": 0.8,
+    "bubble_force": -0.35,
+    "bubble_life": [1.6, 3.2],
+    "bubble_size": [1.5, 3.5],
+    "turn_bubbles": [1, 3],
+    "turn_bubble_chance": 0.25
+  },
+
+  "ui": {
+    "tank_size": [360, 220],
+    "strip_height": 120,
+    "panel_size": [720, 480],
+    "xj_size": [640, 400],
+    "snap_px": 24,
+    "hud_fade_sec": 2.0,
+    "hud_dim_alpha": 0.30,
+    "fish_card_sec": 3.0,
+    "mini_size": [48, 48],
+    "chroma": "#010203",
+    "water_top": "#0A3A52",
+    "water_bottom": "#062434",
+    "glass_edge": "#12506E",
+    "hud_text": "#DDEAF2",
+    "hud_bar_bg": "#0E3346",
+    "hud_bar_good": "#57C7A0",
+    "hud_bar_mid": "#E8C05A",
+    "hud_bar_low": "#D98A6A",
+    "card_bg": "#0C2634",
+    "card_fg": "#E4F0F6",
+    "card_accent": "#7FD0E0"
+  },
+
+  "paint": {
+    "base_len": 46.0,
+    "belly_ry_ratio": 0.55,
+    "belly_cy_ratio": 0.35,
+    "tail_len_ratio": 0.46,
+    "tail_spread_ratio": 1.05,
+    "tail_wag_ratio": 0.25,
+    "tail_fork_notch": 0.45,
+    "tail_fan_points": 5,
+    "tail_long_ratio": 1.7,
+    "dorsal_h_ratio": 0.62,
+    "dorsal_w_ratio": 0.52,
+    "dorsal_x_ratio": -0.08,
+    "eye_x_ratio": 0.55,
+    "eye_y_ratio": -0.25,
+    "eye_r_ratio": 0.22,
+    "eye_hl_r_ratio": 0.08,
+    "eye_hl_off_ratio": 0.30,
+    "stripe_count": 3,
+    "stripe_w_ratio": 0.13,
+    "stripe_span_ratio": 0.62,
+    "spot_count": 5,
+    "spot_r_ratio": 0.13,
+    "glow_ring_ratio": 1.22,
+    "min_px": 1.0
+  },
+
+  "loop": {
+    "logic_hz": 20,
+    "render_hz": 30,
+    "render_hz_hidden": 2,
+    "xj_render_hz": 15,
+    "max_frame_time": 0.25
+  },
+
+  "save": { "autosave_sec": 60, "keep_backups": 1 },
+
+  "visual": {
+    "R1": { "gradient": 0, "outline": 0, "pattern": "none", "glow": 0 },
+    "R2": { "gradient": 0, "outline": 0, "pattern": "none", "glow": 0 },
+    "R3": { "gradient": 1, "outline": 0, "pattern": "stripes", "glow": 0 },
+    "R4": { "gradient": 2, "outline": 1, "pattern": "stripes", "glow": 1 },
+    "R5": { "gradient": 3, "outline": 2, "pattern": "spots", "glow": 2 }
+  },
+
+  "start": {
+    "coins_milli": 60000,
+    "capacity_level": 0,
+    "fishes": ["neon_tetra", "zebra_danio"],
+    "rng_seed": 88172645463325252
+  }
+}

@@ -1,0 +1,201 @@
+%% 懒人桌面养鱼模拟器 — 程序调用流程时序图
+%% 来源：docs/ARCHITECTURE.md §10  作者：高见远（架构师）
+%% 本文件含 4 张时序图，按 --- 分隔，渲染时请分别粘贴
+
+%% ============================================================
+%% 图 1：启动 + 离线结算 + 首帧（最关键路径）
+%% ============================================================
+sequenceDiagram
+    autonumber
+    participant U as 用户
+    participant M as main.py
+    participant BS as engine_bootstrap
+    participant G as FishTankGame
+    participant SG as SaveGateway
+    participant SM as SaveLoadManager<br/>(alloy)
+    participant OFF as offline.settle_offline<br/>(纯函数)
+    participant W as World (ECS)
+    participant APP as FishTankApp
+    participant PW as PetWindow
+    participant TR as TrayController
+
+    U->>M: python main.py
+    M->>BS: import (模块级自动 bootstrap)
+    Note over BS: ① os.environ["ALLIN_USER_DATA"]=%APPDATA%\LazyFishTank<br/>② sys.path.insert(项目根\tools)<br/>③ 才 import alloy.*
+    BS-->>M: 引擎符号就绪
+
+    M->>G: FishTankGame(data_dir)
+    G->>G: BalanceTable.load + validate
+    G->>G: FishLibrary.load_from_json(fish_data.json)
+    G->>G: DecorLibrary / UiText 载入
+
+    M->>G: load_or_new()
+    G->>SG: load()
+    SG->>SM: load_auto()
+    Note over SM: ⚠️ 只返回 state_data，<br/>信封 timestamp 被丢弃(E4)
+    SM-->>SG: state_data | None
+    alt 无存档（首次启动）
+        SG-->>G: None
+        G->>G: new_state(): 赠 3 条 R1，coins=0，water=100
+        G-->>M: OfflineResult(earned=0)
+    else 有存档
+        SG->>SG: migrate() + validate()
+        SG-->>G: state dict
+        G->>OFF: settle_offline(state, bal, species, now_utc)
+        Note over OFF: 纯函数，无副作用<br/>S0 时间量化 → S1 分块 →<br/>S3 逐块推进(水质→成长→产出)
+        OFF-->>G: OfflineResult(earned_milli, grown, carry_sec, new_state)
+        G->>G: 应用 new_state（金币先不入账，等用户领取）
+    end
+
+    G->>W: 重建 ECS：每条鱼 create_entity
+    loop 每条鱼
+        W->>W: add(CFish/CGrowth/CTransform/CAppearance/CIncome)
+        W->>W: add(BrainComponent(make_fish_brain(cfg)))
+        Note over W: 🔴 每鱼独立一棵行为树(E14)
+    end
+    G->>W: add_system × 8（priority 20→70）
+
+    M->>APP: FishTankApp(game)
+    APP->>PW: tk.Tk() + PetWindow
+    Note over PW: overrideredirect / -transparentcolor<br/>/ -topmost / -toolwindow
+    APP->>APP: Styles(...) ← 必须在 tk.Tk() 之后(E9)
+    APP->>TR: make_tray()
+    Note over TR: deps.has("pystray")==False(实测)<br/>→ NullTray 降级 + 全局热键兜底
+
+    alt earned_milli > 0
+        APP->>U: OfflineCard「欢迎回来…共积累 N 枚金币」
+        U->>APP: 点击「收下，谢谢」
+        APP->>G: claim_offline(result)
+        G->>G: coins_milli += earned_milli
+        G->>SG: save() 立即落盘
+    end
+
+    APP->>APP: root.after(33, _tick)  ← 不用阻塞的 run_real_time()(E2)
+    APP->>U: 桌面出现鱼缸
+
+---
+
+%% ============================================================
+%% 图 2：每帧循环（逻辑 20 Hz / 渲染 30 FPS）
+%% ============================================================
+sequenceDiagram
+    autonumber
+    participant TK as tkinter after
+    participant APP as FishTankApp
+    participant LP as FixedTimestepLoop
+    participant W as World
+    participant BR as BrainSystem(20)
+    participant MV as MovementSystem(30)
+    participant GR as GrowthSystem(40)
+    participant WA as WaterSystem(45)
+    participant IN as IncomeSystem(50)
+    participant RT as ReactiveTracker
+    participant CR as CanvasRenderer
+
+    TK->>APP: _tick()
+    APP->>LP: advance(real_dt)
+    Note over LP: 内部切分为 N 个 1/20s 定步
+
+    loop N 次定步
+        LP->>APP: _logic_step(dt=0.05)
+        APP->>W: world.update(0.05)
+        W->>BR: update  (每鱼 tree.tick()，不传 dt(E12))
+        Note over BR: dt/now/边界 由 TickSystem(10)<br/>预先写入 Blackboard
+        BR-->>W: 设定各鱼 target_heading / speed_mul
+        W->>MV: update → heading 插值 + nx/ny 推进 + 边界反射
+        W->>GR: update → age_sec += dt；跨阶段则 emit fishtank.fish_grown
+        W->>WA: update → water += (gain - n*decay)*dt/60，clamp[50,100]
+        WA->>WA: band = _band(water)
+        alt band 发生跨档
+            WA->>RT: tracker.update({"water_band": band})
+            Note over RT: ✅ 只在跨档触发<br/>(E11：直接订阅浮点会每帧狂触发)
+            RT-->>APP: HUD 换色 + ui_text 提示（绝不弹窗，L6）
+        end
+        W->>IN: update → acc += rate_per_min*dt/60
+        IN->>IN: coins_milli += floor(acc*1000+0.5)（整数厘，双端一致）
+    end
+
+    LP->>APP: _render(alpha)
+    alt 窗口隐藏
+        APP-->>TK: 直接 return（P0-22：渲染挂起）
+    else 可见
+        APP->>CR: draw(world, alpha)
+        CR->>CR: 差分更新 item_map（coords/itemconfig，不 delete("all")）
+        CR->>CR: FishPainter.geometry() → Canvas 图元
+        CR->>CR: ParticleSystem.update + 渲染气泡
+    end
+    APP->>TK: root.after(1000/hz, _tick)   hz = 30(可见) / 2(隐藏)
+
+---
+
+%% ============================================================
+%% 图 3：购买与存档
+%% ============================================================
+sequenceDiagram
+    autonumber
+    participant U as 用户
+    participant P as PanelWindow(商店页)
+    participant G as FishTankGame
+    participant W as World
+    participant BUS as EventBus
+    participant SG as SaveGateway
+
+    U->>P: 点击「购买 自动投喂器 300」
+    P->>G: buy_upgrade("feeder")
+    G->>G: price = balance.shop.feeder_price × 1000（厘）
+    alt coins_milli < price
+        G-->>P: False（按钮置灰，无弹窗、无红字斥责，L6）
+    else 足够
+        G->>G: coins_milli -= price ; state.tank.feeder = True
+        G->>W: AutoFeederSystem.enabled → True
+        G->>BUS: emit("fishtank.upgrade_bought", {"kind":"feeder"})
+        BUS-->>P: HUD 刷新 + 按钮文案切「鱼儿自己会吃饱」
+        G->>SG: save(state)  ← 购买后立即落盘
+        SG->>SG: saved_at_utc = now ; carry_sec 保持
+        SG->>SG: 写 .tmp → os.replace() 原子替换 → 保留 .bak
+        SG-->>G: OK
+        G-->>P: True
+    end
+    Note over U,SG: 此后用户永不需要手动喂食（准则 L3 / P0-10）
+
+---
+
+%% ============================================================
+%% 图 4：XJ380 端帧循环
+%% ============================================================
+sequenceDiagram
+    autonumber
+    participant OS as XJ380OS
+    participant M as main.cpp
+    participant XW as XjWindow
+    participant APP as XjApp
+    participant OFF as offline.cpp<br/>(◆ 对偶 PY)
+    participant SIM as TankSim
+    participant SC as SoftCanvas
+
+    M->>XW: xapi_CreateWindow(XWINDOW{640,400,"懒鱼缸",XWIN_NORMAL})
+    M->>XW: SetMsgPrcor(win, on_msg)
+    Note over XW: MSG_* 常量来自 libsys.h:266-274<br/>固化于 xj_msg.h（Q1 已解决）
+    M->>APP: boot()
+    APP->>APP: json_min 解析 data/*.json → 静态数组（启动一次，运行期零 IO）
+    APP->>APP: xj_fs 读存档 → state
+    APP->>OFF: settle_offline(state, bal, species, xj_time_now())
+    Note over OFF: 🔴 必须与 fishtank/offline.py 逐位一致<br/>整数厘 + floor(x+0.5) + uid 升序
+    OFF-->>APP: earned_milli / grown / new_state
+    APP->>SC: 绘制离线结算卡片 + xapi_Button("收下，谢谢", CRLid=101)
+
+    loop 每帧（逻辑 20Hz / 渲染 15Hz）
+        APP->>SIM: step(dt)  简化 FSM 游动 + 水质 + 产出
+        APP->>SC: clear + fill_rect(水体渐变)
+        APP->>SC: fill_ellipse/fill_tri/fill_circle 画鱼（同一份 FishGeometry）
+        Note over SC: 中点画圆/椭圆纯整数实现<br/>（xapi_DrawCircle 被注释，X3）
+        APP->>SC: mark_dirty(鱼所在包围盒)
+        APP->>XW: present() → xapi_WriteBufferA(整帧)
+        APP->>XW: xapi_RefreshPartWindow(dirty)  ← 只刷脏区
+        APP->>XW: xapi_DrawText(HUD，WSTR 宽字符)
+    end
+
+    OS->>XW: on_msg(Type=MSG_CRL, hData=101, lData=0)
+    XW->>APP: 按钮 101 = 领取离线收益
+    Note over XW: xapi_Button 无回调指针(X2)，<br/>统一经 MSG_CRL + CRLid 分发
+    APP->>APP: coins_milli += earned_milli ; xj_fs 落盘

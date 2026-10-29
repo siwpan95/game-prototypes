@@ -1,0 +1,25 @@
+src/gui/main.cpp:25:12: error: unknown type name 'DetRandom'
+   25 |     extern DetRandom&          app_rng();
+      |            ^
+src/gui/main.cpp:37:15: error: unknown type name 'BalanceTable'; did you mean 'ft::BalanceTable'?
+   37 |         const BalanceTable& bal = ft::gui::app_bal();
+      |               ^~~~~~~~~~~~
+      |               ft::BalanceTable
+src/gui\../core/data_defs.h:148:7: note: 'ft::BalanceTable' declared here
+  148 | class BalanceTable {
+      |       ^
+src/gui/main.cpp:38:15: error: unknown type name 'FishLibrary'; did you mean 'ft::FishLibrary'?
+   38 |         const FishLibrary& sp  = ft::gui::app_species();
+      |               ^~~~~~~~~~~
+      |               ft::FishLibrary
+src/gui\../core/data_defs.h:88:7: note: 'ft::FishLibrary' declared here
+   88 | class FishLibrary {
+      |       ^
+src/gui/main.cpp:39:15: error: unknown type name 'DecorLibrary'; did you mean 'ft::DecorLibrary'?
+   39 |         const DecorLibrary& dc = ft::gui::app_decor();
+      |               ^~~~~~~~~~~~
+      |               ft::DecorLibrary
+src/gui\../core/data_defs.h:124:7: note: 'ft::DecorLibrary' declared here
+  124 | class DecorLibrary {
+      |       ^
+4 errors generated.

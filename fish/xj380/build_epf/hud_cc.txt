@@ -1,0 +1,23 @@
+src/gui/hud.cpp:32:5: error: no matching function for call to 'xapi_DrawText'
+   32 |     xapi_DrawText(handle, 8, 8, coin_wstr, 16, kHudText);
+      |     ^~~~~~~~~~~~~
+G:/soft/XJ380_XACT_2026v4_windows/depend/include\xguiapi.h:146:7: note: candidate function not viable: no known conversion from 'WSTR[32]' (aka 'char *[32]') to 'WSTR' (aka 'char *') for 4th argument
+  146 | void  xapi_DrawText(
+      |       ^
+  147 |         HDLE    handle,
+  148 |         UINT32  x,
+  149 |         UINT32  y,
+  150 |         WSTR    str,
+      |         ~~~~~~~~~~~
+src/gui/hud.cpp:41:5: error: no matching function for call to 'xapi_DrawText'
+   41 |     xapi_DrawText(handle, 8, 28, count_wstr, 14, kHudText);
+      |     ^~~~~~~~~~~~~
+G:/soft/XJ380_XACT_2026v4_windows/depend/include\xguiapi.h:146:7: note: candidate function not viable: no known conversion from 'WSTR[16]' (aka 'char *[16]') to 'WSTR' (aka 'char *') for 4th argument
+  146 | void  xapi_DrawText(
+      |       ^
+  147 |         HDLE    handle,
+  148 |         UINT32  x,
+  149 |         UINT32  y,
+  150 |         WSTR    str,
+      |         ~~~~~~~~~~~
+2 errors generated.

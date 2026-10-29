@@ -1,0 +1,1016 @@
+{
+  "_meta": {
+    "note": "离线结算金标准。XJ380 C++ 端必须逐字段复现 expect。",
+    "anchor_utc": 1700000000,
+    "algorithm": "fishtank/offline.py :: settle_offline (S0-S4)",
+    "step_order": [
+      "growth",
+      "water",
+      "satiety",
+      "income",
+      "breeding"
+    ],
+    "rounding": "round_half_up(x) = floor(x + 0.5)",
+    "rng": "LCG64: seed = seed*6364136223846793005 + 1442695040888963407 (mod 2^64), out = seed >> 32"
+  },
+  "cases": [
+    {
+      "name": "empty_tank_1d",
+      "note": "空缸离线 1 天：收益必须为 0，不得因除零崩溃",
+      "away_sec_requested": 86400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 0,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [],
+        "codex": {},
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 86400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1440,
+        "equivalent_min": 1056.0,
+        "coins_gained_milli": 0,
+        "coins_after_milli": 0,
+        "water_after": 100.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 0,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {},
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "single_adult_1h",
+      "note": "单条 R1 成鱼离线 1 小时（全速段）",
+      "away_sec_requested": 3600,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 0,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699995680,
+            "age_sec": 4320.0,
+            "stage": "adult",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699995680
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 3600,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 60,
+        "equivalent_min": 60.0,
+        "coins_gained_milli": 56451,
+        "coins_after_milli": 56451,
+        "water_after": 99.1,
+        "satiety_after": 0.28,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "adult"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "single_mature_1d",
+      "note": "★ 1 天离线：等效 1056 分钟 = 17.6 小时",
+      "away_sec_requested": 86400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 3,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 86400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1440,
+        "equivalent_min": 1056.0,
+        "coins_gained_milli": 1130400,
+        "coins_after_milli": 1130400,
+        "water_after": 100.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "single_mature_7d",
+      "note": "★ 7 天离线：等效 4080 分钟 = 68.0 小时",
+      "away_sec_requested": 604800,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 3,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 604800,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1584,
+        "equivalent_min": 4080.0,
+        "coins_gained_milli": 4343472,
+        "coins_after_milli": 4343472,
+        "water_after": 100.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "water_decay_floor_1d",
+      "note": "6 条鱼无过滤离线 1 天：水质应触底 50 且收益仍为正",
+      "away_sec_requested": 86400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 1,
+          "filter_level": 0,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "zebra_danio",
+            "born_at": 1699935200,
+            "age_sec": 64800.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 2,
+            "species": "zebra_danio",
+            "born_at": 1699935200,
+            "age_sec": 64800.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 3,
+            "species": "zebra_danio",
+            "born_at": 1699935200,
+            "age_sec": 64800.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 4,
+            "species": "zebra_danio",
+            "born_at": 1699935200,
+            "age_sec": 64800.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 5,
+            "species": "zebra_danio",
+            "born_at": 1699935200,
+            "age_sec": 64800.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 6,
+            "species": "zebra_danio",
+            "born_at": 1699935200,
+            "age_sec": 64800.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "zebra_danio": 1699935200
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 86400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1440,
+        "equivalent_min": 1056.0,
+        "coins_gained_milli": 5882366,
+        "coins_after_milli": 5882366,
+        "water_after": 50.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 10,
+        "rng_seed_after": 12215008715666769916,
+        "next_uid_after": 104,
+        "stages_after": {
+          "1": "mature",
+          "2": "mature",
+          "3": "mature",
+          "4": "mature",
+          "5": "mature",
+          "6": "mature",
+          "100": "mature",
+          "101": "mature",
+          "102": "mature",
+          "103": "mature"
+        },
+        "born_species": [
+          "zebra_danio",
+          "zebra_danio",
+          "zebra_danio",
+          "zebra_danio"
+        ],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "filter_keeps_water_1d",
+      "note": "高级过滤离线 1 天：水质回到 100 并被钳住",
+      "away_sec_requested": 86400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 60.0,
+          "capacity_level": 0,
+          "filter_level": 3,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "guppy",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "guppy": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 86400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1440,
+        "equivalent_min": 1056.0,
+        "coins_gained_milli": 1114255,
+        "coins_after_milli": 1114255,
+        "water_after": 100.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "feeder_upkeep_1d",
+      "note": "开投食器离线 1 天：饱食度被自动拉起，净收益不为负",
+      "away_sec_requested": 86400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 1,
+          "filter_level": 2,
+          "feeder_owned": true,
+          "feeder_on": true,
+          "satiety": 0.2,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "guppy",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 2,
+            "species": "guppy",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 3,
+            "species": "guppy",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 4,
+            "species": "guppy",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "guppy": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 86400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1440,
+        "equivalent_min": 1056.0,
+        "coins_gained_milli": 9386917,
+        "coins_after_milli": 9386917,
+        "water_after": 100.0,
+        "satiety_after": 0.964,
+        "fish_count_after": 10,
+        "rng_seed_after": 11473018220155547240,
+        "next_uid_after": 106,
+        "stages_after": {
+          "1": "mature",
+          "2": "mature",
+          "3": "mature",
+          "4": "mature",
+          "100": "mature",
+          "101": "mature",
+          "102": "mature",
+          "103": "mature",
+          "104": "mature",
+          "105": "mature"
+        },
+        "born_species": [
+          "guppy",
+          "guppy",
+          "guppy",
+          "guppy",
+          "guppy",
+          "guppy"
+        ],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "growth_fry_to_mature",
+      "note": "鱼苗离线 4 小时：应跨越 fry→juvenile→adult",
+      "away_sec_requested": 14400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 0,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1700000000,
+            "age_sec": 0.0,
+            "stage": "fry",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1700000000
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 14400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 240,
+        "equivalent_min": 240.0,
+        "coins_gained_milli": 195158,
+        "coins_after_milli": 195158,
+        "water_after": 96.4,
+        "satiety_after": 0.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 1
+      }
+    },
+    {
+      "name": "breeding_pair_1d",
+      "note": "同种成鱼对离线 1 天：应有确定数量的新生鱼",
+      "away_sec_requested": 86400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 3,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.4,
+            "y": 0.5,
+            "heading": 1.0
+          },
+          {
+            "uid": 2,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.6,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 86400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1440,
+        "equivalent_min": 1056.0,
+        "coins_gained_milli": 4841338,
+        "coins_after_milli": 4841338,
+        "water_after": 100.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 6,
+        "rng_seed_after": 12215008715666769916,
+        "next_uid_after": 104,
+        "stages_after": {
+          "1": "mature",
+          "2": "mature",
+          "100": "mature",
+          "101": "mature",
+          "102": "mature",
+          "103": "mature"
+        },
+        "born_species": [
+          "neon_tetra",
+          "neon_tetra",
+          "neon_tetra",
+          "neon_tetra"
+        ],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "bonus_capped_1d",
+      "note": "带装饰离线 1 天：加成参与产出且不超过 bonus_cap",
+      "away_sec_requested": 86400,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 3,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": [
+            "lucky_shrine",
+            "pebble_substrate"
+          ]
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 86400,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1440,
+        "equivalent_min": 1056.0,
+        "coins_gained_milli": 1242551,
+        "coins_after_milli": 1242551,
+        "water_after": 100.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "clock_rollback",
+      "note": "系统时钟回拨：收益为 0、金币不减、锚点保持不变",
+      "away_sec_requested": -5000,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 123456,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 0,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 0,
+        "capped": false,
+        "clock_rollback": true,
+        "steps": 0,
+        "equivalent_min": 0.0,
+        "coins_gained_milli": 0,
+        "coins_after_milli": 123456,
+        "water_after": 100.0,
+        "satiety_after": 1.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "zero_elapsed",
+      "note": "离线 0 秒：什么都不该发生",
+      "away_sec_requested": 0,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 1000,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 0,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 0,
+        "capped": false,
+        "clock_rollback": true,
+        "steps": 0,
+        "equivalent_min": 0.0,
+        "coins_gained_milli": 0,
+        "coins_after_milli": 1000,
+        "water_after": 100.0,
+        "satiety_after": 1.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "beyond_hard_cap",
+      "note": "超过 hard_cap：away 被截断且 capped=True",
+      "away_sec_requested": 315372345,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 0,
+          "filter_level": 3,
+          "feeder_owned": false,
+          "feeder_on": false,
+          "satiety": 1.0,
+          "decors": []
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "neon_tetra",
+            "born_at": 1699978400,
+            "age_sec": 21600.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "neon_tetra": 1699978400
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 315360000,
+        "capped": true,
+        "clock_rollback": false,
+        "steps": 89016,
+        "equivalent_min": 1840152.0,
+        "coins_gained_milli": 1955213688,
+        "coins_after_milli": 1955213688,
+        "water_after": 100.0,
+        "satiety_after": 0.0,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    },
+    {
+      "name": "r5_full_kit_3d",
+      "note": "R5 成鱼满配离线 3 天",
+      "away_sec_requested": 259200,
+      "input": {
+        "schema": 1,
+        "saved_at_utc": 1700000000,
+        "coins_milli": 0,
+        "rng_seed": 88172645463325252,
+        "next_uid": 100,
+        "breed_timer": 0.0,
+        "tank": {
+          "water": 100.0,
+          "capacity_level": 2,
+          "filter_level": 3,
+          "feeder_owned": true,
+          "feeder_on": true,
+          "satiety": 1.0,
+          "decors": [
+            "pebble_substrate"
+          ]
+        },
+        "fishes": [
+          {
+            "uid": 1,
+            "species": "coelacanth",
+            "born_at": 1699481600,
+            "age_sec": 518400.0,
+            "stage": "mature",
+            "variant": false,
+            "nickname": "",
+            "last_bred_at": 0,
+            "x": 0.5,
+            "y": 0.5,
+            "heading": 1.0
+          }
+        ],
+        "codex": {
+          "coelacanth": 1699481600
+        },
+        "stats": {},
+        "settings": {}
+      },
+      "expect": {
+        "away_sec": 259200,
+        "capped": false,
+        "clock_rollback": false,
+        "steps": 1488,
+        "equivalent_min": 2064.0,
+        "coins_gained_milli": 324375010,
+        "coins_after_milli": 324375010,
+        "water_after": 100.0,
+        "satiety_after": 0.5,
+        "fish_count_after": 1,
+        "rng_seed_after": 88172645463325252,
+        "next_uid_after": 100,
+        "stages_after": {
+          "1": "mature"
+        },
+        "born_species": [],
+        "grown_count": 0
+      }
+    }
+  ]
+}

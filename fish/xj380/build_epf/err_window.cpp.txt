@@ -1,0 +1,5 @@
+In file included from src/gui/window.cpp:6:
+src/gui\window.h:10:10: fatal error: 'ft_types.h' file not found
+   10 | #include "ft_types.h"
+      |          ^~~~~~~~~~~~
+1 error generated.

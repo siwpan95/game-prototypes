@@ -1,0 +1,36 @@
+﻿__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# 存档与日志（运行时产物，位于 %APPDATA%\LazyFishTank，此处兜底）
+saves/
+logs/
+*.log
+*.bak
+*.tmp
+
+# 构建产物
+build/
+dist/
+*.epf
+*.elf
+*.o
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# 🔴 Q9 合规：仓库内不得包含 XJ380 SDK 任何文件（EULA 专有，无 LICENSE，需自行从官方渠道获取）
+xj380/sdk/
+xj380/**/XJ380_*
+
+# 未跟踪产物/输出治理（2026-08-28）
+*.spec
+tools/allin_engine/fonts/
+# 引擎字体（体积大，按需自备；见引擎 README「本地字体加载」）

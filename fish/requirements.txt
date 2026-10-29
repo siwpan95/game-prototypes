@@ -1,0 +1,7 @@
+# fish dependencies (auto-generated 2026-08-20)
+imageio_ffmpeg
+mss
+Pillow
+psutil
+pystray
+pytest

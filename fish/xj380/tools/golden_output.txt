@@ -1,0 +1,49 @@
+=== golden_runner: JSON parsed OK ===
+  balance: 278 nodes, fish: 505 nodes, decor: 133 nodes, cases: 890 nodes
+  species: 24, decor: 12
+
+[ 1] empty_tank_1d — 空缸离线 1 天：收益必须为 0，不得因除零崩溃
+  PASS
+
+[ 2] single_adult_1h — 单条 R1 成鱼离线 1 小时（全速段）
+  PASS
+
+[ 3] single_mature_1d — ★ 1 天离线：等效 1056 分钟 = 17.6 小时
+  PASS
+
+[ 4] single_mature_7d — ★ 7 天离线：等效 4080 分钟 = 68.0 小时
+  PASS
+
+[ 5] water_decay_floor_1d — 6 条鱼无过滤离线 1 天：水质应触底 50 且收益仍为正
+  PASS
+
+[ 6] filter_keeps_water_1d — 高级过滤离线 1 天：水质回到 100 并被钳住
+  PASS
+
+[ 7] feeder_upkeep_1d — 开投食器离线 1 天：饱食度被自动拉起，净收益不为负
+  PASS
+
+[ 8] growth_fry_to_mature — 鱼苗离线 4 小时：应跨越 fry→juvenile→adult
+  PASS
+
+[ 9] breeding_pair_1d — 同种成鱼对离线 1 天：应有确定数量的新生鱼
+  PASS
+
+[10] bonus_capped_1d — 带装饰离线 1 天：加成参与产出且不超过 bonus_cap
+  PASS
+
+[11] clock_rollback — 系统时钟回拨：收益为 0、金币不减、锚点保持不变
+  PASS
+
+[12] zero_elapsed — 离线 0 秒：什么都不该发生
+  PASS
+
+[13] beyond_hard_cap — 超过 hard_cap：away 被截断且 capped=True
+  PASS
+
+[14] r5_full_kit_3d — R5 成鱼满配离线 3 天
+  PASS
+
+========================================
+  TOTAL: 14 passed, 0 failed
+========================================

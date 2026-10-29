@@ -1,0 +1,122 @@
+[
+  {
+    "id": "pebble_substrate",
+    "name": "鹅卵石底砂",
+    "bonus": 0.02,
+    "price": 80,
+    "draw": "pebbles",
+    "color": ["#8A8074", "#6E665C"],
+    "anchor": "bottom",
+    "desc": "缸底铺满随机大小的灰褐鹅卵石，错落不重叠。"
+  },
+  {
+    "id": "water_plant",
+    "name": "水草丛",
+    "bonus": 0.03,
+    "price": 120,
+    "draw": "plants",
+    "color": ["#3E8C5A", "#2A6B42"],
+    "anchor": "bottom",
+    "desc": "三到五根绿色水草自缸底生长，缓慢正弦摇曳。"
+  },
+  {
+    "id": "driftwood",
+    "name": "沉木",
+    "bonus": 0.02,
+    "price": 150,
+    "draw": "driftwood",
+    "color": ["#6B4A32", "#4A3222"],
+    "anchor": "bottom",
+    "desc": "棕色分形枝状沉木横卧缸底，带年轮纹理线。"
+  },
+  {
+    "id": "bubble_stone",
+    "name": "气泡石",
+    "bonus": 0.03,
+    "price": 100,
+    "draw": "bubbler",
+    "color": ["#5A6B78", "#8FBFD8"],
+    "anchor": "bottom",
+    "desc": "缸底小石持续冒出半透明上升气泡。"
+  },
+  {
+    "id": "mini_bridge",
+    "name": "红拱小桥",
+    "bonus": 0.02,
+    "price": 200,
+    "draw": "bridge",
+    "color": ["#C0392B", "#8E2A1F"],
+    "anchor": "top",
+    "desc": "缸顶一角的红色拱形小桥剪影，朱红描边。"
+  },
+  {
+    "id": "lantern",
+    "name": "暖光灯笼",
+    "bonus": 0.04,
+    "price": 260,
+    "draw": "lantern",
+    "color": ["#E8A23C", "#F4D27A"],
+    "anchor": "top",
+    "desc": "缸角悬挂的发光圆灯笼，暖色径向光晕。"
+  },
+  {
+    "id": "coral",
+    "name": "粉紫珊瑚",
+    "bonus": 0.04,
+    "price": 300,
+    "draw": "coral",
+    "color": ["#D07AB0", "#8C5AA8"],
+    "anchor": "bottom",
+    "desc": "粉紫分形珊瑚枝，顶部细枝随机分叉。"
+  },
+  {
+    "id": "treasure_chest",
+    "name": "溢金宝箱",
+    "bonus": 0.05,
+    "price": 400,
+    "draw": "chest",
+    "color": ["#C8A04C", "#6B4A32"],
+    "anchor": "bottom",
+    "desc": "金色箱体半开，口部溢出缓慢上升的金币粒子。"
+  },
+  {
+    "id": "castle",
+    "name": "海底城堡",
+    "bonus": 0.05,
+    "price": 500,
+    "draw": "castle",
+    "color": ["#7A8CA0", "#4A5A6E"],
+    "anchor": "bottom",
+    "desc": "灰蓝卡通城堡剪影立于缸底，带小窗与旗。"
+  },
+  {
+    "id": "glow_jellyfish",
+    "name": "发光水母",
+    "bonus": 0.06,
+    "price": 600,
+    "draw": "jellyfish",
+    "color": ["#9AD8E8", "#C8A8E8"],
+    "anchor": "middle",
+    "desc": "半透明钟形伞加飘带触手，伞缘柔光呼吸式明灭。"
+  },
+  {
+    "id": "star_sand",
+    "name": "星砂",
+    "bonus": 0.04,
+    "price": 350,
+    "draw": "starsand",
+    "color": ["#E8E4C8", "#8FA8C8"],
+    "anchor": "bottom",
+    "desc": "缸底散布缓慢明灭的低亮度星点。"
+  },
+  {
+    "id": "lucky_shrine",
+    "name": "朱红福龛",
+    "bonus": 0.08,
+    "price": 900,
+    "draw": "shrine",
+    "color": ["#C0392B", "#E8C05A"],
+    "anchor": "bottom",
+    "desc": "朱红小神龛配金色字牌，外环柔光。"
+  }
+]

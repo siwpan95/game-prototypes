@@ -1,0 +1,15 @@
+src/gui/main.cpp:17:12: error: no type named 'HDLE' in namespace 'ft'; did you mean simply 'HDLE'?
+   17 |     extern ft::HDLE              app_hwnd();
+      |            ^~~~~~~~
+      |            HDLE
+G:/soft/XJ380_XACT_2026v4_windows/depend/include\xguiapi.h:22:16: note: 'HDLE' declared here
+   22 | typedef UINT64 HDLE;
+      |                ^
+src/gui/main.cpp:32:9: error: no type named 'HDLE' in namespace 'ft'; did you mean simply 'HDLE'?
+   32 |         ft::HDLE hwnd = ft::gui::app_hwnd();
+      |         ^~~~~~~~
+      |         HDLE
+G:/soft/XJ380_XACT_2026v4_windows/depend/include\xguiapi.h:22:16: note: 'HDLE' declared here
+   22 | typedef UINT64 HDLE;
+      |                ^
+2 errors generated.

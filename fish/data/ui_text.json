@@ -1,0 +1,120 @@
+{
+  "_meta": {
+    "version": 1,
+    "note": "全部面向用户的文案唯一来源。L6 铁律：零催促、零 guilt、零 FOMO。代码内禁止中文字面量。"
+  },
+
+  "app": {
+    "title": "鱼缸",
+    "panel_title": "鱼缸 · 管理面板",
+    "card_title": "欢迎回来"
+  },
+
+  "buttons": {
+    "enter_tank": "进入鱼缸",
+    "feed": "投喂",
+    "feed_auto": "鱼儿自己会吃饱",
+    "codex": "图鉴",
+    "decor": "装饰",
+    "settings": "设置",
+    "shop": "鱼市",
+    "upgrade": "升级",
+    "hide_window": "隐藏窗口",
+    "show_tank": "显示鱼缸",
+    "close_hint": "最小化到托盘（鱼缸继续在后台运行）",
+    "claim": "收下，谢谢",
+    "buy": "买下",
+    "owned": "已拥有",
+    "place": "放入缸中",
+    "quit": "退出程序",
+    "open_panel": "打开面板",
+    "topmost": "窗口置顶",
+    "click_through": "鼠标穿透",
+    "sound": "音效",
+    "hud_fade": "HUD 自动淡出"
+  },
+
+  "tabs": {
+    "tank": "鱼缸",
+    "codex": "图鉴",
+    "decor": "装饰",
+    "settings": "设置",
+    "shop": "鱼市",
+    "upgrade": "升级"
+  },
+
+  "hints": {
+    "feeder_on": "自动投喂已开启，鱼儿会自己吃饱。",
+    "fish_hatched": "有新朋友加入了鱼缸，去认识一下吧。",
+    "codex_unlocked": "图鉴又翻开了新的一页。",
+    "water_good": "水质清澈，鱼儿状态很放松。",
+    "water_fair": "水质一般，加个过滤器会更清爽。",
+    "water_low": "水质偏浑，鱼儿依然安好，产出会慢一些。",
+    "offline_done": "你离开时，鱼缸一切如常。",
+    "group_done": "你集齐了【{group}】族群。",
+    "saved": "进度已保存。",
+    "tray_missing": "未检测到托盘组件，已启用窗口菜单模式。",
+    "hotkey_hint": "隐藏后可用 Ctrl+Alt+F 呼出鱼缸。",
+    "hotkey_failed": "热键未能注册，隐藏时会保留一个小角标以便恢复。"
+  },
+
+  "offline_card": {
+    "title": "欢迎回来",
+    "body": "你离开的这段时间，鱼儿们都被照顾得很好。自动投喂与水质维护一直在后台运行。",
+    "earned": "期间共积累 {coins} 枚金币",
+    "sub": "（离线期间照常积累）",
+    "elapsed": "离线时长 {hours} 小时",
+    "variants": [
+      "鱼缸一直很安静地运转着。",
+      "回来得正好，鱼儿们正精神。",
+      "这段时间一切都好，放心。"
+    ],
+    "button": "收下，谢谢"
+  },
+
+  "empty_states": {
+    "codex_empty": "你的图鉴还是空白的，去鱼缸里遇见第一条鱼吧。",
+    "decor_empty": "给鱼缸添点装饰，鱼儿会更自在。",
+    "offline_zero": "这段时间缸里很安静，下次多放几条鱼就有收获啦。",
+    "shop_empty": "鱼市正在补货，过一阵再来看看。",
+    "tank_empty": "鱼缸还空着，去鱼市挑一条喜欢的吧。"
+  },
+
+  "labels": {
+    "coins": "金币",
+    "fish_count": "鱼",
+    "water": "水质",
+    "capacity": "容量",
+    "filter": "过滤器",
+    "feeder": "自动投喂",
+    "rarity": "稀有度",
+    "group": "族群",
+    "stage": "阶段",
+    "age": "年龄",
+    "science": "科普",
+    "price": "价格",
+    "bonus": "加成",
+    "total_bonus": "当前总加成",
+    "level": "等级",
+    "max_level": "已满级",
+    "not_owned": "未拥有",
+    "installed": "已安装",
+    "unknown": "未解锁"
+  },
+
+  "stages": {
+    "fry": "鱼苗",
+    "juvenile": "幼鱼",
+    "adult": "成鱼",
+    "mature": "熟成"
+  },
+
+  "units": {
+    "hour": "小时",
+    "minute": "分钟",
+    "second": "秒",
+    "day": "天",
+    "percent": "%",
+    "per_min": "/分"
+  }
+}

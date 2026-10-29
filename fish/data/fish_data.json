@@ -1,0 +1,602 @@
+[
+  {
+    "id": "zebra_danio",
+    "name_zh": "斑马鱼",
+    "name_la": "Danio rerio",
+    "rarity": "R1",
+    "group": "淡水",
+    "color": {
+      "body": "#C8D2DC",
+      "belly": "#E8EEF2",
+      "fin": "#9AA7B2",
+      "pattern": "#2B2F36"
+    },
+    "shape": {
+      "length": 1.0,
+      "height_ratio": 0.28,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "fast",
+      "layer": "中",
+      "schooling": "高"
+    },
+    "science": "原产南亚溪流，是经典模式生物，胚胎透明便于观测发育，基因组已全测序。",
+    "codex_unlock": "实验室里最著名的小鱼，纵纹如斑马，游动永远风风火火。"
+  },
+  {
+    "id": "white_cloud",
+    "name_zh": "白云金丝",
+    "name_la": "Tanichthys albonubes",
+    "rarity": "R1",
+    "group": "淡水",
+    "color": {
+      "body": "#B8C4A8",
+      "belly": "#E6EADF",
+      "fin": "#D98C8C",
+      "pattern": "#F2E8C0"
+    },
+    "shape": {
+      "length": 0.9,
+      "height_ratio": 0.3,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "中",
+      "schooling": "高"
+    },
+    "science": "1932年发现于广州白云山，曾被认为野外灭绝，本世纪初在华南多地重新现身。",
+    "codex_unlock": "体侧一道金丝，中国本土的「唐鱼」，一度消失又归来。"
+  },
+  {
+    "id": "corydoras",
+    "name_zh": "鼠鱼",
+    "name_la": "Corydoras paleatus",
+    "rarity": "R1",
+    "group": "淡水",
+    "color": {
+      "body": "#A89A78",
+      "belly": "#D8CFB8",
+      "fin": "#8A7E60",
+      "pattern": "#5C5340"
+    },
+    "shape": {
+      "length": 1.1,
+      "height_ratio": 0.35,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "底",
+      "schooling": "高"
+    },
+    "science": "南美甲鲶，可吞空气行肠呼吸，胸鳍具硬棘防御，喜底栖群游清残饵。",
+    "codex_unlock": "圆头圆脑的底层清洁工，最爱扎堆在缸底巡逻。"
+  },
+  {
+    "id": "guppy",
+    "name_zh": "孔雀鱼",
+    "name_la": "Poecilia reticulata",
+    "rarity": "R1",
+    "group": "热带",
+    "color": {
+      "body": "#6FB7C9",
+      "belly": "#D9F0F2",
+      "fin": "#E8A0C0",
+      "pattern": "#3A6E8C"
+    },
+    "shape": {
+      "length": 1.0,
+      "height_ratio": 0.32,
+      "tail": "fan"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "上",
+      "schooling": "中"
+    },
+    "science": "胎生鳉鱼，雄鱼尾鳍斑斓，繁殖力强，是性选择进化研究的经典对象。",
+    "codex_unlock": "尾巴像孔雀开屏，生出小鱼而非产卵的温柔妈妈。"
+  },
+  {
+    "id": "neon_tetra",
+    "name_zh": "红绿灯",
+    "name_la": "Paracheirodon innesi",
+    "rarity": "R1",
+    "group": "热带",
+    "color": {
+      "body": "#2E6E8E",
+      "belly": "#E34B4B",
+      "fin": "#1C4A66",
+      "pattern": "#7FD0E0"
+    },
+    "shape": {
+      "length": 0.85,
+      "height_ratio": 0.28,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "中",
+      "schooling": "高"
+    },
+    "science": "亚马逊黑水流域小型灯鱼，体侧蓝绿红三色，群游时如流动的光带。",
+    "codex_unlock": "一抹电光蓝配血红，成群游动像一串流动的信号灯。"
+  },
+  {
+    "id": "platy",
+    "name_zh": "月光鱼",
+    "name_la": "Xiphophorus maculatus",
+    "rarity": "R1",
+    "group": "热带",
+    "color": {
+      "body": "#E0B84C",
+      "belly": "#F2E2B0",
+      "fin": "#D98C3C",
+      "pattern": "#B5532C"
+    },
+    "shape": {
+      "length": 0.95,
+      "height_ratio": 0.34,
+      "tail": "round"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "中",
+      "schooling": "中"
+    },
+    "science": "中美洲胎生鳉鱼，体色多变易杂交，常与剑尾鱼杂交育成众多品种。",
+    "codex_unlock": "圆润温和的杂色小灯，月光般柔和的好脾气邻居。"
+  },
+  {
+    "id": "goldfish",
+    "name_zh": "草金鱼",
+    "name_la": "Carassius auratus",
+    "rarity": "R2",
+    "group": "淡水",
+    "color": {
+      "body": "#E8A23C",
+      "belly": "#F4C97A",
+      "fin": "#D98A2C",
+      "pattern": "#B5531C"
+    },
+    "shape": {
+      "length": 1.2,
+      "height_ratio": 0.45,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "中",
+      "schooling": "中"
+    },
+    "science": "由鲫鱼驯化千年的观赏鱼，因视锥变异可呈现金红黑白等多色。",
+    "codex_unlock": "千年驯化的金色精灵，从池塘游进了全世界的窗台。"
+  },
+  {
+    "id": "koi",
+    "name_zh": "锦鲤",
+    "name_la": "Cyprinus rubrofuscus",
+    "rarity": "R2",
+    "group": "淡水",
+    "color": {
+      "body": "#F2F2F2",
+      "belly": "#FFFFFF",
+      "fin": "#E2452C",
+      "pattern": "#1C1C1C"
+    },
+    "shape": {
+      "length": 1.4,
+      "height_ratio": 0.42,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "中",
+      "schooling": "中"
+    },
+    "science": "日本百年选育的观赏鲤，红白等品系名贵，单尾拍卖曾超百万人民币。",
+    "codex_unlock": "池中王者，红白黑交织的水墨画，游姿雍容。"
+  },
+  {
+    "id": "hillstream_loach",
+    "name_zh": "吸鳅",
+    "name_la": "Beaufortia kweichowensis",
+    "rarity": "R2",
+    "group": "淡水",
+    "color": {
+      "body": "#5A6B5A",
+      "belly": "#8A9A82",
+      "fin": "#3E4A3E",
+      "pattern": "#2A302A"
+    },
+    "shape": {
+      "length": 1.0,
+      "height_ratio": 0.22,
+      "tail": "round"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "底",
+      "schooling": "低"
+    },
+    "science": "山溪急流底栖，腹鳍呈吸盘状贴石防冲走，体扁平适应高氧激流。",
+    "codex_unlock": "扁平如叶片，吸盘肚子牢牢贴住溪流石头的隐士。"
+  },
+  {
+    "id": "angelfish",
+    "name_zh": "神仙鱼",
+    "name_la": "Pterophyllum scalare",
+    "rarity": "R2",
+    "group": "热带",
+    "color": {
+      "body": "#C8C2B0",
+      "belly": "#EAE6DA",
+      "fin": "#3A3548",
+      "pattern": "#2A2A2A"
+    },
+    "shape": {
+      "length": 1.3,
+      "height_ratio": 0.75,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "中",
+      "schooling": "低"
+    },
+    "science": "南美亚马逊慈鲷，体侧扁高如帆，亲鱼共同护卵护幼，具领域性。",
+    "codex_unlock": "高耸如帆的优雅舞者，成对时寸步不离。"
+  },
+  {
+    "id": "betta",
+    "name_zh": "斗鱼",
+    "name_la": "Betta splendens",
+    "rarity": "R2",
+    "group": "热带",
+    "color": {
+      "body": "#2C5FB0",
+      "belly": "#4A7FC8",
+      "fin": "#7A2CC0",
+      "pattern": "#1A2E6E"
+    },
+    "shape": {
+      "length": 1.1,
+      "height_ratio": 0.5,
+      "tail": "fan"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "上",
+      "schooling": "低"
+    },
+    "science": "东南亚稻田弱酸静水，具迷鳃可直接呼吸空气，雄鱼争斗激烈色彩盛装。",
+    "codex_unlock": "孤傲的蓝色武士，鳍如绸缎，宁可独处也不合群。"
+  },
+  {
+    "id": "ram_cichlid",
+    "name_zh": "荷兰凤凰",
+    "name_la": "Mikrogeophagus ramirezi",
+    "rarity": "R2",
+    "group": "热带",
+    "color": {
+      "body": "#E8C84C",
+      "belly": "#F2E2B0",
+      "fin": "#4A8CC8",
+      "pattern": "#D94C8C"
+    },
+    "shape": {
+      "length": 1.0,
+      "height_ratio": 0.5,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "底",
+      "schooling": "中"
+    },
+    "science": "委内瑞拉奥里诺科河慈鲷，宝蓝镶金红，体型小巧温和适合群养。",
+    "codex_unlock": "娇小玲珑的彩虹宝石，蓝金红交织的迷你凤凰。"
+  },
+  {
+    "id": "african_cichlid",
+    "name_zh": "非洲慈鲷（黄王子）",
+    "name_la": "Labidochromis caeruleus",
+    "rarity": "R3",
+    "group": "淡水",
+    "color": {
+      "body": "#F2D23C",
+      "belly": "#F8E68C",
+      "fin": "#E8B82C",
+      "pattern": "#C99A1C"
+    },
+    "shape": {
+      "length": 1.1,
+      "height_ratio": 0.45,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "fast",
+      "layer": "底",
+      "schooling": "中"
+    },
+    "science": "马拉维湖慈鲷由共同祖先快速辐射出数百种，口孵育幼色彩绚丽。",
+    "codex_unlock": "马拉维湖的黄色闪电，口含鱼卵的温柔父亲。"
+  },
+  {
+    "id": "axolotl",
+    "name_zh": "美西螈",
+    "name_la": "Ambystoma mexicanum",
+    "rarity": "R3",
+    "group": "淡水",
+    "color": {
+      "body": "#E8D8D0",
+      "belly": "#F2E6E0",
+      "fin": "#D8C0C0",
+      "pattern": "#C8A8A8"
+    },
+    "shape": {
+      "length": 1.6,
+      "height_ratio": 0.4,
+      "tail": "long"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "底",
+      "schooling": "低"
+    },
+    "science": "墨西哥特有蝾螈，幼态持续终生不蜕变，可再生四肢与脊髓，野外已极危。",
+    "codex_unlock": "永远长不大的「六角恐龙」，笑眯眯地在水里漫步。"
+  },
+  {
+    "id": "discus",
+    "name_zh": "七彩神仙",
+    "name_la": "Symphysodon aequifasciata",
+    "rarity": "R3",
+    "group": "热带",
+    "color": {
+      "body": "#C85A8C",
+      "belly": "#E8A8C0",
+      "fin": "#6A4A8C",
+      "pattern": "#3A2A5C"
+    },
+    "shape": {
+      "length": 1.3,
+      "height_ratio": 0.8,
+      "tail": "round"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "中",
+      "schooling": "低"
+    },
+    "science": "亚马逊黑水河圆盘状鱼，亲鱼分泌体表黏液育幼，对水质极为敏感。",
+    "codex_unlock": "水中圆盘，父母用身上黏液喂养幼儿的温柔巨人。"
+  },
+  {
+    "id": "mandarinfish",
+    "name_zh": "麒麟鱼",
+    "name_la": "Synchiropus splendidus",
+    "rarity": "R3",
+    "group": "热带",
+    "color": {
+      "body": "#1C6E8C",
+      "belly": "#2E9E9E",
+      "fin": "#E8A23C",
+      "pattern": "#D94C8C"
+    },
+    "shape": {
+      "length": 0.9,
+      "height_ratio": 0.45,
+      "tail": "round"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "底",
+      "schooling": "低"
+    },
+    "science": "西太平洋珊瑚礁鱼，少数具真正蓝色素细胞的脊椎动物，无鳞且分泌毒黏液。",
+    "codex_unlock": "游动的抽象画，地球上极少真正「蓝」的脊椎动物。"
+  },
+  {
+    "id": "anglerfish",
+    "name_zh": "鮟鱇",
+    "name_la": "Melanocetus johnsonii",
+    "rarity": "R3",
+    "group": "深海",
+    "color": {
+      "body": "#2A2A38",
+      "belly": "#3A3A4A",
+      "fin": "#1A1A24",
+      "pattern": "#6AE0E0"
+    },
+    "shape": {
+      "length": 1.2,
+      "height_ratio": 0.7,
+      "tail": "round"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "底",
+      "schooling": "低"
+    },
+    "science": "深海雌鱼背鳍特化为发光诱饵，部分种类雄鱼寄生雌体共享血液。",
+    "codex_unlock": "提着小灯笼的暗黑猎手，深渊里最诡谲的约会方式。"
+  },
+  {
+    "id": "arowana",
+    "name_zh": "龙鱼",
+    "name_la": "Scleropages formosus",
+    "rarity": "R4",
+    "group": "淡水",
+    "color": {
+      "body": "#C8A04C",
+      "belly": "#E0C078",
+      "fin": "#B08838",
+      "pattern": "#8A6A28"
+    },
+    "shape": {
+      "length": 1.8,
+      "height_ratio": 0.35,
+      "tail": "long"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "上",
+      "schooling": "低"
+    },
+    "science": "古老骨舌鱼，口孵育苗，亚洲龙鱼因稀有濒危，被视为风水祥瑞之鱼。",
+    "codex_unlock": "一身古铜金甲，昂首巡游如水中蛟龙。"
+  },
+  {
+    "id": "seahorse",
+    "name_zh": "海马",
+    "name_la": "Hippocampus kuda",
+    "rarity": "R4",
+    "group": "热带",
+    "color": {
+      "body": "#C88A4C",
+      "belly": "#D8A878",
+      "fin": "#3A6E8E",
+      "pattern": "#6A4A2C"
+    },
+    "shape": {
+      "length": 1.0,
+      "height_ratio": 0.3,
+      "tail": "round"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "中",
+      "schooling": "低"
+    },
+    "science": "海龙科鱼类，雄性具育儿袋孵卵，直立靠背鳍游动，多种受贸易威胁。",
+    "codex_unlock": "唯一由爸爸怀孕的鱼，直立着身子害羞地摇曳。"
+  },
+  {
+    "id": "barreleye",
+    "name_zh": "管眼鱼",
+    "name_la": "Macropinna microstoma",
+    "rarity": "R4",
+    "group": "深海",
+    "color": {
+      "body": "#3A5A6A",
+      "belly": "#4A6A78",
+      "fin": "#2A4450",
+      "pattern": "#8AE8E8"
+    },
+    "shape": {
+      "length": 1.1,
+      "height_ratio": 0.4,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "中",
+      "schooling": "低"
+    },
+    "science": "太平洋深海鱼，头部透明罩住朝天的管状眼，可透过头顶视物极罕见。",
+    "codex_unlock": "顶着透明头盔的怪客，眼睛永远望着上方的水流。"
+  },
+  {
+    "id": "hatchetfish",
+    "name_zh": "斧头鱼",
+    "name_la": "Argyropelecus aculeatus",
+    "rarity": "R4",
+    "group": "深海",
+    "color": {
+      "body": "#C8D0D8",
+      "belly": "#E8EEF2",
+      "fin": "#A8B2BC",
+      "pattern": "#6A7A8A"
+    },
+    "shape": {
+      "length": 0.9,
+      "height_ratio": 0.6,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "中",
+      "schooling": "中"
+    },
+    "science": "深海银色小鱼，眼朝天觅食落饵，体侧发光器向下制造反荫蔽伪装。",
+    "codex_unlock": "薄如刀片的银色飞斧，夜里浮上中层觅食的微光精灵。"
+  },
+  {
+    "id": "coelacanth",
+    "name_zh": "腔棘鱼",
+    "name_la": "Latimeria chalumnae",
+    "rarity": "R5",
+    "group": "深海",
+    "color": {
+      "body": "#2E5A8C",
+      "belly": "#3E729E",
+      "fin": "#1C3E66",
+      "pattern": "#C8D0D8"
+    },
+    "shape": {
+      "length": 2.0,
+      "height_ratio": 0.5,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "底",
+      "schooling": "低"
+    },
+    "science": "曾被认为6600万年前灭绝，1938年南非捕获活体，肉鳍近四足类祖先。",
+    "codex_unlock": "从化石里游出来的活化石，4亿年几乎没变过的深海隐者。"
+  },
+  {
+    "id": "viperfish",
+    "name_zh": "毒蛇鱼",
+    "name_la": "Chauliodus sloani",
+    "rarity": "R5",
+    "group": "深海",
+    "color": {
+      "body": "#1A2A3A",
+      "belly": "#243646",
+      "fin": "#0E1822",
+      "pattern": "#6AE0E0"
+    },
+    "shape": {
+      "length": 1.3,
+      "height_ratio": 0.4,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "normal",
+      "layer": "中",
+      "schooling": "低"
+    },
+    "science": "深海鱼，长獠牙状齿配发光诱饵，可大张口吞比己大猎物，胃极富弹性。",
+    "codex_unlock": "满口钢牙的暗夜猎手，用腹侧灯光诱捕路过的倒霉蛋。"
+  },
+  {
+    "id": "goblin_shark",
+    "name_zh": "哥布林鲨",
+    "name_la": "Mitsukurina owstoni",
+    "rarity": "R5",
+    "group": "深海",
+    "color": {
+      "body": "#E8A8B0",
+      "belly": "#F2C4C8",
+      "fin": "#D88890",
+      "pattern": "#C86870"
+    },
+    "shape": {
+      "length": 2.2,
+      "height_ratio": 0.35,
+      "tail": "fork"
+    },
+    "behavior": {
+      "speed": "slow",
+      "layer": "底",
+      "schooling": "低"
+    },
+    "science": "深海粉红活化石，颌可瞬间弹射前伸捕食，是1.25亿年古老鲨系唯一幸存。",
+    "codex_unlock": "长鼻粉面的深渊幽灵，弹射下颌的捕食速度堪称一绝。"
+  }
+]
