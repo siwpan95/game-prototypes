@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doom-game"
+version = "1.0.0"
+description = "DOOM-style pseudo-3D raycasting game built with Python + pygame-ce."
+requires-python = ">=3.11"
+dependencies = [
+    "pygame-ce>=2.4.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+# Real-time audio is optional; the game degrades gracefully without it.
+audio = ["sounddevice>=0.4.6"]
+
+[tool.setuptools.packages.find]
+include = ["doom_game*"]
