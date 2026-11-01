@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Play text-adventure in the terminal (wrapper around the Python CLI).
 
